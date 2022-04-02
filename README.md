@@ -1,7 +1,7 @@
-# azarashi
+# Azarashi
 
-## QZSS DCR Decoder
-azarashi は準天頂衛星みちびきがブロードキャストする災害・危機管理通報メッセージのデコーダーです。U-blox F9P、Sony Spresense が出力するメッセージ形式に対応しています。
+## Description
+azarashi は準天頂衛星みちびきがブロードキャストする災害・危機管理通報メッセージのデコーダーです。U-blox F9P と Sony Spresense が出力するメッセージ形式に対応しています。
 
 ## Installation
 git レポジトリをクローンしてから、pip コマンドでインストールしてください。環境によって pip コマンドは pip3 コマンドかもしれません。
@@ -31,10 +31,9 @@ Open U-center ->
 ```
 
 ### Sony Spresense
-QZSS 災危通報 (QZQSM) の NMEA センテンスを出力するように設定してください。
-https://developer.sony.com/develop/spresense/docs/arduino_tutorials_ja.html#_qzss_災危通報を出力する
+[QZSS 災危通報 (QZQSM) の NMEA センテンスを出力するように設定してください。](https://developer.sony.com/develop/spresense/docs/arduino_tutorials_ja.html#_qzss_災危通報を出力する)
 
-## コマンド
+## CLI
 ### U-blox F9P
 stty コマンドで raw モードに設定し、azarashi コマンドには ublox オプションを指定します。
 ```
@@ -55,10 +54,12 @@ $ cat /dev/ttyUSB0 | azarashi spresense
 azarashi.decode(msg, msg_type='hex')
 ```
 
-#### msg
+* msg
+
 メッセージを渡してください。メッセージは bytes 型または str 型です。
 
-#### msg_type
+* msg_type
+
 デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense'を指定してください 。'u-blox' を指定したとき、メッセージは bytes 型。'spresense' を指定したとき、メッセージは str 型です。
 
 #### Example
@@ -92,22 +93,27 @@ azarashi.decode(msg, msg_type='hex')
 decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_kwargs={})
 ```
 
-#### stream
+* stream
+
 I/Oストリームを渡してください。
 
-#### msg_type
+* msg_type
+
 デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' を指定してください。
 
-#### callback
-メッセージをデコードしたときに実行されるコールバック関数。None の場合、decode_stream() はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合、decode_stream() は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。
+* callback
+
+メッセージをデコードしたときに実行されるコールバック関数。None の場合、decode_stream() はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合、decode_stream() は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。下記はコールバック関数のインタフェースです。
 ```python
 callback(report, *callback_args, **callback_kwargs)
 ```
 
-#### calback_args
+* calback_args
+
 コールバック関数に渡される引数。
 
-#### callback_kwargs
+* callback_kwargs
+
 コールバック関数に渡されるキーワード引数。
 
 #### Example
