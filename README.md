@@ -56,10 +56,10 @@ azarashi.decode(msg, msg_type='hex')
 ```
 
 #### msg
-メッセージ。bytes 型または str 型。
+メッセージを渡してください。メッセージは bytes 型または str 型です。
 
 #### msg_type
-デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' 。'u-blox' を指定したとき、メッセージは bytes 型。'spresense' を指定したとき、メッセージは str 型。
+デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense'を指定してください 。'u-blox' を指定したとき、メッセージは bytes 型。'spresense' を指定したとき、メッセージは str 型です。
 
 #### Example
 ```python
@@ -93,13 +93,13 @@ decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_
 ```
 
 #### stream
-I/Oストリーム。
+I/Oストリームを渡してください。
 
 #### msg_type
-デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' 。
+デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' を指定してください。
 
 #### callback
-メッセージをデコードしたときに実行するコールバック関数。None の場合、メッセージをデコードするたびに結果を返します。関数が与えられた場合、例外が発生しない限りメッセージをデコードしてコールバック関数の実行を繰り返します。
+メッセージをデコードしたときに実行されるコールバック関数。None の場合、decode_stream() はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合、decode_stream() は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。
 ```python
 callback(report, *callback_args, **callback_kwargs)
 ```
