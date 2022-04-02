@@ -45,7 +45,7 @@ $ cat /dev/ttyACM0 | azarashi ublox
 ### Sony Spresense
 stty コマンドでテキストモードに設定し、azarashi コマンドには spresense オプションを指定します。
 ```
-$ stty /dev/ttyUSB0
+$ stty -F /dev/ttyUSB0
 $ cat /dev/ttyUSB0 | azarashi spresense
 ```
 
