@@ -34,15 +34,23 @@ Open U-center ->
 [QZSS 災危通報 (QZQSM) の NMEA センテンスを出力するように設定してください。](https://developer.sony.com/develop/spresense/docs/arduino_tutorials_ja.html#_qzss_災危通報を出力する)
 
 ## CLI
+azarashi コマンドの標準入力にメッセージを流してください。
+
+### Hexadecimal
+azarashi コマンドに hex オプションを指定してください。
+```
+$ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
+```
+
 ### U-blox F9P
-stty コマンドでデバイスファイルを raw モードに設定し、azarashi コマンドには ublox オプションを指定します。
+stty コマンドでデバイスファイルを raw モードに設定し、azarashi コマンドに ublox オプションを指定します。
 ```
 $ stty -F /dev/ttyACM0 raw
 $ cat /dev/ttyACM0 | azarashi ublox
 ```
 
 ### Sony Spresense
-stty コマンドでデバイスファイルをテキストモードに設定し、azarashi コマンドには spresense オプションを指定します。
+stty コマンドでデバイスファイルをテキストモードに設定し、azarashi コマンドに spresense オプションを指定します。
 ```
 $ stty -F /dev/ttyUSB0
 $ cat /dev/ttyUSB0 | azarashi spresense
