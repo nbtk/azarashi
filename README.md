@@ -54,8 +54,10 @@ $ cat /dev/ttyUSB0 | azarashi spresense
 ```python
 azarashi.decode(msg, msg_type='hex')
 ```
+
 #### msg
 メッセージ。bytes 型または str 型。
+
 #### msg_type
 デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' 。'u-blox' を指定したとき、メッセージは bytes 型。'spresense' を指定したとき、メッセージは str 型。
 
@@ -97,7 +99,7 @@ I/Oストリーム。
 デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' 。
 
 #### callback
-None の場合、メッセージをデコードするたびに結果を返します。関数が与えられた場合、例外が発生しない限りメッセージをデコードしてコールバック関数の実行を繰り返します。
+メッセージをデコードしたときに実行するコールバック関数。None の場合、メッセージをデコードするたびに結果を返します。関数が与えられた場合、例外が発生しない限りメッセージをデコードしてコールバック関数の実行を繰り返します。
 ```python
 callback(report, *callback_args, **callback_kwargs)
 ```
