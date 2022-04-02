@@ -68,7 +68,7 @@ azarashi.decode(msg, msg_type='hex')
 
 * msg_type
 
-デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' を指定できます。'u-blox' を指定したとき、メッセージは bytes 型。'spresense' を指定したとき、メッセージは str 型です。
+デフォルトは 'hex' 、オプションとして 'ublox' または 'spresense' を指定できます。'ublox' を指定したときメッセージは bytes 型、'spresense' を指定したときメッセージは str 型です。
 
 #### Example
 ```python
@@ -101,11 +101,11 @@ decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_
 
 * stream
 
-I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで 'u-blox' なら raw モード、'spresense' ならテキストモードに設定してください。
+I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで 'ublox' なら raw モード、'spresense' ならテキストモードに設定してください。
 
 * msg_type
 
-デフォルトは 'hex' 、オプションとして 'u-blox' または 'spresense' を指定できます。
+デフォルトは 'hex' 、オプションとして 'ublox' または 'spresense' を指定できます。
 
 * callback
 
