@@ -93,7 +93,7 @@ decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_
 
 * stream
 
-I/Oストリームを渡してください。
+I/Oストリームを渡してください。デバイスファイルをOpenして渡すときは、事前に stty コマンドで 'u-blox' なら raw モード、'spresense' ならテキストモードに設定してください。
 
 * msg_type
 
