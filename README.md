@@ -12,7 +12,7 @@ $ pip install ./azarashi
 
 ## Preparation
 ### U-blox F9P
-設定ツール U-center で、RXM-SFRBXメッセージを出力するように設定してください。下記は RXM-SFRBX メッセージをUSBに出力するための参考設定手順です。
+設定ツール U-center で、RXM-SFRBXメッセージを出力するように設定してください。下記は RXM-SFRBX メッセージを USB に出力するための参考設定手順です。
 ```
 Open U-center ->
   View -> Configuration View ->
@@ -93,7 +93,7 @@ decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_
 
 * stream
 
-I/Oストリームを渡してください。デバイスファイルをOpenして渡すときは、事前に stty コマンドで 'u-blox' なら raw モード、'spresense' ならテキストモードに設定してください。
+I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで 'u-blox' なら raw モード、'spresense' ならテキストモードに設定してください。
 
 * msg_type
 
