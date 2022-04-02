@@ -1,4 +1,5 @@
 # Azarashi
+A QZSS DCR Decoder.
 
 ## Description
 azarashi は準天頂衛星みちびきがブロードキャストする災害・危機管理通報メッセージのデコーダーです。U-blox F9P と Sony Spresense が出力するメッセージ形式に対応しています。
