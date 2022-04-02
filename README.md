@@ -35,14 +35,14 @@ Open U-center ->
 
 ## CLI
 ### U-blox F9P
-stty コマンドで raw モードに設定し、azarashi コマンドには ublox オプションを指定します。
+stty コマンドでデバイスファイルを raw モードに設定し、azarashi コマンドには ublox オプションを指定します。
 ```
 $ stty -F /dev/ttyACM0 raw
 $ cat /dev/ttyACM0 | azarashi ublox
 ```
 
 ### Sony Spresense
-stty コマンドでテキストモードに設定し、azarashi コマンドには spresense オプションを指定します。
+stty コマンドでデバイスファイルをテキストモードに設定し、azarashi コマンドには spresense オプションを指定します。
 ```
 $ stty -F /dev/ttyUSB0
 $ cat /dev/ttyUSB0 | azarashi spresense
