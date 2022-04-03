@@ -5,7 +5,7 @@ A QZSS DCR Decoder.
 azarashi は準天頂衛星みちびきがブロードキャストする災害・危機管理通報メッセージのデコーダーです。U-blox F9P と Sony Spresense が出力するメッセージ形式に対応しています。
 
 ## Installation
-git レポジトリをクローンしてから、pip コマンドでインストールしてください。環境によって pip コマンドは pip3 コマンドかもしれません。
+git レポジトリをクローンするか、[ソースコード](https://github.com/nbtk/azarashi/releases/)をダウンロードして、pip コマンドでインストールしてください。環境によって pip コマンドは pip3 コマンドかもしれません。
 ```
 $ git clone https://github.com/nbtk/azarashi.git
 $ pip install ./azarashi
@@ -23,7 +23,7 @@ Open U-center ->
     NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
     CFG (Configuration) -> Save current configuration -> Send
 ```
-設定ツール U-center で、QZSS の L1S チャネルのメッセージ受信機能を有効にしてください。下記は GPS と QZSS のメッセージの受信を有効にするための参考設定手順です。
+設定ツール U-center で、QZSS の L1S チャネルのメッセージ受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
 ```
 Open U-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
