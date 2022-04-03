@@ -13,12 +13,13 @@ $ pip install ./azarashi
 
 ## Preparation
 ### U-blox F9P
-設定ツール U-center で、RXM-SFRBXメッセージを出力するように設定してください。下記は RXM-SFRBX メッセージを USB に出力するための参考設定手順です。
+設定ツール U-center で、RXM-SFRBX メッセージを出力するように設定してください。下記は RXM-SFRBX メッセージを USB に出力するための参考設定手順です。
 ```
 Open U-center ->
   View -> Configuration View ->
     CFG (Configuration) -> Revert to default configuration -> Send
-    MSG (Messages) -> Messages -> 02-13 RXM-SFRBX -> Check USB on (1) -> Send
+    MSG (Messages) -> Messages -> 02-13 RXM-SFRBX ->
+      Check the "USB" box and type 1 in the "on" box -> Send
     NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
     CFG (Configuration) -> Save current configuration -> Send
 ```
@@ -26,7 +27,7 @@ Open U-center ->
 ```
 Open U-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
-    Check All the GPS and QZSS boxes ->
+    Check All the "GPS" and "QZSS" boxes ->
   　　  Check the RAM and Flash boxes in the "Write to layer" ->
  　　　　   Send Configuration
 ```
