@@ -7,7 +7,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='azarashi',
-    version='0.6.４',
+    version='0.6.4',
     description='QZSS DCR Decoder',
     long_description=long_description,
     long_description_content_type='text/markdown',
