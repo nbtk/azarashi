@@ -98,7 +98,7 @@ azarashi.decode(msg, msg_type='hex')
 
 ### decode_stream()
 ```python
-decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_kwargs={})
+azarashi.decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_kwargs={})
 ```
 
 * stream
