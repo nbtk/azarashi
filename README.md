@@ -28,7 +28,7 @@ Open U-center ->
 Open U-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
     Check All the "GPS" and "QZSS" boxes ->
-  　　  Check the RAM and Flash boxes in the "Write to layer" ->
+  　　  Check the "RAM" and "Flash" boxes in the "Write to layer" ->
  　　　　   Send Configuration
 ```
 
