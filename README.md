@@ -5,10 +5,8 @@ A QZSS DCR Decoder.
 azarashi は準天頂衛星みちびきがブロードキャストする災害・危機管理通報メッセージのデコーダーです。U-blox F9P と Sony Spresense が出力するメッセージ形式に対応しています。
 
 ## Installation
-git レポジトリをクローンするか、[ソースコード](https://github.com/nbtk/azarashi/releases)をダウンロードして、pip コマンドでインストールしてください。環境によって pip コマンドは pip3 コマンドかもしれません。
 ```
-$ git clone https://github.com/nbtk/azarashi.git
-$ pip install ./azarashi
+$ pip install azarashi
 ```
 
 ## Preparation
