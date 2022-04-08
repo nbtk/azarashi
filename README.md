@@ -43,14 +43,14 @@ $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarash
 ```
 
 ### U-blox F9P
-stty コマンドでデバイスファイルを raw モードに設定し、azarashi コマンドに ublox オプションを指定します。
+stty コマンドでデバイスファイルを raw に設定し、azarashi コマンドに ublox オプションを指定します。USB ではなく UART を使っている場合は、適宜 stty コマンドのオプションを変更してください。
 ```
 $ stty -F /dev/ttyACM0 raw
 $ cat /dev/ttyACM0 | azarashi ublox
 ```
 
 ### Sony Spresense
-stty コマンドでデバイスファイルをテキストモードに設定し、azarashi コマンドに spresense オプションを指定します。
+stty コマンドでデバイスファイルをデフォルト設定にし、azarashi コマンドに spresense オプションを指定します。
 ```
 $ stty -F /dev/ttyUSB0
 $ cat /dev/ttyUSB0 | azarashi spresense
@@ -100,7 +100,6 @@ azarashi.decode(msg, msg_type='hex')
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-
 レポートオブジェクトからパラメータを取得するには、get_params() メソッドを使います。
 ```python
 >>> from pprint import pprint
@@ -181,6 +180,7 @@ callback(report, *callback_args, **callback_kwargs)
 重複したメッセージを無視したいときは、True を指定してください。
 
 #### Example
+指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを print() に渡します。スクリプトを実行する前に、stty コマンドでデバイスファイルの設定をしておく必要があります。U-blox のGNSSモジュールでは、stty コマンドに raw オプションを指定して動作することを確認しています。
 ```python
 import azarashi
 import sys
