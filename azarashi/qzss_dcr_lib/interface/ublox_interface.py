@@ -8,13 +8,13 @@ buffers = {}
 def __pop(size, reader, reader_args=(), reader_kwargs={}):
     buf = buffers.get(reader)
     if buf == None:
-        buf = bytearray()
+        buf = b''
 
     while size > len(buf):
         data = reader(*reader_args, **reader_kwargs)
         if not data:
             raise EOFError('Encountered EOF')
-        buf += bytearray(data)
+        buf += data
 
     ret = buf[:size]
     buffers.update({reader:buf[size:]})
@@ -35,8 +35,8 @@ def ublox_qzss_dcr_message_extractor(reader, reader_args=(), reader_kwargs={}):
 
         if match_count == len(ublox_qzss_dcr_message_header):
             match_count = 0
-            message = bytes(bytearray(ublox_qzss_dcr_message_header) + \
-                            __pop(52-len(ublox_qzss_dcr_message_header),
+            message = ublox_qzss_dcr_message_header + \
+                      __pop(52-len(ublox_qzss_dcr_message_header),
                             reader,
                             reader_args,
                             reader_kwargs))

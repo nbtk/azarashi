@@ -12,7 +12,7 @@ class QzssDcrDecoderBase:
         raise NotImplemented()
 
     def extract_field(self, slider, size):
-        field = bytearray(self.message[slider >> 3:(slider + size >> 3) + 1])
+        field = self.message[slider >> 3:(slider + size >> 3) + 1]
         field[0] = field[0] & (2 ** (8 - (slider & 7)) - 1)
         return int.from_bytes(field, 'big') >> (8 - (slider + size & 7))
 

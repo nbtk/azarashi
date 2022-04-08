@@ -55,15 +55,15 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # extracts a dcr message
         data_offset = 14
-        data = bytearray()
+        data = b''
         for i in range(num_data_word):
-            data += bytearray([self.sentence[data_offset+3+i*4],
-                               self.sentence[data_offset+2+i*4],
-                               self.sentence[data_offset+1+i*4],
-                               self.sentence[data_offset+0+i*4]])
+            data += [self.sentence[data_offset+3+i*4],
+                     self.sentence[data_offset+2+i*4],
+                     self.sentence[data_offset+1+i*4],
+                     self.sentence[data_offset+0+i*4]]
         data = data[:32]
         data[31] &= 0xC0
-        self.message = bytes(data)
+        self.message = data
 
         # stacks the next decoder
         return QzssDcrDecoder(**self.get_params()).decode()

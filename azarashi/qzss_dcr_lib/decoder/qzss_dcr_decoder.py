@@ -25,7 +25,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         # checks the crc
         crc = 0
         crc_remaining_len = 226
-        data = bytearray(self.message[:29])
+        data = self.message[:29]
         data[-1] &= 0xc0 # clears the last 6 bits
         for byte in data:
             crc ^= (byte << 16)

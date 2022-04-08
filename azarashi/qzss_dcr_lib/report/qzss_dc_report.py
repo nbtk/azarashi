@@ -1,22 +1,30 @@
-from datetime import datetime, timedelta
+from copy import deepcopy
+from datetime import datetime
+from datetime import timedelta
 from ..exception import QzssDcrDecoderException
 
 
 class QzssDcReportBase:
     def __init__(self,
                  sentence,
+                 raw=None,
                  now=None,
                  **kwargs):
         self.sentence = sentence
+        if raw is None:
+            self.raw = b''
         if now is None:
             now = datetime.now()
         self.now = now
+
+    def __eq__(self, other):
+        return self.raw == other.raw
 
     def __str__():
         str(self.__dict__)
 
     def get_params(self):
-        return self.__dict__
+        return self.__dict__.deepcopy()
 
 
 class QzssDcReportMessagePartial(QzssDcReportBase):
@@ -32,6 +40,7 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
         self.message_header = message_header
         self.satellite_id = satellite_id
         self.message = message
+        self.raw = self.message[1:28] + bytes(self.message[28] & 0xC0)
 
 
 class QzssDcReportMessageBase(QzssDcReportMessagePartial):

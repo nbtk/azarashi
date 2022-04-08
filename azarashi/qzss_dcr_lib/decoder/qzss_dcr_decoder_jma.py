@@ -1,3 +1,4 @@
+from datetime import datetime
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder_jma_earthquake_early_warning import QzssDcrDecoderJmaEarthquakeEarlyWarning
 from .qzss_dcr_decoder_jma_seismic_intensity import QzssDcrDecoderJmaSeismicIntensity
@@ -16,7 +17,6 @@ from ..definition import qzss_dcr_jma_disaster_category
 from ..definition import qzss_dcr_jma_disaster_category_en
 from ..definition import qzss_dcr_jma_information_type
 from ..definition import qzss_dcr_jma_information_type_en
-from datetime import datetime
 
 
 class QzssDcrDecoderJma(QzssDcrDecoderBase):
