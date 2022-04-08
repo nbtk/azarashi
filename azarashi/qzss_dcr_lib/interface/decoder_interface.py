@@ -8,7 +8,7 @@ from ..decoder import UBloxQzssDcrDecoder
 
 
 cache = []
-cache_size = 1024
+cache_size = 20
 
 
 def decode(msg, msg_type='hex'):
