@@ -78,10 +78,10 @@ azarashi.decode(msg, msg_type='hex')
 
 #### Example
 ```python
->>> import azarashi
->>> msg = 'C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC'
->>> report = azarashi.decode(msg)
->>> print(report)
+import azarashi
+msg = 'C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC'
+report = azarashi.decode(msg)
+print(report)
 ```
 ```
 防災気象情報(緊急地震速報)(発表)(訓練/試験)
