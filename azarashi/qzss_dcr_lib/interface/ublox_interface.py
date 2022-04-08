@@ -39,7 +39,7 @@ def ublox_qzss_dcr_message_extractor(reader, reader_args=(), reader_kwargs={}):
                       __pop(52-len(ublox_qzss_dcr_message_header),
                             reader,
                             reader_args,
-                            reader_kwargs))
+                            reader_kwargs)
    
             if message[8] != 1: # not a L1S signal
                 continue

@@ -57,13 +57,11 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         data_offset = 14
         data = b''
         for i in range(num_data_word):
-            data += [self.sentence[data_offset+3+i*4],
-                     self.sentence[data_offset+2+i*4],
-                     self.sentence[data_offset+1+i*4],
-                     self.sentence[data_offset+0+i*4]]
-        data = data[:32]
-        data[31] &= 0xC0
-        self.message = data
+            data += bytes((self.sentence[data_offset+3+i*4],
+                           self.sentence[data_offset+2+i*4],
+                           self.sentence[data_offset+1+i*4],
+                           self.sentence[data_offset+0+i*4]))
+        self.message = data[:31] + bytes((data[31] & 0xC0,))
 
         # stacks the next decoder
         return QzssDcrDecoder(**self.get_params()).decode()

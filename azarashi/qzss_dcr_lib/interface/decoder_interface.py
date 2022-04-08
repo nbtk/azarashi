@@ -7,6 +7,10 @@ from ..decoder import SpresenseQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
 
 
+cache = []
+cache_size = 1024
+
+
 def decode(msg, msg_type='hex'):
     if not msg:
         raise EOFError('Encountered EOF')
@@ -25,7 +29,9 @@ def decode_stream(stream,
                   msg_type='hex',
                   callback=None,
                   callback_args=(),
-                  callback_kwargs={}):
+                  callback_kwargs={},
+                  unique=False):
+    global cache
     while True:
         if msg_type == 'hex':
             msg = hex_qzss_dcr_message_extractor(stream.readline)
@@ -40,8 +46,18 @@ def decode_stream(stream,
             raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
     
         report = decode(msg, msg_type)
+        if report in cache:
+            kick = False
+            cache.remove(report)
+        else:
+            kick = True
 
-        if callback == None:
-            return report
+        if unique:
+            cache = cache[-(cache_size-1):] + [report]
+        else:
+            cache = []
 
-        callback(report, *callback_args, **callback_kwargs)
+        if kick == True:
+            if callback == None:
+                return report
+            callback(report, *callback_args, **callback_kwargs)

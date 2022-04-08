@@ -8,14 +8,14 @@ class QzssDcReportBase:
     def __init__(self,
                  sentence,
                  raw=None,
-                 now=None,
+                 timestamp=None,
                  **kwargs):
         self.sentence = sentence
         if raw is None:
             self.raw = b''
-        if now is None:
-            now = datetime.now()
-        self.now = now
+        if timestamp is None:
+            timestamp = datetime.now()
+        self.timestamp = timestamp
 
     def __eq__(self, other):
         return self.raw == other.raw
@@ -24,7 +24,7 @@ class QzssDcReportBase:
         str(self.__dict__)
 
     def get_params(self):
-        return self.__dict__.deepcopy()
+        return deepcopy(self.__dict__)
 
 
 class QzssDcReportMessagePartial(QzssDcReportBase):
@@ -40,7 +40,7 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
         self.message_header = message_header
         self.satellite_id = satellite_id
         self.message = message
-        self.raw = self.message[1:28] + bytes(self.message[28] & 0xC0)
+        self.raw = self.message[1:27] + bytes((self.message[27] & 0xF0,))
 
 
 class QzssDcReportMessageBase(QzssDcReportMessagePartial):

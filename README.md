@@ -21,7 +21,7 @@ Open U-center ->
     NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
     CFG (Configuration) -> Save current configuration -> Send
 ```
-設定ツール U-center で、QZSS の L1S チャネルのメッセージ受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
+設定ツール U-center で、QZSS の L1S シグナル受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
 ```
 Open U-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
@@ -55,6 +55,12 @@ stty コマンドでデバイスファイルをテキストモードに設定し
 $ stty -F /dev/ttyUSB0
 $ cat /dev/ttyUSB0 | azarashi spresense
 ```
+
+### --unique Option
+重複したメッセージを表示しません。
+
+### --source Option
+デコード前のメッセージを表示します。
 
 ## API
 ### decode()
@@ -96,7 +102,7 @@ azarashi.decode(msg, msg_type='hex')
 
 ### decode_stream()
 ```python
-azarashi.decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_kwargs={})
+azarashi.decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_kwargs={}, unique=False)
 ```
 
 * stream
@@ -116,11 +122,15 @@ callback(report, *callback_args, **callback_kwargs)
 
 * calback_args
 
-コールバック関数に渡される引数。
+コールバック関数に渡される引数です。
 
 * callback_kwargs
 
-コールバック関数に渡されるキーワード引数。
+コールバック関数に渡されるキーワード引数です。
+
+* unique
+
+重複したメッセージを無視したいときは、True を指定してください。
 
 #### Example
 ```python

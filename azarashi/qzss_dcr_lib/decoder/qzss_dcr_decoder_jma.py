@@ -60,10 +60,10 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
                     f'Invalid Report Time: {at_mi} as minute',
                     self.sentence)
 
-        at_y = self.now.year
-        if at_mo - self.now.month > 6:
+        at_y = self.timestamp.year
+        if at_mo - self.timestamp.month > 6:
             at_y -= 1
-        elif self.now.month - at_mo > 6:
+        elif self.timestamp.month - at_mo > 6:
             at_y += 1
 
         if at_mo == 2 and at_d == 29:
