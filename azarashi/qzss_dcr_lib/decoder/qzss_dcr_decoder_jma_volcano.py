@@ -1,9 +1,9 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportJmaBase
-from qzss_dcr_lib.report import QzssDcReportJmaVolcano
-from qzss_dcr_lib.definition import qzss_dcr_jma_volcano_name
-from qzss_dcr_lib.definition import qzss_dcr_jma_volcanic_warning_code
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportJmaBase
+from ..report import QzssDcReportJmaVolcano
+from ..definition import qzss_dcr_jma_volcano_name
+from ..definition import qzss_dcr_jma_volcanic_warning_code
 
 
 class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):

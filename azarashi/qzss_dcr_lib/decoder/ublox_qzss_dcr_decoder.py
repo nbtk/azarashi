@@ -1,8 +1,8 @@
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.decoder import QzssDcrDecoderBase
-from qzss_dcr_lib.decoder import QzssDcrDecoder
-from qzss_dcr_lib.report import QzssDcReportBase
-from qzss_dcr_lib.definition import ublox_qzss_dcr_message_header
+from ..exception import QzssDcrDecoderException
+from ..decoder import QzssDcrDecoderBase
+from ..decoder import QzssDcrDecoder
+from ..report import QzssDcReportBase
+from ..definition import ublox_qzss_dcr_message_header
 
 
 class UBloxQzssDcrDecoder(QzssDcrDecoderBase):

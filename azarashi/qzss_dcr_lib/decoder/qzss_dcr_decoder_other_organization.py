@@ -1,8 +1,8 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportMessageBase
-from qzss_dcr_lib.report import QzssDcReportOtherOrganization 
-from qzss_dcr_lib.definition import qzss_dcr_organization_code
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportMessageBase
+from ..report import QzssDcReportOtherOrganization 
+from ..definition import qzss_dcr_organization_code
 
 
 class QzssDcrDecoderOtherOrganization(QzssDcrDecoderBase):

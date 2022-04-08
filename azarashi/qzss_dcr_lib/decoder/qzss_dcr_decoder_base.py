@@ -1,4 +1,4 @@
-from qzss_dcr_lib.exception import QzssDcrDecoderException
+from ..exception import QzssDcrDecoderException
 
 
 class QzssDcrDecoderBase:

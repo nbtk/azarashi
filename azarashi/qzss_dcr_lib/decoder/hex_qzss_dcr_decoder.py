@@ -1,7 +1,7 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder import QzssDcrDecoder
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportBase
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportBase
 
 
 class HexQzssDcrDecoder(QzssDcrDecoderBase):

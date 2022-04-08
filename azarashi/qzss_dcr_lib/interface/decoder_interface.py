@@ -1,10 +1,10 @@
 from .hex_interface import hex_qzss_dcr_message_extractor
 from .spresense_interface import spresense_qzss_dcr_message_extractor
 from .ublox_interface import ublox_qzss_dcr_message_extractor
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.decoder import HexQzssDcrDecoder
-from qzss_dcr_lib.decoder import SpresenseQzssDcrDecoder
-from qzss_dcr_lib.decoder import UBloxQzssDcrDecoder
+from ..exception import QzssDcrDecoderException
+from ..decoder import HexQzssDcrDecoder
+from ..decoder import SpresenseQzssDcrDecoder
+from ..decoder import UBloxQzssDcrDecoder
 
 
 def decode(msg, msg_type='hex'):

@@ -1,10 +1,10 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportJmaBase
-from qzss_dcr_lib.report import QzssDcReportJmaWeather
-from qzss_dcr_lib.definition import qzss_dcr_jma_weather_warning_state
-from qzss_dcr_lib.definition import qzss_dcr_jma_weather_related_disaster_sub_category
-from qzss_dcr_lib.definition import qzss_dcr_jma_weather_forecast_region
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportJmaBase
+from ..report import QzssDcReportJmaWeather
+from ..definition import qzss_dcr_jma_weather_warning_state
+from ..definition import qzss_dcr_jma_weather_related_disaster_sub_category
+from ..definition import qzss_dcr_jma_weather_forecast_region
 
 
 class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):

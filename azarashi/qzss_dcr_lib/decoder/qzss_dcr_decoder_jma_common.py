@@ -1,8 +1,8 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.definition import qzss_dcr_jma_local_government
-from qzss_dcr_lib.definition import qzss_dcr_jma_notification_on_disaster_prevention
-from qzss_dcr_lib.definition import qzss_dcr_jma_epicenter_and_hypocenter
+from ..exception import QzssDcrDecoderException
+from ..definition import qzss_dcr_jma_local_government
+from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
+from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
 from datetime import datetime
 from datetime import timedelta
 

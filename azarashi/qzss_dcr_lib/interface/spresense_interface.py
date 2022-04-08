@@ -1,4 +1,4 @@
-from qzss_dcr_lib.definition import spresense_qzss_dcr_message_header
+from ..definition import spresense_qzss_dcr_message_header
 
 
 def spresense_qzss_dcr_message_extractor(reader, reader_args=(), reader_kwargs={}):

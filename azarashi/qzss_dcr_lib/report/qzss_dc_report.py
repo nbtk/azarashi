@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from qzss_dcr_lib.exception import QzssDcrDecoderException
+from ..exception import QzssDcrDecoderException
 
 
 class QzssDcReportBase:

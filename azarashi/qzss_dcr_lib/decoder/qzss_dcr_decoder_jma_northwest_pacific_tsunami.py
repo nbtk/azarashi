@@ -1,10 +1,10 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportJmaBase
-from qzss_dcr_lib.report import QzssDcReportJmaNorthwestPacificTsunami
-from qzss_dcr_lib.definition import qzss_dcr_jma_tsunamigenic_potential_en
-from qzss_dcr_lib.definition import qzss_dcr_jma_northwest_pacific_tsunami_height_en
-from qzss_dcr_lib.definition import qzss_dcr_jma_coastal_region_en
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportJmaBase
+from ..report import QzssDcReportJmaNorthwestPacificTsunami
+from ..definition import qzss_dcr_jma_tsunamigenic_potential_en
+from ..definition import qzss_dcr_jma_northwest_pacific_tsunami_height_en
+from ..definition import qzss_dcr_jma_coastal_region_en
 
 
 class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):

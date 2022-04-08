@@ -10,12 +10,12 @@ from .qzss_dcr_decoder_jma_weather import QzssDcrDecoderJmaWeather
 from .qzss_dcr_decoder_jma_flood import QzssDcrDecoderJmaFlood
 from .qzss_dcr_decoder_jma_typhoon import QzssDcrDecoderJmaTyphoon
 from .qzss_dcr_decoder_jma_marine import QzssDcrDecoderJmaMarine
-from qzss_dcr_lib.report import QzssDcReportMessageBase
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.definition import qzss_dcr_jma_disaster_category
-from qzss_dcr_lib.definition import qzss_dcr_jma_disaster_category_en
-from qzss_dcr_lib.definition import qzss_dcr_jma_information_type
-from qzss_dcr_lib.definition import qzss_dcr_jma_information_type_en
+from ..report import QzssDcReportMessageBase
+from ..exception import QzssDcrDecoderException
+from ..definition import qzss_dcr_jma_disaster_category
+from ..definition import qzss_dcr_jma_disaster_category_en
+from ..definition import qzss_dcr_jma_information_type
+from ..definition import qzss_dcr_jma_information_type_en
 from datetime import datetime
 
 

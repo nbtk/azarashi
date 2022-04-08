@@ -1,10 +1,10 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportJmaBase
-from qzss_dcr_lib.report import QzssDcReportJmaTyphoon
-from qzss_dcr_lib.definition import qzss_dcr_jma_typhoon_reference_time_type
-from qzss_dcr_lib.definition import qzss_dcr_jma_typhoon_scale_category
-from qzss_dcr_lib.definition import qzss_dcr_jma_typhoon_intensity_category
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportJmaBase
+from ..report import QzssDcReportJmaTyphoon
+from ..definition import qzss_dcr_jma_typhoon_reference_time_type
+from ..definition import qzss_dcr_jma_typhoon_scale_category
+from ..definition import qzss_dcr_jma_typhoon_intensity_category
 
 
 class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):

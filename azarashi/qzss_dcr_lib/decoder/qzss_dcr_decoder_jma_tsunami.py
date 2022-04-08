@@ -1,10 +1,10 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportJmaBase
-from qzss_dcr_lib.report import QzssDcReportJmaTsunami
-from qzss_dcr_lib.definition import qzss_dcr_jma_tsunami_warning_code
-from qzss_dcr_lib.definition import qzss_dcr_jma_tsunami_height
-from qzss_dcr_lib.definition import qzss_dcr_jma_tsunami_forecast_region
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportJmaBase
+from ..report import QzssDcReportJmaTsunami
+from ..definition import qzss_dcr_jma_tsunami_warning_code
+from ..definition import qzss_dcr_jma_tsunami_height
+from ..definition import qzss_dcr_jma_tsunami_forecast_region
 
 
 class QzssDcrDecoderJmaTsunami(QzssDcrDecoderJmaCommon):

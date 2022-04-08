@@ -1,8 +1,8 @@
-from .exception import QzssDcrDecoderException
-from .interface import decode
-from .interface import decode_stream
 import sys
 import argparse
+from azarashi import QzssDcrDecoderException
+from azarashi import decode
+from azarashi import decode_stream
 
 
 def main():
@@ -16,6 +16,7 @@ def main():
         try:
             report = decode_stream(sys.stdin, args.type)
             print(f'--------------------------------\n{report}\n')
+            sys.stdout.flush()
         except QzssDcrDecoderException as e:
             print(f'--------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
         except NotImplementedError as e:

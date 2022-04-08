@@ -1,12 +1,12 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder_jma import QzssDcrDecoderJma
 from .qzss_dcr_decoder_other_organization import QzssDcrDecoderOtherOrganization
-from qzss_dcr_lib.exception import QzssDcrDecoderException
-from qzss_dcr_lib.report import QzssDcReportMessagePartial
-from qzss_dcr_lib.definition import qzss_dcr_preamble
-from qzss_dcr_lib.definition import qzss_dcr_message_type
-from qzss_dcr_lib.definition import qzss_dcr_report_classification
-from qzss_dcr_lib.definition import qzss_dcr_report_classification_en
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportMessagePartial
+from ..definition import qzss_dcr_preamble
+from ..definition import qzss_dcr_message_type
+from ..definition import qzss_dcr_report_classification
+from ..definition import qzss_dcr_report_classification_en
 
 
 class QzssDcrDecoder(QzssDcrDecoderBase):

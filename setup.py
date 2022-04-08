@@ -24,7 +24,7 @@ setuptools.setup(
     python_requires='>=3.7',
     entry_points={
         'console_scripts': [
-            'azarashi=qzss_dcr_lib.main:main',
+            'azarashi=azarashi.__main__:main',
         ],
     },
 )
