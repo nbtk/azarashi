@@ -7,7 +7,7 @@ from ..decoder import SpresenseQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
 
 
-cache = []
+caches = {}
 cache_size = 20
 
 
@@ -31,7 +31,10 @@ def decode_stream(stream,
                   callback_args=(),
                   callback_kwargs={},
                   unique=False):
-    global cache
+    cache = caches.get(stream)
+    if cache is None:
+        cache = []
+
     while True:
         if msg_type == 'hex':
             msg = hex_qzss_dcr_message_extractor(stream.readline)
@@ -56,6 +59,8 @@ def decode_stream(stream,
             cache = cache[-(cache_size-1):] + [report]
         else:
             cache = []
+
+        caches.update({stream: cache})
 
         if kick == True:
             if callback == None:
