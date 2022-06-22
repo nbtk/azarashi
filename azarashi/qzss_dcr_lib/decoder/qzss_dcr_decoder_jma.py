@@ -3,6 +3,7 @@ from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder_jma_earthquake_early_warning import QzssDcrDecoderJmaEarthquakeEarlyWarning
 from .qzss_dcr_decoder_jma_seismic_intensity import QzssDcrDecoderJmaSeismicIntensity
 from .qzss_dcr_decoder_jma_hypocenter import QzssDcrDecoderJmaHypocenter
+from .qzss_dcr_decoder_jma_nankai_trough_earthquake import QzssDcrDecoderJmaNankaiTroughEarthquake
 from .qzss_dcr_decoder_jma_tsunami import QzssDcrDecoderJmaTsunami
 from .qzss_dcr_decoder_jma_northwest_pacific_tsunami import QzssDcrDecoderJmaNorthwestPacificTsunami
 from .qzss_dcr_decoder_jma_volcano import QzssDcrDecoderJmaVolcano
@@ -93,9 +94,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         elif dc == 3:
             next_decoder = QzssDcrDecoderJmaSeismicIntensity
         elif dc == 4:
-            raise QzssDcrDecoderException(
-                    'Decoder Not Implemented: JMA Nankai Trough Earthquake Information',
-                    self.sentence)
+            next_decoder = QzssDcrDecoderJmaNankaiTroughEarthquake
         elif dc == 5:
             next_decoder = QzssDcrDecoderJmaTsunami
         elif dc == 6:

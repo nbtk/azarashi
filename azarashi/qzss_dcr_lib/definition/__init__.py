@@ -5,6 +5,7 @@ from .qzss_dcr_jma_eew_forecast_region import *
 from .qzss_dcr_jma_epicenter_and_hypocenter import *
 from .qzss_dcr_jma_flood_forecast_region import *
 from .qzss_dcr_jma_flood_warning_level import *
+from .qzss_dcr_jma_information_serial_code import *
 from .qzss_dcr_jma_information_type import *
 from .qzss_dcr_jma_local_government import *
 from .qzss_dcr_jma_marine_forecast_region import *

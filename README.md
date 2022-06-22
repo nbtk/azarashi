@@ -198,4 +198,4 @@ with open('/dev/ttyACM0', mode='r') as f:
 ```
 
 ## Note
-災害種別「南海トラフ地震」は未対応です。
+IS-QZSS-DCR-010をサポートしています。

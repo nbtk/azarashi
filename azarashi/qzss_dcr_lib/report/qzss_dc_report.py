@@ -18,6 +18,8 @@ class QzssDcReportBase:
         self.timestamp = timestamp
 
     def __eq__(self, other):
+        if type(self) != type(other):
+            return False
         return self.raw == other.raw
 
     def __str__():
@@ -229,6 +231,56 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
         for i in range(len(self.seismic_intensities)):
             report += f'\n\n震度: {self.seismic_intensities[i]}\n' + \
                       f'{self.prefectures[i]}'
+        return report
+
+
+class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
+    completed = False
+    reports = {}
+
+    def __init__(self,
+                 information_serial_code,
+                 text_information,
+                 page_number,
+                 total_page,
+                 **kwargs):
+        super().__init__(**kwargs)
+        self.information_serial_code = information_serial_code
+        self.text_information = text_information
+        self.page_number = page_number
+        self.total_page = total_page
+
+        cls = self.__class__
+        ex_report = cls.reports.get(self.page_number)
+        if ex_report != None:
+            if ex_report == self:
+                return
+            else:
+                cls.completed = False
+                cls.reports = {}
+
+        cls.reports.update({self.page_number: self})
+        if len(cls.reports) == self.total_page:
+            cls.completed = True
+
+    def extract_text_information(self):
+        cls = self.__class__
+        if cls.completed != True:
+            return f'受信中 [{len(cls.reports)}/{self.total_page}]'
+
+        cls = self.__class__
+        msg_bytes = b''
+        for i in range(1, self.total_page+1):
+            msg_bytes += cls.reports[i].text_information
+
+        return msg_bytes.decode('utf-8', errors='ignore')
+
+    def __str__(self):
+        report = f'{self.get_header()}\n' + \
+                 f'南海トラフ地震に関連する情報が発表されました。\n\n' + \
+                 f'発表時刻: {self.get_report_time_str()}\n' + \
+                 f'地震関連情報: {self.information_serial_code}\n' + \
+                 f'{self.extract_text_information()}'
         return report
 
 
