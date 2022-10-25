@@ -137,7 +137,7 @@ azarashi.decode(msg, msg_type='hex')
  'sentence': 'C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC',
  'timestamp': datetime.datetime(2022, 4, 8, 15, 8, 52, 930551)}
 ```
-異なる時間に発報された同一情報のメッセージかどうかは等価演算子で判別できます。
+重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
 ```python
 >>> msg2 = '9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0'
 >>> report2 = azarashi.decode(msg2)
