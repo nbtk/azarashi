@@ -1,4 +1,5 @@
 qzss_dcr_jma_epicenter_and_hypocenter = {
+    0   : "未設定(北西太平洋津波情報)",
     11  : "北海道地方",
     12  : "東北地方",
     13  : "北陸地方",
