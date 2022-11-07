@@ -147,6 +147,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
                  occurrence_time_of_eathquake,
                  depth_of_hypocenter,
                  magnitude,
+                 assumptive,
                  seismic_epicenter,
                  seismic_intensity_lower_limit,
                  seismic_intensity_upper_limit,
@@ -157,6 +158,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
         self.occurrence_time_of_eathquake = occurrence_time_of_eathquake
         self.depth_of_hypocenter = depth_of_hypocenter
         self.magnitude = magnitude
+        self.assumptive = assumptive
         self.seismic_epicenter = seismic_epicenter
         self.seismic_intensity_lower_limit = seismic_intensity_lower_limit
         self.seismic_intensity_upper_limit = seismic_intensity_upper_limit
@@ -168,11 +170,16 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
 
         report += '\n'.join(self.notifications_on_disaster_prevention)
 
+        if self.assumptive == True:
+            assumptive_str = '(仮定震源要素)'
+        else:
+            assumptive_str = ''
+
         report += f'\n\n発表時刻: {self.get_report_time_str()}\n\n' + \
                   f'震央地名: {self.seismic_epicenter}\n' + \
                   f'地震発生時刻: {self.convert_dt_to_str(self.occurrence_time_of_eathquake)}\n' + \
-                  f'深さ: {self.depth_of_hypocenter}\n' + \
-                  f'マグニチュード: {self.magnitude}\n' + \
+                  f'深さ: {self.depth_of_hypocenter}{assumptive_str}\n' + \
+                  f'マグニチュード: {self.magnitude}{assumptive_str}\n' + \
                   f'震度(下限): {self.seismic_intensity_lower_limit}\n' + \
                   f'震度(上限): {self.seismic_intensity_upper_limit}\n'
         report += '、'.join(self.eew_forecast_regions)

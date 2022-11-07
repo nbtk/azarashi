@@ -20,6 +20,13 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
         self.seismic_epicenter = self.extract_seismic_epicenter_field(112)
         self.coordinates_of_hypocenter = self.extract_lat_lon_field(122)
 
+        de = self.extract_field(96, 9)
+        ma = self.extract_field(105, 7)
+        if de == 10 and ma == 10:
+            self.assumptive = True
+        else:
+            self.assumptive = False
+
         ll = self.extract_field(122, 4)
         try:
             self.seismic_intensity_lower_limit = qzss_dcr_jma_seismic_intensity_lower_limit[ll]
