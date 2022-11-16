@@ -106,7 +106,8 @@ azarashi.decode(msg, msg_type='hex')
 >>> pprint(report.get_params())
 ```
 ```
-{'depth_of_hypocenter': '10km',
+{'assumptive': False,
+ 'depth_of_hypocenter': '10km',
  'disaster_category': '緊急地震速報',
  'disaster_category_en': 'Earthquake Early Warning',
  'disaster_category_no': 1,
