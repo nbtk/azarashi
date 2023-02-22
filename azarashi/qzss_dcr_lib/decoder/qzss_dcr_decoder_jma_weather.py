@@ -14,10 +14,10 @@ class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
         ar = self.extract_field(53, 3)
         try:
             self.weather_warning_state = qzss_dcr_jma_weather_warning_state[ar]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined JMA Warning State: {ar}',
-                    self.sentence)
+                f'Undefined JMA Warning State: {ar}',
+                self.sentence)
 
         self.weather_related_disaster_sub_categories = []
         self.weather_forecast_regions = []
@@ -27,21 +27,21 @@ class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
             if self.extract_field(offset, 24) == 0:
                 break
 
-            ww = self.extract_field(offset, 5) 
+            ww = self.extract_field(offset, 5)
             try:
-                self.weather_related_disaster_sub_categories.append(qzss_dcr_jma_weather_related_disaster_sub_category[ww])
-            except:
+                self.weather_related_disaster_sub_categories.append(
+                    qzss_dcr_jma_weather_related_disaster_sub_category[ww])
+            except KeyError:
                 raise QzssDcrDecoderException(
-                        f'Undefined JMA Disaster Sub-Category: {ww}',
-                        self.sentence)
+                    f'Undefined JMA Disaster Sub-Category: {ww}',
+                    self.sentence)
 
-
-            pl = self.extract_field(offset+5, 19) 
+            pl = self.extract_field(offset + 5, 19)
             try:
                 self.weather_forecast_regions.append(qzss_dcr_jma_weather_forecast_region[pl])
-            except:
+            except KeyError:
                 raise QzssDcrDecoderException(
-                        f'Undefined JMA Prefectural Forecast Region: {pl}',
-                        self.sentence)
+                    f'Undefined JMA Prefectural Forecast Region: {pl}',
+                    self.sentence)
 
         return QzssDcReportJmaWeather(**self.get_params())

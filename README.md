@@ -66,8 +66,9 @@ $ cat /dev/ttyUSB0 | azarashi spresense
 
 ## API
 ### decode()
+
 ```python
-azarashi.decode(msg, msg_type='hex')
+azarashi.decode
 ```
 
 * msg
@@ -141,10 +142,11 @@ azarashi.decode(msg, msg_type='hex')
  'timestamp': datetime.datetime(2022, 4, 8, 15, 8, 52, 930551)}
 ```
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
+
 ```python
->>> msg2 = '9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0'
->>> report2 = azarashi.decode(msg2)
->>> report == report2
+>> > msg2 = '9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0'
+>> > report2 = azarashi.decode
+>> > report == report2
 ```
 ```
 True

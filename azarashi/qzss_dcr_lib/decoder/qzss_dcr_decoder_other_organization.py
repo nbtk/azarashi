@@ -1,7 +1,7 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportMessageBase
-from ..report import QzssDcReportOtherOrganization 
+from ..report import QzssDcReportOtherOrganization
 from ..definition import qzss_dcr_organization_code
 
 
@@ -10,15 +10,16 @@ class QzssDcrDecoderOtherOrganization(QzssDcrDecoderBase):
 
     def decode(self):
         oc = self.extract_field(17, 6)
-        try: 
+        try:
             self.organization_code = qzss_dcr_organization_code[oc]
         except:
             raise QzssDcrDecoderException(
-                    f'Undefined Organization Code : {oc}',
-                    self.sentence)
+                f'Undefined Organization Code : {oc}',
+                self.sentence)
 
         raise QzssDcrDecoderException(
-                f'Decoder Not Implemented (The DC Report was Sent from {self.organization_code})',
-                       self.sentence)
+            f'Decoder Not Implemented (The DC Report was Sent from {self.organization_code})',
+            self.sentence)
 
+        # TODO: will be implemented.
         return QzssDcReportOtherOrganization(**self.get_params())

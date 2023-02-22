@@ -15,7 +15,7 @@ class QzssDcrDecoderJmaTsunami(QzssDcrDecoderJmaCommon):
         dw = self.extract_field(80, 4)
         try:
             self.tsunami_warning_code = qzss_dcr_jma_tsunami_warning_code[dw]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Tsunami Warning Code: {dw}',
                     self.sentence)
@@ -33,7 +33,7 @@ class QzssDcrDecoderJmaTsunami(QzssDcrDecoderJmaCommon):
             th = self.extract_field(offset+12, 4) 
             try:
                 self.tsunami_heights.append(qzss_dcr_jma_tsunami_height[th])
-            except:
+            except KeyError:
                 raise QzssDcrDecoderException(
                         f'Undefined JMA Tsunami Height: {th}',
                         self.sentence)
@@ -41,7 +41,7 @@ class QzssDcrDecoderJmaTsunami(QzssDcrDecoderJmaCommon):
             pl = self.extract_field(offset+16, 10) 
             try:
                 self.tsunami_forecast_regions.append(qzss_dcr_jma_tsunami_forecast_region[pl])
-            except:
+            except KeyError:
                 raise QzssDcrDecoderException(
                         f'Undefined JMA Tsunami Forecast Region: {pl}',
                         self.sentence)

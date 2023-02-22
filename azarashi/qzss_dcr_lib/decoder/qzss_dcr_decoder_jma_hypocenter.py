@@ -1,9 +1,6 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportJmaBase
 from ..report import QzssDcReportJmaHypocenter
-from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
-from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
 
 
 class QzssDcrDecoderJmaHypocenter(QzssDcrDecoderJmaCommon):

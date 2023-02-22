@@ -1,4 +1,4 @@
-qzss_dcr_jma_northwest_pacific_tsunami_height_en = {
+qzss_dcr_jma_northwest_pacific_tsunami_height_en: dict[int, str] = {
     1:   "0.3m~1m",
     2:   "1m~3m",
     3:   "3m~5m",

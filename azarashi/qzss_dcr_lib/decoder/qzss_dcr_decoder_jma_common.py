@@ -38,7 +38,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 dt_mo = 1
                 dt_y += 1
             else:
-                dt_mon += 1
+                dt_mo += 1
         if dt_mo == 2 and dt_d == 29:
             while dt_y % 4 != 0 or \
                     (dt_y % 100 == 0 and dt_y % 400 != 0):
@@ -54,7 +54,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         lg = self.extract_field(slider, 23)
         try:
             return qzss_dcr_jma_local_government[lg]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Local Government: {lg}',
                     self.sentence)
@@ -67,7 +67,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 break
             try:
                 cos.append(qzss_dcr_jma_notification_on_disaster_prevention[co])
-            except:
+            except KeyError:
                 raise QzssDcrDecoderException(
                         f'Undefined JMA Notifications on Disaster Prevention: {co}',
                         self.sentence)
@@ -117,7 +117,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return '500kmより深い'
         elif de == 511:
             return '不明'
-        elif de > 501 and de < 511:
+        elif 501 < de < 511:
             raise QzssDcrDecoderException(
                     f'Invalid Depth of Hypocenter: {de}',
                     self.sentence)
@@ -132,7 +132,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return '不明(8.0より大きい)'
         elif ma == 127:
             return '不明'
-        elif ma < 1 or (ma > 101 and ma < 126):
+        elif ma < 1 or (101 < ma < 126):
             raise QzssDcrDecoderException(
                     f'Invalid Magnitude: {ma / 10}',
                     self.sentence)
@@ -143,7 +143,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         ep = self.extract_field(slider, 10)
         try:
             return qzss_dcr_jma_epicenter_and_hypocenter[ep]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Seismic Epicenter: {ep}',
                     self.sentence)

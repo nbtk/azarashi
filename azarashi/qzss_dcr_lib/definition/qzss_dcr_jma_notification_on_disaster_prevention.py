@@ -1,5 +1,5 @@
-qzss_dcr_jma_notification_on_disaster_prevention = {
-    0:   "なし",
+qzss_dcr_jma_notification_on_disaster_prevention: dict[int, str] = {
+    0: "なし",
     101: "今後若干の海面変動があるかもしれません。",
     102: "今後若干の海面変動があるかもしれませんが、被害の心配はありません。",
     103: "今後もしばらく海面変動が続くと思われます。",
@@ -65,5 +65,5 @@ qzss_dcr_jma_notification_on_disaster_prevention = {
     245: "この地震で緊急地震速報を発表しましたが、強い揺れは観測されませんでした。",
     256: "震源要素を訂正します。",
     500: "その他の防災上の留意事項",
-    "NNN*": "防災上の留意事項(コード番号：NNN)",
+    # "NNN*": "防災上の留意事項(コード番号：NNN)",
 }

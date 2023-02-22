@@ -34,7 +34,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         try:
             self.disaster_category = qzss_dcr_jma_disaster_category[dc]
             self.disaster_category_en = qzss_dcr_jma_disaster_category_en[dc]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined Disaster Category: {dc}',
                     self.sentence)
@@ -81,7 +81,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         try:
             self.information_type = qzss_dcr_jma_information_type[it]
             self.information_type_en = qzss_dcr_jma_information_type_en[it]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
                     'Undefined Information Type: {it}',
                     self.sentence)

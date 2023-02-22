@@ -25,7 +25,7 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
         # converts the message to bytes type
         try:
             self.message = bytes.fromhex(self.sentence+'0')
-        except:
+        except ValueError:
             raise QzssDcrDecoderException(
                     'Invalid Message',
                     self.sentence)

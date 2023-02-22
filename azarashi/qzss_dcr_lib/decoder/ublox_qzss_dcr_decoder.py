@@ -18,12 +18,10 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                     'Too Long Sentence',
                     self.sentence)
 
-        #TODO Check csum!
-
         # extracts a message header, satellite id, and message
         self.message_header = self.sentence[:len(ublox_qzss_dcr_message_header)]
 
-        # checks the message headder
+        # checks the message header
         if self.message_header != ublox_qzss_dcr_message_header:
             raise QzssDcrDecoderException(
                     f'Unknown Message Header: {self.message_header}',

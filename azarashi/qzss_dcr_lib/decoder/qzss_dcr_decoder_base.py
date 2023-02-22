@@ -1,3 +1,4 @@
+from datetime import datetime
 from ..exception import QzssDcrDecoderException
 
 
@@ -5,8 +6,7 @@ class QzssDcrDecoderBase:
     schema = None
 
     def __init__(self, sentence, **kwargs):
-        self.set_params(sentence=sentence,
-                        **kwargs)
+        self.set_params(sentence=sentence, **kwargs)
 
     def decode(self):
         raise NotImplemented()

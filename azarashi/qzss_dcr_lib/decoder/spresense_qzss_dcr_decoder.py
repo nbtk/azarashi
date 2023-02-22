@@ -16,75 +16,75 @@ class SpresenseQzssDcrDecoder(QzssDcrDecoderBase):
 
         if len(self.sentence) < 76:
             raise QzssDcrDecoderException(
-                    'Too Short Sentence',
-                    self.sentence)
+                'Too Short Sentence',
+                self.sentence)
         if len(self.sentence) > 76:
             raise QzssDcrDecoderException(
-                    'Too Long Sentence',
-                    self.sentence)
+                'Too Long Sentence',
+                self.sentence)
 
         # checks the checksum
         try:
             payload, csum = self.sentence.split('*')
-        except:
+        except ValueError:
             raise QzssDcrDecoderException(
-                    'Checksum Not Found',
-                    self.sentence)
+                'Checksum Not Found',
+                self.sentence)
 
         if len(csum) != 2:
             raise QzssDcrDecoderException(
-                    'Invalid Checksum',
-                    self.sentence)
+                'Invalid Checksum Length',
+                self.sentence)
 
         try:
             checksum = int(csum, 16)
-        except:
+        except ValueError:
             raise QzssDcrDecoderException(
-                    'Invalid Checksum',
-                    self.sentence)
+                'Invalid Checksum',
+                self.sentence)
 
         try:
             summed = 0
-            for c in payload[1:]: # without the '$' at the beginning
+            for c in payload[1:]:  # without the '$' at the beginning
                 summed ^= ord(c)
-        except:
+        except Exception:
             raise QzssDcrDecoderException(
-                    'Invalid Sentence',
-                    self.sentence)
+                'Invalid Sentence',
+                self.sentence)
 
         if summed != checksum:
             raise QzssDcrDecoderException(
-                    'Checksum Mismatch',
-                    self.sentence)
+                'Checksum Mismatch',
+                self.sentence)
 
         # extracts a message header, satellite id, and message
         try:
             self.message_header, sat_id, message_str = payload.split(',')
-        except:
+        except ValueError:
             raise QzssDcrDecoderException(
-                    'Invalid Sentence',
-                    self.sentence)
+                'Invalid Sentence',
+                self.sentence)
 
-        # checks the message headder
+        # checks the message header
         if self.message_header != spresense_qzss_dcr_message_header:
             raise QzssDcrDecoderException(
-                    f'Unknown Message Header: {self.message_header}',
-                    self.sentence)
+                f'Unknown Message Header: {self.message_header}',
+                self.sentence)
 
         # checks the satellite id
         if len(sat_id) != 2:
             raise QzssDcrDecoderException(
-                    f'Invalid Satellite ID: {sat_id}',
-                    self.sentence)
+                f'Invalid Satellite ID: {sat_id}',
+                self.sentence)
         self.satellite_id = int(sat_id, 16) + 100
 
         # converts the message to bytes type
         try:
-            self.message = bytes.fromhex(message_str + '0') # padded with six 0s. the actual message size is 250 bits.
-        except:
+            self.message = bytes.fromhex(message_str + '0')  # padded with six 0s. the actual message size is 250 bits.
+        except ValueError:
             raise QzssDcrDecoderException(
-                    'Invalid Message',
-                    self.sentence)
+                'Invalid Message',
+                self.sentence)
 
         # stacks the next decoder
         return QzssDcrDecoder(**self.get_params()).decode()

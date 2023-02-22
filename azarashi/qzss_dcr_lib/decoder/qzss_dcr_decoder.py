@@ -17,38 +17,38 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         pab = self.extract_field(0, 8)
         try:
             self.preamble = qzss_dcr_preamble[pab]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
-                    f'Invalid Preamble: {pab}',
-                    self.sentence)
+                f'Invalid Preamble: {pab}',
+                self.sentence)
 
         # checks the crc
         crc = 0
         crc_remaining_len = 226
-        data = self.message[:28] + bytes((self.message[28] & 0xC0,)) # clears the last 6 bits
+        data = self.message[:28] + bytes((self.message[28] & 0xC0,))  # clears the last 6 bits
         for byte in data:
             crc ^= (byte << 16)
             for _ in range(8):
                 crc <<= 1
                 if crc & 0x1000000:
-                    crc ^= 0x1864cfb # polynomial
+                    crc ^= 0x1864cfb  # polynomial
                 crc_remaining_len -= 1
                 if crc_remaining_len == 0:
                     break
         crc &= 0xffffff
         if crc != self.extract_field(226, 24):
             raise QzssDcrDecoderException(
-                    'CRC Mismatch',
-                    self.sentence)
+                'CRC Mismatch',
+                self.sentence)
 
         # checks the message type
-        mt = self.extract_field(8, 6) # 6 bits
+        mt = self.extract_field(8, 6)  # 6 bits
         try:
             self.message_type = qzss_dcr_message_type[mt]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined Message Type: {mt}',
-                    self.sentence)
+                f'Undefined Message Type: {mt}',
+                self.sentence)
 
         if mt == 43:
             next_decoder = QzssDcrDecoderJma
@@ -56,17 +56,17 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
             next_decoder = QzssDcrDecoderOtherOrganization
         else:
             raise QzssDcrDecoderException(
-                    f'Unsupported Message Type: {mt}',
-                    self.sentence)
+                f'Unsupported Message Type: {mt}',
+                self.sentence)
 
         rc = self.extract_field(14, 3)
         try:
             self.report_classification = qzss_dcr_report_classification[rc]
             self.report_classification_en = qzss_dcr_report_classification_en[rc]
-        except:
+        except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined Report Classification: {rc}',
-                    self.sentence)
+                f'Undefined Report Classification: {rc}',
+                self.sentence)
         self.report_classification_no = rc
 
         # stacks the next decoder

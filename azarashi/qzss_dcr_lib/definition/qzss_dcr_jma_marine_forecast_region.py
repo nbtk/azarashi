@@ -1,4 +1,4 @@
-qzss_dcr_jma_marine_forecast_region = {
+qzss_dcr_jma_marine_forecast_region: dict[int, str] = {
     1000:  "日本海北部及びオホーツク海南部",  
     1010:  "サハリン東方海上",
     1020:  "サハリン西方海上",
@@ -48,5 +48,5 @@ qzss_dcr_jma_marine_forecast_region = {
     6020:  "沖縄東方海上",
     6030:  "沖縄南方海上",
     10000: "その他の地方海上予報区",
-    #"NNNN*": "地方海上予報区(コード番号：NNNN)",
+    # "NNNN*": "地方海上予報区(コード番号：NNNN)",
 }

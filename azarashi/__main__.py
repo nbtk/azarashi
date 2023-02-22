@@ -2,7 +2,6 @@ import sys
 import datetime
 import argparse
 from azarashi import QzssDcrDecoderException
-from azarashi import decode
 from azarashi import decode_stream
 
 
@@ -20,7 +19,7 @@ def main():
         try:
             report = decode_stream(sys.stdin, args.type, unique=args.unique)
             print(f'{now} --------------------------------\n{report}\n')
-            if args.source == True:
+            if args.source is True:
                 if type(report.sentence) is bytes:
                     src = "b'" + ''.join(r'\x%02X' % c for c in report.sentence) + "'"
                 else:

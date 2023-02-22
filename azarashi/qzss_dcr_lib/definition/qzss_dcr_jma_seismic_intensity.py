@@ -1,4 +1,4 @@
-qzss_dcr_jma_seismic_intensity = {
+qzss_dcr_jma_seismic_intensity: dict[int, str] = {
     1: "4未満",
     2: "4",
     3: "5弱",

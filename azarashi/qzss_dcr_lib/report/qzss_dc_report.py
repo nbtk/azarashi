@@ -1,6 +1,5 @@
 from copy import deepcopy
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from ..exception import QzssDcrDecoderException
 
 
@@ -22,7 +21,7 @@ class QzssDcReportBase:
             return False
         return self.raw == other.raw
 
-    def __str__():
+    def __str__(self):
         str(self.__dict__)
 
     def get_params(self):
@@ -63,6 +62,7 @@ class QzssDcReportMessageBase(QzssDcReportMessagePartial):
 
 class QzssDcReportJmaBase(QzssDcReportMessageBase):
     def __init__(self,
+                 version,
                  disaster_category,
                  disaster_category_en,
                  disaster_category_no,
@@ -72,6 +72,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
                  information_type_no,
                  **kwargs):
         super().__init__(**kwargs)
+        self.version = version
         self.disaster_category = disaster_category
         self.disaster_category_en = disaster_category_en
         self.disaster_category_no = disaster_category_no
@@ -107,38 +108,42 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
     def get_report_time_str_iso(self):
         return self.report_time.strftime('--%m-%dT%H:%MZ')
 
-    def convert_dt_to_str(self, dt, time_diff=9):
+    @staticmethod
+    def convert_dt_to_str(dt, time_diff=9):
         dt += timedelta(hours=time_diff)
         return f'{dt.day}日{dt.hour}時{dt.minute}分'
 
-    def convert_dt_to_str_iso(self, dt):
+    @staticmethod
+    def convert_dt_to_str_iso(dt):
         return dt.strftime('---%dT%H:%MZ')
 
     def convert_dt_to_ambiguous_time_str(self, td, du):
         try:
-            return [f'{td.month}月{td.day}日{td.hour}時{td.minute}分',   # No ambiguity
-                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃', # Approximate time(equivalent to Approximate time (minute))
-                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分',   # Approximate time(second)
-                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃', # Approximate time(minute)
-                    f'{td.month}月{td.day}日{td.hour}時頃',              # Approximate time(hour)
-                    f'{td.month}月{td.day}日頃',                         # Approximate time(day)
-                    f'{td.month}月頃',                                   # Approximate time(month)
-                    f'{td.year}年頃',                                    # Approximate time(year)
-            ][du]
+            return [f'{td.month}月{td.day}日{td.hour}時{td.minute}分',  # No ambiguity
+                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',
+                    # Approximate time(equivalent to Approximate time (minute))
+                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分',  # Approximate time(second)
+                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',  # Approximate time(minute)
+                    f'{td.month}月{td.day}日{td.hour}時頃',  # Approximate time(hour)
+                    f'{td.month}月{td.day}日頃',  # Approximate time(day)
+                    f'{td.month}月頃',  # Approximate time(month)
+                    f'{td.year}年頃',  # Approximate time(year)
+                    ][du]
         except:
             raise QzssDcrDecoderException(
-                    f'Undefined JMA Ambiguity of Activity Time: {du}',
-                    self.sentence)
-    
-    def convert_lat_lon_to_str(self, coordinates):
+                f'Undefined JMA Ambiguity of Activity Time: {du}',
+                self.sentence)
+
+    @staticmethod
+    def convert_lat_lon_to_str(coordinates):
         return f'{"北緯" if coordinates["lat_ns"] == 0 else "南緯"}' + \
-               f'{coordinates["lat_d"]}度' + \
-               f'{coordinates["lat_m"]}分' + \
-               f'{coordinates["lat_s"]}秒 ' + \
-               f'{"東経" if coordinates["lon_ew"] == 0 else "西経"}' + \
-               f'{coordinates["lon_d"]}度' + \
-               f'{coordinates["lon_m"]}分' + \
-               f'{coordinates["lon_s"]}秒'
+            f'{coordinates["lat_d"]}度' + \
+            f'{coordinates["lat_m"]}分' + \
+            f'{coordinates["lat_s"]}秒 ' + \
+            f'{"東経" if coordinates["lon_ew"] == 0 else "西経"}' + \
+            f'{coordinates["lon_d"]}度' + \
+            f'{coordinates["lon_m"]}分' + \
+            f'{coordinates["lon_s"]}秒'
 
 
 class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
@@ -166,11 +171,11 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                  '緊急地震速報\n'
+                 '緊急地震速報\n'
 
         report += '\n'.join(self.notifications_on_disaster_prevention)
 
-        if self.assumptive == True:
+        if self.assumptive is True:
             assumptive_str = '(仮定震源要素)'
         else:
             assumptive_str = ''
@@ -206,7 +211,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
     def __str__(self):
         report = f'{self.get_header()}\n' + \
                  f'{self.convert_dt_to_str(self.occurrence_time_of_eathquake)}' + \
-                  'ころ、地震がありました。\n'
+                 'ころ、地震がありました。\n'
 
         report += '\n'.join(self.notifications_on_disaster_prevention)
 
@@ -232,7 +237,7 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
     def __str__(self):
         report = f'{self.get_header()}\n' + \
                  f'{self.convert_dt_to_str(self.occurrence_time_of_eathquake)}' + \
-                  'ころ、地震による強い揺れを感じました。\n\n' + \
+                 'ころ、地震による強い揺れを感じました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
 
         for i in range(len(self.seismic_intensities)):
@@ -259,7 +264,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
         cls = self.__class__
         ex_report = cls.reports.get(self.page_number)
-        if ex_report != None:
+        if ex_report is not None:
             if ex_report == self:
                 return
             else:
@@ -272,12 +277,12 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
     def extract_text_information(self):
         cls = self.__class__
-        if cls.completed != True:
+        if cls.completed is not True:
             return f'受信中 [{len(cls.reports)}/{self.total_page}]'
 
         cls = self.__class__
         msg_bytes = b''
-        for i in range(1, self.total_page+1):
+        for i in range(1, self.total_page + 1):
             msg_bytes += cls.reports[i].text_information
 
         return msg_bytes.decode('utf-8', errors='ignore')
@@ -315,7 +320,7 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
         report += f'\n\n発表時刻: {self.get_report_time_str()}'
 
         for i in range(len(self.expected_tsunami_arrival_times)):
-            if self.expected_tsunami_arrival_times[i] == None:
+            if self.expected_tsunami_arrival_times[i] is None:
                 ta = '不明'
             else:
                 ta = self.convert_dt_to_str(self.expected_tsunami_arrival_times[i])
@@ -344,7 +349,7 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
                  f'Time of Issue: {self.get_report_time_str_iso()}'
 
         for i in range(len(self.expected_tsunami_arrival_times)):
-            if self.expected_tsunami_arrival_times[i] == None:
+            if self.expected_tsunami_arrival_times[i] is None:
                 ta = 'Unknown'
             else:
                 ta = self.convert_dt_to_str(self.expected_tsunami_arrival_times[i])
@@ -371,7 +376,7 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                  '火山に関連する情報をお知らせします。\n\n' + \
+                 '火山に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
                  f'火山名: {self.volcano_name}\n' + \
                  f'日時: {self.convert_dt_to_ambiguous_time_str(self.activity_time, self.ambiguity_of_activity_time_no)}\n' + \
@@ -400,7 +405,7 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                  '降灰に関連する情報をお知らせします。\n\n' + \
+                 '降灰に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
                  f'{self.ash_fall_warning_type}\n' + \
                  f'火山名: {self.volcano_name}\n' + \
@@ -408,9 +413,9 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
 
         for i in range(len(self.expected_ash_fall_times)):
             report += '\n\n' + \
-                     f'基点時刻からの時間: {self.expected_ash_fall_times[i]}時間\n' + \
-                     f'現象: {self.ash_fall_warning_codes[i]}\n' + \
-                     f'{self.local_governments[i]}'
+                      f'基点時刻からの時間: {self.expected_ash_fall_times[i]}時間\n' + \
+                      f'現象: {self.ash_fall_warning_codes[i]}\n' + \
+                      f'{self.local_governments[i]}'
         return report
 
 
@@ -427,7 +432,7 @@ class QzssDcReportJmaWeather(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                  '気象に関連する情報をお知らせします。\n\n' + \
+                 '気象に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
 
         for i in range(len(self.weather_related_disaster_sub_categories)):
@@ -448,7 +453,7 @@ class QzssDcReportJmaFlood(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                  '河川の氾濫に関連する情報をお知らせします。\n\n' + \
+                 '河川の氾濫に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
 
         for i in range(len(self.flood_warning_levels)):
@@ -468,7 +473,7 @@ class QzssDcReportJmaMarine(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                  '海上警報が発表されました。\n\n' + \
+                 '海上警報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
 
         for i in range(len(self.marine_warning_codes)):
@@ -504,7 +509,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                  '台風解析・予報情報が発表されました。\n\n' + \
+                 '台風解析・予報情報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
                  f'台風番号: {self.typhoon_number}\n' + \
                  f'基点時刻: {self.convert_dt_to_str(self.reference_time)}\n' + \
