@@ -23,7 +23,7 @@ class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
                 self.marine_warning_codes.append(qzss_dcr_jma_marine_warning_code[dw])
             except:
                 raise QzssDcrDecoderException(
-                        f'Undefined JMA Marine Worning Code: {dw}',
+                        f'Undefined JMA Marine Warning Code: {dw}',
                         self.sentence)
 
             try:
