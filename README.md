@@ -144,9 +144,9 @@ azarashi.decode
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
 
 ```python
->> > msg2 = '9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0'
->> > report2 = azarashi.decode
->> > report == report2
+>>> msg2 = '9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0'
+>>> report2 = azarashi.decode(msg2)
+>>> report == report2
 ```
 ```
 True
@@ -204,3 +204,6 @@ with open('/dev/ttyACM0', mode='r') as f:
 
 ## Note
 IS-QZSS-DCR-010をサポートしています。
+
+## Feedback
+不具合報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。お力添えください。
