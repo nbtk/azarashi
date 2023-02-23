@@ -7,12 +7,12 @@ from azarashi import decode_stream
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('type', help='set a message type: "spresense", "ublox" or "hex"', type=str)
+    parser.add_argument('type', help='set a message type: "nmea", "ublox" or "hex"', type=str)
     parser.add_argument('--source', help='output source messages', action='store_true')
     parser.add_argument('--unique', help='supress duplicate messages', action='store_true')
     args = parser.parse_args()
-    if args.type not in ('hex', 'spresense', 'ublox'):
-        raise NotImplementedError('The message type must be specified as "spresense", "ublox" or "hex"')
+    if args.type not in ('hex', 'nmea', 'spresense', 'ublox'): # 'spresense' is there for compatibility, it is exactly the same as 'nmea'.
+        raise NotImplementedError('The message type must be specified as "nmea", "ublox" or "hex"')
 
     while True:
         now = datetime.datetime.now().isoformat()

@@ -32,6 +32,6 @@ from .qzss_dcr_message_type import *
 from .qzss_dcr_organization_code import *
 from .qzss_dcr_preamble import *
 from .qzss_dcr_report_classification import *
-from .qzss_dcr_satellite_id import *
-from .spresense_qzss_dcr_message_header import *
+from .qzss_dcr_satellite_prn_code import *
+from .nmea_qzss_dcr_message_header import *
 from .ublox_qzss_dcr_message_header import *

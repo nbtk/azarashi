@@ -31,16 +31,20 @@ class QzssDcReportBase:
 class QzssDcReportMessagePartial(QzssDcReportBase):
     def __init__(self,
                  message,
+                 nmea,
                  message_header=None,
                  satellite_id=None,
+                 satellite_prn_code=None,
                  sentence=None,
                  **kwargs):
         if sentence is None:
             sentence = message
         super().__init__(sentence, **kwargs)
+        self.message = message
+        self.nmea = nmea
         self.message_header = message_header
         self.satellite_id = satellite_id
-        self.message = message
+        self.satellite_prn_code = satellite_prn_code
         self.raw = self.message[1:27] + bytes((self.message[27] & 0xF0,))
 
 

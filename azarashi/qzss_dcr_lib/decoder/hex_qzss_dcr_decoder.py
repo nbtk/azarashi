@@ -30,5 +30,7 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
                     'Invalid Message',
                     self.sentence)
 
+        self.nmea = self.message_to_nmea()
+
         # stacks the next decoder
         return QzssDcrDecoder(**self.get_params()).decode()

@@ -2,10 +2,11 @@ from ..exception import QzssDcrDecoderException
 from ..decoder import QzssDcrDecoderBase
 from ..decoder import QzssDcrDecoder
 from ..report import QzssDcReportBase
-from ..definition import spresense_qzss_dcr_message_header
+from ..definition import nmea_qzss_dcr_message_header
+from ..definition import qzss_dcr_satellite_prn_code
 
 
-class SpresenseQzssDcrDecoder(QzssDcrDecoderBase):
+class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
 
     def decode(self):
@@ -43,14 +44,9 @@ class SpresenseQzssDcrDecoder(QzssDcrDecoderBase):
                 'Invalid Checksum',
                 self.sentence)
 
-        try:
-            summed = 0
-            for c in payload[1:]:  # without the '$' at the beginning
-                summed ^= ord(c)
-        except Exception:
-            raise QzssDcrDecoderException(
-                'Invalid Sentence',
-                self.sentence)
+        summed = 0
+        for c in payload[1:]:  # without the '$' at the beginning
+            summed ^= ord(c)
 
         if summed != checksum:
             raise QzssDcrDecoderException(
@@ -66,7 +62,7 @@ class SpresenseQzssDcrDecoder(QzssDcrDecoderBase):
                 self.sentence)
 
         # checks the message header
-        if self.message_header != spresense_qzss_dcr_message_header:
+        if self.message_header != nmea_qzss_dcr_message_header:
             raise QzssDcrDecoderException(
                 f'Unknown Message Header: {self.message_header}',
                 self.sentence)
@@ -76,7 +72,8 @@ class SpresenseQzssDcrDecoder(QzssDcrDecoderBase):
             raise QzssDcrDecoderException(
                 f'Invalid Satellite ID: {sat_id}',
                 self.sentence)
-        self.satellite_id = int(sat_id, 16) + 100
+        self.satellite_id = int(sat_id)
+        self.satellite_prn_code = self.satellite_id | 0x80
 
         # converts the message to bytes type
         try:
@@ -85,6 +82,8 @@ class SpresenseQzssDcrDecoder(QzssDcrDecoderBase):
             raise QzssDcrDecoderException(
                 'Invalid Message',
                 self.sentence)
+
+        self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
         return QzssDcrDecoder(**self.get_params()).decode()

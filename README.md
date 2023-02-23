@@ -52,10 +52,10 @@ $ cat /dev/ttyACM0 | azarashi ublox
 ```
 
 ### Sony Spresense
-stty コマンドでデバイスファイルをデフォルト設定にし、azarashi コマンドに spresense オプションを指定します。
+stty コマンドでデバイスファイルをデフォルト設定にし、azarashi コマンドに nmea オプションを指定します。
 ```
 $ stty -F /dev/ttyUSB0
-$ cat /dev/ttyUSB0 | azarashi spresense
+$ cat /dev/ttyUSB0 | azarashi nmea
 ```
 
 ### --unique Option
@@ -77,7 +77,7 @@ azarashi.decode
 
 * msg_type
 
-デフォルトは 'hex' 、オプションとして 'ublox' または 'spresense' を指定できます。'ublox' を指定したときメッセージは bytes 型、'spresense' を指定したときメッセージは str 型です。
+デフォルトは 'hex' 、オプションとして 'ublox' または 'nmea' を指定できます。'ublox' を指定したときメッセージは bytes 型、'nmea' を指定したときメッセージは str 型です。
 
 #### Example
 デコードして得られたレポートオブジェクトを print() にわたすと、ヒューマンリーダブルな災害情報を返します。
@@ -159,11 +159,11 @@ azarashi.decode_stream(stream, msg_type='hex', callback=None, callback_args=(), 
 
 * stream
 
-I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで 'ublox' なら raw モード、'spresense' ならテキストモードに設定してください。
+I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで 'ublox' なら raw モード、'nmea' ならテキストモードに設定してください。
 
 * msg_type
 
-デフォルトは 'hex' 、オプションとして 'ublox' または 'spresense' を指定できます。
+デフォルトは 'hex' 、オプションとして 'ublox' または 'nmea' を指定できます。
 
 * callback
 
