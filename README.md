@@ -83,8 +83,8 @@ azarashi.decode
 デコードして得られたレポートオブジェクトを print() にわたすと、ヒューマンリーダブルな災害情報を返します。
 ```python
 >>> import azarashi
->>> msg = 'C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC'
->>> report = azarashi.decode(msg)
+>>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
+>>> report = azarashi.decode(msg, 'nmea')
 >>> print(report)
 ```
 ```
@@ -123,8 +123,9 @@ azarashi.decode
  'magnitude': '7.2',
  'message': b'\xc6\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00'
             b'\x03\xdf\xf8\x00\x1c\x00\x00\x11\x85D?\xc0',
- 'message_header': None,
+ 'message_header': '$QZQSM',
  'message_type': 'DC Report (JMA)',
+ 'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
  'occurrence_time_of_eathquake': datetime.datetime(2022, 3, 10, 1, 0),
  'preamble': 'C',
@@ -134,11 +135,12 @@ azarashi.decode
  'report_classification_en': 'Training/Test',
  'report_classification_no': 7,
  'report_time': datetime.datetime(2022, 3, 10, 1, 0),
- 'satellite_id': None,
+ 'satellite_id': 55,
+ 'satellite_prn_code': 183,
  'seismic_epicenter': '日向灘',
  'seismic_intensity_lower_limit': '震度6弱',
  'seismic_intensity_upper_limit': '〜程度以上',
- 'sentence': 'C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC',
+ 'sentence': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'timestamp': datetime.datetime(2022, 4, 8, 15, 8, 52, 930551)}
 ```
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
