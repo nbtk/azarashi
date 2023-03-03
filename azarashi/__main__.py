@@ -30,9 +30,11 @@ def main():
             print(f'{now} --------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
         except NotImplementedError as e:
             print(f'{now} --------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
-        except Exception as e:
+        except EOFError as e:
             print(f'{now} --------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
             return 1
+        except Exception as e:
+            print(f'{now} --------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
 
 
 if __name__ == '__main__':

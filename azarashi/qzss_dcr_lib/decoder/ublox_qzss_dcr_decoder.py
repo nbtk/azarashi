@@ -38,7 +38,6 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         # extracts a satellite id
         self.satellite_id = self.sentence[7] + 51
         self.satellite_prn_code = self.satellite_id | 0x80
-        #self.satellite_prn_code = qzss_dcr_satellite_prn_code[self.satellite_id]
 
         # checks the signal id
         sig_id = self.sentence[8]
@@ -64,6 +63,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                            self.sentence[data_offset+0+i*4]))
         self.message = data[:31] + bytes((data[31] & 0xC0,))
 
+        # generates a nmea sentence
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder

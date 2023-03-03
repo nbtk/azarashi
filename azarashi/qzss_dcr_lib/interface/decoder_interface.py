@@ -3,6 +3,7 @@ from .nmea_interface import nmea_qzss_dcr_message_extractor
 from .ublox_interface import ublox_qzss_dcr_message_extractor
 from ..exception import QzssDcrDecoderException
 from ..decoder import HexQzssDcrDecoder
+from ..decoder import NetQzssDcrDecoder
 from ..decoder import NmeaQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
 
@@ -16,6 +17,8 @@ def decode(msg, msg_type='hex'):
 
     if msg_type == 'hex':
         return HexQzssDcrDecoder(msg).decode()
+    elif msg_type == 'net':
+        return NetQzssDcrDecoder(msg).decode()
     elif msg_type == 'nmea' or msg_type == 'spresense':
         return NmeaQzssDcrDecoder(msg).decode()
     elif msg_type == 'ublox':

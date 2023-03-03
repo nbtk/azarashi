@@ -1,4 +1,5 @@
 from ..definition import nmea_qzss_dcr_message_header
+from ..exception import QzssDcrDecoderNotImplementedError
 
 
 class QzssDcrDecoderBase:
@@ -8,7 +9,7 @@ class QzssDcrDecoderBase:
         self.set_params(sentence=sentence, **kwargs)
 
     def decode(self):
-        raise NotImplemented()
+        raise QzssDcrDecoderNotImplementedError('Decoder Not Implemented')
 
     def message_to_nmea(self):
         sat_id = getattr(self, 'satellite_id', None)

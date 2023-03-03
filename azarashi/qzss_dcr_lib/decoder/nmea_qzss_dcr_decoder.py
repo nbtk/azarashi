@@ -83,6 +83,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
                 'Invalid Message',
                 self.sentence)
 
+        # generates a nmea sentence
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
