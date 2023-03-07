@@ -15,7 +15,7 @@ class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
         except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Information Serial Code: {ie}',
-                    self.sentence)
+                    self)
         te = []
         for i in range(18):
             te.append(self.extract_field(57 + i * 8, 8))

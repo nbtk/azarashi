@@ -136,7 +136,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
         except:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Ambiguity of Activity Time: {du}',
-                self.sentence)
+                self)
 
     @staticmethod
     def convert_lat_lon_to_str(coordinates):
@@ -282,7 +282,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
     def extract_text_information(self):
         cls = self.__class__
         if cls.completed is not True:
-            return f'受信中 [{len(cls.reports)}/{self.total_page}]'
+            return f'受信中 ({self.page_number}) [{len(cls.reports)}/{self.total_page}]'
 
         cls = self.__class__
         msg_bytes = b''

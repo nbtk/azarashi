@@ -16,11 +16,11 @@ class QzssDcrDecoderOtherOrganization(QzssDcrDecoderBase):
         except:
             raise QzssDcrDecoderException(
                 f'Undefined Organization Code : {oc}',
-                self.sentence)
+                self)
 
         raise QzssDcrDecoderNotImplementedError(
             f'Decoder Not Implemented (The DC Report was Sent from {self.organization_code})',
-            self.sentence)
+            self)
 
         # TODO: will be implemented.
         return QzssDcReportOtherOrganization(**self.get_params())

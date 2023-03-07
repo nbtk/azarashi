@@ -28,7 +28,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         if self.version != 1:
             raise QzssDcrDecoderException(
                     f'Unsupported JMA-DC Report Version: {self.version}',
-                    self.sentence)
+                    self)
 
         dc = self.extract_field(17, 4)
         try:
@@ -37,29 +37,29 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined Disaster Category: {dc}',
-                    self.sentence)
+                    self)
         self.disaster_category_no = dc
 
         at_mo = self.extract_field(21, 4)
         if at_mo < 1 or at_mo > 12:
             raise QzssDcrDecoderException(
                     f'Invalid Report Time: {at_mo} as month',
-                    self.sentence)
+                    self)
         at_d = self.extract_field(25, 5)
         if at_d < 1 or at_d > 31:
             raise QzssDcrDecoderException(
                     f'Invalid Report Time: {at_d} as day',
-                    self.sentence)
+                    self)
         at_h = self.extract_field(30, 5)
         if at_h > 23:
             raise QzssDcrDecoderException(
                     f'Invalid Report Time: {at_h} as hour',
-                    self.sentence)
+                    self)
         at_mi = self.extract_field(35, 6)
         if at_mi > 59:
             raise QzssDcrDecoderException(
                     f'Invalid Report Time: {at_mi} as minute',
-                    self.sentence)
+                    self)
 
         at_y = self.timestamp.year
         if at_mo - self.timestamp.month > 6:
@@ -84,7 +84,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         except KeyError:
             raise QzssDcrDecoderException(
                     'Undefined Information Type: {it}',
-                    self.sentence)
+                    self)
         self.information_type_no = it
 
         if dc == 1:
@@ -114,6 +114,6 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         else:
             raise QzssDcrDecoderException(
                     f'Unsupported Disaster Category: {self.disaster_category}',
-                    self.sentence)
+                    self)
 
         return next_decoder(**self.get_params()).decode()

@@ -24,7 +24,7 @@ class QzssDcrDecoderBase:
         for c in nmea_partial[1:]:  # without the '$' at the beginning
             checksum ^= ord(c)
 
-        return (nmea_partial + '*%02X' % checksum)
+        return nmea_partial + '*%02X' % checksum
 
     def extract_field(self, slider, size):
         field = bytearray(self.message[slider >> 3:(slider + size >> 3) + 1])

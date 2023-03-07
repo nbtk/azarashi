@@ -18,11 +18,11 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         if len(self.sentence) < 76:
             raise QzssDcrDecoderException(
                 'Too Short Sentence',
-                self.sentence)
+                self)
         if len(self.sentence) > 76:
             raise QzssDcrDecoderException(
                 'Too Long Sentence',
-                self.sentence)
+                self)
 
         # checks the checksum
         try:
@@ -30,19 +30,19 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         except ValueError:
             raise QzssDcrDecoderException(
                 'Checksum Not Found',
-                self.sentence)
+                self)
 
         if len(csum) != 2:
             raise QzssDcrDecoderException(
                 'Invalid Checksum Length',
-                self.sentence)
+                self)
 
         try:
             checksum = int(csum, 16)
         except ValueError:
             raise QzssDcrDecoderException(
                 'Invalid Checksum',
-                self.sentence)
+                self)
 
         summed = 0
         for c in payload[1:]:  # without the '$' at the beginning
@@ -51,7 +51,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         if summed != checksum:
             raise QzssDcrDecoderException(
                 'Checksum Mismatch',
-                self.sentence)
+                self)
 
         # extracts a message header, satellite id, and message
         try:
@@ -59,19 +59,19 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         except ValueError:
             raise QzssDcrDecoderException(
                 'Invalid Sentence',
-                self.sentence)
+                self)
 
         # checks the message header
         if self.message_header != nmea_qzss_dcr_message_header:
             raise QzssDcrDecoderException(
                 f'Unknown Message Header: {self.message_header}',
-                self.sentence)
+                self)
 
         # checks the satellite id
         if len(sat_id) != 2:
             raise QzssDcrDecoderException(
                 f'Invalid Satellite ID: {sat_id}',
-                self.sentence)
+                self)
         self.satellite_id = int(sat_id)
         self.satellite_prn_code = self.satellite_id | 0x80
 
@@ -81,7 +81,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         except ValueError:
             raise QzssDcrDecoderException(
                 'Invalid Message',
-                self.sentence)
+                self)
 
         # generates a nmea sentence
         self.nmea = self.message_to_nmea()

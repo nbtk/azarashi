@@ -13,11 +13,11 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         if len(self.sentence) < 52:
             raise QzssDcrDecoderException(
                     'Too Short Sentence',
-                    self.sentence)
+                    self)
         if len(self.sentence) > 52:
             raise QzssDcrDecoderException(
                     'Too Long Sentence',
-                    self.sentence)
+                    self)
 
         # extracts a message header, satellite id, and message
         self.message_header = self.sentence[:len(ublox_qzss_dcr_message_header)]
@@ -26,14 +26,14 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         if self.message_header != ublox_qzss_dcr_message_header:
             raise QzssDcrDecoderException(
                     f'Unknown Message Header: {self.message_header}',
-                    self.sentence)
+                    self)
 
         # checks the gnss id
         gnss_id = self.sentence[6]
         if gnss_id != 5:
             raise QzssDcrDecoderException(
                     f'This Sentence is not from QZSS: {gnss_id}',
-                    self.sentence)
+                    self)
 
         # extracts a satellite id
         self.satellite_id = self.sentence[7] + 51
@@ -44,14 +44,14 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         if sig_id != 1:
             raise QzssDcrDecoderException(
                     f'The Sentence is not an L1S Signal: {sig_id}',
-                    self.sentence)
+                    self)
 
         # checks the data size
         num_data_word = self.sentence[10]
         if num_data_word != 9:
             raise QzssDcrDecoderException(
                     f'Invalid Message Length: {num_data_word}',
-                    self.sentence)
+                    self)
 
         # extracts a dcr message
         data_offset = 14

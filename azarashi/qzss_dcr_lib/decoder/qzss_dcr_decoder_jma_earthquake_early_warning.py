@@ -30,7 +30,7 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
         except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Seismic Intensity Lower Limit : {ll}',
-                    self.sentence)
+                    self)
 
         ul = self.extract_field(126, 4)
         try:
@@ -38,7 +38,7 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
         except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Seismic Intensity Upper Limit : {ul}',
-                    self.sentence)
+                    self)
 
         self.eew_forecast_regions = []
         for i in range(80):
@@ -48,6 +48,6 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
                 except KeyError:
                     raise QzssDcrDecoderException(
                             f'Undefined JMA EEW Forecast Region: {i+1}',
-                            self.sentence)
+                            self)
 
         return QzssDcReportJmaEarthquakeEarlyWarning(**self.get_params())

@@ -20,7 +20,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         except KeyError:
             raise QzssDcrDecoderException(
                 f'Invalid Preamble: {pab}',
-                self.sentence)
+                self)
 
         # checks the crc
         crc = 0
@@ -39,7 +39,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         if crc != self.extract_field(226, 24):
             raise QzssDcrDecoderException(
                 'CRC Mismatch',
-                self.sentence)
+                self)
 
         # checks the message type
         mt = self.extract_field(8, 6)  # 6 bits
@@ -48,7 +48,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         except KeyError:
             raise QzssDcrDecoderException(
                 f'Undefined Message Type: {mt}',
-                self.sentence)
+                self)
 
         if mt == 43:
             next_decoder = QzssDcrDecoderJma
@@ -57,7 +57,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         else:
             raise QzssDcrDecoderException(
                 f'Unsupported Message Type: {mt}',
-                self.sentence)
+                self)
 
         rc = self.extract_field(14, 3)
         try:
@@ -66,7 +66,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         except KeyError:
             raise QzssDcrDecoderException(
                 f'Undefined Report Classification: {rc}',
-                self.sentence)
+                self)
         self.report_classification_no = rc
 
         # stacks the next decoder

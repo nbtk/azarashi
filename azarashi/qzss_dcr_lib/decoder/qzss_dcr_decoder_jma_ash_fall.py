@@ -20,7 +20,7 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
         else:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Ash Fall Warning Type: {dw1}',
-                    self.sentence)
+                    self)
 
         vo = self.extract_field(71, 12)
         try:
@@ -28,7 +28,7 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
         except KeyError:
             raise QzssDcrDecoderException(
                     f'Undefined JMA Volcano Name: {vo}',
-                    self.sentence)
+                    self)
 
         self.expected_ash_fall_times = []
         self.ash_fall_warning_codes = []
@@ -42,7 +42,7 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
             if 1 > ho > 6:
                 raise QzssDcrDecoderException(
                         f'Invalid JMA Expected Ash Fall Time: {ho}',
-                        self.sentence)
+                        self)
             self.expected_ash_fall_times.append(ho)
 
             dw2 = self.extract_field(offset+3, 3)
@@ -51,7 +51,7 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
             except KeyError:
                 raise QzssDcrDecoderException(
                         f'Undefined JMA Ash Fall Warning Code: {dw2}',
-                        self.sentence)
+                        self)
 
             self.local_governments.append(self.extract_local_government(offset+6))
 

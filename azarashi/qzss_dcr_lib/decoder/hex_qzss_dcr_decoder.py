@@ -16,11 +16,11 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
         if len(self.sentence) < 63:
             raise QzssDcrDecoderException(
                     'Too Short Sentence',
-                    self.sentence)
+                    self)
         if len(self.sentence) > 63:
             raise QzssDcrDecoderException(
                     'Too Long Sentence',
-                    self.sentence)
+                    self)
 
         # converts the message to bytes type
         try:
@@ -28,7 +28,7 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
         except ValueError:
             raise QzssDcrDecoderException(
                     'Invalid Message',
-                    self.sentence)
+                    self)
 
         self.nmea = self.message_to_nmea()
 
