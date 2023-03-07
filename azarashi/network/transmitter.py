@@ -4,8 +4,9 @@ import logging
 import argparse
 import socket
 import sys
-from azarashi import decode_stream
-from azarashi import QzssDcrDecoderException
+from ..qzss_dcr_lib.exception import QzssDcrDecoderException
+from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
+from ..qzss_dcr_lib.interface import decode_stream
 
 
 logger = logging.getLogger(__name__)
@@ -30,15 +31,14 @@ class Transmitter:
 
 
 def main():
-    import argparse
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
     parser = argparse.ArgumentParser(description='azarashi network transmitter', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-d', '--dst-host', type=str, default='ff02::1', help="destination host")
-    parser.add_argument('-p', '--dst-port', type=int, default=2112, help='destination port')
-    parser.add_argument('-t', '--msg-type', type=str, default='ublox', choices=['ublox', 'nmea', 'hex'], help="message type")
-    parser.add_argument('-f', '--input', type=str, default='stdin', help='input device')
-    parser.add_argument('-u', '--unique', action='store_true', help='supress duplicate messages')
+    parser.add_argument('-d', '--dst-host', help="destination host", type=str, default='ff02::1')
+    parser.add_argument('-p', '--dst-port', help='destination port', type=int, default=2112)
+    parser.add_argument('-t', '--msg-type', help="message type", type=str, choices=['ublox', 'nmea', 'hex'], default='ublox')
+    parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
+    parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     args = parser.parse_args()
     if args.input == 'stdin': 
         stream = sys.stdin
@@ -51,7 +51,7 @@ def main():
             xmitter.start(stream=stream, msg_type=args.msg_type, unique=args.unique)
         except QzssDcrDecoderException as e:
             logger.warning(f'[{type(e).__name__}] {e}')
-        except NotImplementedError as e:
+        except QzssDcrDecoderNotImplementedError as e:
             logger.warning(f'[{type(e).__name__}] {e}')
         except EOFError as e:
             logger.info(f'{e}')

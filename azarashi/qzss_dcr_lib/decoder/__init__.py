@@ -15,5 +15,6 @@ from .qzss_dcr_decoder_jma_typhoon import *
 from .qzss_dcr_decoder_jma_volcano import *
 from .qzss_dcr_decoder_jma_weather import *
 from .qzss_dcr_decoder_other_organization import *
+from .net_qzss_dcr_decoder import *
 from .nmea_qzss_dcr_decoder import *
 from .ublox_qzss_dcr_decoder import *

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import logging
+import argparse
 import socket
-import azarashi
 from pprint import pformat
+from ..qzss_dcr_lib.interface import decode
 
 
 logger = logging.getLogger(__name__)
@@ -33,7 +34,7 @@ class Receiver:
             while True:
                 data = sock.recvfrom(256)
                 payload = data[0]
-                callback(azarashi.decode(payload, 'net'),
+                callback(decode(payload, 'net'),
                          *callback_args, **callback_kwargs)
 
 
@@ -42,14 +43,13 @@ def simple_handler(report):
 
 
 def main():
-    import argparse
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
     parser = argparse.ArgumentParser(description='azarashi network receiver', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-b', '--bind-addr', type=str, default='::', help="address to bind")
-    parser.add_argument('-p', '--bind-port', type=int, default=2112, help='port to bind')
-    parser.add_argument('-i', '--bind-iface', type=str, default='any', help="iface to bind")
-    parser.add_argument('-v', '--verbose', action='store_true', help="verbose mode")
+    parser.add_argument('-b', '--bind-addr', help="address to bind", type=str, default='::')
+    parser.add_argument('-p', '--bind-port', help='port to bind', type=int, default=2112)
+    parser.add_argument('-i', '--bind-iface', help="iface to bind", type=str, default='any')
+    parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
     recver = Receiver(args.bind_addr, args.bind_port)
     if args.verbose:
