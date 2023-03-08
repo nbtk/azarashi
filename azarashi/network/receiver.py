@@ -22,11 +22,11 @@ class Receiver:
             self.bind_iface = (bind_iface + '\0').encode()
 
     @staticmethod
-    def default_handler(report, *callback_args, **callback_kwargs):
+    def default_handler(report):
         logger.info('- - - - - - - - - - - - - - - - - - - - - - - - - - - -\n' + pformat(report.get_params()) + '\n')
 
-    def start(self, callback=default_handler, callback_args=(), callback_kwargs={}):
-        callback = callback or self.handler
+    def start(self, callback=None, callback_args=(), callback_kwargs={}):
+        callback = callback or self.default_handler
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
             if self.bind_iface is not None:
                 sock.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, 'wlan0'.encode())
