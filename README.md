@@ -213,11 +213,11 @@ GPSアンテナは屋外や窓際に設置する必要があるため、それ�
 $ sudo python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyACM0
 ```
 もし Python3 インタプリタを sudo で実行したくない、あるいは sudo で実行される Python3 環境に azarashi をインストールしたくない場合は、次のように実行しても動作は同じです。
-```bash
+```sh
 $ sudo cat /dev/ttyACM0 | python3 -m azarashi.network.transmitter -t ublox
 ```
 オプションの下記のとおりです。
-```bash
+```sh
 usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {ublox,nmea,hex}] [-f INPUT] [-u]
 
 azarashi network transmitter
@@ -235,13 +235,13 @@ options:
   -u, --unique          supress duplicate messages (default: False)
 ```
 
-## Receiver
+### Receiver
 受信側のスクリプトです。
-```bash
+```sh
 $ python3 -m azarashi.network.receiver
 ```
 オプションの下記のとおりです。
-```bash
+```sh
 usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-v]
 
 azarashi network receiver
