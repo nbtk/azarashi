@@ -204,6 +204,59 @@ with open('/dev/ttyACM0', mode='r') as f:
             print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
 ```
 
+## Network
+GPSアンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータをUDPパケットに載せて再送するスクリプトを書きました。IPv4/IPv6両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
+
+### Transmitter
+送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。IPv4/IPv6両方に対応しています。なお、デバイスファイルの読込権限が必要なため sudo を使っていますが、このとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。
+```bash
+$ sudo python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyACM0
+```
+もし Python3 インタプリタを sudo で実行したくない、あるいは sudo で実行される Python3 環境に azarashi をインストールしたくない場合は、次のように実行しても動作は同じです。
+```bash
+$ sudo cat /dev/ttyACM0 | python3 -m azarashi.network.transmitter -t ublox
+```
+オプションの下記のとおりです。
+```bash
+usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {ublox,nmea,hex}] [-f INPUT] [-u]
+
+azarashi network transmitter
+
+options:
+  -h, --help            show this help message and exit
+  -d DST_HOST, --dst-host DST_HOST
+                        destination host (default: ff02::1)
+  -p DST_PORT, --dst-port DST_PORT
+                        destination port (default: 2112)
+  -t {ublox,nmea,hex}, --msg-type {ublox,nmea,hex}
+                        message type (default: ublox)
+  -f INPUT, --input INPUT
+                        input device (default: stdin)
+  -u, --unique          supress duplicate messages (default: False)
+```
+
+## Receiver
+受信側のスクリプトです。
+```bash
+$ python3 -m azarashi.network.receiver
+```
+オプションの下記のとおりです。
+```bash
+usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-v]
+
+azarashi network receiver
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -b BIND_ADDR, --bind-addr BIND_ADDR
+                        address to bind (default: ::)
+  -p BIND_PORT, --bind-port BIND_PORT
+                        port to bind (default: 2112)
+  -i BIND_IFACE, --bind-iface BIND_IFACE
+                        iface to bind (default: any)
+  -v, --verbose         verbose mode (default: False)
+```
+
 ## Note
 IS-QZSS-DCR-010をサポートしています。
 
