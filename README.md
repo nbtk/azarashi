@@ -26,6 +26,8 @@ enable_uart=1
 再起動して、シリアルデバイスが認識されていることを確認します。
 ```shell
 $ sudo reboot
+```
+```shell
 $ sudo stty -F /dev/ttyS0
 speed 9600 baud; line = 0;
 -brkint -imaxbel
