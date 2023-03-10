@@ -13,6 +13,12 @@ $ pip install azarashi
 
 ## Preparation
 デバイスに災危通報メッセージを出力させるための設定例です。
+### Ubuntu 22.04
+シリアルデバイスに sudo コマンドを使わずに読み書きしたいときは、ユーザを `dialout` グループに追加します。
+```shell
+$ sudo usermod -a -G dialout $USER
+$ logout # then re-login to the machine
+```
 ### U-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
 UARTを有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
 ```shell
@@ -45,15 +51,15 @@ $ sudo apt install gpsd gpsd-clients
 ```
 SFRBX メッセージの出力に関連する設定コマンドの例です。
 ```shell
-$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram 
-$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram 
-$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # sets 'enable'  to bbr (battery-backed ram)
-$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,2 # sets 'disable' to bbr (battery-backed ram)
-$ sudo ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX-CFG-VALGET # gets the state
+$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram 
+$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram 
+$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # sets 'enable'  to bbr (battery-backed ram)
+$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,2 # sets 'disable' to bbr (battery-backed ram)
+$ ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX-CFG-VALGET # gets the state
 ```
 設定コマンドを実行すると tty の設定が変更されるので、stty コマンドでデバイスファイルを raw に設定し直してください。
 ```shell
-$ sudo stty -F /dev/ttyS0 raw
+$ stty -F /dev/ttyS0 raw
 ```
 デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
 
@@ -94,8 +100,8 @@ $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarash
 stty コマンドでデバイスファイルを raw に設定し、azarashi コマンドに ublox オプションを指定します。USB ではなく UART を使っている場合は、適宜 stty コマンドのオプションを変更してください。
 #### M10S via UART
 ```shell
-$ sudo stty -F /dev/ttyS0 raw # via UART
-$ sudo cat /dev/ttyS0 | azarashi ublox
+$ stty -F /dev/ttyS0 raw # via UART
+$ cat /dev/ttyS0 | azarashi ublox
 ```
 #### F9P via USB
 ```shell
@@ -260,11 +266,11 @@ with open('/dev/ttyACM0', mode='r') as f:
 GPS アンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータを UDP パケットに載せて再送するスクリプトを書きました。 IPv4/IPv6 両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
 
 ### Transmitter
-送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。なお、デバイスファイルの読込権限が必要なため sudo を使っていますが、このとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。
+送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。
 ```shell
-$ sudo python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyACM0
+$ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyACM0
 ```
-もし Python3 インタプリタを sudo で実行したくない、あるいは sudo で実行される Python3 環境に azarashi をインストールしたくない場合は、次のように実行しても動作は同じです。
+なお、デバイスファイルの読込権限が足りず sudo コマンドを使って python3 インタプリタを実行するとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。あるいは次のように実行しても動作は同じです。
 ```shell
 $ sudo cat /dev/ttyACM0 | python3 -m azarashi.network.transmitter -t ublox
 ```
