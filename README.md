@@ -7,7 +7,7 @@ A QZSS DCR Decoder.
 azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。U-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を、準天頂衛星みちびき経由で送信するサービスです。
 
 ## Installation
-```
+```shell
 $ pip install azarashi
 ```
 
@@ -15,7 +15,7 @@ $ pip install azarashi
 デバイスに災危通報メッセージを出力させるための設定例です。
 ### U-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
 UARTを有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
-```
+```shell
 $ sudo vi /boot/firmware/config.txt
 [all]
 ...
@@ -24,25 +24,25 @@ $ sudo vi /boot/firmware/config.txt
 enable_uart=1
 ```
 再起動して、シリアルデバイスが認識されていることを確認します。
-```
+```shell
 $ sudo reboot
 $ sudo stty -F /dev/ttyS0
 speed 9600 baud; line = 0;
 -brkint -imaxbel
 ```
 もし `/dev/ttyS0` がない場合は、 dmsg コマンドで確認しましょう。
-```
+```shell
 $ sudo dmesg | grep serial
 [    0.525432] bcm2835-aux-uart fe215040.serial: there is not valid maps for state default
 [    0.527303] fe215040.serial: ttyS0 at MMIO 0xfe215040 (irq = 21, base_baud = 62500000) is a 16550
 ```
 データシートを参照して直接インストラクションを流し込むか、設定ツールをつかって RXM-SFRBX メッセージの出力を有効にしてください。設定ツール ubxtool は下記のようにインストールします。
-```
+```shell
 $ sudo apt update
 $ sudo apt install gpsd gpsd-clients
 ```
 下記はSFRBXメッセージの出力に関連する設定コマンドの例です。
-```
+```shell
 $ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram 
 $ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram 
 $ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # sets 'enable'  to bbr (battery-backed ram)
@@ -80,20 +80,20 @@ azarashi コマンドの標準入力にメッセージを流してください�
 
 ### Hexadecimal
 azarashi コマンドに hex オプションを指定してください。
-```
+```shell
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
 
 ### U-blox F9P
 stty コマンドでデバイスファイルを raw に設定し、azarashi コマンドに ublox オプションを指定します。USB ではなく UART を使っている場合は、適宜 stty コマンドのオプションを変更してください。
-```
+```shell
 $ stty -F /dev/ttyACM0 raw
 $ cat /dev/ttyACM0 | azarashi ublox
 ```
 
 ### Sony Spresense
 stty コマンドでデバイスファイルをデフォルト設定にし、azarashi コマンドに nmea オプションを指定します。
-```
+```shell
 $ stty -F /dev/ttyUSB0
 $ cat /dev/ttyUSB0 | azarashi nmea
 ```
@@ -108,7 +108,7 @@ $ cat /dev/ttyUSB0 | azarashi nmea
 ### decode()
 
 ```python
-azarashi.decode
+azarashi..decode(msg, msg_type='hex')
 ```
 
 * msg
@@ -148,7 +148,7 @@ azarashi.decode
 >>> from pprint import pprint
 >>> pprint(report.get_params())
 ```
-```
+```python
 {'assumptive': False,
  'depth_of_hypocenter': '10km',
  'disaster_category': '緊急地震速報',
@@ -186,8 +186,8 @@ azarashi.decode
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
 
 ```python
->>> msg2 = '9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0'
->>> report2 = azarashi.decode(msg2)
+>>> msg2 = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
+>>> report2 = azarashi.decode(msg2, 'nmea')
 >>> report == report2
 ```
 ```
@@ -249,15 +249,15 @@ GPS アンテナは屋外や窓際に設置する必要があるため、それ�
 
 ### Transmitter
 送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。なお、デバイスファイルの読込権限が必要なため sudo を使っていますが、このとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。
-```bash
+```shell
 $ sudo python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyACM0
 ```
 もし Python3 インタプリタを sudo で実行したくない、あるいは sudo で実行される Python3 環境に azarashi をインストールしたくない場合は、次のように実行しても動作は同じです。
-```sh
+```shell
 $ sudo cat /dev/ttyACM0 | python3 -m azarashi.network.transmitter -t ublox
 ```
 オプションの下記のとおりです。
-```sh
+```shell
 usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {ublox,nmea,hex}] [-f INPUT] [-u]
 
 azarashi network transmitter
@@ -277,11 +277,11 @@ options:
 
 ### Receiver
 受信側のスクリプトです。
-```sh
+```shell
 $ python3 -m azarashi.network.receiver
 ```
 オプションの下記のとおりです。
-```sh
+```shell
 usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-v]
 
 azarashi network receiver
@@ -301,4 +301,4 @@ optional arguments:
 IS-QZSS-DCR-010をサポートしています。
 
 ## Feedback
-不具合報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。お力添えください。
+イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。お力添えください。
