@@ -38,12 +38,12 @@ $ sudo dmesg | grep serial
 [    0.525432] bcm2835-aux-uart fe215040.serial: there is not valid maps for state default
 [    0.527303] fe215040.serial: ttyS0 at MMIO 0xfe215040 (irq = 21, base_baud = 62500000) is a 16550
 ```
-データシートを参照して直接インストラクションを流し込むか、設定ツールをつかって RXM-SFRBX メッセージの出力を有効にしてください。設定ツール ubxtool は下記のようにインストールします。
+データシートを参照して直接インストラクションを流し込むか、設定ツールをつかって SFRBX メッセージの出力を有効にしてください。設定ツール ubxtool は下記のようにインストールします。
 ```shell
 $ sudo apt update
 $ sudo apt install gpsd gpsd-clients
 ```
-下記はSFRBXメッセージの出力に関連する設定コマンドの例です。
+SFRBX メッセージの出力に関連する設定コマンドの例です。
 ```shell
 $ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram 
 $ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram 
@@ -51,10 +51,14 @@ $ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # set
 $ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,2 # sets 'disable' to bbr (battery-backed ram)
 $ sudo ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX-CFG-VALGET # gets the state
 ```
-災危通報メッセージを出力し始めるまでしばらく時間がかかります。
+設定コマンドを実行すると tty の設定が変更されるので、stty コマンドでデバイスファイルを raw に設定し直してください。
+```shell
+$ sudo stty -F /dev/ttyS0 raw
+```
+デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
 
 ### U-blox F9P < USB > Windows + U-center (GUI)
-設定ツール U-center で、RXM-SFRBX メッセージを出力するように設定してください。下記は RXM-SFRBX メッセージを USB に出力するための参考設定手順です。
+設定ツール U-center で、 SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
 ```
 Open U-center ->
   View -> Configuration View ->
@@ -86,10 +90,16 @@ azarashi コマンドに hex オプションを指定してください。
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
 
-### U-blox F9P
+### U-blox
 stty コマンドでデバイスファイルを raw に設定し、azarashi コマンドに ublox オプションを指定します。USB ではなく UART を使っている場合は、適宜 stty コマンドのオプションを変更してください。
+#### M10S via UART
 ```shell
-$ stty -F /dev/ttyACM0 raw
+$ sudo stty -F /dev/ttyS0 raw # via UART
+$ sudo cat /dev/ttyS0 | azarashi ublox
+```
+#### F9P via USB
+```shell
+$ stty -F /dev/ttyACM0 raw # via USB
 $ cat /dev/ttyACM0 | azarashi ublox
 ```
 
