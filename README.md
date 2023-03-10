@@ -4,7 +4,7 @@
 A QZSS DCR Decoder.
 
 ## Description
-azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。U-blox F9P と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を、準天頂衛星みちびき経由で送信するサービスです。
+azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。U-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を、準天頂衛星みちびき経由で送信するサービスです。
 
 ## Installation
 ```
@@ -12,7 +12,46 @@ $ pip install azarashi
 ```
 
 ## Preparation
-### U-blox F9P
+デバイスに災危通報メッセージを出力させるための設定例です。
+### U-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
+UARTを有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
+```
+$ sudo vi /boot/firmware/config.txt
+[all]
+...
+
+# Enable the UART port
+enable_uart=1
+```
+再起動して、シリアルデバイスが認識されていることを確認します。
+```
+$ sudo reboot
+$ sudo stty -F /dev/ttyS0
+speed 9600 baud; line = 0;
+-brkint -imaxbel
+```
+もし `/dev/ttyS0` がない場合は、 dmsg コマンドで確認しましょう。
+```
+$ sudo dmesg | grep serial
+[    0.525432] bcm2835-aux-uart fe215040.serial: there is not valid maps for state default
+[    0.527303] fe215040.serial: ttyS0 at MMIO 0xfe215040 (irq = 21, base_baud = 62500000) is a 16550
+```
+データシートを参照して直接インストラクションを流し込むか、設定ツールをつかって RXM-SFRBX メッセージの出力を有効にしてください。設定ツール ubxtool は下記のようにインストールします。
+```
+$ sudo apt update
+$ sudo apt install gpsd gpsd-clients
+```
+下記はSFRBXメッセージの出力に関連する設定コマンドの例です。
+```
+$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram 
+$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram 
+$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # sets 'enable'  to bbr (battery-backed ram)
+$ sudo ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,2 # sets 'disable' to bbr (battery-backed ram)
+$ sudo ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX-CFG-VALGET # gets the state
+```
+災危通報メッセージを出力し始めるまでしばらく時間がかかります。
+
+### U-blox F9P < USB > Windows + U-center (GUI)
 設定ツール U-center で、RXM-SFRBX メッセージを出力するように設定してください。下記は RXM-SFRBX メッセージを USB に出力するための参考設定手順です。
 ```
 Open U-center ->
@@ -31,6 +70,7 @@ Open U-center ->
   　　  Check the "RAM" and "Flash" boxes in the "Write to layer" ->
  　　　　   Send Configuration
 ```
+設定は永続化され、他の機器に接続し直しても災危通報メッセージを出力します。災危通報メッセージを出力し始めるまでしばらく時間がかかります。
 
 ### Sony Spresense
 [QZSS 災危通報 (QZQSM) の NMEA センテンスを出力するように設定してください。](https://developer.sony.com/develop/spresense/docs/arduino_tutorials_ja.html#_qzss_災危通報を出力する)
@@ -161,11 +201,11 @@ azarashi.decode_stream(stream, msg_type='hex', callback=None, callback_args=(), 
 
 * stream
 
-I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで 'ublox' なら raw モード、'nmea' ならテキストモードに設定してください。
+I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで `ublox` なら raw モード、`nmea` ならテキストモードに設定してください。
 
 * msg_type
 
-デフォルトは 'hex' 、オプションとして 'ublox' または 'nmea' を指定できます。
+デフォルトは `hex` 、オプションとして `ublox` または `nmea` を指定できます。
 
 * callback
 
@@ -184,7 +224,7 @@ callback(report, *callback_args, **callback_kwargs)
 
 * unique
 
-重複したメッセージを無視したいときは、True を指定してください。
+重複したメッセージを無視したいときは、`True` を指定してください。
 
 #### Example
 指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを print() に渡します。スクリプトを実行する前に、stty コマンドでデバイスファイルの設定をしておく必要があります。U-blox のGNSSモジュールでは、stty コマンドに raw オプションを指定して動作することを確認しています。
@@ -205,10 +245,10 @@ with open('/dev/ttyACM0', mode='r') as f:
 ```
 
 ## Network
-GPSアンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータをUDPパケットに載せて再送するスクリプトを書きました。IPv4/IPv6両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
+GPS アンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータを UDP パケットに載せて再送するスクリプトを書きました。 IPv4/IPv6 両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
 
 ### Transmitter
-送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。IPv4/IPv6両方に対応しています。なお、デバイスファイルの読込権限が必要なため sudo を使っていますが、このとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。
+送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。なお、デバイスファイルの読込権限が必要なため sudo を使っていますが、このとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。
 ```bash
 $ sudo python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyACM0
 ```
