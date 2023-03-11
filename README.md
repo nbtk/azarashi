@@ -126,7 +126,7 @@ $ cat /dev/ttyUSB0 | azarashi nmea
 ### decode()
 
 ```python
-azarashi..decode(msg, msg_type='hex')
+azarashi.decode(msg, msg_type='hex')
 ```
 
 * msg
