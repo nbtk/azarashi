@@ -41,14 +41,24 @@ def decode_stream(stream,
 
     while True:
         if msg_type == 'hex':
-            msg = hex_qzss_dcr_message_extractor(stream.readline)
-        elif msg_type == 'nmea' or msg_type == 'spresense':
-            msg = nmea_qzss_dcr_message_extractor(stream.readline)
-        elif msg_type == 'ublox':
-            if 'buffer' in dir(stream) and 'read1' in dir(stream.buffer):
-                msg = ublox_qzss_dcr_message_extractor(stream.buffer.read1)
+            if callable(getattr(stream, 'readline', None)):
+                msg = hex_qzss_dcr_message_extractor(stream.readline)
             else:
+                raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
+        elif msg_type == 'nmea' or msg_type == 'spresense':
+            if callable(getattr(stream, 'readline', None)):
+                msg = nmea_qzss_dcr_message_extractor(stream.readline)
+            else:
+                raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
+        elif msg_type == 'ublox':
+            if callable(getattr(stream, 'read1', None)):
                 msg = ublox_qzss_dcr_message_extractor(stream.read1)
+            elif hasattr(stream, 'buffer') and callable(getattr(stream.buffer, 'read1', None)):
+                msg = ublox_qzss_dcr_message_extractor(stream.buffer.read1)
+            elif callable(getattr(stream, 'read', None)):
+                msg = ublox_qzss_dcr_message_extractor(stream.read, reader_kwargs={'size': 1})
+            else:
+                raise QzssDcrDecoderException(f'read() nor read1() do not exist: {type(stream)}')
         else:
             raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
 
