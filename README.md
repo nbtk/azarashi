@@ -1,28 +1,20 @@
 [![Downloads](https://static.pepy.tech/personalized-badge/azarashi?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/azarashi)
-
 # Azarashi
 A QZSS DCR Decoder.
-
 ## Description
 azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を、準天頂衛星みちびき経由で送信するサービスです。
-
 ## Installation
 ```shell
 $ pip install azarashi
 ```
-
 ## Preparation
 デバイスに災危通報メッセージを出力させるための設定例です。
-### Ubuntu 22.04
-シリアルデバイスに sudo コマンドを使わずに読み書きしたいときは、ユーザを `dialout` グループに追加します。
-```shell
-$ sudo usermod -a -G dialout $USER
-$ logout # then re-login to the machine
-```
 ### u-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
 UARTを有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
 ```shell
 $ sudo vi /boot/firmware/config.txt
+```
+```shell
 [all]
 ...
 
@@ -33,16 +25,29 @@ enable_uart=1
 ```shell
 $ sudo reboot
 ```
+`/dev/ttyS0` の状態を確認しましょう。
 ```shell
-$ sudo stty -F /dev/ttyS0
-speed 9600 baud; line = 0;
--brkint -imaxbel
+$ stat /dev/ttyS0 
 ```
-もし `/dev/ttyS0` がない場合は、 dmsg コマンドで確認しましょう。
+```shell
+  File: /dev/ttyS0
+  Size: 0         	Blocks: 0          IO Block: 4096   character special file
+Device: 5h/5d	Inode: 602         Links: 1     Device type: 4,40
+Access: (0660/crw-rw----)  Uid: (    0/    root)   Gid: (   20/ dialout)
+...
+```
+もし `/dev/ttyS0` が存在しない場合は、dmsg コマンドで確認しましょう。ファイル名が異なるか、UART ポートを有効化する設定が間違っているか、有効化に失敗していることが考えられます。
 ```shell
 $ sudo dmesg | grep serial
+```
+```shell
 [    0.525432] bcm2835-aux-uart fe215040.serial: there is not valid maps for state default
 [    0.527303] fe215040.serial: ttyS0 at MMIO 0xfe215040 (irq = 21, base_baud = 62500000) is a 16550
+```
+シリアルデバイスに sudo コマンドを使わずに読み書きしたいときは、ユーザを `dialout` グループに追加します。
+```shell
+$ sudo usermod -a -G dialout $USER
+$ logout # then re-login to the machine
 ```
 データシートを参照して直接インストラクションを流し込むか、設定ツールをつかって SFRBX メッセージの出力を有効にしてください。設定ツール ubxtool は下記のようにインストールします。
 ```shell
@@ -57,14 +62,13 @@ $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # sets 'en
 $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,2 # sets 'disable' to bbr (battery-backed ram)
 $ ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX-CFG-VALGET # gets the state
 ```
-設定コマンドを実行すると tty の設定が変更されるので、stty コマンドでデバイスファイルを raw に設定し直してください。
+設定コマンドを実行すると tty の設定が変更されるので、stty コマンドでデバイスファイルを `raw` に設定し直してください。
 ```shell
 $ stty -F /dev/ttyS0 raw
 ```
 デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
-
 ### u-blox F9P < USB > Windows + u-center (GUI)
-設定ツール u-center で、 SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
+設定ツール u-center で、SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
 ```
 Open u-center ->
   View -> Configuration View ->
@@ -83,62 +87,66 @@ Open u-center ->
  　　　　   Send Configuration
 ```
 設定は永続化され、他の機器に接続し直しても災危通報メッセージを出力します。デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
-
 ### Sony Spresense
 [QZSS 災危通報 (QZQSM) の NMEA センテンスを出力するように設定してください。](https://developer.sony.com/develop/spresense/docs/arduino_tutorials_ja.html#_qzss_災危通報を出力する)
-
 ## CLI
-azarashi コマンドの標準入力にメッセージを流してください。
+azarashi コマンドをつかうとプログラミングすることなく災危通報メッセージをデコードできます。
+```shell
+$ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05' | azarashi nmea
+```
+オプションは下記のとおりです。
+```shell
+usage: azarashi [-h] [-f INPUT] [-s] [-u] [-v] {ublox,nmea,hex}
 
+azarashi CLI
+
+positional arguments:
+  {ublox,nmea,hex}      message type
+
+options:
+  -h, --help            show this help message and exit
+  -f INPUT, --input INPUT
+                        input device (default: stdin)
+  -s, --source          output the source messages (default: False)
+  -u, --unique          supress duplicate messages (default: False)
+  -v, --verbose         verbose mode (default: False)
+```
+### u-blox
+stty コマンドでデバイスファイルを `raw` に設定し、azarashi コマンドに ublox オプションを指定します。デバイスファイルのパスは適宜変更してください。
+```shell
+$ stty -F /dev/ttyS0 raw
+```
+azarashi コマンドに ublox オプションを指定します。
+```shell
+$ azarashi ublox -f /dev/ttyS0
+```
+なお、デバイスファイルの読込権限が足りず sudo コマンドを使って python3 インタプリタを実行するとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。あるいは次のように実行しても動作は同じです。
+```shell
+$ sudo cat /dev/ttyS0 | azarashi ublox
+```
+### Sony Spresense
+stty コマンドでデバイスファイルをデフォルト設定にします。
+```shell
+$ stty -F /dev/ttyUSB0
+```
+azarashi コマンドに nmea オプションを指定します。
+```shell
+$ azarashi nmea -f /dev/ttyUSB0
+```
 ### Hexadecimal
-azarashi コマンドに hex オプションを指定してください。
+azarashi コマンドに `hex` オプションを指定してください。`hex` はヘッダ、チェックサム、衛星情報を含まない、災害危機通報メッセージのみの形式です。
 ```shell
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
-
-### u-blox
-stty コマンドでデバイスファイルを raw に設定し、azarashi コマンドに ublox オプションを指定します。USB ではなく UART を使っている場合は、適宜 stty コマンドのオプションを変更してください。
-#### M10S via UART
-```shell
-$ stty -F /dev/ttyS0 raw # via UART
-$ cat /dev/ttyS0 | azarashi ublox
-```
-#### F9P via USB
-```shell
-$ stty -F /dev/ttyACM0 raw # via USB
-$ cat /dev/ttyACM0 | azarashi ublox
-```
-
-### Sony Spresense
-stty コマンドでデバイスファイルをデフォルト設定にし、azarashi コマンドに nmea オプションを指定します。
-```shell
-$ stty -F /dev/ttyUSB0
-$ cat /dev/ttyUSB0 | azarashi nmea
-```
-
-### --unique Option
-重複したメッセージを表示しません。
-
-### --source Option
-デコード前のメッセージを表示します。
-
 ## API
 ### decode()
-
 ```python
 azarashi.decode(msg, msg_type='hex')
 ```
-
-* msg
-
-メッセージを渡してください。メッセージは bytes 型または str 型です。
-
-* msg_type
-
-デフォルトは 'hex' 、オプションとして 'ublox' または 'nmea' を指定できます。'ublox' を指定したときメッセージは bytes 型、'nmea' を指定したときメッセージは str 型です。
-
+- `msg`: メッセージを渡してください。メッセージは str 型または bytes 型です。
+- `msg_type`: デフォルトは `hex` 、オプションとして `ublox` または `nmea` を指定できます。`hex` または `nmea` を指定したときメッセージは str 型、`ublox` を指定したときメッセージは bytes 型です。
 #### Example
-デコードして得られたレポートオブジェクトを print() にわたすと、ヒューマンリーダブルな災害情報を返します。
+デコードして得られたレポートオブジェクトを `print()` にわたすと、ヒューマンリーダブルな災害情報を返します。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
@@ -161,7 +169,7 @@ azarashi.decode(msg, msg_type='hex')
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-レポートオブジェクトからパラメータを取得するには、get_params() メソッドを使います。
+レポートオブジェクトからパラメータを取得するには、`get_params()` メソッドを使います。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params())
@@ -202,7 +210,6 @@ azarashi.decode(msg, msg_type='hex')
  'timestamp': datetime.datetime(2022, 4, 8, 15, 8, 52, 930551)}
 ```
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
-
 ```python
 >>> msg2 = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
 >>> report2 = azarashi.decode(msg2, 'nmea')
@@ -211,68 +218,93 @@ azarashi.decode(msg, msg_type='hex')
 ```
 True
 ```
-
 ### decode_stream()
 ```python
 azarashi.decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_kwargs={}, unique=False)
 ```
-
-* stream
-
-I/Oストリームを渡してください。デバイスファイルを open して渡すときは、事前に stty コマンドで `ublox` なら raw モード、`nmea` ならテキストモードに設定してください。
-
-* msg_type
-
-デフォルトは `hex` 、オプションとして `ublox` または `nmea` を指定できます。
-
-* callback
-
-メッセージをデコードしたあとに実行されるコールバック関数です。None の場合、decode_stream() はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合、decode_stream() は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。下記はコールバック関数のインタフェースです。
+- `stream`: I/Oストリームを渡してください。デバイスファイルを `open()` して渡すときは、事前に stty コマンドで `ublox` なら `raw` モード、`nmea` ならデフォルト設定にしてください。pySerial でデバイスファイルを `open()` して渡すときは、stty コマンドによる設定は不要です。
+- `msg_type`: デフォルトは `hex` 、オプションとして `ublox` または `nmea` を指定できます。
+- `callback`: メッセージをデコードしたあとに実行されるコールバック関数です。`None` の場合、`decode_stream()` はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合、`decode_stream()` は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。下記はコールバック関数のインタフェースです。
 ```python
 callback(report, *callback_args, **callback_kwargs)
 ```
-
-* calback_args
-
-コールバック関数に渡される引数です。
-
-* callback_kwargs
-
-コールバック関数に渡されるキーワード引数です。
-
-* unique
-
-重複したメッセージを無視したいときは、`True` を指定してください。
-
+- `calback_args`: コールバック関数に渡される引数です。
+- `callback_kwargs`: コールバック関数に渡されるキーワード引数です。
+- `unique`: 重複したメッセージを無視したいときは、`True` を指定してください。
 #### Example
-指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを print() に渡します。スクリプトを実行する前に、stty コマンドでデバイスファイルの設定をしておく必要があります。u-blox のGNSSモジュールでは、stty コマンドに raw オプションを指定して動作することを確認しています。
+指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
+```python
+>>> import azarashi
+>>> f = open('/dev/ttyS0', mode='r')
+>>> azarashi.decode_stream(f, msg_type='ublox', callback=print)
+```
+### QzssDcrDecoderException
+この例外クラスは何らかの理由でデコードに失敗したときに送出されます。エラーメッセージを表示すると問題解決の一助となるでしょう。
+### QzssDcrDecoderNotImplementedError
+`NotImplementedError` を継承した例外クラスです。実験的な配信など、デコーダが対応していないメッセージを受け取ったときに送出されます。配信がはじまると騒々しいのでデバッグ以外ではこの例外を握りつぶしたほうがよいかもしれません。
+## Examples
+### I/O Stream
+例外処理を加えた簡単なプログラムの例です。
 ```python
 import azarashi
 import sys
 
-with open('/dev/ttyACM0', mode='r') as f:
-    while True:
-        try:
-            azarashi.decode_stream(f,
-                                   msg_type='ublox',
-                                   callback=print)
-        except azarashi.QzssDcrDecoderException as e:
-            print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
-        except NotImplementedError as e:
-            print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+def example():
+    with open('/dev/ttyS0', mode='r') as f:
+        while True:
+            try:
+                azarashi.decode_stream(f, msg_type='ublox', callback=print)
+            except azarashi.QzssDcrDecoderException as e:
+                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+            except azarashi.QzssDcrDecoderNotImplementedError as e:
+                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+            except EOFError as e:
+                print(f'{e}\n', file=sys.stderr)
+                return 0
+            except Exception as e:
+                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                return 1
+
+exit(example())
 ```
+### pySerial
+[pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを `open()` して `decode_stream()` に渡すこともできます。この方法では stty コマンドによる設定は不要です。
+```python
+import azarashi
+import serial
+import pprint
 
+def handler(report):
+    pprint.pprint(report.get_params())
+
+def example():
+    with serial.Serial('/dev/ttyS0', 9600) as ser:
+        while True:
+            try:
+                azarashi.decode_stream(ser, 'ublox', handler, unique=True)
+            except azarashi.QzssDcrDecoderException as e:
+                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+            except azarashi.QzssDcrDecoderNotImplementedError as e:
+                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+            except EOFError as e:
+                print(f'{e}\n', file=sys.stderr)
+                return 0
+            except Exception as e:
+                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                return 1
+
+exit(example())
+```
 ## Network
-GPS アンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータを UDP パケットに載せて再送するスクリプトを書きました。 IPv4/IPv6 両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
-
+GPS アンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータを UDP パケットに載せて再送するスクリプトを書きました。IPv4/IPv6 両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
 ### Transmitter
 送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。
 ```shell
-$ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyACM0
+$ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0
 ```
 なお、デバイスファイルの読込権限が足りず sudo コマンドを使って python3 インタプリタを実行するとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。あるいは次のように実行しても動作は同じです。
 ```shell
-$ sudo cat /dev/ttyACM0 | python3 -m azarashi.network.transmitter -t ublox
+$ sudo cat /dev/ttyS0 | python3 -m azarashi.network.transmitter -t ublox
 ```
 オプションの下記のとおりです。
 ```shell
@@ -292,7 +324,6 @@ options:
                         input device (default: stdin)
   -u, --unique          supress duplicate messages (default: False)
 ```
-
 ### Receiver
 受信側のスクリプトです。
 ```shell
@@ -314,9 +345,7 @@ optional arguments:
                         iface to bind (default: any)
   -v, --verbose         verbose mode (default: False)
 ```
-
 ## Note
 IS-QZSS-DCR-010をサポートしています。
-
 ## Feedback
-イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。お力添えください。
+イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
