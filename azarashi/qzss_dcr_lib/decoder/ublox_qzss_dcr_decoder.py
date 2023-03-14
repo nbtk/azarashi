@@ -3,7 +3,7 @@ from ..decoder import QzssDcrDecoderBase
 from ..decoder import QzssDcrDecoder
 from ..report import QzssDcReportBase
 from ..definition import ublox_qzss_dcr_message_header
-from ..definition import qzss_dcr_satellite_prn_code
+from ..definition import qzss_dcr_satellite_prn
 
 
 class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
@@ -37,7 +37,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # extracts a satellite id
         self.satellite_id = self.sentence[7] + 51
-        self.satellite_prn_code = self.satellite_id | 0x80
+        self.satellite_prn = self.satellite_id | 0x80
 
         # checks the signal id
         sig_id = self.sentence[8]

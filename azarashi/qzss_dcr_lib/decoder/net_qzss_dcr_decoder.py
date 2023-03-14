@@ -32,7 +32,7 @@ class NetQzssDcrDecoder(QzssDcrDecoderBase):
 
         # extracts a satellite id
         self.satellite_id = self.sentence[0]
-        self.satellite_prn_code = self.satellite_id | 0x80
+        self.satellite_prn = self.satellite_id | 0x80
 
         # generates a nmea sentence
         self.nmea = self.message_to_nmea()

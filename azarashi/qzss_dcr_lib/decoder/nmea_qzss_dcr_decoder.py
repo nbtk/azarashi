@@ -3,7 +3,7 @@ from ..decoder import QzssDcrDecoderBase
 from ..decoder import QzssDcrDecoder
 from ..report import QzssDcReportBase
 from ..definition import nmea_qzss_dcr_message_header
-from ..definition import qzss_dcr_satellite_prn_code
+from ..definition import qzss_dcr_satellite_prn
 
 
 class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
@@ -73,7 +73,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
                 f'Invalid Satellite ID: {sat_id}',
                 self)
         self.satellite_id = int(sat_id)
-        self.satellite_prn_code = self.satellite_id | 0x80
+        self.satellite_prn = self.satellite_id | 0x80
 
         # converts the message to bytes type
         try:

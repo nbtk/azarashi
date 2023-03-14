@@ -4,7 +4,7 @@
 A QZSS DCR Decoder.
 
 ## Description
-azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。U-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を、準天頂衛星みちびき経由で送信するサービスです。
+azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を、準天頂衛星みちびき経由で送信するサービスです。
 
 ## Installation
 ```shell
@@ -19,7 +19,7 @@ $ pip install azarashi
 $ sudo usermod -a -G dialout $USER
 $ logout # then re-login to the machine
 ```
-### U-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
+### u-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
 UARTを有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
 ```shell
 $ sudo vi /boot/firmware/config.txt
@@ -63,10 +63,10 @@ $ stty -F /dev/ttyS0 raw
 ```
 デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
 
-### U-blox F9P < USB > Windows + U-center (GUI)
-設定ツール U-center で、 SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
+### u-blox F9P < USB > Windows + u-center (GUI)
+設定ツール u-center で、 SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
 ```
-Open U-center ->
+Open u-center ->
   View -> Configuration View ->
     CFG (Configuration) -> Revert to default configuration -> Send
     MSG (Messages) -> Messages -> 02-13 RXM-SFRBX ->
@@ -74,9 +74,9 @@ Open U-center ->
     NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
     CFG (Configuration) -> Save current configuration -> Send
 ```
-設定ツール U-center で、QZSS の L1S シグナル受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
+設定ツール u-center で、QZSS の L1S シグナル受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
 ```
-Open U-center ->
+Open u-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
     Check All the "GPS" and "QZSS" boxes ->
   　　  Check the "RAM" and "Flash" boxes in the "Write to layer" ->
@@ -96,7 +96,7 @@ azarashi コマンドに hex オプションを指定してください。
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
 
-### U-blox
+### u-blox
 stty コマンドでデバイスファイルを raw に設定し、azarashi コマンドに ublox オプションを指定します。USB ではなく UART を使っている場合は、適宜 stty コマンドのオプションを変更してください。
 #### M10S via UART
 ```shell
@@ -194,7 +194,7 @@ azarashi.decode(msg, msg_type='hex')
  'report_classification_no': 7,
  'report_time': datetime.datetime(2022, 3, 10, 1, 0),
  'satellite_id': 55,
- 'satellite_prn_code': 183,
+ 'satellite_prn': 183,
  'seismic_epicenter': '日向灘',
  'seismic_intensity_lower_limit': '震度6弱',
  'seismic_intensity_upper_limit': '〜程度以上',
@@ -245,7 +245,7 @@ callback(report, *callback_args, **callback_kwargs)
 重複したメッセージを無視したいときは、`True` を指定してください。
 
 #### Example
-指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを print() に渡します。スクリプトを実行する前に、stty コマンドでデバイスファイルの設定をしておく必要があります。U-blox のGNSSモジュールでは、stty コマンドに raw オプションを指定して動作することを確認しています。
+指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを print() に渡します。スクリプトを実行する前に、stty コマンドでデバイスファイルの設定をしておく必要があります。u-blox のGNSSモジュールでは、stty コマンドに raw オプションを指定して動作することを確認しています。
 ```python
 import azarashi
 import sys

@@ -34,7 +34,7 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
                  nmea,
                  message_header=None,
                  satellite_id=None,
-                 satellite_prn_code=None,
+                 satellite_prn=None,
                  sentence=None,
                  **kwargs):
         if sentence is None:
@@ -44,7 +44,7 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
         self.nmea = nmea
         self.message_header = message_header
         self.satellite_id = satellite_id
-        self.satellite_prn_code = satellite_prn_code
+        self.satellite_prn = satellite_prn
         self.raw = self.message[1:27] + bytes((self.message[27] & 0xF0,))
 
 

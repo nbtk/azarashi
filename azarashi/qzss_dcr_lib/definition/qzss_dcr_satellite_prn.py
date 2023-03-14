@@ -1,4 +1,4 @@
-qzss_dcr_satellite_prn_code: dict[int, str] = {
+qzss_dcr_satellite_prn: dict[int, str] = {
     55: 'PRN183',
     56: 'PRN184',
     57: 'PRN185',
