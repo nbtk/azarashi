@@ -9,7 +9,7 @@ from azarashi import decode_stream
 
 def main():
     parser = argparse.ArgumentParser(description='azarashi CLI', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('type', help='message type', type=str, choices=['ublox', 'nmea', 'hex'])
+    parser.add_argument('type', help='message type', type=str, choices=['hex', 'nmea', 'ublox'])
     parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
     parser.add_argument('-s', '--source', help='output the source messages', action='store_true')
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
