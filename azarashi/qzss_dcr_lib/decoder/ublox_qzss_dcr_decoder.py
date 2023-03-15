@@ -3,7 +3,6 @@ from ..decoder import QzssDcrDecoderBase
 from ..decoder import QzssDcrDecoder
 from ..report import QzssDcReportBase
 from ..definition import ublox_qzss_dcr_message_header
-from ..definition import qzss_dcr_satellite_prn
 
 
 class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
@@ -26,6 +25,18 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         if self.message_header != ublox_qzss_dcr_message_header:
             raise QzssDcrDecoderException(
                     f'Unknown Message Header: {self.message_header}',
+                    self)
+
+        # checks the fletcher's checksum
+        sum_a = sum_b = 0
+        for b in self.sentence[2: -2]:
+           sum_a += b
+           sum_b += sum_a
+        sum_a &= 0xff
+        sum_b &= 0xff
+        if sum_a != self.sentence[-2] or sum_b != self.sentence[-1]:
+            raise QzssDcrDecoderException(
+                    'Checksum Mismatch',
                     self)
 
         # checks the gnss id
