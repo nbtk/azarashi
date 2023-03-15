@@ -301,7 +301,7 @@ $ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0
 ```shell
 $ sudo cat /dev/ttyS0 | python3 -m azarashi.network.transmitter -t ublox
 ```
-オプションの下記のとおりです。
+オプションは下記のとおりです。
 ```shell
 usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {hex,nmea,ublox}] [-f INPUT] [-u]
 
@@ -324,7 +324,7 @@ options:
 ```shell
 $ python3 -m azarashi.network.receiver
 ```
-オプションの下記のとおりです。
+オプションは下記のとおりです。
 ```shell
 usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-v]
 
