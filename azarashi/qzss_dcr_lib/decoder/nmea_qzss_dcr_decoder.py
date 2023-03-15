@@ -3,7 +3,6 @@ from ..decoder import QzssDcrDecoderBase
 from ..decoder import QzssDcrDecoder
 from ..report import QzssDcReportBase
 from ..definition import nmea_qzss_dcr_message_header
-from ..definition import qzss_dcr_satellite_prn
 
 
 class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
