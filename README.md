@@ -68,7 +68,9 @@ $ stty -F /dev/ttyS0 raw
 ```
 デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
 ### u-blox F9P < USB > Windows + u-center (GUI)
-設定ツール u-center で、SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
+設定ツール [u-center](https://www.u-blox.com/en/product/u-center) をダウンロードし、インストールしてください。
+
+u-center で、SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
 ```
 Open u-center ->
   View -> Configuration View ->
@@ -78,7 +80,7 @@ Open u-center ->
     NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
     CFG (Configuration) -> Save current configuration -> Send
 ```
-設定ツール u-center で、QZSS の L1S シグナル受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
+u-center で、QZSS の L1S シグナル受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
 ```
 Open u-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
@@ -96,12 +98,12 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 ```
 オプションは下記のとおりです。
 ```shell
-usage: azarashi [-h] [-f INPUT] [-s] [-u] [-v] {ublox,nmea,hex}
+usage: azarashi [-h] [-f INPUT] [-s] [-u] [-v] {hex,nmea,ublox}
 
 azarashi CLI
 
 positional arguments:
-  {ublox,nmea,hex}      message type
+  {hex,nmea,ublox}      message type
 
 options:
   -h, --help            show this help message and exit
@@ -134,17 +136,17 @@ azarashi コマンドに nmea オプションを指定します。
 $ azarashi nmea -f /dev/ttyUSB0
 ```
 ### Hexadecimal
-azarashi コマンドに `hex` オプションを指定してください。`hex` はヘッダ、チェックサム、衛星情報を含まない、災害危機通報メッセージのみの形式です。
+azarashi コマンドに `hex` オプションを指定してください。`hex` はヘッダ、チェックサムを含まない16進数文字列のメッセージ形式です。
 ```shell
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
 ## API
 ### decode()
 ```python
-azarashi.decode(msg, msg_type='hex')
+azarashi.decode(msg, msg_type='nmea')
 ```
 - `msg`: メッセージを渡してください。メッセージは str 型または bytes 型です。
-- `msg_type`: デフォルトは `hex` 、オプションとして `ublox` または `nmea` を指定できます。`hex` または `nmea` を指定したときメッセージは str 型、`ublox` を指定したときメッセージは bytes 型です。
+- `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。`nmea` または `hex` を指定したときメッセージは str 型、`ublox` を指定したときメッセージは bytes 型です。
 #### Example
 デコードして得られたレポートオブジェクトを `print()` にわたすと、ヒューマンリーダブルな災害情報を返します。
 ```python
@@ -220,10 +222,10 @@ True
 ```
 ### decode_stream()
 ```python
-azarashi.decode_stream(stream, msg_type='hex', callback=None, callback_args=(), callback_kwargs={}, unique=False)
+azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs={}, unique=False)
 ```
 - `stream`: I/Oストリームを渡してください。デバイスファイルを `open()` して渡すときは、事前に stty コマンドで `ublox` なら `raw` モード、`nmea` ならデフォルト設定にしてください。pySerial でデバイスファイルを `open()` して渡すときは、stty コマンドによる設定は不要です。
-- `msg_type`: デフォルトは `hex` 、オプションとして `ublox` または `nmea` を指定できます。
+- `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。
 - `callback`: メッセージをデコードしたあとに実行されるコールバック関数です。`None` の場合、`decode_stream()` はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合、`decode_stream()` は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。下記はコールバック関数のインタフェースです。
 ```python
 callback(report, *callback_args, **callback_kwargs)
@@ -308,7 +310,7 @@ $ sudo cat /dev/ttyS0 | python3 -m azarashi.network.transmitter -t ublox
 ```
 オプションの下記のとおりです。
 ```shell
-usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {ublox,nmea,hex}] [-f INPUT] [-u]
+usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {hex,nmea,ublox}] [-f INPUT] [-u]
 
 azarashi network transmitter
 
@@ -318,7 +320,7 @@ options:
                         destination host (default: ff02::1)
   -p DST_PORT, --dst-port DST_PORT
                         destination port (default: 2112)
-  -t {ublox,nmea,hex}, --msg-type {ublox,nmea,hex}
+  -t {hex,nmea,ublox}, --msg-type {hex,nmea,ublox}
                         message type (default: ublox)
   -f INPUT, --input INPUT
                         input device (default: stdin)
