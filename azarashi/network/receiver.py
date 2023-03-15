@@ -29,7 +29,7 @@ class Receiver:
         callback = callback or self.default_handler
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
             if self.bind_iface is not None:
-                sock.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, 'wlan0'.encode())
+                sock.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, self.bind_iface)
             sock.bind(self.addr_info[-1])
             while True:
                 data = sock.recvfrom(256)
