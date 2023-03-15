@@ -13,7 +13,7 @@ cache_size = 256
 cache_expiration = 3600 * 24
 
 
-def decode(msg, msg_type='hex'):
+def decode(msg, msg_type='nmea'):
     if not msg:
         raise EOFError('Encountered EOF')
 
@@ -30,7 +30,7 @@ def decode(msg, msg_type='hex'):
 
 
 def decode_stream(stream,
-                  msg_type='hex',
+                  msg_type='nmea',
                   callback=None,
                   callback_args=(),
                   callback_kwargs={},
