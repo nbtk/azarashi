@@ -2,7 +2,7 @@
 # Azarashi
 A QZSS DCR Decoder.
 ## Description
-azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を、準天頂衛星みちびき経由で送信するサービスです。
+azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を準天頂衛星みちびき経由で送信するサービスです。
 ## Installation
 ```shell
 $ pip install azarashi
@@ -114,7 +114,7 @@ options:
   -v, --verbose         verbose mode (default: False)
 ```
 ### u-blox
-stty コマンドでデバイスファイルを `raw` に設定し、azarashi コマンドに ublox オプションを指定します。デバイスファイルのパスは適宜変更してください。
+stty コマンドでデバイスファイルを `raw` に設定し、azarashi コマンドのメッセージタイプに `ublox` を指定します。デバイスファイルのパスは適宜変更してください。
 ```shell
 $ stty -F /dev/ttyS0 raw
 ```
@@ -136,7 +136,7 @@ azarashi コマンドに nmea オプションを指定します。
 $ azarashi nmea -f /dev/ttyUSB0
 ```
 ### Hexadecimal
-azarashi コマンドに `hex` オプションを指定してください。`hex` はヘッダ、チェックサムを含まない16進数文字列のメッセージ形式です。
+azarashi コマンドのメッセージタイプに `hex` を指定してください。`hex` はヘッダ、チェックサムを含まない16進数文字列のメッセージ形式です。
 ```shell
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
