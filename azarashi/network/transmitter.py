@@ -36,7 +36,7 @@ def main():
     parser = argparse.ArgumentParser(description='azarashi network transmitter', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-d', '--dst-host', help="destination host", type=str, default='ff02::1')
     parser.add_argument('-p', '--dst-port', help='destination port', type=int, default=2112)
-    parser.add_argument('-t', '--msg-type', help="message type", type=str, choices=['ublox', 'nmea', 'hex'], default='ublox')
+    parser.add_argument('-t', '--msg-type', help="message type", type=str, choices=['hex', 'nmea', 'ublox'], default='nmea')
     parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     args = parser.parse_args()
