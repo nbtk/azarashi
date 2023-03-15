@@ -273,6 +273,7 @@ exit(example())
 [pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを `open()` して `decode_stream()` に渡すこともできます。この方法では stty コマンドによる設定は不要です。
 ```python
 import azarashi
+import sys
 import serial
 import pprint
 
