@@ -5,7 +5,7 @@ class QzssDcrDecoderException(Exception):
         super().__init__(self.message)
 
     def __str__(self):
-        sentence = getattr(self.instance, 'nmea') or getattr(self.instance, 'sentence')
+        sentence = getattr(self.instance, 'nmea', None) or getattr(self.instance, 'sentence', None)
         if sentence is None:
             return f'{self.message}'
         elif type(sentence) is bytes:
@@ -22,7 +22,7 @@ class QzssDcrDecoderNotImplementedError(NotImplementedError):
         super().__init__(self.message)
 
     def __str__(self):
-        sentence = getattr(self.instance, 'nmea') or getattr(self.instance, 'sentence')
+        sentence = getattr(self.instance, 'nmea', None) or getattr(self.instance, 'sentence', None)
         if sentence is None:
             return f'{self.message}'
         elif type(sentence) is bytes:
