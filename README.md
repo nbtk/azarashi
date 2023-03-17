@@ -249,14 +249,14 @@ def example():
             try:
                 azarashi.decode_stream(f, msg_type='ublox', callback=print)
             except azarashi.QzssDcrDecoderException as e:
-                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except azarashi.QzssDcrDecoderNotImplementedError as e:
-                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except EOFError as e:
-                print(f'{e}\n', file=sys.stderr)
+                print(f'{e}', file=sys.stderr)
                 return 0
             except Exception as e:
-                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
                 return 1
 
 exit(example())
@@ -278,14 +278,14 @@ def example():
             try:
                 azarashi.decode_stream(ser, 'ublox', handler, unique=True)
             except azarashi.QzssDcrDecoderException as e:
-                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except azarashi.QzssDcrDecoderNotImplementedError as e:
-                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except EOFError as e:
-                print(f'{e}\n', file=sys.stderr)
+                print(f'{e}', file=sys.stderr)
                 return 0
             except Exception as e:
-                print(f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
                 return 1
 
 exit(example())
