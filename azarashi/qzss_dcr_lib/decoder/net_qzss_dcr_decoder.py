@@ -1,5 +1,5 @@
-from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder import QzssDcrDecoder
+from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportBase
 
@@ -15,20 +15,20 @@ class NetQzssDcrDecoder(QzssDcrDecoderBase):
 
         if len(self.sentence) < 33:
             raise QzssDcrDecoderException(
-                    'Too Short Sentence',
-                    self)
+                'Too Short Sentence',
+                self)
         if len(self.sentence) > 33:
             raise QzssDcrDecoderException(
-                    'Too Long Sentence',
-                    self)
+                'Too Long Sentence',
+                self)
 
         # converts the message to bytes type
         try:
             self.message = self.sentence[1:]
         except ValueError:
             raise QzssDcrDecoderException(
-                    'Invalid Message',
-                    self)
+                'Invalid Message',
+                self)
 
         # extracts a satellite id
         self.satellite_id = self.sentence[0]

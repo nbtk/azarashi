@@ -9,7 +9,7 @@ class QzssDcrDecoderException(Exception):
         if sentence is None:
             return f'{self.message}'
         elif type(sentence) is bytes:
-                sentence = "b'" + ''.join(r'\x%02X' % c for c in sentence) + "'"
+            sentence = "b'" + ''.join(r'\x%02X' % c for c in sentence) + "'"
         elif type(sentence) is not str:
             sentence = str(sentence)
         return f'{self.message} -> {sentence}'
@@ -26,8 +26,7 @@ class QzssDcrDecoderNotImplementedError(NotImplementedError):
         if sentence is None:
             return f'{self.message}'
         elif type(sentence) is bytes:
-                sentence = "b'" + ''.join(r'\x%02X' % c for c in sentence) + "'"
+            sentence = "b'" + ''.join(r'\x%02X' % c for c in sentence) + "'"
         elif type(sentence) is not str:
             sentence = str(sentence)
         return f'{self.message} -> {sentence}'
-

@@ -1,8 +1,8 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from ..definition import qzss_dcr_jma_information_serial_code
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportJmaBase
 from ..report import QzssDcReportJmaNankaiTroughEarthquake
-from ..definition import qzss_dcr_jma_information_serial_code
 
 
 class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
@@ -14,8 +14,8 @@ class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
             self.information_serial_code = qzss_dcr_jma_information_serial_code[ie]
         except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined JMA Information Serial Code: {ie}',
-                    self)
+                f'Undefined JMA Information Serial Code: {ie}',
+                self)
         te = []
         for i in range(18):
             te.append(self.extract_field(57 + i * 8, 8))

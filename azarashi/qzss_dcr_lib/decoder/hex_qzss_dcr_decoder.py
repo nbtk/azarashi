@@ -1,5 +1,5 @@
-from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder import QzssDcrDecoder
+from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportBase
 
@@ -15,20 +15,20 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
 
         if len(self.sentence) < 63:
             raise QzssDcrDecoderException(
-                    'Too Short Sentence',
-                    self)
+                'Too Short Sentence',
+                self)
         if len(self.sentence) > 63:
             raise QzssDcrDecoderException(
-                    'Too Long Sentence',
-                    self)
+                'Too Long Sentence',
+                self)
 
         # converts the message to bytes type
         try:
-            self.message = bytes.fromhex(self.sentence+'0')
+            self.message = bytes.fromhex(self.sentence + '0')
         except ValueError:
             raise QzssDcrDecoderException(
-                    'Invalid Message',
-                    self)
+                'Invalid Message',
+                self)
 
         self.nmea = self.message_to_nmea()
 

@@ -1,8 +1,8 @@
-from ..exception import QzssDcrDecoderException
-from ..decoder import QzssDcrDecoderBase
 from ..decoder import QzssDcrDecoder
-from ..report import QzssDcReportBase
+from ..decoder import QzssDcrDecoderBase
 from ..definition import nmea_qzss_dcr_message_header
+from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReportBase
 
 
 class NmeaQzssDcrDecoder(QzssDcrDecoderBase):

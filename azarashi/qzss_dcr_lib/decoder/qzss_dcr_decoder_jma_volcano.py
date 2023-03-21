@@ -1,9 +1,9 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from ..definition import qzss_dcr_jma_volcanic_warning_code
+from ..definition import qzss_dcr_jma_volcano_name
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportJmaBase
 from ..report import QzssDcReportJmaVolcano
-from ..definition import qzss_dcr_jma_volcano_name
-from ..definition import qzss_dcr_jma_volcanic_warning_code
 
 
 class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
@@ -18,16 +18,16 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
             self.volcanic_warning_code = qzss_dcr_jma_volcanic_warning_code[dw]
         except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined JMA Volcanic Warning Code: {dw}',
-                    self)
+                f'Undefined JMA Volcanic Warning Code: {dw}',
+                self)
 
         vo = self.extract_field(76, 12)
         try:
             self.volcano_name = qzss_dcr_jma_volcano_name[vo]
         except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined JMA Volcano Name: {vo}',
-                    self)
+                f'Undefined JMA Volcano Name: {vo}',
+                self)
 
         self.local_governments = []
         for i in range(5):

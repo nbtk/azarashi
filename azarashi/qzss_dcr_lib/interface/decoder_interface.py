@@ -1,12 +1,13 @@
 import datetime
+
 from .hex_interface import hex_qzss_dcr_message_extractor
 from .nmea_interface import nmea_qzss_dcr_message_extractor
 from .ublox_interface import ublox_qzss_dcr_message_extractor
-from ..exception import QzssDcrDecoderException
 from ..decoder import HexQzssDcrDecoder
 from ..decoder import NetQzssDcrDecoder
 from ..decoder import NmeaQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
+from ..exception import QzssDcrDecoderException
 
 caches = {}
 cache_size = 256
@@ -64,10 +65,10 @@ def decode_stream(stream,
 
         report = decode(msg, msg_type)
         if report in cache:
-            freshness = (datetime.datetime.now()-report.timestamp).total_seconds()
-            if freshness > cache_expiration: # the cache is rotten
+            freshness = (datetime.datetime.now() - report.timestamp).total_seconds()
+            if freshness > cache_expiration:  # the cache is rotten
                 kick = True
-            else: # the cache is fresh
+            else:  # the cache is fresh
                 kick = False
             cache.remove(report)
         else:

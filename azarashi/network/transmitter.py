@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-import logging
 import argparse
+import logging
 import socket
 import sys
+
 from ..qzss_dcr_lib.exception import QzssDcrDecoderException
 from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
 from ..qzss_dcr_lib.interface import decode_stream
-
 
 logger = logging.getLogger(__name__)
 
@@ -33,14 +33,16 @@ class Transmitter:
 def main():
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
-    parser = argparse.ArgumentParser(description='azarashi network transmitter', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description='azarashi network transmitter',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-d', '--dst-host', help="destination host", type=str, default='ff02::1')
     parser.add_argument('-p', '--dst-port', help='destination port', type=int, default=2112)
-    parser.add_argument('-t', '--msg-type', help="message type", type=str, choices=['hex', 'nmea', 'ublox'], default='nmea')
+    parser.add_argument('-t', '--msg-type', help="message type", type=str, choices=['hex', 'nmea', 'ublox'],
+                        default='nmea')
     parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     args = parser.parse_args()
-    if args.input == 'stdin': 
+    if args.input == 'stdin':
         stream = sys.stdin
     else:
         stream = open(args.input, mode='r')
@@ -65,4 +67,3 @@ def main():
 
 if __name__ == '__main__':
     exit(main())
-

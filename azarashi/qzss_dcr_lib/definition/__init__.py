@@ -1,3 +1,4 @@
+from .nmea_qzss_dcr_message_header import *
 from .qzss_dcr_jma_ash_fall_warning_code import *
 from .qzss_dcr_jma_coastal_region import *
 from .qzss_dcr_jma_disaster_category import *
@@ -33,5 +34,4 @@ from .qzss_dcr_organization_code import *
 from .qzss_dcr_preamble import *
 from .qzss_dcr_report_classification import *
 from .qzss_dcr_satellite_prn import *
-from .nmea_qzss_dcr_message_header import *
 from .ublox_qzss_dcr_message_header import *

@@ -1,10 +1,11 @@
-from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from ..exception import QzssDcrDecoderException
-from ..definition import qzss_dcr_jma_local_government
-from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
-from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
 from datetime import datetime
 from datetime import timedelta
+
+from .qzss_dcr_decoder_base import QzssDcrDecoderBase
+from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
+from ..definition import qzss_dcr_jma_local_government
+from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
+from ..exception import QzssDcrDecoderException
 
 
 class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
@@ -12,18 +13,18 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         dt_d = self.extract_field(slider, 5)
         if dt_d < 1 or dt_d > 31:
             raise QzssDcrDecoderException(
-                    f'Invalid Time: {dt_d} as day',
-                    self)
-        dt_h = self.extract_field(slider+5, 5)
+                f'Invalid Time: {dt_d} as day',
+                self)
+        dt_h = self.extract_field(slider + 5, 5)
         if dt_h > 23:
             raise QzssDcrDecoderException(
-                    f'Invalid Time: {dt_h} as hour',
-                    self)
-        dt_mi = self.extract_field(slider+10, 6)
+                f'Invalid Time: {dt_h} as hour',
+                self)
+        dt_mi = self.extract_field(slider + 10, 6)
         if dt_mi > 59:
             raise QzssDcrDecoderException(
-                    f'Invalid Time: {dt_mi} as minute',
-                    self)
+                f'Invalid Time: {dt_mi} as minute',
+                self)
 
         dt_y = self.report_time.year
         dt_mo = self.report_time.month
@@ -56,57 +57,57 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return qzss_dcr_jma_local_government[lg]
         except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined JMA Local Government: {lg}',
-                    self)
+                f'Undefined JMA Local Government: {lg}',
+                self)
 
     def extract_notification_on_disaster_prevention_fields(self, slider):
         cos = []
         for i in range(3):
-            co = self.extract_field(slider+i*9, 9)
+            co = self.extract_field(slider + i * 9, 9)
             if co == 0:
                 break
             try:
                 cos.append(qzss_dcr_jma_notification_on_disaster_prevention[co])
             except KeyError:
                 raise QzssDcrDecoderException(
-                        f'Undefined JMA Notifications on Disaster Prevention: {co}',
-                        self)
+                    f'Undefined JMA Notifications on Disaster Prevention: {co}',
+                    self)
         return cos
 
     def extract_lat_lon_field(self, slider):
         lat_ns = self.extract_field(slider, 1)
-        lat_d = self.extract_field(slider+1, 7)
+        lat_d = self.extract_field(slider + 1, 7)
         if lat_d > 89:
             raise QzssDcrDecoderException(
-                    f'Invalid Latitude: {lat_d} as degree',
-                    self)
-        lat_m = self.extract_field(slider+8, 6)
+                f'Invalid Latitude: {lat_d} as degree',
+                self)
+        lat_m = self.extract_field(slider + 8, 6)
         if lat_m > 59:
             raise QzssDcrDecoderException(
-                    f'Invalid Latitude: {lat_m} as minute',
-                    self)
-        lat_s = self.extract_field(slider+14, 6)
+                f'Invalid Latitude: {lat_m} as minute',
+                self)
+        lat_s = self.extract_field(slider + 14, 6)
         if lat_s > 59:
             raise QzssDcrDecoderException(
-                    f'Invalid Latitude: {lat_s} as second',
-                    self)
+                f'Invalid Latitude: {lat_s} as second',
+                self)
 
-        lon_ew = self.extract_field(slider+20, 1)
-        lon_d = self.extract_field(slider+21, 8)
+        lon_ew = self.extract_field(slider + 20, 1)
+        lon_d = self.extract_field(slider + 21, 8)
         if lon_d > 179:
             raise QzssDcrDecoderException(
-                    f'Invalid Longitude: {lon_d} as degree',
-                    self)
-        lon_m = self.extract_field(slider+29, 6)
+                f'Invalid Longitude: {lon_d} as degree',
+                self)
+        lon_m = self.extract_field(slider + 29, 6)
         if lon_m > 59:
             raise QzssDcrDecoderException(
-                    f'Invalid Longitude: {lon_d} as minute',
-                    self)
-        lon_s = self.extract_field(slider+35, 6)
+                f'Invalid Longitude: {lon_d} as minute',
+                self)
+        lon_s = self.extract_field(slider + 35, 6)
         if lon_s > 59:
             raise QzssDcrDecoderException(
-                    f'Invalid Longitude: {lon_s} as second',
-                    self)
+                f'Invalid Longitude: {lon_s} as second',
+                self)
 
         return {'lat_ns': lat_ns, 'lat_d': lat_d, 'lat_m': lat_m, 'lat_s': lat_s,
                 'lon_ew': lon_ew, 'lon_d': lon_d, 'lon_m': lon_m, 'lon_s': lon_s}
@@ -119,8 +120,8 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return '不明'
         elif 501 < de < 511:
             raise QzssDcrDecoderException(
-                    f'Invalid Depth of Hypocenter: {de}',
-                    self)
+                f'Invalid Depth of Hypocenter: {de}',
+                self)
         else:
             return f'{de}km'
 
@@ -134,8 +135,8 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return '不明'
         elif ma < 1 or (101 < ma < 126):
             raise QzssDcrDecoderException(
-                    f'Invalid Magnitude: {ma / 10}',
-                    self)
+                f'Invalid Magnitude: {ma / 10}',
+                self)
         else:
             return f'{ma / 10}'
 
@@ -145,25 +146,25 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return qzss_dcr_jma_epicenter_and_hypocenter[ep]
         except KeyError:
             raise QzssDcrDecoderException(
-                    f'Undefined JMA Seismic Epicenter: {ep}',
-                    self)
+                f'Undefined JMA Seismic Epicenter: {ep}',
+                self)
 
     def extract_expected_tsunami_arrival_time(self, slider):
-        ta_h = self.extract_field(slider+1, 5)
+        ta_h = self.extract_field(slider + 1, 5)
         if ta_h == 31:
             return None
         elif ta_h > 23:
             raise QzssDcrDecoderException(
-                    f'Invalid JMA Expected Tsunami Arrivale Time: {ta_h} as hour',
-                    self)
+                f'Invalid JMA Expected Tsunami Arrivale Time: {ta_h} as hour',
+                self)
 
-        ta_m = self.extract_field(slider+6, 6)
+        ta_m = self.extract_field(slider + 6, 6)
         if ta_m == 63:
             return None
         elif ta_m > 59:
             raise QzssDcrDecoderException(
-                    f'Invalid JMA Expected Tsunami Arrivale Time: {ta_m} as minute',
-                    self)
+                f'Invalid JMA Expected Tsunami Arrivale Time: {ta_m} as minute',
+                self)
 
         ta_dt = self.report_time + timedelta(self.extract_field(slider, 1))
 

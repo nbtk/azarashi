@@ -1,9 +1,9 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
+from ..definition import qzss_dcr_organization_code
 from ..exception import QzssDcrDecoderException
 from ..exception import QzssDcrDecoderNotImplementedError
 from ..report import QzssDcReportMessageBase
 from ..report import QzssDcReportOtherOrganization
-from ..definition import qzss_dcr_organization_code
 
 
 class QzssDcrDecoderOtherOrganization(QzssDcrDecoderBase):

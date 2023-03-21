@@ -1,5 +1,5 @@
-from ..definition import ublox_qzss_dcr_message_header
 from ..definition import qzss_dcr_message_type
+from ..definition import ublox_qzss_dcr_message_header
 
 buffers = {}
 

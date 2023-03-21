@@ -1,7 +1,8 @@
-import sys
-import datetime
 import argparse
+import datetime
+import sys
 from pprint import pformat
+
 from azarashi import QzssDcrDecoderException
 from azarashi import QzssDcrDecoderNotImplementedError
 from azarashi import decode_stream

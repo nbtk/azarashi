@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import logging
 import argparse
+import logging
 import socket
 from pprint import pformat
-from ..qzss_dcr_lib.interface import decode
 
+from ..qzss_dcr_lib.interface import decode
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ class Receiver:
                                             address_family,
                                             socket.SOCK_DGRAM,
                                             socket.IPPROTO_UDP)[0]
-        if bind_iface == 'any': 
+        if bind_iface == 'any':
             self.bind_iface = None
         else:
             self.bind_iface = (bind_iface + '\0').encode()
@@ -39,13 +39,14 @@ class Receiver:
 
 
 def simple_handler(report):
-        logger.info('\n' + str(report) + '\n')
+    logger.info('\n' + str(report) + '\n')
 
 
 def main():
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
-    parser = argparse.ArgumentParser(description='azarashi network receiver', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description='azarashi network receiver',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-b', '--bind-addr', help="address to bind", type=str, default='::')
     parser.add_argument('-p', '--bind-port', help='port to bind', type=int, default=2112)
     parser.add_argument('-i', '--bind-iface', help="iface to bind", type=str, default='any')
@@ -60,4 +61,3 @@ def main():
 
 if __name__ == '__main__':
     exit(main())
-
