@@ -341,6 +341,6 @@ optional arguments:
   -v, --verbose         verbose mode (default: False)
 ```
 ## Note
-IS-QZSS-DCR-010をサポートしています。
+IS-QZSS-DCR-010 をサポートしています。
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
