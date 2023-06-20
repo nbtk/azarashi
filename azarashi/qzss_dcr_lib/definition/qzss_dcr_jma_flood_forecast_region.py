@@ -440,6 +440,6 @@ qzss_dcr_jma_flood_forecast_region = QzssDcrDefinition(
         88: "四国地方の河川(コード番号:%d)",
         89: "九州地方の河川(コード番号:%d)",
     },
-    prefix_extructor=lambda x: int(x / pow(10,10)),
+    prefix_extructor=lambda x:int(x/10**10),
     undefined=None
 )

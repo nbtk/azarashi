@@ -1891,6 +1891,6 @@ qzss_dcr_jma_local_government = QzssDcrDefinition(
         46: "鹿児島県の市町村(コード番号:%d)",
         47: "沖縄県の市町村(コード番号:%d)",
     },
-    prefix_extructor=lambda x: int(x / pow(10, 5)),
+    prefix_extructor=lambda x:int(x/10**5),
     undefined=None
 )
