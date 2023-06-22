@@ -47,8 +47,6 @@ def decode_stream(stream, # do not decode one stream in parallel!
         cache = caches.get(stream)
         if cache is None:
             cache = []
-    else:
-        cache = None
 
     if msg_type == 'hex':
         if callable(getattr(stream, 'readline', None)):
@@ -97,7 +95,8 @@ def decode_stream(stream, # do not decode one stream in parallel!
             else:
                 fire = True
 
-            caches.update({stream: cache[-(cache_size - 1):] + [report]})
+            cache = cache[-(cache_size - 1):] + [report]
+            caches.update({stream: cache})
 
             if fire is False:
                 continue
