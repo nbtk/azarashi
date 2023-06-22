@@ -30,58 +30,78 @@ def decode(msg, msg_type='nmea'):
         raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
 
 
-def decode_stream(stream,
+def decode_stream(stream, # do not decode one stream in parallel!
                   msg_type='nmea',
                   callback=None,
                   callback_args=(),
                   callback_kwargs={},
                   unique=False):
-    cache = caches.get(stream)
-    if cache is None:
-        cache = []
+    for existing_stream in caches.keys():
+        if existing_stream.closed:
+            try:
+                caches.pop(stream) # discards the garbage to prevent memory leaks
+            except KeyError: # might happen during race conditions
+                pass
+
+    if unique:
+        cache = caches.get(stream)
+        if cache is None:
+            cache = []
+    else:
+        cache = None
+
+    if msg_type == 'hex':
+        if callable(getattr(stream, 'readline', None)):
+            extractor = hex_qzss_dcr_message_extractor
+            reader = stream.readline
+            reader_kwargs = {}
+        else:
+            raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
+    elif msg_type == 'nmea' or msg_type == 'spresense':
+        if callable(getattr(stream, 'readline', None)):
+            extractor = nmea_qzss_dcr_message_extractor
+            reader = stream.readline
+            reader_kwargs = {}
+        else:
+            raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
+    elif msg_type == 'ublox':
+        if callable(getattr(stream, 'read1', None)):
+            extractor = ublox_qzss_dcr_message_extractor
+            reader = stream.read1
+            reader_kwargs = {}
+        elif hasattr(stream, 'buffer') and callable(getattr(stream.buffer, 'read1', None)):
+            extractor = ublox_qzss_dcr_message_extractor
+            reader = stream.buffer.read1
+            reader_kwargs = {}
+        elif callable(getattr(stream, 'read', None)):
+            extractor = ublox_qzss_dcr_message_extractor
+            reader = stream.read
+            reader_kwargs = {'size': 1}
+        else:
+            raise QzssDcrDecoderException(f'Neither read() nor read1() exists: {type(stream)}')
+    else:
+        raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
 
     while True:
-        if msg_type == 'hex':
-            if callable(getattr(stream, 'readline', None)):
-                msg = hex_qzss_dcr_message_extractor(stream.readline)
-            else:
-                raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
-        elif msg_type == 'nmea' or msg_type == 'spresense':
-            if callable(getattr(stream, 'readline', None)):
-                msg = nmea_qzss_dcr_message_extractor(stream.readline)
-            else:
-                raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
-        elif msg_type == 'ublox':
-            if callable(getattr(stream, 'read1', None)):
-                msg = ublox_qzss_dcr_message_extractor(stream.read1)
-            elif hasattr(stream, 'buffer') and callable(getattr(stream.buffer, 'read1', None)):
-                msg = ublox_qzss_dcr_message_extractor(stream.buffer.read1)
-            elif callable(getattr(stream, 'read', None)):
-                msg = ublox_qzss_dcr_message_extractor(stream.read, reader_kwargs={'size': 1})
-            else:
-                raise QzssDcrDecoderException(f'read() nor read1() do not exist: {type(stream)}')
-        else:
-            raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
-
+        msg = extractor(reader, reader_kwargs=reader_kwargs)
         report = decode(msg, msg_type)
-        if report in cache:
-            freshness = (datetime.datetime.now() - report.timestamp).total_seconds()
-            if freshness > cache_expiration:  # the cache is rotten
-                kick = True
-            else:  # the cache is fresh
-                kick = False
-            cache.remove(report)
-        else:
-            kick = True
 
         if unique:
-            cache = cache[-(cache_size - 1):] + [report]
-        else:
-            cache = []
+            if report in cache:
+                freshness = (datetime.datetime.now() - report.timestamp).total_seconds()
+                if freshness > cache_expiration:  # the cache is rotten
+                    fire = True
+                else:  # the cache is fresh
+                    fire = False
+                cache.remove(report)
+            else:
+                fire = True
 
-        caches.update({stream: cache})
+            caches.update({stream: cache[-(cache_size - 1):] + [report]})
 
-        if kick is True:
-            if callback is None:
-                return report
-            callback(report, *callback_args, **callback_kwargs)
+            if fire is False:
+                continue
+
+        if callback is None:
+            return report
+        callback(report, *callback_args, **callback_kwargs)
