@@ -39,7 +39,7 @@ def decode_stream(stream, # do not decode one stream in parallel!
     for existing_stream in caches.keys():
         if existing_stream.closed:
             try:
-                caches.pop(stream) # discards the garbage to prevent memory leaks
+                caches.pop(existing_stream) # discards the garbage to prevent memory leaks
             except KeyError: # might happen during race conditions
                 pass
 
