@@ -302,7 +302,7 @@ $ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0
 $ sudo cat /dev/ttyS0 | python3 -m azarashi.network.transmitter -t ublox
 ```
 オプションは下記のとおりです。
-```shell
+```
 usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {hex,nmea,ublox}] [-f INPUT] [-u]
 
 azarashi network transmitter
@@ -325,7 +325,7 @@ options:
 $ python3 -m azarashi.network.receiver
 ```
 オプションは下記のとおりです。
-```shell
+```
 usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-v]
 
 azarashi network receiver
@@ -342,5 +342,17 @@ optional arguments:
 ```
 ## Note
 IS-QZSS-DCR-010 をサポートしています。
+## Tips
+### UnicodeDecodeError
+```
+[UnicodeDecodeError] 'utf-8' codec can't decode byte 0xNN in position XX: ~
+```
+GPSモジュールと接続するインタフェースのボーレートが一致せず、壊れたビット列をデコードしようとして失敗していることが考えられます。ボーレートは例えば次のような値です。
+```
+9600, 19200, 38400, 57600, 115200
+```
+設定方法はGPSモジュール、sttyまたはpySerialのマニュアルを参照してください。
+### Encountered EOF
+CLI でストリームを受けていた azarashi は、書き込み側がクローズすると Encountered EOF と stderr に出力して終了します。これは正常な動作です。その直前までエラーなく動作していたと解釈してください。
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
