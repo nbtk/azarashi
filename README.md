@@ -187,7 +187,7 @@ azarashi.decode(msg, msg_type='nmea')
  'message_type': 'DC Report (JMA)',
  'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
- 'occurrence_time_of_eathquake': datetime.datetime(2022, 3, 10, 1, 0),
+ 'occurrence_time_of_earthquake': datetime.datetime(2022, 3, 10, 1, 0),
  'preamble': 'C',
  'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
         b'\xdf\xf8\x00\x1c\x00\x00\x10',

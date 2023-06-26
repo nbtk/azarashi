@@ -101,7 +101,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
                  f' ({self.information_type_en})' + \
                  f' ({self.report_classification_en})'
         if self.report_classification_no == 7:
-            header += '\n*** TRAINNING/TEST ***'
+            header += '\n*** TRAINING/TEST ***'
         elif self.information_type_no == 2:
             header += '\n*** CANCELLATION ***'
         return header
@@ -154,7 +154,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
 class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
     def __init__(self,
                  notifications_on_disaster_prevention,
-                 occurrence_time_of_eathquake,
+                 occurrence_time_of_earthquake,
                  depth_of_hypocenter,
                  magnitude,
                  assumptive,
@@ -165,7 +165,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
                  **kwargs):
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
-        self.occurrence_time_of_eathquake = occurrence_time_of_eathquake
+        self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
         self.depth_of_hypocenter = depth_of_hypocenter
         self.magnitude = magnitude
         self.assumptive = assumptive
@@ -187,7 +187,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
 
         report += f'\n\n発表時刻: {self.get_report_time_str()}\n\n' + \
                   f'震央地名: {self.seismic_epicenter}\n' + \
-                  f'地震発生時刻: {self.convert_dt_to_str(self.occurrence_time_of_eathquake)}\n' + \
+                  f'地震発生時刻: {self.convert_dt_to_str(self.occurrence_time_of_earthquake)}\n' + \
                   f'深さ: {self.depth_of_hypocenter}{assumptive_str}\n' + \
                   f'マグニチュード: {self.magnitude}{assumptive_str}\n' + \
                   f'震度(下限): {self.seismic_intensity_lower_limit}\n' + \
@@ -199,7 +199,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
 class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
     def __init__(self,
                  notifications_on_disaster_prevention,
-                 occurrence_time_of_eathquake,
+                 occurrence_time_of_earthquake,
                  depth_of_hypocenter,
                  magnitude,
                  seismic_epicenter,
@@ -207,7 +207,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
                  **kwargs):
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
-        self.occurrence_time_of_eathquake = occurrence_time_of_eathquake
+        self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
         self.depth_of_hypocenter = depth_of_hypocenter
         self.magnitude = magnitude
         self.seismic_epicenter = seismic_epicenter
@@ -215,7 +215,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                 f'{self.convert_dt_to_str(self.occurrence_time_of_eathquake)}' + \
+                 f'{self.convert_dt_to_str(self.occurrence_time_of_earthquake)}' + \
                  'ころ、地震がありました。\n'
 
         report += '\n'.join(self.notifications_on_disaster_prevention)
@@ -230,18 +230,18 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
 
 class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
     def __init__(self,
-                 occurrence_time_of_eathquake,
+                 occurrence_time_of_earthquake,
                  seismic_intensities,
                  prefectures,
                  **kwargs):
         super().__init__(**kwargs)
-        self.occurrence_time_of_eathquake = occurrence_time_of_eathquake
+        self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
         self.seismic_intensities = seismic_intensities
         self.prefectures = prefectures
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                 f'{self.convert_dt_to_str(self.occurrence_time_of_eathquake)}' + \
+                 f'{self.convert_dt_to_str(self.occurrence_time_of_earthquake)}' + \
                  'ころ、地震による強い揺れを感じました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
 
