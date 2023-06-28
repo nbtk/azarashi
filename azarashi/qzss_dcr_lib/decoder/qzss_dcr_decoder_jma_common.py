@@ -54,25 +54,27 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
     def extract_local_government(self, slider):
         lg = self.extract_field(slider, 23)
         try:
-            return qzss_dcr_jma_local_government[lg]
+            return qzss_dcr_jma_local_government[lg], lg
         except KeyError:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Local Government: {lg}',
                 self)
 
     def extract_notification_on_disaster_prevention_fields(self, slider):
+        notifications = []
         cos = []
         for i in range(3):
             co = self.extract_field(slider + i * 9, 9)
             if co == 0:
                 break
             try:
-                cos.append(qzss_dcr_jma_notification_on_disaster_prevention[co])
+                notifications.append(qzss_dcr_jma_notification_on_disaster_prevention[co])
             except KeyError:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Notifications on Disaster Prevention: {co}',
                     self)
-        return cos
+            cos.append(co)
+        return notifications, cos
 
     def extract_lat_lon_field(self, slider):
         lat_ns = self.extract_field(slider, 1)
@@ -123,7 +125,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 f'Invalid Depth of Hypocenter: {de}',
                 self)
         else:
-            return f'{de}km'
+            return f'{de}km', de
 
     def extract_magnitude_field(self, slider):
         ma = self.extract_field(slider, 7)
@@ -138,12 +140,12 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 f'Invalid Magnitude: {ma / 10}',
                 self)
         else:
-            return f'{ma / 10}'
+            return f'{ma / 10}', ma
 
     def extract_seismic_epicenter_field(self, slider):
         ep = self.extract_field(slider, 10)
         try:
-            return qzss_dcr_jma_epicenter_and_hypocenter[ep]
+            return qzss_dcr_jma_epicenter_and_hypocenter[ep], ep
         except KeyError:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Seismic Epicenter: {ep}',

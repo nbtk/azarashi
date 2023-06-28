@@ -20,6 +20,7 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
             raise QzssDcrDecoderException(
                 f'Undefined JMA Volcanic Warning Code: {dw}',
                 self)
+        self.volcanic_warning_code_raw = dw
 
         vo = self.extract_field(76, 12)
         try:
@@ -28,13 +29,16 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
             raise QzssDcrDecoderException(
                 f'Undefined JMA Volcano Name: {vo}',
                 self)
+        self.volcano_name_raw = vo
 
         self.local_governments = []
+        self.local_governments_raw = []
         for i in range(5):
             offset = 88 + i * 23
             if self.extract_field(offset, 23) == 0:
                 break
-
-            self.local_governments.append(self.extract_local_government(offset))
+            local_government, lg = self.extract_local_government(offset)
+            self.local_governments.append(local_government)
+            self.local_governments_raw.append(lg)
 
         return QzssDcReportJmaVolcano(**self.get_params())

@@ -154,25 +154,39 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
 class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
     def __init__(self,
                  notifications_on_disaster_prevention,
+                 notifications_on_disaster_prevention_raw,
                  occurrence_time_of_earthquake,
                  depth_of_hypocenter,
+                 depth_of_hypocenter_raw,
                  magnitude,
+                 magnitude_raw,
                  assumptive,
                  seismic_epicenter,
+                 seismic_epicenter_raw,
                  seismic_intensity_lower_limit,
+                 seismic_intensity_lower_limit_raw,
                  seismic_intensity_upper_limit,
+                 seismic_intensity_upper_limit_raw,
                  eew_forecast_regions,
+                 eew_forecast_regions_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
+        self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
         self.depth_of_hypocenter = depth_of_hypocenter
+        self.depth_of_hypocenter_raw = depth_of_hypocenter_raw
         self.magnitude = magnitude
+        self.magnitude_raw = magnitude_raw
         self.assumptive = assumptive
         self.seismic_epicenter = seismic_epicenter
+        self.seismic_epicenter_raw = seismic_epicenter_raw
         self.seismic_intensity_lower_limit = seismic_intensity_lower_limit
+        self.seismic_intensity_lower_limit_raw = seismic_intensity_lower_limit_raw
         self.seismic_intensity_upper_limit = seismic_intensity_upper_limit
+        self.seismic_intensity_upper_limit_raw = seismic_intensity_upper_limit_raw
         self.eew_forecast_regions = eew_forecast_regions
+        self.eew_forecast_regions_raw = eew_forecast_regions_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -199,18 +213,26 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
 class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
     def __init__(self,
                  notifications_on_disaster_prevention,
+                 notifications_on_disaster_prevention_raw,
                  occurrence_time_of_earthquake,
                  depth_of_hypocenter,
+                 depth_of_hypocenter_raw,
                  magnitude,
+                 magnitude_raw,
                  seismic_epicenter,
+                 seismic_epicenter_raw,
                  coordinates_of_hypocenter,
                  **kwargs):
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
+        self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
         self.depth_of_hypocenter = depth_of_hypocenter
+        self.depth_of_hypocenter_raw = depth_of_hypocenter_raw
         self.magnitude = magnitude
+        self.magnitude_raw = magnitude_raw
         self.seismic_epicenter = seismic_epicenter
+        self.seismic_epicenter_raw = seismic_epicenter_raw
         self.coordinates_of_hypocenter = coordinates_of_hypocenter
 
     def __str__(self):
@@ -232,12 +254,16 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
     def __init__(self,
                  occurrence_time_of_earthquake,
                  seismic_intensities,
+                 seismic_intensities_raw,
                  prefectures,
+                 prefectures_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
         self.seismic_intensities = seismic_intensities
+        self.seismic_intensities_raw = seismic_intensities_raw
         self.prefectures = prefectures
+        self.prefectures_raw = prefectures_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -257,12 +283,14 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
     def __init__(self,
                  information_serial_code,
+                 information_serial_code_raw,
                  text_information,
                  page_number,
                  total_page,
                  **kwargs):
         super().__init__(**kwargs)
         self.information_serial_code = information_serial_code
+        self.information_serial_code_raw = information_serial_code_raw
         self.text_information = text_information
         self.page_number = page_number
         self.total_page = total_page
@@ -304,17 +332,25 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
     def __init__(self,
                  notifications_on_disaster_prevention,
+                 notifications_on_disaster_prevention_raw,
                  tsunami_warning_code,
+                 tsunami_warning_code_raw,
                  expected_tsunami_arrival_times,
                  tsunami_heights,
+                 tsunami_heights_raw,
                  tsunami_forecast_regions,
+                 tsunami_forecast_regions_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
+        self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
         self.tsunami_warning_code = tsunami_warning_code
+        self.tsunami_warning_code_raw = tsunami_warning_code_raw
         self.expected_tsunami_arrival_times = expected_tsunami_arrival_times
         self.tsunami_heights = tsunami_heights
+        self.tsunami_heights_raw = tsunami_heights_raw
         self.tsunami_forecast_regions = tsunami_forecast_regions
+        self.tsunami_forecast_regions_raw = tsunami_forecast_regions_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -338,15 +374,21 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
 class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
     def __init__(self,
                  tsunamigenic_potential_en,
+                 tsunamigenic_potential_raw,
                  expected_tsunami_arrival_times,
                  tsunami_heights_en,
+                 tsunami_heights_raw,
                  coastal_regions_en,
+                 coastal_regions_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.tsunamigenic_potential_en = tsunamigenic_potential_en
+        self.tsunamigenic_potential_raw = tsunamigenic_potential_raw
         self.expected_tsunami_arrival_times = expected_tsunami_arrival_times
         self.tsunami_heights_en = tsunami_heights_en
+        self.tsunami_heights_raw = tsunami_heights_raw
         self.coastal_regions_en = coastal_regions_en
+        self.coastal_regions_raw = coastal_regions_raw
 
     def __str__(self):
         report = f'{self.get_header_en()}\n' + \
@@ -369,15 +411,21 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
                  ambiguity_of_activity_time_no,
                  activity_time,
                  volcanic_warning_code,
+                 volcanic_warning_code_raw,
                  volcano_name,
+                 volcano_name_raw,
                  local_governments,
+                 local_governments_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.ambiguity_of_activity_time_no = ambiguity_of_activity_time_no
         self.activity_time = activity_time
         self.volcanic_warning_code = volcanic_warning_code
+        self.volcanic_warning_code_raw = volcanic_warning_code_raw
         self.volcano_name = volcano_name
+        self.volcano_name_raw = volcano_name_raw
         self.local_governments = local_governments
+        self.local_governments_raw = local_governments_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -395,18 +443,26 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
     def __init__(self,
                  activity_time,
                  ash_fall_warning_type,
+                 ash_fall_warning_type_raw,
                  volcano_name,
+                 volcano_name_raw,
                  expected_ash_fall_times,
                  ash_fall_warning_codes,
+                 ash_fall_warning_codes_raw,
                  local_governments,
+                 local_governments_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.activity_time = activity_time
         self.ash_fall_warning_type = ash_fall_warning_type
+        self.ash_fall_warning_type_raw = ash_fall_warning_type_raw
         self.volcano_name = volcano_name
+        self.volcano_name_raw = volcano_name_raw
         self.expected_ash_fall_times = expected_ash_fall_times
         self.ash_fall_warning_codes = ash_fall_warning_codes
+        self.ash_fall_warning_codes_raw = ash_fall_warning_codes_raw
         self.local_governments = local_governments
+        self.local_governments_raw = local_governments_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -427,13 +483,19 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
 class QzssDcReportJmaWeather(QzssDcReportJmaBase):
     def __init__(self,
                  weather_warning_state,
+                 weather_warning_state_raw,
                  weather_related_disaster_sub_categories,
+                 weather_related_disaster_sub_categories_raw,
                  weather_forecast_regions,
+                 weather_forecast_regions_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.weather_warning_state = weather_warning_state
+        self.weather_warning_state_raw = weather_warning_state_raw
         self.weather_related_disaster_sub_categories = weather_related_disaster_sub_categories
+        self.weather_related_disaster_sub_categories_raw = weather_related_disaster_sub_categories_raw
         self.weather_forecast_regions = weather_forecast_regions
+        self.weather_forecast_regions_raw = weather_forecast_regions_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -450,11 +512,15 @@ class QzssDcReportJmaWeather(QzssDcReportJmaBase):
 class QzssDcReportJmaFlood(QzssDcReportJmaBase):
     def __init__(self,
                  flood_warning_levels,
+                 flood_warning_levels_raw,
                  flood_forecast_regions,
+                 flood_forecast_regions_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.flood_warning_levels = flood_warning_levels
+        self.flood_warning_levels_raw = flood_warning_levels_raw
         self.flood_forecast_regions = flood_forecast_regions
+        self.flood_forecast_regions_raw = flood_forecast_regions_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -470,11 +536,15 @@ class QzssDcReportJmaFlood(QzssDcReportJmaBase):
 class QzssDcReportJmaMarine(QzssDcReportJmaBase):
     def __init__(self,
                  marine_warning_codes,
+                 marine_warning_codes_raw,
                  marine_forecast_regions,
+                 marine_forecast_regions_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.marine_warning_codes = marine_warning_codes
+        self.marine_warning_codes_raw = marine_warning_codes_raw
         self.marine_forecast_regions = marine_forecast_regions
+        self.marine_forecast_regions_raw = marine_forecast_regions_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -491,26 +561,40 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
     def __init__(self,
                  reference_time,
                  reference_time_type,
+                 reference_time_type_raw,
                  elapsed_time_from_reference_time,
                  typhoon_number,
+                 typhoon_number_raw,
                  typhoon_scale_category,
+                 typhoon_scale_category_raw,
                  typhoon_intencity_category,
+                 typhoon_intencity_category_raw,
                  coordinates_of_typhoon,
                  central_pressure,
+                 central_pressure_raw,
                  maximum_wind_speed,
+                 maximum_wind_speed_raw,
                  maximum_gust_wind_speed,
+                 maximum_gust_wind_speed_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.reference_time = reference_time
         self.reference_time_type = reference_time_type
+        self.reference_time_type_raw = reference_time_type_raw
         self.elapsed_time_from_reference_time = elapsed_time_from_reference_time
         self.typhoon_number = typhoon_number
+        self.typhoon_number_raw = typhoon_number_raw
         self.typhoon_scale_category = typhoon_scale_category
+        self.typhoon_scale_category_raw = typhoon_scale_category_raw
         self.typhoon_intencity_category = typhoon_intencity_category
+        self.typhoon_intencity_category_raw = typhoon_intencity_category_raw
         self.coordinates_of_typhoon = coordinates_of_typhoon
         self.central_pressure = central_pressure
+        self.central_pressure_raw = central_pressure_raw
         self.maximum_wind_speed = maximum_wind_speed
+        self.maximum_wind_speed_raw = maximum_wind_speed_raw
         self.maximum_gust_wind_speed = maximum_gust_wind_speed
+        self.maximum_gust_wind_speed_raw = maximum_gust_wind_speed_raw
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
@@ -532,9 +616,11 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
 class QzssDcReportOtherOrganization(QzssDcReportMessageBase):
     def __init__(self,
                  organization_code,
+                 organization_code_raw,
                  **kwargs):
         super().__init__(**kwargs)
         self.organization_code = organization_code
+        self.organization_code_raw = organization_code_raw
 
     def __str__(self):
         return f'Disaster Crisis Report ({self.organization_code})'

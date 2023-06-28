@@ -18,9 +18,12 @@ class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
             raise QzssDcrDecoderException(
                 f'Undefined JMA Warning State: {ar}',
                 self)
+        self.weather_warning_state_raw = ar
 
         self.weather_related_disaster_sub_categories = []
+        self.weather_related_disaster_sub_categories_raw = []
         self.weather_forecast_regions = []
+        self.weather_forecast_regions_raw = []
         for i in range(6):
             offset = 56 + i * 24
 
@@ -35,6 +38,7 @@ class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Disaster Sub-Category: {ww}',
                     self)
+            self.weather_related_disaster_sub_categories_raw.append(ww)
 
             pl = self.extract_field(offset + 5, 19)
             try:
@@ -43,5 +47,6 @@ class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Prefectural Forecast Region: {pl}',
                     self)
+            self.weather_forecast_regions_raw.append(pl)
 
         return QzssDcReportJmaWeather(**self.get_params())

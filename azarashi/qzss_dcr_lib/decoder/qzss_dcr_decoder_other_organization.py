@@ -17,6 +17,7 @@ class QzssDcrDecoderOtherOrganization(QzssDcrDecoderBase):
             raise QzssDcrDecoderException(
                 f'Undefined Organization Code : {oc}',
                 self)
+        self.organization_code_raw = oc
 
         raise QzssDcrDecoderNotImplementedError(
             f'Decoder Not Implemented (The DC Report was Sent from {self.organization_code})',

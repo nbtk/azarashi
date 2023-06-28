@@ -12,7 +12,9 @@ class QzssDcrDecoderJmaSeismicIntensity(QzssDcrDecoderJmaCommon):
     def decode(self):
         self.occurrence_time_of_earthquake = self.extract_day_hour_min_field(53)
         self.seismic_intensities = []
+        self.seismic_intensities_raw = []
         self.prefectures = []
+        self.prefectures_raw = []
         for i in range(16):
             offset = 69 + i * 9
             es = self.extract_field(offset, 3)
@@ -26,6 +28,7 @@ class QzssDcrDecoderJmaSeismicIntensity(QzssDcrDecoderJmaCommon):
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Seismic Intensity: {es}',
                     self)
+            self.seismic_intensities_raw.append(es)
 
             try:
                 self.prefectures.append(qzss_dcr_jma_prefecture[pl])
@@ -33,5 +36,6 @@ class QzssDcrDecoderJmaSeismicIntensity(QzssDcrDecoderJmaCommon):
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Prefecture: {pl}',
                     self)
+            self.prefectures_raw.append(pl)
 
         return QzssDcReportJmaSeismicIntensity(**self.get_params())

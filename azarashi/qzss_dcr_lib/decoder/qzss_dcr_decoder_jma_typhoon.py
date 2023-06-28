@@ -20,6 +20,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
             raise QzssDcrDecoderException(
                 f'Undefined JMA Type of Reference Time: {dt}',
                 self)
+        self.reference_time_type_raw = dt
 
         self.elapsed_time_from_reference_time = self.extract_field(80, 7)
 
@@ -29,6 +30,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
                 f'Invalid JMA Typhoon Number: {tn}',
                 self)
         self.typhoon_number = f'{tn}号'
+        self.typhoon_number_raw = tn
 
         sr = self.extract_field(94, 4)
         try:
@@ -37,6 +39,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
             raise QzssDcrDecoderException(
                 f'Undefined JMA Typhoon Scale Category: {sr}',
                 self)
+        self.typhoon_scale_category_raw = sr
 
         lc = self.extract_field(98, 4)
         try:
@@ -45,6 +48,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
             raise QzssDcrDecoderException(
                 f'Undefined JMA Typhoon Intensity Category: {lc}',
                 self)
+        self.typhoon_intencity_category_raw = lc
 
         self.coordinates_of_typhoon = self.extract_lat_lon_field(102)
 
@@ -54,6 +58,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
                 f'Invalid JMA Central Pressure: {pr}',
                 self)
         self.central_pressure = f'{pr}hPa'
+        self.central_pressure_raw = pr
 
         w1 = self.extract_field(154, 7)
         if w1 == 0:
@@ -64,6 +69,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
                 self)
         else:
             self.maximum_wind_speed = f'{w1}m/s'
+        self.maximum_wind_speed_raw = w1
 
         w2 = self.extract_field(161, 7)
         if w2 == 0:
@@ -74,5 +80,6 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
                 self)
         else:
             self.maximum_gust_wind_speed = f'{w2}m/s'
+        self.maximum_gust_wind_speed_raw = w2
 
         return QzssDcReportJmaTyphoon(**self.get_params())

@@ -11,7 +11,9 @@ class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
 
     def decode(self):
         self.marine_warning_codes = []
+        self.marine_warning_codes_raw = []
         self.marine_forecast_regions = []
+        self.marine_forecast_regions_raw = []
         for i in range(8):
             offset = 53 + i * 19
             dw = self.extract_field(offset, 5)
@@ -25,6 +27,7 @@ class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Marine Warning Code: {dw}',
                     self)
+            self.marine_warning_codes_raw.append(dw)
 
             try:
                 self.marine_forecast_regions.append(qzss_dcr_jma_marine_forecast_region[pl])
@@ -32,5 +35,6 @@ class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Marine Forecast: {pl}',
                     self)
+            self.marine_forecast_regions_raw.append(pl)
 
         return QzssDcReportJmaMarine(**self.get_params())
