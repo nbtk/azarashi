@@ -140,11 +140,16 @@ azarashi.decode(msg, msg_type='nmea')
 - `msg`: メッセージを渡してください。メッセージは str 型または bytes 型です。
 - `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。`nmea` または `hex` を指定したときメッセージは str 型、`ublox` を指定したときメッセージは bytes 型です。
 #### Example
-デコードして得られたレポートオブジェクトを `print()` にわたすとヒューマンリーダブルな災害情報を返します。
+デコードして得られたレポートオブジェクトを `str()` にわたすとヒューマンリーダブルな災害情報を返します。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
 >>> report = azarashi.decode(msg, 'nmea')
+>>> str(report)
+'防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向灘\n地震発生時刻: 10日10時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
+```
+つまりレポートオブジェクトを `print()` にわたせば災害情報を出力します。
+```python
 >>> print(report)
 ```
 ```
@@ -171,37 +176,47 @@ azarashi.decode(msg, msg_type='nmea')
 ```python
 {'assumptive': False,
  'depth_of_hypocenter': '10km',
+ 'depth_of_hypocenter_raw': 10,
  'disaster_category': '緊急地震速報',
  'disaster_category_en': 'Earthquake Early Warning',
  'disaster_category_no': 1,
  'eew_forecast_regions': ['島根', '岡山', '広島', '山口', '香川', '愛媛',
                           '高知', '福岡', '佐賀', '長崎', '熊本', '大分',
                           '宮崎', '鹿児島', '中国', '四国', '九州'],
+ 'eew_forecast_regions_raw': [37, 38, 39, 40, 42, 43,
+                              44, 45, 46, 47, 48, 49,
+                              50, 51, 66, 67, 68],
  'information_type': '発表',
  'information_type_en': 'Issue',
  'information_type_no': 0,
  'magnitude': '7.2',
+ 'magnitude_raw': 72,
  'message': b'\xc6\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00'
             b'\x03\xdf\xf8\x00\x1c\x00\x00\x11\x85D?\xc0',
  'message_header': '$QZQSM',
  'message_type': 'DC Report (JMA)',
  'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
- 'occurrence_time_of_earthquake': datetime.datetime(2022, 3, 10, 1, 0),
+ 'notifications_on_disaster_prevention_raw': [201],
+ 'occurrence_time_of_earthquake': datetime.datetime(2023, 3, 10, 1, 0),
  'preamble': 'C',
  'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
         b'\xdf\xf8\x00\x1c\x00\x00\x10',
  'report_classification': '訓練/試験',
  'report_classification_en': 'Training/Test',
  'report_classification_no': 7,
- 'report_time': datetime.datetime(2022, 3, 10, 1, 0),
+ 'report_time': datetime.datetime(2023, 3, 10, 1, 0),
  'satellite_id': 55,
  'satellite_prn': 183,
  'seismic_epicenter': '日向灘',
+ 'seismic_epicenter_raw': 791,
  'seismic_intensity_lower_limit': '震度6弱',
+ 'seismic_intensity_lower_limit_raw': 8,
  'seismic_intensity_upper_limit': '〜程度以上',
+ 'seismic_intensity_upper_limit_raw': 11,
  'sentence': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
- 'timestamp': datetime.datetime(2022, 4, 8, 15, 8, 52, 930551)}
+ 'timestamp': datetime.datetime(2023, 6, 29, 9, 22, 2, 203772),
+ 'version': 1}
 ```
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
 ```python
