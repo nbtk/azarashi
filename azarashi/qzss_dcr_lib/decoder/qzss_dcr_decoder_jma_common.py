@@ -117,9 +117,9 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
     def extract_depth_field(self, slider):
         de = self.extract_field(slider, 9)
         if de == 501:
-            return '500kmより深い'
+            return '500kmより深い', de
         elif de == 511:
-            return '不明'
+            return '不明', de
         elif 501 < de < 511:
             raise QzssDcrDecoderException(
                 f'Invalid Depth of Hypocenter: {de}',
@@ -130,11 +130,11 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
     def extract_magnitude_field(self, slider):
         ma = self.extract_field(slider, 7)
         if ma == 101:
-            return '10.0より大きい'
+            return '10.0より大きい', ma
         elif ma == 126:
-            return '不明(8.0より大きい)'
+            return '不明(8.0より大きい)', ma
         elif ma == 127:
-            return '不明'
+            return '不明', ma
         elif ma < 1 or (101 < ma < 126):
             raise QzssDcrDecoderException(
                 f'Invalid Magnitude: {ma / 10}',
