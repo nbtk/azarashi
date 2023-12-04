@@ -143,6 +143,23 @@ def test_ublox():
                     'ublox')
 
 
+def test_northwest_pacific_tsunami():
+    # 北西太平洋津波
+    report = azarashi.decode('$QZQSM,54,53AD360D5B80047FFFFE3000000000000000000000000000000000118372EC8*0D')
+    assert type(report) == azarashi.qzss_dc_report.QzssDcReportJmaNorthwestPacificTsunami
+    report = azarashi.decode('$QZQSM,53,9AAD3609E080023AE008D3D1008E449009D457009E3E5011F00000138B3E720*0C')
+    assert type(report) == azarashi.qzss_dc_report.QzssDcReportJmaNorthwestPacificTsunami
+
+
+def test_unknown_magnitude_or_depth():
+    # 震源 マグニチュード:不明, 深さ:不明
+    report = azarashi.decode('$QZQSM,54,53AD160D2800039400001A28FFFFEE601800C8F00000000000000011BF8D908*00')
+    assert report.depth_of_hypocenter == '不明'
+    assert report.depth_of_hypocenter_raw == 511
+    assert report.magnitude == '不明'
+    assert report.magnitude_raw == 127
+
+
 def test_from_file():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
