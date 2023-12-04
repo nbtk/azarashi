@@ -9,6 +9,8 @@ from .qzss_dcr_jma_flood_warning_level import *
 from .qzss_dcr_jma_information_serial_code import *
 from .qzss_dcr_jma_information_type import *
 from .qzss_dcr_jma_local_government import *
+from .qzss_dcr_jma_long_period_ground_motion_lower_limit import *
+from .qzss_dcr_jma_long_period_ground_motion_upper_limit import *
 from .qzss_dcr_jma_marine_forecast_region import *
 from .qzss_dcr_jma_marine_warning_code import *
 from .qzss_dcr_jma_northwest_pacific_tsunami_height import *

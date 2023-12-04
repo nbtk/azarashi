@@ -153,6 +153,10 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
 
 class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
     def __init__(self,
+                 long_period_ground_motion_lower_limit,
+                 long_period_ground_motion_lower_limit_raw,
+                 long_period_ground_motion_upper_limit,
+                 long_period_ground_motion_upper_limit_raw,
                  notifications_on_disaster_prevention,
                  notifications_on_disaster_prevention_raw,
                  occurrence_time_of_earthquake,
@@ -171,6 +175,10 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
                  eew_forecast_regions_raw,
                  **kwargs):
         super().__init__(**kwargs)
+        self.long_period_ground_motion_lower_limit = long_period_ground_motion_lower_limit
+        self.long_period_ground_motion_lower_limit_raw = long_period_ground_motion_lower_limit_raw
+        self.long_period_ground_motion_upper_limit = long_period_ground_motion_upper_limit
+        self.long_period_ground_motion_upper_limit_raw = long_period_ground_motion_upper_limit_raw
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
@@ -206,6 +214,10 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
                   f'マグニチュード: {self.magnitude}{assumptive_str}\n' + \
                   f'震度(下限): {self.seismic_intensity_lower_limit}\n' + \
                   f'震度(上限): {self.seismic_intensity_upper_limit}\n'
+        if self.long_period_ground_motion_lower_limit != None:
+            report += f'長周期地震動階級(下限): {self.long_period_ground_motion_lower_limit}\n'
+        if self.long_period_ground_motion_upper_limit != None:
+            report += f'長周期地震動階級(上限): {self.long_period_ground_motion_upper_limit}\n'
         report += '、'.join(self.eew_forecast_regions)
         return report
 

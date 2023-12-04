@@ -356,7 +356,7 @@ optional arguments:
   -v, --verbose         verbose mode (default: False)
 ```
 ## Note
-IS-QZSS-DCR-010 をサポートしています。
+IS-QZSS-DCR-011 をサポートしています。
 ## Tips
 ### UnicodeDecodeError
 ```
