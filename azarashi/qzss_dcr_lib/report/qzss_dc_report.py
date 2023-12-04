@@ -399,7 +399,7 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
             if self.expected_tsunami_arrival_times[i] is None:
                 ta = 'Unknown'
             else:
-                ta = self.convert_dt_to_str(self.expected_tsunami_arrival_times[i])
+                ta = self.convert_dt_to_str_iso(self.expected_tsunami_arrival_times[i])
             report += f'\n\nExpected Tsunami Arrival Time: {ta}\n' + \
                       f'Tsunami Height: {self.tsunami_heights_en[i]}\n' + \
                       f'Coastal Region: {self.coastal_regions_en[i]}'
