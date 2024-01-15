@@ -160,6 +160,15 @@ def test_unknown_magnitude_or_depth():
     assert report.magnitude_raw == 127
 
 
+def test_long_period_ground_motion():
+    # 緊急地震速報 長周期地震動
+    report = azarashi.decode('$QZQSM,53,9AAF88A48000DB24000049000548C5E2C000000003DFF8001C000012101445C*7E')
+    assert report.long_period_ground_motion_lower_limit == '長周期地震動階級2'
+    assert report.long_period_ground_motion_lower_limit_raw == 3
+    assert report.long_period_ground_motion_upper_limit == '長周期地震動階級2'
+    assert report.long_period_ground_motion_upper_limit_raw == 3
+
+
 def test_from_file():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
