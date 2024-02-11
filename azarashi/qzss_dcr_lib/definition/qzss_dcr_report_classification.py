@@ -7,7 +7,7 @@ qzss_dcr_report_classification = QzssDcrDefinition(
         3: "通常",
         7: "訓練/試験",
     },
-    undefined=None
+    undefined="通報区分(コード番号：%d)"
 )
 
 qzss_dcr_report_classification_en = QzssDcrDefinition(
@@ -17,5 +17,5 @@ qzss_dcr_report_classification_en = QzssDcrDefinition(
         3: "Regular",
         7: "Training/Test",
     },
-    undefined=None
+    undefined="Report Classification (Code:%d)"
 )
