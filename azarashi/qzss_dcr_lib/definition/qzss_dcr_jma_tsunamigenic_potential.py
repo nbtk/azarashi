@@ -10,5 +10,5 @@ qzss_dcr_jma_tsunamigenic_potential_en = QzssDcrDefinition(
         7: "There is Possibility of a Tsunami",  # "その他の津波発生の可能性有無",
         # "N*": "Tsunamigenic Potential (Code: N)",
     },
-    undefined="Tsunamigenic Potential (Code: %d)"
+    undefined="Undefined Tsunamigenic Potential (Code: %d)"
 )
