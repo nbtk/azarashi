@@ -6,7 +6,7 @@ qzss_dcr_jma_information_type = QzssDcrDefinition(
         1: '訂正',
         2: '取消',
     },
-    undefined=None
+    undefined="情報形態(コード番号：%d)"
 )
 
 qzss_dcr_jma_information_type_en = QzssDcrDefinition(
@@ -15,5 +15,5 @@ qzss_dcr_jma_information_type_en = QzssDcrDefinition(
         1: 'Correction',
         2: 'Cancellation',
     },
-    undefined=None
+    undefined="Undefined Information Type (Code: %d)"
 )

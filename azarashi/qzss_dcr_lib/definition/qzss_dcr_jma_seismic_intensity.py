@@ -10,5 +10,5 @@ qzss_dcr_jma_seismic_intensity = QzssDcrDefinition(
         6: "6強",
         7: "7",
     },
-    undefined=None
+    undefined="震度(コード番号：%d)"
 )

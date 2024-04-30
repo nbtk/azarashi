@@ -11,5 +11,5 @@ qzss_dcr_jma_long_period_ground_motion_upper_limit = QzssDcrDefinition(
         6: "〜程度以上",
         7: "不明",
     },
-    undefined=None
+    undefined="長周期地震動階級(コード番号：%d)"
 )

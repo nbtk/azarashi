@@ -10,5 +10,5 @@ qzss_dcr_jma_information_serial_code = QzssDcrDefinition(
         6: "調査終了",
         15: "その他の情報",
     },
-    undefined=None
+    undefined="地震関連情報(コード番号：%d)"
 )

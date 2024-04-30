@@ -37,5 +37,5 @@ qzss_dcr_organization_code = QzssDcrDefinition(
         53: "Public Agency",
         60: "Foreign Country",
     },
-    undefined="Undefined Organization (Code:%d)"
+    undefined="Organization (Code: %d)"
 )

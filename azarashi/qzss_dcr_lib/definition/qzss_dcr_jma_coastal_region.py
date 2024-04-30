@@ -100,7 +100,7 @@ qzss_dcr_jma_coastal_region_en = QzssDcrDefinition(
         # 96:  "Reserved",
         99: "Unknown",
         100: "Other region",
-        # "NN*": "Coastal Region (Code:NN)",
+        # "NN*": "Coastal Region (Code: NN)",
     },
-    undefined="Coastal Region (Code:%d)"
+    undefined="Undefined Coastal Region (Code: %d)"
 )

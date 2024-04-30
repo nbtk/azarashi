@@ -50,5 +50,5 @@ qzss_dcr_jma_prefecture = QzssDcrDefinition(
         46: "鹿児島県",
         47: "沖縄県",
     },
-    undefined=None
+    undefined="都道府県(コード番号：%d)"
 )

@@ -8,5 +8,5 @@ qzss_dcr_satellite_prn = QzssDcrDefinition(
         58: "PRN186",
         61: "PRN189",
     },
-    undefined="Undefined PRN (%d)"
+    undefined="Undefined PRN (Code: %d)"
 )

@@ -11,5 +11,5 @@ qzss_dcr_jma_northwest_pacific_tsunami_height_en = QzssDcrDefinition(
         510: "High",
         511: "Unknown",
     },
-    undefined=None
+    undefined="Undefined Tsunami Height (Code: %d)"
 )

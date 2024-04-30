@@ -17,5 +17,5 @@ qzss_dcr_report_classification_en = QzssDcrDefinition(
         3: "Regular",
         7: "Training/Test",
     },
-    undefined="Report Classification (Code:%d)"
+    undefined="Undefined Report Classification (Code: %d)"
 )

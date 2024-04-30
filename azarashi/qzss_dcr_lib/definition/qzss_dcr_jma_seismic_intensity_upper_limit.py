@@ -16,5 +16,5 @@ qzss_dcr_jma_seismic_intensity_upper_limit = QzssDcrDefinition(
         14: "なし",
         15: "不明",
     },
-    undefined=None
+    undefined="震度(上限)(コード番号：%d)"
 )

@@ -8,7 +8,7 @@ qzss_dcr_jma_tsunamigenic_potential_en = QzssDcrDefinition(
         3: "There is a Possibility of a Destructive Local Tsunami Near the Epicenter",
         4: "There is a Very Small Possibility of a destructive Local Tsunami",
         7: "There is Possibility of a Tsunami",  # "その他の津波発生の可能性有無",
-        # "N*": "Tsunamigenic Potential (Code：N)",
+        # "N*": "Tsunamigenic Potential (Code: N)",
     },
-    undefined="Tsunamigenic Potential (Code：%d)"
+    undefined="Tsunamigenic Potential (Code: %d)"
 )
