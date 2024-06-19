@@ -53,21 +53,18 @@ class QzssDcReportMessageBase(QzssDcReportMessagePartial):
     def __init__(self,
                  preamble,
                  message_type,
-                 report_classification,
-                 report_classification_en,
-                 report_classification_no,
                  **kwargs):
         super().__init__(**kwargs)
         self.preamble = preamble
         self.message_type = message_type
-        self.report_classification = report_classification
-        self.report_classification_en = report_classification_en
-        self.report_classification_no = report_classification_no
 
 
 class QzssDcReportJmaBase(QzssDcReportMessageBase):
     def __init__(self,
                  version,
+                 report_classification,
+                 report_classification_en,
+                 report_classification_no,
                  disaster_category,
                  disaster_category_en,
                  disaster_category_no,
@@ -78,6 +75,9 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
                  **kwargs):
         super().__init__(**kwargs)
         self.version = version
+        self.report_classification = report_classification
+        self.report_classification_en = report_classification_en
+        self.report_classification_no = report_classification_no
         self.disaster_category = disaster_category
         self.disaster_category_en = disaster_category_en
         self.disaster_category_no = disaster_category_no
@@ -625,14 +625,24 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportOtherOrganization(QzssDcReportMessageBase):
+class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
     def __init__(self,
-                 organization_code,
-                 organization_code_raw,
+                 preamble,
+                 message_type,
                  **kwargs):
         super().__init__(**kwargs)
-        self.organization_code = organization_code
-        self.organization_code_raw = organization_code_raw
+        self.preamble = preamble
+        self.message_type = message_type
+        for key, value in kwargs.items():
+            if key not in self.__dict__:
+                self.__dict__[key] = value
+
+
+class QzssDcxJAlert(QzssDcXtendedMessageBase):
+    def __init__(self,
+                 **kwargs):
+        super().__init__(**kwargs)
 
     def __str__(self):
-        return f'Disaster Crisis Report ({self.organization_code})'
+        report = 'J-Alert\n'
+        return report
