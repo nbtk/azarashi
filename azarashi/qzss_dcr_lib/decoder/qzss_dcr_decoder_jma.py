@@ -13,6 +13,8 @@ from .qzss_dcr_decoder_jma_tsunami import QzssDcrDecoderJmaTsunami
 from .qzss_dcr_decoder_jma_typhoon import QzssDcrDecoderJmaTyphoon
 from .qzss_dcr_decoder_jma_volcano import QzssDcrDecoderJmaVolcano
 from .qzss_dcr_decoder_jma_weather import QzssDcrDecoderJmaWeather
+from ..definition import qzss_dcr_jma_report_classification
+from ..definition import qzss_dcr_jma_report_classification_en
 from ..definition import qzss_dcr_jma_disaster_category
 from ..definition import qzss_dcr_jma_disaster_category_en
 from ..definition import qzss_dcr_jma_information_type
@@ -30,6 +32,16 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
             raise QzssDcrDecoderException(
                 f'Unsupported JMA-DC Report Version: {self.version}',
                 self)
+
+        rc = self.extract_field(14, 3)
+        try:
+            self.report_classification = qzss_dcr_jma_report_classification[rc]
+            self.report_classification_en = qzss_dcr_jma_report_classification_en[rc]
+        except KeyError:
+            raise QzssDcrDecoderException(
+                f'Undefined Report Classification: {rc}',
+                self)
+        self.report_classification_no = rc
 
         dc = self.extract_field(17, 4)
         try:

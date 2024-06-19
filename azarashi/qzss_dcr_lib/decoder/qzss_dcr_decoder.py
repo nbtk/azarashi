@@ -1,10 +1,8 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder_jma import QzssDcrDecoderJma
-from .qzss_dcr_decoder_other_organization import QzssDcrDecoderOtherOrganization
+from .qzss_dcx_decoder import QzssDcxDecoder
 from ..definition import qzss_dcr_message_type
 from ..definition import qzss_dcr_preamble
-from ..definition import qzss_dcr_report_classification
-from ..definition import qzss_dcr_report_classification_en
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportMessagePartial
 
@@ -53,21 +51,11 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         if mt == 43:
             next_decoder = QzssDcrDecoderJma
         elif mt == 44:
-            next_decoder = QzssDcrDecoderOtherOrganization
+            next_decoder = QzssDcxDecoder
         else:
             raise QzssDcrDecoderException(
                 f'Unsupported Message Type: {mt}',
                 self)
-
-        rc = self.extract_field(14, 3)
-        try:
-            self.report_classification = qzss_dcr_report_classification[rc]
-            self.report_classification_en = qzss_dcr_report_classification_en[rc]
-        except KeyError:
-            raise QzssDcrDecoderException(
-                f'Undefined Report Classification: {rc}',
-                self)
-        self.report_classification_no = rc
 
         # stacks the next decoder
         return next_decoder(**self.get_params()).decode()
