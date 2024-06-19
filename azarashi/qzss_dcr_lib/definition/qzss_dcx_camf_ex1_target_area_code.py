@@ -1,7 +1,7 @@
 from .qzss_dcr_definition import QzssDcrDefinition
 
 
-qzss_dcx_ex1_target_area_en = QzssDcrDefinition(
+qzss_dcx_ex1_target_area_code_en = QzssDcrDefinition(
     {
         1000: 'Hokkaido',
         1100: 'Sapporo-shi, Hokkaido',
@@ -1802,7 +1802,7 @@ qzss_dcx_ex1_target_area_en = QzssDcrDefinition(
 )
 
 
-qzss_dcx_ex1_target_area_ja = QzssDcrDefinition(
+qzss_dcx_ex1_target_area_code_ja = QzssDcrDefinition(
     {
         1000: '北海道',
         1100: '北海道札幌市',

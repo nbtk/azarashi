@@ -1,6 +1,6 @@
 from .qzss_dcr_definition import QzssDcrDefinition
 
-qzss_dcr_report_classification = QzssDcrDefinition(
+qzss_dcr_jma_report_classification = QzssDcrDefinition(
     {
         1: "最優先",
         2: "優先",
@@ -10,7 +10,7 @@ qzss_dcr_report_classification = QzssDcrDefinition(
     undefined="通報区分(コード番号：%d)"
 )
 
-qzss_dcr_report_classification_en = QzssDcrDefinition(
+qzss_dcr_jma_report_classification_en = QzssDcrDefinition(
     {
         1: "Maximum Priority",
         2: "Priority",

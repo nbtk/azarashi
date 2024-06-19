@@ -1,7 +1,7 @@
 from .qzss_dcr_definition import QzssDcrDefinition
 
 
-qzss_dcx_camf_provider_identifier_australia = QzssDcrDefinition(
+qzss_dcx_camf_a3_provider_identifier_australia = QzssDcrDefinition(
     {
         1: 'National Emergency Management Agency',
         2: 'Bureau of Meteorology',
@@ -20,7 +20,7 @@ qzss_dcx_camf_provider_identifier_australia = QzssDcrDefinition(
 )
 
 
-qzss_dcx_camf_provider_identifier_fiji = QzssDcrDefinition(
+qzss_dcx_camf_a3_provider_identifier_fiji = QzssDcrDefinition(
     {
         1: 'National Disaster Management Office',
         2: 'Fiji Meteorological Service',
@@ -32,7 +32,7 @@ qzss_dcx_camf_provider_identifier_fiji = QzssDcrDefinition(
 )
 
 
-qzss_dcx_camf_provider_identifier_japan = QzssDcrDefinition(
+qzss_dcx_camf_a3_provider_identifier_japan = QzssDcrDefinition(
     {
         1: 'Foundation for MultiMedia Communications',
         2: 'Fire and Disaster Management Agency',
@@ -43,7 +43,7 @@ qzss_dcx_camf_provider_identifier_japan = QzssDcrDefinition(
 )
 
 
-qzss_dcx_camf_provider_identifier_thailand = QzssDcrDefinition(
+qzss_dcx_camf_a3_provider_identifier_thailand = QzssDcrDefinition(
     {
         1: 'Department of Disaster Prevention and Mitigation',
         2: 'Thai Meteorological Department',
@@ -63,18 +63,15 @@ qzss_dcx_camf_provider_identifier_thailand = QzssDcrDefinition(
 )
 
 
-qzss_dcx_camf_provider_identifier_undefined = QzssDcrDefinition(
+qzss_dcx_camf_a3_provider_identifier_undefined = QzssDcrDefinition(
     {},
     undefined="Undefined Provider Identifier (Code: %d)"
 )
 
 
-qzss_dcx_camf_provider_identifier_map = QzssDcrDefinition(
-    {
-        10: qzss_dcx_camf_provider_identifier_australia,
-        71: qzss_dcx_camf_provider_identifier_fiji,
-        111: qzss_dcx_camf_provider_identifier_japan,
-        219: qzss_dcx_camf_provider_identifier_thailand,
-    },
-    undefined=qzss_dcx_camf_provider_identifier_undefined
-)
+qzss_dcx_camf_a3_provider_identifier_map = {
+    10: qzss_dcx_camf_a3_provider_identifier_australia,
+    71: qzss_dcx_camf_a3_provider_identifier_fiji,
+    111: qzss_dcx_camf_a3_provider_identifier_japan,
+    219: qzss_dcx_camf_a3_provider_identifier_thailand,
+}
