@@ -1,6 +1,7 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
 
+from pprint import pformat
 from ..exception import QzssDcrDecoderException
 
 
@@ -46,8 +47,11 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
         self.message_header = message_header
         self.satellite_id = satellite_id
         self.satellite_prn = satellite_prn
-        self.raw = self.message[1:27] + bytes((self.message[27] & 0xF0,))
-
+        if self.message[1] >> 2 == 44: # DCX
+            # starts from camf, discards pab, mt and sd fields.
+            self.raw = self.message[3:27] + bytes((self.message[27] & 0xF0,))
+        else:
+            self.raw = self.message[1:27] + bytes((self.message[27] & 0xF0,))
 
 class QzssDcReportMessageBase(QzssDcReportMessagePartial):
     def __init__(self,
@@ -629,13 +633,116 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
     def __init__(self,
                  preamble,
                  message_type,
+                 camf,
+                 ignore_a12_to_a16,
+                 ignore_a17_to_a18,
+                 ignore_ex1,
+                 ignore_ex2_to_ex7,
+                 ignore_ex8_to_ex9,
                  **kwargs):
         super().__init__(**kwargs)
         self.preamble = preamble
         self.message_type = message_type
+        self.camf = camf
+        self.ignore_a12_to_a16 = ignore_a12_to_a16
+        self.ignore_a17_to_a18 = ignore_a17_to_a18
+        self.ignore_ex1 = ignore_ex1
+        self.ignore_ex2_to_ex7 = ignore_ex2_to_ex7
+        self.ignore_ex8_to_ex9 = ignore_ex8_to_ex9
+
         for key, value in kwargs.items():
             if key not in self.__dict__:
                 self.__dict__[key] = value
+
+    def __str__(self):
+        header = f"DCX Message - {self.__dict__.get('dcx_message_type')}\n"
+        if self.camf.a1 == 0:
+                header += "*** This is a test message ***\n"
+
+        report = header + \
+                 f"A1 - Message type: {self.__dict__.get('a1_message_type')}\n" + \
+                 f"A2 - Country/region name: {self.__dict__.get('a2_country_region_name')}\n" + \
+                 f"A3 - Provider identifier: {self.__dict__.get('a3_provider_identifier')}\n" + \
+                 f"A4 - Hazard category and type: {self.__dict__.get('a4_hazard_category')} - " + \
+                 f"{self.__dict__.get('a4_hazard_type')}\n" + \
+                 f"A4 - Hazard definition: {self.__dict__.get('a4_hazard_definition')}\n" + \
+                 f"A5 - Severity: {self.__dict__.get('a5_severity')}\n" + \
+                 f"A6A7 - Hazard onset: {self.__dict__.get('a6a7_hazard_onset_datetime')}\n" + \
+                 f"A8 - Hazard duration: {self.__dict__.get('a8_hazard_duration')}\n"
+        if self.camf.a9 == 0: # international
+            report += f"A11 - Guidance to react code: {self.__dict__.get('a11_international_library_code')}\n"
+            if self.camf.a11 != 0:
+                report += f"A11 - Guidance to react: {self.__dict__.get('a11_international_library')}\n"
+        elif self.camf.a9 == 1: # japanese
+            if self.camf.a11 != 0:
+                report += f"A11 - Guidance to react: {self.__dict__.get('a11_japanese_library')}\n" + \
+                          f"A11 - Guidance to react (ja): {self.__dict__.get('a11_japanese_library_ja')}\n"
+
+        if self.ignore_a12_to_a16 is False:
+            report += f"A12 - Ellipse centre latitude: {round(self.__dict__.get('a12_ellipse_centre_latitude'), 3)}\n" + \
+                      f"A13 - Ellipse centre longitude: {round(self.__dict__.get('a13_ellipse_centre_longitude'), 3)}\n" + \
+                      f"A14 - Ellipse semi - major axis: {round(self.__dict__.get('a14_ellipse_semi_major_axis'), 3)}\n" + \
+                      f"A15 - Ellipse semi - minor axis: {round(self.__dict__.get('a15_ellipse_semi_minor_axis'), 3)}\n" + \
+                      f"A16 - Ellipse azimuth: {round(self.__dict__.get('a16_ellipse_azimuth'), 3)}\n"
+
+        if self.ignore_a17_to_a18 is False:
+            a17 =  self.__dict__.get('a17_main_subject_for_specific_settings')
+            if a17 is not None:
+                report += f"A17 - Specific settings: {a17}\n"
+                keys = self.__dict__.keys()
+                prefix = ['c%d_' % (i + 1) for i in range(10)] + ['d%d_' % (i + 1) for i in range(34)]
+                for k in keys:
+                    for p in prefix:
+                        if k.startswith(p):
+                            ident, title = k.split('_', 1)
+                            headline = ident.upper() + '-' + title.replace('_', ' ').capitalize()
+                            content = self.__dict__.get(k)
+                            if type(content) is float:
+                                content = round(content, 3)
+                            report += f"{headline}: {content}\n"
+
+        if self.ignore_ex1 is False:
+            report += f"EX1 - Target area: {self.__dict__.get('ex1_target_area')}\n" + \
+                      f"EX1 - Target area (ja): {self.__dict__.get('ex1_target_area_ja')}\n"
+
+        if self.ignore_ex2_to_ex7 is False:
+            report += f"EX2 - Evacuate direction type: {self.__dict__.get('ex2_evacuate_direction_type')}\n" + \
+                      f"EX3 - Additional ellipse centre latitude: {self.__dict__.get('ex3_additional_ellipse_centre_latitude')}\n" + \
+                      f"EX4 - Additional ellipse centre longitude: {self.__dict__.get('ex4_additional_ellipse_centre_longitude')}\n" + \
+                      f"EX5 - Additional ellipse semi major axis: {self.__dict__.get('ex5_additional_ellipse_semi_major_axis')}\n" + \
+                      f"EX6 - Additional ellipse semi minor axis: {self.__dict__.get('ex6_additional_ellipse_semi_minor_axis')}\n" + \
+                      f"EX7 - Ellipse azimuth: {self.__dict__.get('ex7_ellipse_azimuth')}\n"
+
+        if self.ignore_ex8_to_ex9 is False:
+            report += f"EX8 - Target area list type: {self.__dict__.get('ex8_target_area_list_type')}\n" + \
+                      f"EX9 - Target area list: {self.__dict__.get('ex9_target_area_list')}\n" + \
+                      f"EX9 - Target area list (ja): {self.__dict__.get('ex9_target_area_list_ja')}\n"
+
+        if report.endswith('\n'):
+            report = report[:-1]
+
+        return report
+
+
+class QzssDcxNullMsg(QzssDcXtendedMessageBase):
+    def __init__(self,
+                 **kwargs):
+        super().__init__(**kwargs)
+
+    def __str__(self):
+        return f"DCX Message - {self.__dict__.get('dcx_message_type')}"
+
+
+class QzssDcxOutsideJapan(QzssDcXtendedMessageBase):
+    def __init__(self,
+                 **kwargs):
+        super().__init__(**kwargs)
+
+
+class QzssDcxLAlert(QzssDcXtendedMessageBase):
+    def __init__(self,
+                 **kwargs):
+        super().__init__(**kwargs)
 
 
 class QzssDcxJAlert(QzssDcXtendedMessageBase):
@@ -643,6 +750,14 @@ class QzssDcxJAlert(QzssDcXtendedMessageBase):
                  **kwargs):
         super().__init__(**kwargs)
 
-    def __str__(self):
-        report = 'J-Alert\n'
-        return report
+
+class QzssDcxMTInfo(QzssDcXtendedMessageBase):
+    def __init__(self,
+                 **kwargs):
+        super().__init__(**kwargs)
+
+
+class QzssDcxUnknown(QzssDcXtendedMessageBase):
+    def __init__(self,
+                 **kwargs):
+        super().__init__(**kwargs)
