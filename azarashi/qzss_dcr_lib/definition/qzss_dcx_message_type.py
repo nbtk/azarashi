@@ -3,15 +3,17 @@ from .qzss_dcr_definition import QzssDcrDefinition
 
 
 class DcxMessageType(enum.Enum):
-    OUTSIDE_JAPAN = 0
-    L_ALERT = 1
-    J_ALERT = 2
-    MT_INFO = 3
-    UNKNOWN = 4
+    NULL_MSG = 0
+    OUTSIDE_JAPAN = 1
+    L_ALERT = 2
+    J_ALERT = 3
+    MT_INFO = 4
+    UNKNOWN = 5
 
 
 qzss_dcx_message_type = QzssDcrDefinition(
     {
+        DcxMessageType.NULL_MSG: 'Null Message',
         DcxMessageType.OUTSIDE_JAPAN: 'Information from Organizations outside Japan',
         DcxMessageType.L_ALERT: 'L-Alert',
         DcxMessageType.J_ALERT: 'J-Alert',
