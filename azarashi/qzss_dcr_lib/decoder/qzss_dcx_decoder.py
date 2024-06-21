@@ -36,6 +36,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         class CAMF:
             def __str__(self):
                 return str(self.get_params())
+
             def get_params(self):
                 return self.__dict__
 
@@ -84,8 +85,8 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.satellite_designation_mask.append(sd_list[(camf.sdm & 1 << i) >> i])
 
         if camf.a1 == camf.a3 == camf.a4 == camf.a5 == camf.a6 == camf.a7 == camf.a8 == camf.a9 == camf.a10 == \
-           camf.a11 == camf.a12 == camf.a13 == camf.a14 == camf.a15 == camf.a16 == camf.a17 == camf.a18 == \
-           camf.ex1 == camf.ex2 == camf.ex3 == camf.ex4 == camf.ex5 == camf.ex6 == camf.ex7 == camf.vn == 0:
+                camf.a11 == camf.a12 == camf.a13 == camf.a14 == camf.a15 == camf.a16 == camf.a17 == camf.a18 == \
+                camf.ex1 == camf.ex2 == camf.ex3 == camf.ex4 == camf.ex5 == camf.ex6 == camf.ex7 == camf.vn == 0:
             dcx_message_type = DcxMessageType.NULL_MSG
         elif camf.a2 == 111:  # japan
             if camf.a3 == 1:  # fmmc
@@ -137,7 +138,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.ignore_ex2_to_ex7 = True
             self.ignore_ex8_to_ex9 = True
             return QzssDcxNullMsg(**self.get_params())
-        else: # has to be an unknown message
+        else:  # has to be an unknown message
             self.ignore_ex1 = True
             self.ignore_ex2_to_ex7 = True
             self.ignore_ex8_to_ex9 = True
@@ -438,5 +439,5 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             return QzssDcxLAlert(**self.get_params())
         elif self.dcx_message_type == DcxMessageType.MT_INFO:
             return QzssDcxMTInfo(**self.get_params())
-        else: # has to be an unknown message
+        else:  # has to be an unknown message
             return QzssDcxUnknown(**self.get_params())
