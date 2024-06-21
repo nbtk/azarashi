@@ -471,7 +471,7 @@ CAMF フィールドが空のメッセージです。SD フィールドを監視
 class QzssDcxNullMsg(QzssDcXtendedMessageBase)
 ```
 #### Information from Organizations outside Japan
-日本国外の機関からのメッセージです。
+日本国外の機関から発報されたメッセージです。
 ```python
 class QzssDcxOutsideJapan(QzssDcXtendedMessageBase)
 ```
