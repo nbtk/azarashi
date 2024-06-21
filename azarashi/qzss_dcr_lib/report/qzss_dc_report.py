@@ -655,7 +655,7 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
                 self.__dict__[key] = value
 
     def __str__(self):
-        header = f"DCX Message - {self.__dict__.get('dcx_message_type')}\n"
+        header = f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###\n"
         if self.camf.a1 == 0:
                 header += "*** This is a test message ***\n"
 
@@ -695,7 +695,7 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
                     for p in prefix:
                         if k.startswith(p):
                             ident, title = k.split('_', 1)
-                            headline = ident.upper() + '-' + title.replace('_', ' ').capitalize()
+                            headline = ident.upper() + ' - ' + title.replace('_', ' ').capitalize()
                             content = self.__dict__.get(k)
                             if type(content) is float:
                                 content = round(content, 3)
