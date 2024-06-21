@@ -730,7 +730,7 @@ class QzssDcxNullMsg(QzssDcXtendedMessageBase):
         super().__init__(**kwargs)
 
     def __str__(self):
-        return f"DCX Message - {self.__dict__.get('dcx_message_type')}"
+        return f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###"
 
 
 class QzssDcxOutsideJapan(QzssDcXtendedMessageBase):
