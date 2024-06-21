@@ -108,7 +108,6 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         self.ignore_ex1 = False
         self.ignore_ex2_to_ex7 = False
         self.ignore_ex8_to_ex9 = False
-
         if dcx_message_type == DcxMessageType.OUTSIDE_JAPAN:
             self.ignore_ex1 = True
             self.ignore_ex2_to_ex7 = True
@@ -131,7 +130,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             if ex3_to_ex7 == 0:
                 self.ignore_ex2_to_ex7 = True
             self.ignore_ex8_to_ex9 = True
-        if dcx_message_type == DcxMessageType.NULL_MSG:
+        elif dcx_message_type == DcxMessageType.NULL_MSG:
             self.ignore_a12_to_a16 = True
             self.ignore_a17_to_a18 = True
             self.ignore_ex1 = True
