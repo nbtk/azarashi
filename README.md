@@ -146,7 +146,7 @@ azarashi.decode(msg, msg_type='nmea')
 >>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
 >>> report = azarashi.decode(msg, 'nmea')
 >>> str(report)
-'防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向灘\n地震発生時刻: 10日10時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
+'防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
 ```
 つまりレポートオブジェクトを `print()` にわたせば災害情報を出力します。
 ```python
@@ -189,23 +189,27 @@ azarashi.decode(msg, msg_type='nmea')
  'information_type': '発表',
  'information_type_en': 'Issue',
  'information_type_no': 0,
+ 'long_period_ground_motion_lower_limit': None,
+ 'long_period_ground_motion_lower_limit_raw': 0,
+ 'long_period_ground_motion_upper_limit': None,
+ 'long_period_ground_motion_upper_limit_raw': 0,
  'magnitude': '7.2',
  'magnitude_raw': 72,
  'message': b'\xc6\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00'
             b'\x03\xdf\xf8\x00\x1c\x00\x00\x11\x85D?\xc0',
  'message_header': '$QZQSM',
- 'message_type': 'DC Report (JMA)',
+ 'message_type': 'DCR',
  'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
  'notifications_on_disaster_prevention_raw': [201],
- 'occurrence_time_of_earthquake': datetime.datetime(2023, 3, 10, 1, 0),
+ 'occurrence_time_of_earthquake': datetime.datetime(2024, 3, 10, 1, 0),
  'preamble': 'C',
  'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
         b'\xdf\xf8\x00\x1c\x00\x00\x10',
  'report_classification': '訓練/試験',
  'report_classification_en': 'Training/Test',
  'report_classification_no': 7,
- 'report_time': datetime.datetime(2023, 3, 10, 1, 0),
+ 'report_time': datetime.datetime(2024, 3, 10, 1, 0),
  'satellite_id': 55,
  'satellite_prn': 183,
  'seismic_epicenter': '日向灘',
@@ -215,7 +219,7 @@ azarashi.decode(msg, msg_type='nmea')
  'seismic_intensity_upper_limit': '〜程度以上',
  'seismic_intensity_upper_limit_raw': 11,
  'sentence': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
- 'timestamp': datetime.datetime(2023, 6, 29, 9, 22, 2, 203772),
+ 'timestamp': datetime.datetime(2024, 6, 21, 15, 40, 34, 960948),
  'version': 1}
 ```
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
@@ -355,6 +359,111 @@ optional arguments:
                         iface to bind (default: any)
   -v, --verbose         verbose mode (default: False)
 ```
+
+## DCX
+Azarashi は DCX メッセージのデコードをサポートしています。下記は L-Alert をデコードする例です。
+```python
+>>> import azarashi
+>>> msg = '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E' # l-alert
+>>> report = azarashi.decode(msg, 'nmea')
+>>> print(report)
+```
+```
+### DCX Message - L-Alert ###
+A1 - Message type: Alert
+A2 - Country/region name: Japan
+A3 - Provider identifier: Foundation for MultiMedia Communications
+A4 - Hazard category and type: MET - Rainfall
+A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is according to each local standard.
+A5 - Severity: Severe - Significant threat to life or property
+A6A7 - Hazard onset: 2024-06-23 13:00:00
+A8 - Hazard duration: 6H <= Duration < 12H
+A11 - Guidance to react: Keep away from Water area.
+A11 - Guidance to react (ja): 離れろ。水場。
+A12 - Ellipse centre latitude: 35.688
+A13 - Ellipse centre longitude: 139.691
+A14 - Ellipse semi - major axis: 10.933
+A15 - Ellipse semi - minor axis: 5.979
+A16 - Ellipse azimuth: 45.0
+A17 - Specific settings: B1 - Improved Resolution of Main Ellipse
+C1 - Refined latitude of centre of main ellipse: 35.688
+C2 - Refined longitude of centre of main ellipse: 139.691
+C3 - Refined length of semi major axis: 10.933
+C4 - Refined length of semi minor axis: 5.979
+```
+レポートオブジェクトからパラメータを取得するには get_params() メソッドを使うのは DCR と同様です。
+```python
+>>> from pprint import pprint
+>>> pprint(report.get_params(), sort_dicts=False)
+```
+```python
+{'sentence': '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E',
+ 'timestamp': datetime.datetime(2024, 6, 21, 15, 9, 5, 433111),
+ 'message': b'S\xb0`M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc'
+            b'\x00\x00\x00\x00\x00\x00\x00\x10"\xa8\x18\x80',
+ 'nmea': '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E',
+ 'message_header': '$QZQSM',
+ 'satellite_id': 55,
+ 'satellite_prn': 183,
+ 'raw': b'M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc\x00\x00\x00'
+        b'\x00\x00\x00\x00\x10',
+ 'preamble': 'A',
+ 'message_type': 'DCX',
+ 'camf': <azarashi.qzss_dcr_lib.decoder.qzss_dcx_decoder.QzssDcxDecoder.decode.<locals>.CAMF object at 0x1023af6a0>,
+ 'ignore_a12_to_a16': False,
+ 'ignore_a17_to_a18': False,
+ 'ignore_ex1': True,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_designation_mask': ['For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For use outside Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'dcx_message_type': 'L-Alert',
+ 'a1_message_type': 'Alert',
+ 'a2_country_region_name': 'Japan',
+ 'a3_provider_identifier': 'Foundation for MultiMedia Communications',
+ 'a4_hazard_category': 'MET',
+ 'a4_hazard_type': 'Rainfall',
+ 'a4_hazard_definition': 'Rainfall greater than or equal to 50 mm in past 24 '
+                         'hours. Note: Precise threshold is according to each '
+                         'local standard.',
+ 'a5_severity': 'Severe - Significant threat to life or property',
+ 'a6_hazard_onset_week': 'Current',
+ 'a7_hazard_onset_time_of_week': 'SUNDAY - 01:00 PM',
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2024, 6, 23, 13, 0),
+ 'a8_hazard_duration': '6H <= Duration < 12H',
+ 'a9_selection_of_library': 'Country/region guidance library',
+ 'a10_library_version': '#1',
+ 'a11_japanese_library': 'Keep away from Water area.',
+ 'a11_japanese_library_ja': '離れろ。水場。',
+ 'a12_ellipse_centre_latitude': 35.6882581826505,
+ 'a13_ellipse_centre_longitude': 139.69085457500137,
+ 'a14_ellipse_semi_major_axis': 10.932758602420911,
+ 'a15_ellipse_semi_minor_axis': 5.978542029422428,
+ 'a16_ellipse_azimuth': 45.0,
+ 'a17_main_subject_for_specific_settings': 'B1 - Improved Resolution of Main '
+                                           'Ellipse',
+ 'c1_refined_latitude_of_centre_of_main_ellipse': 35.6882581826505,
+ 'c2_refined_longitude_of_centre_of_main_ellipse': 139.69085457500137,
+ 'c3_refined_length_of_semi_major_axis': 10.932758602420911,
+ 'c4_refined_length_of_semi_minor_axis': 5.978542029422428,
+ 'dcx_version': 1}
+```
+ビットフィールドの値は report.camf オブジェクトに格納されています。
+```python
+print(report.camf.get_params())
+```
+```python
+{'sdmt': 0, 'sdm': 96, 'a1': 1, 'a2': 111, 'a3': 1, 'a4': 74, 'a5': 2, 'a6': 0, 'a7': 9421, 'a8': 2, 'a9': 1, 'a10': 0, 'a11': 773, 'a12': 45761, 'a13': 116395, 'a14': 13, 'a15': 11, 'a16': 48, 'a17': 0, 'a18': 0, 'ex1': 13104, 'ex2': 0, 'ex3': 0, 'ex4': 0, 'ex5': 0, 'ex6': 0, 'ex7': 0, 'ex8': 0, 'ex9': 7376896189632872448, 'ex10': 0, 'vn': 1, 'c1': 0, 'c2': 0, 'c3': 0, 'c4': 0}
+```
+
 ## Note
 IS-QZSS-DCR-011 をサポートしています。
 ## Tips
