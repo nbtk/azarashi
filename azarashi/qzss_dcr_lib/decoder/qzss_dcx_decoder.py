@@ -86,10 +86,8 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         if camf.a1 == camf.a3 == camf.a4 == camf.a5 == camf.a6 == camf.a7 == camf.a8 == camf.a9 == camf.a10 == \
            camf.a11 == camf.a12 == camf.a13 == camf.a14 == camf.a15 == camf.a16 == camf.a17 == camf.a18 == \
            camf.ex1 == camf.ex2 == camf.ex3 == camf.ex4 == camf.ex5 == camf.ex6 == camf.ex7 == camf.vn == 0:
-            self.dcx_message_type = qzss_dcx_message_type[DcxMessageType.NULL_MSG]
-            return QzssDcxNullMsg(**self.get_params())
-
-        if camf.a2 == 111:  # japan
+            dcx_message_type = DcxMessageType.NULL_MSG
+        elif camf.a2 == 111:  # japan
             if camf.a3 == 1:  # fmmc
                 dcx_message_type = DcxMessageType.L_ALERT
             elif camf.a3 == 2 or camf.a3 == 3:  # fdma or related ministries
@@ -109,6 +107,8 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         self.ignore_ex1 = False
         self.ignore_ex2_to_ex7 = False
         self.ignore_ex8_to_ex9 = False
+        if dcx_message_type == DcxMessageType.NULL_MSG:
+            return QzssDcxNullMsg(**self.get_params())
         if dcx_message_type == DcxMessageType.OUTSIDE_JAPAN:
             self.ignore_ex1 = True
             self.ignore_ex2_to_ex7 = True
