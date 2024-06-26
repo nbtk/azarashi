@@ -14,6 +14,8 @@ def main():
     parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
     parser.add_argument('-s', '--source', help='output the source messages', action='store_true')
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
+    parser.add_argument('-r', '--ignore-dcr', help='ignore dcr messages', action='store_true')
+    parser.add_argument('-x', '--ignore-dcx', help='ignore dcr messages', action='store_true')
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
     if args.input == 'stdin':
@@ -24,7 +26,10 @@ def main():
     while True:
         now = datetime.datetime.now().isoformat()
         try:
-            report = decode_stream(stream, args.type, unique=args.unique)
+            report = decode_stream(stream, args.type,
+                                   unique=args.unique,
+                                   ignore_dcr=args.ignore_dcr,
+                                   ignore_dcx=args.ignore_dcx)
             if args.verbose is True:
                 print(f'{now} --------------------------------\n{pformat(report.get_params())}\n')
             else:
