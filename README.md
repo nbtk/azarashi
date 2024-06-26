@@ -233,7 +233,7 @@ True
 ```
 ### decode_stream()
 ```python
-azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs={}, unique=False)
+azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs={}, unique=False, ignore_dcr=False, ignore_dcx=True)
 ```
 - `stream`: I/Oストリームを渡してください。デバイスファイルを `open()` して渡すときは、事前に stty コマンドで `ublox` なら `raw` モード、`nmea` ならデフォルト設定にしてください。pySerial つかうときは stty コマンドによる設定は不要です。
 - `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。
@@ -244,6 +244,8 @@ callback(report, *callback_args, **callback_kwargs)
 - `calback_args`: コールバック関数に渡される引数です。
 - `callback_kwargs`: コールバック関数に渡されるキーワード引数です。
 - `unique`: 重複したメッセージを無視したいときは `True` を指定してください。
+- `ignore_dcr`: DCRメッセージを無視したいときは `True` を指定してください。デフォルトは `False` です。
+- `ignore_dcx`: DCXメッセージを無視したくないときは `False` を指定してください。デフォルトは `True` です。
 #### Example
 指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
 ```python
@@ -508,5 +510,6 @@ GPS モジュールと接続するインタフェースのボーレートが一�
 CLI でストリームを受けていた azarashi は、書き込み側がクローズすると Encountered EOF と stderr に出力して終了します。これは正常な動作です。その直前までエラーなく動作していたと解釈してください。
 ### DCX Satellite Designation Field
 DCX メッセージの SD フィールドを監視する必要があるとき `decode.stream()` メソッドの `unique` オプションは指定しないでください。`unique` オプションを指定したとき、重複した DCX メッセージかどうかを判断するために SD フィールドの差異は考慮されません。SD フィールドが異なるメッセージでも CAMF フィールドが同じメッセージは同一とみなされます。したがって SD フィールドのみが異なるメッセージを取りこぼす可能性があり SD フィールドの変化を正確に監視できません。
+### 
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。

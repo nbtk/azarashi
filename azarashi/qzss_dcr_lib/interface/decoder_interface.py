@@ -30,17 +30,19 @@ def decode(msg, msg_type='nmea'):
         raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
 
 
-def decode_stream(stream, # do not decode one stream in parallel!
+def decode_stream(stream,  # do not decode one stream in parallel!
                   msg_type='nmea',
                   callback=None,
                   callback_args=(),
                   callback_kwargs={},
-                  unique=False):
-    for existing_stream in caches.keys():
+                  unique=False,
+                  ignore_dcr=False,
+                  ignore_dcx=True):
+    for existing_stream in caches.copy().keys():
         if existing_stream.closed:
             try:
-                caches.pop(existing_stream) # discards the garbage to prevent memory leaks
-            except KeyError: # might happen during race conditions
+                caches.pop(existing_stream)  # discards the garbage to prevent memory leaks
+            except KeyError:  # might happen during race conditions
                 pass
 
     if unique:
@@ -83,6 +85,15 @@ def decode_stream(stream, # do not decode one stream in parallel!
     while True:
         msg = extractor(reader, reader_kwargs=reader_kwargs)
         report = decode(msg, msg_type)
+
+        if report.message_type == 'DCR':
+            if ignore_dcr is True:
+                continue
+        elif report.message_type == 'DCX':
+            if ignore_dcx is True:
+                continue
+        else:  # unknown message type
+            continue
 
         if unique:
             if report in cache:
