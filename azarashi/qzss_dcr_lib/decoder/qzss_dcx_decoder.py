@@ -433,9 +433,9 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         if dcx_message_type == DcxMessageType.OUTSIDE_JAPAN:
             return QzssDcxOutsideJapan(**self.get_params())
         elif dcx_message_type == DcxMessageType.L_ALERT:
-            return QzssDcxJAlert(**self.get_params())
-        elif dcx_message_type == DcxMessageType.J_ALERT:
             return QzssDcxLAlert(**self.get_params())
+        elif dcx_message_type == DcxMessageType.J_ALERT:
+            return QzssDcxJAlert(**self.get_params())
         elif dcx_message_type == DcxMessageType.MT_INFO:
             return QzssDcxMTInfo(**self.get_params())
         else:  # has to be an unknown message
