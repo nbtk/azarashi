@@ -430,13 +430,13 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
 
         self.dcx_version = camf.vn
 
-        if self.dcx_message_type == DcxMessageType.OUTSIDE_JAPAN:
+        if dcx_message_type == DcxMessageType.OUTSIDE_JAPAN:
             return QzssDcxOutsideJapan(**self.get_params())
-        elif self.dcx_message_type == DcxMessageType.L_ALERT:
-            return QzssDcxJAlert(**self.get_params())
-        elif self.dcx_message_type == DcxMessageType.J_ALERT:
+        elif dcx_message_type == DcxMessageType.L_ALERT:
             return QzssDcxLAlert(**self.get_params())
-        elif self.dcx_message_type == DcxMessageType.MT_INFO:
+        elif dcx_message_type == DcxMessageType.J_ALERT:
+            return QzssDcxJAlert(**self.get_params())
+        elif dcx_message_type == DcxMessageType.MT_INFO:
             return QzssDcxMTInfo(**self.get_params())
         else:  # has to be an unknown message
             return QzssDcxUnknown(**self.get_params())
