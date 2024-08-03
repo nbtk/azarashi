@@ -202,19 +202,32 @@ def test_decode_error():
                         'ublox')
 
 
-def test_not_implemented():
-    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
-        # sent from a foreign country
-        azarashi.decode('53B3F8016DB2220D27800227DF1DDC42C080000000000000000000031363608', 'hex')
+#def test_not_implemented():
+#    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
+#        # sent from a foreign country
+#        azarashi.decode('53B3F8016DB2220D27800227DF1DDC42C080000000000000000000031363608', 'hex')
+#
+#    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
+#        # sent from a foreign country
+#        azarashi.decode('$QZQSM,53,53B3F8016DB2220D27800227DF1DDC42C080000000000000000000031363608*01')
+#
+#    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
+#        # sent from a foreign country
+#        azarashi.decode(b'\xB5\x62\x02\x13\x2C\x00\x05\x04\x01\x00\x09\x3F\x02\x00\x01\xF8'
+#                        b'\xB3\xC6\x09\x22\x81\x23\x98\xF5\x80\x65\xB5\x92\xFB\xDF\x00\xFD'
+#                        b'\xB8\x6F\x00\x00\x00\x00\x02\x00\x00\x00\x54\x3D\x1F\x97\xF3\xD8'
+#                        b'\x50\xF2\xE3\xC2',
+#                        'ublox')
 
-    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
-        # sent from a foreign country
-        azarashi.decode('$QZQSM,53,53B3F8016DB2220D27800227DF1DDC42C080000000000000000000031363608*01')
+def test_dcx():
+    null_msg = azarashi.decode('$QZQSM,54,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0F')
+    assert type(null_msg) is azarashi.qzss_dc_report.QzssDcxNullMsg
 
-    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
-        # sent from a foreign country
-        azarashi.decode(b'\xB5\x62\x02\x13\x2C\x00\x05\x04\x01\x00\x09\x3F\x02\x00\x01\xF8'
-                        b'\xB3\xC6\x09\x22\x81\x23\x98\xF5\x80\x65\xB5\x92\xFB\xDF\x00\xFD'
-                        b'\xB8\x6F\x00\x00\x00\x00\x02\x00\x00\x00\x54\x3D\x1F\x97\xF3\xD8'
-                        b'\x50\xF2\xE3\xC2',
-                        'ublox')
+    org_outside_jpn = azarashi.decode('$QZQSM,53,9AB08408E0598969E00066AFFE8E6F70091200000000000000000100CD1A410*09')
+    assert type(org_outside_jpn) is azarashi.qzss_dc_report.QzssDcxOutsideJapan
+
+    l_alert = azarashi.decode('$QZQSM,54,9AB0840DE10208ADE0000000000000000000011340000000000000132F0D238*05')
+    assert type(l_alert) is azarashi.qzss_dc_report.QzssDcxLAlert
+
+    j_alert = azarashi.decode('$QZQSM,55,53B0840DE31188FC208600000000000000001FFFFFFFFFFFC00000120738628*00')
+    assert type(j_alert) is azarashi.qzss_dc_report.QzssDcxJAlert
