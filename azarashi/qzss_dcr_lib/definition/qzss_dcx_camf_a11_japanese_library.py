@@ -4,6 +4,7 @@ qzss_dcx_camf_a11_japanese_library_en = QzssDcrDefinition(
     {
         0: "",
         1: "Take the best immediate action to save your life.",
+        126: "This is a test message for DCX.",
         127: "Take the best immediate action to save your life.",
         128: "Missile launched, missile launched. It is believed that a missile was launched. Please take shelter inside buildings or underground.",
         129: "Missile passed, missile passed. It is believed that the previous missile has passed over the area. The call for evacuation will be canceled. If you find any suspicious object, please stay away from it and inform the police or the fire department immediately.",
@@ -48,6 +49,7 @@ qzss_dcx_camf_a11_japanese_library_ja = QzssDcrDefinition(
     {
         0: "",
         1: "直ちに命を守るための最善の行動を。",
+        126: "これは、DCX のテストです。",
         127: "直ちに命を守るための最善の行動を。",
         128: "ミサイル発射。ミサイル発射。ミサイルが発射されたものとみられます。建物の中、又は地下に避難して下さい。",
         129: "ミサイル通過。ミサイル通過。先程のミサイルは通過したものとみられます。避難の呼びかけを解除します。不審なものには決して近寄らず直ちに警察や消防などに連絡して下さい。",
