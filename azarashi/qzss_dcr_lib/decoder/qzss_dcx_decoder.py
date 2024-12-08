@@ -408,7 +408,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.ex4_additional_ellipse_centre_longitude = 45 + 180 / 0x1FFFF * camf.ex4
             self.ex5_additional_ellipse_semi_major_axis = __get_axis(camf.ex5)
             self.ex6_additional_ellipse_semi_minor_axis = __get_axis(camf.ex6)
-            self.ex7_ellipse_azimuth = -90 + 180 / 0x80 * camf.ex7
+            self.ex7_additional_ellipse_azimuth = -90 + 180 / 0x80 * camf.ex7
         if self.ignore_ex8_to_ex9 is False:
             if camf.ex8 == 0:
                 self.ex8_target_area_list_type = 'Prefecture code'
