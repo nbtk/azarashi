@@ -1,4 +1,7 @@
 [![Downloads](https://static.pepy.tech/personalized-badge/azarashi?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/azarashi)
+
+<img src="https://raw.githubusercontent.com/nbtk/azarashi/refs/heads/main/logo.png" width="256">
+
 # Azarashi
 A QZSS DCR Decoder.
 ## Description
