@@ -7,7 +7,7 @@ class DcxMessageType(enum.Enum):
     OUTSIDE_JAPAN = 1
     L_ALERT = 2
     J_ALERT = 3
-    MT_INFO = 4
+    LOCAL_GOV = 4
     UNKNOWN = 5
 
 
@@ -17,7 +17,7 @@ qzss_dcx_message_type = QzssDcrDefinition(
         DcxMessageType.OUTSIDE_JAPAN: 'Information from Organizations outside Japan',
         DcxMessageType.L_ALERT: 'L-Alert',
         DcxMessageType.J_ALERT: 'J-Alert',
-        DcxMessageType.MT_INFO: 'Municipality-Transmitted Information',
+        DcxMessageType.LOCAL_GOV: 'Information from Local Government',
         DcxMessageType.UNKNOWN: 'Unknown DCX Message Type',
     },
     undefined='Undefined Message Type (Code: %d)'

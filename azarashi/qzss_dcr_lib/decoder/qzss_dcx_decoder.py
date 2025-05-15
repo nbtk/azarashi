@@ -93,8 +93,8 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                 dcx_message_type = DcxMessageType.L_ALERT
             elif camf.a3 == 2 or camf.a3 == 3:  # fdma or related ministries
                 dcx_message_type = DcxMessageType.J_ALERT
-            elif camf.a3 == 4:  # municipality
-                dcx_message_type = DcxMessageType.MT_INFO
+            elif camf.a3 == 4:  # information from local government
+                dcx_message_type = DcxMessageType.LOCAL_GOV
             else:
                 dcx_message_type = DcxMessageType.UNKNOWN
         else:  # outside japan
@@ -125,7 +125,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.ignore_a17_to_a18 = True
             self.ignore_ex1 = True
             self.ignore_ex2_to_ex7 = True
-        elif dcx_message_type == DcxMessageType.MT_INFO:
+        elif dcx_message_type == DcxMessageType.LOCAL_GOV:
             ex3_to_ex7 = self.extract_field(163, 51)
             if ex3_to_ex7 == 0:
                 self.ignore_ex2_to_ex7 = True
@@ -413,7 +413,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             if camf.ex8 == 0:
                 self.ex8_target_area_list_type = 'Prefecture code'
             else:
-                self.ex8_target_area_list_type = 'Municipality code'
+                self.ex8_target_area_list_type = 'Cities, towns and villages code'
             self.ex9_target_area_list = []
             self.ex9_target_area_list_ja = []
             if camf.ex8 == 0:  # prefecture code
@@ -421,7 +421,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                     if key & camf.ex9 >> 17:
                         self.ex9_target_area_list.append(qzss_dcx_camf_ex9_target_area_code_en[key])
                         self.ex9_target_area_list_ja.append(qzss_dcx_camf_ex9_target_area_code_ja[key])
-            else:  # municipality code
+            else:  # cities, towns and villages code
                 for i in range(4):
                     key = self.extract_field(147 + i * 16, 16)
                     if key != 0:
@@ -436,7 +436,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             return QzssDcxLAlert(**self.get_params())
         elif dcx_message_type == DcxMessageType.J_ALERT:
             return QzssDcxJAlert(**self.get_params())
-        elif dcx_message_type == DcxMessageType.MT_INFO:
+        elif dcx_message_type == DcxMessageType.LOCAL_GOV:
             return QzssDcxMTInfo(**self.get_params())
         else:  # has to be an unknown message
             return QzssDcxUnknown(**self.get_params())

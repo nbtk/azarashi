@@ -37,7 +37,7 @@ qzss_dcx_camf_a3_provider_identifier_japan = QzssDcrDefinition(
         1: 'Foundation for MultiMedia Communications',
         2: 'Fire and Disaster Management Agency',
         3: 'Related Ministries',
-        4: 'Municipality',
+        4: 'Local Government',
     },
     undefined="Undefined Provider Identifier of Japan (Code: %d)"
 )

@@ -1984,7 +1984,7 @@ qzss_dcx_ex1_target_area_code_en = QzssDcrDefinition(
         47381: 'Taketomi-cho, Okinawa',
         47382: 'Yonaguni-cho, Okinawa',
     },
-    undefined='Undefined municipality in Japan (Code: %d)'
+    undefined='Undefined city, town and village name in Japan (Code: %d)'
 )
 
 
