@@ -126,7 +126,8 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
     def convert_dt_to_str_iso(dt):
         return dt.strftime('---%dT%H:%MZ')
 
-    def convert_dt_to_ambiguous_time_str(self, td, du):
+    def convert_dt_to_ambiguous_time_str(self, td, du, time_diff=9):
+        td += timedelta(hours=time_diff)
         try:
             return [f'{td.month}月{td.day}日{td.hour}時{td.minute}分',  # No ambiguity
                     f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',
