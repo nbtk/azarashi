@@ -22,6 +22,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
                 self)
         self.reference_time_type_raw = dt
 
+        # the time elapsed from the analysis
         self.elapsed_time_from_reference_time = self.extract_field(80, 7)
 
         tn = self.extract_field(87, 7)
@@ -43,12 +44,12 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
 
         lc = self.extract_field(98, 4)
         try:
-            self.typhoon_intencity_category = qzss_dcr_jma_typhoon_intensity_category[lc]
+            self.typhoon_intensity_category = qzss_dcr_jma_typhoon_intensity_category[lc]
         except KeyError:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Typhoon Intensity Category: {lc}',
                 self)
-        self.typhoon_intencity_category_raw = lc
+        self.typhoon_intensity_category_raw = lc
 
         self.coordinates_of_typhoon = self.extract_lat_lon_field(102)
 

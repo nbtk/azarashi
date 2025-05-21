@@ -584,8 +584,8 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
                  typhoon_number_raw,
                  typhoon_scale_category,
                  typhoon_scale_category_raw,
-                 typhoon_intencity_category,
-                 typhoon_intencity_category_raw,
+                 typhoon_intensity_category,
+                 typhoon_intensity_category_raw,
                  coordinates_of_typhoon,
                  central_pressure,
                  central_pressure_raw,
@@ -598,13 +598,14 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
         self.reference_time = reference_time
         self.reference_time_type = reference_time_type
         self.reference_time_type_raw = reference_time_type_raw
+        # the time elapsed from the analysis
         self.elapsed_time_from_reference_time = elapsed_time_from_reference_time
         self.typhoon_number = typhoon_number
         self.typhoon_number_raw = typhoon_number_raw
         self.typhoon_scale_category = typhoon_scale_category
         self.typhoon_scale_category_raw = typhoon_scale_category_raw
-        self.typhoon_intencity_category = typhoon_intencity_category
-        self.typhoon_intencity_category_raw = typhoon_intencity_category_raw
+        self.typhoon_intensity_category = typhoon_intensity_category
+        self.typhoon_intensity_category_raw = typhoon_intensity_category_raw
         self.coordinates_of_typhoon = coordinates_of_typhoon
         self.central_pressure = central_pressure
         self.central_pressure_raw = central_pressure_raw
@@ -620,9 +621,9 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
                  f'台風番号: {self.typhoon_number}\n' + \
                  f'基点時刻: {self.convert_dt_to_str(self.reference_time)}\n' + \
                  f'基点時刻分類: {self.reference_time_type}\n' + \
-                 f'情報の基点時刻からの経過時間: {self.elapsed_time_from_reference_time}時間後\n' + \
+                 f'情報の基点時刻(実況)からの経過時間: {self.elapsed_time_from_reference_time}時間後\n' + \
                  f'大きさ: {self.typhoon_scale_category}\n' + \
-                 f'強さ: {self.typhoon_intencity_category}\n' + \
+                 f'強さ: {self.typhoon_intensity_category}\n' + \
                  f'緯度・経度: {self.convert_lat_lon_to_str(self.coordinates_of_typhoon)}\n' + \
                  f'中心気圧: {self.central_pressure}\n' + \
                  f'最大風速: {self.maximum_wind_speed}\n' + \
