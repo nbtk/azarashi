@@ -32,10 +32,20 @@ def ublox_qzss_dcr_message_extractor(reader, reader_args=(), reader_kwargs={}):
         else:
             match_count = 0
 
-        if match_count == len(ublox_qzss_dcr_message_header):
+        if match_count == len(ublox_qzss_dcr_message_header):  # SFRBX message
             match_count = 0
+            
+            message_length_lsb = __pop(1,reader,reader_args,reader_kwargs)[0]
+            
+            message_length_msb = __pop(1,reader,reader_args,reader_kwargs)[0]
+            
+            message_length = message_length_lsb + \
+                             (message_length_msb << 8)  # (little-endian 16-bit integer)
+            
             message = ublox_qzss_dcr_message_header + \
-                      __pop(52 - len(ublox_qzss_dcr_message_header),
+                      message_length_lsb.to_bytes(1,'little') + \
+                      message_length_msb.to_bytes(1,'little') + \
+                      __pop(message_length + 2 , # Payload + CK_A + CK_B
                             reader,
                             reader_args,
                             reader_kwargs)
