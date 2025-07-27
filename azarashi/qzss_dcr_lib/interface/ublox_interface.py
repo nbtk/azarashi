@@ -49,6 +49,9 @@ def ublox_qzss_dcr_message_extractor(reader, reader_args=(), reader_kwargs={}):
                             reader,
                             reader_args,
                             reader_kwargs)
+            
+            if message[6] != 5:  # gnssID != QZSS
+                continue
 
             if message[8] != 1:  # not a L1S signal
                 continue
