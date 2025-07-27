@@ -59,7 +59,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # checks the data size
         num_data_word = self.sentence[10]
-        if num_data_word != 9:
+        if num_data_word * 4 + 8 != len(self.sentence) -(len(ublox_qzss_dcr_message_header) + 2 + 2): # SFRBX + Length + CHK
             raise QzssDcrDecoderException(
                 f'Invalid Message Length: {num_data_word}',
                 self)
