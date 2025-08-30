@@ -14,7 +14,7 @@ class QzssDcrDecoderBase:
     def message_to_nmea(self):
         sat_id = getattr(self, 'satellite_id', None)
         if sat_id is None:
-            sat_id = 55  # Set the satellite_id of PRN183 if it was default.
+            sat_id = 56  # Set the satellite_id of PRN184 if it was default.
 
         nmea_partial = '{header},{satellite_id},{message}'.format(header=nmea_qzss_dcr_message_header,
                                                                   satellite_id=sat_id,
