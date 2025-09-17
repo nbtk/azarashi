@@ -9,14 +9,14 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
 
     def decode(self):
-        if len(self.sentence) < 52:
-            raise QzssDcrDecoderException(
-                'Too Short Sentence',
-                self)
-        if len(self.sentence) > 52:
-            raise QzssDcrDecoderException(
-                'Too Long Sentence',
-                self)
+#         if len(self.sentence) < 52:
+#             raise QzssDcrDecoderException(
+#                 'Too Short Sentence',
+#                 self)
+#         if len(self.sentence) > 52:
+#             raise QzssDcrDecoderException(
+#                 'Too Long Sentence',
+#                 self)
 
         # extracts a message header, satellite id, and message
         self.message_header = self.sentence[:len(ublox_qzss_dcr_message_header)]
@@ -59,7 +59,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # checks the data size
         num_data_word = self.sentence[10]
-        if num_data_word != 9:
+        if num_data_word * 4 + 8 != len(self.sentence) -(len(ublox_qzss_dcr_message_header) + 2 + 2): # SFRBX + Length + CHK
             raise QzssDcrDecoderException(
                 f'Invalid Message Length: {num_data_word}',
                 self)
