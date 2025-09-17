@@ -1,6 +1,7 @@
 from ..decoder import QzssDcrDecoder
 from ..decoder import QzssDcrDecoderBase
 from ..definition import ublox_qzss_dcr_message_header
+from ..definition import ublox_qzss_svn_prn_map
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportBase
 
@@ -47,8 +48,13 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                 self)
 
         # extracts a satellite id
-        self.satellite_id = self.sentence[7] + 51
-        self.satellite_prn = self.satellite_id | 0x80
+        self.satellite_prn = ublox_qzss_svn_prn_map.get(self.sentence[7])
+        if self.satellite_prn is None:
+            self.satellite_id = None
+        else:
+            # 2. PRNの下位6ビットからSatellite IDを計算
+            # 0x3F は二進数で 00111111 となり、これとのAND演算で下位6ビットのみが残る
+            self.satellite_id = self.satellite_prn & 0x3F
 
         # checks the signal id
         sig_id = self.sentence[8]
