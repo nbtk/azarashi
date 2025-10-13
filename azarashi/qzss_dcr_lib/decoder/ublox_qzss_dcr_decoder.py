@@ -10,15 +10,6 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
 
     def decode(self):
-#         if len(self.sentence) < 52:
-#             raise QzssDcrDecoderException(
-#                 'Too Short Sentence',
-#                 self)
-#         if len(self.sentence) > 52:
-#             raise QzssDcrDecoderException(
-#                 'Too Long Sentence',
-#                 self)
-
         # extracts a message header, satellite id, and message
         self.message_header = self.sentence[:len(ublox_qzss_dcr_message_header)]
 
@@ -47,14 +38,10 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                 f'This Sentence is not from QZSS: {gnss_id}',
                 self)
 
-        # extracts a satellite id
-        self.satellite_prn = ublox_qzss_svn_prn_map.get(self.sentence[7])
-        if self.satellite_prn is None:
-            self.satellite_id = None
-        else:
-            # 2. PRNの下位6ビットからSatellite IDを計算
-            # 0x3F は二進数で 00111111 となり、これとのAND演算で下位6ビットのみが残る
-            self.satellite_id = self.satellite_prn & 0x3F
+        # extracts the satellite id
+        svn = self.sentence[7]
+        self.satellite_prn = ublox_qzss_svn_prn_map[svn]
+        self.satellite_id = self.satellite_prn & 0x3f # extracts the lower 6 bits
 
         # checks the signal id
         sig_id = self.sentence[8]
@@ -70,7 +57,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                 f'Invalid Message Length: {num_data_word}',
                 self)
 
-        # extracts a dcr message
+        # extracts the dcr message
         data_offset = 14
         data = b''
         for i in range(num_data_word):
@@ -80,7 +67,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                            self.sentence[data_offset + 0 + i * 4]))
         self.message = data[:31] + bytes((data[31] & 0xC0,))
 
-        # generates a nmea sentence
+        # generates the nmea sentence
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
