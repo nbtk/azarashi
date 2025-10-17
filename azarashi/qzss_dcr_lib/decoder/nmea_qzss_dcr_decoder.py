@@ -49,7 +49,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
 
         if summed != checksum:
             raise QzssDcrDecoderException(
-                'Checksum Mismatch',
+                'Checksum Mismatch, should be %02X' % summed,
                 self)
 
         # extracts a message header, satellite id, and message
