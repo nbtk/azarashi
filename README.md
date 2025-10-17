@@ -498,7 +498,7 @@ class QzssDcxMTInfo(QzssDcXtendedMessageBase)
 class QzssDcxUnknown(QzssDcXtendedMessageBase)
 ```
 ## Note
-IS-QZSS-DCR-014、IS-QZSS-DCX-003 をサポートしています。
+IS-QZSS-DCR-015、IS-QZSS-DCX-003 をサポートしています。
 ## Tips
 ### UnicodeDecodeError
 ```
