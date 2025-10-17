@@ -61,7 +61,7 @@ def ublox_qzss_dcr_message_extractor(reader, reader_args=None, reader_kwargs=Non
                             reader_args,
                             reader_kwargs)
             
-            if message[6] != 5:  # the message is not sent by QZSS
+            if message[6] != 5:  # not sent by QZSS
                 continue
 
             if message[8] != 1:  # not a L1S signal
