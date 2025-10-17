@@ -136,24 +136,41 @@ def test_hex():
 
 def test_ublox():
     # Ublox SFRBX
-    azarashi.decode(b'\xB5\x62\x02\x13\x2C\x00\x05\x02\x01\x00\x09\x40\x02\x00\xC5\xF1'
-                    b'\xAD\x9A\x04\x05\x80\x11\x54\x8D\xA0\x60\x3F\x82\xD2\x11\x0F\xAA'
-                    b'\x7D\x50\x28\x0C\x43\xC9\x10\x00\x50\x7D\x31\x79\xF0\x28\x73\x18'
-                    b'\x10\xB2\x62\x2F',
-                    'ublox')
+    report_ublox = azarashi.decode(
+            b'\xB5\x62\x02\x13\x2C\x00\x05\x02\x01\x00\x09\x40\x02\x00\xC5\xF1'
+            b'\xAD\x9A\x04\x05\x80\x11\x54\x8D\xA0\x60\x3F\x82\xD2\x11\x0F\xAA'
+            b'\x7D\x50\x28\x0C\x43\xC9\x10\x00\x50\x7D\x31\x79\xF0\x28\x73\x18'
+            b'\x10\xB2\x62\x2F',
+            'ublox')
+    report_nmea = azarashi.decode(report_ublox.nmea, 'nmea')
+    assert report_ublox.nmea == report_nmea.nmea
+    assert report_ublox.satellite_id == report_nmea.satellite_id == 56
+    assert report_ublox.satellite_prn == report_nmea.satellite_prn == 184
+
+    report = azarashi.decode(
+            b'\xB5\x62\x02\x13\x2C\x00\x05\x02\x01\x00\x09\x40\x02\x00\x76\x14'
+            b'\xAD\x53\x5C\x03\x80\x1A\x33\xEC\x00\x00\x49\x48\x2F\x14\x20\x1B'
+            b'\x01\x52\x00\x00\x00\x00\x12\x00\x00\x00\xA6\x59\xB0\xC6\x5B\x1F'
+            b'\xF3\xB2\x3E\xB6',
+            'ublox')
+    report_nmea = azarashi.decode(report_ublox.nmea, 'nmea')
+    assert report_ublox.nmea == report_nmea.nmea
+    assert report_ublox.satellite_id == report_nmea.satellite_id == 56
+    assert report_ublox.satellite_prn == report_nmea.satellite_prn == 184
+
 
 
 def test_northwest_pacific_tsunami():
     # 北西太平洋津波
-    report = azarashi.decode('$QZQSM,54,53AD360D5B80047FFFFE3000000000000000000000000000000000118372EC8*0D')
+    report = azarashi.decode('$QZQSM,55,53AD360D5B80047FFFFE3000000000000000000000000000000000118372EC8*0C')
     assert type(report) == azarashi.qzss_dc_report.QzssDcReportJmaNorthwestPacificTsunami
-    report = azarashi.decode('$QZQSM,53,9AAD3609E080023AE008D3D1008E449009D457009E3E5011F00000138B3E720*0C')
+    report = azarashi.decode('$QZQSM,56,9AAD3609E080023AE008D3D1008E449009D457009E3E5011F00000138B3E720*09')
     assert type(report) == azarashi.qzss_dc_report.QzssDcReportJmaNorthwestPacificTsunami
 
 
 def test_unknown_magnitude_or_depth():
     # 震源 マグニチュード:不明, 深さ:不明
-    report = azarashi.decode('$QZQSM,54,53AD160D2800039400001A28FFFFEE601800C8F00000000000000011BF8D908*00')
+    report = azarashi.decode('$QZQSM,55,53AD160D2800039400001A28FFFFEE601800C8F00000000000000011BF8D908*01')
     assert report.depth_of_hypocenter == '不明'
     assert report.depth_of_hypocenter_raw == 511
     assert report.magnitude == '不明'
@@ -162,7 +179,7 @@ def test_unknown_magnitude_or_depth():
 
 def test_long_period_ground_motion():
     # 緊急地震速報 長周期地震動
-    report = azarashi.decode('$QZQSM,53,9AAF88A48000DB24000049000548C5E2C000000003DFF8001C000012101445C*7E')
+    report = azarashi.decode('$QZQSM,56,9AAF88A48000DB24000049000548C5E2C000000003DFF8001C000012101445C*7B')
     assert report.long_period_ground_motion_lower_limit == '長周期地震動階級2'
     assert report.long_period_ground_motion_lower_limit_raw == 3
     assert report.long_period_ground_motion_upper_limit == '長周期地震動階級2'
@@ -202,31 +219,14 @@ def test_decode_error():
                         'ublox')
 
 
-#def test_not_implemented():
-#    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
-#        # sent from a foreign country
-#        azarashi.decode('53B3F8016DB2220D27800227DF1DDC42C080000000000000000000031363608', 'hex')
-#
-#    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
-#        # sent from a foreign country
-#        azarashi.decode('$QZQSM,53,53B3F8016DB2220D27800227DF1DDC42C080000000000000000000031363608*01')
-#
-#    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError):
-#        # sent from a foreign country
-#        azarashi.decode(b'\xB5\x62\x02\x13\x2C\x00\x05\x04\x01\x00\x09\x3F\x02\x00\x01\xF8'
-#                        b'\xB3\xC6\x09\x22\x81\x23\x98\xF5\x80\x65\xB5\x92\xFB\xDF\x00\xFD'
-#                        b'\xB8\x6F\x00\x00\x00\x00\x02\x00\x00\x00\x54\x3D\x1F\x97\xF3\xD8'
-#                        b'\x50\xF2\xE3\xC2',
-#                        'ublox')
-
 def test_dcx():
-    null_msg = azarashi.decode('$QZQSM,54,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0F')
+    null_msg = azarashi.decode('$QZQSM,55,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0E')
     assert type(null_msg) is azarashi.qzss_dc_report.QzssDcxNullMsg
 
-    org_outside_jpn = azarashi.decode('$QZQSM,53,9AB08408E0598969E00066AFFE8E6F70091200000000000000000100CD1A410*09')
+    org_outside_jpn = azarashi.decode('$QZQSM,56,9AB08408E0598969E00066AFFE8E6F70091200000000000000000100CD1A410*0C')
     assert type(org_outside_jpn) is azarashi.qzss_dc_report.QzssDcxOutsideJapan
 
-    l_alert = azarashi.decode('$QZQSM,54,9AB0840DE10208ADE0000000000000000000011340000000000000132F0D238*05')
+    l_alert = azarashi.decode('$QZQSM,55,9AB0840DE10208ADE0000000000000000000011340000000000000132F0D238*04')
     assert type(l_alert) is azarashi.qzss_dc_report.QzssDcxLAlert
 
     j_alert = azarashi.decode('$QZQSM,55,53B0840DE31188FC208600000000000000001FFFFFFFFFFFC00000120738628*00')
