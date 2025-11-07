@@ -1,7 +1,7 @@
 from ..decoder import QzssDcrDecoder
 from ..decoder import QzssDcrDecoderBase
 from ..definition import ublox_qzss_dcr_message_header
-from ..definition import ublox_qzss_svn_prn_map
+from ..definition import ublox_qzss_svid_prn_map
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportBase
 
