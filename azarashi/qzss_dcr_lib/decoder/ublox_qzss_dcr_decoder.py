@@ -40,7 +40,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # extracts the satellite id
         svid = self.sentence[7]
-        self.satellite_prn = ublox_qzss_svid_prn_map[svid]
+        self.satellite_prn = ublox_qzss_svid_prn_map.get(svid, 183) # has already gone silent, but it is still used as the default value
         self.satellite_id = self.satellite_prn & 0x3f # extracts the lower 6 bits
 
         # checks the signal id
