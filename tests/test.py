@@ -147,7 +147,7 @@ def test_ublox():
     assert report_ublox.satellite_id == report_nmea.satellite_id == 56
     assert report_ublox.satellite_prn == report_nmea.satellite_prn == 184
 
-    report = azarashi.decode(
+    report_ublox = azarashi.decode(
             b'\xB5\x62\x02\x13\x2C\x00\x05\x02\x01\x00\x09\x40\x02\x00\x76\x14'
             b'\xAD\x53\x5C\x03\x80\x1A\x33\xEC\x00\x00\x49\x48\x2F\x14\x20\x1B'
             b'\x01\x52\x00\x00\x00\x00\x12\x00\x00\x00\xA6\x59\xB0\xC6\x5B\x1F'
