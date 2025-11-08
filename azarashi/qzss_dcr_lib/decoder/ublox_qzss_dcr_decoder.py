@@ -28,7 +28,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         sum_b &= 0xff
         if sum_a != self.sentence[-2] or sum_b != self.sentence[-1]:
             raise QzssDcrDecoderException(
-                'Checksum Mismatch',
+                f'Checksum Mismatch, should be: {sum_a:02X}, {sum_b:02X}',
                 self)
 
         # checks the gnss id
