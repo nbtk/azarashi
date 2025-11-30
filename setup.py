@@ -1,11 +1,11 @@
 import setuptools
 
-with open('README.md', 'r') as f:
+with open('README.md', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 setuptools.setup(
     name='azarashi',
-    version='0.15.0',
+    version='0.15.1',
     description='QZSS DCR Decoder',
     long_description=long_description,
     long_description_content_type='text/markdown',
