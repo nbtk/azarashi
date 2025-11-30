@@ -28,7 +28,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         sum_b &= 0xff
         if sum_a != self.sentence[-2] or sum_b != self.sentence[-1]:
             raise QzssDcrDecoderException(
-                f'Checksum Mismatch, should be: {sum_a:02X}, {sum_b:02X}',
+                f'Checksum Mismatch: expected {sum_a:02X}{sum_b:02X}, but got {self.sentence[-2]:02X}{self.sentence[-1]:02X}',
                 self)
 
         # checks the gnss id
@@ -40,7 +40,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # extracts the satellite id
         svid = self.sentence[7]
-        self.satellite_prn = ublox_qzss_svid_prn_map.get(svid, 183) # has already gone silent, but it is still used as the default value
+        self.satellite_prn = ublox_qzss_svid_prn_map[svid]
         self.satellite_id = self.satellite_prn & 0x3f # extracts the lower 6 bits
 
         # checks the signal id
