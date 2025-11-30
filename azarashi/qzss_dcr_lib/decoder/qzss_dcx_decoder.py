@@ -153,7 +153,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         self.a4_hazard_definition = qzss_dcx_camf_a4_hazard_definition[camf.a4]
         self.a5_severity = qzss_dcx_camf_a5_severity[camf.a5]
         self.a6_hazard_onset_week = qzss_dcx_camf_a6_hazard_onset_week[camf.a6]
-        today = datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        today = datetime.datetime.now(datetime.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
         hazard_onset = today + datetime.timedelta(weeks=camf.a6, days=-today.weekday(), minutes=camf.a7 - 1)
         if 1 <= camf.a7 <= 10080:
             self.a7_hazard_onset_time_of_week = hazard_onset.strftime('%A - %I:%M %p').upper()
