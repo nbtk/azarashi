@@ -147,7 +147,7 @@ def test_ublox():
     assert report_ublox.satellite_id == report_nmea.satellite_id == 56
     assert report_ublox.satellite_prn == report_nmea.satellite_prn == 184
 
-    report = azarashi.decode(
+    report_ublox = azarashi.decode(
             b'\xB5\x62\x02\x13\x2C\x00\x05\x02\x01\x00\x09\x40\x02\x00\x76\x14'
             b'\xAD\x53\x5C\x03\x80\x1A\x33\xEC\x00\x00\x49\x48\x2F\x14\x20\x1B'
             b'\x01\x52\x00\x00\x00\x00\x12\x00\x00\x00\xA6\x59\xB0\xC6\x5B\x1F'
@@ -158,6 +158,41 @@ def test_ublox():
     assert report_ublox.satellite_id == report_nmea.satellite_id == 56
     assert report_ublox.satellite_prn == report_nmea.satellite_prn == 184
 
+    report_ublox = azarashi.decode(
+            b'\xb5\x62\x02\x13\x2c\x00\x05\x03\x01\x00\x09\x41\x02\x00\xa1\xe5'
+            b'\xad\xc6\x12\x02\x80\x36\x68\x00\x00\x01\x10\x50\x34\x44\xd4\xee'
+            b'\x00\x34\x00\x00\x00\x3c\x11\x00\x00\x00\x14\x9c\x5f\x60\x26\xcb'
+            b'\xc0\xf2\xef\x1a',
+            'ublox')
+    
+    report_nmea = azarashi.decode(report_ublox.nmea, 'nmea')
+    assert report_ublox.nmea == report_nmea.nmea
+    assert report_ublox.satellite_id == report_nmea.satellite_id == 57
+    assert report_ublox.satellite_prn == report_nmea.satellite_prn == 185
+    
+    report_ublox = azarashi.decode(
+            b'\xb5\x62\x02\x13\x2c\x00\x05\x07\x01\x00\x09\x45\x02\x00\xa1\xe5'
+            b'\xad\xc6\x12\x02\x80\x36\x68\x00\x00\x01\x10\x50\x34\x44\xd4\xee'
+            b'\x00\x34\x00\x00\x00\x3c\x11\x00\x00\x00\x14\x9c\x5f\x60\x26\xcb'
+            b'\xc0\xf2\xf7\x62',
+            'ublox')
+    
+    report_nmea = azarashi.decode(report_ublox.nmea, 'nmea')
+    assert report_ublox.nmea == report_nmea.nmea
+    assert report_ublox.satellite_id == report_nmea.satellite_id == 61
+    assert report_ublox.satellite_prn == report_nmea.satellite_prn == 189
+    
+    report_ublox = azarashi.decode( # svId:1は停波済
+            b'\xb5\x62\x02\x13\x2c\x00\x05\x01\x01\x00\x09\x45\x02\x00\xa1\xe5'
+            b'\xad\xc6\x12\x02\x80\x36\x68\x00\x00\x01\x10\x50\x34\x44\xd4\xee'
+            b'\x00\x34\x00\x00\x00\x3c\x11\x00\x00\x00\x14\x9c\x5f\x60\x26\xcb'
+            b'\xc0\xf2\xf1\x60',
+            'ublox')
+    
+    report_nmea = azarashi.decode(report_ublox.nmea, 'nmea')
+    assert report_ublox.nmea == report_nmea.nmea
+    assert report_ublox.satellite_id == report_nmea.satellite_id == 55
+    assert report_ublox.satellite_prn == report_nmea.satellite_prn == 183
 
 
 def test_northwest_pacific_tsunami():

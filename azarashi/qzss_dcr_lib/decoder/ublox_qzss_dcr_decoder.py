@@ -1,7 +1,7 @@
 from ..decoder import QzssDcrDecoder
 from ..decoder import QzssDcrDecoderBase
 from ..definition import ublox_qzss_dcr_message_header
-from ..definition import ublox_qzss_svn_prn_map
+from ..definition import ublox_qzss_svid_prn_map
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportBase
 
@@ -28,7 +28,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         sum_b &= 0xff
         if sum_a != self.sentence[-2] or sum_b != self.sentence[-1]:
             raise QzssDcrDecoderException(
-                'Checksum Mismatch',
+                f'Checksum Mismatch, should be: {sum_a:02X}, {sum_b:02X}',
                 self)
 
         # checks the gnss id
@@ -39,8 +39,8 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                 self)
 
         # extracts the satellite id
-        svn = self.sentence[7]
-        self.satellite_prn = ublox_qzss_svn_prn_map[svn]
+        svid = self.sentence[7]
+        self.satellite_prn = ublox_qzss_svid_prn_map.get(svid, 183) # has already gone silent, but it is still used as the default value
         self.satellite_id = self.satellite_prn & 0x3f # extracts the lower 6 bits
 
         # checks the signal id
