@@ -227,7 +227,7 @@ def test_from_file():
     def handler(report):
         pprint(report.get_params())
 
-    with open(dir_path + '/qzqsm_220307.log', mode='r') as f:
+    with open(dir_path + '/qzqsm_220307.log', mode='r', encoding='utf-8') as f:
         while True:
             try:
                 azarashi.decode_stream(f, msg_type='nmea', callback=handler)
