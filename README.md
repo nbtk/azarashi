@@ -516,3 +516,7 @@ DCX メッセージの SD フィールドを監視する必要があるとき `d
 ### 
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
+Questions, suggestions, and comments are welcome! Please feel free to write in English.
+
+## Credits
+This project was originally developed during my time at BitMeister Inc., with support and resources generously provided by the company. I am really thankful for the people and the environment that helped make it happen. It is now maintained independently.
