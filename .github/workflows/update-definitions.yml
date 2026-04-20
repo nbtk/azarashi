@@ -1,0 +1,71 @@
+name: Update Definitions
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get latest azarashi version
+        id: ver
+        run: |
+          LATEST=$(pip index versions azarashi 2>/dev/null \
+            | grep -oP '(?<=azarashi \()([\d.]+)' | head -1)
+          CURRENT=$(cat .azarashi-version 2>/dev/null | tr -d '\n' || echo "0.0.0")
+          echo "latest=$LATEST"   >> $GITHUB_OUTPUT
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          if [[ "$LATEST" != "$CURRENT" ]]; then
+            echo "changed=true"  >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install azarashi
+        if: steps.ver.outputs.changed == 'true'
+        run: pip install "azarashi==${{ steps.ver.outputs.latest }}"
+
+      - name: Generate definition headers
+        if: steps.ver.outputs.changed == 'true'
+        run: |
+          cd scripts
+          python gen_definitions.py --out-dir ../src/definition
+
+      - name: Install arduino-cli
+        if: steps.ver.outputs.changed == 'true'
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Compile check (ESP32-C3)
+        if: steps.ver.outputs.changed == 'true'
+        run: |
+          arduino-cli config init
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32
+          arduino-cli compile --fqbn esp32:esp32:esp32c3 examples/basic_ubx
+
+      - name: Create Pull Request
+        if: steps.ver.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "chore: update definitions (azarashi ${{ steps.ver.outputs.latest }})"
+          branch: "auto/azarashi-${{ steps.ver.outputs.latest }}"
+          commit-message: "auto-gen: definitions from azarashi ${{ steps.ver.outputs.latest }}"
+          body: |
+            ## Auto-generated definition update
+
+            | | |
+            |---|---|
+            | Previous | `${{ steps.ver.outputs.current }}` |
+            | New      | `${{ steps.ver.outputs.latest }}`  |
+
+            Changes are in `src/definition/`. Do not edit those files manually.

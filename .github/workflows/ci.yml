@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ── ホストユニットテスト ────────────────────────────────────────────────
+  host-test:
+    name: Host unit tests (g++)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build & run
+        run: make -C test run
+
+  # ── Arduino (ESP32-C3) コンパイルチェック ─────────────────────────────
+  arduino-compile:
+    name: arduino-cli compile (ESP32-C3)
+    runs-on: ubuntu-latest
+    needs: host-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install arduino-cli
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Install ESP32 core
+        run: |
+          arduino-cli config init
+          arduino-cli config add board_manager.additional_urls \
+            https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32
+
+      - name: Compile examples
+        run: |
+          LIB_DIR=$(arduino-cli config get directories.user)/libraries
+          mkdir -p "$LIB_DIR"
+          ln -s "$GITHUB_WORKSPACE" "$LIB_DIR/azaraC"
+          BOARD=esp32:esp32:esp32c3
+          for sketch in examples/*/; do
+            echo "--- $sketch ---"
+            arduino-cli compile --fqbn $BOARD "$sketch"
+          done
