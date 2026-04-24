@@ -95,6 +95,18 @@ static void writeLatLon(Print& out, const char* key, const LatLon& ll, bool last
 static void serializeDcx(const Message& m, Print& out) {
     using namespace azaraC::def;
     wf_u(out, "dcx_type", (uint32_t)static_cast<uint8_t>(m.dcx_type));
+
+    const char* dcx_label = "UNKNOWN";
+    switch (m.dcx_type) {
+        case DcxType::NULL_MSG:      dcx_label = "NULL"; break;
+        case DcxType::L_ALERT:       dcx_label = "L_ALERT"; break;
+        case DcxType::J_ALERT:       dcx_label = "J_ALERT"; break;
+        case DcxType::LOCAL_GOV:     dcx_label = "LOCAL_GOV"; break;
+        case DcxType::OUTSIDE_JAPAN: dcx_label = "OUTSIDE_JAPAN"; break;
+        default: break;
+    }
+    wf_s(out, "dcx_type_label", dcx_label);
+
     wf_s(out, "a1_msg_type",
         qzss_dcx_camf_a1_message_type_lookup(m.a1_message_type));
     wf_u(out, "a2_country", m.a2_country_code);
@@ -235,7 +247,13 @@ static void serializeTsunami(const Message& m, Print& out) {
         if (i) writeChar(out, ',');
         const TsunamiEntry& e = m.tsunamis[i];
         out.print('{');
-        wf_u(out, "arrival_time_raw", e.arrival_time_raw);
+        uint16_t raw = e.arrival_time_raw;
+        if (raw > 0) {
+            wf_u(out, "arrival_day_offset", (raw >> 11) & 1u);
+            wf_u(out, "arrival_hour",       (raw >>  6) & 0x1Fu);
+            wf_u(out, "arrival_min",        raw & 0x3Fu);
+        }
+        wf_u(out, "arrival_time_raw", raw);
         wf_u(out, "height",           e.height_code);
         wf_s(out, "height_label",
             qzss_dcr_jma_tsunami_height_lookup(e.height_code));
@@ -257,7 +275,13 @@ static void serializeNwPacTsu(const Message& m, Print& out) {
         if (i) writeChar(out, ',');
         const NwPacTsunamiEntry& e = m.nw_pac_tsunamis[i];
         out.print('{');
-        wf_u(out, "arrival_time_raw", e.arrival_time_raw);
+        uint16_t raw = e.arrival_time_raw;
+        if (raw > 0) {
+            wf_u(out, "arrival_day_offset", (raw >> 11) & 1u);
+            wf_u(out, "arrival_hour",       (raw >>  6) & 0x1Fu);
+            wf_u(out, "arrival_min",        raw & 0x3Fu);
+        }
+        wf_u(out, "arrival_time_raw", raw);
         wf_u(out, "height",           e.height_code);
         wf_s(out, "height_label",
             qzss_dcr_jma_northwest_pacific_tsunami_height_en_lookup(e.height_code));

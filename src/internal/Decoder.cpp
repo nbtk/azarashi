@@ -47,9 +47,9 @@ uint32_t Decoder::getBits(const uint8_t* buf, uint16_t start, uint8_t len) {
 
 // Simple civil date to days since 1970-01-01
 static void civil_from_days(uint32_t days_since_1970, uint32_t& y, uint32_t& m, uint32_t& d) {
-    uint32_t z = days_since_1970 + 719468;
-    uint32_t era = (z >= 0 ? z : z - 146096) / 146097;
-    uint32_t doe = z - era * 146097;
+    uint32_t z = days_since_1970 + 719468u;
+    uint32_t era = z / 146097u;
+    uint32_t doe = z - era * 146097u;
     uint32_t yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
     y = yoe + era * 400;
     uint32_t doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
@@ -88,33 +88,54 @@ LatLon Decoder::extractLatLon(const uint8_t* buf, uint16_t start) {
 // day(5)+hour(5)+min(6) = 16 bits -> TimeFields
 // ---------------------------------------------------------------------------
 TimeFields Decoder::extractDHM(const uint8_t* buf, uint16_t start, uint32_t now_unix) {
-    TimeFields t{};
-    t.day    = getBits(buf, start,      5);
-    t.hour   = getBits(buf, start +  5, 5);
-    t.minute = getBits(buf, start + 10, 6);
+    uint8_t d = getBits(buf, start,      5);
+    uint8_t h = getBits(buf, start +  5, 5);
+    uint8_t m = getBits(buf, start + 10, 6);
+    return resolveTime(0, d, h, m, now_unix);
+}
+
+TimeFields Decoder::resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint32_t now_unix) {
+    TimeFields t{day, hour, minute, 0};
     // Basic sanity
-    if (t.day < 1 || t.day > 31 || t.hour > 23 || t.minute > 59) {
+    if (day < 1 || day > 31 || hour > 23 || minute > 59 || (month > 12)) {
         t.day = t.hour = t.minute = 0;
         return t;
     }
-    // Approximate UNIX time using now_unix: snap to nearest month boundary
-    if (now_unix > 0) {
-        uint32_t current_days = now_unix / 86400u;
-        uint32_t y, m, d;
-        civil_from_days(current_days, y, m, d);
 
-        int32_t diff = (int32_t)t.day - (int32_t)d;
+    if (now_unix == 0) {
+        // Use a fixed baseline if now_unix is not provided (2024-01-01)
+        now_unix = 1704067200u;
+    }
+
+    uint32_t current_days = now_unix / 86400u;
+    uint32_t y, m, d;
+    civil_from_days(current_days, y, m, d);
+
+    if (month == 0) {
+        // Month not provided (DHM only): resolve month/year from now_unix with day-wrap correction
+        int32_t diff = (int32_t)day - (int32_t)d;
         if (diff > 15) {
-            // Probably from the previous month
             if (m == 1) { m = 12; y--; } else { m--; }
         } else if (diff < -15) {
-            // Probably from the next month
             if (m == 12) { m = 1; y++; } else { m++; }
         }
-
-        uint32_t target_days = days_from_civil(y, m, t.day);
-        t.unix_time = target_days * 86400u + (uint32_t)t.hour * 3600u + (uint32_t)t.minute * 60u;
+    } else {
+        // Month provided (MDHM): resolve year from now_unix with month-wrap correction
+        uint32_t cur_y, cur_m, cur_d;
+        civil_from_days(current_days, cur_y, cur_m, cur_d);
+        y = cur_y;
+        m = month;
+        int32_t diff = (int32_t)m - (int32_t)cur_m;
+        if      (diff >  6) y--;
+        else if (diff < -6) y++;
     }
+
+    // Normalize date (e.g. resolve Feb 29 to Mar 1 in non-leap years)
+    uint32_t resolved_days = days_from_civil(y, m, day);
+    civil_from_days(resolved_days, y, m, d);
+
+    t.unix_time = resolved_days * 86400u + (uint32_t)hour * 3600u + (uint32_t)minute * 60u;
+    t.day = d; // update to normalized day
     return t;
 }
 
@@ -135,7 +156,7 @@ bool Decoder::decode(const Frame& frame, Message& out, uint32_t now_unix) {
     out.valid   = false;
 
     uint8_t preamble = getBits(bits, 0, 8);
-    if (preamble != 0x53 && preamble != 0x9A) return false;  // IS-QZSS-L1S §3.2.4
+    if (preamble != 0x53 && preamble != 0x9A && preamble != 0xC6) return false;  // IS-QZSS-L1S §3.2.4
 
     uint8_t mt = getBits(bits, 8, 6);
     out.msg_type = mt;
@@ -160,7 +181,7 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t now_unix) {
     out.a8_duration     = getBits(bits, 60,  4);
 
     // Resolve onset time from GPS week-mod-4 + minute-of-week
-    if (out.a7_onset_minute > 0 && out.a7_onset_minute <= 10080 && now_unix > 0) {
+    if (out.a7_onset_minute > 0 && out.a7_onset_minute <= 10080 && now_unix > 315964800u) {
         // GPS epoch 1980-01-06 00:00:00 UTC, +18 leap seconds (post-2017)
         uint32_t gps  = now_unix - 315964800u + 18u;
         uint32_t week = gps / 604800u;
@@ -217,23 +238,31 @@ bool Decoder::decodeQzqsm(const uint8_t* bits, Message& out, uint32_t now_unix) 
     out.disaster_category     = getBits(bits, 17,  4);
     out.information_type      = getBits(bits, 41,  2);
 
-    // report_time: [21..40]  month(4)+day(5)+hour(5)+min(6)
-    // We store it as event_time using only day/hour/min (month needs wall clock to disambiguate)
-    out.event_time = extractDHM(bits, 25, now_unix);  // day starts at bit 25
+    // report_time: month(4b)+day(5b)+hour(5b)+min(6b) at bit 21
+    uint8_t  rt_month  = getBits(bits, 21, 4);
+    uint8_t  rt_day    = getBits(bits, 25, 5);
+    uint8_t  rt_hour   = getBits(bits, 30, 5);
+    uint8_t  rt_minute = getBits(bits, 35, 6);
+
+    out.event_time = resolveTime(rt_month, rt_day, rt_hour, rt_minute, now_unix);
+    uint32_t report_unix = out.event_time.unix_time;
+
+    // Use report_unix as sub_now if available to improve sub-decoder DHM resolution
+    uint32_t sub_now = (report_unix > 0) ? report_unix : now_unix;
 
     switch (out.disaster_category) {
-        case  1: decodeEEW      (bits, out, now_unix); break;
-        case  2: decodeTsunami  (bits, out, now_unix); break;
-        case  3: decodeNwPacTsu (bits, out, now_unix); break;
-        case  4: decodeHypocenter(bits, out, now_unix);break;
-        case  5: decodeSeismic  (bits, out, now_unix); break;
-        case  6: decodeNankai   (bits, out);            break;
-        case  8: decodeVolcano  (bits, out, now_unix); break;
-        case  9: decodeAshFall  (bits, out, now_unix); break;
-        case 10: decodeWeather  (bits, out);            break;
-        case 11: decodeFlood    (bits, out);            break;
-        case 12: decodeMarine   (bits, out);            break;
-        case 14: decodeTyphoon  (bits, out, now_unix); break;
+        case  1: decodeEEW       (bits, out, sub_now); break;
+        case  2: decodeTsunami   (bits, out, sub_now); break;
+        case  3: decodeNwPacTsu  (bits, out, sub_now); break;
+        case  4: decodeHypocenter(bits, out, sub_now); break;
+        case  5: decodeSeismic   (bits, out, sub_now); break;
+        case  6: decodeNankai    (bits, out);           break;
+        case  8: decodeVolcano   (bits, out, sub_now); break;
+        case  9: decodeAshFall   (bits, out, sub_now); break;
+        case 10: decodeWeather   (bits, out);           break;
+        case 11: decodeFlood     (bits, out);           break;
+        case 12: decodeMarine    (bits, out);           break;
+        case 14: decodeTyphoon   (bits, out, sub_now); break;
         default: break;
     }
 
@@ -266,7 +295,7 @@ void Decoder::decodeEEW(const uint8_t* b, Message& out, uint32_t now_unix) {
 
     // EEW forecast regions: 80-bit bitmask at [130..209], bit i set = region (i+1) alerted
     out.eew_region_count = 0;
-    for (uint8_t i = 0; i < 80 && out.eew_region_count < 16; ++i) {
+    for (uint8_t i = 0; i < 80 && out.eew_region_count < 80; ++i) {
         if (getBits(b, 130 + i, 1)) {
             out.eew_regions[out.eew_region_count++] = i + 1;
         }
@@ -274,7 +303,7 @@ void Decoder::decodeEEW(const uint8_t* b, Message& out, uint32_t now_unix) {
 }
 
 // ---------------------------------------------------------------------------
-// Hypocenter  (disaster_category == 2)
+// Hypocenter  (disaster_category == 4)
 // ---------------------------------------------------------------------------
 void Decoder::decodeHypocenter(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.hypo_notification_count = 0;
@@ -291,7 +320,7 @@ void Decoder::decodeHypocenter(const uint8_t* b, Message& out, uint32_t now_unix
 }
 
 // ---------------------------------------------------------------------------
-// Seismic Intensity  (disaster_category == 3)
+// Seismic Intensity  (disaster_category == 5)
 // ---------------------------------------------------------------------------
 void Decoder::decodeSeismic(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.seis_quake_time = extractDHM(b, 53, now_unix);  // day(5)+hour(5)+min(6) at [53]
@@ -310,7 +339,7 @@ void Decoder::decodeSeismic(const uint8_t* b, Message& out, uint32_t now_unix) {
 }
 
 // ---------------------------------------------------------------------------
-// Nankai Trough  (disaster_category == 4)
+// Nankai Trough  (disaster_category == 6)
 // ---------------------------------------------------------------------------
 void Decoder::decodeNankai(const uint8_t* b, Message& out) {
     out.nankai_info_code   = getBits(b, 53, 4);
@@ -322,7 +351,7 @@ void Decoder::decodeNankai(const uint8_t* b, Message& out) {
 }
 
 // ---------------------------------------------------------------------------
-// Tsunami  (disaster_category == 5)
+// Tsunami  (disaster_category == 2)
 // arrival time sub-field: nextday(1)+hour(5)+minute(6) = 12 bits
 // ---------------------------------------------------------------------------
 void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
@@ -341,7 +370,7 @@ void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
 }
 
 // ---------------------------------------------------------------------------
-// NW Pacific Tsunami  (disaster_category == 6)
+// NW Pacific Tsunami  (disaster_category == 3)
 // ---------------------------------------------------------------------------
 void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t now_unix) {
     (void)now_unix;

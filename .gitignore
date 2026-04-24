@@ -131,3 +131,4 @@ dmypy.json
 # PyCharm metadata
 .idea/
 
+.roo/

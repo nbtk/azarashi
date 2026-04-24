@@ -10,12 +10,8 @@ bool Parser::feed(uint8_t byte, Message& out, uint32_t now_unix) {
     // --- カスタムフレーマ（排他モード）---
     if (_custom) {
         if (!_custom->feed(byte, frame)) return false;
-        // カスタムフレーマ成功時は重複チェックとデコードのみ
-        internal::DedupKey key{ frame.svid, 0, 0 };
-        // CRC はデコード前に不明なので一時的に 0; decode 後に正式キーを作る
         if (!_decoder.decode(frame, out, now_unix)) return false;
-        key.msg_type = out.msg_type;
-        key.crc24    = out.crc24;
+        internal::DedupKey key{ out.svid, out.msg_type, out.crc24 };
         if (_dedup.isDuplicate(key)) return false;
         return true;
     }

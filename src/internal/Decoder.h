@@ -24,6 +24,9 @@ protected:
     // day(5)+hour(5)+min(6)=16 bit sub-field -> TimeFields (unix_time needs now_unix)
     static TimeFields extractDHM(const uint8_t* buf, uint16_t start, uint32_t now_unix);
 
+    // Resolve TimeFields from components with month-wrap correction
+    static TimeFields resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint32_t now_unix);
+
     bool decodeDcx   (const uint8_t* bits, Message& out, uint32_t now_unix);
     bool decodeQzqsm (const uint8_t* bits, Message& out, uint32_t now_unix);
 

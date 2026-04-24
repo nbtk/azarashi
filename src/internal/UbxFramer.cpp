@@ -72,16 +72,18 @@ bool UbxFramer::parse(Frame& out) {
     if (numWords < 8) return false;  // L1S subframe = 8 words × 32 bits = 256 bits (250 data bits)
     if (_len < 8u + numWords * 4u) return false;
 
-    // Pack 250 nav bits MSB-first into bits[32]
-    // Each 32-bit word: bits 31..8 = 24 nav bits, bits 7..0 = tail/parity
+    // Pack 250 nav bits MSB-first into out.bits[32].
+    // For QZSS L1S, u-blox RXM-SFRBX provides 8 words of 32 bits (256 bits total).
+    // The first 250 bits are data, and the last 6 bits of the 8th word are parity.
     memset(out.bits, 0, sizeof(out.bits));
     uint16_t bit_pos = 0;
     for (uint8_t w = 0; w < numWords && bit_pos < 250; ++w) {
+        // Words are little-endian in the UBX payload
         uint32_t word = ((uint32_t)_buf[8 + w*4 + 3] << 24) |
                         ((uint32_t)_buf[8 + w*4 + 2] << 16) |
                         ((uint32_t)_buf[8 + w*4 + 1] <<  8) |
                          (uint32_t)_buf[8 + w*4 + 0];
-        // Nav bits are MSB-first across the 32-bit words
+        // Bit 31 of the first word is the first bit of the subframe.
         for (int8_t b2 = 31; b2 >= 0 && bit_pos < 250; --b2, ++bit_pos) {
             if ((word >> b2) & 1u) {
                 out.bits[bit_pos / 8] |= (0x80u >> (bit_pos % 8));

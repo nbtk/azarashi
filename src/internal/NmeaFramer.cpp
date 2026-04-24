@@ -61,14 +61,27 @@ bool NmeaFramer::parse(Frame& out) {
     // parse svid
     char* p = _buf + 6;
     uint8_t svid = 0;
-    while (*p && *p != ',') svid = svid * 10 + (*p++ - '0');
+    while (*p && *p != ',') {
+        if (*p >= '0' && *p <= '9') {
+            svid = svid * 10 + (*p - '0');
+        }
+        p++;
+    }
     if (*p != ',') return false;
     ++p;  // skip comma
 
     // hex decode into bits[]
     memset(out.bits, 0, sizeof(out.bits));
     uint8_t byte_idx = 0;
-    while (*p && *(p+1) && byte_idx < sizeof(out.bits)) {
+
+    // Ensure hex string length is even and at least 64 chars (32 bytes)
+    const char* start_p = p;
+    while ((*p >= '0' && *p <= '9') || (*p >= 'A' && *p <= 'F') || (*p >= 'a' && *p <= 'f')) p++;
+    size_t hex_len = p - start_p;
+    if (hex_len % 2 != 0 || hex_len < 64) return false;
+
+    p = start_p;
+    while (byte_idx < 32) {
         uint8_t hi = hexVal(*p++);
         uint8_t lo = hexVal(*p++);
         if (hi == 0xFF || lo == 0xFF) return false;

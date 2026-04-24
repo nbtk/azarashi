@@ -127,7 +127,7 @@ struct Message {
     uint16_t eew_epicenter;          // [112..121] 10 bits
     uint8_t  eew_intensity_lower;    // [122..125] 4 bits
     uint8_t  eew_intensity_upper;    // [126..129] 4 bits
-    uint16_t eew_regions[16];        // [130..169] up to 5×8 bits
+    uint16_t eew_regions[80];        // [130..209] 80 bits (1 bit per region)
     uint8_t  eew_region_count;
 
     // ---- Tsunami  (disaster_category == 2) ------------------------------
