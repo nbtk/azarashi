@@ -132,3 +132,5 @@ dmypy.json
 .idea/
 
 .roo/
+
+definition_files.txt

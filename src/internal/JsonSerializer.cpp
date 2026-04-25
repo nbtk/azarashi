@@ -89,6 +89,13 @@ static void writeLatLon(Print& out, const char* key, const LatLon& ll, bool last
     if (!last) writeChar(out, ',');
 }
 
+// Write the 12-bit packed arrival time (day_offset:1, hour:5, min:6)
+static void writeArrivalTimeFields(Print& out, uint16_t raw) {
+    wf_u(out, "arrival_day_offset", (raw >> 11) & 1u);
+    wf_u(out, "arrival_hour",       (raw >>  6) & 0x1Fu);
+    wf_u(out, "arrival_min",        raw & 0x3Fu);
+}
+
 // ---------------------------------------------------------------------------
 // MT=44 DCX
 // ---------------------------------------------------------------------------
@@ -248,12 +255,9 @@ static void serializeTsunami(const Message& m, Print& out) {
         const TsunamiEntry& e = m.tsunamis[i];
         out.print('{');
         uint16_t raw = e.arrival_time_raw;
-        if (raw > 0) {
-            wf_u(out, "arrival_day_offset", (raw >> 11) & 1u);
-            wf_u(out, "arrival_hour",       (raw >>  6) & 0x1Fu);
-            wf_u(out, "arrival_min",        raw & 0x3Fu);
-        }
+        writeArrivalTimeFields(out, raw);
         wf_u(out, "arrival_time_raw", raw);
+        writeDHM(out, "arrival_time", e.arrival_time);
         wf_u(out, "height",           e.height_code);
         wf_s(out, "height_label",
             qzss_dcr_jma_tsunami_height_lookup(e.height_code));
@@ -276,12 +280,9 @@ static void serializeNwPacTsu(const Message& m, Print& out) {
         const NwPacTsunamiEntry& e = m.nw_pac_tsunamis[i];
         out.print('{');
         uint16_t raw = e.arrival_time_raw;
-        if (raw > 0) {
-            wf_u(out, "arrival_day_offset", (raw >> 11) & 1u);
-            wf_u(out, "arrival_hour",       (raw >>  6) & 0x1Fu);
-            wf_u(out, "arrival_min",        raw & 0x3Fu);
-        }
+        writeArrivalTimeFields(out, raw);
         wf_u(out, "arrival_time_raw", raw);
+        writeDHM(out, "arrival_time", e.arrival_time);
         wf_u(out, "height",           e.height_code);
         wf_s(out, "height_label",
             qzss_dcr_jma_northwest_pacific_tsunami_height_en_lookup(e.height_code));
@@ -329,7 +330,7 @@ static void serializeAshFall(const Message& m, Print& out) {
         wf_u(out, "arrival_hour", m.ash_entries_time[i]);
         wf_u(out, "warning_code", m.ash_entries_code[i]);
         wf_s(out, "warning_code_label",
-            qzss_dcr_jma_ash_fall_warning_code_lookup(m.ash_entries_code[i]));
+            qzss_dcr_jma_volcanic_warning_code_lookup(m.ash_entries_code[i]));
         wf_u(out, "local_gov", m.ash_entries_lg[i]);
         wf_s(out, "local_gov_label",
             qzss_dcr_jma_local_government_lookup(m.ash_entries_lg[i]), /*last=*/true);

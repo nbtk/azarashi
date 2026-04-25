@@ -1,17 +1,15 @@
 {
   "configurations": [
     {
-      "name": "windows-gcc-x64",
+      "name": "windows-msvc-x64",
       "includePath": [
         "${workspaceFolder}/**"
       ],
-      "compilerPath": "gcc",
-      "cStandard": "${default}",
+      "compilerPath": "cl.exe",
+      "cStandard": "c11",
       "cppStandard": "${default}",
-      "intelliSenseMode": "windows-gcc-x64",
-      "compilerArgs": [
-        ""
-      ]
+      "intelliSenseMode": "windows-msvc-x64",
+      "compilerArgs": []
     }
   ],
   "version": 4

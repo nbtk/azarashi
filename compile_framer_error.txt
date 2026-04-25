@@ -1,0 +1,36 @@
+test/test_framer.cpp:73:13: error: 'string' in namespace 'std' does not name a type
+   73 | static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
+      |             ^~~~~~
+test/test_framer.cpp:12:1: note: 'std::string' is defined in header '<string>'; this is probably fixable by adding '#include <string>'
+   11 | #include <vector>
+  +++ |+#include <string>
+   12 | 
+test/test_framer.cpp: In function 'void test_nmea_basic()':
+test/test_framer.cpp:151:16: error: 'make_nmea_qzqsm' was not declared in this scope
+  151 |     auto pkt = make_nmea_qzqsm(193, bits);
+      |                ^~~~~~~~~~~~~~~
+test/test_framer.cpp: In function 'void test_nmea_checksum_err()':
+test/test_framer.cpp:166:16: error: 'make_nmea_qzqsm' was not declared in this scope
+  166 |     auto pkt = make_nmea_qzqsm(193, (const uint8_t*)"\0");
+      |                ^~~~~~~~~~~~~~~
+test/test_framer.cpp: In function 'void test_nmea_garbage()':
+test/test_framer.cpp:180:16: error: 'make_nmea_qzqsm' was not declared in this scope
+  180 |     auto pkt = make_nmea_qzqsm(195, (const uint8_t*)"\x12\x34");
+      |                ^~~~~~~~~~~~~~~
+test/test_framer.cpp:185:10: error: 'string' is not a member of 'std'
+  185 |     std::string partial = "$QZQSM,1";
+      |          ^~~~~~
+test/test_framer.cpp:185:10: note: 'std::string' is defined in header '<string>'; this is probably fixable by adding '#include <string>'
+test/test_framer.cpp:186:19: error: 'partial' was not declared in this scope
+  186 |     for (char c : partial) framer.feed((uint8_t)c, out);
+      |                   ^~~~~~~
+test/test_framer.cpp: In function 'void test_nmea_oversize()':
+test/test_framer.cpp:207:16: error: 'make_nmea_qzqsm' was not declared in this scope
+  207 |     auto pkt = make_nmea_qzqsm(199, (const uint8_t*)"\x55");
+      |                ^~~~~~~~~~~~~~~
+src/internal/NmeaFramer.cpp: In member function 'bool azaraC::internal::NmeaFramer::parse(azaraC::internal::Frame&)':
+src/internal/NmeaFramer.cpp:89:9: error: invalid conversion from 'const char*' to 'char*' [-fpermissive]
+   89 |     p = start_p;
+      |         ^~~~~~~
+      |         |
+      |         const char*

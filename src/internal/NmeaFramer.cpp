@@ -21,9 +21,13 @@ uint8_t NmeaFramer::hexVal(char c) {
 
 bool NmeaFramer::feed(uint8_t b, Frame& out) {
     char c = static_cast<char>(b);
+    if (c == '$') {
+        _pos = 0; _xsum = 0; _st = St::COLLECT;
+        return false;
+    }
+
     switch (_st) {
     case St::WAIT:
-        if (c == '$') { _pos = 0; _xsum = 0; _st = St::COLLECT; }
         break;
     case St::COLLECT:
         if (c == '*') {
@@ -60,14 +64,20 @@ bool NmeaFramer::parse(Frame& out) {
 
     // parse svid
     char* p = _buf + 6;
-    uint8_t svid = 0;
+    uint16_t svid_tmp = 0;
+    bool has_digit = false;
     while (*p && *p != ',') {
         if (*p >= '0' && *p <= '9') {
-            svid = svid * 10 + (*p - '0');
+            svid_tmp = svid_tmp * 10 + (*p - '0');
+            has_digit = true;
+            if (svid_tmp > 255) return false;
+        } else {
+            return false; // Reject non-digit characters
         }
         p++;
     }
-    if (*p != ',') return false;
+    if (!has_digit || *p != ',') return false;
+    uint8_t svid = static_cast<uint8_t>(svid_tmp);
     ++p;  // skip comma
 
     // hex decode into bits[]
@@ -75,7 +85,7 @@ bool NmeaFramer::parse(Frame& out) {
     uint8_t byte_idx = 0;
 
     // Ensure hex string length is even and at least 64 chars (32 bytes)
-    const char* start_p = p;
+    char* start_p = p;
     while ((*p >= '0' && *p <= '9') || (*p >= 'A' && *p <= 'F') || (*p >= 'a' && *p <= 'f')) p++;
     size_t hex_len = p - start_p;
     if (hex_len % 2 != 0 || hex_len < 64) return false;

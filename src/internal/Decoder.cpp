@@ -121,11 +121,9 @@ TimeFields Decoder::resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_
         }
     } else {
         // Month provided (MDHM): resolve year from now_unix with month-wrap correction
-        uint32_t cur_y, cur_m, cur_d;
-        civil_from_days(current_days, cur_y, cur_m, cur_d);
-        y = cur_y;
+        uint32_t cur_m = m; // m already computed at line 112
         m = month;
-        int32_t diff = (int32_t)m - (int32_t)cur_m;
+        int32_t diff = (int32_t)month - (int32_t)cur_m;
         if      (diff >  6) y--;
         else if (diff < -6) y++;
     }
@@ -355,7 +353,6 @@ void Decoder::decodeNankai(const uint8_t* b, Message& out) {
 // arrival time sub-field: nextday(1)+hour(5)+minute(6) = 12 bits
 // ---------------------------------------------------------------------------
 void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
-    (void)now_unix;
     out.tsunami_warning_code = getBits(b, 80, 4);
     out.tsunami_count = 0;
     for (uint8_t i = 0; i < 5; ++i) {
@@ -366,6 +363,13 @@ void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
         e.region_code      = getBits(b, off,      10);
         e.height_code      = getBits(b, off + 10,  4);
         e.arrival_time_raw = getBits(b, off + 14, 12);
+
+        if (e.arrival_time_raw != 0 && out.event_time.day != 0) {
+            uint8_t next = (e.arrival_time_raw >> 11) & 1;
+            uint8_t hour = (e.arrival_time_raw >> 6) & 0x1F;
+            uint8_t min  = e.arrival_time_raw & 0x3F;
+            e.arrival_time = resolveTime(0, out.event_time.day + next, hour, min, now_unix);
+        }
     }
 }
 
@@ -373,7 +377,6 @@ void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
 // NW Pacific Tsunami  (disaster_category == 3)
 // ---------------------------------------------------------------------------
 void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t now_unix) {
-    (void)now_unix;
     out.nw_pac_potential = getBits(b, 53, 3);
     out.nw_pac_count = 0;
     for (uint8_t i = 0; i < 5; ++i) {
@@ -384,6 +387,13 @@ void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t now_unix) 
         e.region_code      = getBits(b, off,       7);
         e.arrival_time_raw = getBits(b, off +  7, 12);
         e.height_code      = getBits(b, off + 19,  9);
+
+        if (e.arrival_time_raw != 0 && out.event_time.day != 0) {
+            uint8_t next = (e.arrival_time_raw >> 11) & 1;
+            uint8_t hour = (e.arrival_time_raw >> 6) & 0x1F;
+            uint8_t min  = e.arrival_time_raw & 0x3F;
+            e.arrival_time = resolveTime(0, out.event_time.day + next, hour, min, now_unix);
+        }
     }
 }
 

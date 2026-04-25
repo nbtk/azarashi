@@ -1,24 +1,20 @@
 {
-  "version": "0.2.0",
-  "configurations": [
+  "name": "C++ Launch",
+  "type": "cppdbg",
+  "request": "launch",
+  "program": "D:/documents/azaraC/bin/azaraC.exe",
+  "args": [],
+  "stopAtEntry": true,
+  "cwd": "D:/documents/azaraC",
+  "environment": [],
+  "externalConsole": false,
+  "MIMode": "gdb",
+  "setupCommands": [
     {
-      "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
-      "request": "launch",
-      "args": [],
-      "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "d:/documents/azaraC",
-      "program": "d:/documents/azaraC/build/Debug/outDebug",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
+      "description": "Enable pretty-printing for gdb",
+      "text": "-enable-pretty-printing",
+      "ignoreFailures": true
     }
-  ]
+  ],
+  "miDebuggerPath": "D:/apps/mingw64/bin/gdb.exe"
 }

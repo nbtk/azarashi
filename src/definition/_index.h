@@ -3,7 +3,6 @@
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
 // 102 definition headers
 
-#include "qzss_dcr_jma_ash_fall_warning_code.h"
 #include "qzss_dcr_jma_coastal_region_en.h"
 #include "qzss_dcr_jma_disaster_category.h"
 #include "qzss_dcr_jma_disaster_category_en.h"

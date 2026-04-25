@@ -5,7 +5,7 @@
 namespace azaraC {
 
 bool Parser::feed(uint8_t byte, Message& out, uint32_t now_unix) {
-    Frame frame;
+    internal::Frame frame;
 
     // --- カスタムフレーマ（排他モード）---
     if (_custom) {

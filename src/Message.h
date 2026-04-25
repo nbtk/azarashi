@@ -46,9 +46,10 @@ enum class DcxType : uint8_t {
 // ---- repeating record structs (up to 8 each) ---------------------------
 
 struct TsunamiEntry {
-    uint16_t arrival_time_raw; // nextday(1)+hour(5)+minute(6)=12bit packed; 0=unspecified
-    uint8_t  height_code;      // qzss_dcr_jma_tsunami_height
-    uint16_t region_code;      // qzss_dcr_jma_tsunami_forecast_region
+    uint16_t   arrival_time_raw; // nextday(1)+hour(5)+minute(6)=12bit packed; 0=unspecified
+    TimeFields arrival_time;     // resolved
+    uint8_t    height_code;      // qzss_dcr_jma_tsunami_height
+    uint16_t   region_code;      // qzss_dcr_jma_tsunami_forecast_region
 };
 
 struct SeismicEntry {
@@ -81,9 +82,10 @@ struct MarineEntry {
 };
 
 struct NwPacTsunamiEntry {
-    uint16_t arrival_time_raw; // nextday(1)+hour(5)+minute(6)=12bit packed; 0=unspecified
-    uint16_t height_code;    // qzss_dcr_jma_northwest_pacific_tsunami_height_en (9 bits)
-    uint8_t  region_code;    // qzss_dcr_jma_coastal_region_en (7 bits)
+    uint16_t   arrival_time_raw; // nextday(1)+hour(5)+minute(6)=12bit packed; 0=unspecified
+    TimeFields arrival_time;     // resolved
+    uint16_t   height_code;    // qzss_dcr_jma_northwest_pacific_tsunami_height_en (9 bits)
+    uint8_t    region_code;    // qzss_dcr_jma_coastal_region_en (7 bits)
 };
 
 // ---- main message struct -----------------------------------------------
@@ -127,7 +129,7 @@ struct Message {
     uint16_t eew_epicenter;          // [112..121] 10 bits
     uint8_t  eew_intensity_lower;    // [122..125] 4 bits
     uint8_t  eew_intensity_upper;    // [126..129] 4 bits
-    uint16_t eew_regions[80];        // [130..209] 80 bits (1 bit per region)
+    uint8_t  eew_regions[80];        // [130..209] 80 bits (1 bit per region)
     uint8_t  eew_region_count;
 
     // ---- Tsunami  (disaster_category == 2) ------------------------------

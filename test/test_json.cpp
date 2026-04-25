@@ -122,7 +122,7 @@ int main() {
     test_json_eew();
     test_json_seismic();
 
-    for (uint8_t dc : {1,2,3,4,5,6,7,8,9,10,11,12}) {
+    for (uint8_t dc : {1,2,3,4,5,6,7,8,9,10,11,12,14}) {
         char name[40]; snprintf(name,sizeof(name),"json_balanced_dc%d",dc);
         Message m{}; m.msg_type = 43; m.disaster_category = dc;
         test_balanced(name, m);
