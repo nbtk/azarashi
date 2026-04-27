@@ -1,8 +1,8 @@
 #pragma once
-// AUTO-GENERATED - do not edit
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
 // 102 definition headers
 
+#include "qzss_dcr_jma_ash_fall_warning_code.h"
 #include "qzss_dcr_jma_coastal_region_en.h"
 #include "qzss_dcr_jma_disaster_category.h"
 #include "qzss_dcr_jma_disaster_category_en.h"
@@ -104,4 +104,3 @@
 #include "qzss_dcx_ex1_target_area_code_en.h"
 #include "qzss_dcx_ex1_target_area_code_ja.h"
 #include "ublox_qzss_svid_prn_map.h"
-#include "qzss_dcx_camf_a3_provider_identifier.h"

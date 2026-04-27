@@ -11,11 +11,10 @@
 // ── 設定 (必要に応じて書き換えてください) ──────────────────────────────────
 // [重要] Wi-Fi 設定を自分の環境に合わせて書き換えてください
 #ifndef WIFI_SSID
+  #warning "Please ensure WIFI_SSID and WIFI_PASS are set correctly in with_sntp.ino"
   #define WIFI_SSID "YOUR_SSID" // <-- Change this
   #define WIFI_PASS "YOUR_PASS" // <-- Change this
 #endif
-
-#warning "Please ensure WIFI_SSID and WIFI_PASS are set correctly in with_sntp.ino"
 
 
 // ── グローバル ───────────────────────────────────────────────────────────────

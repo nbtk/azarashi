@@ -14,15 +14,15 @@ static void fail(const char* name, const char* why) {
     assert(false);
 }
 
-static uint32_t crc24q_ref(const uint8_t* d, int bits) {
+static uint32_t crc24q_ref(const uint8_t* d, int total_bits) {
     uint32_t crc = 0;
-    int bytes = (bits + 7) / 8;
+    int bytes = (total_bits + 7) / 8;
     for (int i = 0; i < bytes; i++) {
         uint8_t b = d[i];
         int bits_to_process = 8;
-        if (i == bytes-1 && (bits&7)) {
-            b &= 0xFFu << (8-(bits&7));
-            bits_to_process = bits & 7;
+        if (i == bytes-1 && (total_bits&7)) {
+            b &= 0xFFu << (8-(total_bits&7));
+            bits_to_process = total_bits & 7;
         }
         crc ^= (uint32_t)b << 16;
         for (int j = 0; j < bits_to_process; j++) {
@@ -33,7 +33,8 @@ static uint32_t crc24q_ref(const uint8_t* d, int bits) {
     return crc & 0xFFFFFF;
 }
 
-static void setbits(uint8_t* buf, uint16_t s, uint8_t l, uint32_t v) {
+static void setbits(uint8_t* buf, size_t buf_size, uint16_t s, uint8_t l, uint32_t v) {
+    assert((s + l + 7) / 8 <= buf_size);
     for (int i = l-1; i >= 0; --i) {
         uint16_t pos = s + (l-1-i);
         if ((v >> i) & 1) buf[pos>>3] |=  (1 << (7-(pos&7)));
@@ -69,16 +70,18 @@ void test_tsunami_resolution() {
     uint32_t crc = crc24q_ref(buf, 226);
     setbits(buf, 226, 24, crc);
 
+    // 2026-04-25 13:00:00 UTC
+    // = days_since_1970(2026,4,25) * 86400 + 13 * 3600
+    constexpr uint32_t NOW_TIMESTAMP = 1777122000;
+
     Frame f; f.svid = 193; memcpy(f.bits, buf, 32);
     Decoder dec;
     Message msg{};
-    // now = 2026-04-25 13:00:00 (approx)
-    uint32_t now = 1777122000; 
-    bool ok = dec.decode(f, msg, now);
+    bool ok = dec.decode(f, msg, NOW_TIMESTAMP);
 
     if (!ok) fail("tsunami_res", "decode failed");
     if (msg.tsunami_count != 1) fail("tsunami_res", "count != 1");
-    
+
     // Arrival should be Day 26, 01:30
     TimeFields& arr = msg.tsunamis[0].arrival_time;
     if (arr.day != 26) fail("tsunami_res", "day mismatch");

@@ -330,7 +330,7 @@ static void serializeAshFall(const Message& m, Print& out) {
         wf_u(out, "arrival_hour", m.ash_entries_time[i]);
         wf_u(out, "warning_code", m.ash_entries_code[i]);
         wf_s(out, "warning_code_label",
-            qzss_dcr_jma_volcanic_warning_code_lookup(m.ash_entries_code[i]));
+            qzss_dcr_jma_ash_fall_warning_code_lookup(m.ash_entries_code[i]));
         wf_u(out, "local_gov", m.ash_entries_lg[i]);
         wf_s(out, "local_gov_label",
             qzss_dcr_jma_local_government_lookup(m.ash_entries_lg[i]), /*last=*/true);
