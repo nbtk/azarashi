@@ -26,6 +26,33 @@ static bool decode_nmea(const char* nmea, Message& msg) {
     return dec.decode(frame, msg, 0);
 }
 
+static uint32_t crc24q_ref(const uint8_t* d, int total_bits) {
+    uint32_t crc = 0;
+    int bytes = (total_bits + 7) / 8;
+    for (int i = 0; i < bytes; i++) {
+        uint8_t b = d[i];
+        int bits_to_process = 8;
+        if (i == bytes-1 && (total_bits&7)) {
+            b &= 0xFFu << (8-(total_bits&7));
+            bits_to_process = total_bits & 7;
+        }
+        crc ^= (uint32_t)b << 16;
+        for (int j = 0; j < bits_to_process; j++) {
+            crc <<= 1;
+            if (crc & 0x1000000) crc ^= 0x1864CFB;
+        }
+    }
+    return crc & 0xFFFFFF;
+}
+
+static void setbits(uint8_t* buf, uint16_t s, uint8_t l, uint32_t v) {
+    for (int i = l-1; i >= 0; --i) {
+        uint16_t pos = s + (l-1-i);
+        if ((v >> i) & 1) buf[pos>>3] |=  (1 << (7-(pos&7)));
+        else              buf[pos>>3] &= ~(1 << (7-(pos&7)));
+    }
+}
+
 // ── MT=43 DCR Scenarios (from azarashi tests/test.py) ────────────────────────
 
 TEST_CASE("DCR: EEW (Earthquake Early Warning)") {
@@ -193,4 +220,30 @@ TEST_CASE("DCR: Hex input decode") {
     // If checksum is wrong, framer should reject → decode returns false
     // This tests our error-handling path
     CHECK((ok || !ok)); // Just ensure no crash
+}
+
+TEST_CASE("DCR: Unknown Disaster Category Rejection") {
+    Message msg{};
+    internal::Frame frame;
+    frame.svid = 55;
+    frame.source = internal::FrameSource::NMEA;
+    
+    memset(frame.bits, 0, 32);
+    // Preamble: 0x53, MT: 43, DC: 7 (Unused)
+    setbits(frame.bits, 0, 8, 0x53);
+    setbits(frame.bits, 8, 6, 43);
+    setbits(frame.bits, 17, 4, 7);
+    // Version: 1
+    setbits(frame.bits, 214, 6, 1);
+    
+    // Calculate and set CRC
+    uint32_t crc = crc24q_ref(frame.bits, 226);
+    setbits(frame.bits, 226, 24, crc);
+    
+    internal::Decoder dec;
+    bool ok = dec.decode(frame, msg, 0);
+    
+    // Should fail because DC=7 is not handled
+    CHECK_FALSE(ok);
+    CHECK_FALSE(msg.valid);
 }

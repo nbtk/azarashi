@@ -211,6 +211,18 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t now_unix) {
         out.a13_lon_e2 = (int16_t)raw13;
     }
 
+    // Validate dcx_type
+    switch (out.dcx_type) {
+        case DcxType::NULL_MSG:
+        case DcxType::L_ALERT:
+        case DcxType::J_ALERT:
+        case DcxType::LOCAL_GOV:
+        case DcxType::OUTSIDE_JAPAN:
+            break;
+        default:
+            return false; // Unknown DCX type
+    }
+
     out.valid = true;
     return true;
 }
