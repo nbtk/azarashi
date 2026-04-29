@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d5_wave_height_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d5_wave_height_lookup(uint8_t id) {
     switch (id) {
         case 0: return "H ≤ 0.5m";
         case 1: return "0.5m < H ≤ 1.0m";

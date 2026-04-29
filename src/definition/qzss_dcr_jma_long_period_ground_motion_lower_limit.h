@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_jma_long_period_ground_motion_lower_limit_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_long_period_ground_motion_lower_limit_lookup(uint8_t id) {
     switch (id) {
         case 0: return "None";
         case 1: return "長周期地震動階級1未満";

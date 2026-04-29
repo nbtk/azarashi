@@ -250,18 +250,18 @@ bool Decoder::decodeQzqsm(const uint8_t* bits, Message& out, uint32_t now_unix) 
 
     switch (out.disaster_category) {
         case  1: decodeEEW       (bits, out, sub_now); break;
-        case  2: decodeTsunami   (bits, out, sub_now); break;
-        case  3: decodeNwPacTsu  (bits, out, sub_now); break;
-        case  4: decodeHypocenter(bits, out, sub_now); break;
-        case  5: decodeSeismic   (bits, out, sub_now); break;
-        case  6: decodeNankai    (bits, out);           break;
+        case  2: decodeHypocenter(bits, out, sub_now); break;
+        case  3: decodeSeismic   (bits, out, sub_now); break;
+        case  4: decodeNankai    (bits, out);           break;
+        case  5: decodeTsunami   (bits, out, sub_now); break;
+        case  6: decodeNwPacTsu  (bits, out, sub_now); break;
         case  8: decodeVolcano   (bits, out, sub_now); break;
         case  9: decodeAshFall   (bits, out, sub_now); break;
         case 10: decodeWeather   (bits, out);           break;
         case 11: decodeFlood     (bits, out);           break;
-        case 12: decodeMarine    (bits, out);           break;
-        case 14: decodeTyphoon   (bits, out, sub_now); break;
-        default: break;
+        case 12: decodeTyphoon   (bits, out, sub_now); break;
+        case 14: decodeMarine    (bits, out);           break;
+        default: return false; // Unknown category, cannot decode full message
     }
 
     out.valid = true;

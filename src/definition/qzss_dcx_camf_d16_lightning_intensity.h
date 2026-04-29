@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d16_lightning_intensity_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d16_lightning_intensity_lookup(uint8_t id) {
     switch (id) {
         case 0: return "LAL 1 - No thunderstorms";
         case 1: return "LAL 2 - Isolated thunderstorms. Light rain will occasionally reach the ground. Lightning is very infrequent, 1 to 5 cloud to ground strikes in a 5-minute period.";

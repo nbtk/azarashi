@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[] = {
     "T ≤ -30°C",
     "-30°C < T ≤ -25°C",
     "-25°C < T ≤ -20°C",
@@ -28,9 +28,9 @@ static constexpr const char* QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[] = {
     "35°C < T ≤ 45°C",
     "T > 45°C"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE = 0;
-static constexpr uint8_t QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_SIZE = 16;
-inline const char* qzss_dcx_camf_d6_temperature_range_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE = 0;
+inline constexpr uint8_t QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_SIZE = 16;
+inline constexpr const char* qzss_dcx_camf_d6_temperature_range_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE || id >= QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE + QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_SIZE) return nullptr;
     return QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[id - QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE];
 }

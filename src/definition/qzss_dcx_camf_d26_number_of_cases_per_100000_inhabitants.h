@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_TABLE[] = {
     "0 - 9",
     "10 - 20",
     "21 - 50",
@@ -33,9 +33,9 @@ static constexpr const char* QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABI
     "> 3000",
     "> 5000"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_BASE = 0;
-static constexpr uint8_t QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_SIZE = 21;
-inline const char* qzss_dcx_camf_d26_number_of_cases_per_100000_inhabitants_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_BASE = 0;
+inline constexpr uint8_t QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_SIZE = 21;
+inline constexpr const char* qzss_dcx_camf_d26_number_of_cases_per_100000_inhabitants_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_BASE || id >= QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_BASE + QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_SIZE) return nullptr;
     return QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_TABLE[id - QZSS_DCX_CAMF_D26_NUMBER_OF_CASES_PER_100000_INHABITANTS_BASE];
 }

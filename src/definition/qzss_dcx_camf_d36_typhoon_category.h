@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d36_typhoon_category_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d36_typhoon_category_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Scale 1 and Intensity 1";
         case 1: return "Scale 1 and Intensity 2";

@@ -84,20 +84,30 @@ bool NmeaFramer::parse(Frame& out) {
     memset(out.bits, 0, sizeof(out.bits));
     uint8_t byte_idx = 0;
 
-    // Ensure hex string length is even and at least 64 chars (32 bytes)
+    // Count hex characters — QZSS L1S is 250 bits = 63 hex chars (31 bytes + 1 nibble).
+    // Accept 63..64 hex chars.
     char* start_p = p;
     while ((*p >= '0' && *p <= '9') || (*p >= 'A' && *p <= 'F') || (*p >= 'a' && *p <= 'f')) p++;
     size_t hex_len = p - start_p;
-    if (hex_len % 2 != 0 || hex_len < 64) return false;
+    if (hex_len < 63) return false;
 
     p = start_p;
-    while (byte_idx < 32) {
+    // Decode full byte pairs
+    size_t full_bytes = hex_len / 2;
+    if (full_bytes > 32) full_bytes = 32;
+    while (byte_idx < full_bytes) {
         uint8_t hi = hexVal(*p++);
         uint8_t lo = hexVal(*p++);
         if (hi == 0xFF || lo == 0xFF) return false;
         out.bits[byte_idx++] = (hi << 4) | lo;
     }
-    if (byte_idx < 32) return false;
+    // Handle trailing nibble (odd hex length, e.g. 63 chars)
+    if ((hex_len & 1) && byte_idx < 32) {
+        uint8_t hi = hexVal(*p++);
+        if (hi == 0xFF) return false;
+        out.bits[byte_idx++] = hi << 4;
+    }
+    if (byte_idx < 31) return false;  // Need at least 31 bytes for 250 bits
 
     out.svid   = svid;
     out.source = FrameSource::NMEA;

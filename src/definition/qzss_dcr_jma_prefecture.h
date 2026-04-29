@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCR_JMA_PREFECTURE_TABLE[] = {
+inline constexpr const char* QZSS_DCR_JMA_PREFECTURE_TABLE[] = {
     "北海道",
     "青森県",
     "岩手県",
@@ -59,9 +59,9 @@ static constexpr const char* QZSS_DCR_JMA_PREFECTURE_TABLE[] = {
     "鹿児島県",
     "沖縄県"
 };
-static constexpr uint8_t QZSS_DCR_JMA_PREFECTURE_BASE = 1;
-static constexpr uint8_t QZSS_DCR_JMA_PREFECTURE_SIZE = 47;
-inline const char* qzss_dcr_jma_prefecture_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCR_JMA_PREFECTURE_BASE = 1;
+inline constexpr uint8_t QZSS_DCR_JMA_PREFECTURE_SIZE = 47;
+inline constexpr const char* qzss_dcr_jma_prefecture_lookup(uint8_t id) {
     if (id < QZSS_DCR_JMA_PREFECTURE_BASE || id >= QZSS_DCR_JMA_PREFECTURE_BASE + QZSS_DCR_JMA_PREFECTURE_SIZE) return nullptr;
     return QZSS_DCR_JMA_PREFECTURE_TABLE[id - QZSS_DCR_JMA_PREFECTURE_BASE];
 }

@@ -38,9 +38,9 @@ enum class DcxType : uint8_t {
 };
 
 // ---- MT=43 JMA disaster_category mapping (IS-QZSS-DCR-010 Table 5.1.2-1)
-//  0=undefined  1=EEW  2=Tsunami  3=TSU(NW Pacific)  4=Hypocenter
-//  5=Seismic intensity  6=Nankai trough  8=Volcano  9=Ash fall
-//  10=Weather  11=Flood  12=Marine  14=Typhoon
+//  0=undefined  1=EEW  2=Hypocenter  3=Seismic intensity  4=Nankai trough
+//  5=Tsunami  6=NW Pacific Tsunami  8=Volcano  9=Ash fall
+//  10=Weather  11=Flood  12=Typhoon  14=Marine
 //  (Stored in Message::disaster_category)
 
 // ---- repeating record structs (up to 8 each) ---------------------------

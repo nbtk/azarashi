@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_WEATHER_RELATED_DISASTER_SUB_CATEGORY_Entry { uint8_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_WEATHER_RELATED_DISASTER_SUB_CATEGORY_Entry QZSS_DCR_JMA_WEATHER_RELATED_DISASTER_SUB_CATEGORY_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_WEATHER_RELATED_DISASTER_SUB_CATEGORY_Entry QZSS_DCR_JMA_WEATHER_RELATED_DISASTER_SUB_CATEGORY_TABLE[] = {
     {1u, "暴風雪特別警報"},
 
     {2u, "大雨特別警報"},
@@ -34,7 +34,7 @@ static constexpr QZSS_DCR_JMA_WEATHER_RELATED_DISASTER_SUB_CATEGORY_Entry QZSS_D
 
     {31u, "その他の警報等情報要素"},
 };
-inline const char* qzss_dcr_jma_weather_related_disaster_sub_category_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_weather_related_disaster_sub_category_lookup(uint8_t id) {
     int lo = 0, hi = 11 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

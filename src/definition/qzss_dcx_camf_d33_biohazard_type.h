@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d33_biohazard_type_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d33_biohazard_type_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Biological agents. These include bacteria, viruses, parasites, and fungi (such as yeasts and molds).";
         case 1: return "Biotoxins. These refer to a group of substances with a biological origin that are toxic and poisonous to humans. Often, biotoxins are produced by plants, bacteria, insects, or certain animals, among others.Continuous exposure to these may cause, at the very least, a series of inflammatory reactions throughout the body.";

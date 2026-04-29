@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[] = {
     "H0 Hard hail. Typical hail diameter of 5 mm, No damage",
     "H1 Potentially damaging. Typical hail diameter of 5-15 mm. Slight general damage to plants, crops",
     "H2 Significant. Typical hail diameter of 10-20 mm. Slight general damage to fruit, crops, vegetation",
@@ -23,9 +23,9 @@ static constexpr const char* QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[] = {
     "H9 Super Hailstorms. Typical hail diameter of 75-100 mm (size of a grapefruit). Extensive structural damage. Risk of severe or even fatal injuries to persons caught in the open",
     "H10 Super Hailstorms. Typical hail diameter > 100 mm (size of a melon). Extensive structural damage. Risk of severe or even fatal injuries to persons caught in the open"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE = 0;
-static constexpr uint8_t QZSS_DCX_CAMF_D12_HAIL_SCALE_SIZE = 11;
-inline const char* qzss_dcx_camf_d12_hail_scale_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE = 0;
+inline constexpr uint8_t QZSS_DCX_CAMF_D12_HAIL_SCALE_SIZE = 11;
+inline constexpr const char* qzss_dcx_camf_d12_hail_scale_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE || id >= QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE + QZSS_DCX_CAMF_D12_HAIL_SCALE_SIZE) return nullptr;
     return QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[id - QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE];
 }

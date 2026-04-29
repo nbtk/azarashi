@@ -1,8 +1,17 @@
 # Changelog
 
+## [0.3.1] - 2026-04-28
+
+### Fixed
+
+- Definition headers: `static constexpr` → `inline constexpr` 変更
+  (linker-scope symbol となり、複数のソースからの参照が可能)
+- `Decoder::decodeQzqsm` の unused-parameter 警告削除
+
 ## [0.3.0] - 2026-04-19
 
 ### Added (Phase 3)
+
 - `examples/with_sntp`: Wi-Fi + SNTP 時刻解決 + EEW フィルタ付きサンプル
 - `test/test_crc.cpp`: CRC-24Q / getBits / MT=44 合成フレーム 12 テスト
 - `test/test_json.cpp`: DCX・EEW・震度・津波キー検証 + 全 disaster_category
@@ -12,6 +21,7 @@
 - README: クイックスタート・API・JSON 出力例・定義自動生成フロー
 
 ### Fixed
+
 - `JsonSerializer.h` / `PrintShim.h` / `azaraC.h`: `#ifdef ARDUINO` ガードを
   `#if defined(ARDUINO) && ARDUINO >= 1` に統一 (ARDUINO=0 ホストビルド対応)
 - `Decoder.h`: テスト用サブクラスアクセスのため `private` → `protected`
@@ -22,6 +32,7 @@
 ## [0.2.0] - 2026-04-19
 
 ### Added (Phase 2)
+
 - MT=43 JMA DC Report full sub-type decode (all 12 categories):
   EEW, Hypocenter, Seismic Intensity, Nankai Trough, Tsunami,
   NW Pacific Tsunami, Volcano, Ash Fall, Weather, Flood, Marine, Typhoon
@@ -31,6 +42,7 @@
   (no disaster strings hardcoded — fully azarashi-driven)
 
 ### Changed
+
 - `Decoder::decodeQzqsm` promoted from skeleton to full implementation
 - `Message.h` restructured with sub-structs:
   `TsunamiEntry`, `SeismicEntry`, `WeatherEntry`, `FloodEntry`,
@@ -39,6 +51,7 @@
 ## [0.1.0] - 2026-04-19
 
 ### Added (Phase 1)
+
 - UBX (RXM-SFRBX) and NMEA ($QZQSM) framers
 - CRC-24Q verification
 - MT=44 DCX/CAMF full field extraction (A1-A13)

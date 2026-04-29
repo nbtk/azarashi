@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d9_rainfall_amounts_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d9_rainfall_amounts_lookup(uint8_t id) {
     switch (id) {
         case 0: return "p ≤ 2.5mm/h";
         case 1: return "2.5mm/h < p ≤ 7.5mm/h";

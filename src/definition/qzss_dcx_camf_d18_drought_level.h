@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d18_drought_level_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d18_drought_level_lookup(uint8_t id) {
     switch (id) {
         case 0: return "D1 – Moderate Drought – PDSI = -2.0 to -2.9. Some damage to crops, pastures. Streams, reservoirs, or wells low, some water shortages developing or imminent. Voluntary water-use restrictions requested.";
         case 1: return "D2 – Severe Drought – PDSI = -3.0 to -3.9. Crop or pasture losses likely. Water shortages common. Water restrictions imposed.";

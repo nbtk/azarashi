@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCR_JMA_DISASTER_CATEGORY_EN_TABLE[] = {
+inline constexpr const char* QZSS_DCR_JMA_DISASTER_CATEGORY_EN_TABLE[] = {
     "Earthquake Early Warning",
     "Hypocenter",
     "Seismic Intensity",
@@ -26,9 +26,9 @@ static constexpr const char* QZSS_DCR_JMA_DISASTER_CATEGORY_EN_TABLE[] = {
     nullptr,
     "Marine"
 };
-static constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE = 1;
-static constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_EN_SIZE = 14;
-inline const char* qzss_dcr_jma_disaster_category_en_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE = 1;
+inline constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_EN_SIZE = 14;
+inline constexpr const char* qzss_dcr_jma_disaster_category_en_lookup(uint8_t id) {
     if (id < QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE || id >= QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE + QZSS_DCR_JMA_DISASTER_CATEGORY_EN_SIZE) return nullptr;
     return QZSS_DCR_JMA_DISASTER_CATEGORY_EN_TABLE[id - QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE];
 }

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d28_air_quality_index_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d28_air_quality_index_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Index value 0 - 50. Good. Green. Advisory: None.";
         case 1: return "Index value 51 - 100. Moderate. Yellow. Unusually sensitive individuals should consider limiting prolonged outdoor exertion.";

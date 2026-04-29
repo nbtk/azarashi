@@ -5,9 +5,9 @@
 #define ARDUINO 0
 #include "../src/internal/Decoder.h"
 #include "../src/internal/PrintShim.h"
+#include "doctest.h"
 #include <cstdio>
 #include <cstring>
-#include <cassert>
 
 using namespace azaraC;
 using namespace azaraC::internal;
@@ -42,68 +42,47 @@ struct TestDecoder : Decoder {
     }
 };
 
-// ── helpers ─────────────────────────────────────────────────────────────────
-static void pass(const char* name) { printf("  PASS  %s\n", name); }
-static void fail(const char* name, const char* why) {
-    printf("  FAIL  %s : %s\n", name, why);
-    assert(false);
-}
 
-// ── test: CRC vs reference ───────────────────────────────────────────────────
-static void test_crc_known() {
+
+TEST_CASE("CRC-24Q vs reference") {
     // All-zero 226-bit buffer → both impls must agree
     uint8_t buf[29] = {};
     uint32_t a = TestDecoder::crc(buf, 226);
     uint32_t b = crc24q_ref(buf, 226);
-    if (a != b) fail("crc_known_zeros", "mismatch vs reference");
-    pass("crc_known_zeros");
+    CHECK(a == b);
 
     // Random pattern
     for (auto& v : buf) v = 0xA5;
     a = TestDecoder::crc(buf, 226);
     b = crc24q_ref(buf, 226);
-    if (a != b) fail("crc_known_a5", "mismatch vs reference");
-    pass("crc_known_a5");
+    CHECK(a == b);
 }
 
-// ── test: getBits ─────────────────────────────────────────────────────────────
-static void test_getbits() {
+TEST_CASE("getBits extraction") {
     // buf = 0xAB 0xCD = 1010 1011 1100 1101
     uint8_t buf[2] = {0xAB, 0xCD};
 
-    auto chk = [&](uint16_t s, uint8_t l, uint32_t expected, const char* name) {
-        uint32_t got = TestDecoder::bits(buf, s, l);
-        if (got != expected) {
-            printf("    got=0x%X expected=0x%X\n", got, expected);
-            fail(name, "value mismatch");
-        }
-        pass(name);
-    };
-
-    chk(0,  8, 0xAB,  "getBits_byte0");
-    chk(8,  8, 0xCD,  "getBits_byte1");
-    chk(0,  4, 0xA,   "getBits_nib0");
-    chk(4,  4, 0xB,   "getBits_nib1");
-    chk(0,  1, 1,     "getBits_msb");
-    chk(7,  1, 1,     "getBits_lsb0");
-    chk(8,  1, 1,     "getBits_bit8");
-    chk(0, 16, 0xABCD,"getBits_word");
+    CHECK(TestDecoder::bits(buf, 0,  8) == 0xAB);
+    CHECK(TestDecoder::bits(buf, 8,  8) == 0xCD);
+    CHECK(TestDecoder::bits(buf, 0,  4) == 0xA);
+    CHECK(TestDecoder::bits(buf, 4,  4) == 0xB);
+    CHECK(TestDecoder::bits(buf, 0,  1) == 1);
+    CHECK(TestDecoder::bits(buf, 7,  1) == 1);
+    CHECK(TestDecoder::bits(buf, 8,  1) == 1);
+    CHECK(TestDecoder::bits(buf, 0, 16) == 0xABCD);
 }
 
-// ── test: invalid preamble rejected ─────────────────────────────────────────
-static void test_bad_preamble() {
+TEST_CASE("invalid preamble rejected") {
     uint8_t buf[32] = {};
     Frame f; f.svid = 193; memcpy(f.bits, buf, 32);
     Decoder dec;
     Message msg{};
     // preamble = 0x00, crc will fail → returns false
     bool ok = dec.decode(f, msg);
-    if (ok) fail("bad_preamble", "should reject");
-    pass("bad_preamble");
+    CHECK(ok == false);
 }
 
-// ── test: MT=44 field extraction on synthetic frame ──────────────────────────
-static void test_mt44_synthetic() {
+TEST_CASE("MT=44 field extraction on synthetic frame") {
     // Build a minimal MT=44 frame:
     //   preamble[0..7]  = 0x53
     //   msg_type[8..13] = 44 = 0b101100
@@ -133,21 +112,9 @@ static void test_mt44_synthetic() {
     Decoder dec;
     Message msg{};
     bool ok = dec.decode(f, msg);
-    if (!ok) fail("mt44_synthetic", "decode returned false");
-    if (msg.msg_type != 44) fail("mt44_synthetic", "msg_type != 44");
-    if (msg.dcx_type != DcxType::L_ALERT) fail("mt44_synthetic", "dcx_type != L_ALERT");
-    if (msg.a1_message_type != 2)  fail("mt44_synthetic", "a1 != 2");
-    if (msg.a2_country_code != 111) fail("mt44_synthetic", "a2 != 111");
-    pass("mt44_synthetic");
-}
-
-// ── main ─────────────────────────────────────────────────────────────────────
-int main() {
-    printf("=== azaraC unit tests ===\n");
-    test_crc_known();
-    test_getbits();
-    test_bad_preamble();
-    test_mt44_synthetic();
-    printf("=== all passed ===\n");
-    return 0;
+    REQUIRE(ok);
+    CHECK(msg.msg_type == 44);
+    CHECK(msg.dcx_type == DcxType::L_ALERT);
+    CHECK(msg.a1_message_type == 2);
+    CHECK(msg.a2_country_code == 111);
 }

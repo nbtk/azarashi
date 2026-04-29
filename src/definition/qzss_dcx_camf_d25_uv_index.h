@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d25_uv_index_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d25_uv_index_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Index 0 - 2 Low. No protection needed. You can safely stay outside using minimal sun protection.";
         case 1: return "Index 3/11 Moderate. Protection needed. Seek shade during late morning through mid-afternoon. When outside, generously apply broad-spectrum SPF-15 or higher sunscreen on exposed skin, and wear protective clothing, a wide-brimmed hat, and sunglasses.";

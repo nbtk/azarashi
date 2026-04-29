@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d34_explosive_hazard_type_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d34_explosive_hazard_type_lookup(uint8_t id) {
     switch (id) {
         case 0: return "PE1 - Mass explosion hazard in which the entire body of explosives explodes as one.";
         case 1: return "PE2 - Serious projectile hazard but does not have a mass explosion hazard.";

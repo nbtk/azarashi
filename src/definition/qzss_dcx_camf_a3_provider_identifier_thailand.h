@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_TABLE[] = {
     "Department of Disaster Prevention and Mitigation",
     "Thai Meteorological Department",
     "National Disaster Warning Center",
@@ -25,9 +25,9 @@ static constexpr const char* QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_TABLE
     "Department of Parks, Wildlife and Plant Conservation",
     "Water Crisis Prevention Center"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_BASE = 1;
-static constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_SIZE = 13;
-inline const char* qzss_dcx_camf_a3_provider_identifier_thailand_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_BASE = 1;
+inline constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_SIZE = 13;
+inline constexpr const char* qzss_dcx_camf_a3_provider_identifier_thailand_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_BASE || id >= QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_BASE + QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_SIZE) return nullptr;
     return QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_TABLE[id - QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_THAILAND_BASE];
 }

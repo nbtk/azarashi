@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d10_damage_category_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d10_damage_category_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Category 1 - Very dangerous winds will produce some damage. Scale 1 and Intensity 1";
         case 1: return "Category 2 - Extremely dangerous winds will cause extensive damage. Scale 1 and Intensity 2";

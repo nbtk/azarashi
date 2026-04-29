@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[] = {
     {0u, "未設定(北西太平洋津波情報)"},
 
     {11u, "北海道地方"},
@@ -702,7 +702,7 @@ static constexpr QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry QZSS_DCR_JMA_EPICEN
 
     {1000u, "その他の震央地名"},
 };
-inline const char* qzss_dcr_jma_epicenter_and_hypocenter_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcr_jma_epicenter_and_hypocenter_lookup(uint16_t id) {
     int lo = 0, hi = 345 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

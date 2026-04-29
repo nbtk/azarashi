@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_a5_severity_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_a5_severity_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Unknown";
         case 1: return "Moderate - Possible threat to life or property";

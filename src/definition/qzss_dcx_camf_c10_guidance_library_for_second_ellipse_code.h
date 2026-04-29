@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entry { uint8_t id; const char* label; };
-static constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entry QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[] = {
+inline constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entry QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[] = {
     {0u, "IC-C-01"},
 
     {1u, "IC-C-02"},
@@ -50,7 +50,7 @@ static constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entr
 
     {31u, "IC-C-32"},
 };
-inline const char* qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code_lookup(uint8_t id) {
     int lo = 0, hi = 19 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

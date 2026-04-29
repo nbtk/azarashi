@@ -5,9 +5,9 @@
 #define ARDUINO 0
 #include "../src/azaraC.h"
 #include "../src/internal/PrintShim.h"
+#include "doctest.h"
 #include <cstdio>
 #include <cstring>
-#include <cassert>
 #include <string>
 
 using namespace azaraC;
@@ -22,17 +22,12 @@ struct StringPrint : public Print {
     void println()             override { buf += '\n'; }
 };
 
-static void pass(const char* name) { printf("  PASS  %s\n", name); }
-static void fail(const char* name, const char* why) {
-    printf("  FAIL  %s : %s\n", name, why);
-    assert(false);
-}
 static bool has(const std::string& s, const char* sub) {
     return s.find(sub) != std::string::npos;
 }
 
 // ── MT=44 DCX ───────────────────────────────────────────────────────────────
-static void test_json_dcx() {
+TEST_CASE("JSON Serialization: MT=44 DCX") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
     m.dcx_type        = DcxType::L_ALERT;
@@ -45,17 +40,16 @@ static void test_json_dcx() {
     internal::JsonSerializer::serialize(m, sp);
     const auto& s = sp.buf;
 
-    if (!has(s,"\"svid\":193"))       fail("dcx_svid",    s.c_str());
-    if (!has(s,"\"msg_type\":44"))    fail("dcx_msg_type",s.c_str());
-    if (!has(s,"\"dcx_type\":1"))     fail("dcx_type",    s.c_str());
-    if (!has(s,"\"a2_country\":111")) fail("dcx_country", s.c_str());
-    if (!has(s,"\"lat_e2\":356"))     fail("dcx_lat",     s.c_str());
-    if (!has(s,"\"lon_e2\":1396"))    fail("dcx_lon",     s.c_str());
-    pass("json_dcx_keys");
+    CHECK(has(s,"\"svid\":193"));
+    CHECK(has(s,"\"msg_type\":44"));
+    CHECK(has(s,"\"dcx_type\":1"));
+    CHECK(has(s,"\"a2_country\":111"));
+    CHECK(has(s,"\"lat_e2\":356"));
+    CHECK(has(s,"\"lon_e2\":1396"));
 }
 
 // ── MT=43 EEW ───────────────────────────────────────────────────────────────
-static void test_json_eew() {
+TEST_CASE("JSON Serialization: MT=43 EEW") {
     Message m{};
     m.msg_type = 43; m.disaster_category = 1;
     m.eew_depth = 60; m.eew_magnitude = 65; m.eew_epicenter = 42;
@@ -67,16 +61,15 @@ static void test_json_eew() {
     internal::JsonSerializer::serialize(m, sp);
     const auto& s = sp.buf;
 
-    if (!has(s,"\"disaster_category\":1")) fail("eew_cat",     s.c_str());
-    if (!has(s,"\"detail\":{"))            fail("eew_detail",  s.c_str());
-    if (!has(s,"\"depth\":60"))            fail("eew_depth",   s.c_str());
-    if (!has(s,"\"magnitude\":65"))        fail("eew_mag",     s.c_str());
-    if (!has(s,"\"regions\":["))           fail("eew_regions", s.c_str());
-    pass("json_eew_keys");
+    CHECK(has(s,"\"disaster_category\":1"));
+    CHECK(has(s,"\"detail\":{"));
+    CHECK(has(s,"\"depth\":60"));
+    CHECK(has(s,"\"magnitude\":65"));
+    CHECK(has(s,"\"regions\":["));
 }
 
 // ── MT=43 Seismic Intensity ──────────────────────────────────────────────────
-static void test_json_seismic() {
+TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
     Message m{};
     m.msg_type = 43; m.disaster_category = 5; // 5 is Seismic Intensity
     m.seis_count = 2;
@@ -87,48 +80,40 @@ static void test_json_seismic() {
     internal::JsonSerializer::serialize(m, sp);
     const auto& s = sp.buf;
 
-    if (!has(s,"\"disaster_category\":5")) fail("seis_cat",     s.c_str());
-    if (!has(s,"\"entries\":["))           fail("seis_entries", s.c_str());
-    if (!has(s,"\"intensity\":4"))         fail("seis_int",     s.c_str());
-    if (!has(s,"\"prefecture\":13"))       fail("seis_pref",    s.c_str());
-    pass("json_seismic_keys");
+    CHECK(has(s,"\"disaster_category\":5"));
+    CHECK(has(s,"\"entries\":["));
+    CHECK(has(s,"\"intensity\":4"));
+    CHECK(has(s,"\"prefecture\":13"));
 }
 
 // ── Balanced braces/brackets ─────────────────────────────────────────────────
-static void test_balanced(const char* name, const Message& m) {
-    StringPrint sp;
-    internal::JsonSerializer::serialize(m, sp);
-    const auto& s = sp.buf;
-    int brace = 0, bracket = 0; bool in_str = false; char prev = 0;
-    for (char c : s) {
-        if (c == '"' && prev != '\\') in_str = !in_str;
-        if (!in_str) {
-            if (c=='{') brace++;  if (c=='}') brace--;
-            if (c=='[') bracket++;if (c==']') bracket--;
+TEST_CASE("JSON Serialization: Balanced braces/brackets") {
+    auto test_balanced = [](const Message& m) {
+        StringPrint sp;
+        internal::JsonSerializer::serialize(m, sp);
+        const auto& s = sp.buf;
+        int brace = 0, bracket = 0; bool in_str = false; char prev = 0;
+        for (char c : s) {
+            if (c == '"' && prev != '\\') in_str = !in_str;
+            if (!in_str) {
+                if (c=='{') brace++;
+                if (c=='}') brace--;
+                if (c=='[') bracket++;
+                if (c==']') bracket--;
+            }
+            prev = c;
         }
-        prev = c;
-    }
-    if (brace != 0 || bracket != 0) {
-        printf("    json=%s\n", s.c_str());
-        fail(name, "unbalanced");
-    }
-    pass(name);
-}
+        CHECK_MESSAGE((brace == 0 && bracket == 0), "json=", s.c_str());
+    };
 
-// ── main ─────────────────────────────────────────────────────────────────────
-int main() {
-    printf("=== azaraC JSON tests ===\n");
-    test_json_dcx();
-    test_json_eew();
-    test_json_seismic();
-
-    for (uint8_t dc : {1,2,3,4,5,6,7,8,9,10,11,12,14}) {
-        char name[40]; snprintf(name,sizeof(name),"json_balanced_dc%d",dc);
-        Message m{}; m.msg_type = 43; m.disaster_category = dc;
-        test_balanced(name, m);
+    SUBCASE("Disaster Categories 1-14") {
+        for (uint8_t dc : {1,2,3,4,5,6,7,8,9,10,11,12,14}) {
+            Message m{}; m.msg_type = 43; m.disaster_category = dc;
+            test_balanced(m);
+        }
     }
-    { Message m{}; m.msg_type = 44; test_balanced("json_balanced_mt44", m); }
-
-    printf("=== all passed ===\n");
-    return 0;
+    SUBCASE("MT=44") {
+        Message m{}; m.msg_type = 44;
+        test_balanced(m);
+    }
 }

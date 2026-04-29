@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry { uint64_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry QZSS_DCR_JMA_FLOOD_FORECAST_REGION_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry QZSS_DCR_JMA_FLOOD_FORECAST_REGION_TABLE[] = {
     {10175000100u, "新川(北海道道央)"},
 
     {19999999999u, "北海道のその他の河川"},
@@ -788,7 +788,7 @@ static constexpr QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry QZSS_DCR_JMA_FLOOD_FOR
 
     {899999999999u, "九州地方のその他の河川"},
 };
-inline const char* qzss_dcr_jma_flood_forecast_region_lookup(uint64_t id) {
+inline constexpr const char* qzss_dcr_jma_flood_forecast_region_lookup(uint64_t id) {
     int lo = 0, hi = 388 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

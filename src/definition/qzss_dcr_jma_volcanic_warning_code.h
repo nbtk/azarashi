@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_VOLCANIC_WARNING_CODE_Entry { uint8_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_VOLCANIC_WARNING_CODE_Entry QZSS_DCR_JMA_VOLCANIC_WARNING_CODE_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_VOLCANIC_WARNING_CODE_Entry QZSS_DCR_JMA_VOLCANIC_WARNING_CODE_TABLE[] = {
     {11u, "レベル1(活火山であることに留意)"},
 
     {12u, "レベル2(火口周辺規制)"},
@@ -42,7 +42,7 @@ static constexpr QZSS_DCR_JMA_VOLCANIC_WARNING_CODE_Entry QZSS_DCR_JMA_VOLCANIC_
 
     {127u, "その他の防災気象情報要素"},
 };
-inline const char* qzss_dcr_jma_volcanic_warning_code_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_volcanic_warning_code_lookup(uint8_t id) {
     int lo = 0, hi = 15 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

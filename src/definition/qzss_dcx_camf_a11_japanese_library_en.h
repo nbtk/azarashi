@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[] = {
+inline constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[] = {
     {0u, ""},
 
     {1u, "Take the best immediate action to save your life."},
@@ -88,7 +88,7 @@ static constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_J
 
     {775u, "Keep away from Cliffs and areas at risk of collapse."},
 };
-inline const char* qzss_dcx_camf_a11_japanese_library_en_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcx_camf_a11_japanese_library_en_lookup(uint16_t id) {
     int lo = 0, hi = 38 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_MARINE_FORECAST_REGION_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_MARINE_FORECAST_REGION_Entry QZSS_DCR_JMA_MARINE_FORECAST_REGION_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_MARINE_FORECAST_REGION_Entry QZSS_DCR_JMA_MARINE_FORECAST_REGION_TABLE[] = {
     {1000u, "日本海北部及びオホーツク海南部"},
 
     {1010u, "サハリン東方海上"},
@@ -110,7 +110,7 @@ static constexpr QZSS_DCR_JMA_MARINE_FORECAST_REGION_Entry QZSS_DCR_JMA_MARINE_F
 
     {10000u, "その他の地方海上予報区"},
 };
-inline const char* qzss_dcr_jma_marine_forecast_region_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcr_jma_marine_forecast_region_lookup(uint16_t id) {
     int lo = 0, hi = 49 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

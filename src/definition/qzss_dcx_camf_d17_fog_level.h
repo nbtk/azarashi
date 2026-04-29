@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d17_fog_level_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d17_fog_level_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Level 1 of 5: Slight fog or Mist. On land, object appear hazy or blurry. Road and rail traffic are unhindered. On sea, horizon cannot be seen. Lights and landmarks can be seen at working distances.";
         case 1: return "Level 2 of 5: Slight fog. On land, railroad traffic takes additional caution. On sea, Lights on passing vessel are generally not distinct at distances under 1 mile. Fog signals are sounded.";

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_a3_provider_identifier_japan_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_a3_provider_identifier_japan_lookup(uint8_t id) {
     switch (id) {
         case 1: return "Foundation for MultiMedia Communications";
         case 2: return "Fire and Disaster Management Agency";

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_satellite_prn_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_satellite_prn_lookup(uint8_t id) {
     switch (id) {
         case 55: return "PRN183";
         case 56: return "PRN184";

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_TABLE[] = {
     "",
     "You are in the danger zone, leave the area immediately. Listen to radio or media for directions and information.",
     "You are in the danger zone, leave the area immediately and reach the evacuation point indicated by the area plotted in yellow. Listen to radio or media for directions and information.",
@@ -44,9 +44,9 @@ static constexpr const char* QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_TABLE[] = {
     "This replaces the warning previously in effect for this area.",
     "Conditions have improved and are no longer expected to meet alert criteria."
 };
-static constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_BASE = 0;
-static constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_SIZE = 32;
-inline const char* qzss_dcx_camf_a11_international_library_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_BASE = 0;
+inline constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_SIZE = 32;
+inline constexpr const char* qzss_dcx_camf_a11_international_library_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_BASE || id >= QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_BASE + QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_SIZE) return nullptr;
     return QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_TABLE[id - QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_BASE];
 }

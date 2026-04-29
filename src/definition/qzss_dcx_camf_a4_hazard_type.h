@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_TYPE_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_TYPE_TABLE[] = {
     "Air strike",
     "Attack on IT systems",
     "Attack with nuclear weapons",
@@ -125,9 +125,9 @@ static constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_TYPE_TABLE[] = {
     "Tunnel accident",
     "Test alert"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_TYPE_BASE = 1;
-static constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_TYPE_SIZE = 113;
-inline const char* qzss_dcx_camf_a4_hazard_type_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_TYPE_BASE = 1;
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_TYPE_SIZE = 113;
+inline constexpr const char* qzss_dcx_camf_a4_hazard_type_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_A4_HAZARD_TYPE_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_TYPE_BASE + QZSS_DCX_CAMF_A4_HAZARD_TYPE_SIZE) return nullptr;
     return QZSS_DCX_CAMF_A4_HAZARD_TYPE_TABLE[id - QZSS_DCX_CAMF_A4_HAZARD_TYPE_BASE];
 }

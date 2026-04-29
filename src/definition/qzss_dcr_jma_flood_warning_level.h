@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_jma_flood_warning_level_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_flood_warning_level_lookup(uint8_t id) {
     switch (id) {
         case 1: return "警報解除";
         case 2: return "氾濫警戒情報";

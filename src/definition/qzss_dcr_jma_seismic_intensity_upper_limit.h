@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_TABLE[] = {
+inline constexpr const char* QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_TABLE[] = {
     "震度0",
     "震度1",
     "震度2",
@@ -27,9 +27,9 @@ static constexpr const char* QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_TABLE[] 
     "なし",
     "不明"
 };
-static constexpr uint8_t QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_BASE = 1;
-static constexpr uint8_t QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_SIZE = 15;
-inline const char* qzss_dcr_jma_seismic_intensity_upper_limit_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_BASE = 1;
+inline constexpr uint8_t QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_SIZE = 15;
+inline constexpr const char* qzss_dcr_jma_seismic_intensity_upper_limit_lookup(uint8_t id) {
     if (id < QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_BASE || id >= QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_BASE + QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_SIZE) return nullptr;
     return QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_TABLE[id - QZSS_DCR_JMA_SEISMIC_INTENSITY_UPPER_LIMIT_BASE];
 }

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_jma_information_serial_code_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_information_serial_code_lookup(uint8_t id) {
     switch (id) {
         case 1: return "調査中A（監視領域内でマグニチュード6.8以上の地震が発生したことにより、臨時に「南海トラフ沿いの地震に関する評価検討会」を開催）";
         case 2: return "調査中B（1カ所以上のひずみ計での有意な変化と共に、他の複数の観測点でもそれに関係すると思われる変化が観測され、想定震源域内のプレート境界で通常と異なるゆっくりすべりりが発生している可能性がある場合など、ひずみ計で南海トラフ地震との関連性の検討が必要と認められる変化を観測したことにより、臨時に「南海トラフ沿いの地震に関する評価検討会」を開催）";

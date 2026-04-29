@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d13_visibility_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d13_visibility_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Dense fog: visibility < 20m";
         case 1: return "Thick fog: 20m < visibility < 200m";

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[] = {
     "Attack performed by an aircraft, usually of military type, either by bombing (or similar), firing guns or missiles.",
     "Intentional attempt to expose, alter, disable, destroy, steal or gain unauthorized access to or make unauthorised use of IT equipment.",
     "From www.dhs.gov 'Attack performed with a device producing a nuclear explosion.",
@@ -125,9 +125,9 @@ static constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[] = {
     "Car crash or railway accident occurring in a tunnel.",
     "Test alert message for end-to-end testing."
 };
-static constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE = 1;
-static constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_SIZE = 113;
-inline const char* qzss_dcx_camf_a4_hazard_definition_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE = 1;
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_SIZE = 113;
+inline constexpr const char* qzss_dcx_camf_a4_hazard_definition_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE + QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_SIZE) return nullptr;
     return QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[id - QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE];
 }

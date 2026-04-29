@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCX_EX1_TARGET_AREA_CODE_JA_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCX_EX1_TARGET_AREA_CODE_JA_Entry QZSS_DCX_EX1_TARGET_AREA_CODE_JA_TABLE[] = {
+inline constexpr QZSS_DCX_EX1_TARGET_AREA_CODE_JA_Entry QZSS_DCX_EX1_TARGET_AREA_CODE_JA_TABLE[] = {
     {1000u, "北海道"},
 
     {1100u, "北海道札幌市"},
@@ -3972,7 +3972,7 @@ static constexpr QZSS_DCX_EX1_TARGET_AREA_CODE_JA_Entry QZSS_DCX_EX1_TARGET_AREA
 
     {47382u, "沖縄県与那国町"},
 };
-inline const char* qzss_dcx_ex1_target_area_code_ja_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcx_ex1_target_area_code_ja_lookup(uint16_t id) {
     int lo = 0, hi = 1980 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

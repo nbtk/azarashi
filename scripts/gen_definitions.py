@@ -29,7 +29,7 @@ def escape(s):
                   .replace("\r", ""))
 
 def emit_switch(varname, entries, guard, kt):
-    lines = [f"inline const char* {varname}_lookup({kt} id) {{",
+    lines = [f"inline constexpr const char* {varname}_lookup({kt} id) {{",
              "    switch (id) {"]
     for k, v in sorted(entries.items()):
         lines.append(f'        case {k}: return "{escape(v)}";')
@@ -43,11 +43,11 @@ def emit_array(varname, entries, guard, kt):
     rows = ",\n    ".join(
         f'"{escape(v)}"' if v is not None else "nullptr" for v in table)
     return "\n".join([
-        f"static constexpr const char* {guard}_TABLE[] = {{",
+        f"inline constexpr const char* {guard}_TABLE[] = {{",
         f"    {rows}", "};",
-        f"static constexpr {kt} {guard}_BASE = {base};",
-        f"static constexpr {kt} {guard}_SIZE = {top - base + 1};",
-        f"inline const char* {varname}_lookup({kt} id) {{",
+        f"inline constexpr {kt} {guard}_BASE = {base};",
+        f"inline constexpr {kt} {guard}_SIZE = {top - base + 1};",
+        f"inline constexpr const char* {varname}_lookup({kt} id) {{",
         f"    if (id < {guard}_BASE || id >= {guard}_BASE + {guard}_SIZE) return nullptr;",
         f"    return {guard}_TABLE[id - {guard}_BASE];", "}",
     ])
@@ -58,9 +58,9 @@ def emit_bsearch(varname, entries, guard, kt):
     rows = "\n".join(f'    {{{k}u, "{escape(entries[k])}"}},\n' for k in keys)
     return "\n".join([
         f"struct {guard}_Entry {{ {kt} id; const char* label; }};",
-        f"static constexpr {guard}_Entry {guard}_TABLE[] = {{",
+        f"inline constexpr {guard}_Entry {guard}_TABLE[] = {{",
         rows + "};",
-        f"inline const char* {varname}_lookup({kt} id) {{",
+        f"inline constexpr const char* {varname}_lookup({kt} id) {{",
         f"    int lo = 0, hi = {n} - 1;",
         "    while (lo <= hi) {",
         "        int mid = (lo + hi) / 2;",
@@ -121,6 +121,8 @@ def run(out_dir):
         f"// {len(generated)} definition headers\n\n"
         + "\n".join(f'#include "{a}.h"' for a in sorted(generated))
         + "\n"
+        + '#include "ublox_qzss_svid_prn_map.h"\n'
+        + '#include "qzss_dcx_camf_a3_provider_identifier.h"\n'
     )
     with open(os.path.join(out_dir, "_index.h"), "w", encoding="utf-8") as f:
         f.write(idx)

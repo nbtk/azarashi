@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_TABLE[] = {
     {100u, "北海道太平洋沿岸東部"},
 
     {101u, "北海道太平洋沿岸中部"},
@@ -210,7 +210,7 @@ static constexpr QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry QZSS_DCR_JMA_TSUNAMI
 
     {1000u, "その他の津波予報区"},
 };
-inline const char* qzss_dcr_jma_tsunami_forecast_region_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcr_jma_tsunami_forecast_region_lookup(uint16_t id) {
     int lo = 0, hi = 99 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

@@ -19,7 +19,7 @@
           "ignoreFailures": true
         }
       ],
-      "miDebuggerPath": "D:/apps/mingw64/bin/gdb.exe"
+      "miDebuggerPath": "gdb"
     }
   ]
 }

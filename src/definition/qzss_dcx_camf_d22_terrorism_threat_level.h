@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d22_terrorism_threat_level_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d22_terrorism_threat_level_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Very low threat level. A violent act of terrorism is highly unlikely. Measures are in place to keep the population safe.";
         case 1: return "Low threat level. A violent act of terrorism is possible but unlikely. Measures are in place to keep the population safe.";

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_TABLE[] = {
     "0 < duration < 30 min",
     "30 min ≤ duration < 45 min",
     "45 min ≤ duration < 1 h",
@@ -25,9 +25,9 @@ static constexpr const char* QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_TABLE[]
     "2 days ≤ duration < 7 days",
     "7 days ≤ duration"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_BASE = 0;
-static constexpr uint8_t QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_SIZE = 13;
-inline const char* qzss_dcx_camf_d29_outage_estimated_duration_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_BASE = 0;
+inline constexpr uint8_t QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_SIZE = 13;
+inline constexpr const char* qzss_dcx_camf_d29_outage_estimated_duration_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_BASE || id >= QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_BASE + QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_SIZE) return nullptr;
     return QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_TABLE[id - QZSS_DCX_CAMF_D29_OUTAGE_ESTIMATED_DURATION_BASE];
 }

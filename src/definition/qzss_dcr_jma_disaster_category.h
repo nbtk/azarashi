@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCR_JMA_DISASTER_CATEGORY_TABLE[] = {
+inline constexpr const char* QZSS_DCR_JMA_DISASTER_CATEGORY_TABLE[] = {
     "緊急地震速報",
     "震源",
     "震度",
@@ -26,9 +26,9 @@ static constexpr const char* QZSS_DCR_JMA_DISASTER_CATEGORY_TABLE[] = {
     nullptr,
     "海上"
 };
-static constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_BASE = 1;
-static constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_SIZE = 14;
-inline const char* qzss_dcr_jma_disaster_category_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_BASE = 1;
+inline constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_SIZE = 14;
+inline constexpr const char* qzss_dcr_jma_disaster_category_lookup(uint8_t id) {
     if (id < QZSS_DCR_JMA_DISASTER_CATEGORY_BASE || id >= QZSS_DCR_JMA_DISASTER_CATEGORY_BASE + QZSS_DCR_JMA_DISASTER_CATEGORY_SIZE) return nullptr;
     return QZSS_DCR_JMA_DISASTER_CATEGORY_TABLE[id - QZSS_DCR_JMA_DISASTER_CATEGORY_BASE];
 }

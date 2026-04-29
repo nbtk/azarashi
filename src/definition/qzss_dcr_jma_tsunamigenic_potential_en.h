@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_jma_tsunamigenic_potential_en_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_tsunamigenic_potential_en_lookup(uint8_t id) {
     switch (id) {
         case 0: return "There is No Possibility of a Tsunami";
         case 1: return "There is a Possibility of a Destructive Ocean-Wide Tsunami";

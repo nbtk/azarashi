@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d19_avalanche_warning_level_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d19_avalanche_warning_level_lookup(uint8_t id) {
     switch (id) {
         case 0: return "1 – Low. Generally stable conditions. Triggering is generally possible only from high additional loads in isolated areas of very steep, extreme terrain. Only small and medium natural avalanches are possible.";
         case 1: return "2 – Moderate. Heightened avalanche conditions on specific terrain features. Triggering is possible, primarily from high additional loads, particularly on the indicated steep slopes. Very large natural avalanches are unlikely.";

@@ -5,21 +5,15 @@
 #define ARDUINO 0
 #include "../src/internal/UbxFramer.h"
 #include "../src/internal/NmeaFramer.h"
+#include "doctest.h"
 #include <cstdio>
 #include <cstring>
-#include <cassert>
 #include <vector>
 #include <string>
 
 using namespace azaraC;
 using namespace azaraC::internal;
 
-// ── helpers ─────────────────────────────────────────────────────────────────
-static void pass(const char* name) { printf("  PASS  %s\n", name); }
-static void fail(const char* name, const char* why) {
-    printf("  FAIL  %s : %s\n", name, why);
-    assert(false);
-}
 
 // ── UBX SFRBX Generator ──────────────────────────────────────────────────────
 static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits) {
@@ -94,7 +88,7 @@ static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
 }
 
 // ── UBX Tests ───────────────────────────────────────────────────────────────
-static void test_ubx_basic() {
+TEST_CASE("UBX Framer Basic") {
     uint8_t bits[32] = {0x53, 0xAB}; // dummy data
     auto pkt = make_ubx_sfrbx(193, bits);
     
@@ -105,13 +99,12 @@ static void test_ubx_basic() {
         if (framer.feed(b, out)) { found = true; break; }
     }
     
-    if (!found) fail("ubx_basic", "failed to find frame");
-    if (out.svid != 193) fail("ubx_basic", "svid mismatch");
-    if (out.bits[0] != 0x53) fail("ubx_basic", "data mismatch");
-    pass("ubx_basic");
+    REQUIRE(found);
+    CHECK(out.svid == 193);
+    CHECK(out.bits[0] == 0x53);
 }
 
-static void test_ubx_checksum_err() {
+TEST_CASE("UBX Checksum Error") {
     uint8_t bits[32] = {0};
     auto pkt = make_ubx_sfrbx(193, bits);
     pkt[10] ^= 0xFF; // Corrupt header/payload
@@ -122,11 +115,10 @@ static void test_ubx_checksum_err() {
     for (auto b : pkt) {
         if (framer.feed(b, out)) found = true;
     }
-    if (found) fail("ubx_csum", "should have rejected corrupt packet");
-    pass("ubx_csum");
+    CHECK_FALSE(found);
 }
 
-static void test_ubx_garbage() {
+TEST_CASE("UBX Garbage Recovery") {
     uint8_t bits[32] = {0x9A};
     auto pkt = make_ubx_sfrbx(194, bits);
 
@@ -140,13 +132,12 @@ static void test_ubx_garbage() {
     for (auto b : pkt) {
         if (framer.feed(b, out)) { found = true; break; }
     }
-    if (!found) fail("ubx_garbage", "failed to recover after garbage");
-    if (out.svid != 194) fail("ubx_garbage", "svid mismatch");
-    pass("ubx_garbage");
+    REQUIRE(found);
+    CHECK(out.svid == 194);
 }
 
 // ── NMEA Tests ──────────────────────────────────────────────────────────────
-static void test_nmea_basic() {
+TEST_CASE("NMEA Framer Basic") {
     uint8_t bits[32];
     for(int i=0; i<32; ++i) bits[i] = i;
     auto pkt = make_nmea_qzqsm(193, bits);
@@ -157,13 +148,12 @@ static void test_nmea_basic() {
     for (char c : pkt) {
         if (framer.feed((uint8_t)c, out)) { found = true; break; }
     }
-    if (!found) fail("nmea_basic", "failed to find frame");
-    if (out.svid != 193) fail("nmea_basic", "svid mismatch");
-    if (out.bits[1] != 1) fail("nmea_basic", "data mismatch");
-    pass("nmea_basic");
+    REQUIRE(found);
+    CHECK(out.svid == 193);
+    CHECK(out.bits[1] == 1);
 }
 
-static void test_nmea_checksum_err() {
+TEST_CASE("NMEA Checksum Error") {
     uint8_t bits[32] = {0};
     auto pkt = make_nmea_qzqsm(193, bits);
     pkt[pkt.size() - 3] = '0'; // Corrupt checksum last digit
@@ -174,11 +164,10 @@ static void test_nmea_checksum_err() {
     for (char c : pkt) {
         if (framer.feed((uint8_t)c, out)) found = true;
     }
-    if (found) fail("nmea_csum", "should have rejected corrupt checksum");
-    pass("nmea_csum");
+    CHECK_FALSE(found);
 }
 
-static void test_nmea_garbage() {
+TEST_CASE("NMEA Garbage Recovery") {
     uint8_t bits[32] = {0x12, 0x34};
     auto pkt = make_nmea_qzqsm(195, bits);
 
@@ -194,12 +183,11 @@ static void test_nmea_garbage() {
     for (char c : pkt) {
         if (framer.feed((uint8_t)c, out)) { found = true; break; }
     }
-    if (!found) fail("nmea_garbage", "failed to recover after garbage");
-    if (out.svid != 195) fail("nmea_garbage", "svid mismatch");
-    pass("nmea_garbage");
+    REQUIRE(found);
+    CHECK(out.svid == 195);
 }
 
-static void test_nmea_oversize() {
+TEST_CASE("NMEA Oversize Recovery") {
     NmeaFramer framer;
     Frame out;
     framer.feed('$', out);
@@ -213,20 +201,5 @@ static void test_nmea_oversize() {
     for (char c : pkt) {
         if (framer.feed((uint8_t)c, out)) { found = true; break; }
     }
-    if (!found) fail("nmea_oversize", "failed to recover after overflow");
-    pass("nmea_oversize");
-}
-
-// ── main ────────────────────────────────────────────────────────────────────
-int main() {
-    printf("=== azaraC framer tests ===\n");
-    test_ubx_basic();
-    test_ubx_checksum_err();
-    test_ubx_garbage();
-    test_nmea_basic();
-    test_nmea_checksum_err();
-    test_nmea_garbage();
-    test_nmea_oversize();
-    printf("=== all passed ===\n");
-    return 0;
+    CHECK(found);
 }

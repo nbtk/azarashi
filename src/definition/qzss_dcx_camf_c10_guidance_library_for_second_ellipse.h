@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_Entry { uint8_t id; const char* label; };
-static constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_Entry QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_TABLE[] = {
+inline constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_Entry QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_TABLE[] = {
     {0u, ""},
 
     {1u, "Prepare for evacuation. Take only the essentials with you, especially ID cards, passport, credit cards and cash. Evacuate only after the instruction of the emergency authorities."},
@@ -50,7 +50,7 @@ static constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_Entry QZS
 
     {31u, "Conditions have improved and are no longer expected to meet alert criteria."},
 };
-inline const char* qzss_dcx_camf_c10_guidance_library_for_second_ellipse_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_c10_guidance_library_for_second_ellipse_lookup(uint8_t id) {
     int lo = 0, hi = 19 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

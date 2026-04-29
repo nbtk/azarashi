@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_Entry QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_TABLE[] = {
+inline constexpr QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_Entry QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_TABLE[] = {
     {0u, "Afghanistan"},
 
     {1u, "Albania"},
@@ -516,7 +516,7 @@ static constexpr QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_Entry QZSS_DCX_CAMF_A2_COU
 
     {502u, "International"},
 };
-inline const char* qzss_dcx_camf_a2_country_region_name_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcx_camf_a2_country_region_name_lookup(uint16_t id) {
     int lo = 0, hi = 252 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

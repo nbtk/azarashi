@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_VOLCANO_NAME_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_VOLCANO_NAME_Entry QZSS_DCR_JMA_VOLCANO_NAME_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_VOLCANO_NAME_Entry QZSS_DCR_JMA_VOLCANO_NAME_TABLE[] = {
     {101u, "知床硫黄山"},
 
     {102u, "羅臼岳"},
@@ -254,7 +254,7 @@ static constexpr QZSS_DCR_JMA_VOLCANO_NAME_Entry QZSS_DCR_JMA_VOLCANO_NAME_TABLE
 
     {4000u, "その他の火山"},
 };
-inline const char* qzss_dcr_jma_volcano_name_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcr_jma_volcano_name_lookup(uint16_t id) {
     int lo = 0, hi = 121 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

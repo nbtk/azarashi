@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_a17_main_subject_for_specific_settings_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_a17_main_subject_for_specific_settings_lookup(uint8_t id) {
     switch (id) {
         case 0: return "B1 - Improved Resolution of Main Ellipse";
         case 1: return "B2 - Position of the Centre of the Hazard";

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[] = {
     "CBRNE",
     "CBRNE",
     "CBRNE",
@@ -125,9 +125,9 @@ static constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[] = {
     "TRANSPORT",
     "OTHER"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE = 1;
-static constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE = 113;
-inline const char* qzss_dcx_camf_a4_hazard_category_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE = 1;
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE = 113;
+inline constexpr const char* qzss_dcx_camf_a4_hazard_category_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE + QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE) return nullptr;
     return QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[id - QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE];
 }

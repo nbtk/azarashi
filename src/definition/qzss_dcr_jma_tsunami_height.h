@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_jma_tsunami_height_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_tsunami_height_lookup(uint8_t id) {
     switch (id) {
         case 1: return "0.2m未満";
         case 2: return "1m";

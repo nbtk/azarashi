@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_jma_ash_fall_warning_code_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_ash_fall_warning_code_lookup(uint8_t id) {
     switch (id) {
         case 1: return "少量の降灰";
         case 2: return "やや多量の降灰";

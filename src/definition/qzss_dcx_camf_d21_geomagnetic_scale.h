@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d21_geomagnetic_scale_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d21_geomagnetic_scale_lookup(uint8_t id) {
     switch (id) {
         case 0: return "G1 - Minor. Power systems: Weak power grid fluctuations can occur. Spacecraft operations: Minor impact on satellite operations possible. Other systems: Migratory animals are affected at this and higher levels; aurora is commonly visible at high latitudes.";
         case 1: return "G2 - Moderate. Power systems: High-latitude power systems may experience voltage alarms, long-duration storms may cause transformer damage. Spacecraft operations: Corrective actions to orientation may be required by ground control; possible changes in drag affect orbit predictions. Other systems: HF radio propagation can fade at higher latitudes, and aurora has been seen as low as 55° geomagnetic lat.";

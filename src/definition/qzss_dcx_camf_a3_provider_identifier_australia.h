@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_TABLE[] = {
     "National Emergency Management Agency",
     "Bureau of Meteorology",
     "Australian Climate Service",
@@ -24,9 +24,9 @@ static constexpr const char* QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_TABL
     "Flood Knowledge Centre",
     "Australian Broadcasting Corporation"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE = 1;
-static constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_SIZE = 12;
-inline const char* qzss_dcx_camf_a3_provider_identifier_australia_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE = 1;
+inline constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_SIZE = 12;
+inline constexpr const char* qzss_dcx_camf_a3_provider_identifier_australia_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE || id >= QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE + QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_SIZE) return nullptr;
     return QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_TABLE[id - QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE];
 }

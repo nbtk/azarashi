@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_a3_provider_identifier_map_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_a3_provider_identifier_map_lookup(uint8_t id) {
     switch (id) {
         case 10: return "{1: 'National Emergency Management Agency', 2: 'Bureau of Meteorology', 3: 'Australian Climate Service', 4: 'Geoscience Australia', 5: 'Commonwealth Scientific and Industrial Research Organisation', 6: 'Australian Bureau of Statistics', 7: 'Resilience New South Wales', 8: 'State Emergency Service New South Wales', 9: 'New South Wales Rural Fire Service', 10: 'Joint Australian Tsunami Warning Centre', 11: 'Flood Knowledge Centre', 12: 'Australian Broadcasting Corporation'}";
         case 71: return "{1: 'National Disaster Management Office', 2: 'Fiji Meteorological Service', 3: 'Hydrology Section, Fiji Water Authority', 4: 'Mineral Resources Department', 5: 'Fiji Broadcasting Corporation'}";

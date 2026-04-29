@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_WEATHER_FORECAST_REGION_Entry { uint32_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_WEATHER_FORECAST_REGION_Entry QZSS_DCR_JMA_WEATHER_FORECAST_REGION_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_WEATHER_FORECAST_REGION_Entry QZSS_DCR_JMA_WEATHER_FORECAST_REGION_TABLE[] = {
     {11000u, "宗谷地方"},
 
     {12000u, "上川・留萌地方"},
@@ -162,7 +162,7 @@ static constexpr QZSS_DCR_JMA_WEATHER_FORECAST_REGION_Entry QZSS_DCR_JMA_WEATHER
 
     {500000u, "その他の府県予報区"},
 };
-inline const char* qzss_dcr_jma_weather_forecast_region_lookup(uint32_t id) {
+inline constexpr const char* qzss_dcr_jma_weather_forecast_region_lookup(uint32_t id) {
     int lo = 0, hi = 75 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d20_ash_fall_amount_and_impact_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d20_ash_fall_amount_and_impact_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Less than 1 mm ash thickness. Possible impact: Will act as an irritant to lungs and eyes. Possible minor damage to vehicles, houses and equipment caused by fine abrasive ash. Possible contamination of water supplies, particularly roof-fed tank supplies. Dust may affect road visibility and traction for an extended period.";
         case 1: return "1-5 mm ash thickness. Possible impact: Will act as an irritant to lungs and eyes. Minor damage to vehicles, houses and equipment caused by fine abrasive ash. Possible contamination of water supplies, particularly roof-fed tank supplies. Electricity and water supplies may be cut or limited. Dust may affect road visibility and traction for an extended period. Roads may need to be cleared to reduce the dust nuisance and prevent storm-water systems from becoming blocked. Possible crop damage. Some livestock may be affected.";

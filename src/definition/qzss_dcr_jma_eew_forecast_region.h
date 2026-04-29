@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[] = {
+inline constexpr const char* QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[] = {
     "北海道道央",
     "北海道道南",
     "北海道道北",
@@ -92,9 +92,9 @@ static constexpr const char* QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[] = {
     nullptr,
     "その他の府県予報区および地方予報区"
 };
-static constexpr uint8_t QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE = 1;
-static constexpr uint8_t QZSS_DCR_JMA_EEW_FORECAST_REGION_SIZE = 80;
-inline const char* qzss_dcr_jma_eew_forecast_region_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE = 1;
+inline constexpr uint8_t QZSS_DCR_JMA_EEW_FORECAST_REGION_SIZE = 80;
+inline constexpr const char* qzss_dcr_jma_eew_forecast_region_lookup(uint8_t id) {
     if (id < QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE || id >= QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE + QZSS_DCR_JMA_EEW_FORECAST_REGION_SIZE) return nullptr;
     return QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[id - QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE];
 }

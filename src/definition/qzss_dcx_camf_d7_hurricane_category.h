@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d7_hurricane_category_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d7_hurricane_category_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Category 1/5 hurricane: Very dangerous winds will produce some damage. Winds range from 120 to 150 km/h. Falling debris could strike people, livestock and pets, and older mobile homes could be destroyed. Protected glass windows will generally make it through the hurricane without major damage. Frame homes, apartments and shopping centres may experience some damage, and snapped power lines could result in short-term power outages.";
         case 1: return "Category 2/5 hurricane: Extremely dangerous winds will cause extensive damage. Winds range between 150 and 180 km/h. There is a bigger risk of injury or death to people, livestock and pets from flying debris. Older mobile homes will likely be destroyed, and debris can ruin newer mobile homes, too. Frame homes, apartment buildings and shopping centres may see major roof and siding damage, and many trees will be uprooted. Residents should expect near total power loss after a Category 2 hurricane, with outages lasting anywhere from a few days to a few weeks.";

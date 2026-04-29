@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcx_camf_d15_flood_severity_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcx_camf_d15_flood_severity_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Minor Flooding - Minimal or no property damage, but possibly some public threat.";
         case 1: return "Moderate Flooding - Some inundation of structures and roads near stream. Some evacuations of people and/or transfer of property to higher elevations.";

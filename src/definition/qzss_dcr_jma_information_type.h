@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_jma_information_type_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_jma_information_type_lookup(uint8_t id) {
     switch (id) {
         case 0: return "発表";
         case 1: return "訂正";

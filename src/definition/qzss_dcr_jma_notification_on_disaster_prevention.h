@@ -11,7 +11,7 @@ namespace azaraC {
 namespace def {
 
 struct QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry { uint16_t id; const char* label; };
-static constexpr QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_TABLE[] = {
+inline constexpr QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_TABLE[] = {
     {0u, "なし"},
 
     {101u, "今後若干の海面変動があるかもしれません。"},
@@ -122,7 +122,7 @@ static constexpr QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry QZSS_DCR
 
     {500u, "その他の防災上の留意事項"},
 };
-inline const char* qzss_dcr_jma_notification_on_disaster_prevention_lookup(uint16_t id) {
+inline constexpr const char* qzss_dcr_jma_notification_on_disaster_prevention_lookup(uint16_t id) {
     int lo = 0, hi = 55 - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;

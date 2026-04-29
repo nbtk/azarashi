@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-static constexpr const char* QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_TABLE[] = {
+inline constexpr const char* QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_TABLE[] = {
     "IC-A-01",
     "IC-A-02",
     "IC-A-03",
@@ -44,9 +44,9 @@ static constexpr const char* QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_TABLE[
     "IC-A-31",
     "IC-A-32"
 };
-static constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_BASE = 0;
-static constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_SIZE = 32;
-inline const char* qzss_dcx_camf_a11_international_library_code_lookup(uint8_t id) {
+inline constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_BASE = 0;
+inline constexpr uint8_t QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_SIZE = 32;
+inline constexpr const char* qzss_dcx_camf_a11_international_library_code_lookup(uint8_t id) {
     if (id < QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_BASE || id >= QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_BASE + QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_SIZE) return nullptr;
     return QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_TABLE[id - QZSS_DCX_CAMF_A11_INTERNATIONAL_LIBRARY_CODE_BASE];
 }

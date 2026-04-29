@@ -10,7 +10,7 @@
 namespace azaraC {
 namespace def {
 
-inline const char* qzss_dcr_message_type_lookup(uint8_t id) {
+inline constexpr const char* qzss_dcr_message_type_lookup(uint8_t id) {
     switch (id) {
         case 43: return "DCR";
         case 44: return "DCX";
