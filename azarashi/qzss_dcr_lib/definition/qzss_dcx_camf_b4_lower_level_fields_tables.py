@@ -258,7 +258,7 @@ qzss_dcx_camf_d16_lightning_intensity = QzssDcrDefinition(
         2: 'LAL 3 - Widely scattered thunderstorms. Light to moderate rain will reach the ground. Lightning is infrequent, 6 to 10 cloud to ground strikes in a 5-minute period.',
         3: 'LAL 4 - Scattered thunderstorms. Moderate rain is commonly produced Lightning is frequent, 11 to 15 cloud to ground strikes in a 5-minute period.',
         4: 'LAL 5 - Numerous thunderstorms. Rainfall is moderate to heavy. Lightning is frequent and intense, greater than 15 cloud to ground strikes in a 5-minute period.',
-        5: 'LAL 6 - LAL 6 - Dry lightning (same as LAL 3 but without the rain). This type of lightning has the potential for extreme fire activity and is normally highlighted in fire weather forecasts with Red Flag Warning.',
+        5: 'LAL 6 - Dry lightning (same as LAL 3 but without the rain). This type of lightning has the potential for extreme fire activity and is normally highlighted in fire weather forecasts with Red Flag Warning.',
     },
     undefined='Undefined lightning intensity (Code: %d)'
 )
