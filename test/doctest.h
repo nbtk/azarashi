@@ -8269,6 +8269,10 @@ String::size_type String::capacity() const {
 }
 
 String String::substr(size_type pos, size_type cnt) && {
+    if (pos >= size()) {
+        setSize(0);
+        return std::move(*this);
+    }
     cnt = std::min(cnt, size() - pos);
     char *cptr = c_str();
     memmove(cptr, cptr + pos, cnt);
@@ -8277,6 +8281,8 @@ String String::substr(size_type pos, size_type cnt) && {
 }
 
 String String::substr(size_type pos, size_type cnt) const & {
+    if (pos >= size())
+        return {};
     cnt = std::min(cnt, size() - pos);
     return String{c_str() + pos, cnt};
 }

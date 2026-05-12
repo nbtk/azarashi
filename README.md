@@ -6,8 +6,7 @@ A QZSS DCR DCX Decoder for Arduino.
 
 ## Description
 
-azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーであるazarashiをArduino向けに移植したものです。QZSS L1S **DCX/CAMF** (MT=44) および **DC Report / QZQSM** (MT=43) に対応しており，Arduino / ESP32-C3 向けに設計されています。メモリアロケーションなしや外部ライブラリへの依存はありません。
-
+AzaraC は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーであるazarashiをArduino向けに移植したものです。QZSS L1S **DCX/CAMF** (MT=44) および **DC Report / QZQSM** (MT=43) に対応しており，Arduino / ESP32-C3 向けに設計されています。メモリアロケーションなしや外部ライブラリへの依存はありません。
 定義テーブル (`definition/*.h`) は [azarashi](https://github.com/nbtk/azarashi) の
 `definition/*.py` から **GitHub Actions が自動生成** します。azarashi のバージョンが
 更新されると CI が PR を自動作成するため、定義ファイルを手書きする必要はありません。
@@ -110,10 +109,10 @@ void reset();  // フレーマ・重複フィルタをリセット
 ```
 
 重複除去は **{svid, msg_type, crc24}** のリングバッファで行います。
-デフォルトスロット数は 8。複数 SV を受信する場合は増やしてください:
+デフォルトスロット数は 32 としています。複数 SV を受信する場合は 128 などに適宜調整してください:
 
 ```cpp
-#define AZARAC_DEDUP_SLOTS 16
+#define AZARAC_DEDUP_SLOTS 128
 #include <azaraC.h>
 ```
 

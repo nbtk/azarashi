@@ -104,4 +104,5 @@
 #include "qzss_dcx_ex1_target_area_code_en.h"
 #include "qzss_dcx_ex1_target_area_code_ja.h"
 #include "ublox_qzss_svid_prn_map.h"
+#include "ublox_qzss_svid_prn_map.h"
 #include "qzss_dcx_camf_a3_provider_identifier.h"

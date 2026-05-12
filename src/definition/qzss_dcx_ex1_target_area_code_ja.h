@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcx_camf_ex1_target_area_code
 // Variable      : qzss_dcx_ex1_target_area_code_ja
 // Entries       : 1980
@@ -3973,12 +3974,12 @@ inline constexpr QZSS_DCX_EX1_TARGET_AREA_CODE_JA_Entry QZSS_DCX_EX1_TARGET_AREA
     {47382u, "沖縄県与那国町"},
 };
 inline constexpr const char* qzss_dcx_ex1_target_area_code_ja_lookup(uint16_t id) {
-    int lo = 0, hi = 1980 - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
+    uint16_t lo = 0, hi = 1980;
+    while (lo < hi) {
+        uint16_t mid = lo + (hi - lo) / 2;
         if (QZSS_DCX_EX1_TARGET_AREA_CODE_JA_TABLE[mid].id == id) return QZSS_DCX_EX1_TARGET_AREA_CODE_JA_TABLE[mid].label;
-        if (QZSS_DCX_EX1_TARGET_AREA_CODE_JA_TABLE[mid].id  < id) lo = mid + 1;
-        else hi = mid - 1;
+        if (QZSS_DCX_EX1_TARGET_AREA_CODE_JA_TABLE[mid].id < id) lo = mid + 1;
+        else hi = mid;
     }
     return nullptr;
 }

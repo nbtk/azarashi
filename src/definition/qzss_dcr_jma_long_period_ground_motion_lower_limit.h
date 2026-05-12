@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcr_jma_long_period_ground_motion_lower_limit
 // Variable      : qzss_dcr_jma_long_period_ground_motion_lower_limit
 // Entries       : 7

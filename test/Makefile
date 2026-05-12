@@ -9,6 +9,8 @@ TEST_BIN = run_tests
 TEST_SRCS = \
 	test_main.cpp \
 	test_crc.cpp \
+	test_time.cpp \
+	test_latlon.cpp \
 	test_json.cpp \
 	test_framer.cpp \
 	test_tsunami.cpp \

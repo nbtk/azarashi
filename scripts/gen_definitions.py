@@ -55,18 +55,19 @@ def emit_array(varname, entries, guard, kt):
 def emit_bsearch(varname, entries, guard, kt):
     keys = sorted(entries.keys())
     n = len(keys)
+    idx_type = "uint8_t" if n <= 255 else ("uint16_t" if n <= 65535 else "uint32_t")
     rows = "\n".join(f'    {{{k}u, "{escape(entries[k])}"}},\n' for k in keys)
     return "\n".join([
         f"struct {guard}_Entry {{ {kt} id; const char* label; }};",
         f"inline constexpr {guard}_Entry {guard}_TABLE[] = {{",
         rows + "};",
         f"inline constexpr const char* {varname}_lookup({kt} id) {{",
-        f"    int lo = 0, hi = {n} - 1;",
-        "    while (lo <= hi) {",
-        "        int mid = (lo + hi) / 2;",
+        f"    {idx_type} lo = 0, hi = {n};",
+        "    while (lo < hi) {",
+        f"        {idx_type} mid = lo + (hi - lo) / 2;",
         f"        if ({guard}_TABLE[mid].id == id) return {guard}_TABLE[mid].label;",
-        f"        if ({guard}_TABLE[mid].id  < id) lo = mid + 1;",
-        "        else hi = mid - 1;",
+        f"        if ({guard}_TABLE[mid].id < id) lo = mid + 1;",
+        "        else hi = mid;",
         "    }",
         "    return nullptr;", "}",
     ])
@@ -84,6 +85,7 @@ def build_header(modname, varname, entries, ver):
     return (
         f"#pragma once\n"
         f"// AUTO-GENERATED from azarashi {ver} — do not edit\n"
+        f"// Requires C++17 or later\n"
         f"// Source module : {modname}\n"
         f"// Variable      : {varname}\n"
         f"// Entries       : {len(keys)}\n"

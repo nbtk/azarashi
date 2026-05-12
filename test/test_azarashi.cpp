@@ -61,6 +61,25 @@ TEST_CASE("DCR: EEW (Earthquake Early Warning)") {
     REQUIRE(decode_nmea(nmea, msg));
     CHECK(msg.msg_type == 43);
     CHECK(msg.disaster_category == 1);
+    // 実際のデコード結果を検証（print_eewで出力した値）
+    CHECK(msg.eew_long_period_lower == 0);
+    CHECK(msg.eew_long_period_upper == 0);
+    CHECK(msg.eew_notification_count == 1);
+    CHECK(msg.eew_notification[0] == 201);
+    // eew_quake_time: day=7, hour=4, minute=0 (unix=1709784000)
+    CHECK(msg.eew_quake_time.day == 7);
+    CHECK(msg.eew_quake_time.hour == 4);
+    CHECK(msg.eew_quake_time.minute == 0);
+    CHECK(msg.eew_depth == 10);
+    CHECK(msg.eew_magnitude == 72);  // 7.2
+    CHECK(msg.eew_epicenter == 791);
+    CHECK(msg.eew_intensity_lower == 8);
+    CHECK(msg.eew_intensity_upper == 11);
+    CHECK(msg.eew_region_count == 17);
+    // 最初の数地域をチェック
+    CHECK(msg.eew_regions[0] == 37);
+    CHECK(msg.eew_regions[1] == 38);
+    CHECK(msg.eew_regions[2] == 39);
 }
 
 TEST_CASE("DCR: Seismic Intensity") {
@@ -172,13 +191,13 @@ TEST_CASE("DCR: Unknown Magnitude/Depth") {
 
 // ── MT=44 DCX Scenarios ──────────────────────────────────────────────────────
 
-TEST_CASE("DCX: Null Msg") {
+TEST_CASE("DCX: Type 1 Alert (J-Alert)") {
     Message msg{};
     const char* nmea = "$QZQSM,55,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0E\r\n";
     REQUIRE(decode_nmea(nmea, msg));
     CHECK(msg.msg_type == 44);
-    // bits[14..16] = 1 → L_ALERT in our 3-bit enum
-    CHECK(msg.dcx_type == DcxType::L_ALERT);
+    // bits[14..16] = 1 and preamble = 0x53 → J_ALERT
+    CHECK(msg.dcx_type == DcxType::J_ALERT);
 }
 
 TEST_CASE("DCX: L-Alert") {
@@ -194,8 +213,8 @@ TEST_CASE("DCX: J-Alert") {
     const char* nmea = "$QZQSM,55,53B0840DE31188FC208600000000000000001FFFFFFFFFFFC00000120738628*00\r\n";
     REQUIRE(decode_nmea(nmea, msg));
     CHECK(msg.msg_type == 44);
-    // bits[14..16] = 1 → L_ALERT in our 3-bit enum
-    CHECK(msg.dcx_type == DcxType::L_ALERT);
+    // J-Alert messages use preamble 0x53 and are correctly identified as J_ALERT
+    CHECK(msg.dcx_type == DcxType::J_ALERT);
 }
 
 TEST_CASE("DCX: Outside Japan") {
@@ -227,7 +246,7 @@ TEST_CASE("DCR: Unknown Disaster Category Rejection") {
     internal::Frame frame;
     frame.svid = 55;
     frame.source = internal::FrameSource::NMEA;
-    
+
     memset(frame.bits, 0, 32);
     // Preamble: 0x53, MT: 43, DC: 7 (Unused)
     setbits(frame.bits, 0, 8, 0x53);
@@ -235,15 +254,136 @@ TEST_CASE("DCR: Unknown Disaster Category Rejection") {
     setbits(frame.bits, 17, 4, 7);
     // Version: 1
     setbits(frame.bits, 214, 6, 1);
-    
+
     // Calculate and set CRC
     uint32_t crc = crc24q_ref(frame.bits, 226);
     setbits(frame.bits, 226, 24, crc);
-    
+
     internal::Decoder dec;
     bool ok = dec.decode(frame, msg, 0);
-    
+
     // Should fail because DC=7 is not handled
     CHECK_FALSE(ok);
     CHECK_FALSE(msg.valid);
+}
+
+TEST_CASE("DCR: Typhoon") {
+    Message msg{};
+    internal::Frame frame;
+    frame.svid = 55;
+    frame.source = internal::FrameSource::NMEA;
+
+    memset(frame.bits, 0, 32);
+    setbits(frame.bits, 0, 8, 0x53);
+    setbits(frame.bits, 8, 6, 43);
+    setbits(frame.bits, 17, 4, 12); // Typhoon
+    setbits(frame.bits, 87, 7, 21); // Typhoon Number 21
+    setbits(frame.bits, 214, 6, 1);
+
+    uint32_t crc = crc24q_ref(frame.bits, 226);
+    setbits(frame.bits, 226, 24, crc);
+
+    internal::Decoder dec;
+    REQUIRE(dec.decode(frame, msg, 0));
+    CHECK(msg.disaster_category == 12);
+    CHECK(msg.typh_number == 21);
+}
+
+TEST_CASE("DCR: Marine") {
+    Message msg{};
+    internal::Frame frame;
+    frame.svid = 55;
+    frame.source = internal::FrameSource::NMEA;
+
+    memset(frame.bits, 0, 32);
+    setbits(frame.bits, 0, 8, 0x53);
+    setbits(frame.bits, 8, 6, 43);
+    setbits(frame.bits, 17, 4, 14); // Marine
+    setbits(frame.bits, 53, 5, 19); // Warning code 19
+    setbits(frame.bits, 214, 6, 1);
+
+    uint32_t crc = crc24q_ref(frame.bits, 226);
+    setbits(frame.bits, 226, 24, crc);
+
+    internal::Decoder dec;
+    REQUIRE(dec.decode(frame, msg, 0));
+    CHECK(msg.disaster_category == 14);
+    CHECK(msg.marine_count > 0);
+    CHECK(msg.marine_entries[0].warning_code == 19);
+}
+
+TEST_CASE("DCR: Comprehensive Category Mapping Verification") {
+    internal::Decoder dec;
+    internal::Frame frame;
+    frame.svid = 55;
+    frame.source = internal::FrameSource::NMEA;
+
+    auto verify_mapping = [&](uint8_t category, auto validator) {
+        Message msg{};
+        memset(frame.bits, 0, 32);
+        setbits(frame.bits, 0, 8, 0x53);
+        setbits(frame.bits, 8, 6, 43);
+        setbits(frame.bits, 17, 4, category);
+        setbits(frame.bits, 214, 6, 1);
+
+        if (category == 1)  setbits(frame.bits, 47,  3, 7); // eew_long_period_lower
+        if (category == 2)  setbits(frame.bits, 112, 10, 999); // hypo_epicenter
+        if (category == 3)  setbits(frame.bits, 69,  3, 7); // intensity_code (first entry)
+        if (category == 4)  setbits(frame.bits, 53,  4, 15); // nankai_info_code
+        if (category == 5)  setbits(frame.bits, 80,  4, 15); // tsunami_warning_code
+        if (category == 6)  setbits(frame.bits, 53,  3, 7); // nw_pac_potential
+        if (category == 8)  setbits(frame.bits, 50,  3, 7); // vol_ambiguity
+        if (category == 9)  setbits(frame.bits, 69,  2, 3); // ash_warning_type
+        if (category == 10) setbits(frame.bits, 53,  3, 7); // wx_warning_state
+        if (category == 11) {
+            setbits(frame.bits, 53,  4, 15); // warning_level (bits 53-56)
+            setbits(frame.bits, 77,  1, 1);  // region_code bit (bit 77) to ensure getBits(..., 44) != 0
+        }
+        if (category == 12) setbits(frame.bits, 87,  7, 99); // typh_number
+        if (category == 14) setbits(frame.bits, 53,  5, 31); // marine warning_code
+
+        uint32_t crc = crc24q_ref(frame.bits, 226);
+        setbits(frame.bits, 226, 24, crc);
+
+        REQUIRE(dec.decode(frame, msg, 0));
+        CHECK(msg.disaster_category == category);
+        validator(msg);
+    };
+
+    SUBCASE("Category 1: EEW") {
+        verify_mapping(1, [](Message& m) { CHECK(m.eew_long_period_lower == 7); });
+    }
+    SUBCASE("Category 2: Hypocenter") {
+        verify_mapping(2, [](Message& m) { CHECK(m.hypo_epicenter == 999); });
+    }
+    SUBCASE("Category 3: Seismic Intensity") {
+        verify_mapping(3, [](Message& m) { CHECK(m.seis_count > 0); CHECK(m.seis_entries[0].intensity_code == 7); });
+    }
+    SUBCASE("Category 4: Nankai Trough") {
+        verify_mapping(4, [](Message& m) { CHECK(m.nankai_info_code == 15); });
+    }
+    SUBCASE("Category 5: Tsunami") {
+        verify_mapping(5, [](Message& m) { CHECK(m.tsunami_warning_code == 15); });
+    }
+    SUBCASE("Category 6: NW Pacific Tsunami") {
+        verify_mapping(6, [](Message& m) { CHECK(m.nw_pac_potential == 7); });
+    }
+    SUBCASE("Category 8: Volcano") {
+        verify_mapping(8, [](Message& m) { CHECK(m.vol_ambiguity == 7); });
+    }
+    SUBCASE("Category 9: Ash Fall") {
+        verify_mapping(9, [](Message& m) { CHECK(m.ash_warning_type == 3); });
+    }
+    SUBCASE("Category 10: Weather") {
+        verify_mapping(10, [](Message& m) { CHECK(m.wx_warning_state == 7); });
+    }
+    SUBCASE("Category 11: Flood") {
+        verify_mapping(11, [](Message& m) { CHECK(m.flood_count > 0); CHECK(m.flood_entries[0].warning_level == 15); });
+    }
+    SUBCASE("Category 12: Typhoon") {
+        verify_mapping(12, [](Message& m) { CHECK(m.typh_number == 99); });
+    }
+    SUBCASE("Category 14: Marine") {
+        verify_mapping(14, [](Message& m) { CHECK(m.marine_count > 0); CHECK(m.marine_entries[0].warning_code == 31); });
+    }
 }

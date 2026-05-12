@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcr_jma_epicenter_and_hypocenter
 // Variable      : qzss_dcr_jma_epicenter_and_hypocenter
 // Entries       : 345
@@ -703,12 +704,12 @@ inline constexpr QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry QZSS_DCR_JMA_EPICEN
     {1000u, "その他の震央地名"},
 };
 inline constexpr const char* qzss_dcr_jma_epicenter_and_hypocenter_lookup(uint16_t id) {
-    int lo = 0, hi = 345 - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
+    uint16_t lo = 0, hi = 345;
+    while (lo < hi) {
+        uint16_t mid = lo + (hi - lo) / 2;
         if (QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[mid].id == id) return QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[mid].label;
-        if (QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[mid].id  < id) lo = mid + 1;
-        else hi = mid - 1;
+        if (QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[mid].id < id) lo = mid + 1;
+        else hi = mid;
     }
     return nullptr;
 }

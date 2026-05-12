@@ -168,7 +168,16 @@ bool Decoder::decode(const Frame& frame, Message& out, uint32_t now_unix) {
 // MT=44 DCX / CAMF  (IS-QZSS-DCX-005)
 // ---------------------------------------------------------------------------
 bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t now_unix) {
-    out.dcx_type        = static_cast<DcxType>(getBits(bits, 14, 3));
+    uint8_t preamble  = getBits(bits, 0, 8);
+    uint8_t type_bits = getBits(bits, 14, 3);
+
+    if (type_bits == 1) {
+        // CAMF type 1 is generic "Alert". Distinguish by preamble.
+        if (preamble == 0x53) out.dcx_type = DcxType::J_ALERT;
+        else                  out.dcx_type = DcxType::L_ALERT;
+    } else {
+        out.dcx_type = static_cast<DcxType>(type_bits);
+    }
     out.a1_message_type = getBits(bits, 17, 4);
     out.a2_country_code = getBits(bits, 21, 10);
     out.a3_provider     = getBits(bits, 31,  4);
@@ -313,7 +322,7 @@ void Decoder::decodeEEW(const uint8_t* b, Message& out, uint32_t now_unix) {
 }
 
 // ---------------------------------------------------------------------------
-// Hypocenter  (disaster_category == 4)
+// Hypocenter  (disaster_category == 2)
 // ---------------------------------------------------------------------------
 void Decoder::decodeHypocenter(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.hypo_notification_count = 0;
@@ -330,7 +339,7 @@ void Decoder::decodeHypocenter(const uint8_t* b, Message& out, uint32_t now_unix
 }
 
 // ---------------------------------------------------------------------------
-// Seismic Intensity  (disaster_category == 5)
+// Seismic Intensity  (disaster_category == 3)
 // ---------------------------------------------------------------------------
 void Decoder::decodeSeismic(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.seis_quake_time = extractDHM(b, 53, now_unix);  // day(5)+hour(5)+min(6) at [53]
@@ -349,7 +358,7 @@ void Decoder::decodeSeismic(const uint8_t* b, Message& out, uint32_t now_unix) {
 }
 
 // ---------------------------------------------------------------------------
-// Nankai Trough  (disaster_category == 6)
+// Nankai Trough  (disaster_category == 4)
 // ---------------------------------------------------------------------------
 void Decoder::decodeNankai(const uint8_t* b, Message& out) {
     out.nankai_info_code   = getBits(b, 53, 4);
@@ -361,7 +370,7 @@ void Decoder::decodeNankai(const uint8_t* b, Message& out) {
 }
 
 // ---------------------------------------------------------------------------
-// Tsunami  (disaster_category == 2)
+// Tsunami  (disaster_category == 5)
 // arrival time sub-field: nextday(1)+hour(5)+minute(6) = 12 bits
 // ---------------------------------------------------------------------------
 void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
@@ -376,17 +385,26 @@ void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
         e.height_code      = getBits(b, off + 10,  4);
         e.arrival_time_raw = getBits(b, off + 14, 12);
 
-        if (e.arrival_time_raw != 0 && out.event_time.day != 0) {
+        if (e.arrival_time_raw != 0 && out.event_time.unix_time != 0) {
             uint8_t next = (e.arrival_time_raw >> 11) & 1;
             uint8_t hour = (e.arrival_time_raw >> 6) & 0x1F;
             uint8_t min  = e.arrival_time_raw & 0x3F;
-            e.arrival_time = resolveTime(0, out.event_time.day + next, hour, min, now_unix);
+            if (hour <= 23 && min <= 59) {
+                uint32_t base_days = out.event_time.unix_time / 86400u;
+                uint32_t arrival_days = base_days + next;
+                uint32_t y, m, d;
+                civil_from_days(arrival_days, y, m, d);
+                e.arrival_time.day = d;
+                e.arrival_time.hour = hour;
+                e.arrival_time.minute = min;
+                e.arrival_time.unix_time = arrival_days * 86400u + (uint32_t)hour * 3600u + (uint32_t)min * 60u;
+            }
         }
     }
 }
 
 // ---------------------------------------------------------------------------
-// NW Pacific Tsunami  (disaster_category == 3)
+// NW Pacific Tsunami  (disaster_category == 6)
 // ---------------------------------------------------------------------------
 void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.nw_pac_potential = getBits(b, 53, 3);
@@ -400,11 +418,20 @@ void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t now_unix) 
         e.arrival_time_raw = getBits(b, off +  7, 12);
         e.height_code      = getBits(b, off + 19,  9);
 
-        if (e.arrival_time_raw != 0 && out.event_time.day != 0) {
+        if (e.arrival_time_raw != 0 && out.event_time.unix_time != 0) {
             uint8_t next = (e.arrival_time_raw >> 11) & 1;
             uint8_t hour = (e.arrival_time_raw >> 6) & 0x1F;
             uint8_t min  = e.arrival_time_raw & 0x3F;
-            e.arrival_time = resolveTime(0, out.event_time.day + next, hour, min, now_unix);
+            if (hour <= 23 && min <= 59) {
+                uint32_t base_days = out.event_time.unix_time / 86400u;
+                uint32_t arrival_days = base_days + next;
+                uint32_t y, m, d;
+                civil_from_days(arrival_days, y, m, d);
+                e.arrival_time.day = d;
+                e.arrival_time.hour = hour;
+                e.arrival_time.minute = min;
+                e.arrival_time.unix_time = arrival_days * 86400u + (uint32_t)hour * 3600u + (uint32_t)min * 60u;
+            }
         }
     }
 }
@@ -476,7 +503,7 @@ void Decoder::decodeFlood(const uint8_t* b, Message& out) {
 }
 
 // ---------------------------------------------------------------------------
-// Marine  (disaster_category == 12)
+// Marine  (disaster_category == 14)
 // ---------------------------------------------------------------------------
 void Decoder::decodeMarine(const uint8_t* b, Message& out) {
     out.marine_count = 0;
@@ -492,7 +519,7 @@ void Decoder::decodeMarine(const uint8_t* b, Message& out) {
 }
 
 // ---------------------------------------------------------------------------
-// Typhoon  (disaster_category == 14)
+// Typhoon  (disaster_category == 12)
 // ---------------------------------------------------------------------------
 void Decoder::decodeTyphoon(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.typh_reference_time = extractDHM(b, 53, now_unix);

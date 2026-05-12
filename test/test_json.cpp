@@ -71,7 +71,7 @@ TEST_CASE("JSON Serialization: MT=43 EEW") {
 // ── MT=43 Seismic Intensity ──────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
     Message m{};
-    m.msg_type = 43; m.disaster_category = 5; // 5 is Seismic Intensity
+    m.msg_type = 43; m.disaster_category = 3; // 3 is Seismic Intensity
     m.seis_count = 2;
     m.seis_entries[0] = {4, 13};
     m.seis_entries[1] = {5, 14};
@@ -80,7 +80,7 @@ TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
     internal::JsonSerializer::serialize(m, sp);
     const auto& s = sp.buf;
 
-    CHECK(has(s,"\"disaster_category\":5"));
+    CHECK(has(s,"\"disaster_category\":3"));
     CHECK(has(s,"\"entries\":["));
     CHECK(has(s,"\"intensity\":4"));
     CHECK(has(s,"\"prefecture\":13"));

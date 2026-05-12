@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcx_camf_a3_provider_identifier
 // Variable      : qzss_dcx_camf_a3_provider_identifier_australia
 // Entries       : 12

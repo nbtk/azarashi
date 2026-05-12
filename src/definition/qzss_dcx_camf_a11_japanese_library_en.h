@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcx_camf_a11_japanese_library
 // Variable      : qzss_dcx_camf_a11_japanese_library_en
 // Entries       : 38
@@ -89,12 +90,12 @@ inline constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_J
     {775u, "Keep away from Cliffs and areas at risk of collapse."},
 };
 inline constexpr const char* qzss_dcx_camf_a11_japanese_library_en_lookup(uint16_t id) {
-    int lo = 0, hi = 38 - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
+    uint8_t lo = 0, hi = 38;
+    while (lo < hi) {
+        uint8_t mid = lo + (hi - lo) / 2;
         if (QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[mid].id == id) return QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[mid].label;
-        if (QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[mid].id  < id) lo = mid + 1;
-        else hi = mid - 1;
+        if (QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[mid].id < id) lo = mid + 1;
+        else hi = mid;
     }
     return nullptr;
 }

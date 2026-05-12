@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.2] - 2026-05-12
+
+### Fixed
+
+- `test/test_json.cpp`: MT=43 Seismic Intensity テストケースのカテゴリIDミスを修正 (5 → 3)
+- `test/test_azarashi.cpp`: 実態と乖離していたテストケース名 (`DCX: Null Msg`) を修正
+- `test/test_crc.cpp`: DCXデコード時の誤解を招くコメントを修正
+- `src/internal/JsonSerializer.cpp`: `writeInt32` における `INT32_MIN` 処理時の潜在的な未定義動作を回避
+
+### Changed
+
+- `src/internal/Dedup.h`: `AZARAC_DEDUP_SLOTS` のデフォルト値を 8 から 32 に拡張 (重複排除の耐性向上)
+
 ## [0.3.1] - 2026-04-28
 
 ### Fixed
@@ -27,7 +40,6 @@
 - `Decoder.h`: テスト用サブクラスアクセスのため `private` → `protected`
 - `Decoder.cpp`: `decodeTsunami` / `decodeNwPacTsu` の unused-parameter 警告修正
 
-# Changelog
 
 ## [0.2.0] - 2026-04-19
 

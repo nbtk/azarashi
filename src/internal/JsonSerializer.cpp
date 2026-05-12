@@ -24,7 +24,7 @@ static void writeUint32(Print& out, uint32_t v) {
 static void writeInt32(Print& out, int32_t v) {
     if (v < 0) {
         out.print('-');
-        writeUint32(out, (uint32_t)(-(int32_t)v));
+        writeUint32(out, 0u - (uint32_t)v);
     } else {
         writeUint32(out, (uint32_t)v);
     }
@@ -449,17 +449,17 @@ void JsonSerializer::serialize(const Message& msg, Print& out) {
         wk(out, "detail"); out.print('{');
         switch (msg.disaster_category) {
             case  1: serializeEEW       (msg, out); break;
-            case  2: serializeTsunami   (msg, out); break;
-            case  3: serializeNwPacTsu  (msg, out); break;
-            case  4: serializeHypocenter(msg, out); break;
-            case  5: serializeSeismic   (msg, out); break;
-            case  6: serializeNankai    (msg, out); break;
+            case  2: serializeHypocenter(msg, out); break;
+            case  3: serializeSeismic   (msg, out); break;
+            case  4: serializeNankai    (msg, out); break;
+            case  5: serializeTsunami   (msg, out); break;
+            case  6: serializeNwPacTsu  (msg, out); break;
             case  8: serializeVolcano   (msg, out); break;
             case  9: serializeAshFall   (msg, out); break;
             case 10: serializeWeather   (msg, out); break;
             case 11: serializeFlood     (msg, out); break;
-            case 12: serializeMarine    (msg, out); break;
-            case 14: serializeTyphoon   (msg, out); break;
+            case 12: serializeTyphoon   (msg, out); break;
+            case 14: serializeMarine    (msg, out); break;
             default: wf_s(out, "note", "unsupported_category", /*last=*/true); break;
         }
         out.print('}');  // detail

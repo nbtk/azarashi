@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcx_camf_a17_main_subject_for_specific_settings
 // Variable      : qzss_dcx_camf_a17_main_subject_for_specific_settings
 // Entries       : 4

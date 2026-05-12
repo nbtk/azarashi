@@ -7,7 +7,7 @@
 #include <cstdint>
 
 #ifndef AZARAC_DEDUP_SLOTS
-#define AZARAC_DEDUP_SLOTS 8
+#define AZARAC_DEDUP_SLOTS 32
 #endif
 
 namespace azaraC {

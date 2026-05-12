@@ -132,17 +132,7 @@ struct Message {
     uint8_t  eew_regions[80];        // [130..209] 80 bits (1 bit per region)
     uint8_t  eew_region_count;
 
-    // ---- Tsunami  (disaster_category == 2) ------------------------------
-    uint8_t          tsunami_warning_code;    // [80..83]  4 bits
-    TsunamiEntry     tsunamis[5];
-    uint8_t          tsunami_count;
-
-    // ---- NW Pacific Tsunami  (disaster_category == 3) -------------------
-    uint8_t          nw_pac_potential;        // [53..55]  3 bits
-    NwPacTsunamiEntry nw_pac_tsunamis[5];
-    uint8_t          nw_pac_count;
-
-    // ---- Hypocenter  (disaster_category == 4) ---------------------------
+    // ---- Hypocenter  (disaster_category == 2) ---------------------------
     uint16_t         hypo_notification[3];
     uint8_t          hypo_notification_count;
     TimeFields       hypo_quake_time;         // [80..95]
@@ -151,16 +141,26 @@ struct Message {
     uint16_t         hypo_epicenter;          // [112..121] 10 bits
     LatLon           hypo_coords;             // [122..]
 
-    // ---- Seismic Intensity  (disaster_category == 5) --------------------
+    // ---- Seismic Intensity  (disaster_category == 3) --------------------
     TimeFields       seis_quake_time;         // [53..68]
     SeismicEntry     seis_entries[16];
     uint8_t          seis_count;
 
-    // ---- Nankai Trough  (disaster_category == 6) ------------------------
+    // ---- Nankai Trough  (disaster_category == 4) ------------------------
     uint8_t          nankai_info_code;        // [53..56] 4 bits
     uint8_t          nankai_text[18];         // [57..200] 18 bytes
     uint8_t          nankai_page;             // [201..206] 6 bits
     uint8_t          nankai_total_page;       // [207..212] 6 bits
+
+    // ---- Tsunami  (disaster_category == 5) ------------------------------
+    uint8_t          tsunami_warning_code;    // [80..83]  4 bits
+    TsunamiEntry     tsunamis[5];
+    uint8_t          tsunami_count;
+
+    // ---- NW Pacific Tsunami  (disaster_category == 6) -------------------
+    uint8_t          nw_pac_potential;        // [53..55]  3 bits
+    NwPacTsunamiEntry nw_pac_tsunamis[5];
+    uint8_t          nw_pac_count;
 
     // ---- Volcano  (disaster_category == 8) ------------------------------
     uint8_t          vol_ambiguity;           // [50..52]  3 bits
@@ -188,11 +188,7 @@ struct Message {
     FloodEntry       flood_entries[3];
     uint8_t          flood_count;
 
-    // ---- Marine  (disaster_category == 12) ------------------------------
-    MarineEntry      marine_entries[8];
-    uint8_t          marine_count;
-
-    // ---- Typhoon  (disaster_category == 14) -----------------------------
+    // ---- Typhoon  (disaster_category == 12) -----------------------------
     TimeFields       typh_reference_time;     // [53..68]
     uint8_t          typh_ref_type;           // [69..71]  3 bits
     uint8_t          typh_elapsed;            // [80..86]  7 bits
@@ -201,6 +197,10 @@ struct Message {
     uint8_t          typh_intensity;          // [98..101] 4 bits
     TyphoonPos       typh_positions[3];       // center + forecast ×2
     uint8_t          typh_pos_count;
-};
 
+    // ---- Marine  (disaster_category == 14) ------------------------------
+    MarineEntry      marine_entries[8];
+    uint8_t          marine_count;
+
+};
 } // namespace azaraC

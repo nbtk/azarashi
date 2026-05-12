@@ -85,3 +85,50 @@ TEST_CASE("Tsunami Resolution") {
     CHECK(arr.minute == 30);
     CHECK(arr.unix_time != 0);
 }
+
+TEST_CASE("NW Pacific Tsunami Resolution - Day Wrap") {
+    uint8_t buf[32] = {};
+    // MT43 Preamble: 0x53
+    setbits(buf, sizeof(buf), 0, 8, 0x53);
+    // MT: 43
+    setbits(buf, sizeof(buf), 8, 6, 43);
+    // Report Time: Month=5, Day=31, Hour=23, Min=50
+    setbits(buf, sizeof(buf), 21, 4, 5);
+    setbits(buf, sizeof(buf), 25, 5, 31);
+    setbits(buf, sizeof(buf), 30, 5, 23);
+    setbits(buf, sizeof(buf), 35, 6, 50);
+    // Disaster Category: 6 (NW Pacific Tsunami)
+    setbits(buf, sizeof(buf), 17, 4, 6);
+    // Version: 1
+    setbits(buf, sizeof(buf), 214, 6, 1);
+
+    // NW Pac Tsunami entry 0: Region=1, Arrival: NextDay=1, Hour=0, Min=30, Height=2
+    // off = 56 + 0*28 = 56
+    setbits(buf, sizeof(buf), 56, 7, 1);     // Region
+    setbits(buf, sizeof(buf), 63, 1, 1);     // NextDay (arrival_time_raw >> 11)
+    setbits(buf, sizeof(buf), 64, 5, 0);     // Hour
+    setbits(buf, sizeof(buf), 69, 6, 30);    // Min
+    setbits(buf, sizeof(buf), 75, 9, 2);     // Height
+
+    // CRC
+    uint32_t crc = crc24q_ref(buf, 226);
+    setbits(buf, sizeof(buf), 226, 24, crc);
+
+    // 2026-05-31 23:50:00 UTC
+    constexpr uint32_t NOW_TIMESTAMP = 1780271400;
+
+    Frame f; f.svid = 193; memcpy(f.bits, buf, 32);
+    Decoder dec;
+    Message msg{};
+    bool ok = dec.decode(f, msg, NOW_TIMESTAMP);
+
+    REQUIRE(ok);
+    CHECK(msg.nw_pac_count == 1);
+
+    // Arrival should be Day 1 (June 1st), 00:30
+    TimeFields& arr = msg.nw_pac_tsunamis[0].arrival_time;
+    CHECK(arr.day == 1);
+    CHECK(arr.hour == 0);
+    CHECK(arr.minute == 30);
+    CHECK(arr.unix_time != 0);
+}

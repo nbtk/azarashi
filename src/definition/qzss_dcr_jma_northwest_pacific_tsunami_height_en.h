@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcr_jma_northwest_pacific_tsunami_height
 // Variable      : qzss_dcr_jma_northwest_pacific_tsunami_height_en
 // Entries       : 8

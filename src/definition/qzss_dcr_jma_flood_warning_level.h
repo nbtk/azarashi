@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcr_jma_flood_warning_level
 // Variable      : qzss_dcr_jma_flood_warning_level
 // Entries       : 5

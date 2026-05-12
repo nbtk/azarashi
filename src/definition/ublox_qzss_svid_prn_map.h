@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : ublox_qzss_svid_prn_map
 // Variable      : ublox_qzss_svid_prn_map
 // Entries       : 4

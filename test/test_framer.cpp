@@ -20,7 +20,7 @@ static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits
     std::vector<uint8_t> out;
     out.push_back(0xB5); out.push_back(0x62); // SYNC
     out.push_back(0x02); out.push_back(0x13); // CLASS/ID (RXM-SFRBX)
-    
+
     uint16_t len = 8 + 8 * 4; // header(8) + 8 words(32)
     out.push_back(len & 0xFF);
     out.push_back(len >> 8);
@@ -75,12 +75,12 @@ static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
         sprintf(hex, "%02X", nav_bits[i]);
         s += hex;
     }
-    
+
     uint8_t xsum = 0;
     for (size_t i = 1; i < s.size(); ++i) {
         xsum ^= (uint8_t)s[i];
     }
-    
+
     char tail[5];
     sprintf(tail, "*%02X\r\n", xsum);
     s += tail;
@@ -91,14 +91,14 @@ static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
 TEST_CASE("UBX Framer Basic") {
     uint8_t bits[32] = {0x53, 0xAB}; // dummy data
     auto pkt = make_ubx_sfrbx(193, bits);
-    
+
     UbxFramer framer;
     Frame out;
     bool found = false;
     for (auto b : pkt) {
         if (framer.feed(b, out)) { found = true; break; }
     }
-    
+
     REQUIRE(found);
     CHECK(out.svid == 193);
     CHECK(out.bits[0] == 0x53);
@@ -126,7 +126,7 @@ TEST_CASE("UBX Garbage Recovery") {
     Frame out;
     // Feed garbage
     for (int i = 0; i < 100; ++i) framer.feed(0xAA, out);
-    
+
     // Feed valid
     bool found = false;
     for (auto b : pkt) {
@@ -201,5 +201,5 @@ TEST_CASE("NMEA Oversize Recovery") {
     for (char c : pkt) {
         if (framer.feed((uint8_t)c, out)) { found = true; break; }
     }
-    CHECK(found);
+    REQUIRE(found);
 }

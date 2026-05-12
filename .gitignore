@@ -136,3 +136,4 @@ dmypy.json
 definition_files.txt
 
 test/*.exe
+test/*.o

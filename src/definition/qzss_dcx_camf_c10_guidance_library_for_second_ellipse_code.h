@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcx_camf_c10_guicance_library_for_second_ellipse
 // Variable      : qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code
 // Entries       : 19
@@ -51,12 +52,12 @@ inline constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entr
     {31u, "IC-C-32"},
 };
 inline constexpr const char* qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code_lookup(uint8_t id) {
-    int lo = 0, hi = 19 - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
+    uint8_t lo = 0, hi = 19;
+    while (lo < hi) {
+        uint8_t mid = lo + (hi - lo) / 2;
         if (QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[mid].id == id) return QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[mid].label;
-        if (QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[mid].id  < id) lo = mid + 1;
-        else hi = mid - 1;
+        if (QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[mid].id < id) lo = mid + 1;
+        else hi = mid;
     }
     return nullptr;
 }

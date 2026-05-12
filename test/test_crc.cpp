@@ -5,6 +5,7 @@
 #define ARDUINO 0
 #include "../src/internal/Decoder.h"
 #include "../src/internal/PrintShim.h"
+// #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include <cstdio>
 #include <cstring>
@@ -86,7 +87,7 @@ TEST_CASE("MT=44 field extraction on synthetic frame") {
     // Build a minimal MT=44 frame:
     //   preamble[0..7]  = 0x53
     //   msg_type[8..13] = 44 = 0b101100
-    //   dcx_type[14..16]= 1 (L_ALERT) = 0b001
+    //   dcx_type[14..16]= 1 (CAMF Type 1 Alert) = 0b001
     //   a1[17..20]      = 2 = 0b0010
     //   a2[21..30]      = 111 (Japan) = 0b0001101111
     // then append correct CRC-24Q at [226..249]
@@ -101,7 +102,7 @@ TEST_CASE("MT=44 field extraction on synthetic frame") {
 
     setbits(0,  8, 0x53);  // preamble
     setbits(8,  6, 44);    // msg_type
-    setbits(14, 3, 1);     // dcx_type = L_ALERT
+    setbits(14, 3, 1);     // dcx_type = CAMF Type 1 Alert
     setbits(17, 4, 2);     // a1 = 2
     setbits(21,10, 111);   // a2 = Japan
 
@@ -114,7 +115,7 @@ TEST_CASE("MT=44 field extraction on synthetic frame") {
     bool ok = dec.decode(f, msg);
     REQUIRE(ok);
     CHECK(msg.msg_type == 44);
-    CHECK(msg.dcx_type == DcxType::L_ALERT);
+    CHECK(msg.dcx_type == DcxType::J_ALERT);
     CHECK(msg.a1_message_type == 2);
     CHECK(msg.a2_country_code == 111);
 }

@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcr_jma_report_classification
 // Variable      : qzss_dcr_jma_report_classification_en
 // Entries       : 4

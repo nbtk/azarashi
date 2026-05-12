@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcr_jma_volcano_name
 // Variable      : qzss_dcr_jma_volcano_name
 // Entries       : 121
@@ -255,12 +256,12 @@ inline constexpr QZSS_DCR_JMA_VOLCANO_NAME_Entry QZSS_DCR_JMA_VOLCANO_NAME_TABLE
     {4000u, "その他の火山"},
 };
 inline constexpr const char* qzss_dcr_jma_volcano_name_lookup(uint16_t id) {
-    int lo = 0, hi = 121 - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
+    uint8_t lo = 0, hi = 121;
+    while (lo < hi) {
+        uint8_t mid = lo + (hi - lo) / 2;
         if (QZSS_DCR_JMA_VOLCANO_NAME_TABLE[mid].id == id) return QZSS_DCR_JMA_VOLCANO_NAME_TABLE[mid].label;
-        if (QZSS_DCR_JMA_VOLCANO_NAME_TABLE[mid].id  < id) lo = mid + 1;
-        else hi = mid - 1;
+        if (QZSS_DCR_JMA_VOLCANO_NAME_TABLE[mid].id < id) lo = mid + 1;
+        else hi = mid;
     }
     return nullptr;
 }

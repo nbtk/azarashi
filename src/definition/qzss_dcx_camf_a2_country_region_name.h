@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcx_camf_a2_country_region_name
 // Variable      : qzss_dcx_camf_a2_country_region_name
 // Entries       : 252
@@ -517,12 +518,12 @@ inline constexpr QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_Entry QZSS_DCX_CAMF_A2_COU
     {502u, "International"},
 };
 inline constexpr const char* qzss_dcx_camf_a2_country_region_name_lookup(uint16_t id) {
-    int lo = 0, hi = 252 - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
+    uint8_t lo = 0, hi = 252;
+    while (lo < hi) {
+        uint8_t mid = lo + (hi - lo) / 2;
         if (QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_TABLE[mid].id == id) return QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_TABLE[mid].label;
-        if (QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_TABLE[mid].id  < id) lo = mid + 1;
-        else hi = mid - 1;
+        if (QZSS_DCX_CAMF_A2_COUNTRY_REGION_NAME_TABLE[mid].id < id) lo = mid + 1;
+        else hi = mid;
     }
     return nullptr;
 }

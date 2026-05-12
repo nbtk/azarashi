@@ -1,5 +1,6 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
+// Requires C++17 or later
 // Source module : qzss_dcr_jma_local_government
 // Variable      : qzss_dcr_jma_local_government
 // Entries       : 1792
@@ -3597,12 +3598,12 @@ inline constexpr QZSS_DCR_JMA_LOCAL_GOVERNMENT_Entry QZSS_DCR_JMA_LOCAL_GOVERNME
     {4799999u, "沖縄県のその他の市町村"},
 };
 inline constexpr const char* qzss_dcr_jma_local_government_lookup(uint32_t id) {
-    int lo = 0, hi = 1792 - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
+    uint16_t lo = 0, hi = 1792;
+    while (lo < hi) {
+        uint16_t mid = lo + (hi - lo) / 2;
         if (QZSS_DCR_JMA_LOCAL_GOVERNMENT_TABLE[mid].id == id) return QZSS_DCR_JMA_LOCAL_GOVERNMENT_TABLE[mid].label;
-        if (QZSS_DCR_JMA_LOCAL_GOVERNMENT_TABLE[mid].id  < id) lo = mid + 1;
-        else hi = mid - 1;
+        if (QZSS_DCR_JMA_LOCAL_GOVERNMENT_TABLE[mid].id < id) lo = mid + 1;
+        else hi = mid;
     }
     return nullptr;
 }
