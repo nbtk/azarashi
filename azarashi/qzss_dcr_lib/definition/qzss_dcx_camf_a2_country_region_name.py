@@ -22,7 +22,7 @@ qzss_dcx_camf_a2_country_region_name = QzssDcrDefinition(
         17: "Belgium",
         18: "Bermuda",
         19: "Bhutan",
-        20: "Plurinational State of Bolivia ",
+        20: "Plurinational State of Bolivia",
         21: "Bosnia and Herzegovina",
         22: "Botswana",
         23: "Bouvet Island",
