@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
-// Source module : qzss_dcx_camf_c10_guicance_library_for_second_ellipse
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
+// Source module : qzss_dcx_camf_c10_guidance_library_for_second_ellipse
 // Variable      : qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code
 // Entries       : 19
 // Strategy      : binary_search
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-struct QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entry { uint8_t id; const char* label; };
+struct QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entry { uint8_t id; std::string_view label; };
 inline constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entry QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[] = {
     {0u, "IC-C-01"},
 
@@ -51,15 +52,15 @@ inline constexpr QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_Entr
 
     {31u, "IC-C-32"},
 };
-inline constexpr const char* qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code_lookup(uint8_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code_lookup(uint8_t id) {
     uint8_t lo = 0, hi = 19;
     while (lo < hi) {
-        uint8_t mid = lo + (hi - lo) / 2;
+        uint8_t mid = static_cast<uint8_t>(lo + (hi - lo) / 2);
         if (QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[mid].id == id) return QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[mid].label;
         if (QZSS_DCX_CAMF_C10_GUIDANCE_LIBRARY_FOR_SECOND_ELLIPSE_CODE_TABLE[mid].id < id) lo = mid + 1;
         else hi = mid;
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 } // namespace def

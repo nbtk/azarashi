@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_a4_hazard_category_and_type
 // Variable      : qzss_dcx_camf_a4_hazard_definition
 // Entries       : 113
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[] = {
     "Attack performed by an aircraft, usually of military type, either by bombing (or similar), firing guns or missiles.",
     "Intentional attempt to expose, alter, disable, destroy, steal or gain unauthorized access to or make unauthorised use of IT equipment.",
     "From www.dhs.gov 'Attack performed with a device producing a nuclear explosion.",
@@ -128,8 +129,8 @@ inline constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[] = {
 };
 inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE = 1;
 inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_SIZE = 113;
-inline constexpr const char* qzss_dcx_camf_a4_hazard_definition_lookup(uint8_t id) {
-    if (id < QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE + QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_a4_hazard_definition_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE + QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_SIZE) return std::nullopt;
     return QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_TABLE[id - QZSS_DCX_CAMF_A4_HAZARD_DEFINITION_BASE];
 }
 

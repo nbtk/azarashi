@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_tsunami_forecast_region
 // Variable      : qzss_dcr_jma_tsunami_forecast_region
 // Entries       : 99
 // Strategy      : binary_search
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-struct QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry { uint16_t id; const char* label; };
+struct QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry { uint16_t id; std::string_view label; };
 inline constexpr QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_TABLE[] = {
     {100u, "北海道太平洋沿岸東部"},
 
@@ -211,15 +212,15 @@ inline constexpr QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_Entry QZSS_DCR_JMA_TSUNAMI
 
     {1000u, "その他の津波予報区"},
 };
-inline constexpr const char* qzss_dcr_jma_tsunami_forecast_region_lookup(uint16_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_tsunami_forecast_region_lookup(uint16_t id) {
     uint8_t lo = 0, hi = 99;
     while (lo < hi) {
-        uint8_t mid = lo + (hi - lo) / 2;
+        uint8_t mid = static_cast<uint8_t>(lo + (hi - lo) / 2);
         if (QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_TABLE[mid].id == id) return QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_TABLE[mid].label;
         if (QZSS_DCR_JMA_TSUNAMI_FORECAST_REGION_TABLE[mid].id < id) lo = mid + 1;
         else hi = mid;
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 } // namespace def

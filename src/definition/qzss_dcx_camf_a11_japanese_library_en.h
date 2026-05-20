@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_a11_japanese_library
 // Variable      : qzss_dcx_camf_a11_japanese_library_en
 // Entries       : 38
 // Strategy      : binary_search
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-struct QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry { uint16_t id; const char* label; };
+struct QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry { uint16_t id; std::string_view label; };
 inline constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[] = {
     {0u, ""},
 
@@ -89,15 +90,15 @@ inline constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_J
 
     {775u, "Keep away from Cliffs and areas at risk of collapse."},
 };
-inline constexpr const char* qzss_dcx_camf_a11_japanese_library_en_lookup(uint16_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_a11_japanese_library_en_lookup(uint16_t id) {
     uint8_t lo = 0, hi = 38;
     while (lo < hi) {
-        uint8_t mid = lo + (hi - lo) / 2;
+        uint8_t mid = static_cast<uint8_t>(lo + (hi - lo) / 2);
         if (QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[mid].id == id) return QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[mid].label;
         if (QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_TABLE[mid].id < id) lo = mid + 1;
         else hi = mid;
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 } // namespace def

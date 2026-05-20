@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_b4_lower_level_fields_tables
 // Variable      : qzss_dcx_camf_d6_temperature_range
 // Entries       : 16
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[] = {
     "T ≤ -30°C",
     "-30°C < T ≤ -25°C",
     "-25°C < T ≤ -20°C",
@@ -31,8 +32,8 @@ inline constexpr const char* QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[] = {
 };
 inline constexpr uint8_t QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE = 0;
 inline constexpr uint8_t QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_SIZE = 16;
-inline constexpr const char* qzss_dcx_camf_d6_temperature_range_lookup(uint8_t id) {
-    if (id < QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE || id >= QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE + QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_d6_temperature_range_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE || id >= QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE + QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_SIZE) return std::nullopt;
     return QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_TABLE[id - QZSS_DCX_CAMF_D6_TEMPERATURE_RANGE_BASE];
 }
 

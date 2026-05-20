@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_coastal_region
 // Variable      : qzss_dcr_jma_coastal_region_en
 // Entries       : 63
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCR_JMA_COASTAL_REGION_EN_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCR_JMA_COASTAL_REGION_EN_TABLE[] = {
     "Ust-Kamchatsk (East Coasts of Kamchatka Peninsula)",
     "Petropavlovsk-K (East Coasts of Kamchatka Peninsula)",
     "Severo Kurilsk (Kuril Islands)",
@@ -53,30 +54,30 @@ inline constexpr const char* QZSS_DCR_JMA_COASTAL_REGION_EN_TABLE[] = {
     "Kirakira (North Coasts of Solomon Islands)",
     "Munda (Solomon Sea)",
     "Honiara (Solomon Sea)",
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
     "Ostrov-Karaginskiy (East Coasts of Kamchatka Peninsula)",
     "Nikolskoya (East Coasts of Kamchatka Peninsula)",
     "Tongyeong (South Coasts of Korean Peninsula)",
@@ -84,7 +85,7 @@ inline constexpr const char* QZSS_DCR_JMA_COASTAL_REGION_EN_TABLE[] = {
     "Cheju-Island (South Coasts of Korean Peninsula)",
     "Chilung (Taiwan)",
     "Taitung (Taiwan)",
-    nullptr,
+    std::nullopt,
     "Homel (Taiwan)",
     "Geme (North Coasts of Irian Jaya)",
     "Ulamona (North Coasts of Papua New Guinea)",
@@ -98,25 +99,25 @@ inline constexpr const char* QZSS_DCR_JMA_COASTAL_REGION_EN_TABLE[] = {
     "Shanghai (Coasts of East China Sea)",
     "Zhoushan (Coasts of East China Sea)",
     "Wenzhou (Coasts of East China Sea)",
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
     "Unknown",
     "Other region"
 };
 inline constexpr uint8_t QZSS_DCR_JMA_COASTAL_REGION_EN_BASE = 1;
 inline constexpr uint8_t QZSS_DCR_JMA_COASTAL_REGION_EN_SIZE = 100;
-inline constexpr const char* qzss_dcr_jma_coastal_region_en_lookup(uint8_t id) {
-    if (id < QZSS_DCR_JMA_COASTAL_REGION_EN_BASE || id >= QZSS_DCR_JMA_COASTAL_REGION_EN_BASE + QZSS_DCR_JMA_COASTAL_REGION_EN_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_coastal_region_en_lookup(uint8_t id) {
+    if (id < QZSS_DCR_JMA_COASTAL_REGION_EN_BASE || id >= QZSS_DCR_JMA_COASTAL_REGION_EN_BASE + QZSS_DCR_JMA_COASTAL_REGION_EN_SIZE) return std::nullopt;
     return QZSS_DCR_JMA_COASTAL_REGION_EN_TABLE[id - QZSS_DCR_JMA_COASTAL_REGION_EN_BASE];
 }
 

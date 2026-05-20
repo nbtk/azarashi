@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_b4_lower_level_fields_tables
 // Variable      : qzss_dcx_camf_d30_nuclear_event_scale
 // Entries       : 9
 // Strategy      : switch
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* qzss_dcx_camf_d30_nuclear_event_scale_lookup(uint8_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_d30_nuclear_event_scale_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Unknown";
         case 1: return "Level 0/7. Deviation. No safety significance";
@@ -22,7 +23,7 @@ inline constexpr const char* qzss_dcx_camf_d30_nuclear_event_scale_lookup(uint8_
         case 6: return "Level 5/7. Accident with wider consequences. Impact on people and environment: Limited release of radioactive material likely to require implementation of some planned countermeasures. Major health impact from radiation is likely. Impact on radiological barriers and control: Severe damage to reactor core. Release of large quantities of radioactive material within an installation with a high probability of significant public exposure. This could arise from a major criticality accident or fire.";
         case 7: return "Level 6/7. Serious accident. Impact on people and environment: Significant release of radioactive material likely to require implementation of planned countermeasures.";
         case 8: return "Level 7/7. Major accident. Impact on people and environment: Major release of radioactive material with widespread health and environmental effects requiring implementation of planned and extended countermeasures.";
-        default: return nullptr;
+        default: return std::nullopt;
     }
 }
 

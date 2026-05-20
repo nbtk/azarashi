@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_a4_hazard_category_and_type
 // Variable      : qzss_dcx_camf_a4_hazard_category
 // Entries       : 113
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[] = {
     "CBRNE",
     "CBRNE",
     "CBRNE",
@@ -128,8 +129,8 @@ inline constexpr const char* QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[] = {
 };
 inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE = 1;
 inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE = 113;
-inline constexpr const char* qzss_dcx_camf_a4_hazard_category_lookup(uint8_t id) {
-    if (id < QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE + QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_a4_hazard_category_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE + QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE) return std::nullopt;
     return QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[id - QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE];
 }
 

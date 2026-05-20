@@ -84,12 +84,13 @@ TEST_CASE("invalid preamble rejected") {
 }
 
 TEST_CASE("MT=44 field extraction on synthetic frame") {
-    // Build a minimal MT=44 frame:
-    //   preamble[0..7]  = 0x53
-    //   msg_type[8..13] = 44 = 0b101100
-    //   dcx_type[14..16]= 1 (CAMF Type 1 Alert) = 0b001
-    //   a1[17..20]      = 2 = 0b0010
-    //   a2[21..30]      = 111 (Japan) = 0b0001101111
+    // Build a minimal MT=44 frame matching IS-QZSS-DCX-003 bit layout:
+    //   preamble[0..7]     = 0x53
+    //   msg_type[8..13]    = 44 = 0b101100
+    //   SD[14..23]         = SDMT=0, SDM=0
+    //   CAMF.A1[24..25]    = 1 (Alert)
+    //   CAMF.A2[26..34]    = 0x6F (111 = Japan = 001101111)
+    //   CAMF.A3[35..39]    = 2 (FDMA = J-Alert)
     // then append correct CRC-24Q at [226..249]
     uint8_t buf[32] = {};
     auto setbits = [&](uint16_t s, uint8_t l, uint32_t v) {
@@ -102,9 +103,10 @@ TEST_CASE("MT=44 field extraction on synthetic frame") {
 
     setbits(0,  8, 0x53);  // preamble
     setbits(8,  6, 44);    // msg_type
-    setbits(14, 3, 1);     // dcx_type = CAMF Type 1 Alert
-    setbits(17, 4, 2);     // a1 = 2
-    setbits(21,10, 111);   // a2 = Japan
+    // SD: SDMT=0, SDM=0 (no explicit set needed, buf is zeroed)
+    setbits(24, 2, 1);     // CAMF.A1 = 1 (Alert)
+    setbits(26, 9, 111);   // CAMF.A2 = 111 (Japan)
+    setbits(35, 5, 2);     // CAMF.A3 = 2 (FDMA → J-Alert)
 
     uint32_t crc = crc24q_ref(buf, 226);
     setbits(226, 24, crc);
@@ -115,7 +117,8 @@ TEST_CASE("MT=44 field extraction on synthetic frame") {
     bool ok = dec.decode(f, msg);
     REQUIRE(ok);
     CHECK(msg.msg_type == 44);
-    CHECK(msg.dcx_type == DcxType::J_ALERT);
-    CHECK(msg.a1_message_type == 2);
-    CHECK(msg.a2_country_code == 111);
+    CHECK(msg.service_kind == Mt44ServiceKind::JAlert);
+    CHECK(msg.camf.a1 == 1);
+    CHECK(msg.camf.a2 == 111);
+    CHECK(msg.camf.a3 == 2);
 }

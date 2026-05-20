@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_b4_lower_level_fields_tables
 // Variable      : qzss_dcx_camf_d35_infection_type
 // Entries       : 63
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCX_CAMF_D35_INFECTION_TYPE_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_D35_INFECTION_TYPE_TABLE[] = {
     "Anthrax",
     "Avian influenza in humans",
     "Botulism",
@@ -36,17 +37,17 @@ inline constexpr const char* QZSS_DCX_CAMF_D35_INFECTION_TYPE_TABLE[] = {
     "Influenza including Influenza A(H1N1)",
     "Invasive meningococcal disease",
     "Invasive pneumococcal disease",
-    "Legionnaries' disease",
+    "Legionnaires' disease",
     "Leptospirosis",
     "Listeriosis",
     "Lyme neuroborreliosis",
     "Malaria",
     "Measles",
-    "Meningoccocal disease, invasive",
+    "Meningococcal disease, invasive",
     "Mumps",
     "Pertussis",
     "Plague",
-    "Pneumoccocal invasive diseases",
+    "Pneumococcal invasive diseases",
     "Poliomyelitis",
     "Q fever",
     "Rabies",
@@ -78,8 +79,8 @@ inline constexpr const char* QZSS_DCX_CAMF_D35_INFECTION_TYPE_TABLE[] = {
 };
 inline constexpr uint8_t QZSS_DCX_CAMF_D35_INFECTION_TYPE_BASE = 0;
 inline constexpr uint8_t QZSS_DCX_CAMF_D35_INFECTION_TYPE_SIZE = 63;
-inline constexpr const char* qzss_dcx_camf_d35_infection_type_lookup(uint8_t id) {
-    if (id < QZSS_DCX_CAMF_D35_INFECTION_TYPE_BASE || id >= QZSS_DCX_CAMF_D35_INFECTION_TYPE_BASE + QZSS_DCX_CAMF_D35_INFECTION_TYPE_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_d35_infection_type_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_D35_INFECTION_TYPE_BASE || id >= QZSS_DCX_CAMF_D35_INFECTION_TYPE_BASE + QZSS_DCX_CAMF_D35_INFECTION_TYPE_SIZE) return std::nullopt;
     return QZSS_DCX_CAMF_D35_INFECTION_TYPE_TABLE[id - QZSS_DCX_CAMF_D35_INFECTION_TYPE_BASE];
 }
 

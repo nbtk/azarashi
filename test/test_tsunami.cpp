@@ -49,7 +49,7 @@ TEST_CASE("Tsunami Resolution") {
     setbits(buf, sizeof(buf), 25, 5, 25);
     setbits(buf, sizeof(buf), 30, 5, 13);
     setbits(buf, sizeof(buf), 35, 6, 0);
-    // Disaster Category: 5 (Tsunami) — IS-QZSS-DCR-010
+    // Disaster Category: 5 (Tsunami) — IS-QZSS-DCR-016
     setbits(buf, sizeof(buf), 17, 4, 5);
     // Version: 1
     setbits(buf, sizeof(buf), 214, 6, 1);

@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_flood_forecast_region
 // Variable      : qzss_dcr_jma_flood_forecast_region
-// Entries       : 388
+// Entries       : 392
 // Strategy      : binary_search
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-struct QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry { uint64_t id; const char* label; };
+struct QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry { uint64_t id; std::string_view label; };
 inline constexpr QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry QZSS_DCR_JMA_FLOOD_FORECAST_REGION_TABLE[] = {
     {10175000100u, "新川(北海道道央)"},
 
@@ -245,9 +246,15 @@ inline constexpr QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry QZSS_DCR_JMA_FLOOD_FOR
 
     {810108003400u, "利別川(北海道道東)"},
 
+    {810108010400u, "途別川(北海道道東)"},
+
+    {810108010401u, "十勝川水系途別川上流(北海道道東)"},
+
     {810108011400u, "札内川(北海道道東)"},
 
     {810108013900u, "音更川(北海道道東)"},
+
+    {810108016600u, "十勝川水系美生川(北海道道東)"},
 
     {810108017400u, "十勝川水系芽室川(北海道道東)"},
 
@@ -434,6 +441,8 @@ inline constexpr QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry QZSS_DCR_JMA_FLOOD_FOR
     {830304004400u, "神田川(東京都)"},
 
     {830304004700u, "妙正寺川(東京都)"},
+
+    {830304004900u, "善福寺川(東京都)"},
 
     {830304006403u, "入間川中流部(埼玉県)"},
 
@@ -789,15 +798,15 @@ inline constexpr QZSS_DCR_JMA_FLOOD_FORECAST_REGION_Entry QZSS_DCR_JMA_FLOOD_FOR
 
     {899999999999u, "九州地方のその他の河川"},
 };
-inline constexpr const char* qzss_dcr_jma_flood_forecast_region_lookup(uint64_t id) {
-    uint16_t lo = 0, hi = 388;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_flood_forecast_region_lookup(uint64_t id) {
+    uint16_t lo = 0, hi = 392;
     while (lo < hi) {
-        uint16_t mid = lo + (hi - lo) / 2;
+        uint16_t mid = static_cast<uint16_t>(lo + (hi - lo) / 2);
         if (QZSS_DCR_JMA_FLOOD_FORECAST_REGION_TABLE[mid].id == id) return QZSS_DCR_JMA_FLOOD_FORECAST_REGION_TABLE[mid].label;
         if (QZSS_DCR_JMA_FLOOD_FORECAST_REGION_TABLE[mid].id < id) lo = mid + 1;
         else hi = mid;
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 } // namespace def

@@ -1,6 +1,6 @@
 #pragma once
 // azaraC - src/Message.h
-// Bit offsets derived from azarashi (IS-QZSS-DCR-010 / IS-QZSS-DCX-005)
+// Bit offsets derived from azarashi (IS-QZSS-DCR-016 / IS-QZSS-DCX-003)
 
 #include <cstdint>
 
@@ -28,16 +28,72 @@ struct LatLon {
 
 // ---- MT=44 DCX type ----------------------------------------------------
 
-enum class DcxType : uint8_t {
-    NULL_MSG      = 0,
-    L_ALERT       = 1,
-    J_ALERT       = 2,
-    LOCAL_GOV     = 3,
-    OUTSIDE_JAPAN = 4,
-    UNKNOWN       = 0xFF,
+enum class Mt44ServiceKind : uint8_t {
+    NullMessage,
+    LAlert,
+    JAlert,
+    LocalGovernment,
+    OutsideJapan,
+    Unknown
 };
 
-// ---- MT=43 JMA disaster_category mapping (IS-QZSS-DCR-010 Table 5.1.2-1)
+enum class ExtendedKind : uint8_t {
+    None,
+    LAlertOrLocal,
+    JAlert,
+    OutsideJapan
+};
+
+struct Mt44Sd {
+    uint8_t  sdmt;   // 1 bit
+    uint16_t sdm;    // 9 bits
+};
+
+struct Mt44CamfRaw {
+    uint8_t  a1;    // 2
+    uint16_t a2;    // 9
+    uint8_t  a3;    // 5
+    uint8_t  a4;    // 7
+    uint8_t  a5;    // 2
+    uint8_t  a6;    // 1
+    uint16_t a7;    // 14
+    uint8_t  a8;    // 2
+    uint8_t  a9;    // 1
+    uint8_t  a10;   // 3
+    uint16_t a11;   // 10
+    int16_t  a12;   // 16 signed
+    int32_t  a13;   // 17 signed
+    uint8_t  a14;   // 5
+    uint8_t  a15;   // 5
+    uint8_t  a16;   // 6
+    uint8_t  a17;   // 2
+    uint16_t a18;   // 15
+};
+
+struct Mt44ExLAlertOrLocal {
+    uint16_t ex1;   // 16
+    uint8_t  ex2;   // 1
+    int32_t  ex3;   // 17 signed
+    int32_t  ex4;   // 17 signed
+    uint8_t  ex5;   // 5
+    uint8_t  ex6;   // 5
+    uint8_t  ex7;   // 7
+    uint8_t  vn;    // 6
+};
+
+struct Mt44ExJAlert {
+    uint8_t  ex8;   // 1
+    uint64_t ex9;   // 64
+    uint8_t  ex10;  // 3 reserved
+    uint8_t  vn;    // 6
+};
+
+struct Mt44ExOutside {
+    uint8_t ex11_raw[9]; // 68bit raw
+    uint8_t vn;          // 6
+};
+
+// ---- MT=43 JMA disaster_category mapping (IS-QZSS-DCR-016 Table 5.1.2-1)
 //  0=undefined  1=EEW  2=Hypocenter  3=Seismic intensity  4=Nankai trough
 //  5=Tsunami  6=NW Pacific Tsunami  8=Volcano  9=Ash fall
 //  10=Weather  11=Flood  12=Typhoon  14=Marine
@@ -97,21 +153,20 @@ struct Message {
     uint32_t crc24;
     bool     valid;
 
-    // ---- MT=44 DCX / CAMF (IS-QZSS-DCX-005) ----------------------------
-    DcxType  dcx_type;
-    uint8_t  a1_message_type;
-    uint16_t a2_country_code;
-    uint8_t  a3_provider;
-    uint8_t  a4_hazard;
-    uint8_t  a5_severity;
-    uint8_t  a6_onset_week;
-    uint16_t a7_onset_minute;  // 1-10080  (0 = unspecified)
-    uint8_t  a8_duration;
-    int16_t  a12_lat_e2;       // ×0.01 deg signed
-    int16_t  a13_lon_e2;
-    TimeFields onset_time;
+    // ---- MT=44 DCX / CAMF (IS-QZSS-DCX-003) ----------------------------
+    Mt44ServiceKind service_kind;
+    bool            is_null_message;
 
-    // ---- MT=43 outer frame (IS-QZSS-DCR-010 §5.1) -----------------------
+    Mt44Sd          sd;
+    Mt44CamfRaw     camf;
+    TimeFields      onset_time;
+
+    ExtendedKind        ex_kind;
+    Mt44ExLAlertOrLocal ex_lalert_local;
+    Mt44ExJAlert        ex_jalert;
+    Mt44ExOutside       ex_outside;
+
+    // ---- MT=43 outer frame (IS-QZSS-DCR-016 §5.1) -----------------------
     uint8_t  report_classification;  // bits [14..16]  3 bits
     uint8_t  disaster_category;      // bits [17..20]  4 bits
     uint8_t  information_type;       // bits [41..42]  2 bits

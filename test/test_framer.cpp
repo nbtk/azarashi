@@ -65,16 +65,24 @@ static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits
 }
 
 // ── NMEA QZQSM Generator ─────────────────────────────────────────────────────
+// Generates a valid QZQSM sentence with exactly 63 hex chars (250 bits) per IS-QZSS-DCX-003.
+// 250 bits = 31 full bytes + 1 nibble = 62 hex chars + 1 hex char = 63 hex chars.
 static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
     char buf[256];
     sprintf(buf, "QZQSM,%d,", svid);
     std::string s = "$";
     s += buf;
-    for (int i = 0; i < 32; ++i) {
+    // Output 31 full bytes (62 hex chars)
+    for (int i = 0; i < 31; ++i) {
         char hex[3];
         sprintf(hex, "%02X", nav_bits[i]);
         s += hex;
     }
+    // Output 1 nibble (1 hex char) for the remaining 2 bits (250 - 248 = 2 bits)
+    // The upper nibble of byte 31
+    char hex[2];
+    sprintf(hex, "%01X", (nav_bits[31] >> 4) & 0xF);
+    s += hex;
 
     uint8_t xsum = 0;
     for (size_t i = 1; i < s.size(); ++i) {

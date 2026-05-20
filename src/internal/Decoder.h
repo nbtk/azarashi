@@ -18,6 +18,13 @@ protected:
     // Bit extraction helpers (MSB-first, 0-indexed from frame start)
     static uint32_t getBits(const uint8_t* buf, uint16_t start, uint8_t len);
 
+    // Signed bit extraction (two's complement, MSB-first)
+    static int32_t getSignedBits(const uint8_t* buf, uint16_t start, uint8_t len);
+
+    // Extract signed lat/lon pair from bitstream (sign:1, value:lat_bits, sign:1, value:lon_bits)
+    static void extractSignedLatLon(const uint8_t* buf, uint16_t start, int16_t& lat_e1, int16_t& lon_e1,
+                                     uint8_t lat_bits = 8, uint8_t lon_bits = 9);
+
     // LatLon from 41-bit field (lat_ns:1, lat_d:7, lat_m:6, lat_s:6, lon_ew:1, lon_d:8, lon_m:6, lon_s:6)
     static LatLon  extractLatLon(const uint8_t* buf, uint16_t start);
 
@@ -26,6 +33,12 @@ protected:
 
     // Resolve TimeFields from components with month-wrap correction
     static TimeFields resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint32_t now_unix);
+
+    // Resolve 12-bit arrival time (day_offset:1, hour:5, min:6) into TimeFields
+    static TimeFields resolveArrivalTime(uint16_t raw, uint32_t base_unix);
+
+    // Read up to 3 notification codes (9 bits each) starting at bit offset
+    static uint8_t readNotifications(const uint8_t* b, uint16_t start, uint16_t* notification);
 
     bool decodeDcx   (const uint8_t* bits, Message& out, uint32_t now_unix);
     bool decodeQzqsm (const uint8_t* bits, Message& out, uint32_t now_unix);

@@ -1,7 +1,7 @@
 
 // azaraC - src/internal/Decoder.cpp
-// MT43 bit offsets: IS-QZSS-DCR-010, verified against azarashi 0.15.1 source.
-// MT44 bit offsets: IS-QZSS-DCX-005.
+// MT43 bit offsets: IS-QZSS-DCR-016, verified against azarashi 0.15.1 source.
+// MT44 bit offsets: IS-QZSS-DCX-003.
 
 #include "Decoder.h"
 #include <cstring>
@@ -43,6 +43,32 @@ uint32_t Decoder::getBits(const uint8_t* buf, uint16_t start, uint8_t len) {
         val = (val << 1) | ((buf[pos >> 3] >> (7u - (pos & 7u))) & 1u);
     }
     return val;
+}
+
+// ---------------------------------------------------------------------------
+// Signed bit extraction (two's complement, MSB-first)
+// ---------------------------------------------------------------------------
+int32_t Decoder::getSignedBits(const uint8_t* buf, uint16_t start, uint8_t len) {
+    uint32_t val = getBits(buf, start, len);
+    if (val & (1u << (len - 1))) {
+        val |= 0xFFFFFFFFu << len;  // 符号拡張
+    }
+    return (int32_t)val;
+}
+
+// ---------------------------------------------------------------------------
+// Extract signed lat/lon pair from bitstream
+// Layout: lat_sign(1) lat_value(lat_bits) lon_sign(1) lon_value(lon_bits)
+// Result is in 0.1-degree units (multiply by 10)
+// ---------------------------------------------------------------------------
+void Decoder::extractSignedLatLon(const uint8_t* buf, uint16_t start, int16_t& lat_e1, int16_t& lon_e1,
+                                     uint8_t lat_bits, uint8_t lon_bits) {
+    uint8_t  lat_s = getBits(buf, start, 1);
+    uint16_t lat_v = getBits(buf, start + 1, lat_bits);
+    uint8_t  lon_s = getBits(buf, start + 1 + lat_bits, 1);
+    uint16_t lon_v = getBits(buf, start + 2 + lat_bits, lon_bits);
+    lat_e1 = (lat_s ? -(int16_t)lat_v : (int16_t)lat_v) * 10;
+    lon_e1 = (lon_s ? -(int16_t)lon_v : (int16_t)lon_v) * 10;
 }
 
 // Simple civil date to days since 1970-01-01
@@ -138,6 +164,45 @@ TimeFields Decoder::resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_
 }
 
 // ---------------------------------------------------------------------------
+// Arrival time: 12-bit field (day_offset:1, hour:5, min:6) -> TimeFields
+// ---------------------------------------------------------------------------
+TimeFields Decoder::resolveArrivalTime(uint16_t raw, uint32_t base_unix) {
+    TimeFields t{};
+    if (raw == 0 || base_unix == 0) return t;
+
+    uint8_t next = (raw >> 11) & 1;
+    uint8_t hour = (raw >>  6) & 0x1F;
+    uint8_t min  = raw & 0x3F;
+
+    if (hour > 23 || min > 59) return t;
+
+    uint32_t base_days = base_unix / 86400u;
+    uint32_t arrival_days = base_days + next;
+    uint32_t y, m, d;
+    civil_from_days(arrival_days, y, m, d);
+
+    t.day = d;
+    t.hour = hour;
+    t.minute = min;
+    t.unix_time = arrival_days * 86400u + (uint32_t)hour * 3600u + (uint32_t)min * 60u;
+    return t;
+}
+
+// ---------------------------------------------------------------------------
+// Read up to 3 notification codes (9 bits each) starting at bit offset
+// Returns count of valid codes read
+// ---------------------------------------------------------------------------
+uint8_t Decoder::readNotifications(const uint8_t* b, uint16_t start, uint16_t* notification) {
+    uint8_t count = 0;
+    for (uint8_t i = 0; i < 3; ++i) {
+        uint16_t co = getBits(b, start + i * 9, 9);
+        if (co == 0) break;
+        notification[count++] = co;
+    }
+    return count;
+}
+
+// ---------------------------------------------------------------------------
 // Main decode entry
 // ---------------------------------------------------------------------------
 bool Decoder::decode(const Frame& frame, Message& out, uint32_t now_unix) {
@@ -165,71 +230,126 @@ bool Decoder::decode(const Frame& frame, Message& out, uint32_t now_unix) {
 }
 
 // ---------------------------------------------------------------------------
-// MT=44 DCX / CAMF  (IS-QZSS-DCX-005)
+// MT=44 DCX / CAMF  (IS-QZSS-DCX-003)
 // ---------------------------------------------------------------------------
 bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t now_unix) {
-    uint8_t preamble  = getBits(bits, 0, 8);
-    uint8_t type_bits = getBits(bits, 14, 3);
+    out.service_kind = Mt44ServiceKind::Unknown;
+    out.is_null_message = false;
+    out.ex_kind = ExtendedKind::None;
 
-    if (type_bits == 1) {
-        // CAMF type 1 is generic "Alert". Distinguish by preamble.
-        if (preamble == 0x53) out.dcx_type = DcxType::J_ALERT;
-        else                  out.dcx_type = DcxType::L_ALERT;
-    } else {
-        out.dcx_type = static_cast<DcxType>(type_bits);
+    // SD (Satellite Designation)
+    out.sd.sdmt = getBits(bits, 14, 1);
+    out.sd.sdm  = getBits(bits, 15, 9);
+
+    // CAMF (A1 - A18)
+    out.camf.a1  = getBits(bits, 24, 2);
+    out.camf.a2  = getBits(bits, 26, 9);
+    out.camf.a3  = getBits(bits, 35, 5);
+    out.camf.a4  = getBits(bits, 40, 7);
+    out.camf.a5  = getBits(bits, 47, 2);
+    out.camf.a6  = getBits(bits, 49, 1);
+    out.camf.a7  = getBits(bits, 50, 14);
+    out.camf.a8  = getBits(bits, 64, 2);
+    out.camf.a9  = getBits(bits, 66, 1);
+    out.camf.a10 = getBits(bits, 67, 3);
+    out.camf.a11 = getBits(bits, 70, 10);
+    out.camf.a12 = getSignedBits(bits, 80, 16);
+    out.camf.a13 = getSignedBits(bits, 96, 17);
+    out.camf.a14 = getBits(bits, 113, 5);
+    out.camf.a15 = getBits(bits, 118, 5);
+    out.camf.a16 = getBits(bits, 123, 6);
+    out.camf.a17 = getBits(bits, 129, 2);
+    out.camf.a18 = getBits(bits, 131, 15);
+
+    // Null Message Check (IS-QZSS-DCX-003 §4.3)
+    // All fields except PAB, MT, SD, Reserved, CRC must be 0
+    if (out.camf.a1 == 0 && out.camf.a2 == 111 && out.camf.a3 == 0 &&
+        out.camf.a4 == 0 && out.camf.a5 == 0 && out.camf.a6 == 0 &&
+        out.camf.a7 == 0 && out.camf.a8 == 0 && out.camf.a9 == 0 &&
+        out.camf.a10 == 0 && out.camf.a11 == 0 && out.camf.a12 == 0 &&
+        out.camf.a13 == 0 && out.camf.a14 == 0 && out.camf.a15 == 0 &&
+        out.camf.a16 == 0 && out.camf.a17 == 0 && out.camf.a18 == 0) {
+        // Extended Message must also be all 0
+        bool ex_all_zero = true;
+        if (out.ex_kind == ExtendedKind::LAlertOrLocal) {
+            ex_all_zero = (out.ex_lalert_local.ex1 == 0 && out.ex_lalert_local.ex2 == 0 &&
+                          out.ex_lalert_local.ex3 == 0 && out.ex_lalert_local.ex4 == 0 &&
+                          out.ex_lalert_local.ex5 == 0 && out.ex_lalert_local.ex6 == 0 &&
+                          out.ex_lalert_local.ex7 == 0 && out.ex_lalert_local.vn == 0);
+        }
+        if (ex_all_zero) {
+            out.is_null_message = true;
+            out.service_kind = Mt44ServiceKind::NullMessage;
+            out.ex_kind = ExtendedKind::None;
+            out.valid = true;
+            return true;
+        }
     }
-    out.a1_message_type = getBits(bits, 17, 4);
-    out.a2_country_code = getBits(bits, 21, 10);
-    out.a3_provider     = getBits(bits, 31,  4);
-    out.a4_hazard       = getBits(bits, 35,  7);
-    out.a5_severity     = getBits(bits, 42,  2);
-    out.a6_onset_week   = getBits(bits, 44,  2);
-    out.a7_onset_minute = getBits(bits, 46, 14);
-    out.a8_duration     = getBits(bits, 60,  4);
 
     // Resolve onset time from GPS week-mod-4 + minute-of-week
-    if (out.a7_onset_minute > 0 && out.a7_onset_minute <= 10080 && now_unix > 315964800u) {
+    if (out.camf.a7 > 0 && out.camf.a7 <= 10080 && now_unix > 315964800u) {
         // GPS epoch 1980-01-06 00:00:00 UTC, +18 leap seconds (post-2017)
         uint32_t gps  = now_unix - 315964800u + 18u;
         uint32_t week = gps / 604800u;
-        int32_t diff = (int32_t)(out.a6_onset_week & 3u) - (int32_t)(week & 3u);
+        int32_t diff = (int32_t)(out.camf.a6 & 3u) - (int32_t)(week & 3u);
         if (diff < -2) diff += 4;
         else if (diff > 1) diff -= 4;
         uint32_t base = week + diff;
 
-        uint32_t gps_onset = base * 604800u + (uint32_t)(out.a7_onset_minute - 1u) * 60u;
+        uint32_t gps_onset = base * 604800u + (uint32_t)(out.camf.a7 - 1u) * 60u;
         uint32_t unix = gps_onset + 315964800u - 18u;
         out.onset_time.unix_time = unix;
 
         uint32_t y, m, d;
         civil_from_days(unix / 86400u, y, m, d);
         out.onset_time.day    = d;
-        out.onset_time.hour   = ((out.a7_onset_minute - 1u) % 1440u) / 60u;
-        out.onset_time.minute = (out.a7_onset_minute - 1u) % 60u;
+        out.onset_time.hour   = ((out.camf.a7 - 1u) % 1440u) / 60u;
+        out.onset_time.minute = (out.camf.a7 - 1u) % 60u;
     }
 
-    // Ellipse centre for L-Alert / J-Alert
-    if (out.dcx_type == DcxType::L_ALERT || out.dcx_type == DcxType::J_ALERT) {
-        // A11 library (14 bits) at [67], A12 lat at [81] (14-bit signed), A13 lon at [95] (15-bit signed)
-        uint32_t raw12 = getBits(bits, 81, 14);
-        if (raw12 & 0x2000u) raw12 |= 0xFFFFC000u;
-        out.a12_lat_e2 = (int16_t)raw12;
-
-        uint32_t raw13 = getBits(bits, 95, 15);
-        if (raw13 & 0x4000u) raw13 |= 0xFFFF8000u;
-        out.a13_lon_e2 = (int16_t)raw13;
+    // Determine Service Kind based on A2 and A3
+    if (out.camf.a2 != 111) { // 111 = 001101111 = Japan
+        out.service_kind = Mt44ServiceKind::OutsideJapan;
+        out.ex_kind = ExtendedKind::OutsideJapan;
+    } else {
+        if (out.camf.a3 == 1) {
+            out.service_kind = Mt44ServiceKind::LAlert;
+            out.ex_kind = ExtendedKind::LAlertOrLocal;
+        } else if (out.camf.a3 == 2 || out.camf.a3 == 3) {
+            out.service_kind = Mt44ServiceKind::JAlert;
+            out.ex_kind = ExtendedKind::JAlert;
+        } else if (out.camf.a3 == 4) {
+            out.service_kind = Mt44ServiceKind::LocalGovernment;
+            out.ex_kind = ExtendedKind::LAlertOrLocal;
+        } else {
+            // Discard message
+            return false;
+        }
     }
 
-    // Validate dcx_type
-    switch (out.dcx_type) {
-        case DcxType::NULL_MSG:
-        case DcxType::L_ALERT:
-        case DcxType::J_ALERT:
-        case DcxType::LOCAL_GOV:
-        case DcxType::OUTSIDE_JAPAN:
-            break;
-        default:
-            return false; // Unknown DCX type
+    // Parse Extended Message
+    if (out.ex_kind == ExtendedKind::LAlertOrLocal) {
+        out.ex_lalert_local.ex1 = getBits(bits, 146, 16);
+        out.ex_lalert_local.ex2 = getBits(bits, 162, 1);
+        out.ex_lalert_local.ex3 = getSignedBits(bits, 163, 17);
+        out.ex_lalert_local.ex4 = getSignedBits(bits, 180, 17);
+        out.ex_lalert_local.ex5 = getBits(bits, 197, 5);
+        out.ex_lalert_local.ex6 = getBits(bits, 202, 5);
+        out.ex_lalert_local.ex7 = getBits(bits, 207, 7);
+        out.ex_lalert_local.vn  = getBits(bits, 214, 6);
+    } else if (out.ex_kind == ExtendedKind::JAlert) {
+        out.ex_jalert.ex8  = getBits(bits, 146, 1);
+        uint32_t ex9_hi = getBits(bits, 147, 32);
+        uint32_t ex9_lo = getBits(bits, 179, 32);
+        out.ex_jalert.ex9  = ((uint64_t)ex9_hi << 32) | ex9_lo;
+        out.ex_jalert.ex10 = getBits(bits, 211, 3);
+        out.ex_jalert.vn   = getBits(bits, 214, 6);
+    } else if (out.ex_kind == ExtendedKind::OutsideJapan) {
+        for (int i = 0; i < 8; ++i) {
+            out.ex_outside.ex11_raw[i] = getBits(bits, 146 + i * 8, 8);
+        }
+        out.ex_outside.ex11_raw[8] = getBits(bits, 210, 4) << 4; // remaining 4 bits
+        out.ex_outside.vn = getBits(bits, 214, 6);
     }
 
     out.valid = true;
@@ -237,7 +357,7 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t now_unix) {
 }
 
 // ---------------------------------------------------------------------------
-// MT=43 QZQSM / DC Report  (IS-QZSS-DCR-010)
+// MT=43 QZQSM / DC Report  (IS-QZSS-DCR-016)
 // Outer frame layout (all offsets 0-indexed from preamble):
 //   [14..16]  report_classification (3b)
 //   [17..20]  disaster_category     (4b)
@@ -297,13 +417,7 @@ void Decoder::decodeEEW(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.eew_long_period_upper = getBits(b, 50, 3);
 
     // notifications: 3 × 9 bits at [53..79]
-    out.eew_notification_count = 0;
-    for (uint8_t i = 0; i < 3; ++i) {
-        uint16_t co = getBits(b, 53 + i * 9, 9);
-        if (co == 0) break;
-        if (out.eew_notification_count < 3)
-            out.eew_notification[out.eew_notification_count++] = co;
-    }
+    out.eew_notification_count = readNotifications(b, 53, out.eew_notification);
 
     out.eew_quake_time   = extractDHM(b, 80, now_unix);
     out.eew_depth        = getBits(b,  96, 9);
@@ -325,12 +439,7 @@ void Decoder::decodeEEW(const uint8_t* b, Message& out, uint32_t now_unix) {
 // Hypocenter  (disaster_category == 2)
 // ---------------------------------------------------------------------------
 void Decoder::decodeHypocenter(const uint8_t* b, Message& out, uint32_t now_unix) {
-    out.hypo_notification_count = 0;
-    for (uint8_t i = 0; i < 3; ++i) {
-        uint16_t co = getBits(b, 53 + i * 9, 9);
-        if (co == 0) break;
-        out.hypo_notification[out.hypo_notification_count++] = co;
-    }
+    out.hypo_notification_count = readNotifications(b, 53, out.hypo_notification);
     out.hypo_quake_time = extractDHM(b,  80, now_unix);
     out.hypo_depth      = getBits(b,  96, 9);
     out.hypo_magnitude  = getBits(b, 105, 7);
@@ -373,7 +482,7 @@ void Decoder::decodeNankai(const uint8_t* b, Message& out) {
 // Tsunami  (disaster_category == 5)
 // arrival time sub-field: nextday(1)+hour(5)+minute(6) = 12 bits
 // ---------------------------------------------------------------------------
-void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
+void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t /*now_unix*/) {
     out.tsunami_warning_code = getBits(b, 80, 4);
     out.tsunami_count = 0;
     for (uint8_t i = 0; i < 5; ++i) {
@@ -384,29 +493,14 @@ void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t now_unix) {
         e.region_code      = getBits(b, off,      10);
         e.height_code      = getBits(b, off + 10,  4);
         e.arrival_time_raw = getBits(b, off + 14, 12);
-
-        if (e.arrival_time_raw != 0 && out.event_time.unix_time != 0) {
-            uint8_t next = (e.arrival_time_raw >> 11) & 1;
-            uint8_t hour = (e.arrival_time_raw >> 6) & 0x1F;
-            uint8_t min  = e.arrival_time_raw & 0x3F;
-            if (hour <= 23 && min <= 59) {
-                uint32_t base_days = out.event_time.unix_time / 86400u;
-                uint32_t arrival_days = base_days + next;
-                uint32_t y, m, d;
-                civil_from_days(arrival_days, y, m, d);
-                e.arrival_time.day = d;
-                e.arrival_time.hour = hour;
-                e.arrival_time.minute = min;
-                e.arrival_time.unix_time = arrival_days * 86400u + (uint32_t)hour * 3600u + (uint32_t)min * 60u;
-            }
-        }
+        e.arrival_time     = resolveArrivalTime(e.arrival_time_raw, out.event_time.unix_time);
     }
 }
 
 // ---------------------------------------------------------------------------
 // NW Pacific Tsunami  (disaster_category == 6)
 // ---------------------------------------------------------------------------
-void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t now_unix) {
+void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t /*now_unix*/) {
     out.nw_pac_potential = getBits(b, 53, 3);
     out.nw_pac_count = 0;
     for (uint8_t i = 0; i < 5; ++i) {
@@ -417,22 +511,7 @@ void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t now_unix) 
         e.region_code      = getBits(b, off,       7);
         e.arrival_time_raw = getBits(b, off +  7, 12);
         e.height_code      = getBits(b, off + 19,  9);
-
-        if (e.arrival_time_raw != 0 && out.event_time.unix_time != 0) {
-            uint8_t next = (e.arrival_time_raw >> 11) & 1;
-            uint8_t hour = (e.arrival_time_raw >> 6) & 0x1F;
-            uint8_t min  = e.arrival_time_raw & 0x3F;
-            if (hour <= 23 && min <= 59) {
-                uint32_t base_days = out.event_time.unix_time / 86400u;
-                uint32_t arrival_days = base_days + next;
-                uint32_t y, m, d;
-                civil_from_days(arrival_days, y, m, d);
-                e.arrival_time.day = d;
-                e.arrival_time.hour = hour;
-                e.arrival_time.minute = min;
-                e.arrival_time.unix_time = arrival_days * 86400u + (uint32_t)hour * 3600u + (uint32_t)min * 60u;
-            }
-        }
+        e.arrival_time     = resolveArrivalTime(e.arrival_time_raw, out.event_time.unix_time);
     }
 }
 
@@ -530,18 +609,16 @@ void Decoder::decodeTyphoon(const uint8_t* b, Message& out, uint32_t now_unix) {
     out.typh_intensity = getBits(b,  98, 4);
 
     // Centre position [102..121]: lat_sign(1)+lat_deg(8)+lon_sign(1)+lon_deg(9)
-    // IS-QZSS-DCR-010: Typhoon position unit is 1 degree.
+    // IS-QZSS-DCR-016: Typhoon position unit is 1 degree.
     // We store as lat_e1 (0.1 deg unit), so multiply by 10.
     out.typh_pos_count = 0;
     for (uint8_t i = 0; i < 3 && out.typh_pos_count < 3; ++i) {
         uint16_t off = 102 + i * 19;
         if (getBits(b, off, 19) == 0) break;
-        uint8_t  lat_s = getBits(b, off,      1);
-        uint16_t lat_v = getBits(b, off +  1, 8);  // 1 deg unit
-        uint8_t  lon_s = getBits(b, off +  9, 1);
-        uint16_t lon_v = getBits(b, off + 10, 9);
-        out.typh_positions[out.typh_pos_count].lat_e1 = (lat_s ? -(int16_t)lat_v : (int16_t)lat_v) * 10;
-        out.typh_positions[out.typh_pos_count].lon_e1 = (lon_s ? -(int16_t)lon_v : (int16_t)lon_v) * 10;
+        extractSignedLatLon(b, off,
+                            out.typh_positions[out.typh_pos_count].lat_e1,
+                            out.typh_positions[out.typh_pos_count].lon_e1,
+                            8, 9);
         ++out.typh_pos_count;
     }
 }

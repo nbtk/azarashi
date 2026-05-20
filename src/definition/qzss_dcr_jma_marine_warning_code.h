@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_marine_warning_code
 // Variable      : qzss_dcr_jma_marine_warning_code
 // Entries       : 9
 // Strategy      : switch
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* qzss_dcr_jma_marine_warning_code_lookup(uint8_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_marine_warning_code_lookup(uint8_t id) {
     switch (id) {
         case 0: return "海上警報解除";
         case 10: return "海上着氷警報";
@@ -22,7 +23,7 @@ inline constexpr const char* qzss_dcr_jma_marine_warning_code_lookup(uint8_t id)
         case 22: return "海上暴風警報";
         case 23: return "海上台風警報";
         case 31: return "その他の警報等情報要素 海上警報";
-        default: return nullptr;
+        default: return std::nullopt;
     }
 }
 

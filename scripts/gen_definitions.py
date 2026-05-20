@@ -29,11 +29,11 @@ def escape(s):
                   .replace("\r", ""))
 
 def emit_switch(varname, entries, guard, kt):
-    lines = [f"inline constexpr const char* {varname}_lookup({kt} id) {{",
+    lines = [f"[[nodiscard]] inline constexpr std::optional<std::string_view> {varname}_lookup({kt} id) {{",
              "    switch (id) {"]
     for k, v in sorted(entries.items()):
         lines.append(f'        case {k}: return "{escape(v)}";')
-    lines += ['        default: return nullptr;', "    }", "}"]
+    lines += ['        default: return std::nullopt;', "    }", "}"]
     return "\n".join(lines)
 
 def emit_array(varname, entries, guard, kt):
@@ -41,14 +41,14 @@ def emit_array(varname, entries, guard, kt):
     base, top = keys[0], keys[-1]
     table = [entries.get(i) for i in range(base, top + 1)]
     rows = ",\n    ".join(
-        f'"{escape(v)}"' if v is not None else "nullptr" for v in table)
+        f'"{escape(v)}"' if v is not None else "std::nullopt" for v in table)
     return "\n".join([
-        f"inline constexpr const char* {guard}_TABLE[] = {{",
+        f"inline constexpr std::optional<std::string_view> {guard}_TABLE[] = {{",
         f"    {rows}", "};",
         f"inline constexpr {kt} {guard}_BASE = {base};",
         f"inline constexpr {kt} {guard}_SIZE = {top - base + 1};",
-        f"inline constexpr const char* {varname}_lookup({kt} id) {{",
-        f"    if (id < {guard}_BASE || id >= {guard}_BASE + {guard}_SIZE) return nullptr;",
+        f"[[nodiscard]] inline constexpr std::optional<std::string_view> {varname}_lookup({kt} id) {{",
+        f"    if (id < {guard}_BASE || id >= {guard}_BASE + {guard}_SIZE) return std::nullopt;",
         f"    return {guard}_TABLE[id - {guard}_BASE];", "}",
     ])
 
@@ -58,18 +58,18 @@ def emit_bsearch(varname, entries, guard, kt):
     idx_type = "uint8_t" if n <= 255 else ("uint16_t" if n <= 65535 else "uint32_t")
     rows = "\n".join(f'    {{{k}u, "{escape(entries[k])}"}},\n' for k in keys)
     return "\n".join([
-        f"struct {guard}_Entry {{ {kt} id; const char* label; }};",
+        f"struct {guard}_Entry {{ {kt} id; std::string_view label; }};",
         f"inline constexpr {guard}_Entry {guard}_TABLE[] = {{",
         rows + "};",
-        f"inline constexpr const char* {varname}_lookup({kt} id) {{",
+        f"[[nodiscard]] inline constexpr std::optional<std::string_view> {varname}_lookup({kt} id) {{",
         f"    {idx_type} lo = 0, hi = {n};",
         "    while (lo < hi) {",
-        f"        {idx_type} mid = lo + (hi - lo) / 2;",
+        f"        {idx_type} mid = static_cast<{idx_type}>(lo + (hi - lo) / 2);",
         f"        if ({guard}_TABLE[mid].id == id) return {guard}_TABLE[mid].label;",
         f"        if ({guard}_TABLE[mid].id < id) lo = mid + 1;",
         "        else hi = mid;",
         "    }",
-        "    return nullptr;", "}",
+        "    return std::nullopt;", "}",
     ])
 
 def build_header(modname, varname, entries, ver):
@@ -84,13 +84,14 @@ def build_header(modname, varname, entries, ver):
     else:                   body = emit_bsearch(varname, int_entries, guard, kt)
     return (
         f"#pragma once\n"
-        f"// AUTO-GENERATED from azarashi {ver} — do not edit\n"
-        f"// Requires C++17 or later\n"
+        f"// AUTO-GENERATED from azarashi {ver} with CI-CD\n"
         f"// Source module : {modname}\n"
         f"// Variable      : {varname}\n"
         f"// Entries       : {len(keys)}\n"
         f"// Strategy      : {strat}\n\n"
-        f"#include <cstdint>\n\n"
+        f"#include <cstdint>\n"
+        f"#include <optional>\n"
+        f"#include <string_view>\n\n"
         f"namespace azaraC {{\nnamespace def {{\n\n"
         f"{body}\n\n"
         f"}} // namespace def\n}} // namespace azaraC\n"

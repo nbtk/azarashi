@@ -191,30 +191,21 @@ TEST_CASE("DCR: Unknown Magnitude/Depth") {
 
 // ── MT=44 DCX Scenarios ──────────────────────────────────────────────────────
 
-TEST_CASE("DCX: Type 1 Alert (J-Alert)") {
+TEST_CASE("DCX: J-Alert (via A3=2, FDMA)") {
     Message msg{};
-    const char* nmea = "$QZQSM,55,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0E\r\n";
+    // Frame: preamble=0x53, MT=44, CAMF.A2=111(Japan), CAMF.A3=2(FDMA=J-Alert)
+    const char* nmea = "$QZQSM,55,53B0840DE31188FC208600000000000000001FFFFFFFFFFFC00000120738628*00\r\n";
     REQUIRE(decode_nmea(nmea, msg));
     CHECK(msg.msg_type == 44);
-    // bits[14..16] = 1 and preamble = 0x53 → J_ALERT
-    CHECK(msg.dcx_type == DcxType::J_ALERT);
+    CHECK(msg.service_kind == Mt44ServiceKind::JAlert);
 }
 
-TEST_CASE("DCX: L-Alert") {
+TEST_CASE("DCX: L-Alert (via A3=1, FMMC)") {
     Message msg{};
     const char* nmea = "$QZQSM,55,9AB0840DE10208ADE0000000000000000000011340000000000000132F0D238*04\r\n";
     REQUIRE(decode_nmea(nmea, msg));
     CHECK(msg.msg_type == 44);
-    CHECK(msg.dcx_type == DcxType::L_ALERT);
-}
-
-TEST_CASE("DCX: J-Alert") {
-    Message msg{};
-    const char* nmea = "$QZQSM,55,53B0840DE31188FC208600000000000000001FFFFFFFFFFFC00000120738628*00\r\n";
-    REQUIRE(decode_nmea(nmea, msg));
-    CHECK(msg.msg_type == 44);
-    // J-Alert messages use preamble 0x53 and are correctly identified as J_ALERT
-    CHECK(msg.dcx_type == DcxType::J_ALERT);
+    CHECK(msg.service_kind == Mt44ServiceKind::LAlert);
 }
 
 TEST_CASE("DCX: Outside Japan") {
@@ -222,7 +213,7 @@ TEST_CASE("DCX: Outside Japan") {
     const char* nmea = "$QZQSM,56,9AB08408E0598969E00066AFFE8E6F70091200000000000000000100CD1A410*0C\r\n";
     REQUIRE(decode_nmea(nmea, msg));
     CHECK(msg.msg_type == 44);
-    // dcx_type field at bits[14..16] — verify decode succeeds
+    CHECK(msg.service_kind == Mt44ServiceKind::OutsideJapan);
 }
 
 // ── Hex input format ─────────────────────────────────────────────────────────
@@ -238,7 +229,7 @@ TEST_CASE("DCR: Hex input decode") {
     bool ok = decode_nmea(nmea, msg);
     // If checksum is wrong, framer should reject → decode returns false
     // This tests our error-handling path
-    CHECK((ok || !ok)); // Just ensure no crash
+    CHECK_FALSE(ok);
 }
 
 TEST_CASE("DCR: Unknown Disaster Category Rejection") {
@@ -308,7 +299,7 @@ TEST_CASE("DCR: Marine") {
     internal::Decoder dec;
     REQUIRE(dec.decode(frame, msg, 0));
     CHECK(msg.disaster_category == 14);
-    CHECK(msg.marine_count > 0);
+    REQUIRE(msg.marine_count > 0);
     CHECK(msg.marine_entries[0].warning_code == 19);
 }
 
@@ -385,5 +376,131 @@ TEST_CASE("DCR: Comprehensive Category Mapping Verification") {
     }
     SUBCASE("Category 14: Marine") {
         verify_mapping(14, [](Message& m) { CHECK(m.marine_count > 0); CHECK(m.marine_entries[0].warning_code == 31); });
+    }
+}
+
+// ── Long Period Ground Motion (from test_long_period_ground_motion) ──────────
+
+TEST_CASE("DCR: Long Period Ground Motion") {
+    Message msg{};
+    // From Python test: $QZQSM,56,9AAF88A48000DB24000049000548C5E2C000000003DFF8001C000012101445C*7B
+    const char* nmea = "$QZQSM,56,9AAF88A48000DB24000049000548C5E2C000000003DFF8001C000012101445C*7B\r\n";
+    REQUIRE(decode_nmea(nmea, msg));
+    CHECK(msg.msg_type == 43);
+    CHECK(msg.disaster_category == 1); // EEW
+    // long_period_ground_motion_lower_limit == 3 (raw)
+    CHECK(msg.eew_long_period_lower == 3);
+    // long_period_ground_motion_upper_limit == 3 (raw)
+    CHECK(msg.eew_long_period_upper == 3);
+}
+
+// ── Decode Error Handling (from test_decode_error) ───────────────────────────
+
+TEST_CASE("DCR: CRC Mismatch Rejection") {
+    // From Python test: C6AF89A820000324000050400548C5E2C000000003DFF8001C000011854432D
+    // This hex string has a deliberately wrong CRC (last byte 2D instead of FC)
+    // We wrap it in NMEA format with a valid NMEA checksum but invalid DCR CRC
+    Message msg{};
+    // The NMEA checksum is valid, but the DCR CRC inside will not match
+    const char* nmea = "$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C000011854432D*34\r\n";
+    bool ok = decode_nmea(nmea, msg);
+    // Should fail because DCR CRC doesn't match
+    CHECK_FALSE(ok);
+}
+
+TEST_CASE("DCR: NMEA Checksum Mismatch Rejection") {
+    Message msg{};
+    // From Python test: $QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*00
+    // Valid DCR CRC but wrong NMEA checksum (00 instead of correct value)
+    const char* nmea = "$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*00\r\n";
+    bool ok = decode_nmea(nmea, msg);
+    // Should fail because NMEA checksum doesn't match
+    CHECK_FALSE(ok);
+}
+
+// ── DCX Null Message (from test_dcx) ─────────────────────────────────────────
+
+TEST_CASE("DCX: Null Message") {
+    Message msg{};
+    // From Python test: $QZQSM,55,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0E
+    const char* nmea = "$QZQSM,55,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0E\r\n";
+    REQUIRE(decode_nmea(nmea, msg));
+    CHECK(msg.msg_type == 44);
+    CHECK(msg.service_kind == Mt44ServiceKind::NullMessage);
+    CHECK(msg.is_null_message == true);
+}
+
+// ── Nankai Trough Earthquake - completed flag (from test_scenario3) ───────────
+
+TEST_CASE("DCR: Nankai Trough - page/total_page tracking") {
+    Message msg{};
+    // First message in sequence - page != total_page means not completed
+    const char* nmea = "$QZQSM,58,C6AFA19C918002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81262EF438*02\r\n";
+    REQUIRE(decode_nmea(nmea, msg));
+    CHECK(msg.msg_type == 43);
+    CHECK(msg.disaster_category == 4);
+    // nankai_page and nankai_total_page should be decoded
+    // For non-final messages, page != total_page
+    CHECK(msg.nankai_page != msg.nankai_total_page);
+}
+
+TEST_CASE("DCR: Nankai Trough - oversized message rejected") {
+    Message msg{};
+    // From Python test: $QZQSM,58,9AAFA19C918002F1C0C271C0410000000000000000000000000036D81121AA2D0*07
+    // This message has 65 hex chars (nibbles), exceeding the spec limit of 63 nibbles (250 bits).
+    // Per IS-QZSS-DCX-003, DCX message must be exactly 250 bits = 63 hex chars.
+    // azarashi correctly rejects this as "Too Long Sentence".
+    const char* nmea = "$QZQSM,58,9AAFA19C918002F1C0C271C0410000000000000000000000000036D81121AA2D0*07\r\n";
+    bool ok = decode_nmea(nmea, msg);
+    // Should be rejected because hex_len (65) != 63
+    CHECK_FALSE(ok);
+}
+
+// ── Ash Fall Detailed (from test_scenario5) ───────────────────────────────────
+
+TEST_CASE("DCR: Ash Fall Detailed - Sequence") {
+    // Test multiple ash fall messages in sequence
+    struct TestCase {
+        const char* nmea;
+    };
+    TestCase cases[] = {
+        "$QZQSM,58,C6AFC99CAA0001CAA43EE541F0782A1220813091811183E0F000001329B16E0*7F\r\n",
+        "$QZQSM,58,C6AFC99CAA0001CAA43EE8C2441046123023307C1E19848820000013E2F3E6C*00\r\n",
+        "$QZQSM,58,9AAFC99CAA0001CAA43EECC24604860F83C430910421848C080000106286874*00\r\n",
+        "$QZQSM,58,53AFC99CAA0001CAA43EF4C1F078A61220853091813183E0F0000010CE8C39C*77\r\n",
+        "$QZQSM,58,C6AFC99CAA0001CAA43EF8C24410C61230200000000000000000001148565F4*0A\r\n",
+    };
+
+    for (size_t i = 0; i < sizeof(cases)/sizeof(cases[0]); ++i) {
+        Message msg{};
+        CAPTURE(i);
+        REQUIRE(decode_nmea(cases[i].nmea, msg));
+        CHECK(msg.msg_type == 43);
+        CHECK(msg.disaster_category == 9); // Ash fall
+    }
+}
+
+// ── Weather Multi (from test_scenario6) ───────────────────────────────────────
+
+TEST_CASE("DCR: Weather - Multiple Messages") {
+    struct TestCase {
+        const char* nmea;
+        uint8_t expected_dc;
+    };
+    TestCase cases[] = {
+        // Weather messages
+        {"$QZQSM,58,C6AFD19CB18001113880115F901186A011ADB011D4C011FBD00000135EAA3F8*73\r\n", 10},
+        {"$QZQSM,58,9AAFD19CB180011222E0B93880B95F90B986A0B9ADB0B9D4C0000013D276B60*0D\r\n", 10},
+        {"$QZQSM,58,53AFD19CB18001B9FBD0BA22E00000000000000000000000000000107AA71EC*76\r\n", 10},
+        // Flood message
+        {"$QZQSM,58,C6AFD99CB1800160A8F5528600000000000000000000000000000010E502538*0E\r\n", 11},
+    };
+
+    for (size_t i = 0; i < sizeof(cases)/sizeof(cases[0]); ++i) {
+        Message msg{};
+        CAPTURE(i);
+        REQUIRE(decode_nmea(cases[i].nmea, msg));
+        CHECK(msg.msg_type == 43);
+        CHECK(msg.disaster_category == cases[i].expected_dc);
     }
 }

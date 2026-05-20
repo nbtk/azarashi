@@ -36,6 +36,12 @@ int main() {
         return 1;
     }
 
+    // フレームサイズの検証
+    if (frame.length < 32) {
+        printf("Frame too small: %u bytes (expected 32)\n", frame.length);
+        return 1;
+    }
+
     // 生のバイナリデータを16進数で出力
     printf("Raw bytes (32 bytes):\n");
     for (int i = 0; i < 32; i++) {
@@ -57,10 +63,10 @@ int main() {
 
     // エントリ0の各フィールドを手動抽出
     printf("\nManual extraction of entry 0:\n");
-    uint16_t off = 84;
-    uint32_t region = manualGetBits(frame.bits, off, 10);
-    uint32_t height = manualGetBits(frame.bits, off + 10, 4);
-    uint32_t arrival = manualGetBits(frame.bits, off + 14, 12);
+    uint16_t off = 84; // 津波エントリの開始オフセット
+    uint32_t region = manualGetBits(frame.bits, off, 10); // 地域コード(10ビット)
+    uint32_t height = manualGetBits(frame.bits, off + 10, 4); // 津波高さ(4ビット)
+    uint32_t arrival = manualGetBits(frame.bits, off + 14, 12); // 津波到達時刻(12ビット: next_day(1) + hour(5) + minute(6))
 
     printf("  region_code: %u (0x%X)\n", region, region);
     printf("  height_code: %u (0x%X)\n", height, height);
@@ -86,15 +92,9 @@ int main() {
         }
         printf(" ");
     }
-    printf("\n");
-
-    // オフセット84はバイト10のビット4から
-    printf("Bit 84 should be bit 4 of byte 10: %d\n",
-           (frame.bits[10] >> (7-4)) & 1);
-
     // デコード実行
     Message msg{};
-    bool ok = dec.decode(frame, msg, 1704067200u);
+    bool ok = dec.decode(frame, msg, 1704067200u);  // 2024-01-01 00:00:00 UTC
 
     if (!ok) {
         printf("\nDecode failed\n");

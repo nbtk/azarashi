@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_notification_on_disaster_prevention
 // Variable      : qzss_dcr_jma_notification_on_disaster_prevention
 // Entries       : 55
 // Strategy      : binary_search
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-struct QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry { uint16_t id; const char* label; };
+struct QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry { uint16_t id; std::string_view label; };
 inline constexpr QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_TABLE[] = {
     {0u, "なし"},
 
@@ -123,15 +124,15 @@ inline constexpr QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_Entry QZSS_DCR
 
     {500u, "その他の防災上の留意事項"},
 };
-inline constexpr const char* qzss_dcr_jma_notification_on_disaster_prevention_lookup(uint16_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_notification_on_disaster_prevention_lookup(uint16_t id) {
     uint8_t lo = 0, hi = 55;
     while (lo < hi) {
-        uint8_t mid = lo + (hi - lo) / 2;
+        uint8_t mid = static_cast<uint8_t>(lo + (hi - lo) / 2);
         if (QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_TABLE[mid].id == id) return QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_TABLE[mid].label;
         if (QZSS_DCR_JMA_NOTIFICATION_ON_DISASTER_PREVENTION_TABLE[mid].id < id) lo = mid + 1;
         else hi = mid;
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 } // namespace def

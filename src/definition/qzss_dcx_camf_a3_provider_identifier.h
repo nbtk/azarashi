@@ -1,9 +1,11 @@
 #pragma once
 // AUTO-GENERATED from azarashi: qzss_dcx_camf_a3_provider_identifier
 #include <cstdint>
+#include <optional>
+#include <string_view>
 namespace azaraC { namespace def {
 
-struct A3Entry { uint16_t key; const char* label; };
+struct A3Entry { uint16_t key; std::string_view label; };
 static constexpr A3Entry QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER[] = {
   {161, "National Emergency Management Agency"},
   {162, "Bureau of Meteorology"},
@@ -41,12 +43,12 @@ static constexpr A3Entry QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER[] = {
   {3517, "Water Crisis Prevention Center"},
 };
 
-inline const char* qzss_dcx_camf_a3_provider_identifier_lookup(uint16_t country, uint8_t provider) {
+[[nodiscard]] inline std::optional<std::string_view> qzss_dcx_camf_a3_provider_identifier_lookup(uint16_t country, uint8_t provider) {
   uint16_t key = (uint16_t)((country << 4) | (provider & 0xF));
   for (const auto& e : QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER) {
     if (e.key == key) return e.label;
   }
-  return nullptr;
+  return std::nullopt;
 }
 
 }} // namespace

@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_prefecture
 // Variable      : qzss_dcr_jma_prefecture
 // Entries       : 47
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCR_JMA_PREFECTURE_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCR_JMA_PREFECTURE_TABLE[] = {
     "北海道",
     "青森県",
     "岩手県",
@@ -62,8 +63,8 @@ inline constexpr const char* QZSS_DCR_JMA_PREFECTURE_TABLE[] = {
 };
 inline constexpr uint8_t QZSS_DCR_JMA_PREFECTURE_BASE = 1;
 inline constexpr uint8_t QZSS_DCR_JMA_PREFECTURE_SIZE = 47;
-inline constexpr const char* qzss_dcr_jma_prefecture_lookup(uint8_t id) {
-    if (id < QZSS_DCR_JMA_PREFECTURE_BASE || id >= QZSS_DCR_JMA_PREFECTURE_BASE + QZSS_DCR_JMA_PREFECTURE_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_prefecture_lookup(uint8_t id) {
+    if (id < QZSS_DCR_JMA_PREFECTURE_BASE || id >= QZSS_DCR_JMA_PREFECTURE_BASE + QZSS_DCR_JMA_PREFECTURE_SIZE) return std::nullopt;
     return QZSS_DCR_JMA_PREFECTURE_TABLE[id - QZSS_DCR_JMA_PREFECTURE_BASE];
 }
 

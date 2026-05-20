@@ -85,11 +85,11 @@ bool NmeaFramer::parse(Frame& out) {
     uint8_t byte_idx = 0;
 
     // Count hex characters — QZSS L1S is 250 bits = 63 hex chars (31 bytes + 1 nibble).
-    // Accept 63..64 hex chars.
+    // Per IS-QZSS-DCX-003, exactly 63 hex chars are expected.
     char* start_p = p;
     while ((*p >= '0' && *p <= '9') || (*p >= 'A' && *p <= 'F') || (*p >= 'a' && *p <= 'f')) p++;
     size_t hex_len = p - start_p;
-    if (hex_len < 63) return false;
+    if (hex_len != 63) return false;
 
     p = start_p;
     // Decode full byte pairs

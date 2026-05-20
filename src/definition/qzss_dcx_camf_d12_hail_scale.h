@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_b4_lower_level_fields_tables
 // Variable      : qzss_dcx_camf_d12_hail_scale
 // Entries       : 11
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[] = {
     "H0 Hard hail. Typical hail diameter of 5 mm, No damage",
     "H1 Potentially damaging. Typical hail diameter of 5-15 mm. Slight general damage to plants, crops",
     "H2 Significant. Typical hail diameter of 10-20 mm. Slight general damage to fruit, crops, vegetation",
@@ -26,8 +27,8 @@ inline constexpr const char* QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[] = {
 };
 inline constexpr uint8_t QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE = 0;
 inline constexpr uint8_t QZSS_DCX_CAMF_D12_HAIL_SCALE_SIZE = 11;
-inline constexpr const char* qzss_dcx_camf_d12_hail_scale_lookup(uint8_t id) {
-    if (id < QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE || id >= QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE + QZSS_DCX_CAMF_D12_HAIL_SCALE_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_d12_hail_scale_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE || id >= QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE + QZSS_DCX_CAMF_D12_HAIL_SCALE_SIZE) return std::nullopt;
     return QZSS_DCX_CAMF_D12_HAIL_SCALE_TABLE[id - QZSS_DCX_CAMF_D12_HAIL_SCALE_BASE];
 }
 

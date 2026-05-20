@@ -5,6 +5,8 @@
 
 #include "JsonSerializer.h"
 #include "../definition/_index.h"
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace internal {
@@ -30,8 +32,12 @@ static void writeInt32(Print& out, int32_t v) {
     }
 }
 
-static void writeStr(Print& out, const char* s) {
-    out.print('"'); if (s) out.print(s); out.print('"');
+static void writeStr(Print& out, std::string_view s) {
+    out.print('"'); if (!s.empty()) out.write(s.data(), s.size()); out.print('"');
+}
+
+static void writeOptStr(Print& out, std::optional<std::string_view> s) {
+    writeStr(out, s.value_or(""));
 }
 
 static void writeHex(Print& out, uint8_t v) {
@@ -43,27 +49,29 @@ static void writeHex(Print& out, uint8_t v) {
 }
 
 // key: "foo":
-static void wk(Print& out, const char* k) {
-    writeChar(out, '"'); out.print(k); out.print("\":");
+static void wk(Print& out, std::string_view k) {
+    writeChar(out, '"'); if (!k.empty()) out.write(k.data(), k.size()); out.print("\":");
 }
 
 // "key":value,
-static void wf_u(Print& out, const char* k, uint32_t v, bool last = false) {
+static void wf_u(Print& out, std::string_view k, uint32_t v, bool last = false) {
     wk(out, k); writeUint32(out, v); if (!last) writeChar(out, ',');
 }
-static void wf_i(Print& out, const char* k, int32_t v, bool last = false) {
+static void wf_i(Print& out, std::string_view k, int32_t v, bool last = false) {
     wk(out, k); writeInt32(out, v);  if (!last) writeChar(out, ',');
 }
-static void wf_s(Print& out, const char* k, const char* v, bool last = false) {
-    wk(out, k); writeStr(out, v);    if (!last) writeChar(out, ',');
+// Accepts optional<string_view> — outputs "" when nullopt (label not found)
+static void wf_s(Print& out, std::string_view k, std::optional<std::string_view> v, bool last = false) {
+    wk(out, k); writeOptStr(out, v); if (!last) writeChar(out, ',');
 }
+
 
 // ---------------------------------------------------------------------------
 // Helpers for repeated structures
 // ---------------------------------------------------------------------------
 
 // Write a DHM TimeFields object as nested JSON
-static void writeDHM(Print& out, const char* key, const TimeFields& t, bool last = false) {
+static void writeDHM(Print& out, std::string_view key, const TimeFields& t, bool last = false) {
     wk(out, key);
     out.print('{');
     wf_u(out, "day",   t.day);
@@ -74,7 +82,7 @@ static void writeDHM(Print& out, const char* key, const TimeFields& t, bool last
     if (!last) writeChar(out, ',');
 }
 
-static void writeLatLon(Print& out, const char* key, const LatLon& ll, bool last = false) {
+static void writeLatLon(Print& out, std::string_view key, const LatLon& ll, bool last = false) {
     wk(out, key);
     out.print('{');
     wf_u(out, "lat_ns",  ll.lat_ns);
@@ -101,43 +109,85 @@ static void writeArrivalTimeFields(Print& out, uint16_t raw) {
 // ---------------------------------------------------------------------------
 static void serializeDcx(const Message& m, Print& out) {
     using namespace azaraC::def;
-    wf_u(out, "dcx_type", (uint32_t)static_cast<uint8_t>(m.dcx_type));
+    wf_u(out, "dcx_type", (uint32_t)static_cast<uint8_t>(m.service_kind));
 
-    const char* dcx_label = "UNKNOWN";
-    switch (m.dcx_type) {
-        case DcxType::NULL_MSG:      dcx_label = "NULL"; break;
-        case DcxType::L_ALERT:       dcx_label = "L_ALERT"; break;
-        case DcxType::J_ALERT:       dcx_label = "J_ALERT"; break;
-        case DcxType::LOCAL_GOV:     dcx_label = "LOCAL_GOV"; break;
-        case DcxType::OUTSIDE_JAPAN: dcx_label = "OUTSIDE_JAPAN"; break;
+    std::string_view dcx_label = "UNKNOWN";
+    switch (m.service_kind) {
+        case Mt44ServiceKind::NullMessage:     dcx_label = "NULL"; break;
+        case Mt44ServiceKind::LAlert:          dcx_label = "L_ALERT"; break;
+        case Mt44ServiceKind::JAlert:          dcx_label = "J_ALERT"; break;
+        case Mt44ServiceKind::LocalGovernment: dcx_label = "LOCAL_GOV"; break;
+        case Mt44ServiceKind::OutsideJapan:    dcx_label = "OUTSIDE_JAPAN"; break;
         default: break;
     }
     wf_s(out, "dcx_type_label", dcx_label);
 
     wf_s(out, "a1_msg_type",
-        qzss_dcx_camf_a1_message_type_lookup(m.a1_message_type));
-    wf_u(out, "a2_country", m.a2_country_code);
+        qzss_dcx_camf_a1_message_type_lookup(m.camf.a1));
+    wf_u(out, "a2_country", m.camf.a2);
     wf_s(out, "a2_country_label",
-        qzss_dcx_camf_a2_country_region_name_lookup(m.a2_country_code));
-    wf_u(out, "a3_provider", m.a3_provider);
+        qzss_dcx_camf_a2_country_region_name_lookup(m.camf.a2));
+    wf_u(out, "a3_provider", m.camf.a3);
     wf_s(out, "a3_provider_label",
-        qzss_dcx_camf_a3_provider_identifier_lookup(m.a2_country_code, m.a3_provider));
-    wf_u(out, "a4_hazard", m.a4_hazard);
+        qzss_dcx_camf_a3_provider_identifier_lookup(m.camf.a2, m.camf.a3));
+    wf_u(out, "a4_hazard", m.camf.a4);
     wf_s(out, "a4_hazard_category",
-        qzss_dcx_camf_a4_hazard_category_lookup(m.a4_hazard));
+        qzss_dcx_camf_a4_hazard_category_lookup(m.camf.a4));
     wf_s(out, "a4_hazard_type",
-        qzss_dcx_camf_a4_hazard_type_lookup(m.a4_hazard));
-    wf_u(out, "a5_severity", m.a5_severity);
+        qzss_dcx_camf_a4_hazard_type_lookup(m.camf.a4));
+    wf_u(out, "a5_severity", m.camf.a5);
     wf_s(out, "a5_severity_label",
-        qzss_dcx_camf_a5_severity_lookup(m.a5_severity));
-    wf_u(out, "a6_onset_week", m.a6_onset_week);   // GPS week mod 4 (0-3)
-    wf_u(out, "a7_onset_minute", m.a7_onset_minute); // minute-of-week 1-10080 (0=unspecified)
-    wf_u(out, "a8_duration", m.a8_duration);
+        qzss_dcx_camf_a5_severity_lookup(m.camf.a5));
+    wf_u(out, "a6_onset_week", m.camf.a6);
+    wf_u(out, "a7_onset_minute", m.camf.a7);
+    wf_u(out, "a8_duration", m.camf.a8);
     wf_s(out, "a8_duration_label",
-        qzss_dcx_camf_a8_hazard_duration_lookup(m.a8_duration));
+        qzss_dcx_camf_a8_hazard_duration_lookup(m.camf.a8));
     writeDHM(out, "onset_time", m.onset_time);
-    wf_i(out, "lat_e2", m.a12_lat_e2);
-    wf_i(out, "lon_e2", m.a13_lon_e2, /*last=*/true);
+    wf_i(out, "lat_e2", (int32_t)m.camf.a12);
+    wf_i(out, "lon_e2", (int32_t)m.camf.a13);
+
+    // A11 Guidance to react library
+    wf_u(out, "a11_guidance", m.camf.a11);
+    wf_s(out, "a11_guidance_label",
+        qzss_dcx_camf_a11_japanese_library_ja_lookup(m.camf.a11));
+
+    // A17/A18 Specific Settings
+    wf_u(out, "a17_specific_subject", m.camf.a17);
+    wf_s(out, "a17_specific_subject_label",
+        qzss_dcx_camf_a17_main_subject_for_specific_settings_lookup(m.camf.a17));
+    wf_u(out, "a18_specific_settings", m.camf.a18);
+
+    // Extended Message fields
+    if (m.ex_kind == ExtendedKind::LAlertOrLocal) {
+        wf_u(out, "ex1_target_area", m.ex_lalert_local.ex1);
+        wf_s(out, "ex1_target_area_label",
+            qzss_dcx_ex1_target_area_code_ja_lookup(m.ex_lalert_local.ex1));
+        // EX2-EX7 Additional Ellipse (local government only)
+        wf_u(out, "ex2_evac_dir", m.ex_lalert_local.ex2);
+        wf_i(out, "ex3_add_lat", m.ex_lalert_local.ex3);
+        wf_i(out, "ex4_add_lon", m.ex_lalert_local.ex4);
+        wf_u(out, "ex5_add_semi_major", m.ex_lalert_local.ex5);
+        wf_u(out, "ex6_add_semi_minor", m.ex_lalert_local.ex6);
+        wf_u(out, "ex7_add_azimuth", m.ex_lalert_local.ex7);
+        wf_u(out, "ex_vn", m.ex_lalert_local.vn);
+    } else if (m.ex_kind == ExtendedKind::JAlert) {
+        wf_u(out, "ex8_area_type", m.ex_jalert.ex8);
+        wf_u(out, "ex9_area_list", m.ex_jalert.ex9);
+        wf_u(out, "ex10_reserved", m.ex_jalert.ex10);
+        wf_u(out, "ex_vn", m.ex_jalert.vn);
+    } else if (m.ex_kind == ExtendedKind::OutsideJapan) {
+        // EX11 raw data (68 bits) - output as hex string
+        char ex11_hex[19];
+        for (int i = 0; i < 9; ++i) {
+            snprintf(ex11_hex + i * 2, 3, "%02X", m.ex_outside.ex11_raw[i]);
+        }
+        wf_s(out, "ex11_raw", ex11_hex);
+        wf_u(out, "ex_vn", m.ex_outside.vn);
+    }
+
+    wf_u(out, "sd_sdmt", m.sd.sdmt);
+    wf_u(out, "sd_sdm", m.sd.sdm, /*last=*/true);
 }
 
 // ---------------------------------------------------------------------------

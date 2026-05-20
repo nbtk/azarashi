@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_b4_lower_level_fields_tables
 // Variable      : qzss_dcx_camf_d13_visibility
 // Entries       : 10
 // Strategy      : switch
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* qzss_dcx_camf_d13_visibility_lookup(uint8_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_d13_visibility_lookup(uint8_t id) {
     switch (id) {
         case 0: return "Dense fog: visibility < 20m";
         case 1: return "Thick fog: 20m < visibility < 200m";
@@ -23,7 +24,7 @@ inline constexpr const char* qzss_dcx_camf_d13_visibility_lookup(uint8_t id) {
         case 7: return "Clear: 10km < visibility < 20km";
         case 8: return "Very clear: 20km < visibility < 50km";
         case 9: return "Exceptionally clear: visibility > 50km";
-        default: return nullptr;
+        default: return std::nullopt;
     }
 }
 

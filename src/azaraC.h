@@ -15,6 +15,10 @@
 #  include <Print.h>
 #endif
 
+#if __cplusplus < 201703L
+#error "This tool requires C++17 or later"
+#endif
+
 namespace azaraC {
 
 // Convenience wrapper: serialize msg as JSON to any Print& (Serial, WiFiClient, etc.)

@@ -1,36 +1,37 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_disaster_category
 // Variable      : qzss_dcr_jma_disaster_category_en
 // Entries       : 12
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCR_JMA_DISASTER_CATEGORY_EN_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCR_JMA_DISASTER_CATEGORY_EN_TABLE[] = {
     "Earthquake Early Warning",
     "Hypocenter",
     "Seismic Intensity",
     "Nankai Trough Earthquake",
     "Tsunami",
     "Northwest Pacific Tsunami",
-    nullptr,
+    std::nullopt,
     "Volcano",
     "Ash Fall",
     "Weather",
     "Flood",
     "Typhoon",
-    nullptr,
+    std::nullopt,
     "Marine"
 };
 inline constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE = 1;
 inline constexpr uint8_t QZSS_DCR_JMA_DISASTER_CATEGORY_EN_SIZE = 14;
-inline constexpr const char* qzss_dcr_jma_disaster_category_en_lookup(uint8_t id) {
-    if (id < QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE || id >= QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE + QZSS_DCR_JMA_DISASTER_CATEGORY_EN_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_disaster_category_en_lookup(uint8_t id) {
+    if (id < QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE || id >= QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE + QZSS_DCR_JMA_DISASTER_CATEGORY_EN_SIZE) return std::nullopt;
     return QZSS_DCR_JMA_DISASTER_CATEGORY_EN_TABLE[id - QZSS_DCR_JMA_DISASTER_CATEGORY_EN_BASE];
 }
 

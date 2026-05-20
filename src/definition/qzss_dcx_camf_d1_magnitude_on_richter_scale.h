@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_b4_lower_level_fields_tables
 // Variable      : qzss_dcx_camf_d1_magnitude_on_richter_scale
 // Entries       : 9
 // Strategy      : switch
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* qzss_dcx_camf_d1_magnitude_on_richter_scale_lookup(uint8_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_d1_magnitude_on_richter_scale_lookup(uint8_t id) {
     switch (id) {
         case 0: return "1.0-1.9 - Micro";
         case 1: return "2.0-2.9 - Minor";
@@ -22,7 +23,7 @@ inline constexpr const char* qzss_dcx_camf_d1_magnitude_on_richter_scale_lookup(
         case 6: return "7.0-7.9 - Major";
         case 7: return "8.0-8.9 - Great";
         case 8: return "9.0 and greater - Great";
-        default: return nullptr;
+        default: return std::nullopt;
     }
 }
 

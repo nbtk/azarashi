@@ -23,24 +23,46 @@ static void decode_and_print(const char* name, const char* nmea) {
         printf("Failed to frame\n");
         return;
     }
-    
+
     Decoder dec;
     Message msg{};
-    bool ok = dec.decode(frame, msg, 1704067200u);
-    
+// 2024-01-01 00:00:00 UTC for reproducible testing
+static constexpr uint32_t TEST_TIMESTAMP = 1704067200u;
+
+static void decode_and_print(const char* name, const char* nmea) {
+    printf("\n========== %s ==========\n", name);
+    NmeaFramer framer;
+    Frame frame;
+    bool found = false;
+    for (int i = 0; nmea[i]; i++) {
+        if (framer.feed((uint8_t)nmea[i], frame)) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        printf("Failed to frame\n");
+        return;
+    }
+
+    Decoder dec;
+    Message msg{};
+    bool ok = dec.decode(frame, msg, TEST_TIMESTAMP);
+}
+
     if (!ok) {
         printf("Decode failed\n");
         return;
     }
-    
+
     printf("msg_type: %u, disaster_category: %u\n", msg.msg_type, msg.disaster_category);
-    
+
     switch (msg.disaster_category) {
         case 1: // EEW
             printf("  eew_long_period_lower: %u\n", msg.eew_long_period_lower);
             printf("  eew_long_period_upper: %u\n", msg.eew_long_period_upper);
             printf("  eew_notification_count: %u\n", msg.eew_notification_count);
-            printf("  eew_quake_time: day=%u hour=%u minute=%u\n", 
+            printf("  eew_quake_time: day=%u hour=%u minute=%u\n",
                    msg.eew_quake_time.day, msg.eew_quake_time.hour, msg.eew_quake_time.minute);
             printf("  eew_depth: %u\n", msg.eew_depth);
             printf("  eew_magnitude: %u\n", msg.eew_magnitude);
@@ -126,30 +148,30 @@ static void decode_and_print(const char* name, const char* nmea) {
 int main() {
     // EEW
     decode_and_print("EEW", "$QZQSM,58,9AAF899C80000324000039000548C5E2C000000003DFF8001C000012FE4B0FC*7F\r\n");
-    
+
     // Seismic Intensity
     decode_and_print("Seismic Intensity", "$QZQSM,58,C6AF999C828001C82CB25AE775A8D4CA854AB800000000000000011E027E5C*76\r\n");
-    
+
     // Hypocenter
     decode_and_print("Hypocenter", "$QZQSM,58,9AAF919C82800388000039051440C5C82A010830000000000000012497DA18*0A\r\n");
-    
+
     // Tsunami
     decode_and_print("Tsunami", "$QZQSM,58,9AAFA99C828001E8F67C31053960414E621053BE00000000000000132735038*0F\r\n");
-    
+
     // NW Pacific Tsunami
     decode_and_print("NW Pacific Tsunami", "$QZQSM,55,53AD360D5B80047FFFFE3000000000000000000000000000000118372EC8*0C\r\n");
-    
+
     // Volcano
     decode_and_print("Volcano", "$QZQSM,58,C6AFC19CA50001CA5341F783E0F1091042123020000000000000011B086438*70\r\n");
-    
+
     // Ash Fall
     decode_and_print("Ash Fall", "$QZQSM,58,9AAFC99CA50001CA523EE4C1F07826122081309181000000000000121BAF1C0*71\r\n");
-    
+
     // Weather
     decode_and_print("Weather", "$QZQSM,58,C6AFD19CB18001113880115F901186A011ADB011D4C011FBD00000135EAA3F8*73\r\n");
-    
+
     // Flood
     decode_and_print("Flood", "$QZQSM,58,C6AFD99CB1800160A8F5528600000000000000000000000000000010E502538*0E\r\n");
-    
+
     return 0;
 }

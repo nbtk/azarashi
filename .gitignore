@@ -137,3 +137,10 @@ definition_files.txt
 
 test/*.exe
 test/*.o
+test/*.d
+
+azarashi*
+
+.agents/
+
+.vscode/

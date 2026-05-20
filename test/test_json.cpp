@@ -15,7 +15,9 @@ using namespace azaraC;
 // ── Print → std::string アダプタ ────────────────────────────────────────────
 struct StringPrint : public Print {
     std::string buf;
-    void print(char c)         override { buf += c; }
+    size_t write(uint8_t c) override { buf += (char)c; return 1; }
+    size_t write(const char* s, size_t size) override { if (s && size) buf.append(s, size); return size; }
+    void print(char c)         override { write(c); }
     void print(const char* s)  override { if (s) buf += s; }
     void print(int v)          override { buf += std::to_string(v); }
     void print(unsigned int v) override { buf += std::to_string(v); }
@@ -30,11 +32,11 @@ static bool has(const std::string& s, const char* sub) {
 TEST_CASE("JSON Serialization: MT=44 DCX") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.dcx_type        = DcxType::L_ALERT;
-    m.a1_message_type = 2; m.a2_country_code = 111;
-    m.a3_provider = 2; m.a4_hazard = 1;
-    m.a5_severity = 3; m.a8_duration = 4;
-    m.a12_lat_e2 = 356; m.a13_lon_e2 = 1396;
+    m.service_kind    = Mt44ServiceKind::LAlert;
+    m.camf.a1 = 1; m.camf.a2 = 111;
+    m.camf.a3 = 1; m.camf.a4 = 1;
+    m.camf.a5 = 3; m.camf.a8 = 4;
+    m.camf.a12 = 356; m.camf.a13 = 1396;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -42,13 +44,13 @@ TEST_CASE("JSON Serialization: MT=44 DCX") {
 
     CHECK(has(s,"\"svid\":193"));
     CHECK(has(s,"\"msg_type\":44"));
-    CHECK(has(s,"\"dcx_type\":1"));
     CHECK(has(s,"\"a2_country\":111"));
     CHECK(has(s,"\"lat_e2\":356"));
     CHECK(has(s,"\"lon_e2\":1396"));
 }
 
 // ── MT=43 EEW ───────────────────────────────────────────────────────────────
+
 TEST_CASE("JSON Serialization: MT=43 EEW") {
     Message m{};
     m.msg_type = 43; m.disaster_category = 1;
@@ -84,6 +86,124 @@ TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
     CHECK(has(s,"\"entries\":["));
     CHECK(has(s,"\"intensity\":4"));
     CHECK(has(s,"\"prefecture\":13"));
+}
+
+// ── MT=44 DCX JSON 出力テスト ───────────────────────────────────────────────
+
+TEST_CASE("JSON Serialization: MT=44 DCX L-Alert") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.service_kind    = Mt44ServiceKind::LAlert;
+    m.is_null_message = false;
+    m.ex_kind         = ExtendedKind::LAlertOrLocal;
+    m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 1;
+    m.camf.a4 = 10; m.camf.a5 = 3; m.camf.a8 = 4;
+    m.camf.a11 = 1;
+    m.camf.a12 = 356; m.camf.a13 = 1396;
+    m.ex_lalert_local.ex1 = 1100;
+    m.ex_lalert_local.vn = 1;
+    m.sd.sdmt = 0; m.sd.sdm = 0x1FF;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":1"));           // LAlert = 1
+    CHECK(has(s, "\"dcx_type_label\":\"L_ALERT\""));
+    CHECK(has(s, "\"a2_country\":111"));
+    CHECK(has(s, "\"a3_provider\":1"));
+    CHECK(has(s, "\"ex1_target_area\":1100"));
+    CHECK(has(s, "\"sd_sdmt\":0"));
+    CHECK(has(s, "\"sd_sdm\":511"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX J-Alert") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.service_kind    = Mt44ServiceKind::JAlert;
+    m.is_null_message = false;
+    m.ex_kind         = ExtendedKind::JAlert;
+    m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 2;
+    m.camf.a4 = 5; m.camf.a5 = 3;
+    m.ex_jalert.ex8 = 0;    // prefecture code
+    m.ex_jalert.ex9 = 3;    // Hokkaido + Aomori
+    m.ex_jalert.vn = 1;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":2"));           // JAlert = 2
+    CHECK(has(s, "\"dcx_type_label\":\"J_ALERT\""));
+    CHECK(has(s, "\"a2_country\":111"));
+    CHECK(has(s, "\"a3_provider\":2"));
+    CHECK(has(s, "\"ex8_area_type\":0"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.service_kind    = Mt44ServiceKind::LocalGovernment;
+    m.is_null_message = false;
+    m.ex_kind         = ExtendedKind::LAlertOrLocal;
+    m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 4;
+    m.camf.a4 = 10; m.camf.a5 = 3;
+    m.ex_lalert_local.ex1 = 1100;
+    m.ex_lalert_local.ex2 = 1;
+    m.ex_lalert_local.ex3 = 356;
+    m.ex_lalert_local.ex4 = 1396;
+    m.ex_lalert_local.ex5 = 10;
+    m.ex_lalert_local.ex6 = 8;
+    m.ex_lalert_local.ex7 = 45;
+    m.ex_lalert_local.vn = 1;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":3"));           // LocalGovernment = 3
+    CHECK(has(s, "\"dcx_type_label\":\"LOCAL_GOV\""));
+    CHECK(has(s, "\"a3_provider\":4"));
+    CHECK(has(s, "\"ex1_target_area\":1100"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX Outside Japan") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.service_kind    = Mt44ServiceKind::OutsideJapan;
+    m.is_null_message = false;
+    m.ex_kind         = ExtendedKind::OutsideJapan;
+    m.camf.a1 = 1; m.camf.a2 = 32; m.camf.a3 = 1;
+    m.ex_outside.vn = 5;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":4"));           // OutsideJapan = 4
+    CHECK(has(s, "\"dcx_type_label\":\"OUTSIDE_JAPAN\""));
+    CHECK(has(s, "\"a2_country\":32"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX Null Message") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.service_kind    = Mt44ServiceKind::NullMessage;
+    m.is_null_message = true;
+    m.ex_kind         = ExtendedKind::None;
+    m.camf.a2 = 111; m.camf.a3 = 0;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":0"));           // NullMessage = 0
+    CHECK(has(s, "\"dcx_type_label\":\"NULL\""));
 }
 
 // ── Balanced braces/brackets ─────────────────────────────────────────────────

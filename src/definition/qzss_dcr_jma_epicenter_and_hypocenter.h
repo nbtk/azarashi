@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_epicenter_and_hypocenter
 // Variable      : qzss_dcr_jma_epicenter_and_hypocenter
 // Entries       : 345
 // Strategy      : binary_search
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-struct QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry { uint16_t id; const char* label; };
+struct QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry { uint16_t id; std::string_view label; };
 inline constexpr QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[] = {
     {0u, "未設定(北西太平洋津波情報)"},
 
@@ -703,15 +704,15 @@ inline constexpr QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_Entry QZSS_DCR_JMA_EPICEN
 
     {1000u, "その他の震央地名"},
 };
-inline constexpr const char* qzss_dcr_jma_epicenter_and_hypocenter_lookup(uint16_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_epicenter_and_hypocenter_lookup(uint16_t id) {
     uint16_t lo = 0, hi = 345;
     while (lo < hi) {
-        uint16_t mid = lo + (hi - lo) / 2;
+        uint16_t mid = static_cast<uint16_t>(lo + (hi - lo) / 2);
         if (QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[mid].id == id) return QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[mid].label;
         if (QZSS_DCR_JMA_EPICENTER_AND_HYPOCENTER_TABLE[mid].id < id) lo = mid + 1;
         else hi = mid;
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 } // namespace def

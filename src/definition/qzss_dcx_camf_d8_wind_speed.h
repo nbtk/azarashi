@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcx_camf_b4_lower_level_fields_tables
 // Variable      : qzss_dcx_camf_d8_wind_speed
 // Entries       : 13
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCX_CAMF_D8_WIND_SPEED_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_D8_WIND_SPEED_TABLE[] = {
     "Beaufort 0 - 0km/h < v < 1km/h - Calm",
     "Beaufort 1 - 1km/h < v < 5km/h - Light Air",
     "Beaufort 2 - 6km/h < v < 11km/h - Light Breeze",
@@ -28,8 +29,8 @@ inline constexpr const char* QZSS_DCX_CAMF_D8_WIND_SPEED_TABLE[] = {
 };
 inline constexpr uint8_t QZSS_DCX_CAMF_D8_WIND_SPEED_BASE = 0;
 inline constexpr uint8_t QZSS_DCX_CAMF_D8_WIND_SPEED_SIZE = 13;
-inline constexpr const char* qzss_dcx_camf_d8_wind_speed_lookup(uint8_t id) {
-    if (id < QZSS_DCX_CAMF_D8_WIND_SPEED_BASE || id >= QZSS_DCX_CAMF_D8_WIND_SPEED_BASE + QZSS_DCX_CAMF_D8_WIND_SPEED_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_d8_wind_speed_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_D8_WIND_SPEED_BASE || id >= QZSS_DCX_CAMF_D8_WIND_SPEED_BASE + QZSS_DCX_CAMF_D8_WIND_SPEED_SIZE) return std::nullopt;
     return QZSS_DCX_CAMF_D8_WIND_SPEED_TABLE[id - QZSS_DCX_CAMF_D8_WIND_SPEED_BASE];
 }
 

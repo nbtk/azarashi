@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_long_period_ground_motion_upper_limit
 // Variable      : qzss_dcr_jma_long_period_ground_motion_upper_limit
 // Entries       : 8
 // Strategy      : switch
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* qzss_dcr_jma_long_period_ground_motion_upper_limit_lookup(uint8_t id) {
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_long_period_ground_motion_upper_limit_lookup(uint8_t id) {
     switch (id) {
         case 0: return "None";
         case 1: return "長周期地震動階級1未満";
@@ -21,7 +22,7 @@ inline constexpr const char* qzss_dcr_jma_long_period_ground_motion_upper_limit_
         case 5: return "長周期地震動階級4";
         case 6: return "〜程度以上";
         case 7: return "不明";
-        default: return nullptr;
+        default: return std::nullopt;
     }
 }
 

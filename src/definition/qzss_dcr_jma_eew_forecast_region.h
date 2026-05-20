@@ -1,17 +1,18 @@
 #pragma once
-// AUTO-GENERATED from azarashi 0.15.1 — do not edit
-// Requires C++17 or later
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
 // Source module : qzss_dcr_jma_eew_forecast_region
 // Variable      : qzss_dcr_jma_eew_forecast_region
 // Entries       : 71
 // Strategy      : array
 
 #include <cstdint>
+#include <optional>
+#include <string_view>
 
 namespace azaraC {
 namespace def {
 
-inline constexpr const char* QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[] = {
+inline constexpr std::optional<std::string_view> QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[] = {
     "北海道道央",
     "北海道道南",
     "北海道道北",
@@ -82,21 +83,21 @@ inline constexpr const char* QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[] = {
     "九州",
     "奄美(群島)",
     "沖縄",
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
+    std::nullopt,
     "その他の府県予報区および地方予報区"
 };
 inline constexpr uint8_t QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE = 1;
 inline constexpr uint8_t QZSS_DCR_JMA_EEW_FORECAST_REGION_SIZE = 80;
-inline constexpr const char* qzss_dcr_jma_eew_forecast_region_lookup(uint8_t id) {
-    if (id < QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE || id >= QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE + QZSS_DCR_JMA_EEW_FORECAST_REGION_SIZE) return nullptr;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcr_jma_eew_forecast_region_lookup(uint8_t id) {
+    if (id < QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE || id >= QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE + QZSS_DCR_JMA_EEW_FORECAST_REGION_SIZE) return std::nullopt;
     return QZSS_DCR_JMA_EEW_FORECAST_REGION_TABLE[id - QZSS_DCR_JMA_EEW_FORECAST_REGION_BASE];
 }
 

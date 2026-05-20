@@ -1,6 +1,6 @@
 # test/Makefile — ホストビルド (ESP32不要)
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0
+CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -g
 
 # Test executable
 TEST_BIN = run_tests
@@ -14,7 +14,11 @@ TEST_SRCS = \
 	test_json.cpp \
 	test_framer.cpp \
 	test_tsunami.cpp \
-	test_azarashi.cpp
+	test_azarashi.cpp \
+	test_ublox.cpp \
+	test_decoder.cpp \
+	test_typhoon_marine.cpp \
+	test_coverage.cpp
 
 # Library sources
 LIB_SRCS = \
@@ -36,6 +40,8 @@ all: $(TEST_BIN)
 $(TEST_BIN): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
+CXXFLAGS += -MMD -MP
+
 # Pattern rules for test sources
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -50,5 +56,6 @@ $(TEST_BIN): $(OBJS)
 run: all
 	./$(TEST_BIN)
 
+-include $(OBJS:.o=.d)
 clean:
-	rm -f $(TEST_BIN) *.o
+	rm -f $(TEST_BIN) *.o test_crc *.d *.exe
