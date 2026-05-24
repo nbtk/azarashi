@@ -17,8 +17,8 @@ public:
     explicit Parser(internal::IFramer& framer) : _custom(&framer) {}
 
     // Feed one byte. Returns true when a new, non-duplicate, valid message is in `out`.
-    // now_unix: current UNIX epoch (0 = skip absolute time resolution)
-    bool feed(uint8_t byte, Message& out, uint32_t now_unix = 0);
+    // report_unix: UNIX epoch of the report for time resolution (0 = use fixed baseline 2024-01-01)
+    bool feed(uint8_t byte, Message& out, uint32_t report_unix = 0);
 
     void reset();
 

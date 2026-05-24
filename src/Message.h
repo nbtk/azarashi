@@ -9,6 +9,7 @@ namespace azaraC {
 // ---- shared sub-structs ------------------------------------------------
 
 struct TimeFields {
+    uint8_t  month;   // 1-12 (0 = unresolved)
     uint8_t  day;     // 1-31 (0 = unresolved)
     uint8_t  hour;    // 0-23
     uint8_t  minute;  // 0-59
@@ -61,8 +62,8 @@ struct Mt44CamfRaw {
     uint8_t  a9;    // 1
     uint8_t  a10;   // 3
     uint16_t a11;   // 10
-    int16_t  a12;   // 16 signed
-    int32_t  a13;   // 17 signed
+    uint16_t a12;   // 16 (unsigned, latitude code)
+    uint32_t a13;   // 17 (unsigned, longitude code)
     uint8_t  a14;   // 5
     uint8_t  a15;   // 5
     uint8_t  a16;   // 6
@@ -73,8 +74,8 @@ struct Mt44CamfRaw {
 struct Mt44ExLAlertOrLocal {
     uint16_t ex1;   // 16
     uint8_t  ex2;   // 1
-    int32_t  ex3;   // 17 signed
-    int32_t  ex4;   // 17 signed
+    uint32_t ex3;   // 17 unsigned (IS-QZSS-DCX-003 §4.2.4.1.3)
+    uint32_t ex4;   // 17 unsigned (IS-QZSS-DCX-003 §4.2.4.1.4)
     uint8_t  ex5;   // 5
     uint8_t  ex6;   // 5
     uint8_t  ex7;   // 7
@@ -91,6 +92,76 @@ struct Mt44ExJAlert {
 struct Mt44ExOutside {
     uint8_t ex11_raw[9]; // 68bit raw
     uint8_t vn;          // 6
+};
+
+// ---- MT=44 Decoded structures (IS-QZSS-DCX-003) --------------------------
+
+// Decoded ellipse with WGS84 coordinates
+struct DecodedEllipse {
+    double lat_deg;         // WGS84 latitude in degrees
+    double lon_deg;         // WGS84 longitude in degrees
+    double semi_major_km;   // Semi-major axis in km
+    double semi_minor_km;   // Semi-minor axis in km
+    double azimuth_deg;     // Azimuth angle in degrees (-90..90)
+};
+
+// Decoded additional area (for local government messages)
+struct DecodedAdditionalArea {
+    bool present;                           // true if EX2-EX7 are not all zero
+    bool head_to_area;                      // false=leave, true=head (EX2)
+    DecodedEllipse ellipse;                 // Additional ellipse (EX3-EX7)
+};
+
+// Alert identity key for Update/All Clear matching (IS-QZSS-DCX-003 §4.2.3.1)
+// L-Alert / Local Government: A2 + A3 + A4 + EX1
+// J-Alert: A2 + A3 + A4
+struct Mt44AlertIdentity {
+    uint16_t a2;    // Country/Region Name (9 bits)
+    uint8_t  a3;    // Provider Identifier (5 bits)
+    uint8_t  a4;    // Hazard Category and Type (7 bits)
+    uint16_t ex1;   // Target Area Code (16 bits) - only for L-Alert/Local
+
+    bool operator==(const Mt44AlertIdentity& o) const {
+        return a2 == o.a2 && a3 == o.a3 && a4 == o.a4 && ex1 == o.ex1;
+    }
+};
+
+// Fully decoded MT44 message
+struct Mt44Decoded {
+    Mt44ServiceKind service_kind;
+    bool is_null_message;
+
+    // Decoded text labels
+    const char* country_name;
+    const char* provider_name;
+    const char* hazard_name;
+    const char* severity_name;
+    const char* guidance_text;
+
+    // Main ellipse (A12-A16) - decoded to WGS84
+    // present if A12..A16 are not all zero
+    bool main_ellipse_present;
+    DecodedEllipse main_ellipse;
+
+    // Target area code (EX1) - for L-Alert/Local Government
+    // present if A12..A16 are all zero and EX1 is not zero
+    bool target_area_code_present;
+    uint16_t target_area_code;
+
+    // J-Alert target area (EX8/EX9)
+    bool jalert_prefecture_mode;  // true if EX8=0 (prefecture), false if EX8=1 (city)
+    // Prefecture bit positions (1-47) - valid if jalert_prefecture_mode is true
+    uint8_t prefecture_positions[47];
+    uint8_t prefecture_count;
+    // City/town/village codes - valid if jalert_prefecture_mode is false
+    uint16_t city_codes[4];
+    uint8_t city_code_count;
+
+    // Additional area (local government only)
+    DecodedAdditionalArea additional_area;
+
+    // Alert identity key
+    Mt44AlertIdentity alert_identity;
 };
 
 // ---- MT=43 JMA disaster_category mapping (IS-QZSS-DCR-016 Table 5.1.2-1)
@@ -120,11 +191,6 @@ struct VolcanoLocalGov {
 struct WeatherEntry {
     uint8_t  sub_category;  // qzss_dcr_jma_weather_related_disaster_sub_category
     uint32_t region_code;   // qzss_dcr_jma_weather_forecast_region (19 bits)
-};
-
-struct TyphoonPos {
-    int16_t lat_e1;   // ×0.1 deg signed
-    int16_t lon_e1;
 };
 
 struct FloodEntry {
@@ -244,18 +310,23 @@ struct Message {
     uint8_t          flood_count;
 
     // ---- Typhoon  (disaster_category == 12) -----------------------------
-    TimeFields       typh_reference_time;     // [53..68]
-    uint8_t          typh_ref_type;           // [69..71]  3 bits
-    uint8_t          typh_elapsed;            // [80..86]  7 bits
+    // IS-QZSS-DCR-016 Table 4.1.2-47
+    TimeFields       typh_reference_time;     // [53..68]  day(5)+hour(5)+min(6)
+    uint8_t          typh_ref_type;           // [69..71]  3 bits (1:Analysis 2:Estimate 3:Forecast)
+    uint8_t          typh_elapsed;            // [80..86]  7 bits (hours)
     uint8_t          typh_number;             // [87..93]  7 bits
     uint8_t          typh_scale;              // [94..97]  4 bits
     uint8_t          typh_intensity;          // [98..101] 4 bits
-    TyphoonPos       typh_positions[3];       // center + forecast ×2
-    uint8_t          typh_pos_count;
+    LatLon           typh_coords;             // [102..142] 41 bits (lat_ns+lat_deg+lat_min+lat_sec+lon_ew+lon_deg+lon_min+lon_sec)
+    uint16_t         typh_pressure;           // [143..153] 11 bits (hPa)
+    uint8_t          typh_max_wind;           // [154..160] 7 bits (m/s)
+    uint8_t          typh_max_gust;           // [161..167] 7 bits (m/s)
 
     // ---- Marine  (disaster_category == 14) ------------------------------
     MarineEntry      marine_entries[8];
     uint8_t          marine_count;
 
+    // ---- MT=44 Decoded (populated after decodeDcx) ------------------------
+    Mt44Decoded      mt44_decoded;
 };
 } // namespace azaraC

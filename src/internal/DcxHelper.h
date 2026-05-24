@@ -1,0 +1,57 @@
+#pragma once
+// azaraC - src/internal/DcxHelper.h
+// DCX MT44 decode helpers
+// Based on IS-QZSS-DCX-003
+
+#include <cstdint>
+#include <vector>
+
+namespace azaraC {
+namespace internal {
+
+// ---------------------------------------------------------------------------
+// Decode helpers
+// ---------------------------------------------------------------------------
+
+// Decode latitude from 16-bit code (A12)
+// Latitude = -90 + (180 / (2^16 - 1)) * code
+double decodeLatitude16(uint16_t code);
+
+// Decode longitude from 17-bit code (A13)
+// Longitude = -180 + (360 / (2^17 - 1)) * code
+double decodeLongitude17(uint32_t code);
+
+// Decode additional ellipse latitude from 17-bit code (EX3)
+// Same formula as A12 but with 17 bits
+double decodeLatitude17(uint32_t code);
+
+// Decode additional ellipse longitude from 17-bit code (EX4)
+// Longitude = 45 + (180 / (2^17 - 1)) * code
+double decodeLongitude17_45_225(uint32_t code);
+
+// Decode radius from 5-bit code (A14/A15/EX5/EX6)
+// Uses logarithmic table from IS-QZSS-DCX-003 Table 4.2-17
+double decodeRadiusCode(uint8_t code);
+
+// Decode azimuth from 6-bit code (A16)
+// Azimuth = -90 + (180 / 2^6) * code
+double decodeAzimuth6(uint8_t code);
+
+// Decode azimuth from 7-bit code (EX7)
+// Azimuth = -90 + (180 / 2^7) * code
+double decodeAzimuth7(uint8_t code);
+
+// ---------------------------------------------------------------------------
+// J-Alert EX9 decoding
+// ---------------------------------------------------------------------------
+
+// Decode EX9 as prefecture bitmask (EX8=0)
+// Returns vector of prefecture bit positions (1-47) that are set
+std::vector<uint8_t> decodePrefectureBitmask(uint64_t ex9);
+
+// Decode EX9 as city/town/village code list (EX8=1)
+// Returns up to 4 codes
+std::vector<uint16_t> decodeCityCodeList(uint64_t ex9);
+
+} // namespace internal
+} // namespace azaraC

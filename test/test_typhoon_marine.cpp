@@ -34,13 +34,13 @@ TEST_CASE("decodeTyphoon: 合成フレームでの基本動作") {
     uint8_t bits[32] = {};
     Message msg{};
 
-    // 台風フィールドの設定（Decoder.cpp参照）
+    // IS-QZSS-DCR-016 Table 4.1.2-47 のビットレイアウトに基づく
     // reference_time: day=15, hour=12, minute=30 at bit 53
     TestDecoderTM::setBits(bits, 53, 5, 15);       // day
     TestDecoderTM::setBits(bits, 58, 5, 12);       // hour
     TestDecoderTM::setBits(bits, 63, 6, 30);       // minute
 
-    // ref_type:1 at bit 69
+    // ref_type: 1 (Analysis) at bit 69
     TestDecoderTM::setBits(bits, 69, 3, 1);
 
     // elapsed: 24 at bit 80
@@ -55,13 +55,26 @@ TEST_CASE("decodeTyphoon: 合成フレームでの基本動作") {
     // intensity: 2 at bit 98
     TestDecoderTM::setBits(bits, 98, 4, 2);
 
-    // position 1: 北緯25度, 東経130度 (1度単位)
-    // lat_s=0 (北), lat_d=25 at bit 102
-    TestDecoderTM::setBits(bits, 102, 1, 0);       // lat_sign
-    TestDecoderTM::setBits(bits, 103, 8, 25);      // lat_d
-    // lon_s=0 (東), lon_d=130 at bit 111
-    TestDecoderTM::setBits(bits, 111, 1, 0);       // lon_sign
-    TestDecoderTM::setBits(bits, 112, 9, 130);     // lon_d
+    // LatLon at bit 102 (41 bits): 北緯25度30分0秒, 東経130度15分0秒
+    // lat_ns=0(N), lat_deg=25, lat_min=30, lat_sec=0
+    // lon_ew=0(E), lon_deg=130, lon_min=15, lon_sec=0
+    TestDecoderTM::setBits(bits, 102, 1, 0);       // lat_ns = 0 (North)
+    TestDecoderTM::setBits(bits, 103, 7, 25);      // lat_deg = 25
+    TestDecoderTM::setBits(bits, 110, 6, 30);      // lat_min = 30
+    TestDecoderTM::setBits(bits, 116, 6, 0);       // lat_sec = 0
+    TestDecoderTM::setBits(bits, 122, 1, 0);       // lon_ew = 0 (East)
+    TestDecoderTM::setBits(bits, 123, 8, 130);     // lon_deg = 130
+    TestDecoderTM::setBits(bits, 131, 6, 15);      // lon_min = 15
+    TestDecoderTM::setBits(bits, 137, 6, 0);       // lon_sec = 0
+
+    // Central pressure: 980 hPa at bit 143 (11 bits)
+    TestDecoderTM::setBits(bits, 143, 11, 980);
+
+    // Max wind speed: 35 m/s at bit 154 (7 bits)
+    TestDecoderTM::setBits(bits, 154, 7, 35);
+
+    // Max gust speed: 50 m/s at bit 161 (7 bits)
+    TestDecoderTM::setBits(bits, 161, 7, 50);
 
     // 2024-01-01 00:00:00 UTC
     TestDecoderTM::testDecodeTyphoon(bits, msg, 1704067200u);
@@ -72,43 +85,88 @@ TEST_CASE("decodeTyphoon: 合成フレームでの基本動作") {
     CHECK(msg.typh_number == 5);
     CHECK(msg.typh_scale == 3);
     CHECK(msg.typh_intensity == 2);
-    CHECK(msg.typh_pos_count >= 1);
-    if (msg.typh_pos_count > 0) {
-        // lat_e1 = lat_d * 10 (1度単位を0.1度単位に変換)
-        CHECK(msg.typh_positions[0].lat_e1 == 250);   // 25 * 10
-        CHECK(msg.typh_positions[0].lon_e1 == 1300);  // 130 * 10
-    }
+
+    // LatLon 検証
+    CHECK(msg.typh_coords.lat_ns == 0);
+    CHECK(msg.typh_coords.lat_deg == 25);
+    CHECK(msg.typh_coords.lat_min == 30);
+    CHECK(msg.typh_coords.lat_sec == 0);
+    CHECK(msg.typh_coords.lon_ew == 0);
+    CHECK(msg.typh_coords.lon_deg == 130);
+    CHECK(msg.typh_coords.lon_min == 15);
+    CHECK(msg.typh_coords.lon_sec == 0);
+
+    // Pressure / Wind / Gust 検証
+    CHECK(msg.typh_pressure == 980);
+    CHECK(msg.typh_max_wind == 35);
+    CHECK(msg.typh_max_gust == 50);
 }
 
-TEST_CASE("decodeTyphoon: 複数位置の検証") {
+TEST_CASE("decodeTyphoon: 南緯・西経の検証") {
     uint8_t bits[32] = {};
     Message msg{};
 
-    // 位置1: 北緯25度, 東経130度
-    TestDecoderTM::setBits(bits, 102, 1, 0);       // lat_sign=0
-    TestDecoderTM::setBits(bits, 103, 8, 25);      // lat_d=25
-    TestDecoderTM::setBits(bits, 111, 1, 0);       // lon_sign=0
-    TestDecoderTM::setBits(bits, 112, 9, 130);     // lon_d=130
+    // LatLon at bit 102 (41 bits): 南緯10度0分0秒, 西経140度0分0秒
+    // lat_ns=1(S), lat_deg=10, lat_min=0, lat_sec=0
+    // lon_ew=1(W), lon_deg=140, lon_min=0, lon_sec=0
+    TestDecoderTM::setBits(bits, 102, 1, 1);       // lat_ns = 1 (South)
+    TestDecoderTM::setBits(bits, 103, 7, 10);      // lat_deg = 10
+    TestDecoderTM::setBits(bits, 110, 6, 0);       // lat_min = 0
+    TestDecoderTM::setBits(bits, 116, 6, 0);       // lat_sec = 0
+    TestDecoderTM::setBits(bits, 122, 1, 1);       // lon_ew = 1 (West)
+    TestDecoderTM::setBits(bits, 123, 8, 140);     // lon_deg = 140
+    TestDecoderTM::setBits(bits, 131, 6, 0);       // lon_min = 0
+    TestDecoderTM::setBits(bits, 137, 6, 0);       // lon_sec = 0
 
-    // 位置2: 南緯10度, 西経140度
-    // lat_s=1 (南), lat_d=10 at bit 121
-    TestDecoderTM::setBits(bits, 121, 1, 1);       // lat_sign=1
-    TestDecoderTM::setBits(bits, 122, 8, 10);      // lat_d=10
-    // lon_s=1 (西), lon_d=140 at bit 130
-    TestDecoderTM::setBits(bits, 130, 1, 1);       // lon_sign=1
-    TestDecoderTM::setBits(bits, 131, 9, 140);     // lon_d=140
+    // Central pressure: 950 hPa at bit 143
+    TestDecoderTM::setBits(bits, 143, 11, 950);
+
+    // Max wind speed: 45 m/s at bit 154
+    TestDecoderTM::setBits(bits, 154, 7, 45);
+
+    // Max gust speed: 60 m/s at bit 161
+    TestDecoderTM::setBits(bits, 161, 7, 60);
 
     TestDecoderTM::testDecodeTyphoon(bits, msg, 1704067200u);
 
-    CHECK(msg.typh_pos_count == 2);
-    if (msg.typh_pos_count >= 2) {
-        // 位置1: 北緯25度 → lat_e1 = 250
-        CHECK(msg.typh_positions[0].lat_e1 == 250);
-        CHECK(msg.typh_positions[0].lon_e1 == 1300);
-        // 位置2: 南緯10度 → lat_e1 = -100 (符号付き)
-        CHECK(msg.typh_positions[1].lat_e1 == -100);
-        CHECK(msg.typh_positions[1].lon_e1 == -1400);
-    }
+    // LatLon 検証
+    CHECK(msg.typh_coords.lat_ns == 1);
+    CHECK(msg.typh_coords.lat_deg == 10);
+    CHECK(msg.typh_coords.lat_min == 0);
+    CHECK(msg.typh_coords.lat_sec == 0);
+    CHECK(msg.typh_coords.lon_ew == 1);
+    CHECK(msg.typh_coords.lon_deg == 140);
+    CHECK(msg.typh_coords.lon_min == 0);
+    CHECK(msg.typh_coords.lon_sec == 0);
+
+    // Pressure / Wind / Gust 検証
+    CHECK(msg.typh_pressure == 950);
+    CHECK(msg.typh_max_wind == 45);
+    CHECK(msg.typh_max_gust == 60);
+}
+
+TEST_CASE("decodeTyphoon: ゼロ値の検証") {
+    uint8_t bits[32] = {};
+    Message msg{};
+
+    // すべてのフィールドをゼロで設定
+    // LatLon = 0 (lat_ns=0, lat_deg=0, lat_min=0, lat_sec=0, lon_ew=0, lon_deg=0, lon_min=0, lon_sec=0)
+    // pressure = 0, max_wind = 0, max_gust = 0
+
+    TestDecoderTM::testDecodeTyphoon(bits, msg, 1704067200u);
+
+    // すべてゼロであることを検証
+    CHECK(msg.typh_coords.lat_ns == 0);
+    CHECK(msg.typh_coords.lat_deg == 0);
+    CHECK(msg.typh_coords.lat_min == 0);
+    CHECK(msg.typh_coords.lat_sec == 0);
+    CHECK(msg.typh_coords.lon_ew == 0);
+    CHECK(msg.typh_coords.lon_deg == 0);
+    CHECK(msg.typh_coords.lon_min == 0);
+    CHECK(msg.typh_coords.lon_sec == 0);
+    CHECK(msg.typh_pressure == 0);
+    CHECK(msg.typh_max_wind == 0);
+    CHECK(msg.typh_max_gust == 0);
 }
 
 TEST_CASE("decodeMarine: 合成フレームでの基本動作") {

@@ -1,9 +1,9 @@
 # test/Makefile — ホストビルド (ESP32不要)
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -g
+CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -g -MMD -MP
 
 # Test executable
-TEST_BIN = run_tests
+TEST_BIN = run_tests.exe
 
 # Test sources
 TEST_SRCS = \
@@ -24,7 +24,13 @@ TEST_SRCS = \
 LIB_SRCS = \
 	../src/Parser.cpp \
 	../src/internal/Decoder.cpp \
+	../src/internal/DecoderDcx.cpp \
+	../src/internal/DecoderQzqsm.cpp \
+	../src/internal/DcxHelper.cpp \
+	../src/internal/JsonWriter.cpp \
 	../src/internal/JsonSerializer.cpp \
+	../src/internal/JsonSerializerDcx.cpp \
+	../src/internal/JsonSerializerQzqsm.cpp \
 	../src/internal/Dedup.cpp \
 	../src/internal/UbxFramer.cpp \
 	../src/internal/NmeaFramer.cpp
@@ -40,8 +46,6 @@ all: $(TEST_BIN)
 $(TEST_BIN): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-CXXFLAGS += -MMD -MP
-
 # Pattern rules for test sources
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -54,8 +58,8 @@ CXXFLAGS += -MMD -MP
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 run: all
-	./$(TEST_BIN)
+	$(TEST_BIN)
 
 -include $(OBJS:.o=.d)
 clean:
-	rm -f $(TEST_BIN) *.o test_crc *.d *.exe
+	del /F /Q $(TEST_BIN) *.o test_crc *.d 2>nul || exit 0

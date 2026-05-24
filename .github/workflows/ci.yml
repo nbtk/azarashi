@@ -11,7 +11,7 @@ jobs:
     name: Host unit tests (g++)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build & run
         run: make -C test run
 
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: host-test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install arduino-cli
         run: |

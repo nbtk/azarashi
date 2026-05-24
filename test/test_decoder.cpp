@@ -18,15 +18,14 @@ struct TestDecoderEx : Decoder {
         t.decodeEEW(bits, out, now_unix);
     }
 
-    // ビット操作ヘルパー
     static void setBits(uint8_t* buf, uint16_t start, uint8_t len, uint32_t value) {
+        if (len == 0) return;
         for (int i = static_cast<int>(len) - 1; i >= 0; --i) {
             uint16_t pos = start + (len-1-i);
             if ((value >> i) & 1) buf[pos>>3] |=  (1 << (7-(pos&7)));
             else              buf[pos>>3] &= ~(1 << (7-(pos&7)));
         }
     }
-
     // CRC計算ヘルパー
     static uint32_t calculateCRC(const uint8_t* data, uint16_t bit_len) {
         return crc24q(data, bit_len);
@@ -155,11 +154,15 @@ TEST_CASE("decodeDcx: L-Alert メッセージのデコード") {
     TestDecoderEx::setBits(bits, 66, 1, 0);         // A9 = 0
     TestDecoderEx::setBits(bits, 67, 3, 1);         // A10 = 1
     TestDecoderEx::setBits(bits, 70, 10, 1);        // A11 = 1 (Guidance)
-    TestDecoderEx::setBits(bits, 80, 16, 356);      // A12 = 356 (lat)
-    TestDecoderEx::setBits(bits, 96, 17, 1396);     // A13 = 1396 (lon)
-    TestDecoderEx::setBits(bits, 113, 5, 10);       // A14 = 10 (semi-major)
-    TestDecoderEx::setBits(bits, 118, 5, 8);        // A15 = 8 (semi-minor)
-    TestDecoderEx::setBits(bits, 123, 6, 30);       // A16 = 30 (azimuth)
+    // A12 = 45761 (latitude code for ~35.688°N - Tokyo area)
+    // Formula: code = (lat + 90) * 65535 / 180 = (35.688 + 90) * 65535 / 180 ≈ 45761
+    TestDecoderEx::setBits(bits, 80, 16, 45761);    // A12 = 45761 (lat)
+    // A13 = 116395 (longitude code for ~139.691°E - Tokyo area)
+    // Formula: code = (lon + 180) * 131071 / 360 = (139.691 + 180) * 131071 / 360 ≈ 116395
+    TestDecoderEx::setBits(bits, 96, 17, 116395);   // A13 = 116395 (lon)
+    TestDecoderEx::setBits(bits, 113, 5, 13);       // A14 = 13 (semi-major ~10.9km)
+    TestDecoderEx::setBits(bits, 118, 5, 11);       // A15 = 11 (semi-minor ~6.0km)
+    TestDecoderEx::setBits(bits, 123, 6, 48);       // A16 = 48 (azimuth ~45°)
     TestDecoderEx::setBits(bits, 129, 2, 0);        // A17 = 0
     TestDecoderEx::setBits(bits, 131, 15, 0);       // A18 = 0
 
@@ -267,22 +270,30 @@ TEST_CASE("decodeDcx: Local Government メッセージのデコード") {
     TestDecoderEx::setBits(bits, 66, 1, 0);         // A9 = 0
     TestDecoderEx::setBits(bits, 67, 3, 1);         // A10 = 1
     TestDecoderEx::setBits(bits, 70, 10, 1);        // A11 = 1
-    TestDecoderEx::setBits(bits, 80, 16, 356);      // A12 = 356
-    TestDecoderEx::setBits(bits, 96, 17, 1396);     // A13 = 1396
-    TestDecoderEx::setBits(bits, 113, 5, 10);       // A14 = 10
-    TestDecoderEx::setBits(bits, 118, 5, 8);        // A15 = 8
-    TestDecoderEx::setBits(bits, 123, 6, 30);       // A16 = 30
+    // Main ellipse: Tokyo area coordinates
+    TestDecoderEx::setBits(bits, 80, 16, 45761);    // A12 = 45761 (lat ~35.688°N)
+    TestDecoderEx::setBits(bits, 96, 17, 116395);   // A13 = 116395 (lon ~139.691°E)
+    TestDecoderEx::setBits(bits, 113, 5, 13);       // A14 = 13 (semi-major ~10.9km)
+    TestDecoderEx::setBits(bits, 118, 5, 11);       // A15 = 11 (semi-minor ~6.0km)
+    TestDecoderEx::setBits(bits, 123, 6, 48);       // A16 = 48 (azimuth ~45°)
     TestDecoderEx::setBits(bits, 129, 2, 0);        // A17 = 0
     TestDecoderEx::setBits(bits, 131, 15, 0);       // A18 = 0
 
     // Extended Message (Local Government with Additional Ellipse)
     TestDecoderEx::setBits(bits, 146, 16, 1100);    // EX1 = 1100 (札幌市)
     TestDecoderEx::setBits(bits, 162, 1, 1);        // EX2 = 1 (Head to area)
-    TestDecoderEx::setBits(bits, 163, 17, 356);     // EX3 = 356 (lat)
-    TestDecoderEx::setBits(bits, 180, 17, 1396);    // EX4 = 1396 (lon)
-    TestDecoderEx::setBits(bits, 197, 5, 10);       // EX5 = 10 (semi-major)
-    TestDecoderEx::setBits(bits, 202, 5, 8);        // EX6 = 8 (semi-minor)
-    TestDecoderEx::setBits(bits, 207, 7, 45);       // EX7 = 45 (azimuth)
+    // Additional ellipse: slightly offset from main ellipse
+    // EX3 = 91522 (latitude code for ~35.687°N, 17bit precision)
+    // Formula: code = (lat + 90) * 131071 / 180 = (35.687 + 90) * 131071 / 180 ≈ 91522
+    TestDecoderEx::setBits(bits, 163, 17, 91522);   // EX3 = 91522 (lat)
+    // EX4 = 68950 (longitude code for ~139.689°E, 17bit precision, range 45-225°)
+    // Formula: code = (lon - 45) * 131071 / 180 = (139.689 - 45) * 131071 / 180 ≈ 68950
+    TestDecoderEx::setBits(bits, 180, 17, 68950);   // EX4 = 68950 (lon)
+    TestDecoderEx::setBits(bits, 197, 5, 13);       // EX5 = 13 (semi-major ~10.9km)
+    TestDecoderEx::setBits(bits, 202, 5, 11);       // EX6 = 11 (semi-minor ~6.0km)
+    // EX7 = 96 (azimuth code for ~45°, 7bit precision)
+    // Formula: code = (azimuth + 90) * 128 / 180 = (45 + 90) * 128 / 180 = 96
+    TestDecoderEx::setBits(bits, 207, 7, 96);       // EX7 = 96 (azimuth ~45°)
     TestDecoderEx::setBits(bits, 214, 6, 1);        // Vn = 1
 
     Message msg = decodeDcxHelper(bits);
@@ -294,11 +305,11 @@ TEST_CASE("decodeDcx: Local Government メッセージのデコード") {
     CHECK(msg.camf.a3 == 4);        // Local Government
     CHECK(msg.ex_lalert_local.ex1 == 1100);
     CHECK(msg.ex_lalert_local.ex2 == 1);    // Head to area
-    CHECK(msg.ex_lalert_local.ex3 == 356);
-    CHECK(msg.ex_lalert_local.ex4 == 1396);
-    CHECK(msg.ex_lalert_local.ex5 == 10);
-    CHECK(msg.ex_lalert_local.ex6 == 8);
-    CHECK(msg.ex_lalert_local.ex7 == 45);
+    CHECK(msg.ex_lalert_local.ex3 == 91522);
+    CHECK(msg.ex_lalert_local.ex4 == 68950);
+    CHECK(msg.ex_lalert_local.ex5 == 13);
+    CHECK(msg.ex_lalert_local.ex6 == 11);
+    CHECK(msg.ex_lalert_local.ex7 == 96);
     CHECK(msg.ex_lalert_local.vn == 1);
 }
 
@@ -353,7 +364,10 @@ TEST_CASE("decodeDcx: Outside Japan メッセージのデコード") {
     for (int i = 0; i < 8; ++i) {
         CHECK(msg.ex_outside.ex11_raw[i] == 0xAB);
     }
+    // 9バイト目の上位4ビットを検証（0xF0）
+    CHECK((msg.ex_outside.ex11_raw[8] & 0xF0) == 0xF0);
 }
+
 
 TEST_CASE("decodeDcx: NULL Message のデコード") {
     uint8_t bits[32] = {};
@@ -433,7 +447,7 @@ TEST_CASE("decodeHypocenter: 震源情報のデコード") {
         if (framer.feed((uint8_t)nmea[i], frame)) { found = true; break; }
     }
     REQUIRE(found == true);
-    
+
     internal::Decoder dec;
     REQUIRE(dec.decode(frame, msg, 0));
 

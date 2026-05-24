@@ -1,7 +1,7 @@
 // azaraC — examples/with_sntp/with_sntp.ino
 //
 // Wi-Fi + SNTP で UNIX 時刻を取得し、DCR/DCX の発生時刻を解決する例
-// disaster_category == 1 (EEW) のみ Serial に警告ログを出力するフィルタ付き
+// disaster_category == 1 (EEW) および MT=44 DCX メッセージ のみ Serial に警告ログを出力するフィルタ付き
 
 // #define AZARAC_DEDUP_SLOTS 16
 #include <azaraC.h>
@@ -51,7 +51,7 @@ void loop() {
         uint32_t now = static_cast<uint32_t>(time(nullptr));
 
         if (parser.feed(static_cast<uint8_t>(Serial1.read()), msg, now)) {
-            // ── EEW のみ警告出力（他は通常 JSON）──────────────────────────
+            // ── EEW および DCX 災害警報のみ警告出力（他は通常 JSON）──────────
             if (msg.msg_type == 43 && msg.disaster_category == 1) {
                 Serial.print(F("[EEW] epicenter="));
                 Serial.print(msg.eew_epicenter);
@@ -62,6 +62,23 @@ void loop() {
                 Serial.print(F(" depth="));
                 Serial.print(msg.eew_depth);
                 Serial.println(F("km"));
+            } else if (msg.msg_type == 44) {
+                Serial.print(F("[DCX] "));
+                switch (msg.service_kind) {
+                    case azaraC::Mt44ServiceKind::LAlert:          Serial.print(F("L-Alert")); break;
+                    case azaraC::Mt44ServiceKind::JAlert:          Serial.print(F("J-Alert")); break;
+                    case azaraC::Mt44ServiceKind::LocalGovernment: Serial.print(F("Local Gov")); break;
+                    case azaraC::Mt44ServiceKind::OutsideJapan:    Serial.print(F("Outside Japan")); break;
+                    case azaraC::Mt44ServiceKind::NullMessage:     Serial.print(F("Null Message")); break;
+                    default:                                       Serial.print(F("Unknown")); break;
+                }
+                if (msg.mt44_decoded.main_ellipse_present) {
+                    Serial.print(F(" | Lat: "));
+                    Serial.print(msg.mt44_decoded.main_ellipse.lat_deg, 3);
+                    Serial.print(F(" Lon: "));
+                    Serial.print(msg.mt44_decoded.main_ellipse.lon_deg, 3);
+                }
+                Serial.println();
             }
 
             // 全メッセージを JSON で Serial 出力

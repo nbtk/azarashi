@@ -26,7 +26,7 @@ void loop() {
     while (Serial1.available()) {
         uint8_t b = static_cast<uint8_t>(Serial1.read());
 
-        // pass current UNIX time if you have RTC / GPS time fix
+        // (Optional) Pass current UNIX time to resolve absolute timestamps
         // uint32_t now = (uint32_t)time(nullptr);
         uint32_t now = 0;
 

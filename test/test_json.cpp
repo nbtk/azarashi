@@ -1,4 +1,3 @@
-
 // test/test_json.cpp — JsonSerializer smoke tests
 // Build: make -C test run
 
@@ -36,7 +35,9 @@ TEST_CASE("JSON Serialization: MT=44 DCX") {
     m.camf.a1 = 1; m.camf.a2 = 111;
     m.camf.a3 = 1; m.camf.a4 = 1;
     m.camf.a5 = 3; m.camf.a8 = 4;
-    m.camf.a12 = 356; m.camf.a13 = 1396;
+    m.mt44_decoded.main_ellipse_present = true;
+    m.mt44_decoded.main_ellipse.lat_deg = 35.6;
+    m.mt44_decoded.main_ellipse.lon_deg = 139.6;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -45,8 +46,10 @@ TEST_CASE("JSON Serialization: MT=44 DCX") {
     CHECK(has(s,"\"svid\":193"));
     CHECK(has(s,"\"msg_type\":44"));
     CHECK(has(s,"\"a2_country\":111"));
-    CHECK(has(s,"\"lat_e2\":356"));
-    CHECK(has(s,"\"lon_e2\":1396"));
+    // Check decoded main ellipse is present
+    CHECK(has(s,"\"main_ellipse\":{"));
+    CHECK(has(s,"\"lat_deg\":35.600"));
+    CHECK(has(s,"\"lon_deg\":139.600"));
 }
 
 // ── MT=43 EEW ───────────────────────────────────────────────────────────────
@@ -99,7 +102,6 @@ TEST_CASE("JSON Serialization: MT=44 DCX L-Alert") {
     m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 1;
     m.camf.a4 = 10; m.camf.a5 = 3; m.camf.a8 = 4;
     m.camf.a11 = 1;
-    m.camf.a12 = 356; m.camf.a13 = 1396;
     m.ex_lalert_local.ex1 = 1100;
     m.ex_lalert_local.vn = 1;
     m.sd.sdmt = 0; m.sd.sdm = 0x1FF;
@@ -127,8 +129,13 @@ TEST_CASE("JSON Serialization: MT=44 DCX J-Alert") {
     m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 2;
     m.camf.a4 = 5; m.camf.a5 = 3;
     m.ex_jalert.ex8 = 0;    // prefecture code
-    m.ex_jalert.ex9 = 3;    // Hokkaido + Aomori
+    m.ex_jalert.ex9 = 7;    // Hokkaido + Aomori + Iwate (bits 0,1,2 = positions 47,46,45)
     m.ex_jalert.vn = 1;
+    m.mt44_decoded.jalert_prefecture_mode = true;
+    m.mt44_decoded.prefecture_count = 3;
+    m.mt44_decoded.prefecture_positions[0] = 47;
+    m.mt44_decoded.prefecture_positions[1] = 46;
+    m.mt44_decoded.prefecture_positions[2] = 45;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -140,6 +147,10 @@ TEST_CASE("JSON Serialization: MT=44 DCX J-Alert") {
     CHECK(has(s, "\"a2_country\":111"));
     CHECK(has(s, "\"a3_provider\":2"));
     CHECK(has(s, "\"ex8_area_type\":0"));
+    // Check decoded J-Alert target
+    CHECK(has(s, "\"jalert_target\":{"));
+    CHECK(has(s, "\"prefecture_mode\":1"));
+    CHECK(has(s, "\"prefecture_positions\":[47,46,45]"));
 }
 
 TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
@@ -152,12 +163,14 @@ TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
     m.camf.a4 = 10; m.camf.a5 = 3;
     m.ex_lalert_local.ex1 = 1100;
     m.ex_lalert_local.ex2 = 1;
-    m.ex_lalert_local.ex3 = 356;
-    m.ex_lalert_local.ex4 = 1396;
+    m.ex_lalert_local.ex3 = 91522;   // Additional ellipse latitude
+    m.ex_lalert_local.ex4 = 68950;   // Additional ellipse longitude
     m.ex_lalert_local.ex5 = 10;
     m.ex_lalert_local.ex6 = 8;
-    m.ex_lalert_local.ex7 = 45;
+    m.ex_lalert_local.ex7 = 96;
     m.ex_lalert_local.vn = 1;
+    m.mt44_decoded.additional_area.present = true;
+    m.mt44_decoded.additional_area.head_to_area = true;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -168,6 +181,9 @@ TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
     CHECK(has(s, "\"dcx_type_label\":\"LOCAL_GOV\""));
     CHECK(has(s, "\"a3_provider\":4"));
     CHECK(has(s, "\"ex1_target_area\":1100"));
+    // Check additional area
+    CHECK(has(s, "\"additional_area\":{"));
+    CHECK(has(s, "\"head_to_area\":1"));
 }
 
 TEST_CASE("JSON Serialization: MT=44 DCX Outside Japan") {
