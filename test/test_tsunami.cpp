@@ -76,10 +76,11 @@ TEST_CASE("Tsunami Resolution") {
     bool ok = dec.decode(f, msg, NOW_TIMESTAMP);
 
     REQUIRE(ok);
-    CHECK(msg.tsunami_count == 1);
+    CHECK(msg.payload_type == MsgPayloadType::Mt43);
+    CHECK(msg.mt43.tsunami_count == 1);
 
     // Arrival should be Day 26, 01:30
-    TimeFields& arr = msg.tsunamis[0].arrival_time;
+    TimeFields& arr = msg.mt43.tsunamis[0].arrival_time;
     CHECK(arr.day == 26);
     CHECK(arr.hour == 1);
     CHECK(arr.minute == 30);
@@ -123,10 +124,11 @@ TEST_CASE("NW Pacific Tsunami Resolution - Day Wrap") {
     bool ok = dec.decode(f, msg, NOW_TIMESTAMP);
 
     REQUIRE(ok);
-    CHECK(msg.nw_pac_count == 1);
+    CHECK(msg.payload_type == MsgPayloadType::Mt43);
+    CHECK(msg.mt43.nw_pac_count == 1);
 
     // Arrival should be Day 1 (June 1st), 00:30
-    TimeFields& arr = msg.nw_pac_tsunamis[0].arrival_time;
+    TimeFields& arr = msg.mt43.nw_pac_tsunamis[0].arrival_time;
     CHECK(arr.day == 1);
     CHECK(arr.hour == 0);
     CHECK(arr.minute == 30);

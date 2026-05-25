@@ -31,13 +31,14 @@ static bool has(const std::string& s, const char* sub) {
 TEST_CASE("JSON Serialization: MT=44 DCX") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.service_kind    = Mt44ServiceKind::LAlert;
-    m.camf.a1 = 1; m.camf.a2 = 111;
-    m.camf.a3 = 1; m.camf.a4 = 1;
-    m.camf.a5 = 3; m.camf.a8 = 4;
-    m.mt44_decoded.main_ellipse_present = true;
-    m.mt44_decoded.main_ellipse.lat_deg = 35.6;
-    m.mt44_decoded.main_ellipse.lon_deg = 139.6;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::LAlert;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111;
+    m.mt44.camf.a3 = 1; m.mt44.camf.a4 = 1;
+    m.mt44.camf.a5 = 3; m.mt44.camf.a8 = 4;
+    m.mt44.mt44_decoded.main_ellipse_present = true;
+    m.mt44.mt44_decoded.main_ellipse.lat_deg = 35.6;
+    m.mt44.mt44_decoded.main_ellipse.lon_deg = 139.6;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -56,11 +57,13 @@ TEST_CASE("JSON Serialization: MT=44 DCX") {
 
 TEST_CASE("JSON Serialization: MT=43 EEW") {
     Message m{};
-    m.msg_type = 43; m.disaster_category = 1;
-    m.eew_depth = 60; m.eew_magnitude = 65; m.eew_epicenter = 42;
-    m.eew_intensity_lower = 5; m.eew_intensity_upper = 6;
-    m.eew_region_count = 2;
-    m.eew_regions[0] = 1; m.eew_regions[1] = 12;
+    m.msg_type = 43;
+    m.payload_type = MsgPayloadType::Mt43;
+    m.mt43.disaster_category = 1;
+    m.mt43.eew_depth = 60; m.mt43.eew_magnitude = 65; m.mt43.eew_epicenter = 42;
+    m.mt43.eew_intensity_lower = 5; m.mt43.eew_intensity_upper = 6;
+    m.mt43.eew_region_count = 2;
+    m.mt43.eew_regions[0] = 1; m.mt43.eew_regions[1] = 12;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -76,10 +79,12 @@ TEST_CASE("JSON Serialization: MT=43 EEW") {
 // ── MT=43 Seismic Intensity ──────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
     Message m{};
-    m.msg_type = 43; m.disaster_category = 3; // 3 is Seismic Intensity
-    m.seis_count = 2;
-    m.seis_entries[0] = {4, 13};
-    m.seis_entries[1] = {5, 14};
+    m.msg_type = 43;
+    m.payload_type = MsgPayloadType::Mt43;
+    m.mt43.disaster_category = 3; // 3 is Seismic Intensity
+    m.mt43.seis_count = 2;
+    m.mt43.seis_entries[0] = {4, 13};
+    m.mt43.seis_entries[1] = {5, 14};
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -96,15 +101,16 @@ TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
 TEST_CASE("JSON Serialization: MT=44 DCX L-Alert") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.service_kind    = Mt44ServiceKind::LAlert;
-    m.is_null_message = false;
-    m.ex_kind         = ExtendedKind::LAlertOrLocal;
-    m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 1;
-    m.camf.a4 = 10; m.camf.a5 = 3; m.camf.a8 = 4;
-    m.camf.a11 = 1;
-    m.ex_lalert_local.ex1 = 1100;
-    m.ex_lalert_local.vn = 1;
-    m.sd.sdmt = 0; m.sd.sdm = 0x1FF;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::LAlert;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::LAlertOrLocal;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 1;
+    m.mt44.camf.a4 = 10; m.mt44.camf.a5 = 3; m.mt44.camf.a8 = 4;
+    m.mt44.camf.a11 = 1;
+    m.mt44.ex_lalert_local.ex1 = 1100;
+    m.mt44.ex_lalert_local.vn = 1;
+    m.mt44.sd.sdmt = 0; m.mt44.sd.sdm = 0x1FF;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -123,19 +129,20 @@ TEST_CASE("JSON Serialization: MT=44 DCX L-Alert") {
 TEST_CASE("JSON Serialization: MT=44 DCX J-Alert") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.service_kind    = Mt44ServiceKind::JAlert;
-    m.is_null_message = false;
-    m.ex_kind         = ExtendedKind::JAlert;
-    m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 2;
-    m.camf.a4 = 5; m.camf.a5 = 3;
-    m.ex_jalert.ex8 = 0;    // prefecture code
-    m.ex_jalert.ex9 = 7;    // Hokkaido + Aomori + Iwate (bits 0,1,2 = positions 47,46,45)
-    m.ex_jalert.vn = 1;
-    m.mt44_decoded.jalert_prefecture_mode = true;
-    m.mt44_decoded.prefecture_count = 3;
-    m.mt44_decoded.prefecture_positions[0] = 47;
-    m.mt44_decoded.prefecture_positions[1] = 46;
-    m.mt44_decoded.prefecture_positions[2] = 45;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::JAlert;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::JAlert;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 2;
+    m.mt44.camf.a4 = 5; m.mt44.camf.a5 = 3;
+    m.mt44.ex_jalert.ex8 = 0;    // prefecture code
+    m.mt44.ex_jalert.ex9 = 7;    // Hokkaido + Aomori + Iwate (bits 0,1,2 = positions 47,46,45)
+    m.mt44.ex_jalert.vn = 1;
+    m.mt44.mt44_decoded.jalert_prefecture_mode = true;
+    m.mt44.mt44_decoded.prefecture_count = 3;
+    m.mt44.mt44_decoded.prefecture_positions[0] = 47;
+    m.mt44.mt44_decoded.prefecture_positions[1] = 46;
+    m.mt44.mt44_decoded.prefecture_positions[2] = 45;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -156,21 +163,22 @@ TEST_CASE("JSON Serialization: MT=44 DCX J-Alert") {
 TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.service_kind    = Mt44ServiceKind::LocalGovernment;
-    m.is_null_message = false;
-    m.ex_kind         = ExtendedKind::LAlertOrLocal;
-    m.camf.a1 = 1; m.camf.a2 = 111; m.camf.a3 = 4;
-    m.camf.a4 = 10; m.camf.a5 = 3;
-    m.ex_lalert_local.ex1 = 1100;
-    m.ex_lalert_local.ex2 = 1;
-    m.ex_lalert_local.ex3 = 91522;   // Additional ellipse latitude
-    m.ex_lalert_local.ex4 = 68950;   // Additional ellipse longitude
-    m.ex_lalert_local.ex5 = 10;
-    m.ex_lalert_local.ex6 = 8;
-    m.ex_lalert_local.ex7 = 96;
-    m.ex_lalert_local.vn = 1;
-    m.mt44_decoded.additional_area.present = true;
-    m.mt44_decoded.additional_area.head_to_area = true;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::LocalGovernment;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::LAlertOrLocal;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 4;
+    m.mt44.camf.a4 = 10; m.mt44.camf.a5 = 3;
+    m.mt44.ex_lalert_local.ex1 = 1100;
+    m.mt44.ex_lalert_local.ex2 = 1;
+    m.mt44.ex_lalert_local.ex3 = 91522;   // Additional ellipse latitude
+    m.mt44.ex_lalert_local.ex4 = 68950;   // Additional ellipse longitude
+    m.mt44.ex_lalert_local.ex5 = 10;
+    m.mt44.ex_lalert_local.ex6 = 8;
+    m.mt44.ex_lalert_local.ex7 = 96;
+    m.mt44.ex_lalert_local.vn = 1;
+    m.mt44.mt44_decoded.additional_area.present = true;
+    m.mt44.mt44_decoded.additional_area.head_to_area = true;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -189,11 +197,12 @@ TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
 TEST_CASE("JSON Serialization: MT=44 DCX Outside Japan") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.service_kind    = Mt44ServiceKind::OutsideJapan;
-    m.is_null_message = false;
-    m.ex_kind         = ExtendedKind::OutsideJapan;
-    m.camf.a1 = 1; m.camf.a2 = 32; m.camf.a3 = 1;
-    m.ex_outside.vn = 5;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::OutsideJapan;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::OutsideJapan;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 32; m.mt44.camf.a3 = 1;
+    m.mt44.ex_outside.vn = 5;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -208,10 +217,11 @@ TEST_CASE("JSON Serialization: MT=44 DCX Outside Japan") {
 TEST_CASE("JSON Serialization: MT=44 DCX Null Message") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.service_kind    = Mt44ServiceKind::NullMessage;
-    m.is_null_message = true;
-    m.ex_kind         = ExtendedKind::None;
-    m.camf.a2 = 111; m.camf.a3 = 0;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::NullMessage;
+    m.mt44.is_null_message = true;
+    m.mt44.ex_kind         = ExtendedKind::None;
+    m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 0;
 
     StringPrint sp;
     internal::JsonSerializer::serialize(m, sp);
@@ -244,12 +254,12 @@ TEST_CASE("JSON Serialization: Balanced braces/brackets") {
 
     SUBCASE("Disaster Categories 1-14") {
         for (uint8_t dc : {1,2,3,4,5,6,7,8,9,10,11,12,14}) {
-            Message m{}; m.msg_type = 43; m.disaster_category = dc;
+            Message m{}; m.msg_type = 43; m.payload_type = MsgPayloadType::Mt43; m.mt43.disaster_category = dc;
             test_balanced(m);
         }
     }
     SUBCASE("MT=44") {
-        Message m{}; m.msg_type = 44;
+        Message m{}; m.msg_type = 44; m.payload_type = MsgPayloadType::Mt44;
         test_balanced(m);
     }
 }

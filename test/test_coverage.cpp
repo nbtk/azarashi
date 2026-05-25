@@ -110,21 +110,22 @@ TEST_CASE("decodeNankai: 南海トラフ地震の詳細デコード") {
 
     TestDecoderEx::testDecodeNankai(bits, msg);
 
-    CHECK(msg.nankai_info_code == 1);
-    CHECK(msg.nankai_page == 2);
-    CHECK(msg.nankai_total_page == 3);
-    CHECK(msg.nankai_text[0] == 'T');
-    CHECK(msg.nankai_text[1] == 'e');
-    CHECK(msg.nankai_text[2] == 's');
-    CHECK(msg.nankai_text[3] == 't');
+    CHECK(msg.mt43.nankai_info_code == 1);
+    CHECK(msg.mt43.nankai_page == 2);
+    CHECK(msg.mt43.nankai_total_page == 3);
+    CHECK(msg.mt43.nankai_text[0] == 'T');
+    CHECK(msg.mt43.nankai_text[1] == 'e');
+    CHECK(msg.mt43.nankai_text[2] == 's');
+    CHECK(msg.mt43.nankai_text[3] == 't');
 }
 
 TEST_CASE("decodeNankai: 最終ページの判定") {
     Message msg{};
     const char* nmea = "$QZQSM,58,C6AFA19C918002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81262EF438*02\r\n";
     REQUIRE(decode_nmea(nmea, msg));
-    CHECK(msg.disaster_category == 4);
-    CHECK(msg.nankai_page != msg.nankai_total_page);
+    CHECK(msg.payload_type == MsgPayloadType::Mt43);
+    CHECK(msg.mt43.disaster_category == 4);
+    CHECK(msg.mt43.nankai_page != msg.mt43.nankai_total_page);
 }
 
 // ── Ash Fall (DC=9) ───────────────────────────────────────────────────────────
@@ -164,18 +165,18 @@ TEST_CASE("decodeAshFall: 降灰予報の詳細デコード") {
 
     TestDecoderEx::testDecodeAshFall(bits, msg, 1704067200u);
 
-    CHECK(msg.ash_warning_type == 1);
-    CHECK(msg.ash_volcano_name == 503);
-    CHECK(msg.ash_activity_time.day == 15);
-    CHECK(msg.ash_activity_time.hour == 10);
-    CHECK(msg.ash_activity_time.minute == 30);
-    CHECK(msg.ash_count == 2);
-    CHECK(msg.ash_entries_time[0] == 3);
-    CHECK(msg.ash_entries_code[0] == 2);
-    CHECK(msg.ash_entries_lg[0] == 1100000);
-    CHECK(msg.ash_entries_time[1] == 6);
-    CHECK(msg.ash_entries_code[1] == 5);
-    CHECK(msg.ash_entries_lg[1] == 1200000);
+    CHECK(msg.mt43.ash_warning_type == 1);
+    CHECK(msg.mt43.ash_volcano_name == 503);
+    CHECK(msg.mt43.ash_activity_time.day == 15);
+    CHECK(msg.mt43.ash_activity_time.hour == 10);
+    CHECK(msg.mt43.ash_activity_time.minute == 30);
+    CHECK(msg.mt43.ash_count == 2);
+    CHECK(msg.mt43.ash_entries_time[0] == 3);
+    CHECK(msg.mt43.ash_entries_code[0] == 2);
+    CHECK(msg.mt43.ash_entries_lg[0] == 1100000);
+    CHECK(msg.mt43.ash_entries_time[1] == 6);
+    CHECK(msg.mt43.ash_entries_code[1] == 5);
+    CHECK(msg.mt43.ash_entries_lg[1] == 1200000);
 }
 
 // ── Flood (DC=11) ──────────────────────────────────────────────────────────────
@@ -209,18 +210,19 @@ TEST_CASE("decodeFlood: 洪水予報の詳細デコード") {
 
     TestDecoderEx::testDecodeFlood(bits, msg);
 
-    CHECK(msg.flood_count == 2);
-    CHECK(msg.flood_entries[0].warning_level == 3);
-    CHECK(msg.flood_entries[0].region_code == 1234567ULL);
-    CHECK(msg.flood_entries[1].warning_level == 4);
-    CHECK(msg.flood_entries[1].region_code == 890ULL);
+    CHECK(msg.mt43.flood_count == 2);
+    CHECK(msg.mt43.flood_entries[0].warning_level == 3);
+    CHECK(msg.mt43.flood_entries[0].region_code == 1234567ULL);
+    CHECK(msg.mt43.flood_entries[1].warning_level == 4);
+    CHECK(msg.mt43.flood_entries[1].region_code == 890ULL);
 }
 
 TEST_CASE("decodeFlood: 警報解除のデコード") {
     Message msg{};
     const char* nmea = "$QZQSM,58,C6AFD99CB90000E0A8F5528600000000000000000000000000000013A699D5C*76\r\n";
     REQUIRE(decode_nmea(nmea, msg));
-    CHECK(msg.disaster_category == 11);
+    CHECK(msg.payload_type == MsgPayloadType::Mt43);
+    CHECK(msg.mt43.disaster_category == 11);
 }
 
 // ── Weather (DC=10) ────────────────────────────────────────────────────────────
@@ -255,14 +257,14 @@ TEST_CASE("decodeWeather: 気象警報の詳細デコード") {
 
     TestDecoderEx::testDecodeWeather(bits, msg);
 
-    CHECK(msg.wx_warning_state == 1);
-    CHECK(msg.wx_count == 3);
-    CHECK(msg.wx_entries[0].sub_category == 2);
-    CHECK(msg.wx_entries[0].region_code == 11000);
-    CHECK(msg.wx_entries[1].sub_category == 3);
-    CHECK(msg.wx_entries[1].region_code == 12000);
-    CHECK(msg.wx_entries[2].sub_category == 7);
-    CHECK(msg.wx_entries[2].region_code == 13000);
+    CHECK(msg.mt43.wx_warning_state == 1);
+    CHECK(msg.mt43.wx_count == 3);
+    CHECK(msg.mt43.wx_entries[0].sub_category == 2);
+    CHECK(msg.mt43.wx_entries[0].region_code == 11000);
+    CHECK(msg.mt43.wx_entries[1].sub_category == 3);
+    CHECK(msg.mt43.wx_entries[1].region_code == 12000);
+    CHECK(msg.mt43.wx_entries[2].sub_category == 7);
+    CHECK(msg.mt43.wx_entries[2].region_code == 13000);
 }
 
 // ── Seismic Intensity (DC=3) ───────────────────────────────────────────────────
@@ -300,16 +302,16 @@ TEST_CASE("decodeSeismic: 震度情報の詳細デコード") {
 
     TestDecoderEx::testDecodeSeismic(bits, msg, 1704067200u);
 
-    CHECK(msg.seis_quake_time.day == 20);
-    CHECK(msg.seis_quake_time.hour == 15);
-    CHECK(msg.seis_quake_time.minute == 45);
-    CHECK(msg.seis_count == 3);
-    CHECK(msg.seis_entries[0].intensity_code == 4);
-    CHECK(msg.seis_entries[0].prefecture_code == 13);
-    CHECK(msg.seis_entries[1].intensity_code == 3);
-    CHECK(msg.seis_entries[1].prefecture_code == 14);
-    CHECK(msg.seis_entries[2].intensity_code == 2);
-    CHECK(msg.seis_entries[2].prefecture_code == 11);
+    CHECK(msg.mt43.seis_quake_time.day == 20);
+    CHECK(msg.mt43.seis_quake_time.hour == 15);
+    CHECK(msg.mt43.seis_quake_time.minute == 45);
+    CHECK(msg.mt43.seis_count == 3);
+    CHECK(msg.mt43.seis_entries[0].intensity_code == 4);
+    CHECK(msg.mt43.seis_entries[0].prefecture_code == 13);
+    CHECK(msg.mt43.seis_entries[1].intensity_code == 3);
+    CHECK(msg.mt43.seis_entries[1].prefecture_code == 14);
+    CHECK(msg.mt43.seis_entries[2].intensity_code == 2);
+    CHECK(msg.mt43.seis_entries[2].prefecture_code == 11);
 }
 
 // ── Volcano (DC=8) ─────────────────────────────────────────────────────────────
@@ -339,14 +341,14 @@ TEST_CASE("decodeVolcano: 火山情報の詳細デコード") {
 
     TestDecoderEx::testDecodeVolcano(bits, msg, 1704067200u);
 
-    CHECK(msg.vol_ambiguity == 0);
-    CHECK(msg.vol_activity_time.day == 10);
-    CHECK(msg.vol_activity_time.hour == 8);
-    CHECK(msg.vol_activity_time.minute == 0);
-    CHECK(msg.vol_warning_code == 52);
-    CHECK(msg.vol_volcano_name == 503);
-    CHECK(msg.vol_lg_count == 1);
-    CHECK(msg.vol_local_govs[0] == 4600000);
+    CHECK(msg.mt43.vol_ambiguity == 0);
+    CHECK(msg.mt43.vol_activity_time.day == 10);
+    CHECK(msg.mt43.vol_activity_time.hour == 8);
+    CHECK(msg.mt43.vol_activity_time.minute == 0);
+    CHECK(msg.mt43.vol_warning_code == 52);
+    CHECK(msg.mt43.vol_volcano_name == 503);
+    CHECK(msg.mt43.vol_lg_count == 1);
+    CHECK(msg.mt43.vol_local_govs[0] == 4600000);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -522,12 +524,12 @@ TEST_CASE("Edge Case: 津波到着時間の不明値 (hour=31, min=63)") {
 
     TestDecoderEx::testDecodeTsunami(bits, msg, 1777122000u);
 
-    CHECK(msg.tsunami_count >= 1);
-    if (msg.tsunami_count >= 1) {
+    CHECK(msg.mt43.tsunami_count >= 1);
+    if (msg.mt43.tsunami_count >= 1) {
         // hour=31, min=63 は無効なので arrival_time はゼロ
-        CHECK(msg.tsunamis[0].arrival_time.hour == 0);
-        CHECK(msg.tsunamis[0].arrival_time.minute == 0);
-        CHECK(msg.tsunamis[0].arrival_time.unix_time == 0);
+        CHECK(msg.mt43.tsunamis[0].arrival_time.hour == 0);
+        CHECK(msg.mt43.tsunamis[0].arrival_time.minute == 0);
+        CHECK(msg.mt43.tsunamis[0].arrival_time.unix_time == 0);
     }
 }
 
@@ -552,7 +554,7 @@ TEST_CASE("Edge Case: うるう年2月29日の処理") {
     Frame frame{}; memcpy(frame.bits, bits, 32); frame.svid = 55;
     Decoder dec;
     CHECK(dec.decode(frame, msg, now));
-    CHECK(msg.event_time.day == 29);
+    CHECK(msg.mt43.event_time.day == 29);
 }
 
 // ── 年末年始の日付遷移 ────────────────────────────────────────────────────────
@@ -576,7 +578,7 @@ TEST_CASE("Edge Case: 年末年始の日付遷移") {
     Frame frame{}; memcpy(frame.bits, bits, 32); frame.svid = 55;
     Decoder dec;
     CHECK(dec.decode(frame, msg, now));
-    CHECK(msg.event_time.day == 31);
+    CHECK(msg.mt43.event_time.day == 31);
 }
 
 // ── NW太平洋津波の詳細テスト ──────────────────────────────────────────────────
@@ -612,15 +614,15 @@ TEST_CASE("decodeNwPacTsu: 合成フレームでの詳細デコード") {
 
     TestDecoderEx::testDecodeNwPacTsu(bits, msg, NOW);
 
-    CHECK(msg.nw_pac_potential == 2);
-    CHECK(msg.nw_pac_count >= 1);
-    if (msg.nw_pac_count >= 1) {
-        CHECK(msg.nw_pac_tsunamis[0].region_code == 1);
-        CHECK(msg.nw_pac_tsunamis[0].height_code == 3);
+    CHECK(msg.mt43.nw_pac_potential == 2);
+    CHECK(msg.mt43.nw_pac_count >= 1);
+    if (msg.mt43.nw_pac_count >= 1) {
+        CHECK(msg.mt43.nw_pac_tsunamis[0].region_code == 1);
+        CHECK(msg.mt43.nw_pac_tsunamis[0].height_code == 3);
         // event_timeが解決されていれば到着時間も解決される
-        if (msg.event_time.unix_time > 0) {
-            CHECK(msg.nw_pac_tsunamis[0].arrival_time.hour == 2);
-            CHECK(msg.nw_pac_tsunamis[0].arrival_time.minute == 30);
+        if (msg.mt43.event_time.unix_time > 0) {
+            CHECK(msg.mt43.nw_pac_tsunamis[0].arrival_time.hour == 2);
+            CHECK(msg.mt43.nw_pac_tsunamis[0].arrival_time.minute == 30);
         }
     }
 }
@@ -640,7 +642,7 @@ TEST_CASE("Edge Case: 深さ501km以上 (コード501)") {
     Frame frame{}; memcpy(frame.bits, bits, 32); frame.svid = 55;
     Decoder dec;
     REQUIRE(dec.decode(frame, msg, 0));
-    CHECK(msg.hypo_depth == 501);
+    CHECK(msg.mt43.hypo_depth == 501);
 }
 
 TEST_CASE("Edge Case: 深さ511 (不明)") {
@@ -656,7 +658,7 @@ TEST_CASE("Edge Case: 深さ511 (不明)") {
     Frame frame{}; memcpy(frame.bits, bits, 32); frame.svid = 55;
     Decoder dec;
     REQUIRE(dec.decode(frame, msg, 0));
-    CHECK(msg.hypo_depth == 511);
+    CHECK(msg.mt43.hypo_depth == 511);
 }
 
 TEST_CASE("Edge Case: マグニチュード126 (8.0以上不明)") {
@@ -672,7 +674,7 @@ TEST_CASE("Edge Case: マグニチュード126 (8.0以上不明)") {
     Frame frame{}; memcpy(frame.bits, bits, 32); frame.svid = 55;
     Decoder dec;
     REQUIRE(dec.decode(frame, msg, 0));
-    CHECK(msg.hypo_magnitude == 126);
+    CHECK(msg.mt43.hypo_magnitude == 126);
 }
 
 TEST_CASE("Edge Case: マグニチュード127 (不明)") {
@@ -688,5 +690,6 @@ TEST_CASE("Edge Case: マグニチュード127 (不明)") {
     Frame frame{}; memcpy(frame.bits, bits, 32); frame.svid = 55;
     Decoder dec;
     REQUIRE(dec.decode(frame, msg, 0));
-    CHECK(msg.hypo_magnitude == 127);
+    CHECK(msg.mt43.hypo_magnitude == 127);
 }
+

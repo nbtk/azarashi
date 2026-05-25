@@ -48,6 +48,10 @@ void setup() {
 // ── loop ────────────────────────────────────────────────────────────────────
 void loop() {
     while (Serial1.available()) {
+        // SNTPで取得した現在時刻を UNIX タイムスタンプとして渡す。
+        // ※ 万一 SNTP 未同期で 2000 年以前の古い時刻が返る場合でも、
+        //   azaraC 内部で未同期と判定され、年の解決がスキップされるため
+        //   電文の生データ (月・日・時・分) 自体は安全に取得できます。
         uint32_t now = static_cast<uint32_t>(time(nullptr));
 
         if (parser.feed(static_cast<uint8_t>(Serial1.read()), msg, now)) {

@@ -21,6 +21,7 @@ protected:
 
     // Bit extraction helpers (MSB-first, 0-indexed from frame start)
     static uint32_t getBits(const uint8_t* buf, uint16_t start, uint8_t len);
+    static uint64_t getBits64(const uint8_t* buf, uint16_t start, uint8_t len);
 
     // Signed bit extraction (two's complement, MSB-first)
     static int32_t getSignedBits(const uint8_t* buf, uint16_t start, uint8_t len);
@@ -33,11 +34,13 @@ protected:
     static LatLon  extractLatLon(const uint8_t* buf, uint16_t start);
 
     // day(5)+hour(5)+min(6)=16 bit sub-field -> TimeFields
-    // report_unix: UNIX time of the report (month/day/hour/minute from message), 0 = use fixed baseline
+    // report_unix: UNIX time from GPS module (recommended) or SNTP, 0 = unresolved
     static TimeFields extractDHM(const uint8_t* buf, uint16_t start, uint32_t report_unix);
 
-    // Resolve TimeFields from components using report_time as baseline (azarashi-compatible)
-    // report_unix: UNIX time of the report, 0 = use fixed baseline (2024-01-01)
+    // Resolve TimeFields from components using report_time as baseline.
+    // report_unix: UNIX time from GPS module (recommended) or SNTP
+    //   - If >= 2000-01-01: use as baseline for year/month resolution
+    //   - If < 2000-01-01: return with unix_time = 0 (unresolved)
     static TimeFields resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint32_t report_unix);
 
     // Resolve 12-bit arrival time (day_offset:1, hour:5, min:6) into TimeFields
@@ -50,7 +53,7 @@ protected:
     bool decodeQzqsm (const uint8_t* bits, Message& out, uint32_t report_unix);
 
     // MT=43 JMA sub-decoders
-    // report_unix: UNIX time of the report for DHM resolution
+    // report_unix: UNIX time from GPS module for DHM resolution
     void decodeEEW      (const uint8_t* b, Message& out, uint32_t report_unix);
     void decodeHypocenter(const uint8_t* b, Message& out, uint32_t report_unix);
     void decodeSeismic  (const uint8_t* b, Message& out, uint32_t report_unix);

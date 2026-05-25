@@ -168,7 +168,6 @@ struct Mt44Decoded {
 //  0=undefined  1=EEW  2=Hypocenter  3=Seismic intensity  4=Nankai trough
 //  5=Tsunami  6=NW Pacific Tsunami  8=Volcano  9=Ash fall
 //  10=Weather  11=Flood  12=Typhoon  14=Marine
-//  (Stored in Message::disaster_category)
 
 // ---- repeating record structs (up to 8 each) ---------------------------
 
@@ -210,34 +209,14 @@ struct NwPacTsunamiEntry {
     uint8_t    region_code;    // qzss_dcr_jma_coastal_region_en (7 bits)
 };
 
-// ---- main message struct -----------------------------------------------
+// ---- MT=43 Data (QZQSM / DC Report) ------------------------------------
 
-struct Message {
-    // ---- common --------------------------------------------------------
-    uint8_t  svid;
-    uint8_t  msg_type;    // 43=QZQSM/MT43  44=DCX/MT44
-    uint32_t crc24;
-    bool     valid;
-
-    // ---- MT=44 DCX / CAMF (IS-QZSS-DCX-003) ----------------------------
-    Mt44ServiceKind service_kind;
-    bool            is_null_message;
-
-    Mt44Sd          sd;
-    Mt44CamfRaw     camf;
-    TimeFields      onset_time;
-
-    ExtendedKind        ex_kind;
-    Mt44ExLAlertOrLocal ex_lalert_local;
-    Mt44ExJAlert        ex_jalert;
-    Mt44ExOutside       ex_outside;
-
+struct Mt43Data {
     // ---- MT=43 outer frame (IS-QZSS-DCR-016 §5.1) -----------------------
     uint8_t  report_classification;  // bits [14..16]  3 bits
     uint8_t  disaster_category;      // bits [17..20]  4 bits
     uint8_t  information_type;       // bits [41..42]  2 bits
     TimeFields event_time;           // bits [25..40]: day(5)+hour(5)+min(6)
-    // version bits [214..219] = 1 (checked by decoder)
 
     // ---- EEW  (disaster_category == 1) ----------------------------------
     uint8_t  eew_long_period_lower;  // [47..49]  3 bits
@@ -325,8 +304,49 @@ struct Message {
     // ---- Marine  (disaster_category == 14) ------------------------------
     MarineEntry      marine_entries[8];
     uint8_t          marine_count;
+};
 
-    // ---- MT=44 Decoded (populated after decodeDcx) ------------------------
+// ---- MT=44 Data (DCX / CAMF) -------------------------------------------
+
+struct Mt44Data {
+    Mt44ServiceKind service_kind;
+    bool            is_null_message;
+
+    Mt44Sd          sd;
+    Mt44CamfRaw     camf;
+    TimeFields      onset_time;
+
+    ExtendedKind        ex_kind;
+    Mt44ExLAlertOrLocal ex_lalert_local;
+    Mt44ExJAlert        ex_jalert;
+    Mt44ExOutside       ex_outside;
+
     Mt44Decoded      mt44_decoded;
+};
+
+// ---- Message payload type tag ------------------------------------------
+
+enum class MsgPayloadType : uint8_t {
+    Empty,
+    Mt43,
+    Mt44
+};
+
+// ---- main message struct (Tagged Union) --------------------------------
+
+struct Message {
+    // ---- common --------------------------------------------------------
+    uint8_t  svid;
+    uint8_t  msg_type;    // 43=QZQSM/MT43  44=DCX/MT44
+    uint32_t crc24;
+    bool     valid;
+
+    // ---- payload (tagged union) ---------------------------------------
+    // IMPORTANT: Always set payload_type before accessing union members
+    MsgPayloadType payload_type;
+    union {
+        Mt43Data mt43;
+        Mt44Data mt44;
+    };
 };
 } // namespace azaraC

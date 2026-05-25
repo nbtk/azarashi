@@ -102,8 +102,8 @@ double decodeAzimuth7(uint8_t code) {
 // J-Alert EX9 decoding
 // ---------------------------------------------------------------------------
 
-std::vector<uint8_t> decodePrefectureBitmask(uint64_t ex9) {
-    std::vector<uint8_t> positions;
+uint8_t decodePrefectureBitmask(uint64_t ex9, uint8_t* out_positions) {
+    uint8_t count = 0;
 
     // EX9 bit layout for prefecture (EX8=0):
     // Bits 0..46: prefecture codes (bit 0 = Hokkaido, bit 46 = Okinawa)
@@ -116,15 +116,15 @@ std::vector<uint8_t> decodePrefectureBitmask(uint64_t ex9) {
     for (uint8_t i = 0; i < 47; ++i) {
         if (ex9 & (1ULL << i)) {
             // Convert bit index to prefecture position (47 - i)
-            positions.push_back(47 - i);
+            out_positions[count++] = 47 - i;
         }
     }
 
-    return positions;
+    return count;
 }
 
-std::vector<uint16_t> decodeCityCodeList(uint64_t ex9) {
-    std::vector<uint16_t> codes;
+uint8_t decodeCityCodeList(uint64_t ex9, uint16_t* out_codes) {
+    uint8_t count = 0;
 
     // EX9 bit layout for cities/towns/villages (EX8=1):
     // Four 16-bit city/town/village codes
@@ -136,12 +136,13 @@ std::vector<uint16_t> decodeCityCodeList(uint64_t ex9) {
     for (uint8_t i = 0; i < 4; ++i) {
         uint16_t code = static_cast<uint16_t>((ex9 >> (i * 16)) & 0xFFFF);
         if (code != 0) {
-            codes.push_back(code);
+            out_codes[count++] = code;
         }
     }
 
-    return codes;
+    return count;
 }
+
 
 } // namespace internal
 } // namespace azaraC

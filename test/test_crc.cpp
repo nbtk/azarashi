@@ -117,8 +117,9 @@ TEST_CASE("MT=44 field extraction on synthetic frame") {
     bool ok = dec.decode(f, msg);
     REQUIRE(ok);
     CHECK(msg.msg_type == 44);
-    CHECK(msg.service_kind == Mt44ServiceKind::JAlert);
-    CHECK(msg.camf.a1 == 1);
-    CHECK(msg.camf.a2 == 111);
-    CHECK(msg.camf.a3 == 2);
+    CHECK(msg.payload_type == MsgPayloadType::Mt44);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::JAlert);
+    CHECK(msg.mt44.camf.a1 == 1);
+    CHECK(msg.mt44.camf.a2 == 111);
+    CHECK(msg.mt44.camf.a3 == 2);
 }

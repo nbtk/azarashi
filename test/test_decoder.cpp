@@ -88,28 +88,29 @@ TEST_CASE("decodeEEW: 基本的なEEWメッセージのデコード") {
 
     // デコーダ呼び出し
     uint32_t now_unix = 1704067200u; // 2024-01-01 00:00:00
-    msg.disaster_category = 1; // decodeEEWはカテゴリをセットしないため手動設定
+    msg.payload_type = MsgPayloadType::Mt43;
+    msg.mt43.disaster_category = 1; // decodeEEWはカテゴリをセットしないため手動設定
     TestDecoderEx::testDecodeEEW(bits, msg, now_unix);
 
     // 結果の検証
-    CHECK(msg.disaster_category == 1);
-    CHECK(msg.eew_long_period_lower == 3);
-    CHECK(msg.eew_long_period_upper == 5);
-    CHECK(msg.eew_notification_count == 2);
-    CHECK(msg.eew_notification[0] == 100);
-    CHECK(msg.eew_notification[1] == 200);
-    CHECK(msg.eew_quake_time.day == 15);
-    CHECK(msg.eew_quake_time.hour == 10);
-    CHECK(msg.eew_quake_time.minute == 30);
-    CHECK(msg.eew_depth == 50);
-    CHECK(msg.eew_magnitude == 65);
-    CHECK(msg.eew_epicenter == 25);
-    CHECK(msg.eew_intensity_lower == 3);
-    CHECK(msg.eew_intensity_upper == 7);
-    CHECK(msg.eew_region_count == 3);
-    CHECK(msg.eew_regions[0] == 1);
-    CHECK(msg.eew_regions[1] == 5);
-    CHECK(msg.eew_regions[2] == 10);
+    CHECK(msg.mt43.disaster_category == 1);
+    CHECK(msg.mt43.eew_long_period_lower == 3);
+    CHECK(msg.mt43.eew_long_period_upper == 5);
+    CHECK(msg.mt43.eew_notification_count == 2);
+    CHECK(msg.mt43.eew_notification[0] == 100);
+    CHECK(msg.mt43.eew_notification[1] == 200);
+    CHECK(msg.mt43.eew_quake_time.day == 15);
+    CHECK(msg.mt43.eew_quake_time.hour == 10);
+    CHECK(msg.mt43.eew_quake_time.minute == 30);
+    CHECK(msg.mt43.eew_depth == 50);
+    CHECK(msg.mt43.eew_magnitude == 65);
+    CHECK(msg.mt43.eew_epicenter == 25);
+    CHECK(msg.mt43.eew_intensity_lower == 3);
+    CHECK(msg.mt43.eew_intensity_upper == 7);
+    CHECK(msg.mt43.eew_region_count == 3);
+    CHECK(msg.mt43.eew_regions[0] == 1);
+    CHECK(msg.mt43.eew_regions[1] == 5);
+    CHECK(msg.mt43.eew_regions[2] == 10);
 }
 
 // ── MT=44 DCX テストヘルパー ───────────────────────────────────────────────
@@ -179,19 +180,20 @@ TEST_CASE("decodeDcx: L-Alert メッセージのデコード") {
     Message msg = decodeDcxHelper(bits);
 
     CHECK(msg.valid == true);
-    CHECK(msg.service_kind == Mt44ServiceKind::LAlert);
-    CHECK(msg.is_null_message == false);
-    CHECK(msg.ex_kind == ExtendedKind::LAlertOrLocal);
-    CHECK(msg.sd.sdmt == 0);
-    CHECK(msg.sd.sdm == 0x1FF);
-    CHECK(msg.camf.a1 == 1);        // Alert
-    CHECK(msg.camf.a2 == 111);      // Japan
-    CHECK(msg.camf.a3 == 1);        // FMMC
-    CHECK(msg.camf.a4 == 10);       // Hazard
-    CHECK(msg.camf.a5 == 3);        // Severity
-    CHECK(msg.camf.a11 == 1);       // Guidance
-    CHECK(msg.ex_lalert_local.ex1 == 1100);  // 札幌市
-    CHECK(msg.ex_lalert_local.vn == 1);
+    CHECK(msg.payload_type == MsgPayloadType::Mt44);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::LAlert);
+    CHECK(msg.mt44.is_null_message == false);
+    CHECK(msg.mt44.ex_kind == ExtendedKind::LAlertOrLocal);
+    CHECK(msg.mt44.sd.sdmt == 0);
+    CHECK(msg.mt44.sd.sdm == 0x1FF);
+    CHECK(msg.mt44.camf.a1 == 1);        // Alert
+    CHECK(msg.mt44.camf.a2 == 111);      // Japan
+    CHECK(msg.mt44.camf.a3 == 1);        // FMMC
+    CHECK(msg.mt44.camf.a4 == 10);       // Hazard
+    CHECK(msg.mt44.camf.a5 == 3);        // Severity
+    CHECK(msg.mt44.camf.a11 == 1);       // Guidance
+    CHECK(msg.mt44.ex_lalert_local.ex1 == 1100);  // 札幌市
+    CHECK(msg.mt44.ex_lalert_local.vn == 1);
 }
 
 TEST_CASE("decodeDcx: J-Alert メッセージのデコード") {
@@ -237,14 +239,15 @@ TEST_CASE("decodeDcx: J-Alert メッセージのデコード") {
     Message msg = decodeDcxHelper(bits);
 
     CHECK(msg.valid == true);
-    CHECK(msg.service_kind == Mt44ServiceKind::JAlert);
-    CHECK(msg.is_null_message == false);
-    CHECK(msg.ex_kind == ExtendedKind::JAlert);
-    CHECK(msg.camf.a2 == 111);      // Japan
-    CHECK(msg.camf.a3 == 2);        // FDMA
-    CHECK(msg.ex_jalert.ex8 == 0);  // prefecture code
-    CHECK(msg.ex_jalert.ex9 == 3);  // Hokkaido + Aomori
-    CHECK(msg.ex_jalert.vn == 1);
+    CHECK(msg.payload_type == MsgPayloadType::Mt44);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::JAlert);
+    CHECK(msg.mt44.is_null_message == false);
+    CHECK(msg.mt44.ex_kind == ExtendedKind::JAlert);
+    CHECK(msg.mt44.camf.a2 == 111);      // Japan
+    CHECK(msg.mt44.camf.a3 == 2);        // FDMA
+    CHECK(msg.mt44.ex_jalert.ex8 == 0);  // prefecture code
+    CHECK(msg.mt44.ex_jalert.ex9 == 3);  // Hokkaido + Aomori
+    CHECK(msg.mt44.ex_jalert.vn == 1);
 }
 
 TEST_CASE("decodeDcx: Local Government メッセージのデコード") {
@@ -299,18 +302,19 @@ TEST_CASE("decodeDcx: Local Government メッセージのデコード") {
     Message msg = decodeDcxHelper(bits);
 
     CHECK(msg.valid == true);
-    CHECK(msg.service_kind == Mt44ServiceKind::LocalGovernment);
-    CHECK(msg.is_null_message == false);
-    CHECK(msg.ex_kind == ExtendedKind::LAlertOrLocal);
-    CHECK(msg.camf.a3 == 4);        // Local Government
-    CHECK(msg.ex_lalert_local.ex1 == 1100);
-    CHECK(msg.ex_lalert_local.ex2 == 1);    // Head to area
-    CHECK(msg.ex_lalert_local.ex3 == 91522);
-    CHECK(msg.ex_lalert_local.ex4 == 68950);
-    CHECK(msg.ex_lalert_local.ex5 == 13);
-    CHECK(msg.ex_lalert_local.ex6 == 11);
-    CHECK(msg.ex_lalert_local.ex7 == 96);
-    CHECK(msg.ex_lalert_local.vn == 1);
+    CHECK(msg.payload_type == MsgPayloadType::Mt44);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::LocalGovernment);
+    CHECK(msg.mt44.is_null_message == false);
+    CHECK(msg.mt44.ex_kind == ExtendedKind::LAlertOrLocal);
+    CHECK(msg.mt44.camf.a3 == 4);        // Local Government
+    CHECK(msg.mt44.ex_lalert_local.ex1 == 1100);
+    CHECK(msg.mt44.ex_lalert_local.ex2 == 1);    // Head to area
+    CHECK(msg.mt44.ex_lalert_local.ex3 == 91522);
+    CHECK(msg.mt44.ex_lalert_local.ex4 == 68950);
+    CHECK(msg.mt44.ex_lalert_local.ex5 == 13);
+    CHECK(msg.mt44.ex_lalert_local.ex6 == 11);
+    CHECK(msg.mt44.ex_lalert_local.ex7 == 96);
+    CHECK(msg.mt44.ex_lalert_local.vn == 1);
 }
 
 TEST_CASE("decodeDcx: Outside Japan メッセージのデコード") {
@@ -355,17 +359,18 @@ TEST_CASE("decodeDcx: Outside Japan メッセージのデコード") {
     Message msg = decodeDcxHelper(bits);
 
     CHECK(msg.valid == true);
-    CHECK(msg.service_kind == Mt44ServiceKind::OutsideJapan);
-    CHECK(msg.is_null_message == false);
-    CHECK(msg.ex_kind == ExtendedKind::OutsideJapan);
-    CHECK(msg.camf.a2 == 32);       // Australia
-    CHECK(msg.ex_outside.vn == 5);
+    CHECK(msg.payload_type == MsgPayloadType::Mt44);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::OutsideJapan);
+    CHECK(msg.mt44.is_null_message == false);
+    CHECK(msg.mt44.ex_kind == ExtendedKind::OutsideJapan);
+    CHECK(msg.mt44.camf.a2 == 32);       // Australia
+    CHECK(msg.mt44.ex_outside.vn == 5);
     // EX11 raw data の検証
     for (int i = 0; i < 8; ++i) {
-        CHECK(msg.ex_outside.ex11_raw[i] == 0xAB);
+        CHECK(msg.mt44.ex_outside.ex11_raw[i] == 0xAB);
     }
     // 9バイト目の上位4ビットを検証（0xF0）
-    CHECK((msg.ex_outside.ex11_raw[8] & 0xF0) == 0xF0);
+    CHECK((msg.mt44.ex_outside.ex11_raw[8] & 0xF0) == 0xF0);
 }
 
 
@@ -406,8 +411,9 @@ TEST_CASE("decodeDcx: NULL Message のデコード") {
     Message msg = decodeDcxHelper(bits);
 
     CHECK(msg.valid == true);
-    CHECK(msg.service_kind == Mt44ServiceKind::NullMessage);
-    CHECK(msg.is_null_message == true);
+    CHECK(msg.payload_type == MsgPayloadType::Mt44);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::NullMessage);
+    CHECK(msg.mt44.is_null_message == true);
 }
 
 TEST_CASE("decodeDcx: 未知の A3 値は破棄される") {
@@ -452,13 +458,14 @@ TEST_CASE("decodeHypocenter: 震源情報のデコード") {
     REQUIRE(dec.decode(frame, msg, 0));
 
     CHECK(msg.valid == true);
-    CHECK(msg.disaster_category == 2);
-    CHECK(msg.hypo_depth == 40);
-    CHECK(msg.hypo_magnitude == 64);
-    CHECK(msg.hypo_epicenter == 791);
-    CHECK(msg.hypo_quake_time.day == 7);
-    CHECK(msg.hypo_quake_time.hour == 4);
-    CHECK(msg.hypo_quake_time.minute == 5);
+    CHECK(msg.payload_type == MsgPayloadType::Mt43);
+    CHECK(msg.mt43.disaster_category == 2);
+    CHECK(msg.mt43.hypo_depth == 40);
+    CHECK(msg.mt43.hypo_magnitude == 64);
+    CHECK(msg.mt43.hypo_epicenter == 791);
+    CHECK(msg.mt43.hypo_quake_time.day == 7);
+    CHECK(msg.mt43.hypo_quake_time.hour == 4);
+    CHECK(msg.mt43.hypo_quake_time.minute == 5);
 }
 TEST_CASE("decodeTsunami: 津波情報のデコード") {
     Message msg{};
@@ -475,16 +482,17 @@ TEST_CASE("decodeTsunami: 津波情報のデコード") {
     REQUIRE(dec.decode(frame, msg, 0));
 
     CHECK(msg.valid == true);
-    CHECK(msg.disaster_category == 5);
-    CHECK(msg.tsunami_warning_code == 3);
-    REQUIRE(msg.tsunami_count >= 3);
+    CHECK(msg.payload_type == MsgPayloadType::Mt43);
+    CHECK(msg.mt43.disaster_category == 5);
+    CHECK(msg.mt43.tsunami_warning_code == 3);
+    REQUIRE(msg.mt43.tsunami_count >= 3);
     // Actual decoded values from the test vector
-    CHECK(msg.tsunamis[0].height_code == 4);
-    CHECK(msg.tsunamis[1].height_code == 4);
-    CHECK(msg.tsunamis[2].height_code == 4);
-    CHECK(msg.tsunamis[0].region_code == 65);
-    CHECK(msg.tsunamis[1].region_code == 65);
-    CHECK(msg.tsunamis[2].region_code == 65);
+    CHECK(msg.mt43.tsunamis[0].height_code == 4);
+    CHECK(msg.mt43.tsunamis[1].height_code == 4);
+    CHECK(msg.mt43.tsunamis[2].height_code == 4);
+    CHECK(msg.mt43.tsunamis[0].region_code == 65);
+    CHECK(msg.mt43.tsunamis[1].region_code == 65);
+    CHECK(msg.mt43.tsunamis[2].region_code == 65);
 }
 TEST_CASE("decodeVolcano: 火山情報のデコード") {
     Message msg{};
@@ -501,7 +509,8 @@ TEST_CASE("decodeVolcano: 火山情報のデコード") {
     REQUIRE(dec.decode(frame, msg, 0));
 
     CHECK(msg.valid == true);
-    CHECK(msg.disaster_category == 8);
-    CHECK(msg.vol_warning_code == 52);
-    CHECK(msg.vol_volcano_name == 503);
+    CHECK(msg.payload_type == MsgPayloadType::Mt43);
+    CHECK(msg.mt43.disaster_category == 8);
+    CHECK(msg.mt43.vol_warning_code == 52);
+    CHECK(msg.mt43.vol_volcano_name == 503);
 }

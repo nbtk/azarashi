@@ -39,18 +39,19 @@ void JsonSerializer::serialize(const Message& msg, Print& out) {
         serializeDcx(msg, out);
 
     } else if (msg.msg_type == 43) {
-        wf_u(out, "report_classification", msg.report_classification);
+        const Mt43Data& d = msg.mt43;
+        wf_u(out, "report_classification", d.report_classification);
         wf_s(out, "report_classification_label",
-            qzss_dcr_jma_report_classification_lookup(msg.report_classification));
-        wf_u(out, "disaster_category", msg.disaster_category);
+            qzss_dcr_jma_report_classification_lookup(d.report_classification));
+        wf_u(out, "disaster_category", d.disaster_category);
         wf_s(out, "disaster_category_label",
-            qzss_dcr_jma_disaster_category_lookup(msg.disaster_category));
-        wf_u(out, "information_type", msg.information_type);
+            qzss_dcr_jma_disaster_category_lookup(d.disaster_category));
+        wf_u(out, "information_type", d.information_type);
         wf_s(out, "information_type_label",
-            qzss_dcr_jma_information_type_lookup(msg.information_type));
-        writeDHM(out, "report_time", msg.event_time);
+            qzss_dcr_jma_information_type_lookup(d.information_type));
+        writeDHM(out, "report_time", d.event_time);
         wk(out, "detail"); out.print('{');
-        switch (msg.disaster_category) {
+        switch (d.disaster_category) {
             case  1: serializeEEW       (msg, out); break;
             case  2: serializeHypocenter(msg, out); break;
             case  3: serializeSeismic   (msg, out); break;

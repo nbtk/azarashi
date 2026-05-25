@@ -14,10 +14,11 @@ namespace internal {
 // ---------------------------------------------------------------------------
 void serializeDcx(const Message& m, Print& out) {
     using namespace azaraC::def;
-    wf_u(out, "dcx_type", (uint32_t)static_cast<uint8_t>(m.service_kind));
+    const Mt44Data& d = m.mt44;
+    wf_u(out, "dcx_type", (uint32_t)static_cast<uint8_t>(d.service_kind));
 
     std::string_view dcx_label = "UNKNOWN";
-    switch (m.service_kind) {
+    switch (d.service_kind) {
         case Mt44ServiceKind::NullMessage:     dcx_label = "NULL"; break;
         case Mt44ServiceKind::LAlert:          dcx_label = "L_ALERT"; break;
         case Mt44ServiceKind::JAlert:          dcx_label = "J_ALERT"; break;
@@ -28,41 +29,41 @@ void serializeDcx(const Message& m, Print& out) {
     wf_s(out, "dcx_type_label", dcx_label);
 
     wf_s(out, "a1_msg_type",
-        qzss_dcx_camf_a1_message_type_lookup(m.camf.a1));
-    wf_u(out, "a2_country", m.camf.a2);
+        qzss_dcx_camf_a1_message_type_lookup(d.camf.a1));
+    wf_u(out, "a2_country", d.camf.a2);
     wf_s(out, "a2_country_label",
-        qzss_dcx_camf_a2_country_region_name_lookup(m.camf.a2));
-    wf_u(out, "a3_provider", m.camf.a3);
+        qzss_dcx_camf_a2_country_region_name_lookup(d.camf.a2));
+    wf_u(out, "a3_provider", d.camf.a3);
     wf_s(out, "a3_provider_label",
-        qzss_dcx_camf_a3_provider_identifier_lookup(m.camf.a2, m.camf.a3));
-    wf_u(out, "a4_hazard", m.camf.a4);
+        qzss_dcx_camf_a3_provider_identifier_lookup(d.camf.a2, d.camf.a3));
+    wf_u(out, "a4_hazard", d.camf.a4);
     wf_s(out, "a4_hazard_category",
-        qzss_dcx_camf_a4_hazard_category_lookup(m.camf.a4));
+        qzss_dcx_camf_a4_hazard_category_lookup(d.camf.a4));
     wf_s(out, "a4_hazard_type",
-        qzss_dcx_camf_a4_hazard_type_lookup(m.camf.a4));
-    wf_u(out, "a5_severity", m.camf.a5);
+        qzss_dcx_camf_a4_hazard_type_lookup(d.camf.a4));
+    wf_u(out, "a5_severity", d.camf.a5);
     wf_s(out, "a5_severity_label",
-        qzss_dcx_camf_a5_severity_lookup(m.camf.a5));
-    wf_u(out, "a6_onset_week", m.camf.a6);
-    wf_u(out, "a7_onset_minute", m.camf.a7);
-    wf_u(out, "a8_duration", m.camf.a8);
+        qzss_dcx_camf_a5_severity_lookup(d.camf.a5));
+    wf_u(out, "a6_onset_week", d.camf.a6);
+    wf_u(out, "a7_onset_minute", d.camf.a7);
+    wf_u(out, "a8_duration", d.camf.a8);
     wf_s(out, "a8_duration_label",
-        qzss_dcx_camf_a8_hazard_duration_lookup(m.camf.a8));
-    writeDHM(out, "onset_time", m.onset_time);
+        qzss_dcx_camf_a8_hazard_duration_lookup(d.camf.a8));
+    writeDHM(out, "onset_time", d.onset_time);
 
     // A11 Guidance to react library
-    wf_u(out, "a11_guidance", m.camf.a11);
+    wf_u(out, "a11_guidance", d.camf.a11);
     wf_s(out, "a11_guidance_label",
-        qzss_dcx_camf_a11_japanese_library_ja_lookup(m.camf.a11));
+        qzss_dcx_camf_a11_japanese_library_ja_lookup(d.camf.a11));
 
     // A17/A18 Specific Settings
-    wf_u(out, "a17_specific_subject", m.camf.a17);
+    wf_u(out, "a17_specific_subject", d.camf.a17);
     wf_s(out, "a17_specific_subject_label",
-        qzss_dcx_camf_a17_main_subject_for_specific_settings_lookup(m.camf.a17));
-    wf_u(out, "a18_specific_settings", m.camf.a18);
+        qzss_dcx_camf_a17_main_subject_for_specific_settings_lookup(d.camf.a17));
+    wf_u(out, "a18_specific_settings", d.camf.a18);
 
     // Decoded main ellipse (A12-A16)
-    const Mt44Decoded& dec = m.mt44_decoded;
+    const Mt44Decoded& dec = d.mt44_decoded;
     if (dec.main_ellipse_present) {
         wk(out, "main_ellipse");
         out.print('{');
@@ -76,10 +77,10 @@ void serializeDcx(const Message& m, Print& out) {
     }
 
     // Extended Message fields
-    if (m.ex_kind == ExtendedKind::LAlertOrLocal) {
-        wf_u(out, "ex1_target_area", m.ex_lalert_local.ex1);
+    if (d.ex_kind == ExtendedKind::LAlertOrLocal) {
+        wf_u(out, "ex1_target_area", d.ex_lalert_local.ex1);
         wf_s(out, "ex1_target_area_label",
-            qzss_dcx_ex1_target_area_code_ja_lookup(m.ex_lalert_local.ex1));
+            qzss_dcx_ex1_target_area_code_ja_lookup(d.ex_lalert_local.ex1));
 
         // Decoded target area code (when main ellipse is absent)
         if (dec.target_area_code_present) {
@@ -102,9 +103,9 @@ void serializeDcx(const Message& m, Print& out) {
             out.print('}');
             writeChar(out, ',');
         }
-        wf_u(out, "ex_vn", m.ex_lalert_local.vn);
-    } else if (m.ex_kind == ExtendedKind::JAlert) {
-        wf_u(out, "ex8_area_type", m.ex_jalert.ex8);
+        wf_u(out, "ex_vn", d.ex_lalert_local.vn);
+    } else if (d.ex_kind == ExtendedKind::JAlert) {
+        wf_u(out, "ex8_area_type", d.ex_jalert.ex8);
 
         // Decoded J-Alert target area
         wk(out, "jalert_target");
@@ -150,15 +151,15 @@ void serializeDcx(const Message& m, Print& out) {
         }
         out.print('}');
         writeChar(out, ',');
-        wf_u(out, "ex_vn", m.ex_jalert.vn);
-    } else if (m.ex_kind == ExtendedKind::OutsideJapan) {
+        wf_u(out, "ex_vn", d.ex_jalert.vn);
+    } else if (d.ex_kind == ExtendedKind::OutsideJapan) {
         // EX11 raw data (68 bits) - output as hex string
         char ex11_hex[19];
         for (int i = 0; i < 9; ++i) {
-            snprintf(ex11_hex + i * 2, 3, "%02X", m.ex_outside.ex11_raw[i]);
+            snprintf(ex11_hex + i * 2, 3, "%02X", d.ex_outside.ex11_raw[i]);
         }
         wf_s(out, "ex11_raw", ex11_hex);
-        wf_u(out, "ex_vn", m.ex_outside.vn);
+        wf_u(out, "ex_vn", d.ex_outside.vn);
     }
 
     // Alert identity
@@ -171,8 +172,8 @@ void serializeDcx(const Message& m, Print& out) {
     out.print('}');
     writeChar(out, ',');
 
-    wf_u(out, "sd_sdmt", m.sd.sdmt);
-    wf_u(out, "sd_sdm", m.sd.sdm, /*last=*/true);
+    wf_u(out, "sd_sdmt", d.sd.sdmt);
+    wf_u(out, "sd_sdm", d.sd.sdm, /*last=*/true);
 }
 
 } // namespace internal

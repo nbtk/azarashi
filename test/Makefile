@@ -2,8 +2,18 @@
 CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -g -MMD -MP
 
+# OS detection
+ifeq ($(OS),Windows_NT)
+  TEST_BIN   = run_tests.exe
+  RUN_PREFIX =
+  RM         = del /F /Q
+else
+  TEST_BIN   = run_tests
+  RUN_PREFIX = ./
+  RM         = rm -f
+endif
+
 # Test executable
-TEST_BIN = run_tests.exe
 
 # Test sources
 TEST_SRCS = \
@@ -58,8 +68,8 @@ $(TEST_BIN): $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 run: all
-	$(TEST_BIN)
+	$(RUN_PREFIX)$(TEST_BIN)
 
 -include $(OBJS:.o=.d)
 clean:
-	del /F /Q $(TEST_BIN) *.o test_crc *.d 2>nul || exit 0
+	$(RM) $(TEST_BIN) *.o test_crc *.d

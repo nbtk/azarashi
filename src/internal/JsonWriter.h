@@ -20,6 +20,7 @@ namespace internal {
 // ---------------------------------------------------------------------------
 void writeChar(Print& out, char c);
 void writeUint32(Print& out, uint32_t v);
+void writeUint64(Print& out, uint64_t v);
 void writeDouble(Print& out, double v, int precision = 3);
 void writeStr(Print& out, std::string_view s);
 void writeOptStr(Print& out, std::optional<std::string_view> s);

@@ -4,7 +4,6 @@
 // Based on IS-QZSS-DCX-003
 
 #include <cstdint>
-#include <vector>
 
 namespace azaraC {
 namespace internal {
@@ -46,12 +45,13 @@ double decodeAzimuth7(uint8_t code);
 // ---------------------------------------------------------------------------
 
 // Decode EX9 as prefecture bitmask (EX8=0)
-// Returns vector of prefecture bit positions (1-47) that are set
-std::vector<uint8_t> decodePrefectureBitmask(uint64_t ex9);
+// Fills out_positions array (must be at least 47 bytes) and returns the number of written positions.
+uint8_t decodePrefectureBitmask(uint64_t ex9, uint8_t* out_positions);
 
 // Decode EX9 as city/town/village code list (EX8=1)
-// Returns up to 4 codes
-std::vector<uint16_t> decodeCityCodeList(uint64_t ex9);
+// Fills out_codes array (must be at least 4 elements) and returns the number of written codes.
+uint8_t decodeCityCodeList(uint64_t ex9, uint16_t* out_codes);
 
 } // namespace internal
 } // namespace azaraC
+

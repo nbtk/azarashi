@@ -18,6 +18,9 @@
 azaraC::Parser  parser;
 azaraC::Message msg;
 
+// UBX-NAV-PVT メッセージ等から取得した最新のUNIX時刻をキャッシュする変数
+uint32_t cached_gnss_unix_time = 0;
+
 void setup() {
     Serial.begin(115200);
     while (!Serial) { delay(10); }
@@ -30,11 +33,13 @@ void loop() {
     while (Serial1.available()) {
         uint8_t b = static_cast<uint8_t>(Serial1.read());
 
-        // (Optional) Pass current UNIX time to resolve absolute timestamps
-        // uint32_t now = (uint32_t)time(nullptr);
-        uint32_t now = 0;
+        // UBX-NAV-PVT 等を別途パースして時刻が更新されたら、
+        // cached_gnss_unix_time = ... と更新する想定。
 
-        if (parser.feed(b, msg, now)) {
+        // 第3引数 now_unix に最新の時刻を渡すことで、DCR/DCX電文の「年」を正確に算出できます。
+        // 未同期時 (now_unix = 0) の場合、年は解決されませんが、
+        // 電文の生データ (月・日・時・分) は正しく取得・出力されます。
+        if (parser.feed(b, msg, cached_gnss_unix_time)) {
             azaraC::toJson(msg, Serial);
             Serial.println();
         }

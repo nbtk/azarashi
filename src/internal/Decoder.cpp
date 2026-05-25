@@ -45,6 +45,18 @@ uint32_t Decoder::getBits(const uint8_t* buf, uint16_t start, uint8_t len) {
 }
 
 // ---------------------------------------------------------------------------
+// 64-bit bit extraction (MSB-first, 0-indexed) — for fields > 32 bits
+// ---------------------------------------------------------------------------
+uint64_t Decoder::getBits64(const uint8_t* buf, uint16_t start, uint8_t len) {
+    uint64_t val = 0;
+    for (uint8_t i = 0; i < len; ++i) {
+        uint16_t pos = start + i;
+        val = (val << 1) | ((buf[pos >> 3] >> (7u - (pos & 7u))) & 1u);
+    }
+    return val;
+}
+
+// ---------------------------------------------------------------------------
 // Signed bit extraction (two's complement, MSB-first)
 // ---------------------------------------------------------------------------
 int32_t Decoder::getSignedBits(const uint8_t* buf, uint16_t start, uint8_t len) {
@@ -119,10 +131,11 @@ TimeFields Decoder::extractDHM(const uint8_t* buf, uint16_t start, uint32_t repo
     return resolveTime(0, d, h, m, report_unix);
 }
 
-// Resolve time using report_time as baseline (azarashi-compatible).
-// report_unix: UNIX time of the report (month/day/hour/minute from message)
-//   - If > 0: use as baseline for year/month resolution
-//   - If == 0: use fixed baseline (2024-01-01) for backward compatibility
+// Resolve time using report_time as baseline.
+// report_unix: UNIX time from GPS module (recommended) or SNTP
+//   - If >= 2000-01-01 (946684800): use as baseline for year/month resolution
+//   - If < 2000-01-01: return with unix_time = 0 (unresolved)
+// GPS time is preferred for Arduino/ESP32 targets where internal RTC is unreliable.
 TimeFields Decoder::resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint32_t report_unix) {
     TimeFields t{month, day, hour, minute, 0};
     // Basic sanity
@@ -131,14 +144,12 @@ TimeFields Decoder::resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_
         return t;
     }
 
-    uint32_t base_unix;
-    if (report_unix > 0) {
-        // Use report_time as baseline (azarashi-compatible)
-        base_unix = report_unix;
-    } else {
-        // Fallback to fixed baseline for backward compatibility
-        base_unix = 1704067200u; // 2024-01-01
+    // Skip year resolution if baseline is invalid or uninitialized (e.g. before 2000-01-01)
+    if (report_unix < 946684800u) {
+        return t; // unix_time remains 0
     }
+
+    uint32_t base_unix = report_unix;
 
     uint32_t base_days = base_unix / 86400u;
     uint32_t y, m, d;
@@ -176,13 +187,20 @@ TimeFields Decoder::resolveTime(uint8_t month, uint8_t day, uint8_t hour, uint8_
 // ---------------------------------------------------------------------------
 TimeFields Decoder::resolveArrivalTime(uint16_t raw, uint32_t base_unix) {
     TimeFields t{};
-    if (raw == 0 || base_unix == 0) return t;
+    if (raw == 0) return t;
 
     uint8_t next = (raw >> 11) & 1;
     uint8_t hour = (raw >>  6) & 0x1F;
     uint8_t min  = raw & 0x3F;
 
     if (hour > 23 || min > 59) return t;
+
+    // Skip year/month resolution if base_unix is invalid (e.g. before 2000-01-01)
+    if (base_unix < 946684800u) {
+        t.hour = hour;
+        t.minute = min;
+        return t; // unix_time, month, day remain 0 (unresolved)
+    }
 
     uint32_t base_days = base_unix / 86400u;
     uint32_t arrival_days = base_days + next;
@@ -213,7 +231,7 @@ uint8_t Decoder::readNotifications(const uint8_t* b, uint16_t start, uint16_t* n
 // ---------------------------------------------------------------------------
 // Main decode entry
 // ---------------------------------------------------------------------------
-bool Decoder::decode(const Frame& frame, Message& out, uint32_t now_unix) {
+bool Decoder::decode(const Frame& frame, Message& out, uint32_t report_unix) {
     const uint8_t* bits = frame.bits;
 
     // L1S subframe: CRC-24Q covers bits [0..225], CRC stored at [226..249]
@@ -225,6 +243,7 @@ bool Decoder::decode(const Frame& frame, Message& out, uint32_t now_unix) {
     out.svid    = frame.svid;
     out.crc24   = recv;
     out.valid   = false;
+    out.payload_type = MsgPayloadType::Empty;
 
     uint8_t preamble = getBits(bits, 0, 8);
     if (preamble != 0x53 && preamble != 0x9A && preamble != 0xC6) return false;  // IS-QZSS-L1S §3.2.4
@@ -232,8 +251,8 @@ bool Decoder::decode(const Frame& frame, Message& out, uint32_t now_unix) {
     uint8_t mt = getBits(bits, 8, 6);
     out.msg_type = mt;
 
-    if      (mt == 44) return decodeDcx(bits, out, now_unix);
-    else if (mt == 43) return decodeQzqsm(bits, out, now_unix);
+    if      (mt == 44) return decodeDcx(bits, out, report_unix);
+    else if (mt == 43) return decodeQzqsm(bits, out, report_unix);
     return false;
 }
 

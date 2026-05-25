@@ -80,26 +80,26 @@ TEST_CASE("decodeTyphoon: 合成フレームでの基本動作") {
     TestDecoderTM::testDecodeTyphoon(bits, msg, 1704067200u);
 
     // 結果を検証
-    CHECK(msg.typh_ref_type == 1);
-    CHECK(msg.typh_elapsed == 24);
-    CHECK(msg.typh_number == 5);
-    CHECK(msg.typh_scale == 3);
-    CHECK(msg.typh_intensity == 2);
+    CHECK(msg.mt43.typh_ref_type == 1);
+    CHECK(msg.mt43.typh_elapsed == 24);
+    CHECK(msg.mt43.typh_number == 5);
+    CHECK(msg.mt43.typh_scale == 3);
+    CHECK(msg.mt43.typh_intensity == 2);
 
     // LatLon 検証
-    CHECK(msg.typh_coords.lat_ns == 0);
-    CHECK(msg.typh_coords.lat_deg == 25);
-    CHECK(msg.typh_coords.lat_min == 30);
-    CHECK(msg.typh_coords.lat_sec == 0);
-    CHECK(msg.typh_coords.lon_ew == 0);
-    CHECK(msg.typh_coords.lon_deg == 130);
-    CHECK(msg.typh_coords.lon_min == 15);
-    CHECK(msg.typh_coords.lon_sec == 0);
+    CHECK(msg.mt43.typh_coords.lat_ns == 0);
+    CHECK(msg.mt43.typh_coords.lat_deg == 25);
+    CHECK(msg.mt43.typh_coords.lat_min == 30);
+    CHECK(msg.mt43.typh_coords.lat_sec == 0);
+    CHECK(msg.mt43.typh_coords.lon_ew == 0);
+    CHECK(msg.mt43.typh_coords.lon_deg == 130);
+    CHECK(msg.mt43.typh_coords.lon_min == 15);
+    CHECK(msg.mt43.typh_coords.lon_sec == 0);
 
     // Pressure / Wind / Gust 検証
-    CHECK(msg.typh_pressure == 980);
-    CHECK(msg.typh_max_wind == 35);
-    CHECK(msg.typh_max_gust == 50);
+    CHECK(msg.mt43.typh_pressure == 980);
+    CHECK(msg.mt43.typh_max_wind == 35);
+    CHECK(msg.mt43.typh_max_gust == 50);
 }
 
 TEST_CASE("decodeTyphoon: 南緯・西経の検証") {
@@ -130,19 +130,19 @@ TEST_CASE("decodeTyphoon: 南緯・西経の検証") {
     TestDecoderTM::testDecodeTyphoon(bits, msg, 1704067200u);
 
     // LatLon 検証
-    CHECK(msg.typh_coords.lat_ns == 1);
-    CHECK(msg.typh_coords.lat_deg == 10);
-    CHECK(msg.typh_coords.lat_min == 0);
-    CHECK(msg.typh_coords.lat_sec == 0);
-    CHECK(msg.typh_coords.lon_ew == 1);
-    CHECK(msg.typh_coords.lon_deg == 140);
-    CHECK(msg.typh_coords.lon_min == 0);
-    CHECK(msg.typh_coords.lon_sec == 0);
+    CHECK(msg.mt43.typh_coords.lat_ns == 1);
+    CHECK(msg.mt43.typh_coords.lat_deg == 10);
+    CHECK(msg.mt43.typh_coords.lat_min == 0);
+    CHECK(msg.mt43.typh_coords.lat_sec == 0);
+    CHECK(msg.mt43.typh_coords.lon_ew == 1);
+    CHECK(msg.mt43.typh_coords.lon_deg == 140);
+    CHECK(msg.mt43.typh_coords.lon_min == 0);
+    CHECK(msg.mt43.typh_coords.lon_sec == 0);
 
     // Pressure / Wind / Gust 検証
-    CHECK(msg.typh_pressure == 950);
-    CHECK(msg.typh_max_wind == 45);
-    CHECK(msg.typh_max_gust == 60);
+    CHECK(msg.mt43.typh_pressure == 950);
+    CHECK(msg.mt43.typh_max_wind == 45);
+    CHECK(msg.mt43.typh_max_gust == 60);
 }
 
 TEST_CASE("decodeTyphoon: ゼロ値の検証") {
@@ -156,17 +156,17 @@ TEST_CASE("decodeTyphoon: ゼロ値の検証") {
     TestDecoderTM::testDecodeTyphoon(bits, msg, 1704067200u);
 
     // すべてゼロであることを検証
-    CHECK(msg.typh_coords.lat_ns == 0);
-    CHECK(msg.typh_coords.lat_deg == 0);
-    CHECK(msg.typh_coords.lat_min == 0);
-    CHECK(msg.typh_coords.lat_sec == 0);
-    CHECK(msg.typh_coords.lon_ew == 0);
-    CHECK(msg.typh_coords.lon_deg == 0);
-    CHECK(msg.typh_coords.lon_min == 0);
-    CHECK(msg.typh_coords.lon_sec == 0);
-    CHECK(msg.typh_pressure == 0);
-    CHECK(msg.typh_max_wind == 0);
-    CHECK(msg.typh_max_gust == 0);
+    CHECK(msg.mt43.typh_coords.lat_ns == 0);
+    CHECK(msg.mt43.typh_coords.lat_deg == 0);
+    CHECK(msg.mt43.typh_coords.lat_min == 0);
+    CHECK(msg.mt43.typh_coords.lat_sec == 0);
+    CHECK(msg.mt43.typh_coords.lon_ew == 0);
+    CHECK(msg.mt43.typh_coords.lon_deg == 0);
+    CHECK(msg.mt43.typh_coords.lon_min == 0);
+    CHECK(msg.mt43.typh_coords.lon_sec == 0);
+    CHECK(msg.mt43.typh_pressure == 0);
+    CHECK(msg.mt43.typh_max_wind == 0);
+    CHECK(msg.mt43.typh_max_gust == 0);
 }
 
 TEST_CASE("decodeMarine: 合成フレームでの基本動作") {
@@ -184,12 +184,12 @@ TEST_CASE("decodeMarine: 合成フレームでの基本動作") {
 
     TestDecoderTM::testDecodeMarine(bits, msg);
 
-    CHECK(msg.marine_count == 2);
-    if (msg.marine_count >= 2) {
-        CHECK(msg.marine_entries[0].warning_code == 3);
-        CHECK(msg.marine_entries[0].region_code == 100);
-        CHECK(msg.marine_entries[1].warning_code == 5);
-        CHECK(msg.marine_entries[1].region_code == 200);
+    CHECK(msg.mt43.marine_count == 2);
+    if (msg.mt43.marine_count >= 2) {
+        CHECK(msg.mt43.marine_entries[0].warning_code == 3);
+        CHECK(msg.mt43.marine_entries[0].region_code == 100);
+        CHECK(msg.mt43.marine_entries[1].warning_code == 5);
+        CHECK(msg.mt43.marine_entries[1].region_code == 200);
     }
 }
 
@@ -207,9 +207,9 @@ TEST_CASE("decodeMarine: 最大エントリ数の検証") {
     TestDecoderTM::testDecodeMarine(bits, msg);
 
     // marine_countは最大8になるはず
-    CHECK(msg.marine_count <= 8);
-    if (msg.marine_count == 8) {
-        CHECK(msg.marine_entries[7].warning_code == 8);
-        CHECK(msg.marine_entries[7].region_code == 1007);
+    CHECK(msg.mt43.marine_count <= 8);
+    if (msg.mt43.marine_count == 8) {
+        CHECK(msg.mt43.marine_entries[7].warning_code == 8);
+        CHECK(msg.mt43.marine_entries[7].region_code == 1007);
     }
 }

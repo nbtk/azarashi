@@ -19,6 +19,13 @@ void writeUint32(Print& out, uint32_t v) {
     out.print(buf + i);
 }
 
+void writeUint64(Print& out, uint64_t v) {
+    char buf[21]; int8_t i = 20; buf[i] = '\0';
+    if (v == 0) { out.print('0'); return; }
+    while (v) { buf[--i] = '0' + (v % 10); v /= 10; }
+    out.print(buf + i);
+}
+
 // Write double with fixed precision (for coordinates, distances)
 void writeDouble(Print& out, double v, int precision) {
     if (v < 0) {
@@ -31,9 +38,9 @@ void writeDouble(Print& out, double v, int precision) {
     for (int i = 0; i < precision; ++i) round_off /= 10.0;
     v += round_off;
 
-    // Integer part
-    int64_t int_part = (int64_t)v;
-    writeUint32(out, (uint32_t)int_part);
+    // Integer part - use uint64_t to avoid truncation for large values
+    uint64_t int_part = (uint64_t)v;
+    writeUint64(out, int_part);
     out.print('.');
     // Fractional part
     double frac = v - (double)int_part;
@@ -45,8 +52,35 @@ void writeDouble(Print& out, double v, int precision) {
     }
 }
 
+// Write a JSON-escaped string (used for both keys and values)
+static void writeEscaped(Print& out, std::string_view s) {
+    for (size_t i = 0; i < s.size(); ++i) {
+        uint8_t c = static_cast<uint8_t>(s[i]);
+        switch (c) {
+            case '"':  out.print("\\\""); break;
+            case '\\': out.print("\\\\"); break;
+            case '\b': out.print("\\b");  break;
+            case '\f': out.print("\\f");  break;
+            case '\n': out.print("\\n");  break;
+            case '\r': out.print("\\r");  break;
+            case '\t': out.print("\\t");  break;
+            default:
+                if (c < 0x20) {
+                    // Control characters: use \u00XX
+                    char buf[7];
+                    snprintf(buf, sizeof(buf), "\\u%04x", c);
+                    out.print(buf);
+                } else {
+                    // Printable ASCII and UTF-8 bytes pass through
+                    out.print(static_cast<char>(c));
+                }
+                break;
+        }
+    }
+}
+
 void writeStr(Print& out, std::string_view s) {
-    out.print('"'); if (!s.empty()) out.write(s.data(), s.size()); out.print('"');
+    out.print('"'); writeEscaped(out, s); out.print('"');
 }
 
 void writeOptStr(Print& out, std::optional<std::string_view> s) {
@@ -63,7 +97,7 @@ void writeHex(Print& out, uint8_t v) {
 
 // key: "foo":
 void wk(Print& out, std::string_view k) {
-    writeChar(out, '"'); if (!k.empty()) out.write(k.data(), k.size()); out.print("\":");
+    out.print('"'); writeEscaped(out, k); out.print("\":");
 }
 
 // "key":value,
