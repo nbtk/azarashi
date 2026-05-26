@@ -429,7 +429,7 @@ qzss_dcx_camf_d29_outage_estimated_duration = QzssDcrDefinition(
         0: '0 < duration < 30 min',
         1: '30 min ≤ duration < 45 min',
         2: '45 min ≤ duration < 1 h',
-        3: '1 h ≤ duration < 1h 30 min',
+        3: '1 h ≤ duration < 1 h 30 min',
         4: '1 h 30 min ≤ duration < 2 h',
         5: '2 h ≤ duration < 3 h',
         6: '3 h ≤ duration < 4 h',
