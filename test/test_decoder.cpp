@@ -2,6 +2,7 @@
 #define ARDUINO 0
 #include "../src/azaraC.h"
 #include "../src/internal/Decoder.h"
+#include "../src/internal/DcxHelper.h"
 #include "../src/internal/NmeaFramer.h"
 #include "doctest.h"
 #include <cstring>
@@ -94,23 +95,23 @@ TEST_CASE("decodeEEW: 基本的なEEWメッセージのデコード") {
 
     // 結果の検証
     CHECK(msg.mt43.disaster_category == 1);
-    CHECK(msg.mt43.eew_long_period_lower == 3);
-    CHECK(msg.mt43.eew_long_period_upper == 5);
-    CHECK(msg.mt43.eew_notification_count == 2);
-    CHECK(msg.mt43.eew_notification[0] == 100);
-    CHECK(msg.mt43.eew_notification[1] == 200);
-    CHECK(msg.mt43.eew_quake_time.day == 15);
-    CHECK(msg.mt43.eew_quake_time.hour == 10);
-    CHECK(msg.mt43.eew_quake_time.minute == 30);
-    CHECK(msg.mt43.eew_depth == 50);
-    CHECK(msg.mt43.eew_magnitude == 65);
-    CHECK(msg.mt43.eew_epicenter == 25);
-    CHECK(msg.mt43.eew_intensity_lower == 3);
-    CHECK(msg.mt43.eew_intensity_upper == 7);
-    CHECK(msg.mt43.eew_region_count == 3);
-    CHECK(msg.mt43.eew_regions[0] == 1);
-    CHECK(msg.mt43.eew_regions[1] == 5);
-    CHECK(msg.mt43.eew_regions[2] == 10);
+    CHECK(msg.mt43.eew.long_period_lower == 3);
+    CHECK(msg.mt43.eew.long_period_upper == 5);
+    CHECK(msg.mt43.eew.notification_count == 2);
+    CHECK(msg.mt43.eew.notification[0] == 100);
+    CHECK(msg.mt43.eew.notification[1] == 200);
+    CHECK(msg.mt43.eew.quake_time.day == 15);
+    CHECK(msg.mt43.eew.quake_time.hour == 10);
+    CHECK(msg.mt43.eew.quake_time.minute == 30);
+    CHECK(msg.mt43.eew.depth == 50);
+    CHECK(msg.mt43.eew.magnitude == 65);
+    CHECK(msg.mt43.eew.epicenter == 25);
+    CHECK(msg.mt43.eew.intensity_lower == 3);
+    CHECK(msg.mt43.eew.intensity_upper == 7);
+    CHECK(msg.mt43.eew.region_count == 3);
+    CHECK(msg.mt43.eew.regions[0] == 1);
+    CHECK(msg.mt43.eew.regions[1] == 5);
+    CHECK(msg.mt43.eew.regions[2] == 10);
 }
 
 // ── MT=44 DCX テストヘルパー ───────────────────────────────────────────────
@@ -416,7 +417,7 @@ TEST_CASE("decodeDcx: NULL Message のデコード") {
     CHECK(msg.mt44.is_null_message == true);
 }
 
-TEST_CASE("decodeDcx: 未知の A3 値は破棄される") {
+TEST_CASE("decodeDcx: 未知の A3 値は破棄されるが SD は維持される") {
     uint8_t bits[32] = {};
 
     // PAB=0x53, MT=44
@@ -437,8 +438,11 @@ TEST_CASE("decodeDcx: 未知の A3 値は破棄される") {
 
     Message msg = decodeDcxHelper(bits);
 
-    // 未知の A3 は false を返す (valid = false)
-    CHECK(msg.valid == false);
+    // IS-QZSS-DCX-003 §5.7: 未知の A3 は本文破棄となるが SD は処理されるため valid=true
+    CHECK(msg.valid == true);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::Unknown);
+    CHECK(msg.mt44.sd.sdmt == 0);
+    CHECK(msg.mt44.sd.sdm == 0x1FF);
 }
 
 
@@ -460,12 +464,12 @@ TEST_CASE("decodeHypocenter: 震源情報のデコード") {
     CHECK(msg.valid == true);
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 2);
-    CHECK(msg.mt43.hypo_depth == 40);
-    CHECK(msg.mt43.hypo_magnitude == 64);
-    CHECK(msg.mt43.hypo_epicenter == 791);
-    CHECK(msg.mt43.hypo_quake_time.day == 7);
-    CHECK(msg.mt43.hypo_quake_time.hour == 4);
-    CHECK(msg.mt43.hypo_quake_time.minute == 5);
+    CHECK(msg.mt43.hypo.depth == 40);
+    CHECK(msg.mt43.hypo.magnitude == 64);
+    CHECK(msg.mt43.hypo.epicenter == 791);
+    CHECK(msg.mt43.hypo.quake_time.day == 7);
+    CHECK(msg.mt43.hypo.quake_time.hour == 4);
+    CHECK(msg.mt43.hypo.quake_time.minute == 5);
 }
 TEST_CASE("decodeTsunami: 津波情報のデコード") {
     Message msg{};
@@ -484,15 +488,15 @@ TEST_CASE("decodeTsunami: 津波情報のデコード") {
     CHECK(msg.valid == true);
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 5);
-    CHECK(msg.mt43.tsunami_warning_code == 3);
-    REQUIRE(msg.mt43.tsunami_count >= 3);
+    CHECK(msg.mt43.tsunami.warning_code == 3);
+    REQUIRE(msg.mt43.tsunami.count >= 3);
     // Actual decoded values from the test vector
-    CHECK(msg.mt43.tsunamis[0].height_code == 4);
-    CHECK(msg.mt43.tsunamis[1].height_code == 4);
-    CHECK(msg.mt43.tsunamis[2].height_code == 4);
-    CHECK(msg.mt43.tsunamis[0].region_code == 65);
-    CHECK(msg.mt43.tsunamis[1].region_code == 65);
-    CHECK(msg.mt43.tsunamis[2].region_code == 65);
+    CHECK(msg.mt43.tsunami.entries[0].height_code == 4);
+    CHECK(msg.mt43.tsunami.entries[1].height_code == 4);
+    CHECK(msg.mt43.tsunami.entries[2].height_code == 4);
+    CHECK(msg.mt43.tsunami.entries[0].region_code == 65);
+    CHECK(msg.mt43.tsunami.entries[1].region_code == 65);
+    CHECK(msg.mt43.tsunami.entries[2].region_code == 65);
 }
 TEST_CASE("decodeVolcano: 火山情報のデコード") {
     Message msg{};
@@ -511,6 +515,69 @@ TEST_CASE("decodeVolcano: 火山情報のデコード") {
     CHECK(msg.valid == true);
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 8);
-    CHECK(msg.mt43.vol_warning_code == 52);
-    CHECK(msg.mt43.vol_volcano_name == 503);
+    CHECK(msg.mt43.vol.warning_code == 52);
+    CHECK(msg.mt43.vol.volcano_name == 503);
+}
+
+// ── decodePrefectureBitmask 単体テスト ───────────────────────────────────────
+
+TEST_CASE("decodePrefectureBitmask: 仕様書例（北海道・青森・岩手）") {
+    // IS-QZSS-DCX-003 §4.2.4.2.2 の例: 0b111 → Hokkaido, Aomori, Iwate
+    // 47-bit integer = 7, EX9 64-bit = 7 << 17 = 0x000E0000
+    uint64_t ex9 = (uint64_t)7 << 17;
+    uint8_t positions[47] = {};
+    uint8_t count = azaraC::internal::decodePrefectureBitmask(ex9, positions);
+
+    CHECK(count == 3);
+    CHECK(positions[0] == 1);   // 北海道
+    CHECK(positions[1] == 2);   // 青森県
+    CHECK(positions[2] == 3);   // 岩手県
+}
+
+TEST_CASE("decodePrefectureBitmask: 沖縄のみ（MSB）") {
+    // Okinawa = bit 46 of 47-bit integer = ex9 bit 63
+    uint64_t ex9 = (uint64_t)1 << 63;
+    uint8_t positions[47] = {};
+    uint8_t count = azaraC::internal::decodePrefectureBitmask(ex9, positions);
+
+    CHECK(count == 1);
+    CHECK(positions[0] == 47);  // 沖縄県
+}
+
+TEST_CASE("decodePrefectureBitmask: 全都道府県（全ビット=1）") {
+    // All 47 bits set: 47-bit all-ones = (1ULL<<47)-1, shifted to ex9[63:17]
+    uint64_t ex9 = ((1ULL << 47) - 1) << 17;
+    uint8_t positions[47] = {};
+    uint8_t count = azaraC::internal::decodePrefectureBitmask(ex9, positions);
+
+    CHECK(count == 47);
+    CHECK(positions[0] == 1);   // 北海道
+    CHECK(positions[46] == 47); // 沖縄県
+}
+
+TEST_CASE("decodePrefectureBitmask: 空（ゼロ）") {
+    uint64_t ex9 = 0;
+    uint8_t positions[47] = {};
+    uint8_t count = azaraC::internal::decodePrefectureBitmask(ex9, positions);
+
+    CHECK(count == 0);
+}
+
+TEST_CASE("decodePrefectureBitmask: ビット17だけ設定（北海道）") {
+    // ex9 bit 17 = 47-bit integer bit 0 = Hokkaido
+    uint64_t ex9 = (uint64_t)1 << 17;
+    uint8_t positions[47] = {};
+    uint8_t count = azaraC::internal::decodePrefectureBitmask(ex9, positions);
+
+    CHECK(count == 1);
+    CHECK(positions[0] == 1);  // 北海道
+}
+
+TEST_CASE("decodePrefectureBitmask: reservedビットは無視される") {
+    // ex9 bits [16:0] は reserved で、prefecture として検出されない
+    uint64_t ex9 = (uint64_t)0xFFFF;  // bits [16:0] = all 1s
+    uint8_t positions[47] = {};
+    uint8_t count = azaraC::internal::decodePrefectureBitmask(ex9, positions);
+
+    CHECK(count == 0);
 }

@@ -28,7 +28,9 @@ TEST_SRCS = \
 	test_ublox.cpp \
 	test_decoder.cpp \
 	test_typhoon_marine.cpp \
-	test_coverage.cpp
+	test_coverage.cpp \
+	test_dcx_helper.cpp \
+	test_dedup.cpp
 
 # Library sources
 LIB_SRCS = \
@@ -72,4 +74,4 @@ run: all
 
 -include $(OBJS:.o=.d)
 clean:
-	$(RM) $(TEST_BIN) *.o test_crc *.d
+	-$(RM) $(TEST_BIN) *.o *.exe *.d

@@ -55,90 +55,89 @@ static void decode_and_print(const char* name, const char* nmea) {
         return;
     }
 
-    printf("msg_type: %u, disaster_category: %u\n", msg.msg_type, msg.disaster_category);
+    printf("msg_type: %u, disaster_category: %u\n", msg.msg_type, msg.mt43.disaster_category);
 
-    switch (msg.disaster_category) {
+    switch (msg.mt43.disaster_category) {
         case 1: // EEW
-            printf("  eew_long_period_lower: %u\n", msg.eew_long_period_lower);
-            printf("  eew_long_period_upper: %u\n", msg.eew_long_period_upper);
-            printf("  eew_notification_count: %u\n", msg.eew_notification_count);
+            printf("  eew_long_period_lower: %u\n", msg.mt43.eew.long_period_lower);
+            printf("  eew_long_period_upper: %u\n", msg.mt43.eew.long_period_upper);
+            printf("  eew_notification_count: %u\n", msg.mt43.eew.notification_count);
             printf("  eew_quake_time: day=%u hour=%u minute=%u\n",
-                   msg.eew_quake_time.day, msg.eew_quake_time.hour, msg.eew_quake_time.minute);
-            printf("  eew_depth: %u\n", msg.eew_depth);
-            printf("  eew_magnitude: %u\n", msg.eew_magnitude);
-            printf("  eew_epicenter: %u\n", msg.eew_epicenter);
-            printf("  eew_intensity_lower: %u\n", msg.eew_intensity_lower);
-            printf("  eew_intensity_upper: %u\n", msg.eew_intensity_upper);
-            printf("  eew_region_count: %u\n", msg.eew_region_count);
+                   msg.mt43.eew.quake_time.day, msg.mt43.eew.quake_time.hour, msg.mt43.eew.quake_time.minute);
+            printf("  eew_depth: %u\n", msg.mt43.eew.depth);
+            printf("  eew_magnitude: %u\n", msg.mt43.eew.magnitude);
+            printf("  eew_epicenter: %u\n", msg.mt43.eew.epicenter);
+            printf("  eew_intensity_lower: %u\n", msg.mt43.eew.intensity_lower);
+            printf("  eew_intensity_upper: %u\n", msg.mt43.eew.intensity_upper);
+            printf("  eew_region_count: %u\n", msg.mt43.eew.region_count);
             break;
         case 2: // Hypocenter
-            printf("  hypo_notification_count: %u\n", msg.hypo_notification_count);
+            printf("  hypo_notification_count: %u\n", msg.mt43.hypo.notification_count);
             printf("  hypo_quake_time: day=%u hour=%u minute=%u\n",
-                   msg.hypo_quake_time.day, msg.hypo_quake_time.hour, msg.hypo_quake_time.minute);
-            printf("  hypo_depth: %u\n", msg.hypo_depth);
-            printf("  hypo_magnitude: %u\n", msg.hypo_magnitude);
-            printf("  hypo_epicenter: %u\n", msg.hypo_epicenter);
+                   msg.mt43.hypo.quake_time.day, msg.mt43.hypo.quake_time.hour, msg.mt43.hypo.quake_time.minute);
+            printf("  hypo_depth: %u\n", msg.mt43.hypo.depth);
+            printf("  hypo_magnitude: %u\n", msg.mt43.hypo.magnitude);
+            printf("  hypo_epicenter: %u\n", msg.mt43.hypo.epicenter);
             printf("  hypo_coords: lat_ns=%u lat_deg=%u lat_min=%u lat_sec=%u lon_ew=%u lon_deg=%u lon_min=%u lon_sec=%u\n",
-                   msg.hypo_coords.lat_ns, msg.hypo_coords.lat_deg, msg.hypo_coords.lat_min, msg.hypo_coords.lat_sec,
-                   msg.hypo_coords.lon_ew, msg.hypo_coords.lon_deg, msg.hypo_coords.lon_min, msg.hypo_coords.lon_sec);
+                   msg.mt43.hypo.coords.lat_ns, msg.mt43.hypo.coords.lat_deg, msg.mt43.hypo.coords.lat_min, msg.mt43.hypo.coords.lat_sec,
+                   msg.mt43.hypo.coords.lon_ew, msg.mt43.hypo.coords.lon_deg, msg.mt43.hypo.coords.lon_min, msg.mt43.hypo.coords.lon_sec);
             break;
         case 3: // Seismic Intensity
-            printf("  seis_count: %u\n", msg.seis_count);
-            for (int i = 0; i < msg.seis_count; i++) {
+            printf("  seis_count: %u\n", msg.mt43.seis.count);
+            for (int i = 0; i < msg.mt43.seis.count; i++) {
                 printf("    [%d] intensity_code=%u prefecture_code=%u\n",
-                       i, msg.seis_entries[i].intensity_code, msg.seis_entries[i].prefecture_code);
+                       i, msg.mt43.seis.entries[i].intensity_code, msg.mt43.seis.entries[i].prefecture_code);
             }
             break;
         case 5: // Tsunami
-            printf("  tsunami_warning_code: %u\n", msg.tsunami_warning_code);
-            printf("  tsunami_count: %u\n", msg.tsunami_count);
-            for (int i = 0; i < msg.tsunami_count; i++) {
+            printf("  tsunami_warning_code: %u\n", msg.mt43.tsunami.warning_code);
+            printf("  tsunami_count: %u\n", msg.mt43.tsunami.count);
+            for (int i = 0; i < msg.mt43.tsunami.count; i++) {
                 printf("    [%d] region_code=%u height_code=%u arrival_time_raw=%u\n",
-                       i, msg.tsunamis[i].region_code, msg.tsunamis[i].height_code,
-                       msg.tsunamis[i].arrival_time_raw);
+                       i, msg.mt43.tsunami.entries[i].region_code, msg.mt43.tsunami.entries[i].height_code,
+                       msg.mt43.tsunami.entries[i].arrival_time_raw);
                 printf("         arrival_time: day=%u hour=%u minute=%u\n",
-                       msg.tsunamis[i].arrival_time.day, msg.tsunamis[i].arrival_time.hour,
-                       msg.tsunamis[i].arrival_time.minute);
+                       msg.mt43.tsunami.entries[i].arrival_time.day, msg.mt43.tsunami.entries[i].arrival_time.hour,
+                       msg.mt43.tsunami.entries[i].arrival_time.minute);
             }
             break;
         case 6: // NW Pacific Tsunami
-            printf("  nw_pac_potential: %u\n", msg.nw_pac_potential);
-            printf("  nw_pac_count: %u\n", msg.nw_pac_count);
+            printf("  nw_pac_potential: %u\n", msg.mt43.nw_pac.potential);
+            printf("  nw_pac_count: %u\n", msg.mt43.nw_pac.count);
             break;
         case 8: // Volcano
-            printf("  vol_ambiguity: %u\n", msg.vol_ambiguity);
+            printf("  vol_ambiguity: %u\n", msg.mt43.vol.ambiguity);
             printf("  vol_activity_time: day=%u hour=%u minute=%u\n",
-                   msg.vol_activity_time.day, msg.vol_activity_time.hour, msg.vol_activity_time.minute);
-            printf("  vol_warning_code: %u\n", msg.vol_warning_code);
-            printf("  vol_volcano_name: %u\n", msg.vol_volcano_name);
-            printf("  vol_lg_count: %u\n", msg.vol_lg_count);
+                   msg.mt43.vol.activity_time.day, msg.mt43.vol.activity_time.hour, msg.mt43.vol.activity_time.minute);
+            printf("  vol_warning_code: %u\n", msg.mt43.vol.warning_code);
+            printf("  vol_volcano_name: %u\n", msg.mt43.vol.volcano_name);
+            printf("  vol_lg_count: %u\n", msg.mt43.vol.lg_count);
             break;
         case 9: // Ash Fall
             printf("  ash_activity_time: day=%u hour=%u minute=%u\n",
-                   msg.ash_activity_time.day, msg.ash_activity_time.hour, msg.ash_activity_time.minute);
-            printf("  ash_warning_type: %u\n", msg.ash_warning_type);
-            printf("  ash_volcano_name: %u\n", msg.ash_volcano_name);
-            printf("  ash_count: %u\n", msg.ash_count);
+                   msg.mt43.ash.activity_time.day, msg.mt43.ash.activity_time.hour, msg.mt43.ash.activity_time.minute);
+            printf("  ash_warning_type: %u\n", msg.mt43.ash.warning_type);
+            printf("  ash_volcano_name: %u\n", msg.mt43.ash.volcano_name);
+            printf("  ash_count: %u\n", msg.mt43.ash.count);
             break;
         case 10: // Weather
-            printf("  wx_warning_state: %u\n", msg.wx_warning_state);
-            printf("  wx_count: %u\n", msg.wx_count);
+            printf("  wx_warning_state: %u\n", msg.mt43.wx.warning_state);
+            printf("  wx_count: %u\n", msg.mt43.wx.count);
             break;
         case 11: // Flood
-            printf("  flood_count: %u\n", msg.flood_count);
+            printf("  flood_count: %u\n", msg.mt43.flood.count);
             break;
         case 12: // Typhoon
             printf("  typh_reference_time: day=%u hour=%u minute=%u\n",
-                   msg.typh_reference_time.day, msg.typh_reference_time.hour, msg.typh_reference_time.minute);
-            printf("  typh_ref_type: %u\n", msg.typh_ref_type);
-            printf("  typh_elapsed: %u\n", msg.typh_elapsed);
-            printf("  typh_number: %u\n", msg.typh_number);
-            printf("  typh_scale: %u\n", msg.typh_scale);
-            printf("  typh_intensity: %u\n", msg.typh_intensity);
-            printf("  typh_pos_count: %u\n", msg.typh_pos_count);
+                   msg.mt43.typh.reference_time.day, msg.mt43.typh.reference_time.hour, msg.mt43.typh.reference_time.minute);
+            printf("  typh_ref_type: %u\n", msg.mt43.typh.ref_type);
+            printf("  typh_elapsed: %u\n", msg.mt43.typh.elapsed);
+            printf("  typh_number: %u\n", msg.mt43.typh.number);
+            printf("  typh_scale: %u\n", msg.mt43.typh.scale);
+            printf("  typh_intensity: %u\n", msg.mt43.typh.intensity);
             break;
         case 14: // Marine
-            printf("  marine_count: %u\n", msg.marine_count);
+            printf("  marine_count: %u\n", msg.mt43.marine.count);
             break;
         default:
             printf("  Unknown disaster category\n");

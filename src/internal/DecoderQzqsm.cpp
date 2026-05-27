@@ -2,8 +2,6 @@
 // MT=43 QZQSM / DC Report decoder (IS-QZSS-DCR-016)
 
 #include "Decoder.h"
-#include <cstring>
-#include <cmath>
 
 namespace azaraC {
 namespace internal {
@@ -71,24 +69,24 @@ bool Decoder::decodeQzqsm(const uint8_t* bits, Message& out, uint32_t report_uni
 // ---------------------------------------------------------------------------
 void Decoder::decodeEEW(const uint8_t* b, Message& out, uint32_t report_unix) {
     Mt43Data& d = out.mt43;
-    d.eew_long_period_lower = getBits(b, 47, 3);
-    d.eew_long_period_upper = getBits(b, 50, 3);
+    d.eew.long_period_lower = getBits(b, 47, 3);
+    d.eew.long_period_upper = getBits(b, 50, 3);
 
     // notifications: 3 × 9 bits at [53..79]
-    d.eew_notification_count = readNotifications(b, 53, d.eew_notification);
+    d.eew.notification_count = readNotifications(b, 53, d.eew.notification);
 
-    d.eew_quake_time   = extractDHM(b, 80, report_unix);
-    d.eew_depth        = getBits(b,  96, 9);
-    d.eew_magnitude    = getBits(b, 105, 7);
-    d.eew_epicenter    = getBits(b, 112, 10);
-    d.eew_intensity_lower = getBits(b, 122, 4);
-    d.eew_intensity_upper = getBits(b, 126, 4);
+    d.eew.quake_time   = extractDHM(b, 80, report_unix);
+    d.eew.depth        = getBits(b,  96, 9);
+    d.eew.magnitude    = getBits(b, 105, 7);
+    d.eew.epicenter    = getBits(b, 112, 10);
+    d.eew.intensity_lower = getBits(b, 122, 4);
+    d.eew.intensity_upper = getBits(b, 126, 4);
 
     // EEW forecast regions: 80-bit bitmask at [130..209], bit i set = region (i+1) alerted
-    d.eew_region_count = 0;
-    for (uint8_t i = 0; i < 80 && d.eew_region_count < 80; ++i) {
+    d.eew.region_count = 0;
+    for (uint8_t i = 0; i < 80 && d.eew.region_count < 80; ++i) {
         if (getBits(b, 130 + i, 1)) {
-            d.eew_regions[d.eew_region_count++] = i + 1;
+            d.eew.regions[d.eew.region_count++] = i + 1;
         }
     }
 }
@@ -98,12 +96,12 @@ void Decoder::decodeEEW(const uint8_t* b, Message& out, uint32_t report_unix) {
 // ---------------------------------------------------------------------------
 void Decoder::decodeHypocenter(const uint8_t* b, Message& out, uint32_t report_unix) {
     Mt43Data& d = out.mt43;
-    d.hypo_notification_count = readNotifications(b, 53, d.hypo_notification);
-    d.hypo_quake_time = extractDHM(b,  80, report_unix);
-    d.hypo_depth      = getBits(b,  96, 9);
-    d.hypo_magnitude  = getBits(b, 105, 7);
-    d.hypo_epicenter  = getBits(b, 112, 10);
-    d.hypo_coords     = extractLatLon(b, 122);  // 41 bits
+    d.hypo.notification_count = readNotifications(b, 53, d.hypo.notification);
+    d.hypo.quake_time = extractDHM(b,  80, report_unix);
+    d.hypo.depth      = getBits(b,  96, 9);
+    d.hypo.magnitude  = getBits(b, 105, 7);
+    d.hypo.epicenter  = getBits(b, 112, 10);
+    d.hypo.coords     = extractLatLon(b, 122);  // 41 bits
 }
 
 // ---------------------------------------------------------------------------
@@ -111,17 +109,17 @@ void Decoder::decodeHypocenter(const uint8_t* b, Message& out, uint32_t report_u
 // ---------------------------------------------------------------------------
 void Decoder::decodeSeismic(const uint8_t* b, Message& out, uint32_t report_unix) {
     Mt43Data& d = out.mt43;
-    d.seis_quake_time = extractDHM(b, 53, report_unix);  // day(5)+hour(5)+min(6) at [53]
-    d.seis_count = 0;
+    d.seis.quake_time = extractDHM(b, 53, report_unix);  // day(5)+hour(5)+min(6) at [53]
+    d.seis.count = 0;
     for (uint8_t i = 0; i < 16; ++i) {
         uint16_t off = 69 + i * 9;
         uint8_t es = getBits(b, off,     3);
         uint8_t pl = getBits(b, off + 3, 6);
         if (es == 0 && pl == 0) break;
-        if (d.seis_count < 16) {
-            d.seis_entries[d.seis_count].intensity_code  = es;
-            d.seis_entries[d.seis_count].prefecture_code = pl;
-            ++d.seis_count;
+        if (d.seis.count < 16) {
+            d.seis.entries[d.seis.count].intensity_code  = es;
+            d.seis.entries[d.seis.count].prefecture_code = pl;
+            ++d.seis.count;
         }
     }
 }
@@ -131,12 +129,12 @@ void Decoder::decodeSeismic(const uint8_t* b, Message& out, uint32_t report_unix
 // ---------------------------------------------------------------------------
 void Decoder::decodeNankai(const uint8_t* b, Message& out) {
     Mt43Data& d = out.mt43;
-    d.nankai_info_code   = getBits(b, 53, 4);
-    d.nankai_page        = getBits(b, 201, 6);
-    d.nankai_total_page  = getBits(b, 207, 6);
+    d.nankai.info_code   = getBits(b, 53, 4);
+    d.nankai.page        = getBits(b, 201, 6);
+    d.nankai.total_page  = getBits(b, 207, 6);
     // 18 bytes of text: bits [57..200] = 18×8 = 144 bits
     for (uint8_t i = 0; i < 18; ++i)
-        d.nankai_text[i] = getBits(b, 57 + i * 8, 8);
+        d.nankai.text[i] = getBits(b, 57 + i * 8, 8);
 }
 
 // ---------------------------------------------------------------------------
@@ -146,14 +144,14 @@ void Decoder::decodeNankai(const uint8_t* b, Message& out) {
 void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t report_unix) {
     (void)report_unix; // Used indirectly via d.event_time.unix_time
     Mt43Data& d = out.mt43;
-    d.tsunami_warning_code = getBits(b, 80, 4);
-    d.tsunami_count = 0;
+    d.tsunami.warning_code = getBits(b, 80, 4);
+    d.tsunami.count = 0;
     for (uint8_t i = 0; i < 5; ++i) {
         uint16_t off = 84 + i * 26;
         // Terminal decision by region_code only (IS-QZSS-DCR-016: region_code=0 means end)
         uint16_t region = getBits(b, off, 10);
         if (region == 0) break;
-        TsunamiEntry& e = d.tsunamis[d.tsunami_count++];
+        TsunamiEntry& e = d.tsunami.entries[d.tsunami.count++];
         // region(10) + height(4) + arrival(12)
         e.region_code      = region;
         e.height_code      = getBits(b, off + 10,  4);
@@ -168,14 +166,14 @@ void Decoder::decodeTsunami(const uint8_t* b, Message& out, uint32_t report_unix
 void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t report_unix) {
     (void)report_unix; // Used indirectly via d.event_time.unix_time
     Mt43Data& d = out.mt43;
-    d.nw_pac_potential = getBits(b, 53, 3);
-    d.nw_pac_count = 0;
+    d.nw_pac.potential = getBits(b, 53, 3);
+    d.nw_pac.count = 0;
     for (uint8_t i = 0; i < 5; ++i) {
         uint16_t off = 56 + i * 28;
         // Terminal decision by region_code only (IS-QZSS-DCR-016: region_code=0 means end)
         uint16_t region = getBits(b, off, 7);
         if (region == 0) break;
-        NwPacTsunamiEntry& e = d.nw_pac_tsunamis[d.nw_pac_count++];
+        NwPacTsunamiEntry& e = d.nw_pac.entries[d.nw_pac.count++];
         // region(7) + arrival(12) + height(9)
         e.region_code      = region;
         e.arrival_time_raw = getBits(b, off +  7, 12);
@@ -189,15 +187,15 @@ void Decoder::decodeNwPacTsu(const uint8_t* b, Message& out, uint32_t report_uni
 // ---------------------------------------------------------------------------
 void Decoder::decodeVolcano(const uint8_t* b, Message& out, uint32_t report_unix) {
     Mt43Data& d = out.mt43;
-    d.vol_ambiguity      = getBits(b, 50, 3);
-    d.vol_activity_time  = extractDHM(b, 53, report_unix);
-    d.vol_warning_code   = getBits(b, 69, 7);
-    d.vol_volcano_name   = getBits(b, 76, 12);
-    d.vol_lg_count = 0;
+    d.vol.ambiguity      = getBits(b, 50, 3);
+    d.vol.activity_time  = extractDHM(b, 53, report_unix);
+    d.vol.warning_code   = getBits(b, 69, 7);
+    d.vol.volcano_name   = getBits(b, 76, 12);
+    d.vol.lg_count = 0;
     for (uint8_t i = 0; i < 5; ++i) {
         uint32_t lg = getBits(b, 88 + i * 23, 23);
         if (lg == 0) break;
-        d.vol_local_govs[d.vol_lg_count++] = lg;
+        d.vol.local_govs[d.vol.lg_count++] = lg;
     }
 }
 
@@ -206,17 +204,17 @@ void Decoder::decodeVolcano(const uint8_t* b, Message& out, uint32_t report_unix
 // ---------------------------------------------------------------------------
 void Decoder::decodeAshFall(const uint8_t* b, Message& out, uint32_t report_unix) {
     Mt43Data& d = out.mt43;
-    d.ash_activity_time = extractDHM(b, 53, report_unix);
-    d.ash_warning_type  = getBits(b, 69, 2);
-    d.ash_volcano_name  = getBits(b, 71, 12);
-    d.ash_count = 0;
+    d.ash.activity_time = extractDHM(b, 53, report_unix);
+    d.ash.warning_type  = getBits(b, 69, 2);
+    d.ash.volcano_name  = getBits(b, 71, 12);
+    d.ash.count = 0;
     for (uint8_t i = 0; i < 4; ++i) {
         uint16_t off = 83 + i * 29;
         if (getBits(b, off, 29) == 0) break;
-        d.ash_entries_time[d.ash_count] = getBits(b, off,      3);
-        d.ash_entries_code[d.ash_count] = getBits(b, off +  3, 3);
-        d.ash_entries_lg  [d.ash_count] = getBits(b, off +  6, 23);
-        ++d.ash_count;
+        d.ash.entries_time[d.ash.count] = getBits(b, off,      3);
+        d.ash.entries_code[d.ash.count] = getBits(b, off +  3, 3);
+        d.ash.entries_lg  [d.ash.count] = getBits(b, off +  6, 23);
+        ++d.ash.count;
     }
 }
 
@@ -225,14 +223,14 @@ void Decoder::decodeAshFall(const uint8_t* b, Message& out, uint32_t report_unix
 // ---------------------------------------------------------------------------
 void Decoder::decodeWeather(const uint8_t* b, Message& out) {
     Mt43Data& d = out.mt43;
-    d.wx_warning_state = getBits(b, 53, 3);
-    d.wx_count = 0;
+    d.wx.warning_state = getBits(b, 53, 3);
+    d.wx.count = 0;
     for (uint8_t i = 0; i < 6; ++i) {
         uint16_t off = 56 + i * 24;
         if (getBits(b, off, 24) == 0) break;
-        d.wx_entries[d.wx_count].sub_category = getBits(b, off,      5);
-        d.wx_entries[d.wx_count].region_code  = getBits(b, off +  5, 19);
-        ++d.wx_count;
+        d.wx.entries[d.wx.count].sub_category = getBits(b, off,      5);
+        d.wx.entries[d.wx.count].region_code  = getBits(b, off +  5, 19);
+        ++d.wx.count;
     }
 }
 
@@ -241,19 +239,19 @@ void Decoder::decodeWeather(const uint8_t* b, Message& out) {
 // ---------------------------------------------------------------------------
 void Decoder::decodeFlood(const uint8_t* b, Message& out) {
     Mt43Data& d = out.mt43;
-    d.flood_count = 0;
+    d.flood.count = 0;
     for (uint8_t i = 0; i < 3; ++i) {
         uint16_t off = 53 + i * 44;
         // IS-QZSS-DCR-016: If no object, corresponding Lv and Pl are "0".
         // Region 1 Lv Effective Range is 1-15 (0=unused), so 44-bit zero means no entry.
         // Use getBits64 to safely read all 44 bits (getBits only returns uint32_t).
         if (getBits64(b, off, 44) == 0) break;
-        d.flood_entries[d.flood_count].warning_level = getBits(b, off, 4);
+        d.flood.entries[d.flood.count].warning_level = getBits(b, off, 4);
         // 40-bit region code — read as two 20-bit halves
         uint64_t hi = getBits(b, off +  4, 20);
         uint64_t lo = getBits(b, off + 24, 20);
-        d.flood_entries[d.flood_count].region_code = (hi << 20) | lo;
-        ++d.flood_count;
+        d.flood.entries[d.flood.count].region_code = (hi << 20) | lo;
+        ++d.flood.count;
     }
 }
 
@@ -262,15 +260,15 @@ void Decoder::decodeFlood(const uint8_t* b, Message& out) {
 // ---------------------------------------------------------------------------
 void Decoder::decodeMarine(const uint8_t* b, Message& out) {
     Mt43Data& d = out.mt43;
-    d.marine_count = 0;
+    d.marine.count = 0;
     for (uint8_t i = 0; i < 8; ++i) {
         uint16_t off = 53 + i * 19;
         uint8_t  dw  = getBits(b, off,      5);
         uint16_t pl  = getBits(b, off +  5, 14);
         if (dw == 0 && pl == 0) break;
-        d.marine_entries[d.marine_count].warning_code = dw;
-        d.marine_entries[d.marine_count].region_code  = pl;
-        ++d.marine_count;
+        d.marine.entries[d.marine.count].warning_code = dw;
+        d.marine.entries[d.marine.count].region_code  = pl;
+        ++d.marine.count;
     }
 }
 
@@ -294,25 +292,25 @@ void Decoder::decodeMarine(const uint8_t* b, Message& out) {
 // ---------------------------------------------------------------------------
 void Decoder::decodeTyphoon(const uint8_t* b, Message& out, uint32_t report_unix) {
     Mt43Data& d = out.mt43;
-    d.typh_reference_time = extractDHM(b, 53, report_unix);
-    d.typh_ref_type  = getBits(b,  69, 3);
+    d.typh.reference_time = extractDHM(b, 53, report_unix);
+    d.typh.ref_type  = getBits(b,  69, 3);
     // Skip Spare2 [72..79] (8 bits)
-    d.typh_elapsed   = getBits(b,  80, 7);
-    d.typh_number    = getBits(b,  87, 7);
-    d.typh_scale     = getBits(b,  94, 4);
-    d.typh_intensity = getBits(b,  98, 4);
+    d.typh.elapsed   = getBits(b,  80, 7);
+    d.typh.number    = getBits(b,  87, 7);
+    d.typh.scale     = getBits(b,  94, 4);
+    d.typh.intensity = getBits(b,  98, 4);
 
     // LatLon: 41 bits at [102..142]
-    d.typh_coords = extractLatLon(b, 102);
+    d.typh.coords = extractLatLon(b, 102);
 
     // Central Pressure: 11 bits at [143..153]
-    d.typh_pressure = getBits(b, 143, 11);
+    d.typh.pressure = getBits(b, 143, 11);
 
     // Maximum wind speed: 7 bits at [154..160]
-    d.typh_max_wind = getBits(b, 154, 7);
+    d.typh.max_wind = getBits(b, 154, 7);
 
     // Maximum wind gust speed: 7 bits at [161..167]
-    d.typh_max_gust = getBits(b, 161, 7);
+    d.typh.max_gust = getBits(b, 161, 7);
 }
 
 } // namespace internal

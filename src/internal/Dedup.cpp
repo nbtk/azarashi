@@ -6,8 +6,8 @@ namespace azaraC {
 namespace internal {
 
 bool DedupFilter::isDuplicate(const DedupKey& key) {
-    uint8_t limit = _full ? AZARAC_DEDUP_SLOTS : _head;
-    for (uint8_t i = 0; i < limit; ++i) {
+    uint16_t limit = _full ? AZARAC_DEDUP_SLOTS : _head;
+    for (uint16_t i = 0; i < limit; ++i) {
         const DedupKey& s = _ring[i];
         if (s.svid == key.svid &&
             s.msg_type == key.msg_type &&

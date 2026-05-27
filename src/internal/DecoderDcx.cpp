@@ -3,8 +3,6 @@
 
 #include "Decoder.h"
 #include "DcxHelper.h"
-#include <cstring>
-#include <cmath>
 
 namespace azaraC {
 namespace internal {
@@ -84,9 +82,9 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
         uint32_t unix = gps_onset + 315964800u - 18u;
         d.onset_time.unix_time = unix;
 
-        uint32_t y, m, d2;
-        Decoder::civil_from_days(unix / 86400u, y, m, d2);
-        d.onset_time.day    = d2;
+        uint32_t y, m, day_val;
+        Decoder::civil_from_days(unix / 86400u, y, m, day_val);
+        d.onset_time.day    = day_val;
         d.onset_time.hour   = ((d.camf.a7 - 1u) % 1440u) / 60u;
         d.onset_time.minute = (d.camf.a7 - 1u) % 60u;
     }
@@ -106,8 +104,10 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
             d.service_kind = Mt44ServiceKind::LocalGovernment;
             d.ex_kind = ExtendedKind::LAlertOrLocal;
         } else {
-            // Discard message
-            return false;
+            // Discard message (Keep SD)
+            // The SD field needs to be processed even if the message is discarded (IS-QZSS-DCX-003 §5.7)
+            d.service_kind = Mt44ServiceKind::Unknown;
+            d.ex_kind = ExtendedKind::None;
         }
     }
 
@@ -161,11 +161,6 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
     dec.alert_identity.a3 = d.camf.a3;
     dec.alert_identity.a4 = d.camf.a4;
     dec.alert_identity.ex1 = 0;
-
-    if (d.is_null_message) {
-        out.valid = true;
-        return true;
-    }
 
     // Main ellipse (A12-A16): present if any of A12..A16 is non-zero
     bool has_main_ellipse = (d.camf.a12 != 0 || d.camf.a13 != 0 ||

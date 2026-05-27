@@ -69,17 +69,16 @@ TEST_CASE("decodeTyphoon: 合成フレームでの基本動作") {
     TestDecoderTyphoon::testDecodeTyphoon(bits, msg, 1704067200u);
 
     // 結果を検証
-    CHECK(msg.typh_ref_type == 1);
-    CHECK(msg.typh_elapsed == 24);
-    CHECK(msg.typh_number == 5);
-    CHECK(msg.typh_scale == 3);
-    CHECK(msg.typh_intensity == 2);
-    CHECK(msg.typh_pos_count >= 1);
-    if (msg.typh_pos_count > 0) {
-        // lat_e1 = lat_d * 10 (1度単位を0.1度単位に変換)
-        CHECK(msg.typh_positions[0].lat_e1 == 250);   // 25 * 10
-        CHECK(msg.typh_positions[0].lon_e1 == 1300);  // 130 * 10
-    }
+    CHECK(msg.mt43.typh.ref_type == 1);
+    CHECK(msg.mt43.typh.elapsed == 24);
+    CHECK(msg.mt43.typh.number == 5);
+    CHECK(msg.mt43.typh.scale == 3);
+    CHECK(msg.mt43.typh.intensity == 2);
+    // 座標の検証
+    CHECK(msg.mt43.typh.coords.lat_ns == 0);   // 北緯
+    CHECK(msg.mt43.typh.coords.lat_deg == 25);
+    CHECK(msg.mt43.typh.coords.lon_ew == 0);   // 東経
+    CHECK(msg.mt43.typh.coords.lon_deg == 130);
 }
 
 TEST_CASE("decodeTyphoon: 無効なデータの処理") {

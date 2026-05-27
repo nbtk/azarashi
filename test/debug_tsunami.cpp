@@ -102,17 +102,17 @@ int main() {
     }
 
     printf("\nTsunami Decoded Fields:\n");
-    printf("  tsunami_warning_code: %u\n", msg.tsunami_warning_code);
-    printf("  tsunami_count: %u\n", msg.tsunami_count);
+    printf("  tsunami_warning_code: %u\n", msg.mt43.tsunami.warning_code);
+    printf("  tsunami_count: %u\n", msg.mt43.tsunami.count);
 
-    for (int i = 0; i < msg.tsunami_count; i++) {
+    for (int i = 0; i < msg.mt43.tsunami.count; i++) {
         printf("\n  Entry[%d]:\n", i);
-        printf("    region_code: %u\n", msg.tsunamis[i].region_code);
-        printf("    height_code: %u\n", msg.tsunamis[i].height_code);
+        printf("    region_code: %u\n", msg.mt43.tsunami.entries[i].region_code);
+        printf("    height_code: %u\n", msg.mt43.tsunami.entries[i].height_code);
         printf("    arrival_time_raw: %u (0x%03X)\n",
-               msg.tsunamis[i].arrival_time_raw, msg.tsunamis[i].arrival_time_raw);
+               msg.mt43.tsunami.entries[i].arrival_time_raw, msg.mt43.tsunami.entries[i].arrival_time_raw);
 
-        uint16_t raw = msg.tsunamis[i].arrival_time_raw;
+        uint16_t raw = msg.mt43.tsunami.entries[i].arrival_time_raw;
         uint8_t next = (raw >> 11) & 1;
         uint8_t hour = (raw >> 6) & 0x1F;
         uint8_t min  = raw & 0x3F;

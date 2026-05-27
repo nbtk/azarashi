@@ -28,7 +28,7 @@ public:
 
 private:
     DedupKey _ring[AZARAC_DEDUP_SLOTS] = {};
-    uint8_t  _head = 0;
+    uint16_t _head = 0;
     bool     _full = false;
 };
 

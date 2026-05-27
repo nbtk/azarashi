@@ -2,8 +2,6 @@
 // Common decoder utilities (CRC, bit extraction, time resolution)
 
 #include "Decoder.h"
-#include <cstring>
-#include <cmath>
 
 namespace azaraC {
 namespace internal {

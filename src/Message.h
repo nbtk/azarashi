@@ -211,6 +211,106 @@ struct NwPacTsunamiEntry {
 
 // ---- MT=43 Data (QZQSM / DC Report) ------------------------------------
 
+// ---- disaster_category specific structs ----------------------------------
+
+struct EewData {
+    uint8_t  long_period_lower;  // [47..49]  3 bits
+    uint8_t  long_period_upper;  // [50..52]  3 bits
+    uint16_t notification[3];    // [53..79]  3×9 bits (notification codes, 0=end)
+    uint8_t  notification_count;
+    TimeFields quake_time;       // [80..95]
+    uint16_t depth;              // [96..104]  9 bits (×10 km; 800=深い, 900=不明)
+    uint8_t  magnitude;          // [105..111] 7 bits (×0.1; 100=8.0以上)
+    uint16_t epicenter;          // [112..121] 10 bits
+    uint8_t  intensity_lower;    // [122..125] 4 bits
+    uint8_t  intensity_upper;    // [126..129] 4 bits
+    uint8_t  regions[80];        // [130..209] 80 bits (1 bit per region)
+    uint8_t  region_count;
+};
+
+struct HypocenterData {
+    uint16_t   notification[3];
+    uint8_t    notification_count;
+    TimeFields quake_time;       // [80..95]
+    uint16_t   depth;            // [96..104] 9 bits
+    uint8_t    magnitude;        // [105..111] 7 bits
+    uint16_t   epicenter;        // [112..121] 10 bits
+    LatLon     coords;           // [122..]
+};
+
+struct SeismicData {
+    TimeFields   quake_time;     // [53..68]
+    SeismicEntry entries[16];
+    uint8_t      count;
+};
+
+struct NankaiData {
+    uint8_t info_code;           // [53..56] 4 bits
+    uint8_t text[18];            // [57..200] 18 bytes
+    uint8_t page;                // [201..206] 6 bits
+    uint8_t total_page;          // [207..212] 6 bits
+};
+
+struct TsunamiData {
+    uint8_t      warning_code;   // [80..83]  4 bits
+    TsunamiEntry entries[5];
+    uint8_t      count;
+};
+
+struct NwPacTsunamiData {
+    uint8_t            potential; // [53..55]  3 bits
+    NwPacTsunamiEntry entries[5];
+    uint8_t            count;
+};
+
+struct VolcanoData {
+    uint8_t    ambiguity;        // [50..52]  3 bits
+    TimeFields activity_time;    // [53..68]
+    uint8_t    warning_code;     // [69..75]  7 bits
+    uint16_t   volcano_name;     // [76..87] 12 bits
+    uint32_t   local_govs[5];    // [88..] up to 5×23 bits
+    uint8_t    lg_count;
+};
+
+struct AshFallData {
+    TimeFields activity_time;    // [53..68]
+    uint8_t    warning_type;     // [69..70]  2 bits (1=速報 2=詳細)
+    uint16_t   volcano_name;     // [71..82] 12 bits
+    uint8_t    entries_time[4];  // [83..] ×4: arrival_hour(3)
+    uint8_t    entries_code[4];  // warning_code(3)
+    uint32_t   entries_lg[4];    // local_government(23)
+    uint8_t    count;
+};
+
+struct WeatherData {
+    uint8_t      warning_state;  // [53..55]  3 bits
+    WeatherEntry entries[6];
+    uint8_t      count;
+};
+
+struct FloodData {
+    FloodEntry entries[3];
+    uint8_t    count;
+};
+
+struct TyphoonData {
+    TimeFields reference_time;   // [53..68]  day(5)+hour(5)+min(6)
+    uint8_t    ref_type;         // [69..71]  3 bits (1:Analysis 2:Estimate 3:Forecast)
+    uint8_t    elapsed;          // [80..86]  7 bits (hours)
+    uint8_t    number;           // [87..93]  7 bits
+    uint8_t    scale;            // [94..97]  4 bits
+    uint8_t    intensity;        // [98..101] 4 bits
+    LatLon     coords;           // [102..142] 41 bits
+    uint16_t   pressure;         // [143..153] 11 bits (hPa)
+    uint8_t    max_wind;         // [154..160] 7 bits (m/s)
+    uint8_t    max_gust;         // [161..167] 7 bits (m/s)
+};
+
+struct MarineData {
+    MarineEntry entries[8];
+    uint8_t     count;
+};
+
 struct Mt43Data {
     // ---- MT=43 outer frame (IS-QZSS-DCR-016 §5.1) -----------------------
     uint8_t  report_classification;  // bits [14..16]  3 bits
@@ -218,92 +318,22 @@ struct Mt43Data {
     uint8_t  information_type;       // bits [41..42]  2 bits
     TimeFields event_time;           // bits [25..40]: day(5)+hour(5)+min(6)
 
-    // ---- EEW  (disaster_category == 1) ----------------------------------
-    uint8_t  eew_long_period_lower;  // [47..49]  3 bits
-    uint8_t  eew_long_period_upper;  // [50..52]  3 bits
-    uint16_t eew_notification[3];    // [53..79]  3×9 bits (notification codes, 0=end)
-    uint8_t  eew_notification_count;
-    TimeFields eew_quake_time;       // [80..95]
-    uint16_t eew_depth;              // [96..104]  9 bits (×10 km; 800=深い, 900=不明)
-    uint8_t  eew_magnitude;          // [105..111] 7 bits (×0.1; 100=8.0以上)
-    uint16_t eew_epicenter;          // [112..121] 10 bits
-    uint8_t  eew_intensity_lower;    // [122..125] 4 bits
-    uint8_t  eew_intensity_upper;    // [126..129] 4 bits
-    uint8_t  eew_regions[80];        // [130..209] 80 bits (1 bit per region)
-    uint8_t  eew_region_count;
-
-    // ---- Hypocenter  (disaster_category == 2) ---------------------------
-    uint16_t         hypo_notification[3];
-    uint8_t          hypo_notification_count;
-    TimeFields       hypo_quake_time;         // [80..95]
-    uint16_t         hypo_depth;              // [96..104] 9 bits
-    uint8_t          hypo_magnitude;          // [105..111] 7 bits
-    uint16_t         hypo_epicenter;          // [112..121] 10 bits
-    LatLon           hypo_coords;             // [122..]
-
-    // ---- Seismic Intensity  (disaster_category == 3) --------------------
-    TimeFields       seis_quake_time;         // [53..68]
-    SeismicEntry     seis_entries[16];
-    uint8_t          seis_count;
-
-    // ---- Nankai Trough  (disaster_category == 4) ------------------------
-    uint8_t          nankai_info_code;        // [53..56] 4 bits
-    uint8_t          nankai_text[18];         // [57..200] 18 bytes
-    uint8_t          nankai_page;             // [201..206] 6 bits
-    uint8_t          nankai_total_page;       // [207..212] 6 bits
-
-    // ---- Tsunami  (disaster_category == 5) ------------------------------
-    uint8_t          tsunami_warning_code;    // [80..83]  4 bits
-    TsunamiEntry     tsunamis[5];
-    uint8_t          tsunami_count;
-
-    // ---- NW Pacific Tsunami  (disaster_category == 6) -------------------
-    uint8_t          nw_pac_potential;        // [53..55]  3 bits
-    NwPacTsunamiEntry nw_pac_tsunamis[5];
-    uint8_t          nw_pac_count;
-
-    // ---- Volcano  (disaster_category == 8) ------------------------------
-    uint8_t          vol_ambiguity;           // [50..52]  3 bits
-    TimeFields       vol_activity_time;       // [53..68]
-    uint8_t          vol_warning_code;        // [69..75]  7 bits
-    uint16_t         vol_volcano_name;        // [76..87] 12 bits
-    uint32_t         vol_local_govs[5];       // [88..] up to 5×23 bits
-    uint8_t          vol_lg_count;
-
-    // ---- Ash Fall  (disaster_category == 9) -----------------------------
-    TimeFields       ash_activity_time;       // [53..68]
-    uint8_t          ash_warning_type;        // [69..70]  2 bits (1=速報 2=詳細)
-    uint16_t         ash_volcano_name;        // [71..82] 12 bits
-    uint8_t          ash_entries_time[4];     // [83..] ×4: arrival_hour(3)
-    uint8_t          ash_entries_code[4];     // warning_code(3)
-    uint32_t         ash_entries_lg[4];       // local_government(23)
-    uint8_t          ash_count;
-
-    // ---- Weather  (disaster_category == 10) ------------------------------
-    uint8_t          wx_warning_state;        // [53..55]  3 bits
-    WeatherEntry     wx_entries[6];
-    uint8_t          wx_count;
-
-    // ---- Flood  (disaster_category == 11) -------------------------------
-    FloodEntry       flood_entries[3];
-    uint8_t          flood_count;
-
-    // ---- Typhoon  (disaster_category == 12) -----------------------------
-    // IS-QZSS-DCR-016 Table 4.1.2-47
-    TimeFields       typh_reference_time;     // [53..68]  day(5)+hour(5)+min(6)
-    uint8_t          typh_ref_type;           // [69..71]  3 bits (1:Analysis 2:Estimate 3:Forecast)
-    uint8_t          typh_elapsed;            // [80..86]  7 bits (hours)
-    uint8_t          typh_number;             // [87..93]  7 bits
-    uint8_t          typh_scale;              // [94..97]  4 bits
-    uint8_t          typh_intensity;          // [98..101] 4 bits
-    LatLon           typh_coords;             // [102..142] 41 bits (lat_ns+lat_deg+lat_min+lat_sec+lon_ew+lon_deg+lon_min+lon_sec)
-    uint16_t         typh_pressure;           // [143..153] 11 bits (hPa)
-    uint8_t          typh_max_wind;           // [154..160] 7 bits (m/s)
-    uint8_t          typh_max_gust;           // [161..167] 7 bits (m/s)
-
-    // ---- Marine  (disaster_category == 14) ------------------------------
-    MarineEntry      marine_entries[8];
-    uint8_t          marine_count;
+    // ---- disaster_category specific data (tagged union) ------------------
+    // Access the member matching disaster_category
+    union {
+        EewData          eew;        // disaster_category == 1
+        HypocenterData   hypo;       // disaster_category == 2
+        SeismicData      seis;       // disaster_category == 3
+        NankaiData       nankai;     // disaster_category == 4
+        TsunamiData      tsunami;    // disaster_category == 5
+        NwPacTsunamiData nw_pac;     // disaster_category == 6
+        VolcanoData      vol;        // disaster_category == 8
+        AshFallData      ash;        // disaster_category == 9
+        WeatherData      wx;         // disaster_category == 10
+        FloodData        flood;      // disaster_category == 11
+        TyphoonData      typh;       // disaster_category == 12
+        MarineData       marine;     // disaster_category == 14
+    };
 };
 
 // ---- MT=44 Data (DCX / CAMF) -------------------------------------------
@@ -336,17 +366,43 @@ enum class MsgPayloadType : uint8_t {
 
 struct Message {
     // ---- common --------------------------------------------------------
-    uint8_t  svid;
-    uint8_t  msg_type;    // 43=QZQSM/MT43  44=DCX/MT44
-    uint32_t crc24;
-    bool     valid;
+    uint8_t  svid = 0;
+    uint8_t  msg_type = 0;    // 43=QZQSM/MT43  44=DCX/MT44
+    uint32_t crc24 = 0;
+    bool     valid = false;
 
     // ---- payload (tagged union) ---------------------------------------
     // IMPORTANT: Always set payload_type before accessing union members
-    MsgPayloadType payload_type;
+    MsgPayloadType payload_type = MsgPayloadType::Empty;
     union {
         Mt43Data mt43;
         Mt44Data mt44;
     };
+
+    // ---- default constructor ------------------------------------------
+    // Initializes payload_type to Empty and constructs a safe active union member
+    Message() : payload_type(MsgPayloadType::Empty) {
+        // Union is left default-constructed; first member is Empty-compatible
+    }
+
+    // ---- safe accessors -----------------------------------------------
+    // Returns pointer to mt43 if payload_type == Mt43, nullptr otherwise
+    Mt43Data* getMt43() {
+        return (payload_type == MsgPayloadType::Mt43) ? &mt43 : nullptr;
+    }
+
+    // Returns pointer to mt44 if payload_type == Mt44, nullptr otherwise
+    Mt44Data* getMt44() {
+        return (payload_type == MsgPayloadType::Mt44) ? &mt44 : nullptr;
+    }
+
+    // Const overloads
+    const Mt43Data* getMt43() const {
+        return (payload_type == MsgPayloadType::Mt43) ? &mt43 : nullptr;
+    }
+
+    const Mt44Data* getMt44() const {
+        return (payload_type == MsgPayloadType::Mt44) ? &mt44 : nullptr;
+    }
 };
 } // namespace azaraC

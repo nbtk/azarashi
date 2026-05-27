@@ -45,6 +45,10 @@ double decodeAzimuth7(uint8_t code);
 // ---------------------------------------------------------------------------
 
 // Decode EX9 as prefecture bitmask (EX8=0)
+// EX9 64-bit field: [47-bit prefecture][17-bit reserved]
+// The 47-bit prefecture field is in ex9[63:17] (shift right by 17 to extract).
+// Bit 0 (LSB) of the 47-bit integer = Hokkaido (JIS code 1)
+// Bit 46 (MSB) of the 47-bit integer = Okinawa (JIS code 47)
 // Fills out_positions array (must be at least 47 bytes) and returns the number of written positions.
 uint8_t decodePrefectureBitmask(uint64_t ex9, uint8_t* out_positions);
 

@@ -4,7 +4,6 @@
 
 #if !defined(ARDUINO) || ARDUINO < 1
 #include <cstdio>
-#include <cstring>
 #include <cstdint>
 #include <string_view>
 

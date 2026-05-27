@@ -3,8 +3,6 @@
 // Based on IS-QZSS-DCX-003
 
 #include "DcxHelper.h"
-#include <cmath>
-#include <algorithm>
 
 namespace azaraC {
 namespace internal {
@@ -106,17 +104,21 @@ uint8_t decodePrefectureBitmask(uint64_t ex9, uint8_t* out_positions) {
     uint8_t count = 0;
 
     // EX9 bit layout for prefecture (EX8=0):
-    // Bits 0..46: prefecture codes (bit 0 = Hokkaido, bit 46 = Okinawa)
-    // Bits 47..63: reserved (17 bits)
-    // The prefecture code is the bit position (1-indexed) from LSB
-    // Table 4.2-25: bit position 47=Hokkaido, 46=Aomori, ..., 1=Okinawa
-    // But in the bitmask, bit 0 (LSB) = Hokkaido (position 47),
-    // bit 46 (MSB of 47-bit field) = Okinawa (position 1)
+    // EX9 64-bit field: [47-bit prefecture][17-bit reserved]
+    // Stream bit 147 → ex9 bit 63 (MSB of 47-bit field)
+    // Stream bit 193 → ex9 bit 17 (LSB of 47-bit field)
+    // Stream bits 194..210 → ex9 bits 16..0 (reserved)
+    //
+    // 47-bit prefecture integer: bit 0 (LSB) = Hokkaido (JIS 1), bit 46 (MSB) = Okinawa (JIS 47)
+    // In EX9, this maps to ex9[63:17], so we shift right by 17 to align.
+
+    uint64_t pref = ex9 >> 17;  // Extract 47-bit prefecture field
 
     for (uint8_t i = 0; i < 47; ++i) {
-        if (ex9 & (1ULL << i)) {
-            // Convert bit index to prefecture position (47 - i)
-            out_positions[count++] = 47 - i;
+        if (pref & (1ULL << i)) {
+            // i=0 (LSB) = Hokkaido = JIS code 1
+            // i=46 (MSB) = Okinawa = JIS code 47
+            out_positions[count++] = i + 1;
         }
     }
 

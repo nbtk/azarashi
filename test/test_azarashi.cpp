@@ -6,6 +6,7 @@
 #include "../src/internal/NmeaFramer.h"
 #include "../src/internal/Decoder.h"
 #include "doctest.h"
+#include <cstring>
 #include <string>
 
 using namespace azaraC;
@@ -63,24 +64,24 @@ TEST_CASE("DCR: EEW (Earthquake Early Warning)") {
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 1);
     // 実際のデコード結果を検証（print_eewで出力した値）
-    CHECK(msg.mt43.eew_long_period_lower == 0);
-    CHECK(msg.mt43.eew_long_period_upper == 0);
-    CHECK(msg.mt43.eew_notification_count == 1);
-    CHECK(msg.mt43.eew_notification[0] == 201);
-    // eew_quake_time: day=7, hour=4, minute=0 (unix=1709784000)
-    CHECK(msg.mt43.eew_quake_time.day == 7);
-    CHECK(msg.mt43.eew_quake_time.hour == 4);
-    CHECK(msg.mt43.eew_quake_time.minute == 0);
-    CHECK(msg.mt43.eew_depth == 10);
-    CHECK(msg.mt43.eew_magnitude == 72);  // 7.2
-    CHECK(msg.mt43.eew_epicenter == 791);
-    CHECK(msg.mt43.eew_intensity_lower == 8);
-    CHECK(msg.mt43.eew_intensity_upper == 11);
-    CHECK(msg.mt43.eew_region_count == 17);
+    CHECK(msg.mt43.eew.long_period_lower == 0);
+    CHECK(msg.mt43.eew.long_period_upper == 0);
+    CHECK(msg.mt43.eew.notification_count == 1);
+    CHECK(msg.mt43.eew.notification[0] == 201);
+    // eew.quake_time: day=7, hour=4, minute=0 (unix=1709784000)
+    CHECK(msg.mt43.eew.quake_time.day == 7);
+    CHECK(msg.mt43.eew.quake_time.hour == 4);
+    CHECK(msg.mt43.eew.quake_time.minute == 0);
+    CHECK(msg.mt43.eew.depth == 10);
+    CHECK(msg.mt43.eew.magnitude == 72);  // 7.2
+    CHECK(msg.mt43.eew.epicenter == 791);
+    CHECK(msg.mt43.eew.intensity_lower == 8);
+    CHECK(msg.mt43.eew.intensity_upper == 11);
+    CHECK(msg.mt43.eew.region_count == 17);
     // 最初の数地域をチェック
-    CHECK(msg.mt43.eew_regions[0] == 37);
-    CHECK(msg.mt43.eew_regions[1] == 38);
-    CHECK(msg.mt43.eew_regions[2] == 39);
+    CHECK(msg.mt43.eew.regions[0] == 37);
+    CHECK(msg.mt43.eew.regions[1] == 38);
+    CHECK(msg.mt43.eew.regions[2] == 39);
 }
 
 TEST_CASE("DCR: Seismic Intensity") {
@@ -198,9 +199,9 @@ TEST_CASE("DCR: Unknown Magnitude/Depth") {
     CHECK(msg.msg_type == 43);
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     // depth_of_hypocenter_raw == 511 means "不明"
-    CHECK(msg.mt43.hypo_depth == 511);
+    CHECK(msg.mt43.hypo.depth == 511);
     // magnitude_raw == 127 means "不明"
-    CHECK(msg.mt43.hypo_magnitude == 127);
+    CHECK(msg.mt43.hypo.magnitude == 127);
 }
 
 // ── MT=44 DCX Scenarios ──────────────────────────────────────────────────────
@@ -295,7 +296,7 @@ TEST_CASE("DCR: Typhoon") {
     REQUIRE(dec.decode(frame, msg, 0));
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 12);
-    CHECK(msg.mt43.typh_number == 21);
+    CHECK(msg.mt43.typh.number == 21);
 }
 
 TEST_CASE("DCR: Marine") {
@@ -318,8 +319,8 @@ TEST_CASE("DCR: Marine") {
     REQUIRE(dec.decode(frame, msg, 0));
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 14);
-    REQUIRE(msg.mt43.marine_count > 0);
-    CHECK(msg.mt43.marine_entries[0].warning_code == 19);
+    REQUIRE(msg.mt43.marine.count > 0);
+    CHECK(msg.mt43.marine.entries[0].warning_code == 19);
 }
 
 TEST_CASE("DCR: Comprehensive Category Mapping Verification") {
@@ -336,20 +337,20 @@ TEST_CASE("DCR: Comprehensive Category Mapping Verification") {
         setbits(frame.bits, 17, 4, category);
         setbits(frame.bits, 214, 6, 1);
 
-        if (category == 1)  setbits(frame.bits, 47,  3, 7); // eew_long_period_lower
-        if (category == 2)  setbits(frame.bits, 112, 10, 999); // hypo_epicenter
+        if (category == 1)  setbits(frame.bits, 47,  3, 7); // eew.long_period_lower
+        if (category == 2)  setbits(frame.bits, 112, 10, 999); // hypo.epicenter
         if (category == 3)  setbits(frame.bits, 69,  3, 7); // intensity_code (first entry)
-        if (category == 4)  setbits(frame.bits, 53,  4, 15); // nankai_info_code
-        if (category == 5)  setbits(frame.bits, 80,  4, 15); // tsunami_warning_code
-        if (category == 6)  setbits(frame.bits, 53,  3, 7); // nw_pac_potential
-        if (category == 8)  setbits(frame.bits, 50,  3, 7); // vol_ambiguity
-        if (category == 9)  setbits(frame.bits, 69,  2, 3); // ash_warning_type
-        if (category == 10) setbits(frame.bits, 53,  3, 7); // wx_warning_state
+        if (category == 4)  setbits(frame.bits, 53,  4, 15); // nankai.info_code
+        if (category == 5)  setbits(frame.bits, 80,  4, 15); // tsunami.warning_code
+        if (category == 6)  setbits(frame.bits, 53,  3, 7); // nw_pac.potential
+        if (category == 8)  setbits(frame.bits, 50,  3, 7); // vol.ambiguity
+        if (category == 9)  setbits(frame.bits, 69,  2, 3); // ash.warning_type
+        if (category == 10) setbits(frame.bits, 53,  3, 7); // wx.warning_state
         if (category == 11) {
             setbits(frame.bits, 53,  4, 15); // warning_level (bits 53-56)
             setbits(frame.bits, 77,  1, 1);  // region_code bit (bit 77) to ensure getBits(..., 44) != 0
         }
-        if (category == 12) setbits(frame.bits, 87,  7, 99); // typh_number
+        if (category == 12) setbits(frame.bits, 87,  7, 99); // typh.number
         if (category == 14) setbits(frame.bits, 53,  5, 31); // marine warning_code
 
         uint32_t crc = crc24q_ref(frame.bits, 226);
@@ -362,40 +363,40 @@ TEST_CASE("DCR: Comprehensive Category Mapping Verification") {
     };
 
     SUBCASE("Category 1: EEW") {
-        verify_mapping(1, [](Message& m) { CHECK(m.mt43.eew_long_period_lower == 7); });
+        verify_mapping(1, [](Message& m) { CHECK(m.mt43.eew.long_period_lower == 7); });
     }
     SUBCASE("Category 2: Hypocenter") {
-        verify_mapping(2, [](Message& m) { CHECK(m.mt43.hypo_epicenter == 999); });
+        verify_mapping(2, [](Message& m) { CHECK(m.mt43.hypo.epicenter == 999); });
     }
     SUBCASE("Category 3: Seismic Intensity") {
-        verify_mapping(3, [](Message& m) { CHECK(m.mt43.seis_count > 0); CHECK(m.mt43.seis_entries[0].intensity_code == 7); });
+        verify_mapping(3, [](Message& m) { CHECK(m.mt43.seis.count > 0); CHECK(m.mt43.seis.entries[0].intensity_code == 7); });
     }
     SUBCASE("Category 4: Nankai Trough") {
-        verify_mapping(4, [](Message& m) { CHECK(m.mt43.nankai_info_code == 15); });
+        verify_mapping(4, [](Message& m) { CHECK(m.mt43.nankai.info_code == 15); });
     }
     SUBCASE("Category 5: Tsunami") {
-        verify_mapping(5, [](Message& m) { CHECK(m.mt43.tsunami_warning_code == 15); });
+        verify_mapping(5, [](Message& m) { CHECK(m.mt43.tsunami.warning_code == 15); });
     }
     SUBCASE("Category 6: NW Pacific Tsunami") {
-        verify_mapping(6, [](Message& m) { CHECK(m.mt43.nw_pac_potential == 7); });
+        verify_mapping(6, [](Message& m) { CHECK(m.mt43.nw_pac.potential == 7); });
     }
     SUBCASE("Category 8: Volcano") {
-        verify_mapping(8, [](Message& m) { CHECK(m.mt43.vol_ambiguity == 7); });
+        verify_mapping(8, [](Message& m) { CHECK(m.mt43.vol.ambiguity == 7); });
     }
     SUBCASE("Category 9: Ash Fall") {
-        verify_mapping(9, [](Message& m) { CHECK(m.mt43.ash_warning_type == 3); });
+        verify_mapping(9, [](Message& m) { CHECK(m.mt43.ash.warning_type == 3); });
     }
     SUBCASE("Category 10: Weather") {
-        verify_mapping(10, [](Message& m) { CHECK(m.mt43.wx_warning_state == 7); });
+        verify_mapping(10, [](Message& m) { CHECK(m.mt43.wx.warning_state == 7); });
     }
     SUBCASE("Category 11: Flood") {
-        verify_mapping(11, [](Message& m) { CHECK(m.mt43.flood_count > 0); CHECK(m.mt43.flood_entries[0].warning_level == 15); });
+        verify_mapping(11, [](Message& m) { CHECK(m.mt43.flood.count > 0); CHECK(m.mt43.flood.entries[0].warning_level == 15); });
     }
     SUBCASE("Category 12: Typhoon") {
-        verify_mapping(12, [](Message& m) { CHECK(m.mt43.typh_number == 99); });
+        verify_mapping(12, [](Message& m) { CHECK(m.mt43.typh.number == 99); });
     }
     SUBCASE("Category 14: Marine") {
-        verify_mapping(14, [](Message& m) { CHECK(m.mt43.marine_count > 0); CHECK(m.mt43.marine_entries[0].warning_code == 31); });
+        verify_mapping(14, [](Message& m) { CHECK(m.mt43.marine.count > 0); CHECK(m.mt43.marine.entries[0].warning_code == 31); });
     }
 }
 
@@ -410,9 +411,9 @@ TEST_CASE("DCR: Long Period Ground Motion") {
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 1); // EEW
     // long_period_ground_motion_lower_limit == 3 (raw)
-    CHECK(msg.mt43.eew_long_period_lower == 3);
+    CHECK(msg.mt43.eew.long_period_lower == 3);
     // long_period_ground_motion_upper_limit == 3 (raw)
-    CHECK(msg.mt43.eew_long_period_upper == 3);
+    CHECK(msg.mt43.eew.long_period_upper == 3);
 }
 
 // ── Decode Error Handling (from test_decode_error) ───────────────────────────
@@ -462,9 +463,70 @@ TEST_CASE("DCR: Nankai Trough - page/total_page tracking") {
     CHECK(msg.msg_type == 43);
     CHECK(msg.payload_type == MsgPayloadType::Mt43);
     CHECK(msg.mt43.disaster_category == 4);
-    // nankai_page and nankai_total_page should be decoded
+    // nankai.page and nankai.total_page should be decoded
     // For non-final messages, page != total_page
-    CHECK(msg.mt43.nankai_page != msg.mt43.nankai_total_page);
+    CHECK(msg.mt43.nankai.page != msg.mt43.nankai.total_page);
+}
+
+TEST_CASE("DCR: Nankai Trough - completed flag verification") {
+    // From azarashi test_scenario3: test the last message in sequence
+    // The last message has page == total_page, meaning completed = true
+    
+    // First message: page != total_page (not completed)
+    {
+        Message msg{};
+        const char* nmea = "$QZQSM,58,9AAFA19C918002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D8104D300D8*7F\r\n";
+        REQUIRE(decode_nmea(nmea, msg));
+        CHECK(msg.msg_type == 43);
+        CHECK(msg.payload_type == MsgPayloadType::Mt43);
+        CHECK(msg.mt43.disaster_category == 4);
+        // Not the final page
+        CHECK(msg.mt43.nankai.page != msg.mt43.nankai.total_page);
+    }
+    
+    // Note: The last message in azarashi test_scenario3 has 65 hex chars (nibbles),
+    // which exceeds the spec limit of 63 nibbles (250 bits).
+    // azaraC correctly rejects this as "Too Long Sentence" per IS-QZSS-DCX-003.
+    // This is tested in "DCR: Nankai Trough - oversized message rejected" below.
+}
+
+TEST_CASE("DCR: Nankai Trough - full sequence from azarashi test_scenario3") {
+    // From azarashi test_scenario3: test messages in sequence
+    // Note: The last message (index 20) has 65 hex chars and is rejected by azaraC
+    // because it exceeds the 63 nibble limit. We test only the valid messages here.
+    const char* nmea_messages[] = {
+        "$QZQSM,58,C6AFA19C918002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81262EF438*02\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C0D471C0D1F1C0D371C0C7F1C0D071C0CAB4D812D45BCD0*06\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C0CFF4CC5973C0DEF2D7DF72DFCE71C14932D813A64867C*0C\r\n",
+        "$QZQSM,58,53AFA19C918002F1C0C5F1C0C8F3D6C4F1C0D5F2DFCE71C0CC30D81029188EC*0F\r\n",
+        "$QZQSM,58,C6AFA19C918002F1C0D4F1C0C5F1C144F1C0D772C8DE71C0D9AED8108F361A8*7A\r\n",
+        "$QZQSM,58,9AAFA19C918002F2DD4E71C1427443D573595DF25EC9F1C0D52CD81113EFC54*00\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C0CCF1C041725DC572DF4671C0D7734A5FAAD811D504B9C*09\r\n",
+        "$QZQSM,58,53AFA19C918002F1C0D4744041F1C0C471C144F1C14671C0DF28D8127EDCCCC*02\r\n",
+        "$QZQSM,58,C6AFA19C918002F4D5CC71C0DF71C0D1F1C0D371C0C271C145A6D812E9F0C70*03\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C0DCF1C0D373CDDC72D7DF73CD4271C0D5A4D813579A170*78\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C0C672DCD9F2DC5C734CC171C0D5F357CA22D8100D3A898*07\r\n",
+        "$QZQSM,58,53AFA19C918002F1C0D773CCDD73CA4FF2C7D7F441DEF34053A0D8108524298*01\r\n",
+        "$QZQSM,58,C6AFA19C918002F1C040F2D253F45347F35450F2CE5874CE439ED8113990640*7D\r\n",
+        "$QZQSM,58,9AAFA19C918002F2D74D74CE43F35D4872CFCFF1C0D3F1C0D79CD8118D63AC8*07\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C1D4F1C1CAF2CE5874CE43F1C0D77341D99AD81268C2E7C*73\r\n",
+        "$QZQSM,58,53AFA19C918002F1C14471C14571C040F2C6CBF35ADBF1C1C418D812DC94FA0*7F\r\n",
+        "$QZQSM,58,C6AFA19C918002F1C0DCF1C14571C0D773CCDD73CA4FF1C0D596D81357F75D0*74\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C145F1C14371C0D1F1C0C7F1C14571C0CC94D813ED6741C*0C\r\n",
+        "$QZQSM,58,9AAFA19C918002F4C04D72DC5C71C0D471C0D7F3CAD871C0D512D810ADB00F0*78\r\n",
+        "$QZQSM,58,9AAFA19C918002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D8104D300D8*7F\r\n",
+    };
+
+    for (size_t i = 0; i < sizeof(nmea_messages)/sizeof(nmea_messages[0]); ++i) {
+        Message msg{};
+        CAPTURE(i);
+        REQUIRE(decode_nmea(nmea_messages[i], msg));
+        CHECK(msg.msg_type == 43);
+        CHECK(msg.payload_type == MsgPayloadType::Mt43);
+        CHECK(msg.mt43.disaster_category == 4);
+        // All these messages have page != total_page (not completed)
+        CHECK(msg.mt43.nankai.page != msg.mt43.nankai.total_page);
+    }
 }
 
 TEST_CASE("DCR: Nankai Trough - oversized message rejected") {
