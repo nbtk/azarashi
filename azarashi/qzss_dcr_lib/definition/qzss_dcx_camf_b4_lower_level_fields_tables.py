@@ -166,7 +166,7 @@ qzss_dcx_camf_d11_tornado_probability = QzssDcrDefinition(
         2: 'Low - Threat: A low threat to life and property. Minimum Action: Preparations should be made for a low likelihood (or a 5 to 14% probability) of tornadoes; scattered tornadoes of F0 to F1 intensity possible. Potential Impact: The potential for scattered locations to experience minor to moderate tornado damage.',
         3: 'Moderate - Threat: A moderate threat to life and property. Minimum Action: Preparations should be made for a moderate likelihood (or a 15 to 29% probability) of tornadoes; many tornadoes (even families) of F0 to F1 intensity possible. Potential Impact: The potential for many locations to experience minor to moderate tornado damage (see below). Some tornadoes may have longer damage tracks.',
         4: 'High - Threat: A high threat to life and property. Minimum Action: Preparations should be made for a high likelihood (or a 30 to 44% probability) of tornadoes; scattered tornadoes possible with isolated tornadoes of F2 to F5 intensity also possible. Potential Impact: The potential for isolated locations to experience major tornado damage (see below), among scattered locations of minor to moderate tornado damage. Some tornadoes may have longer damage tracks.',
-        5: 'Extreme - Threat: An extreme threat to life and property. Minimum Action: Preparations should be made for a very high likelihood (or a 45% probability or greater) of tornadoes; many tornadoes (even families) possible with scattered tornadoes of F2 to F5 intensity also possible. Potential Impact: The potential for scattered locations to experience major tornado damage (see below), among many locations of minor to moderate tornado damage. Some tornadoes may have longer damage tracks',
+        5: 'Extreme - Threat: An extreme threat to life and property. Minimum Action: Preparations should be made for a very high likelihood (or a 45% probability or greater) of tornadoes; many tornadoes (even families) possible with scattered tornadoes of F2 to F5 intensity also possible. Potential Impact: The potential for scattered locations to experience major tornado damage (see below), among many locations of minor to moderate tornado damage. Some tornadoes may have longer damage tracks.',
     },
     undefined='Undefined tornado probability (Code: %d)'
 )
@@ -258,7 +258,7 @@ qzss_dcx_camf_d16_lightning_intensity = QzssDcrDefinition(
         2: 'LAL 3 - Widely scattered thunderstorms. Light to moderate rain will reach the ground. Lightning is infrequent, 6 to 10 cloud to ground strikes in a 5-minute period.',
         3: 'LAL 4 - Scattered thunderstorms. Moderate rain is commonly produced Lightning is frequent, 11 to 15 cloud to ground strikes in a 5-minute period.',
         4: 'LAL 5 - Numerous thunderstorms. Rainfall is moderate to heavy. Lightning is frequent and intense, greater than 15 cloud to ground strikes in a 5-minute period.',
-        5: 'LAL 6 - Dry lightning (same as LAL 3 but without rain). This type of lightning has the potential for extreme fire activity and is normally.',
+        5: 'LAL 6 - Dry lightning (same as LAL 3 but without the rain). This type of lightning has the potential for extreme fire activity and is normally highlighted in fire weather forecasts with Red Flag Warning.',
     },
     undefined='Undefined lightning intensity (Code: %d)'
 )
@@ -346,7 +346,7 @@ qzss_dcx_camf_d24_water_quality = QzssDcrDefinition(
         2: 'Poor water quality',
         3: 'Very poor water quality',
         4: 'Suitable for drinking purposes',
-        5: 'Unsuitable for drinking purpose',
+        5: 'Unsuitable for drinking purposes',
     },
     undefined='Undefined water quality (Code: %d)'
 )
@@ -403,7 +403,7 @@ qzss_dcx_camf_d27_noise_range = QzssDcrDefinition(
         4: '70 < dB ≤ 80 (loud)',
         5: '80 < dB ≤ 90 (very loud)',
         6: '90 < dB ≤ 100 (very loud)',
-        7: '100 <dB ≤ 110 (very loud)',
+        7: '100 < dB ≤ 110 (very loud)',
         8: '110 < dB ≤ 120 (extremely loud)',
         9: '120 < dB ≤ 130 (extremely loud)',
         10: '130 < dB ≤ 140 (threshold of pain)',
@@ -419,7 +419,7 @@ qzss_dcx_camf_d28_air_quality_index = QzssDcrDefinition(
         2: 'Index 101 - 150. Unhealthy for sensitive groups. Orange. Children, active adults and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion',
         3: 'Index 151 - 200. Unhealthy. Red. Children, active adults and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion. Everyone else should limit prolonged outdoor exertion.',
         4: 'Index 201 - 300. Very unhealthy. Purple. Children, active adults and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion. Everyone else should limit outdoor exertion.',
-        5: 'Index 301 - 500. Hazardous.Brown.Everyone should avoid all physical activity outdoor.',
+        5: 'Index 301 - 500. Hazardous. Brown. Everyone should avoid all physical activity outdoors.',
     },
     undefined='Undefined air quality index (Code: %d)'
 )
@@ -429,8 +429,8 @@ qzss_dcx_camf_d29_outage_estimated_duration = QzssDcrDefinition(
         0: '0 < duration < 30 min',
         1: '30 min ≤ duration < 45 min',
         2: '45 min ≤ duration < 1 h',
-        3: '1 h ≤ duration < 1h 30min',
-        4: '1h 30min ≤ duration < 2 h',
+        3: '1 h ≤ duration < 1 h 30 min',
+        4: '1 h 30 min ≤ duration < 2 h',
         5: '2 h ≤ duration < 3 h',
         6: '3 h ≤ duration < 4 h',
         7: '4 h ≤ duration < 5 h',
@@ -493,7 +493,7 @@ qzss_dcx_camf_d32_biohazard_level = QzssDcrDefinition(
 qzss_dcx_camf_d33_biohazard_type = QzssDcrDefinition(
     {
         0: "Biological agents. These include bacteria, viruses, parasites, and fungi (such as yeasts and molds).",
-        1: "Biotoxins. These refer to a group of substances with a biological origin that are toxic and poisonous to humans. Often, biotoxins are produced by plants, bacteria, insects, or certain animals, among others.Continuous exposure to these may cause, at the very least, a series of inflammatory reactions throughout the body.",
+        1: "Biotoxins. These refer to a group of substances with a biological origin that are toxic and poisonous to humans. Often, biotoxins are produced by plants, bacteria, insects, or certain animals, among others. Continuous exposure to these may cause, at the very least, a series of inflammatory reactions throughout the body.",
         2: "Blood and blood products. While blood isn't considered a biological hazard, it can still bring potential risks if it's contaminated or its source is in any way infected. Also, blood products such as red blood cells, white blood cells, plasma, tissues, and platelets are also hazardous if not properly handled.",
         3: "Environmental specimens. Generally, these refer to plants, soil, or water that potentially contain biological agents(include bacteria, viruses, parasites, and fungi) and biotoxins.",
     },
@@ -536,17 +536,17 @@ qzss_dcx_camf_d35_infection_type = QzssDcrDefinition(
         21: "Influenza including Influenza A(H1N1)",
         22: "Invasive meningococcal disease",
         23: "Invasive pneumococcal disease",
-        24: "Legionnaries' disease",
+        24: "Legionnaires' disease",
         25: "Leptospirosis",
         26: "Listeriosis",
         27: "Lyme neuroborreliosis",
         28: "Malaria",
         29: "Measles",
-        30: "Meningoccocal disease, invasive",
+        30: "Meningococcal disease, invasive",
         31: "Mumps",
         32: "Pertussis",
         33: "Plague",
-        34: "Pneumoccocal invasive diseases",
+        34: "Pneumococcal invasive diseases",
         35: "Poliomyelitis",
         36: "Q fever",
         37: "Rabies",

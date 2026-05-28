@@ -49,7 +49,7 @@ from .qzss_dcx_camf_a11_international_library import *
 from .qzss_dcx_camf_a11_japanese_library import *
 from .qzss_dcx_camf_a17_main_subject_for_specific_settings import *
 from .qzss_dcx_camf_b4_lower_level_fields_tables import *
-from .qzss_dcx_camf_c10_guicance_library_for_second_ellipse import *
+from .qzss_dcx_camf_c10_guidance_library_for_second_ellipse import *
 from .qzss_dcx_camf_ex1_target_area_code import *
 from .qzss_dcx_camf_ex9_target_area_code import *
 from .ublox_qzss_dcr_message_header import *
