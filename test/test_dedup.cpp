@@ -105,19 +105,17 @@ TEST_CASE("DedupFilter: 同一CRCでもsvidが異なれば別メッセージ") {
 
 TEST_CASE("DedupFilter: 大量メッセージの処理") {
     DedupFilter filter;
-    // 100個の異なるメッセージを処理
-    for (int i = 0; i < 100; i++) {
+    // 512個の異なるメッセージを登録
+    for (int i = 0; i < 512; i++) {
         DedupKey key{193, 43, (uint32_t)(0x100000 + i)};
         CHECK_FALSE(filter.isDuplicate(key));
     }
 
-    // 同じメッセージは重複と判定される
-    for (int i = 0; i < 100; i++) {
+    // AZARAC_DEDUP_SLOTS = 32 なので、残っているのは最後の32個（i = 480〜511）
+    // 注意: isDuplicate(false) を呼ぶとバッファに登録されるため、
+    // 古いエントリの確認は行わず、最後の32個のみ重複確認する
+    for (int i = 512 - AZARAC_DEDUP_SLOTS; i < 512; i++) {
         DedupKey key{193, 43, (uint32_t)(0x100000 + i)};
-        // リングバッファのサイズを超えるので、古いものは追い出される
-        // 最新の32個のみ重複と判定される
-        if (i >= 68) {  // 100 - 32 = 68
-            CHECK(filter.isDuplicate(key));
-        }
+        CHECK(filter.isDuplicate(key));
     }
 }

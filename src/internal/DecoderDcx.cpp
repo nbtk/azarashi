@@ -43,6 +43,13 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
     d.camf.a17 = getBits(bits, 129, 2);
     d.camf.a18 = getBits(bits, 131, 15);
 
+    // Initialize B1 fields
+    d.camf.b1_present = false;
+    d.camf.b1_c1 = 0;
+    d.camf.b1_c2 = 0;
+    d.camf.b1_c3 = 0;
+    d.camf.b1_c4 = 0;
+
     // Null Message Check (IS-QZSS-DCX-003 §4.3)
     // All fields except PAB, MT, SD, Reserved, CRC must be 0
     // A2 must be Japan (001101111 = 111), A3 must be 0
@@ -173,6 +180,23 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
         dec.main_ellipse.semi_major_km = decodeRadiusCode(d.camf.a14);
         dec.main_ellipse.semi_minor_km = decodeRadiusCode(d.camf.a15);
         dec.main_ellipse.azimuth_deg = decodeAzimuth6(d.camf.a16);
+
+        // B1 (A17=00) - Improved Resolution of Main Ellipse (EWSS CAMF v1.1 §3.7.1)
+        // A18 (15bit) = C1(3bit)[0:2] + C2(3bit)[3:5] + C3(3bit)[6:8] + C4(3bit)[9:11] + Reserved(3bit)[12:14]
+        if (d.camf.a17 == 0) {
+            B1Refinement b1 = decodeB1Refinement(d.camf.a18);
+            d.camf.b1_present = (b1.c1 != 0 || b1.c2 != 0 || b1.c3 != 0 || b1.c4 != 0);
+            d.camf.b1_c1 = b1.c1;
+            d.camf.b1_c2 = b1.c2;
+            d.camf.b1_c3 = b1.c3;
+            d.camf.b1_c4 = b1.c4;
+
+            // Store refinement values in decoded ellipse
+            dec.main_ellipse.b1_lat_offset_deg = b1RefinedLatitudeOffset(b1.c1);
+            dec.main_ellipse.b1_lon_offset_deg = b1RefinedLongitudeOffset(b1.c2);
+            dec.main_ellipse.b1_major_factor = b1InterpolationFactor(b1.c3);
+            dec.main_ellipse.b1_minor_factor = b1InterpolationFactor(b1.c4);
+        }
     }
 
     if (d.ex_kind == ExtendedKind::LAlertOrLocal) {

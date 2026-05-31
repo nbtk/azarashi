@@ -1,6 +1,5 @@
-
 // test/test_framer.cpp — Framer verification (UBX/NMEA)
-// Build: g++ -std=c++17 -I../src -I../src/internal test_framer.cpp ../src/internal/UbxFramer.cpp ../src/internal/NmeaFramer.cpp -o test_framer && ./test_framer
+// UBX/NMEAフレーマーの単体テスト
 
 #define ARDUINO 0
 #include "../src/internal/UbxFramer.h"
@@ -14,9 +13,9 @@
 using namespace azaraC;
 using namespace azaraC::internal;
 
-
 // ── UBX SFRBX Generator ──────────────────────────────────────────────────────
-static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits) {
+
+static std::vector<uint8_t> makeUbxSfrbx(uint8_t svId, const uint8_t* nav_bits) {
     std::vector<uint8_t> out;
     out.push_back(0xB5); out.push_back(0x62); // SYNC
     out.push_back(0x02); out.push_back(0x13); // CLASS/ID (RXM-SFRBX)
@@ -65,9 +64,8 @@ static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits
 }
 
 // ── NMEA QZQSM Generator ─────────────────────────────────────────────────────
-// Generates a valid QZQSM sentence with exactly 63 hex chars (250 bits) per IS-QZSS-DCX-003.
-// 250 bits = 31 full bytes + 1 nibble = 62 hex chars + 1 hex char = 63 hex chars.
-static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
+
+static std::string makeNmeaQzqsm(uint8_t svid, const uint8_t* nav_bits) {
     char buf[256];
     sprintf(buf, "QZQSM,%d,", svid);
     std::string s = "$";
@@ -78,8 +76,7 @@ static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
         sprintf(hex, "%02X", nav_bits[i]);
         s += hex;
     }
-    // Output 1 nibble (1 hex char) for the remaining 2 bits (250 - 248 = 2 bits)
-    // The upper nibble of byte 31
+    // Output 1 nibble (1 hex char) for the remaining 2 bits
     char hex[2];
     sprintf(hex, "%01X", (nav_bits[31] >> 4) & 0xF);
     s += hex;
@@ -96,9 +93,10 @@ static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
 }
 
 // ── UBX Tests ───────────────────────────────────────────────────────────────
+
 TEST_CASE("UBX Framer Basic") {
-    uint8_t bits[32] = {0x53, 0xAB}; // dummy data
-    auto pkt = make_ubx_sfrbx(193, bits);
+    uint8_t bits[32] = {0x53, 0xAB};
+    auto pkt = makeUbxSfrbx(193, bits);
 
     UbxFramer framer;
     Frame out;
@@ -114,7 +112,7 @@ TEST_CASE("UBX Framer Basic") {
 
 TEST_CASE("UBX Checksum Error") {
     uint8_t bits[32] = {0};
-    auto pkt = make_ubx_sfrbx(193, bits);
+    auto pkt = makeUbxSfrbx(193, bits);
     pkt[10] ^= 0xFF; // Corrupt header/payload
 
     UbxFramer framer;
@@ -128,7 +126,7 @@ TEST_CASE("UBX Checksum Error") {
 
 TEST_CASE("UBX Garbage Recovery") {
     uint8_t bits[32] = {0x9A};
-    auto pkt = make_ubx_sfrbx(194, bits);
+    auto pkt = makeUbxSfrbx(194, bits);
 
     UbxFramer framer;
     Frame out;
@@ -145,10 +143,11 @@ TEST_CASE("UBX Garbage Recovery") {
 }
 
 // ── NMEA Tests ──────────────────────────────────────────────────────────────
+
 TEST_CASE("NMEA Framer Basic") {
     uint8_t bits[32];
     for(int i=0; i<32; ++i) bits[i] = i;
-    auto pkt = make_nmea_qzqsm(193, bits);
+    auto pkt = makeNmeaQzqsm(193, bits);
 
     NmeaFramer framer;
     Frame out;
@@ -163,7 +162,7 @@ TEST_CASE("NMEA Framer Basic") {
 
 TEST_CASE("NMEA Checksum Error") {
     uint8_t bits[32] = {0};
-    auto pkt = make_nmea_qzqsm(193, bits);
+    auto pkt = makeNmeaQzqsm(193, bits);
     pkt[pkt.size() - 3] = '0'; // Corrupt checksum last digit
 
     NmeaFramer framer;
@@ -177,7 +176,7 @@ TEST_CASE("NMEA Checksum Error") {
 
 TEST_CASE("NMEA Garbage Recovery") {
     uint8_t bits[32] = {0x12, 0x34};
-    auto pkt = make_nmea_qzqsm(195, bits);
+    auto pkt = makeNmeaQzqsm(195, bits);
 
     NmeaFramer framer;
     Frame out;
@@ -204,7 +203,7 @@ TEST_CASE("NMEA Oversize Recovery") {
     }
     // Should have reset internally. Try valid one now.
     uint8_t bits[32] = {0x55};
-    auto pkt = make_nmea_qzqsm(199, bits);
+    auto pkt = makeNmeaQzqsm(199, bits);
     bool found = false;
     for (char c : pkt) {
         if (framer.feed((uint8_t)c, out)) { found = true; break; }

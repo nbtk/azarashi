@@ -69,6 +69,14 @@ struct Mt44CamfRaw {
     uint8_t  a16;   // 6
     uint8_t  a17;   // 2
     uint16_t a18;   // 15
+
+    // B1 (A17=00) - Improved Resolution of Main Ellipse (EWSS CAMF v1.1 §3.7.1)
+    // A18 (15bit) = C1(3bit) + C2(3bit) + C3(3bit) + C4(3bit) + Reserved(3bit)
+    bool     b1_present;    // true if A17 == 0 and any C1-C4 is non-zero
+    uint8_t  b1_c1;         // 3 bits [0:2]   - latitude refinement (0-7)
+    uint8_t  b1_c2;         // 3 bits [3:5]   - longitude refinement (0-7)
+    uint8_t  b1_c3;         // 3 bits [6:8]   - semi-major axis interpolation factor (0-7)
+    uint8_t  b1_c4;         // 3 bits [9:11]  - semi-minor axis interpolation factor (0-7)
 };
 
 struct Mt44ExLAlertOrLocal {
@@ -103,6 +111,13 @@ struct DecodedEllipse {
     double semi_major_km;   // Semi-major axis in km
     double semi_minor_km;   // Semi-minor axis in km
     double azimuth_deg;     // Azimuth angle in degrees (-90..90)
+
+    // B1 refinement values (EWSS CAMF v1.1 §3.7.1)
+    // Valid when Mt44CamfRaw::b1_present is true
+    double b1_lat_offset_deg;    // C1 × 180/(8×65535) - latitude refinement offset
+    double b1_lon_offset_deg;    // C2 × 360/(8×131071) - longitude refinement offset
+    double b1_major_factor;      // C3 / 8.0 - semi-major interpolation factor (0..0.875)
+    double b1_minor_factor;      // C4 / 8.0 - semi-minor interpolation factor (0..0.875)
 };
 
 // Decoded additional area (for local government messages)
@@ -382,7 +397,7 @@ struct Message {
     // ---- default constructor ------------------------------------------
     // Initializes payload_type to Empty and constructs a safe active union member
     Message() : payload_type(MsgPayloadType::Empty) {
-        // Union is left default-constructed; first member is Empty-compatible
+        // Union is left uninitialized (POD types). Access only after setting payload_type.
     }
 
     // ---- safe accessors -----------------------------------------------

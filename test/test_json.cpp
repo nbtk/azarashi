@@ -1,5 +1,5 @@
 // test/test_json.cpp — JsonSerializer smoke tests
-// Build: make -C test run
+// JSONシリアライズ出力の検証
 
 #define ARDUINO 0
 #include "../src/azaraC.h"
@@ -27,8 +27,161 @@ static bool has(const std::string& s, const char* sub) {
     return s.find(sub) != std::string::npos;
 }
 
-// ── MT=44 DCX ───────────────────────────────────────────────────────────────
-TEST_CASE("JSON Serialization: MT=44 DCX") {
+// ═══════════════════════════════════════════════════════════════════════════════
+// MT=44 DCX JSON 出力テスト
+// ═══════════════════════════════════════════════════════════════════════════════
+
+TEST_CASE("JSON Serialization: MT=44 DCX L-Alert") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::LAlert;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::LAlertOrLocal;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 1;
+    m.mt44.camf.a4 = 10; m.mt44.camf.a5 = 3; m.mt44.camf.a8 = 4;
+    m.mt44.camf.a11 = 1;
+    m.mt44.ex_lalert_local.ex1 = 1100;
+    m.mt44.ex_lalert_local.vn = 1;
+    m.mt44.sd.sdmt = 0; m.mt44.sd.sdm = 0x1FF;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":1"));
+    CHECK(has(s, "\"dcx_type_label\":\"L_ALERT\""));
+    CHECK(has(s, "\"a2_country\":111"));
+    CHECK(has(s, "\"a3_provider\":1"));
+    CHECK(has(s, "\"ex1_target_area\":1100"));
+    CHECK(has(s, "\"sd_sdmt\":0"));
+    CHECK(has(s, "\"sd_sdm\":511"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX J-Alert") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::JAlert;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::JAlert;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 2;
+    m.mt44.camf.a4 = 5; m.mt44.camf.a5 = 3;
+    m.mt44.ex_jalert.ex8 = 0;
+    m.mt44.ex_jalert.ex9 = 7;
+    m.mt44.ex_jalert.vn = 1;
+    m.mt44.mt44_decoded.jalert_prefecture_mode = true;
+    m.mt44.mt44_decoded.prefecture_count = 3;
+    m.mt44.mt44_decoded.prefecture_positions[0] = 47;
+    m.mt44.mt44_decoded.prefecture_positions[1] = 46;
+    m.mt44.mt44_decoded.prefecture_positions[2] = 45;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":2"));
+    CHECK(has(s, "\"dcx_type_label\":\"J_ALERT\""));
+    CHECK(has(s, "\"a2_country\":111"));
+    CHECK(has(s, "\"a3_provider\":2"));
+    CHECK(has(s, "\"ex8_area_type\":0"));
+    CHECK(has(s, "\"jalert_target\":{"));
+    CHECK(has(s, "\"prefecture_mode\":1"));
+    CHECK(has(s, "\"prefecture_positions\":[47,46,45]"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::LocalGovernment;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::LAlertOrLocal;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 4;
+    m.mt44.camf.a4 = 10; m.mt44.camf.a5 = 3;
+    m.mt44.ex_lalert_local.ex1 = 1100;
+    m.mt44.ex_lalert_local.ex2 = 1;
+    m.mt44.ex_lalert_local.ex3 = 91522;
+    m.mt44.ex_lalert_local.ex4 = 68950;
+    m.mt44.ex_lalert_local.ex5 = 10;
+    m.mt44.ex_lalert_local.ex6 = 8;
+    m.mt44.ex_lalert_local.ex7 = 96;
+    m.mt44.ex_lalert_local.vn = 1;
+    m.mt44.mt44_decoded.additional_area.present = true;
+    m.mt44.mt44_decoded.additional_area.head_to_area = true;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":3"));
+    CHECK(has(s, "\"dcx_type_label\":\"LOCAL_GOV\""));
+    CHECK(has(s, "\"a3_provider\":4"));
+    CHECK(has(s, "\"ex1_target_area\":1100"));
+    CHECK(has(s, "\"additional_area\":{"));
+    CHECK(has(s, "\"head_to_area\":1"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX Outside Japan") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::OutsideJapan;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind         = ExtendedKind::OutsideJapan;
+    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 32; m.mt44.camf.a3 = 1;
+    m.mt44.ex_outside.vn = 5;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":4"));
+    CHECK(has(s, "\"dcx_type_label\":\"OUTSIDE_JAPAN\""));
+    CHECK(has(s, "\"a2_country\":32"));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX Null Message") {
+    Message m{};
+    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.payload_type    = MsgPayloadType::Mt44;
+    m.mt44.service_kind    = Mt44ServiceKind::NullMessage;
+    m.mt44.is_null_message = true;
+    m.mt44.ex_kind         = ExtendedKind::None;
+    m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 0;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":0"));
+    CHECK(has(s, "\"dcx_type_label\":\"NULL\""));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX Unknown") {
+    Message m{};
+    m.msg_type = 44; m.svid = 193; m.crc24 = 0xABCDEF;
+    m.payload_type = MsgPayloadType::Mt44;
+    m.mt44.service_kind = Mt44ServiceKind::Unknown;
+    m.mt44.is_null_message = false;
+    m.mt44.ex_kind = ExtendedKind::None;
+    m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 5;
+
+    StringPrint sp;
+    internal::JsonSerializer::serialize(m, sp);
+    const auto& s = sp.buf;
+
+    CHECK(has(s, "\"msg_type\":44"));
+    CHECK(has(s, "\"dcx_type\":5"));
+    CHECK(has(s, "\"dcx_type_label\":\"UNKNOWN\""));
+}
+
+TEST_CASE("JSON Serialization: MT=44 DCX main ellipse") {
     Message m{};
     m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
     m.payload_type    = MsgPayloadType::Mt44;
@@ -47,13 +200,14 @@ TEST_CASE("JSON Serialization: MT=44 DCX") {
     CHECK(has(s,"\"svid\":193"));
     CHECK(has(s,"\"msg_type\":44"));
     CHECK(has(s,"\"a2_country\":111"));
-    // Check decoded main ellipse is present
     CHECK(has(s,"\"main_ellipse\":{"));
     CHECK(has(s,"\"lat_deg\":35.600"));
     CHECK(has(s,"\"lon_deg\":139.600"));
 }
 
-// ── MT=43 EEW ───────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+// MT=43 DCR JSON 出力テスト
+// ═══════════════════════════════════════════════════════════════════════════════
 
 TEST_CASE("JSON Serialization: MT=43 EEW") {
     Message m{};
@@ -76,12 +230,11 @@ TEST_CASE("JSON Serialization: MT=43 EEW") {
     CHECK(has(s,"\"regions\":["));
 }
 
-// ── MT=43 Seismic Intensity ──────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
     Message m{};
     m.msg_type = 43;
     m.payload_type = MsgPayloadType::Mt43;
-    m.mt43.disaster_category = 3; // 3 is Seismic Intensity
+    m.mt43.disaster_category = 3;
     m.mt43.seis.count = 2;
     m.mt43.seis.entries[0] = {4, 13};
     m.mt43.seis.entries[1] = {5, 14};
@@ -96,143 +249,6 @@ TEST_CASE("JSON Serialization: MT=43 Seismic Intensity") {
     CHECK(has(s,"\"prefecture\":13"));
 }
 
-// ── MT=44 DCX JSON 出力テスト ───────────────────────────────────────────────
-
-TEST_CASE("JSON Serialization: MT=44 DCX L-Alert") {
-    Message m{};
-    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.payload_type    = MsgPayloadType::Mt44;
-    m.mt44.service_kind    = Mt44ServiceKind::LAlert;
-    m.mt44.is_null_message = false;
-    m.mt44.ex_kind         = ExtendedKind::LAlertOrLocal;
-    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 1;
-    m.mt44.camf.a4 = 10; m.mt44.camf.a5 = 3; m.mt44.camf.a8 = 4;
-    m.mt44.camf.a11 = 1;
-    m.mt44.ex_lalert_local.ex1 = 1100;
-    m.mt44.ex_lalert_local.vn = 1;
-    m.mt44.sd.sdmt = 0; m.mt44.sd.sdm = 0x1FF;
-
-    StringPrint sp;
-    internal::JsonSerializer::serialize(m, sp);
-    const auto& s = sp.buf;
-
-    CHECK(has(s, "\"msg_type\":44"));
-    CHECK(has(s, "\"dcx_type\":1"));           // LAlert = 1
-    CHECK(has(s, "\"dcx_type_label\":\"L_ALERT\""));
-    CHECK(has(s, "\"a2_country\":111"));
-    CHECK(has(s, "\"a3_provider\":1"));
-    CHECK(has(s, "\"ex1_target_area\":1100"));
-    CHECK(has(s, "\"sd_sdmt\":0"));
-    CHECK(has(s, "\"sd_sdm\":511"));
-}
-
-TEST_CASE("JSON Serialization: MT=44 DCX J-Alert") {
-    Message m{};
-    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.payload_type    = MsgPayloadType::Mt44;
-    m.mt44.service_kind    = Mt44ServiceKind::JAlert;
-    m.mt44.is_null_message = false;
-    m.mt44.ex_kind         = ExtendedKind::JAlert;
-    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 2;
-    m.mt44.camf.a4 = 5; m.mt44.camf.a5 = 3;
-    m.mt44.ex_jalert.ex8 = 0;    // prefecture code
-    m.mt44.ex_jalert.ex9 = 7;    // Hokkaido + Aomori + Iwate (bits 0,1,2 = positions 47,46,45)
-    m.mt44.ex_jalert.vn = 1;
-    m.mt44.mt44_decoded.jalert_prefecture_mode = true;
-    m.mt44.mt44_decoded.prefecture_count = 3;
-    m.mt44.mt44_decoded.prefecture_positions[0] = 47;
-    m.mt44.mt44_decoded.prefecture_positions[1] = 46;
-    m.mt44.mt44_decoded.prefecture_positions[2] = 45;
-
-    StringPrint sp;
-    internal::JsonSerializer::serialize(m, sp);
-    const auto& s = sp.buf;
-
-    CHECK(has(s, "\"msg_type\":44"));
-    CHECK(has(s, "\"dcx_type\":2"));           // JAlert = 2
-    CHECK(has(s, "\"dcx_type_label\":\"J_ALERT\""));
-    CHECK(has(s, "\"a2_country\":111"));
-    CHECK(has(s, "\"a3_provider\":2"));
-    CHECK(has(s, "\"ex8_area_type\":0"));
-    // Check decoded J-Alert target
-    CHECK(has(s, "\"jalert_target\":{"));
-    CHECK(has(s, "\"prefecture_mode\":1"));
-    CHECK(has(s, "\"prefecture_positions\":[47,46,45]"));
-}
-
-TEST_CASE("JSON Serialization: MT=44 DCX Local Government") {
-    Message m{};
-    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.payload_type    = MsgPayloadType::Mt44;
-    m.mt44.service_kind    = Mt44ServiceKind::LocalGovernment;
-    m.mt44.is_null_message = false;
-    m.mt44.ex_kind         = ExtendedKind::LAlertOrLocal;
-    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 4;
-    m.mt44.camf.a4 = 10; m.mt44.camf.a5 = 3;
-    m.mt44.ex_lalert_local.ex1 = 1100;
-    m.mt44.ex_lalert_local.ex2 = 1;
-    m.mt44.ex_lalert_local.ex3 = 91522;   // Additional ellipse latitude
-    m.mt44.ex_lalert_local.ex4 = 68950;   // Additional ellipse longitude
-    m.mt44.ex_lalert_local.ex5 = 10;
-    m.mt44.ex_lalert_local.ex6 = 8;
-    m.mt44.ex_lalert_local.ex7 = 96;
-    m.mt44.ex_lalert_local.vn = 1;
-    m.mt44.mt44_decoded.additional_area.present = true;
-    m.mt44.mt44_decoded.additional_area.head_to_area = true;
-
-    StringPrint sp;
-    internal::JsonSerializer::serialize(m, sp);
-    const auto& s = sp.buf;
-
-    CHECK(has(s, "\"msg_type\":44"));
-    CHECK(has(s, "\"dcx_type\":3"));           // LocalGovernment = 3
-    CHECK(has(s, "\"dcx_type_label\":\"LOCAL_GOV\""));
-    CHECK(has(s, "\"a3_provider\":4"));
-    CHECK(has(s, "\"ex1_target_area\":1100"));
-    // Check additional area
-    CHECK(has(s, "\"additional_area\":{"));
-    CHECK(has(s, "\"head_to_area\":1"));
-}
-
-TEST_CASE("JSON Serialization: MT=44 DCX Outside Japan") {
-    Message m{};
-    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.payload_type    = MsgPayloadType::Mt44;
-    m.mt44.service_kind    = Mt44ServiceKind::OutsideJapan;
-    m.mt44.is_null_message = false;
-    m.mt44.ex_kind         = ExtendedKind::OutsideJapan;
-    m.mt44.camf.a1 = 1; m.mt44.camf.a2 = 32; m.mt44.camf.a3 = 1;
-    m.mt44.ex_outside.vn = 5;
-
-    StringPrint sp;
-    internal::JsonSerializer::serialize(m, sp);
-    const auto& s = sp.buf;
-
-    CHECK(has(s, "\"msg_type\":44"));
-    CHECK(has(s, "\"dcx_type\":4"));           // OutsideJapan = 4
-    CHECK(has(s, "\"dcx_type_label\":\"OUTSIDE_JAPAN\""));
-    CHECK(has(s, "\"a2_country\":32"));
-}
-
-TEST_CASE("JSON Serialization: MT=44 DCX Null Message") {
-    Message m{};
-    m.msg_type        = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.payload_type    = MsgPayloadType::Mt44;
-    m.mt44.service_kind    = Mt44ServiceKind::NullMessage;
-    m.mt44.is_null_message = true;
-    m.mt44.ex_kind         = ExtendedKind::None;
-    m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 0;
-
-    StringPrint sp;
-    internal::JsonSerializer::serialize(m, sp);
-    const auto& s = sp.buf;
-
-    CHECK(has(s, "\"msg_type\":44"));
-    CHECK(has(s, "\"dcx_type\":0"));           // NullMessage = 0
-    CHECK(has(s, "\"dcx_type_label\":\"NULL\""));
-}
-
-// ── MT=43 Hypocenter ─────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Hypocenter") {
     Message m{};
     m.msg_type = 43;
@@ -256,7 +272,6 @@ TEST_CASE("JSON Serialization: MT=43 Hypocenter") {
     CHECK(has(s, "\"notifications\":["));
 }
 
-// ── MT=43 Tsunami ────────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Tsunami") {
     Message m{};
     m.msg_type = 43;
@@ -281,7 +296,6 @@ TEST_CASE("JSON Serialization: MT=43 Tsunami") {
     CHECK(has(s, "\"height\":4"));
 }
 
-// ── MT=43 Nankai Trough ──────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Nankai Trough") {
     Message m{};
     m.msg_type = 43;
@@ -306,7 +320,6 @@ TEST_CASE("JSON Serialization: MT=43 Nankai Trough") {
     CHECK(has(s, "\"total_page\":3"));
 }
 
-// ── MT=43 NW Pacific Tsunami ─────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 NW Pacific Tsunami") {
     Message m{};
     m.msg_type = 43;
@@ -327,7 +340,6 @@ TEST_CASE("JSON Serialization: MT=43 NW Pacific Tsunami") {
     CHECK(has(s, "\"entries\":["));
 }
 
-// ── MT=43 Volcano ────────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Volcano") {
     Message m{};
     m.msg_type = 43;
@@ -350,7 +362,6 @@ TEST_CASE("JSON Serialization: MT=43 Volcano") {
     CHECK(has(s, "\"local_govs\":["));
 }
 
-// ── MT=43 Ash Fall ───────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Ash Fall") {
     Message m{};
     m.msg_type = 43;
@@ -377,7 +388,6 @@ TEST_CASE("JSON Serialization: MT=43 Ash Fall") {
     CHECK(has(s, "\"entries\":["));
 }
 
-// ── MT=43 Weather ────────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Weather") {
     Message m{};
     m.msg_type = 43;
@@ -404,7 +414,6 @@ TEST_CASE("JSON Serialization: MT=43 Weather") {
     CHECK(has(s, "\"region\":11000"));
 }
 
-// ── MT=43 Flood ──────────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Flood") {
     Message m{};
     m.msg_type = 43;
@@ -426,7 +435,6 @@ TEST_CASE("JSON Serialization: MT=43 Flood") {
     CHECK(has(s, "\"warning_level\":3"));
 }
 
-// ── MT=43 Typhoon ────────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Typhoon") {
     Message m{};
     m.msg_type = 43;
@@ -457,7 +465,6 @@ TEST_CASE("JSON Serialization: MT=43 Typhoon") {
     CHECK(has(s, "\"max_gust\":50"));
 }
 
-// ── MT=43 Marine ─────────────────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: MT=43 Marine") {
     Message m{};
     m.msg_type = 43;
@@ -480,26 +487,10 @@ TEST_CASE("JSON Serialization: MT=43 Marine") {
     CHECK(has(s, "\"region\":100"));
 }
 
-// ── MT=44 DCX Unknown ────────────────────────────────────────────────────────
-TEST_CASE("JSON Serialization: MT=44 DCX Unknown") {
-    Message m{};
-    m.msg_type = 44; m.svid = 193; m.crc24 = 0xABCDEF;
-    m.payload_type = MsgPayloadType::Mt44;
-    m.mt44.service_kind = Mt44ServiceKind::Unknown;
-    m.mt44.is_null_message = false;
-    m.mt44.ex_kind = ExtendedKind::None;
-    m.mt44.camf.a2 = 111; m.mt44.camf.a3 = 5;  // Unknown A3
+// ═══════════════════════════════════════════════════════════════════════════════
+// JSON 構造検証
+// ═══════════════════════════════════════════════════════════════════════════════
 
-    StringPrint sp;
-    internal::JsonSerializer::serialize(m, sp);
-    const auto& s = sp.buf;
-
-    CHECK(has(s, "\"msg_type\":44"));
-    CHECK(has(s, "\"dcx_type\":5"));           // Unknown = 5
-    CHECK(has(s, "\"dcx_type_label\":\"UNKNOWN\""));
-}
-
-// ── Balanced braces/brackets ─────────────────────────────────────────────────
 TEST_CASE("JSON Serialization: Balanced braces/brackets") {
     auto test_balanced = [](const Message& m) {
         StringPrint sp;

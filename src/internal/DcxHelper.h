@@ -56,6 +56,32 @@ uint8_t decodePrefectureBitmask(uint64_t ex9, uint8_t* out_positions);
 // Fills out_codes array (must be at least 4 elements) and returns the number of written codes.
 uint8_t decodeCityCodeList(uint64_t ex9, uint16_t* out_codes);
 
+// ---------------------------------------------------------------------------
+// B1 (A17=00) - Improved Resolution of Main Ellipse (EWSS CAMF v1.1 §3.7.1)
+// ---------------------------------------------------------------------------
+
+// Decode B1 refinement from A18 (15-bit field)
+// A18 = C1(3bit)[0:2] + C2(3bit)[3:5] + C3(3bit)[6:8] + C4(3bit)[9:11] + Reserved(3bit)[12:14]
+struct B1Refinement {
+    uint8_t c1; // 3 bits - latitude refinement (0-7)
+    uint8_t c2; // 3 bits - longitude refinement (0-7)
+    uint8_t c3; // 3 bits - semi-major axis interpolation factor (0-7)
+    uint8_t c4; // 3 bits - semi-minor axis interpolation factor (0-7)
+};
+
+B1Refinement decodeB1Refinement(uint16_t a18);
+
+// Calculate latitude refinement offset (degrees)
+// delta = C1 × 180 / (8 × 65535)
+double b1RefinedLatitudeOffset(uint8_t c1);
+
+// Calculate longitude refinement offset (degrees)
+// delta = C2 × 360 / (8 × 131071)
+double b1RefinedLongitudeOffset(uint8_t c2);
+
+// Calculate interpolation factor for C3/C4
+// factor = code / 8.0 → 0, 0.125, 0.250, ..., 0.875
+double b1InterpolationFactor(uint8_t code);
+
 } // namespace internal
 } // namespace azaraC
-

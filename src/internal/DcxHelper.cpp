@@ -145,6 +145,40 @@ uint8_t decodeCityCodeList(uint64_t ex9, uint16_t* out_codes) {
     return count;
 }
 
+// ---------------------------------------------------------------------------
+// B1 (A17=00) - Improved Resolution of Main Ellipse (EWSS CAMF v1.1 §3.7.1)
+// ---------------------------------------------------------------------------
+
+B1Refinement decodeB1Refinement(uint16_t a18) {
+    B1Refinement b1;
+    b1.c1 = a18 & 0x07;          // bits [0:2]   (3 bits)
+    b1.c2 = (a18 >> 3) & 0x07;  // bits [3:5]   (3 bits)
+    b1.c3 = (a18 >> 6) & 0x07;  // bits [6:8]   (3 bits)
+    b1.c4 = (a18 >> 9) & 0x07;  // bits [9:11]  (3 bits)
+    // bits [12:14] reserved
+    return b1;
+}
+
+double b1RefinedLatitudeOffset(uint8_t c1) {
+    // C1: 緯度補正 = C1 × 180 / (8 × 65535)
+    // Grid interval = 180 / 65535 ≈ 0.002747°
+    // Step = interval / 8 ≈ 0.000343°
+    return static_cast<double>(c1) * (180.0 / (8.0 * 65535.0));
+}
+
+double b1RefinedLongitudeOffset(uint8_t c2) {
+    // C2: 経度補正 = C2 × 360 / (8 × 131071)
+    // Grid interval = 360 / 131071 ≈ 0.002747°
+    // Step = interval / 8 ≈ 0.000343°
+    return static_cast<double>(c2) * (360.0 / (8.0 * 131071.0));
+}
+
+double b1InterpolationFactor(uint8_t code) {
+    // C3/C4: 補間係数 = code / 8.0
+    // 0 → 0.000, 1 → 0.125, 2 → 0.250, ..., 7 → 0.875
+    return static_cast<double>(code) / 8.0;
+}
+
 
 } // namespace internal
 } // namespace azaraC

@@ -1,5 +1,46 @@
 # Changelog
 
+## [0.5.0] - 2026-05-27
+
+### Added
+
+- **DCX MT44 デコーダの IS-QZSS-DCX-003 完全準拠リファクタ**:
+  - `DecoderDcx.cpp`: MT44 デコーダを仕様書通りのビット配置（PAB|MT|SD|CAMF|EX|Reserved|CRC）で再実装。
+  - `A2 Country/Region Name` および `A3 Provider Identifier` に基づくサービス種別判定ロジックを実装（L-Alert, J-Alert, Local Government, Outside Japan, Null Message, Unknown）。
+  - `Extended Message` のサービス種別ごとの個別パース処理を実装：
+    - L-Alert/Local Government: `EX1..EX7 + Vn`
+    - J-Alert: `EX8..EX10 + Vn`
+    - Outside Japan: `EX11(68bit raw) + Vn`
+  - `Message.h`: `Mt44Decoded` 構造体にデコード済み楕円座標（`DecodedEllipse`）、追加領域（`DecodedAdditionalArea`）、アラート識別子（`Mt44AlertIdentity`）を追加。
+  - `Message.h`: `DecodedEllipse`, `DecodedAdditionalArea`, `Mt44AlertIdentity` 構造体を新規定義。
+- **DcxHelper 関数の追加**:
+  - `decodeLatitude16()`: 16ビット緯度コードを WGS84 度に変換。
+  - `decodeLongitude17()`: 17ビット経度コードを WGS84 度に変換。
+  - `decodeLatitude17()`: 17ビット緯度コード（EX3用）を WGS84 度に変換。
+  - `decodeLongitude17_45_225()`: 17ビット経度コード（EX4用、45-225度範囲）を WGS84 度に変換。
+  - `decodeRadiusCode()`: 5ビット半径コードを km に変換（IS-QZSS-DCX-003 Table 4.2-17 対数テーブル）。
+  - `decodeAzimuth6()`: 6ビット方位角コードを度に変換。
+  - `decodeAzimuth7()`: 7ビット方位角コード（EX7用）を度に変換。
+  - `decodePrefectureBitmask()`: EX9 64ビットフィールドから都道府県ビットマスクをデコード。
+  - `decodeCityCodeList()`: EX9 64ビットフィールドから市区町村コードリストをデコード。
+- **テストファイルの追加**:
+  - `test/test_dcx_helper.cpp`: DcxHelper 全関数のユニットテスト（緯度・経度・半径・方位角・都道府県ビットマスク・市区町村コード）。
+  - `test/test_latlon.cpp`: `extractLatLon` 関数の緯度経度抽出テスト。
+  - `test/test_decoder.cpp`: DCX MT44 デコードテスト（L-Alert, J-Alert, Local Government, Outside Japan, Null Message, 未知A3）および `decodePrefectureBitmask` 単体テストを追加。
+
+### Changed
+
+- **J-Alert 都道府県デコードバグ修正** (`check.md` に基づく):
+  - `DcxHelper.cpp::decodePrefectureBitmask()`: EX9[63:17] に格納される47ビット都道府県フィールドの抽出ロジックを修正（`ex9 >> 17` で右シフトしてから検査）。
+  - JIS コード計算を `47 - i` から `i + 1` に修正（bit 0 = 北海道/JIS 1）。
+- `Message.h`: `Mt44CamfRaw` の `a12`, `a13` のコメントを「unsigned, latitude/longitude code」に更新。
+- `Message.h`: `Mt44ExLAlertOrLocal` の `ex3`, `ex4` のコメントを「unsigned」に更新。
+
+### Fixed
+
+- `DecoderDcx.cpp`: A12/A13 の符号付きパース（2の補数）を符号なしパースに修正（IS-QZSS-DCX-003 仕様準拠）。
+- `DecoderDcx.cpp`: EX3/EX4 の符号付きパースを符号なしパースに修正。
+
 ## [0.4.0] - 2026-05-20
 
 ### Added

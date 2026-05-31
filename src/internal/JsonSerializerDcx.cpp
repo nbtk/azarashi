@@ -71,7 +71,20 @@ void serializeDcx(const Message& m, Print& out) {
         wf_d(out, "lon_deg", dec.main_ellipse.lon_deg);
         wf_d(out, "semi_major_km", dec.main_ellipse.semi_major_km);
         wf_d(out, "semi_minor_km", dec.main_ellipse.semi_minor_km);
-        wf_d(out, "azimuth_deg", dec.main_ellipse.azimuth_deg, /*last=*/true);
+        wf_d(out, "azimuth_deg", dec.main_ellipse.azimuth_deg);
+
+        // B1 refinement (EWSS CAMF v1.1 §3.7.1)
+        if (d.camf.b1_present) {
+            writeChar(out, ',');
+            wk(out, "b1_refinement");
+            out.print('{');
+            wf_d(out, "c1_lat_offset_deg", dec.main_ellipse.b1_lat_offset_deg);
+            wf_d(out, "c2_lon_offset_deg", dec.main_ellipse.b1_lon_offset_deg);
+            wf_d(out, "c3_major_factor", dec.main_ellipse.b1_major_factor);
+            wf_d(out, "c4_minor_factor", dec.main_ellipse.b1_minor_factor, /*last=*/true);
+            out.print('}');
+        }
+
         out.print('}');
         writeChar(out, ',');
     }

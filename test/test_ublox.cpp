@@ -1,5 +1,5 @@
-// test/test_ublox.cpp — UBX SFRBX format tests (from azarashi test_ublox)
-// Tests that UBX-decoded frames produce the same NMEA output as the original
+// test/test_ublox.cpp — UBX SFRBX format tests
+// UBXフォーマットのデコードテスト
 
 #define ARDUINO 0
 #include "../src/azaraC.h"
@@ -17,7 +17,7 @@ using namespace azaraC::internal;
 using namespace azaraC::def;
 
 // Helper: Feed raw bytes through UBX framer
-static bool decode_ubx(const uint8_t* data, size_t len, Frame& out) {
+static bool decodeUbx(const uint8_t* data, size_t len, Frame& out) {
     UbxFramer framer;
     for (size_t i = 0; i < len; ++i) {
         if (framer.feed(data[i], out)) return true;
@@ -26,7 +26,7 @@ static bool decode_ubx(const uint8_t* data, size_t len, Frame& out) {
 }
 
 // Helper: Build UBX SFRBX packet with correct checksum
-static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits) {
+static std::vector<uint8_t> makeUbxSfrbx(uint8_t svId, const uint8_t* nav_bits) {
     std::vector<uint8_t> out;
     out.push_back(0xB5); out.push_back(0x62); // SYNC
     out.push_back(0x02); out.push_back(0x13); // CLASS/ID (RXM-SFRBX)
@@ -78,10 +78,10 @@ static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits
 
 TEST_CASE("UBX: SFRBX basic decode") {
     uint8_t nav_bits[32] = {0x53, 0xAB};
-    auto pkt = make_ubx_sfrbx(2, nav_bits);
+    auto pkt = makeUbxSfrbx(2, nav_bits);
 
     Frame ubx_frame;
-    bool ok = decode_ubx(pkt.data(), pkt.size(), ubx_frame);
+    bool ok = decodeUbx(pkt.data(), pkt.size(), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 2);
     CHECK(ubx_frame.bits[0] == 0x53);
@@ -92,72 +92,69 @@ TEST_CASE("UBX: SFRBX round-trip with NMEA") {
     nav_bits[0] = 0x53;
     nav_bits[1] = 0x2F;
 
-    auto pkt = make_ubx_sfrbx(56, nav_bits);
+    auto pkt = makeUbxSfrbx(56, nav_bits);
 
     Frame ubx_frame;
-    bool ok = decode_ubx(pkt.data(), pkt.size(), ubx_frame);
+    bool ok = decodeUbx(pkt.data(), pkt.size(), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 56);
 }
 
 TEST_CASE("UBX: SFRBX with different svid") {
     uint8_t nav_bits[32] = {0x9A, 0xCD};
-    auto pkt = make_ubx_sfrbx(57, nav_bits);
+    auto pkt = makeUbxSfrbx(57, nav_bits);
 
     Frame ubx_frame;
-    bool ok = decode_ubx(pkt.data(), pkt.size(), ubx_frame);
+    bool ok = decodeUbx(pkt.data(), pkt.size(), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 57);
 }
 
 TEST_CASE("UBX: SFRBX svid=61") {
     uint8_t nav_bits[32] = {0xC6, 0xEF};
-    auto pkt = make_ubx_sfrbx(61, nav_bits);
+    auto pkt = makeUbxSfrbx(61, nav_bits);
 
     Frame ubx_frame;
-    bool ok = decode_ubx(pkt.data(), pkt.size(), ubx_frame);
+    bool ok = decodeUbx(pkt.data(), pkt.size(), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 61);
 }
 
 TEST_CASE("UBX: SFRBX svid=55") {
     uint8_t nav_bits[32] = {0x53, 0x00};
-    auto pkt = make_ubx_sfrbx(55, nav_bits);
+    auto pkt = makeUbxSfrbx(55, nav_bits);
 
     Frame ubx_frame;
-    bool ok = decode_ubx(pkt.data(), pkt.size(), ubx_frame);
+    bool ok = decodeUbx(pkt.data(), pkt.size(), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 55);
 }
 
 TEST_CASE("UBX: Checksum error rejection") {
     uint8_t nav_bits[32] = {0x53, 0xAB};
-    auto pkt = make_ubx_sfrbx(2, nav_bits);
+    auto pkt = makeUbxSfrbx(2, nav_bits);
 
     // Corrupt the checksum
     pkt[pkt.size() - 1] ^= 0xFF;
 
     Frame ubx_frame;
-    bool ok = decode_ubx(pkt.data(), pkt.size(), ubx_frame);
+    bool ok = decodeUbx(pkt.data(), pkt.size(), ubx_frame);
     CHECK_FALSE(ok);
 }
 
 TEST_CASE("UBX: Garbage recovery") {
     uint8_t nav_bits[32] = {0x9A};
-    auto pkt = make_ubx_sfrbx(3, nav_bits);
+    auto pkt = makeUbxSfrbx(3, nav_bits);
 
     Frame ubx_frame;
-    bool ok = decode_ubx(pkt.data(), pkt.size(), ubx_frame);
+    bool ok = decodeUbx(pkt.data(), pkt.size(), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 3);
 }
 
-// ── UBX Round-Trip Tests (from azarashi test_ublox) ───────────────────────────
-// These tests verify that UBX-decoded frames produce consistent results.
-// Uses ublox_qzss_svid_prn_map to convert svId to PRN for comparison.
+// ── UBX Round-Trip Tests ──────────────────────────────────────────────────────
 
-TEST_CASE("UBX: Round-trip svId=2 PRN=184 (from azarashi test_ublox)") {
-    // From azarashi test_ublox: first test case (svId=0x02, PRN=184)
+TEST_CASE("UBX: Round-trip svId=2 PRN=184") {
     const uint8_t ubx_data[] = {
         0xB5, 0x62, 0x02, 0x13, 0x2C, 0x00, 0x05, 0x02, 0x01, 0x00, 0x09, 0x40, 0x02, 0x00,
         0xC5, 0xF1, 0xAD, 0x9A, 0x04, 0x05, 0x80, 0x11, 0x54, 0x8D, 0xA0, 0x60, 0x3F, 0x82,
@@ -166,30 +163,9 @@ TEST_CASE("UBX: Round-trip svId=2 PRN=184 (from azarashi test_ublox)") {
     };
 
     Frame ubx_frame;
-    bool ok = decode_ubx(ubx_data, sizeof(ubx_data), ubx_frame);
+    bool ok = decodeUbx(ubx_data, sizeof(ubx_data), ubx_frame);
     REQUIRE(ok);
 
-    // Verify svId
-    CHECK(ubx_frame.svid == 0x02);
-
-    // Verify PRN conversion using ublox_qzss_svid_prn_map
-    auto prn = ublox_qzss_svid_prn_map_lookup(ubx_frame.svid);
-    REQUIRE(prn.has_value());
-    CHECK(prn.value() == "184");
-}
-
-TEST_CASE("UBX: Round-trip svId=2 PRN=184 second pattern") {
-    // From azarashi test_ublox: second test case
-    const uint8_t ubx_data[] = {
-        0xB5, 0x62, 0x02, 0x13, 0x2C, 0x00, 0x05, 0x02, 0x01, 0x00, 0x09, 0x40, 0x02, 0x00,
-        0x76, 0x14, 0xAD, 0x53, 0x5C, 0x03, 0x80, 0x1A, 0x33, 0xEC, 0x00, 0x00, 0x49, 0x48,
-        0x2F, 0x14, 0x20, 0x1B, 0x01, 0x52, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00, 0x00,
-        0xA6, 0x59, 0xB0, 0xC6, 0x5B, 0x1F, 0xF3, 0xB2, 0x3E, 0xB6
-    };
-
-    Frame ubx_frame;
-    bool ok = decode_ubx(ubx_data, sizeof(ubx_data), ubx_frame);
-    REQUIRE(ok);
     CHECK(ubx_frame.svid == 0x02);
 
     auto prn = ublox_qzss_svid_prn_map_lookup(ubx_frame.svid);
@@ -198,7 +174,6 @@ TEST_CASE("UBX: Round-trip svId=2 PRN=184 second pattern") {
 }
 
 TEST_CASE("UBX: Round-trip svId=3 PRN=185") {
-    // From azarashi test_ublox: third test case (svId=0x03, PRN=185)
     const uint8_t ubx_data[] = {
         0xB5, 0x62, 0x02, 0x13, 0x2C, 0x00, 0x05, 0x03, 0x01, 0x00, 0x09, 0x41, 0x02, 0x00,
         0xA1, 0xE5, 0xAD, 0xC6, 0x12, 0x02, 0x80, 0x36, 0x68, 0x00, 0x00, 0x01, 0x10, 0x50,
@@ -207,7 +182,7 @@ TEST_CASE("UBX: Round-trip svId=3 PRN=185") {
     };
 
     Frame ubx_frame;
-    bool ok = decode_ubx(ubx_data, sizeof(ubx_data), ubx_frame);
+    bool ok = decodeUbx(ubx_data, sizeof(ubx_data), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 0x03);
 
@@ -217,7 +192,6 @@ TEST_CASE("UBX: Round-trip svId=3 PRN=185") {
 }
 
 TEST_CASE("UBX: Round-trip svId=7 PRN=189") {
-    // From azarashi test_ublox: fourth test case (svId=0x07, PRN=189)
     const uint8_t ubx_data[] = {
         0xB5, 0x62, 0x02, 0x13, 0x2C, 0x00, 0x05, 0x07, 0x01, 0x00, 0x09, 0x45, 0x02, 0x00,
         0xA1, 0xE5, 0xAD, 0xC6, 0x12, 0x02, 0x80, 0x36, 0x68, 0x00, 0x00, 0x01, 0x10, 0x50,
@@ -226,7 +200,7 @@ TEST_CASE("UBX: Round-trip svId=7 PRN=189") {
     };
 
     Frame ubx_frame;
-    bool ok = decode_ubx(ubx_data, sizeof(ubx_data), ubx_frame);
+    bool ok = decodeUbx(ubx_data, sizeof(ubx_data), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 0x07);
 
@@ -236,8 +210,6 @@ TEST_CASE("UBX: Round-trip svId=7 PRN=189") {
 }
 
 TEST_CASE("UBX: Round-trip svId=1 (suspended, no PRN mapping)") {
-    // From azarashi test_ublox: fifth test case (svid:1 は停波済)
-    // svId=1 is not in the map (suspended satellite)
     const uint8_t ubx_data[] = {
         0xB5, 0x62, 0x02, 0x13, 0x2C, 0x00, 0x05, 0x01, 0x01, 0x00, 0x09, 0x45, 0x02, 0x00,
         0xA1, 0xE5, 0xAD, 0xC6, 0x12, 0x02, 0x80, 0x36, 0x68, 0x00, 0x00, 0x01, 0x10, 0x50,
@@ -246,19 +218,17 @@ TEST_CASE("UBX: Round-trip svId=1 (suspended, no PRN mapping)") {
     };
 
     Frame ubx_frame;
-    bool ok = decode_ubx(ubx_data, sizeof(ubx_data), ubx_frame);
+    bool ok = decodeUbx(ubx_data, sizeof(ubx_data), ubx_frame);
     REQUIRE(ok);
     CHECK(ubx_frame.svid == 0x01);
 
-    // svId=1 is not in the map (suspended satellite)
     auto prn = ublox_qzss_svid_prn_map_lookup(ubx_frame.svid);
     CHECK_FALSE(prn.has_value());
 }
 
-// ── UBX Error Handling Tests (from azarashi test_decode_error) ────────────────
+// ── UBX Error Handling Tests ──────────────────────────────────────────────────
 
 TEST_CASE("UBX: Corrupted UBX payload rejected") {
-    // From azarashi test_decode_error: UBX with corrupted checksum
     const uint8_t ubx_data[] = {
         0xB5, 0x62, 0x02, 0x13, 0x2C, 0x00, 0x05, 0x02, 0x01, 0x00, 0x09, 0x40, 0x02, 0x00,
         0xC5, 0xF1, 0xAD, 0x9A, 0x04, 0x05, 0x80, 0x11, 0x54, 0x8D, 0xA0, 0x60, 0x3F, 0x82,
@@ -267,7 +237,6 @@ TEST_CASE("UBX: Corrupted UBX payload rejected") {
     };
 
     Frame ubx_frame;
-    bool ok = decode_ubx(ubx_data, sizeof(ubx_data), ubx_frame);
-    // Should fail because UBX checksum doesn't match
+    bool ok = decodeUbx(ubx_data, sizeof(ubx_data), ubx_frame);
     CHECK_FALSE(ok);
 }

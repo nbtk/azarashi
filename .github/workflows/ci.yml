@@ -15,11 +15,26 @@ jobs:
       - name: Build & run
         run: make -C test run
 
+  # ── Arduino Lint ─────────────────────────────────────────────────────────
+  arduino-lint:
+    name: Arduino Lint
+    runs-on: ubuntu-latest
+    needs: host-test
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run Arduino Lint
+        uses: arduino/arduino-lint-action@v2
+        with:
+          library-manager: submit
+          compliance: strict
+
   # ── Arduino (ESP32-C3) コンパイルチェック ─────────────────────────────
   arduino-compile:
     name: arduino-cli compile (ESP32-C3)
     runs-on: ubuntu-latest
-    needs: host-test
+    needs:
+      - host-test
+      - arduino-lint
     steps:
       - uses: actions/checkout@v6
 

@@ -13,9 +13,8 @@ else
   RM         = rm -f
 endif
 
-# Test executable
-
 # Test sources
+# 注意: test_helpers.h はヘルパーファイルなのでコンパイル対象に含めない
 TEST_SRCS = \
 	test_main.cpp \
 	test_crc.cpp \
