@@ -6,6 +6,17 @@
 //
 // Optional compile-time overrides (define BEFORE this include):
 //   #define AZARAC_DEDUP_SLOTS 16   // default: 8
+//   #define AZARAC_LANG_JA 1        // Enable Japanese labels (default: 1)
+//   #define AZARAC_LANG_EN 0        // Enable English labels (default: 0)
+
+// ---- language selection macros -----------------------------------------------
+#ifndef AZARAC_LANG_JA
+#define AZARAC_LANG_JA 1
+#endif
+
+#ifndef AZARAC_LANG_EN
+#define AZARAC_LANG_EN 0
+#endif
 
 #include "Message.h"
 #include "Parser.h"

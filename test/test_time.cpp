@@ -5,7 +5,7 @@
 using namespace azaraC;
 using namespace azaraC::internal;
 
-TEST_CASE("days_from_civil と civil_from_days の相互変換") {
+TEST_CASE("daysFromCivil と civilFromDays の相互変換") {
     struct TestCase {
         uint32_t year, month, day;
     };
@@ -144,4 +144,29 @@ TEST_CASE("resolveTime: 無効な入力の処理") {
 TEST_CASE("Unix時間の計算検証") {
     TimeFields t = TestDecoder::testResolveTime(1, 1, 0, 0, 1704067200u);
     CHECK(t.unix_time == 1704067200u);
+}
+
+TEST_CASE("resolveTime: now_unix=0 (未同期シナリオ)") {
+    // ESP32/Arduinoで NTP 未同期の場合、report_unix=0 を渡すことがある
+    // unix_time は 0 のままだが、day/hour/minute は保持されることを確認
+    TimeFields t = TestDecoder::testResolveTime(0, 15, 10, 30, 0u);
+    CHECK(t.day == 15);
+    CHECK(t.hour == 10);
+    CHECK(t.minute == 30);
+    CHECK(t.unix_time == 0); // 年解決不許可のため 0
+}
+
+TEST_CASE("resolveTime: now_unix < 2000年 (複数時刻覚ケース)") {
+    // 1999-12-31: unix=946684799 (閘値946684800未満)
+    // 準拠として無効なので unix_time=0 のまま
+    TimeFields t = TestDecoder::testResolveTime(0, 20, 12, 0, 946684799u);
+    CHECK(t.day == 20);
+    CHECK(t.hour == 12);
+    CHECK(t.minute == 0);
+    CHECK(t.unix_time == 0);
+
+    // 専門の記込みシステムで GPS 連操前にメッセージを受信するケース
+    // 2000-01-01 00:00:00 UTC = 946684800 (閘値以上なら有効)
+    TimeFields t2 = TestDecoder::testResolveTime(1, 1, 0, 0, 946684800u);
+    CHECK(t2.unix_time == 946684800u);
 }

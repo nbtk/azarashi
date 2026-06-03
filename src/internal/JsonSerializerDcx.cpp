@@ -2,6 +2,7 @@
 // MT=44 DCX JSON serializer
 
 #include "JsonWriter.h"
+#include "DcxHelper.h"
 #include "../definition/_index.h"
 #include <optional>
 #include <string_view>
@@ -71,11 +72,10 @@ void serializeDcx(const Message& m, Print& out) {
         wf_d(out, "lon_deg", dec.main_ellipse.lon_deg);
         wf_d(out, "semi_major_km", dec.main_ellipse.semi_major_km);
         wf_d(out, "semi_minor_km", dec.main_ellipse.semi_minor_km);
-        wf_d(out, "azimuth_deg", dec.main_ellipse.azimuth_deg);
+        wf_d(out, "azimuth_deg", dec.main_ellipse.azimuth_deg, /*last=*/!d.camf.b1_present);
 
         // B1 refinement (EWSS CAMF v1.1 §3.7.1)
         if (d.camf.b1_present) {
-            writeChar(out, ',');
             wk(out, "b1_refinement");
             out.print('{');
             wf_d(out, "c1_lat_offset_deg", dec.main_ellipse.b1_lat_offset_deg);
@@ -85,6 +85,77 @@ void serializeDcx(const Message& m, Print& out) {
             out.print('}');
         }
 
+        out.print('}');
+        writeChar(out, ',');
+    }
+
+    // B2 (A17=01) - Hazard center offset (EWSS CAMF v1.1 §3.7.2)
+    if (d.camf.b2_present) {
+        wk(out, "hazard_center");
+        out.print('{');
+        wf_u(out, "c5_raw", d.camf.b2_c5);
+        wf_u(out, "c6_raw", d.camf.b2_c6);
+        double base_lat = decodeLatitude16(d.camf.a12);
+        double base_lon = decodeLongitude17(d.camf.a13);
+        wf_d(out, "delta_lat_deg", dec.main_ellipse.lat_deg - base_lat);
+        wf_d(out, "delta_lon_deg", dec.main_ellipse.lon_deg - base_lon, /*last=*/true);
+        out.print('}');
+        writeChar(out, ',');
+    }
+
+    // B3 (A17=10) - Secondary ellipse definition (EWSS CAMF v1.1 §3.7.3)
+    if (d.camf.b3_present) {
+        wk(out, "secondary_ellipse");
+        out.print('{');
+        wf_u(out, "c7_shift", d.camf.b3_c7);
+        wf_u(out, "c8_homothetic", d.camf.b3_c8);
+        wf_u(out, "c9_bearing", d.camf.b3_c9);
+        wf_u(out, "c10_guidance", d.camf.b3_c10, /*last=*/true);
+        out.print('}');
+        writeChar(out, ',');
+    }
+
+    // B4 (A17=11) - Detailed hazard information (EWSS CAMF v1.1 §3.7.4)
+    if (d.camf.b4_present) {
+        wk(out, "detailed_info");
+        out.print('{');
+        wf_u(out, "a4_code", d.camf.a4);
+        if (d.camf.b4_d1)  wf_u(out, "d1_magnitude", d.camf.b4_d1);
+        if (d.camf.b4_d2)  wf_u(out, "d2_seismic_coeff", d.camf.b4_d2);
+        if (d.camf.b4_d3)  wf_u(out, "d3_azimuth", d.camf.b4_d3);
+        if (d.camf.b4_d4)  wf_u(out, "d4_vector_length", d.camf.b4_d4);
+        if (d.camf.b4_d5)  wf_u(out, "d5_wave_height", d.camf.b4_d5);
+        if (d.camf.b4_d6)  wf_u(out, "d6_temp_range", d.camf.b4_d6);
+        if (d.camf.b4_d7)  wf_u(out, "d7_hurricane_cat", d.camf.b4_d7);
+        if (d.camf.b4_d8)  wf_u(out, "d8_wind_speed", d.camf.b4_d8);
+        if (d.camf.b4_d9)  wf_u(out, "d9_rainfall", d.camf.b4_d9);
+        if (d.camf.b4_d10) wf_u(out, "d10_damage", d.camf.b4_d10);
+        if (d.camf.b4_d11) wf_u(out, "d11_tornado_prob", d.camf.b4_d11);
+        if (d.camf.b4_d12) wf_u(out, "d12_hail_scale", d.camf.b4_d12);
+        if (d.camf.b4_d13) wf_u(out, "d13_visibility", d.camf.b4_d13);
+        if (d.camf.b4_d14) wf_u(out, "d14_snow_depth", d.camf.b4_d14);
+        if (d.camf.b4_d15) wf_u(out, "d15_flood_severity", d.camf.b4_d15);
+        if (d.camf.b4_d16) wf_u(out, "d16_lightning", d.camf.b4_d16);
+        if (d.camf.b4_d17) wf_u(out, "d17_fog_level", d.camf.b4_d17);
+        if (d.camf.b4_d18) wf_u(out, "d18_drought", d.camf.b4_d18);
+        if (d.camf.b4_d19) wf_u(out, "d19_avalanche", d.camf.b4_d19);
+        if (d.camf.b4_d20) wf_u(out, "d20_ash_fall", d.camf.b4_d20);
+        if (d.camf.b4_d21) wf_u(out, "d21_geomagnetic", d.camf.b4_d21);
+        if (d.camf.b4_d22) wf_u(out, "d22_terrorism", d.camf.b4_d22);
+        if (d.camf.b4_d23) wf_u(out, "d23_fire_risk", d.camf.b4_d23);
+        if (d.camf.b4_d24) wf_u(out, "d24_water_quality", d.camf.b4_d24);
+        if (d.camf.b4_d25) wf_u(out, "d25_uv_index", d.camf.b4_d25);
+        if (d.camf.b4_d26) wf_u(out, "d26_cases_per_100k", d.camf.b4_d26);
+        if (d.camf.b4_d27) wf_u(out, "d27_noise", d.camf.b4_d27);
+        if (d.camf.b4_d28) wf_u(out, "d28_air_quality", d.camf.b4_d28);
+        if (d.camf.b4_d29) wf_u(out, "d29_outage_duration", d.camf.b4_d29);
+        if (d.camf.b4_d30) wf_u(out, "d30_nuclear_scale", d.camf.b4_d30);
+        if (d.camf.b4_d31) wf_u(out, "d31_chemical_type", d.camf.b4_d31);
+        if (d.camf.b4_d32) wf_u(out, "d32_biohazard_level", d.camf.b4_d32);
+        if (d.camf.b4_d33) wf_u(out, "d33_biohazard_type", d.camf.b4_d33);
+        if (d.camf.b4_d34) wf_u(out, "d34_explosive_type", d.camf.b4_d34);
+        if (d.camf.b4_d35) wf_u(out, "d35_infection_type", d.camf.b4_d35);
+        if (d.camf.b4_d36) wf_u(out, "d36_typhoon_cat", d.camf.b4_d36, /*last=*/true);
         out.print('}');
         writeChar(out, ',');
     }

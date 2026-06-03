@@ -2,7 +2,23 @@
 
 #include "Parser.h"
 
+#if !defined(ARDUINO) || ARDUINO < 1
+#  include <chrono>
+#endif
+
 namespace azaraC {
+
+// Get current time in milliseconds
+static uint32_t getCurrentMillis() {
+#if defined(ARDUINO) && ARDUINO >= 1
+    return millis();
+#else
+    auto now = std::chrono::steady_clock::now();
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()).count();
+    return static_cast<uint32_t>(ms);
+#endif
+}
 
 bool Parser::feed(uint8_t byte, Message& out, uint32_t report_unix) {
     internal::Frame frame;
@@ -11,6 +27,13 @@ bool Parser::feed(uint8_t byte, Message& out, uint32_t report_unix) {
     if (_custom) {
         if (!_custom->feed(byte, frame)) return false;
         if (!_decoder.decode(frame, out, report_unix)) return false;
+        
+        // Nankai Trough page aggregation
+        if (out.payload_type == MsgPayloadType::Mt43 &&
+            out.mt43.disaster_category == 4) {
+            return processNankaiAggregation(out, out, getCurrentMillis());
+        }
+        
         internal::DedupKey key{ out.svid, out.msg_type, out.crc24 };
         if (_dedup.isDuplicate(key)) return false;
         return true;
@@ -37,13 +60,61 @@ bool Parser::feed(uint8_t byte, Message& out, uint32_t report_unix) {
     if (!ubx_ok && !nmea_ok) return false;
 
     // フレームが取れたらデコード
-    if (!_decoder.decode(frame, out, report_unix)) return false;
+    Message decoded;
+    if (!_decoder.decode(frame, decoded, report_unix)) return false;
+
+    // Nankai Trough page aggregation
+    if (decoded.payload_type == MsgPayloadType::Mt43 &&
+        decoded.mt43.disaster_category == 4) {
+        return processNankaiAggregation(decoded, out, getCurrentMillis());
+    }
 
     // 重複チェック
-    internal::DedupKey key{ out.svid, out.msg_type, out.crc24 };
+    internal::DedupKey key{ decoded.svid, decoded.msg_type, decoded.crc24 };
     if (_dedup.isDuplicate(key)) return false;
 
+    out = decoded;
     return true;
+}
+
+bool Parser::processNankaiAggregation(const Message& decoded, Message& out, uint32_t current_ms) {
+    const Mt43Data& d = decoded.mt43;
+    
+    // Create key for this event (svid NOT included - see design doc)
+    internal::NankaiPageKey key;
+    key.info_code = d.nankai.info_code;
+    key.event_time_unix = d.event_time.unix_time;
+    
+    // Add page to buffer
+    internal::NankaiPageBuffer* completed = _nankaiBuffers.addPage(
+        key,
+        d.nankai.page,
+        d.nankai.total_page,
+        d.nankai.text,
+        current_ms
+    );
+    
+    if (completed) {
+        // All pages received - copy decoded message and add aggregated text
+        out = decoded;
+        
+        // Copy aggregated text to message
+        uint16_t textLen = completed->getTextLength();
+        if (textLen > 0 && textLen <= 1134) {  // 63 pages * 18 bytes
+            completed->getText(out.mt43.nankai.aggregated_text, 1134);
+            out.mt43.nankai.aggregated_len = textLen;
+            out.mt43.nankai.is_aggregated = true;
+        }
+        
+        return true;
+    }
+    
+    // Not complete yet - don't output
+    return false;
+}
+
+const internal::NankaiPageBuffer* Parser::getNankaiBuffer(const internal::NankaiPageKey& key) const {
+    return _nankaiBuffers.getBuffer(key);
 }
 
 void Parser::reset() {
@@ -51,6 +122,7 @@ void Parser::reset() {
     _nmea.reset();
     if (_custom) _custom->reset();
     _dedup.reset();
+    _nankaiBuffers.clearAll();
     _mode = Mode::AUTO;
 }
 

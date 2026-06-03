@@ -1,6 +1,6 @@
 # test/Makefile — ホストビルド (ESP32不要)
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -g -MMD -MP
+CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -DAZARAC_LANG_JA=1 -DAZARAC_LANG_EN=1 -g -MMD -MP
 
 # OS detection
 ifeq ($(OS),Windows_NT)
@@ -23,13 +23,14 @@ TEST_SRCS = \
 	test_json.cpp \
 	test_framer.cpp \
 	test_tsunami.cpp \
-	test_azarashi.cpp \
+	compare_with_azarashi.cpp \
 	test_ublox.cpp \
 	test_decoder.cpp \
 	test_typhoon_marine.cpp \
 	test_coverage.cpp \
 	test_dcx_helper.cpp \
-	test_dedup.cpp
+	test_dedup.cpp \
+	test_nankai_multipage.cpp
 
 # Library sources
 LIB_SRCS = \
@@ -55,7 +56,7 @@ all: $(TEST_BIN)
 
 # Rule to build the test binary
 $(TEST_BIN): $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@ -Wl,--stack,33554432
 
 # Pattern rules for test sources
 %.o: %.cpp

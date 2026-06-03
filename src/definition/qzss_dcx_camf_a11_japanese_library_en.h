@@ -91,6 +91,7 @@ inline constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_J
     {775u, "Keep away from Cliffs and areas at risk of collapse."},
 };
 [[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_a11_japanese_library_en_lookup(uint16_t id) {
+#if AZARAC_LANG_EN
     uint8_t lo = 0, hi = 38;
     while (lo < hi) {
         uint8_t mid = static_cast<uint8_t>(lo + (hi - lo) / 2);
@@ -99,6 +100,10 @@ inline constexpr QZSS_DCX_CAMF_A11_JAPANESE_LIBRARY_EN_Entry QZSS_DCX_CAMF_A11_J
         else hi = mid;
     }
     return std::nullopt;
+#else
+    (void)id;
+    return std::nullopt;
+#endif
 }
 
 } // namespace def

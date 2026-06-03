@@ -148,8 +148,32 @@ TEST_CASE("decodeTyphoon: 無効なデータの処理") {
 
     TestDecoder::testDecodeTyphoon(bits, msg, 1704067200u);
 
-    // 少なくともクラッシュしないことを確認
-    CHECK(true);
+    // Message-level fields: decodeTyphoon does not modify these, so they remain at defaults
+    CHECK(msg.msg_type == 0);
+    CHECK(msg.valid == false);
+    CHECK(msg.payload_type == MsgPayloadType::Empty);
+
+    // Typhoon subfields: all zero since no typhoon data bits are set
+    CHECK(msg.mt43.typh.ref_type == 0);
+    CHECK(msg.mt43.typh.elapsed == 0);
+    CHECK(msg.mt43.typh.number == 0);
+    CHECK(msg.mt43.typh.scale == 0);
+    CHECK(msg.mt43.typh.intensity == 0);
+
+    // LatLon coordinates: all zero
+    CHECK(msg.mt43.typh.coords.lat_ns == 0);
+    CHECK(msg.mt43.typh.coords.lat_deg == 0);
+    CHECK(msg.mt43.typh.coords.lat_min == 0);
+    CHECK(msg.mt43.typh.coords.lat_sec == 0);
+    CHECK(msg.mt43.typh.coords.lon_ew == 0);
+    CHECK(msg.mt43.typh.coords.lon_deg == 0);
+    CHECK(msg.mt43.typh.coords.lon_min == 0);
+    CHECK(msg.mt43.typh.coords.lon_sec == 0);
+
+    // Pressure / Wind / Gust: all zero
+    CHECK(msg.mt43.typh.pressure == 0);
+    CHECK(msg.mt43.typh.max_wind == 0);
+    CHECK(msg.mt43.typh.max_gust == 0);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

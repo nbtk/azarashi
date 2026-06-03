@@ -399,7 +399,16 @@ TEST_CASE("decodePrefectureBitmask: reservedビットは無視される") {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 TEST_CASE("decodeB1Refinement: 基本的な分割") {
-    uint16_t a18 = (1 << 9) | (2 << 6) | (3 << 3) | 5;
+    // A18 bit layout: bit[14]=MSB (spec bit 131), bit[0]=LSB (spec bit 145)
+    // C1 = (a18 >> 12) & 0x07, C2 = (a18 >> 9) & 0x07
+    // C3 = (a18 >> 6) & 0x07,  C4 = (a18 >> 3) & 0x07
+    // C1=5, C2=3, C3=2, C4=1
+    // a18 = 0b0101_0011_0010_0001 = (5<<12)|(3<<9)|(2<<3)|1 = 0x5321... wait
+    // C1=5 → bits 14:12 = 0b101 → (5 << 12)
+    // C2=3 → bits 11:9  = 0b011 → (3 << 9)
+    // C3=2 → bits 8:6   = 0b010 → (2 << 6)
+    // C4=1 → bits 5:3   = 0b001 → (1 << 3)
+    uint16_t a18 = (5 << 12) | (3 << 9) | (2 << 6) | (1 << 3);
     B1Refinement b1 = azaraC::internal::decodeB1Refinement(a18);
 
     CHECK(b1.c1 == 5);
@@ -418,7 +427,8 @@ TEST_CASE("decodeB1Refinement: 全ゼロ") {
 }
 
 TEST_CASE("decodeB1Refinement: 最大値（全7）") {
-    uint16_t a18 = (7 << 9) | (7 << 6) | (7 << 3) | 7;
+    // C1=7 → (7 << 12), C2=7 → (7 << 9), C3=7 → (7 << 6), C4=7 → (7 << 3)
+    uint16_t a18 = (7 << 12) | (7 << 9) | (7 << 6) | (7 << 3);
     B1Refinement b1 = azaraC::internal::decodeB1Refinement(a18);
 
     CHECK(b1.c1 == 7);
@@ -481,7 +491,9 @@ TEST_CASE("DCX B1: L-AlertメッセージでのB1解析") {
     setBits(bits, 123, 6, 32);
 
     setBits(bits, 129, 2, 0);       // A17 = 00 (B1)
-    setBits(bits, 131, 15, (1 << 9) | (2 << 6) | (3 << 3) | 5);  // A18
+    // A18: C1=5, C2=3, C3=2, C4=1 (MSB-first)
+    // C1=5 → (5 << 12), C2=3 → (3 << 9), C3=2 → (2 << 6), C4=1 → (1 << 3)
+    setBits(bits, 131, 15, (5 << 12) | (3 << 9) | (2 << 6) | (1 << 3));  // A18
 
     setBits(bits, 146, 16, 1100);
     setBits(bits, 214, 6, 1);
@@ -559,4 +571,209 @@ TEST_CASE("DCX B1: B1なしメッセージ（A17=00だがC1-C4全ゼロ）") {
     CHECK(result == true);
     CHECK(msg.valid == true);
     CHECK(msg.mt44.camf.b1_present == false);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// B2 (A17=01) - Position of the Centre of the Hazard 統合テスト
+// B2 が mt44_decoded.main_ellipse の lat/lon に加算されることを検証
+// ═══════════════════════════════════════════════════════════════════════════════
+
+TEST_CASE("DCX B2: ハザード中心オフセットが主楕円座標に反映される") {
+    uint8_t bits[32] = {};
+    Message msg{};
+
+    setBits(bits, 0, 8, 0x53);
+    setBits(bits, 8, 6, 44);
+    setBits(bits, 14, 1, 0);
+    setBits(bits, 15, 9, 0);
+    setBits(bits, 24, 2, 1);
+    setBits(bits, 26, 9, 111);
+    setBits(bits, 35, 5, 1);          // A3=1 (L-Alert)
+    setBits(bits, 40, 7, 74);
+    setBits(bits, 47, 2, 2);
+    setBits(bits, 49, 1, 0);
+    setBits(bits, 50, 14, 100);
+    setBits(bits, 64, 2, 1);
+    setBits(bits, 66, 1, 1);
+    setBits(bits, 67, 3, 0);
+    setBits(bits, 70, 10, 0);
+
+    // 主楕円 (A12-A16): Tokyo 付近
+    setBits(bits, 80, 16, 32768);     // A12: lat ~0°
+    setBits(bits, 96, 17, 65536);     // A13: lon ~0°
+    setBits(bits, 113, 5, 10);        // A14: semi-major
+    setBits(bits, 118, 5, 8);         // A15: semi-minor
+    setBits(bits, 123, 6, 32);        // A16: azimuth ~0°
+
+    // A17=01 → B2
+    setBits(bits, 129, 2, 1);
+    // A18: C5[0:6]=63(ほぼ0.0°), C6[7:13]=63(ほぼ0.0°)
+    // B2: delta = -10 + (20/128) * C  (C <= 63)
+    // C5=63: -10 + (20/128)*63 = -10 + 9.84375 = -0.15625
+    // C6=63: -10 + (20/128)*63 = -10 + 9.84375 = -0.15625
+    uint16_t a18_b2 = (63u & 0x7Fu) | ((63u & 0x7Fu) << 7);
+    setBits(bits, 131, 15, a18_b2);
+
+    setBits(bits, 146, 16, 1100);
+    setBits(bits, 214, 6, 1);
+
+    uint32_t crc = crc24qRef(bits, 226);
+    setBits(bits, 226, 24, crc);
+
+    Decoder decoder;
+    Frame frame;
+    frame.svid = 56;
+    memcpy(frame.bits, bits, 32);
+
+    bool result = decoder.decode(frame, msg, 1704067200u);
+
+    REQUIRE(result == true);
+    CHECK(msg.valid == true);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::LAlert);
+
+    // B2 フラグ確認
+    CHECK(msg.mt44.camf.b2_present == true);
+    CHECK(msg.mt44.camf.b2_c5 == 63);
+    CHECK(msg.mt44.camf.b2_c6 == 63);
+
+    // mt44_decoded.main_ellipse に B2 オフセットが加算されているか確認
+    // C5=63: delta_lat = -10 + (20/128)*63 = -0.15625
+    // C6=63: delta_lon = -10 + (20/128)*63 = -0.15625
+    // 元の lat/lon ≈ 0 + (-0.15625) = -0.15625 (許容±0.01°)
+    CHECK(msg.mt44.mt44_decoded.main_ellipse_present == true);
+    CHECK(msg.mt44.mt44_decoded.main_ellipse.lat_deg == doctest::Approx(-0.15625).epsilon(0.01));
+    CHECK(msg.mt44.mt44_decoded.main_ellipse.lon_deg == doctest::Approx(-0.15625).epsilon(0.01));
+}
+
+TEST_CASE("DCX B2: C5=0/C6=0 はオフセット-10.0°を加算する") {
+    uint8_t bits[32] = {};
+    Message msg{};
+
+    setBits(bits, 0, 8, 0x53);
+    setBits(bits, 8, 6, 44);
+    setBits(bits, 14, 1, 0);
+    setBits(bits, 15, 9, 0);
+    setBits(bits, 24, 2, 1);
+    setBits(bits, 26, 9, 111);
+    setBits(bits, 35, 5, 1);
+    setBits(bits, 40, 7, 74);
+    setBits(bits, 47, 2, 2);
+    setBits(bits, 49, 1, 0);
+    setBits(bits, 50, 14, 100);
+    setBits(bits, 64, 2, 1);
+    setBits(bits, 66, 1, 1);
+    setBits(bits, 67, 3, 0);
+    setBits(bits, 70, 10, 0);
+
+    // 主楕円: code=32768 → lat≈0°, code=65536 → lon≈0°
+    setBits(bits, 80, 16, 32768);
+    setBits(bits, 96, 17, 65536);
+    setBits(bits, 113, 5, 10);
+    setBits(bits, 118, 5, 8);
+    setBits(bits, 123, 6, 32);
+
+    // A17=01, A18: C5=0, C6=0
+    setBits(bits, 129, 2, 1);
+    setBits(bits, 131, 15, 0);  // C5=0, C6=0
+
+    setBits(bits, 146, 16, 1100);
+    setBits(bits, 214, 6, 1);
+
+    uint32_t crc = crc24qRef(bits, 226);
+    setBits(bits, 226, 24, crc);
+
+    Decoder decoder;
+    Frame frame;
+    frame.svid = 56;
+    memcpy(frame.bits, bits, 32);
+
+    bool result = decoder.decode(frame, msg, 1704067200u);
+
+    REQUIRE(result == true);
+    CHECK(msg.mt44.camf.b2_present == true);
+    CHECK(msg.mt44.camf.b2_c5 == 0);
+    CHECK(msg.mt44.camf.b2_c6 == 0);
+
+    // C5=0, C6=0: delta = -10.0° → lat≈0+(-10)=-10°, lon≈0+(-10)=-10°
+    CHECK(msg.mt44.mt44_decoded.main_ellipse.lat_deg == doctest::Approx(-10.0).epsilon(0.01));
+    CHECK(msg.mt44.mt44_decoded.main_ellipse.lon_deg == doctest::Approx(-10.0).epsilon(0.01));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// B3 (A17=10) - Secondary Ellipse Definition 統合テスト
+// B3 が camf フラグと shift_km/homothetic_factor/bearing_deg に反映されることを検証
+// ═══════════════════════════════════════════════════════════════════════════════
+
+TEST_CASE("DCX B3: 副楕円パラメータが camf に反映される") {
+    uint8_t bits[32] = {};
+    Message msg{};
+
+    setBits(bits, 0, 8, 0x53);
+    setBits(bits, 8, 6, 44);
+    setBits(bits, 14, 1, 0);
+    setBits(bits, 15, 9, 0);
+    setBits(bits, 24, 2, 1);
+    setBits(bits, 26, 9, 111);
+    setBits(bits, 35, 5, 1);
+    setBits(bits, 40, 7, 74);
+    setBits(bits, 47, 2, 2);
+    setBits(bits, 49, 1, 0);
+    setBits(bits, 50, 14, 100);
+    setBits(bits, 64, 2, 1);
+    setBits(bits, 66, 1, 1);
+    setBits(bits, 67, 3, 0);
+    setBits(bits, 70, 10, 0);
+
+    // 主楕円: semi-major=code13→10.933km で B3 の shift 計算基準になる
+    setBits(bits, 80, 16, 45761);    // lat ~35.7°
+    setBits(bits, 96, 17, 116395);   // lon ~139.7°
+    setBits(bits, 113, 5, 13);       // A14=13 (semi-major ~10.933km)
+    setBits(bits, 118, 5, 8);
+    setBits(bits, 123, 6, 32);
+
+    // A17=10 → B3
+    // A18 = C7[0:1] + C8[2:4] + C9[5:9] + C10[10:14]
+    // C7=3, C8=7, C9=31, C10=0
+    // shift=C7 * semi_major_km = 3 * 10.933 = 32.799km
+    // homothetic=C8=7 → 0.25 * (7+1) = 2.0
+    // bearing=C9=31 → 31 * 11.25 = 348.75°
+    uint16_t a18_b3 = (3u & 0x03u) | ((7u & 0x07u) << 2) | ((31u & 0x1Fu) << 5) | (0u << 10);
+    setBits(bits, 129, 2, 2);
+    setBits(bits, 131, 15, a18_b3);
+
+    setBits(bits, 146, 16, 1100);
+    setBits(bits, 214, 6, 1);
+
+    uint32_t crc = crc24qRef(bits, 226);
+    setBits(bits, 226, 24, crc);
+
+    Decoder decoder;
+    Frame frame;
+    frame.svid = 56;
+    memcpy(frame.bits, bits, 32);
+
+    bool result = decoder.decode(frame, msg, 1704067200u);
+
+    REQUIRE(result == true);
+    CHECK(msg.valid == true);
+    CHECK(msg.mt44.service_kind == Mt44ServiceKind::LAlert);
+
+    // B3 フラグ確認
+    CHECK(msg.mt44.camf.b3_present == true);
+    CHECK(msg.mt44.camf.b3_c7  == 3);
+    CHECK(msg.mt44.camf.b3_c8  == 7);
+    CHECK(msg.mt44.camf.b3_c9  == 31);
+    CHECK(msg.mt44.camf.b3_c10 == 0);
+
+    // デコード済み値の確認
+    // shift_km = C7 * semi_major_km = 3 * 10.933 = 32.799km
+    // (semi_major_km は A14=13 から decodeRadiusCode(13) = 10.933 で計算)
+    CHECK(msg.mt44.camf.b3_shift_km == doctest::Approx(32.799).epsilon(0.01));
+    // homothetic_factor: C8=7 → 0.25 * (7+1) = 2.0
+    CHECK(msg.mt44.camf.b3_homothetic_factor == doctest::Approx(2.0).epsilon(0.01));
+    // bearing_deg: C9=31 → 31 * 11.25 = 348.75°
+    CHECK(msg.mt44.camf.b3_bearing_deg == doctest::Approx(348.75).epsilon(0.01));
+
+    // B3 の場合、主楕円自体は変更されない（B2 と異なり座標シフトなし）
+    CHECK(msg.mt44.mt44_decoded.main_ellipse_present == true);
 }

@@ -1,5 +1,77 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Planned
+- MT=43 全カテゴリのJSON出力例のドキュメント追加
+- エラーハンドリング例の追加
+- パフォーマンス最適化ガイドの追加
+
+---
+
+## [0.7.0] - 2026-06-01
+
+### Added
+
+- **DCX A17 B2/B3/B4 の実装** (EWSS CAMF v1.1 §3.7.2-3.7.4):
+  - `DcxHelper.cpp`: B2/B3/B4 デコード関数の追加:
+    - `decodeB2HazardCenter()`: C5/C6 から緯度/経度オフセットを計算（±10°範囲、0.15625°ステップ）
+    - `decodeB3SecondaryEllipse()`: C7-C10 から第2楕円パラメータを計算（シフト・相似比・方位角・ガイダンス）
+    - `decodeB4DetailedInfo()`: A4 ハザード種別に応じて D1-D36 フィールドを抽出（36種のD-series）
+  - `DcxHelper.h`: `B2HazardCenter`, `B3SecondaryEllipse`, `B4DetailedInfo` 構造体および上記関数の宣言を追加
+  - `Message.h`: `Mt44CamfRaw` に B2/B3/B4 フィールド（raw values）を追加
+  - `DecoderDcx.cpp`: A17=01/10/11 の場合の B2/B3/B4 解析処理を実装
+  - `JsonSerializerDcx.cpp`: B2/B3/B4 の JSON 出力を追加
+  - `JsonSerializerDcx.cpp`: `DcxHelper.h` のインクルードを追加（`decodeLatitude16`/`decodeLongitude17` 使用）
+
+### Changed
+
+- `DecoderDcx.cpp`: B2/B3 のビット抽出を B1 と同じパターン（LSB から順）に統一
+- `DcxHelper.cpp`: B4 の各ハザード D フィールドのビット配置を仕様書（EWSS CAMF v1.1 §3.7.4）と整合
+- `DecoderDcx.cpp`: B2/B3/B4 フィールドの初期化を追加（ゼロクリア）
+
+### Fixed
+
+- `DecoderDcx.cpp`: B3 の未使用変数警告を修正（`(void)` キャスト）
+
+### 仕様準拠
+- EWSS CAMF v1.1 §3.7.2-3.7.4 に準拠
+- A17=01 (B2: Hazard Center Position) のデコード対応
+- A17=10 (B3: Secondary Ellipse Definition) のデコード対応
+- A17=11 (B4: Quantitative and Detailed Information) のデコード対応
+
+---
+
+## [0.6.0] - 2026-05-31
+
+### Added
+
+- **DCX A17 B1 (Improved Resolution of Main Ellipse) の実装** (EWSS CAMF v1.1 §3.7.1):
+  - `DcxHelper.cpp`: B1 リファインメント関数の追加:
+    - `decodeB1Refinement()`: A18 (15bit) から C1-C4 を抽出
+    - `b1RefinedLatitudeOffset()`: C1 から緯度補正オフセットを計算
+    - `b1RefinedLongitudeOffset()`: C2 から経度補正オフセットを計算
+    - `b1InterpolationFactor()`: C3/C4 から補間係数を計算
+  - `DcxHelper.h`: `B1Refinement` 構造体および上記関数の宣言を追加
+  - `Message.h`: `Mt44CamfRaw` に B1 フィールド (`b1_present`, `b1_c1`-`b1_c4`) を追加
+  - `Message.h`: `DecodedEllipse` に B1 リファインメント値 (`b1_lat_offset_deg`, `b1_lon_offset_deg`, `b1_major_factor`, `b1_minor_factor`) を追加
+  - `DecoderDcx.cpp`: A17=00 の場合の B1 解析処理を実装
+
+### Changed
+
+- `DecoderDcx.cpp`: Null Message 検出時の Extended Message チェックを `getBits` を使用するように修正（ビット境界の正確性向上）
+
+### 仕様準拠
+- EWSS CAMF v1.1 §3.7.1 に準拠
+- A17=00 (B1: Improved Resolution of Main Ellipse) のデコード対応
+
+---
+
 ## [0.5.0] - 2026-05-27
 
 ### Added
@@ -40,6 +112,13 @@
 
 - `DecoderDcx.cpp`: A12/A13 の符号付きパース（2の補数）を符号なしパースに修正（IS-QZSS-DCX-003 仕様準拠）。
 - `DecoderDcx.cpp`: EX3/EX4 の符号付きパースを符号なしパースに修正。
+
+### 仕様準拠
+- IS-QZSS-DCX-003 に完全準拠
+- サービス種別（Service Kind）の識別ロジックを A2 Country および A3 Provider に基づいて実装
+- 階層構造化されたCAMF（Common Alert Message Format）のパース処理を刷新
+
+---
 
 ## [0.4.0] - 2026-05-20
 
@@ -88,6 +167,12 @@
   - `JsonSerializer.cpp` のオーバーロード競合を解消するため、`std::optional` 型文字列解決用の `wf_s` オーバーロードを整理。
   - `make -C test run` が警告・コンパイルエラーなく、全113件のテストケース（578アサーション）を 100% SUCCESS で通過することを確認。
 
+### 仕様準拠
+- IS-QZSS-DCX-003 仕様への完全適合
+- C++17 標準への準拠と安全性向上
+
+---
+
 ## [0.3.2] - 2026-05-12
 
 ### Fixed
@@ -102,6 +187,8 @@
 
 - `src/internal/Dedup.h`: `AZARAC_DEDUP_SLOTS` のデフォルト値を 8 から 32 に拡張 (重複排除の耐性向上)
 
+---
+
 ## [0.3.1] - 2026-04-28
 
 ### Fixed
@@ -109,6 +196,8 @@
 - Definition headers: `static constexpr` → `inline constexpr` 変更
   (linker-scope symbol となり、複数のソースからの参照が可能)
 - `Decoder::decodeQzqsm` の unused-parameter 警告削除
+
+---
 
 ## [0.3.0] - 2026-04-19
 
@@ -129,6 +218,8 @@
 - `Decoder.h`: テスト用サブクラスアクセスのため `private` → `protected`
 - `Decoder.cpp`: `decodeTsunami` / `decodeNwPacTsu` の unused-parameter 警告修正
 
+---
+
 ## [0.2.0] - 2026-04-19
 
 ### Added (Phase 2)
@@ -148,6 +239,24 @@
   `TsunamiEntry`, `SeismicEntry`, `WeatherEntry`, `FloodEntry`,
   `MarineEntry`, `NwPacTsunamiEntry`, `TyphoonPos`
 
+### 対応カテゴリ一覧
+| disaster_category | 内容 |
+|-------------------|------|
+| 1 | 緊急地震速報 (EEW) |
+| 2 | 震源情報 (Hypocenter) |
+| 3 | 震度情報 (Seismic Intensity) |
+| 4 | 南海トラフ地震 (Nankai Trough) |
+| 5 | 津波警報・注意報 (Tsunami) |
+| 6 | 北太平洋津波 (NW Pacific Tsunami) |
+| 8 | 火山情報 (Volcano) |
+| 9 | 降灰情報 (Ash Fall) |
+| 10 | 気象警報・注意報 (Weather) |
+| 11 | 洪水警報 (Flood) |
+| 12 | 台風情報 (Typhoon) |
+| 14 | 海上警報 (Marine) |
+
+---
+
 ## [0.1.0] - 2026-04-19
 
 ### Added (Phase 1)
@@ -162,3 +271,28 @@
 - 102 definition headers auto-generated from azarashi 0.15.1
 - CI: arduino-cli compile check on ESP32-C3
 - CI: auto PR on azarashi version bump (daily schedule)
+
+### アーキテクチャ
+- **Framer**: UBX/NMEA 自動判別、pluggable IFramer インターフェース
+- **Decoder**: MT=43 (QZQSM) / MT=44 (DCX) デコード
+- **DedupFilter**: {svid, msg_type, crc24} によるリングバッファ重複排除
+- **JsonSerializer**: ヒープアロケーションなしの Print& 出力
+
+---
+
+## 仕様書リファレンス
+
+| 規格 | 内容 | バージョン |
+|------|------|------------|
+| IS-QZSS-DCR-016 | DC Report Service (MT=43) | April 03, 2026 |
+| IS-QZSS-DCX-003 | DCX Service (MT=44) | March 28, 2025 |
+| EWSS CAMF v1.1 | Common Alert Message Format | Version 1.1 |
+
+---
+
+## 関連ドキュメント
+
+- [README.md](README.md) - クイックスタートとAPIドキュメント
+- [examples/](examples/) - 使用例集
+- [test/](test/) - テストスイート
+- [scripts/](scripts/) - 定義ファイル自動生成スクリプト

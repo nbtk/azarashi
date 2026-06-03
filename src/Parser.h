@@ -7,6 +7,7 @@
 #include "internal/NmeaFramer.h"
 #include "internal/Decoder.h"
 #include "internal/Dedup.h"
+#include "internal/NankaiPageBuffer.h"
 
 namespace azaraC {
 
@@ -22,15 +23,24 @@ public:
 
     void reset();
 
+    // Check if Nankai Trough page aggregation is complete for given key
+    // Returns pointer to completed buffer if complete, nullptr otherwise
+    const internal::NankaiPageBuffer* getNankaiBuffer(const internal::NankaiPageKey& key) const;
+
 private:
-    internal::UbxFramer   _ubx;
-    internal::NmeaFramer  _nmea;
-    internal::Decoder     _decoder;
-    internal::DedupFilter _dedup;
-    internal::IFramer*    _custom = nullptr;
+    internal::UbxFramer              _ubx;
+    internal::NmeaFramer             _nmea;
+    internal::Decoder                _decoder;
+    internal::DedupFilter            _dedup;
+    internal::NankaiPageBufferManager _nankaiBuffers;
+    internal::IFramer*               _custom = nullptr;
 
     enum class Mode : uint8_t { AUTO, UBX, NMEA, CUSTOM };
     Mode _mode = Mode::AUTO;
+
+    // Process Nankai Trough page aggregation
+    // Returns true if message should be output (page aggregation complete or not Nankai)
+    bool processNankaiAggregation(const Message& decoded, Message& out, uint32_t current_ms);
 };
 
 } // namespace azaraC

@@ -3975,6 +3975,7 @@ inline constexpr QZSS_DCX_EX1_TARGET_AREA_CODE_EN_Entry QZSS_DCX_EX1_TARGET_AREA
     {47382u, "Yonaguni-cho, Okinawa"},
 };
 [[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_ex1_target_area_code_en_lookup(uint16_t id) {
+#if AZARAC_LANG_EN
     uint16_t lo = 0, hi = 1980;
     while (lo < hi) {
         uint16_t mid = static_cast<uint16_t>(lo + (hi - lo) / 2);
@@ -3983,6 +3984,10 @@ inline constexpr QZSS_DCX_EX1_TARGET_AREA_CODE_EN_Entry QZSS_DCX_EX1_TARGET_AREA
         else hi = mid;
     }
     return std::nullopt;
+#else
+    (void)id;
+    return std::nullopt;
+#endif
 }
 
 } // namespace def

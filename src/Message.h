@@ -77,6 +77,63 @@ struct Mt44CamfRaw {
     uint8_t  b1_c2;         // 3 bits [3:5]   - longitude refinement (0-7)
     uint8_t  b1_c3;         // 3 bits [6:8]   - semi-major axis interpolation factor (0-7)
     uint8_t  b1_c4;         // 3 bits [9:11]  - semi-minor axis interpolation factor (0-7)
+
+    // B2 (A17=01) - Position of the Centre of the Hazard (EWSS CAMF v1.1 §3.7.2)
+    // A18 (15bit) = C5(7bit) + C6(7bit) + Reserved(1bit)
+    bool     b2_present;    // true if A17 == 1 and main ellipse is valid
+    uint8_t  b2_c5;         // 7 bits [0:6]   - delta latitude from ellipse center (-10..+10 deg)
+    uint8_t  b2_c6;         // 7 bits [7:13]  - delta longitude from ellipse center (-10..+10 deg)
+
+    // B3 (A17=10) - Secondary Ellipse Definition (EWSS CAMF v1.1 §3.7.3)
+    // A18 (15bit) = C7(2bit) + C8(3bit) + C9(5bit) + C10(5bit)
+    bool     b3_present;           // true if A17 == 2
+    uint8_t  b3_c7;                // 2 bits [0:1]   - shift factor (0-3)
+    uint8_t  b3_c8;                // 3 bits [2:4]   - homothetic factor index
+    uint8_t  b3_c9;                // 5 bits [5:9]   - bearing angle index
+    uint8_t  b3_c10;               // 5 bits [10:14] - guidance library code
+    double   b3_shift_km;          // decoded shift distance in km
+    double   b3_homothetic_factor; // decoded homothetic factor (0.25-2.0)
+    double   b3_bearing_deg;       // decoded bearing angle in degrees
+
+    // B4 (A17=11) - Quantitative and Detailed Information (EWSS CAMF v1.1 §3.7.4)
+    // A18 (15bit) = D-series fields depending on A4 hazard category and type
+    bool     b4_present;    // true if A17 == 3
+    uint8_t  b4_d1;         // 4 bits - D1: Magnitude on Richter scale
+    uint8_t  b4_d2;         // 3 bits - D2: Seismic coefficient
+    uint8_t  b4_d3;         // 4 bits - D3: Azimuth from ellipse center to epicenter
+    uint8_t  b4_d4;         // 4 bits - D4: Vector length between ellipse center and epicenter
+    uint8_t  b4_d5;         // 3 bits - D5: Wave height
+    uint8_t  b4_d6;         // 4 bits - D6: Temperature range
+    uint8_t  b4_d7;         // 3 bits - D7: Hurricane category
+    uint8_t  b4_d8;         // 4 bits - D8: Wind speed
+    uint8_t  b4_d9;         // 3 bits - D9: Rainfall amounts
+    uint8_t  b4_d10;        // 3 bits - D10: Damage category
+    uint8_t  b4_d11;        // 3 bits - D11: Tornado probability
+    uint8_t  b4_d12;        // 4 bits - D12: Hail scale
+    uint8_t  b4_d13;        // 4 bits - D13: Visibility
+    uint8_t  b4_d14;        // 5 bits - D14: Snow depth
+    uint8_t  b4_d15;        // 2 bits - D15: Flood severity
+    uint8_t  b4_d16;        // 3 bits - D16: Lightning intensity
+    uint8_t  b4_d17;        // 3 bits - D17: Fog level
+    uint8_t  b4_d18;        // 2 bits - D18: Drought level
+    uint8_t  b4_d19;        // 3 bits - D19: Avalanche warning level
+    uint8_t  b4_d20;        // 3 bits - D20: Ash fall amount and impact
+    uint8_t  b4_d21;        // 3 bits - D21: Geomagnetic scale
+    uint8_t  b4_d22;        // 3 bits - D22: Terrorism threat level
+    uint8_t  b4_d23;        // 3 bits - D23: Fire risk level
+    uint8_t  b4_d24;        // 3 bits - D24: Water quality
+    uint8_t  b4_d25;        // 4 bits - D25: UV index
+    uint8_t  b4_d26;        // 5 bits - D26: Number of cases per 100000 inhabitants
+    uint8_t  b4_d27;        // 4 bits - D27: Noise range
+    uint8_t  b4_d28;        // 3 bits - D28: Air quality index
+    uint8_t  b4_d29;        // 5 bits - D29: Outage estimated duration
+    uint8_t  b4_d30;        // 4 bits - D30: Nuclear event scale
+    uint8_t  b4_d31;        // 4 bits - D31: Chemical hazard type
+    uint8_t  b4_d32;        // 2 bits - D32: Biohazard level
+    uint8_t  b4_d33;        // 2 bits - D33: Biohazard type
+    uint8_t  b4_d34;        // 2 bits - D34: Explosive hazard type
+    uint8_t  b4_d35;        // 6 bits - D35: Infection type
+    uint8_t  b4_d36;        // 3 bits - D36: Typhoon category
 };
 
 struct Mt44ExLAlertOrLocal {
@@ -261,9 +318,16 @@ struct SeismicData {
 
 struct NankaiData {
     uint8_t info_code;           // [53..56] 4 bits
-    uint8_t text[18];            // [57..200] 18 bytes
+    uint8_t text[18];            // [57..200] 18 bytes (single page)
     uint8_t page;                // [201..206] 6 bits
     uint8_t total_page;          // [207..212] 6 bits
+    
+    // Aggregated text from all pages (for multi-page messages)
+    // Maximum possible size: 63 pages * 18 bytes = 1134 bytes
+    // This is populated when all pages are received
+    char aggregated_text[1134];   // Combined UTF-8 text from all pages
+    uint16_t aggregated_len;     // Length of aggregated text
+    bool is_aggregated;          // True if this is a complete aggregated message
 };
 
 struct TsunamiData {

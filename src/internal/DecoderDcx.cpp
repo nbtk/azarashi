@@ -50,6 +50,33 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
     d.camf.b1_c3 = 0;
     d.camf.b1_c4 = 0;
 
+    // Initialize B2 fields
+    d.camf.b2_present = false;
+    d.camf.b2_c5 = 0;
+    d.camf.b2_c6 = 0;
+
+    // Initialize B3 fields
+    d.camf.b3_present = false;
+    d.camf.b3_c7 = 0;
+    d.camf.b3_c8 = 0;
+    d.camf.b3_c9 = 0;
+    d.camf.b3_c10 = 0;
+    d.camf.b3_shift_km = 0.0;
+    d.camf.b3_homothetic_factor = 0.0;
+    d.camf.b3_bearing_deg = 0.0;
+
+    // Initialize B4 fields
+    d.camf.b4_present = false;
+    d.camf.b4_d1 = 0;  d.camf.b4_d2 = 0;  d.camf.b4_d3 = 0;  d.camf.b4_d4 = 0;
+    d.camf.b4_d5 = 0;  d.camf.b4_d6 = 0;  d.camf.b4_d7 = 0;  d.camf.b4_d8 = 0;
+    d.camf.b4_d9 = 0;  d.camf.b4_d10 = 0; d.camf.b4_d11 = 0; d.camf.b4_d12 = 0;
+    d.camf.b4_d13 = 0; d.camf.b4_d14 = 0; d.camf.b4_d15 = 0; d.camf.b4_d16 = 0;
+    d.camf.b4_d17 = 0; d.camf.b4_d18 = 0; d.camf.b4_d19 = 0; d.camf.b4_d20 = 0;
+    d.camf.b4_d21 = 0; d.camf.b4_d22 = 0; d.camf.b4_d23 = 0; d.camf.b4_d24 = 0;
+    d.camf.b4_d25 = 0; d.camf.b4_d26 = 0; d.camf.b4_d27 = 0; d.camf.b4_d28 = 0;
+    d.camf.b4_d29 = 0; d.camf.b4_d30 = 0; d.camf.b4_d31 = 0; d.camf.b4_d32 = 0;
+    d.camf.b4_d33 = 0; d.camf.b4_d34 = 0; d.camf.b4_d35 = 0; d.camf.b4_d36 = 0;
+
     // Null Message Check (IS-QZSS-DCX-003 §4.3)
     // All fields except PAB, MT, SD, Reserved, CRC must be 0
     // A2 must be Japan (001101111 = 111), A3 must be 0
@@ -196,6 +223,59 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
             dec.main_ellipse.b1_lon_offset_deg = b1RefinedLongitudeOffset(b1.c2);
             dec.main_ellipse.b1_major_factor = b1InterpolationFactor(b1.c3);
             dec.main_ellipse.b1_minor_factor = b1InterpolationFactor(b1.c4);
+        }
+        // B2 (A17=01) - Position of the Centre of the Hazard (EWSS CAMF v1.1 §3.7.2)
+        // A18 = C5[0:6](7bit) + C6[7:13](7bit) + Reserved[14](1bit)
+        else if (d.camf.a17 == 1) {
+            uint8_t c5 = (d.camf.a18 >> 0) & 0x7F;  // spec bits[0:6]
+            uint8_t c6 = (d.camf.a18 >> 7) & 0x7F;  // spec bits[7:13]
+            B2HazardCenter b2 = decodeB2HazardCenter(c5, c6);
+            d.camf.b2_present = true;
+            d.camf.b2_c5 = c5;
+            d.camf.b2_c6 = c6;
+            dec.main_ellipse.lat_deg += b2.delta_lat_deg;
+            dec.main_ellipse.lon_deg += b2.delta_lon_deg;
+        }
+        // B3 (A17=10) - Secondary Ellipse Definition (EWSS CAMF v1.1 §3.7.3)
+        // A18 = C7[0:1](2bit) + C8[2:4](3bit) + C9[5:9](5bit) + C10[10:14](5bit)
+        else if (d.camf.a17 == 2) {
+            uint8_t c7  = (d.camf.a18 >> 0)  & 0x03;  // spec bits[0:1]
+            uint8_t c8  = (d.camf.a18 >> 2)  & 0x07;  // spec bits[2:4]
+            uint8_t c9  = (d.camf.a18 >> 5)  & 0x1F;  // spec bits[5:9]
+            uint8_t c10 = (d.camf.a18 >> 10) & 0x1F;  // spec bits[10:14]
+            B3SecondaryEllipse b3 = decodeB3SecondaryEllipse(c7, c8, c9, c10, dec.main_ellipse.semi_major_km);
+            d.camf.b3_present = true;
+            d.camf.b3_c7 = c7;
+            d.camf.b3_c8 = c8;
+            d.camf.b3_c9 = c9;
+            d.camf.b3_c10 = c10;
+            // Store decoded B3 values for JSON output
+            d.camf.b3_shift_km = b3.shift_km;
+            d.camf.b3_homothetic_factor = b3.homothetic_factor;
+            d.camf.b3_bearing_deg = b3.bearing_deg;
+        }
+        // B4 (A17=11) - Quantitative and Detailed Information (EWSS CAMF v1.1 §3.7.4)
+        else if (d.camf.a17 == 3) {
+            B4DetailedInfo b4 = decodeB4DetailedInfo(d.camf.a18, d.camf.a4);
+            d.camf.b4_present = true;
+            d.camf.b4_d1 = b4.d1;   d.camf.b4_d2 = b4.d2;
+            d.camf.b4_d3 = b4.d3;   d.camf.b4_d4 = b4.d4;
+            d.camf.b4_d5 = b4.d5;   d.camf.b4_d6 = b4.d6;
+            d.camf.b4_d7 = b4.d7;   d.camf.b4_d8 = b4.d8;
+            d.camf.b4_d9 = b4.d9;   d.camf.b4_d10 = b4.d10;
+            d.camf.b4_d11 = b4.d11; d.camf.b4_d12 = b4.d12;
+            d.camf.b4_d13 = b4.d13; d.camf.b4_d14 = b4.d14;
+            d.camf.b4_d15 = b4.d15; d.camf.b4_d16 = b4.d16;
+            d.camf.b4_d17 = b4.d17; d.camf.b4_d18 = b4.d18;
+            d.camf.b4_d19 = b4.d19; d.camf.b4_d20 = b4.d20;
+            d.camf.b4_d21 = b4.d21; d.camf.b4_d22 = b4.d22;
+            d.camf.b4_d23 = b4.d23; d.camf.b4_d24 = b4.d24;
+            d.camf.b4_d25 = b4.d25; d.camf.b4_d26 = b4.d26;
+            d.camf.b4_d27 = b4.d27; d.camf.b4_d28 = b4.d28;
+            d.camf.b4_d29 = b4.d29; d.camf.b4_d30 = b4.d30;
+            d.camf.b4_d31 = b4.d31; d.camf.b4_d32 = b4.d32;
+            d.camf.b4_d33 = b4.d33; d.camf.b4_d34 = b4.d34;
+            d.camf.b4_d35 = b4.d35; d.camf.b4_d36 = b4.d36;
         }
     }
 

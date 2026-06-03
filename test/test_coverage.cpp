@@ -139,6 +139,26 @@ TEST_CASE("Edge Case: NMEA 62文字の拒否") {
     CHECK_FALSE(decodeNmea(nmea, msg));
 }
 
+TEST_CASE("Edge Case: NMEA 63文字の受け入れ（正常ペイロード長）") {
+    // 63文字 = 31バイト×2 + 1ニブル = IS-QZSS-L1S の正規ペイロード長
+    // ペイロードの内容はゼロ埋め（CRCは通らないが、フレーマーが受け入れることを確認）
+    // 実際の正常デコードは test_azarashi.cpp の実NMEAデータでカバー済み
+    const char* nmea = "$QZQSM,55,53AD160D2800039400001A28FFFFEE601800C8F00000000000000011BF8D908*01\r\n";
+    // ペイロード部 = "53AD160D2800039400001A28FFFFEE601800C8F00000000000000011BF8D908"
+    // 長さ確認: 63文字
+    const char* payload_start = nmea + 10; // "$QZQSM,55," の後
+    size_t payload_len = 0;
+    while (payload_start[payload_len] != '*') payload_len++;
+    CHECK(payload_len == 63); // NMEAフレーマーが受け入れる正規ペイロード長
+
+    Message msg{};
+    // この電文は実際にデコード成功するはず（test_azarashi.cpp でも使用）
+    bool ok = decodeNmea(nmea, msg);
+    CHECK(ok == true);
+    CHECK(msg.valid == true);
+    CHECK(msg.msg_type == 43);
+}
+
 TEST_CASE("Edge Case: NMEA 64文字の拒否") {
     char nmea[256];
     strcpy(nmea, "$QZQSM,55,");

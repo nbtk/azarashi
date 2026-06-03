@@ -73,7 +73,7 @@ TEST_CASE("DedupFilter: reset後に新規として扱われる") {
 
 TEST_CASE("DedupFilter: リングバッファのラップアラウンド") {
     DedupFilter filter;
-    // AZARAC_DEDUP_SLOTS = 32 なので、33個目のメッセージでラップアラウンド
+    // AZARAC_DEDUP_SLOTS = 32 なので、33個目のメッセージで先頭スロットが上書きされる
     DedupKey keys[33];
     for (int i = 0; i < 33; i++) {
         keys[i] = {193, 43, (uint32_t)(0x100000 + i)};
@@ -84,12 +84,16 @@ TEST_CASE("DedupFilter: リングバッファのラップアラウンド") {
         CHECK_FALSE(filter.isDuplicate(keys[i]));
     }
 
-    // 33個目を登録（ラップアラウンド発生）
+    // 33個目を登録（ラップアラウンド: keys[0] が上書きされる）
     CHECK_FALSE(filter.isDuplicate(keys[32]));
 
-    // 最初のメッセージはバッファから追い出されているため、新規として扱われる
-    // （実装によるが、リングバッファの動作として追い出されるはず）
-    // 注: 実装が_headを進める際に上書きするため、古いエントリは失われる
+    // keys[0] はバッファから追い出されているため、新規として扱われる
+    CHECK_FALSE(filter.isDuplicate(keys[0]));
+
+    // keys[1]〜keys[32] はまだバッファ内にある（ただし keys[0] が再登録で keys[1] が追い出された）
+    // ここでは「ラップアラウンドで追い出しが発生している」ことのみ確認
+    // keys[32] は依然バッファにある
+    CHECK(filter.isDuplicate(keys[32]));
 }
 
 TEST_CASE("DedupFilter: 同一CRCでもsvidが異なれば別メッセージ") {

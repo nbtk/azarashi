@@ -106,15 +106,25 @@ void serializeNankai(const Message& m, Print& out) {
     wf_u(out, "info_code", d.nankai.info_code);
     wf_s(out, "info_code_label",
         qzss_dcr_jma_information_serial_code_lookup(d.nankai.info_code));
-    wf_u(out, "page",       d.nankai.page);
-    wf_u(out, "total_page", d.nankai.total_page);
-    // text as hex bytes array
-    wk(out, "text_hex"); out.print('[');
-    for (uint8_t i = 0; i < 18; ++i) {
-        if (i) writeChar(out, ',');
-        writeHex(out, d.nankai.text[i]);
+    
+    // Output aggregated text if available (multi-page complete)
+    if (d.nankai.is_aggregated && d.nankai.aggregated_len > 0) {
+        wf_u(out, "page", 1);
+        wf_u(out, "total_page", 1);
+        wk(out, "text_utf8");
+        writeStr(out, std::string_view(d.nankai.aggregated_text, d.nankai.aggregated_len));
+    } else {
+        // Single page or incomplete - output page info and hex
+        wf_u(out, "page", d.nankai.page);
+        wf_u(out, "total_page", d.nankai.total_page);
+        // text as hex bytes array
+        wk(out, "text_hex"); out.print('[');
+        for (uint8_t i = 0; i < 18; ++i) {
+            if (i) writeChar(out, ',');
+            writeHex(out, d.nankai.text[i]);
+        }
+        out.print(']');
     }
-    out.print(']');
 }
 
 void serializeTsunami(const Message& m, Print& out) {

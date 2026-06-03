@@ -1,18 +1,21 @@
 #pragma once
 // AUTO-GENERATED from azarashi 0.15.1 — do not edit
 // 102 definition headers
+//
+// Language selection is controlled by AZARAC_LANG_JA and AZARAC_LANG_EN
+// macros defined in azaraC.h before this file is included.
+
+// ---- Common definitions (always included) -----------------------------------
 
 #include "qzss_dcr_jma_ash_fall_warning_code.h"
 #include "qzss_dcr_jma_coastal_region_en.h"
 #include "qzss_dcr_jma_disaster_category.h"
-#include "qzss_dcr_jma_disaster_category_en.h"
 #include "qzss_dcr_jma_eew_forecast_region.h"
 #include "qzss_dcr_jma_epicenter_and_hypocenter.h"
 #include "qzss_dcr_jma_flood_forecast_region.h"
 #include "qzss_dcr_jma_flood_warning_level.h"
 #include "qzss_dcr_jma_information_serial_code.h"
 #include "qzss_dcr_jma_information_type.h"
-#include "qzss_dcr_jma_information_type_en.h"
 #include "qzss_dcr_jma_local_government.h"
 #include "qzss_dcr_jma_long_period_ground_motion_lower_limit.h"
 #include "qzss_dcr_jma_long_period_ground_motion_upper_limit.h"
@@ -22,7 +25,6 @@
 #include "qzss_dcr_jma_notification_on_disaster_prevention.h"
 #include "qzss_dcr_jma_prefecture.h"
 #include "qzss_dcr_jma_report_classification.h"
-#include "qzss_dcr_jma_report_classification_en.h"
 #include "qzss_dcr_jma_seismic_intensity.h"
 #include "qzss_dcr_jma_seismic_intensity_lower_limit.h"
 #include "qzss_dcr_jma_seismic_intensity_upper_limit.h"
@@ -44,8 +46,6 @@
 #include "qzss_dcx_camf_a10_library_version.h"
 #include "qzss_dcx_camf_a11_international_library.h"
 #include "qzss_dcx_camf_a11_international_library_code.h"
-#include "qzss_dcx_camf_a11_japanese_library_en.h"
-#include "qzss_dcx_camf_a11_japanese_library_ja.h"
 #include "qzss_dcx_camf_a17_main_subject_for_specific_settings.h"
 #include "qzss_dcx_camf_a1_message_type.h"
 #include "qzss_dcx_camf_a2_country_region_name.h"
@@ -99,10 +99,24 @@
 #include "qzss_dcx_camf_d7_hurricane_category.h"
 #include "qzss_dcx_camf_d8_wind_speed.h"
 #include "qzss_dcx_camf_d9_rainfall_amounts.h"
-#include "qzss_dcx_camf_ex9_target_area_code_en.h"
-#include "qzss_dcx_camf_ex9_target_area_code_ja.h"
-#include "qzss_dcx_ex1_target_area_code_en.h"
-#include "qzss_dcx_ex1_target_area_code_ja.h"
-#include "ublox_qzss_svid_prn_map.h"
 #include "ublox_qzss_svid_prn_map.h"
 #include "qzss_dcx_camf_a3_provider_identifier.h"
+
+// ---- Japanese language tables -----------------------------------------------
+
+#if AZARAC_LANG_JA
+#include "qzss_dcx_camf_a11_japanese_library_ja.h"
+#include "qzss_dcx_camf_ex9_target_area_code_ja.h"
+#include "qzss_dcx_ex1_target_area_code_ja.h"
+#endif
+
+// ---- English language tables ------------------------------------------------
+
+#if AZARAC_LANG_EN
+#include "qzss_dcr_jma_disaster_category_en.h"
+#include "qzss_dcr_jma_information_type_en.h"
+#include "qzss_dcr_jma_report_classification_en.h"
+#include "qzss_dcx_camf_a11_japanese_library_en.h"
+#include "qzss_dcx_camf_ex9_target_area_code_en.h"
+#include "qzss_dcx_ex1_target_area_code_en.h"
+#endif
