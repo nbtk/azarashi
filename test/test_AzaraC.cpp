@@ -1,4 +1,4 @@
-// test/test_azarashi.cpp — Data-driven tests using real NMEA test vectors
+// test/test_AzaraC.cpp — Data-driven tests using real NMEA test vectors
 // 統合テスト: NMEAフレーマー → デコーダーの一連の流れを検証
 
 #include "test_helpers.h"

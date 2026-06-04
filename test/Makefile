@@ -2,11 +2,17 @@
 CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -DAZARAC_LANG_JA=1 -DAZARAC_LANG_EN=1 -g -MMD -MP
 
+# MinGW-w64 bin path (override on command line if needed, e.g. make MINGW64_BIN=C:\mingw64\bin)
+MINGW64_BIN ?= D:\apps\mingw64\bin
+
 # OS detection
 ifeq ($(OS),Windows_NT)
   TEST_BIN   = run_tests.exe
   RUN_PREFIX =
   RM         = del /F /Q
+  ifneq ($(MINGW64_BIN),)
+    export PATH := $(PATH);$(MINGW64_BIN)
+  endif
 else
   TEST_BIN   = run_tests
   RUN_PREFIX = ./

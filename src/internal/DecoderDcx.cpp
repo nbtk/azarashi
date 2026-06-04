@@ -67,6 +67,17 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
 
     // Initialize B4 fields
     d.camf.b4_present = false;
+    // Initialize presence flags to false
+    d.camf.b4_d1_present = false;  d.camf.b4_d2_present = false;  d.camf.b4_d3_present = false;  d.camf.b4_d4_present = false;
+    d.camf.b4_d5_present = false;  d.camf.b4_d6_present = false;  d.camf.b4_d7_present = false;  d.camf.b4_d8_present = false;
+    d.camf.b4_d9_present = false;  d.camf.b4_d10_present = false; d.camf.b4_d11_present = false; d.camf.b4_d12_present = false;
+    d.camf.b4_d13_present = false; d.camf.b4_d14_present = false; d.camf.b4_d15_present = false; d.camf.b4_d16_present = false;
+    d.camf.b4_d17_present = false; d.camf.b4_d18_present = false; d.camf.b4_d19_present = false; d.camf.b4_d20_present = false;
+    d.camf.b4_d21_present = false; d.camf.b4_d22_present = false; d.camf.b4_d23_present = false; d.camf.b4_d24_present = false;
+    d.camf.b4_d25_present = false; d.camf.b4_d26_present = false; d.camf.b4_d27_present = false; d.camf.b4_d28_present = false;
+    d.camf.b4_d29_present = false; d.camf.b4_d30_present = false; d.camf.b4_d31_present = false; d.camf.b4_d32_present = false;
+    d.camf.b4_d33_present = false; d.camf.b4_d34_present = false; d.camf.b4_d35_present = false; d.camf.b4_d36_present = false;
+    // Initialize D-field values to 0
     d.camf.b4_d1 = 0;  d.camf.b4_d2 = 0;  d.camf.b4_d3 = 0;  d.camf.b4_d4 = 0;
     d.camf.b4_d5 = 0;  d.camf.b4_d6 = 0;  d.camf.b4_d7 = 0;  d.camf.b4_d8 = 0;
     d.camf.b4_d9 = 0;  d.camf.b4_d10 = 0; d.camf.b4_d11 = 0; d.camf.b4_d12 = 0;
@@ -258,6 +269,26 @@ bool Decoder::decodeDcx(const uint8_t* bits, Message& out, uint32_t report_unix)
         else if (d.camf.a17 == 3) {
             B4DetailedInfo b4 = decodeB4DetailedInfo(d.camf.a18, d.camf.a4);
             d.camf.b4_present = true;
+            // Copy presence flags
+            d.camf.b4_d1_present = b4.d1_present;   d.camf.b4_d2_present = b4.d2_present;
+            d.camf.b4_d3_present = b4.d3_present;   d.camf.b4_d4_present = b4.d4_present;
+            d.camf.b4_d5_present = b4.d5_present;   d.camf.b4_d6_present = b4.d6_present;
+            d.camf.b4_d7_present = b4.d7_present;   d.camf.b4_d8_present = b4.d8_present;
+            d.camf.b4_d9_present = b4.d9_present;   d.camf.b4_d10_present = b4.d10_present;
+            d.camf.b4_d11_present = b4.d11_present; d.camf.b4_d12_present = b4.d12_present;
+            d.camf.b4_d13_present = b4.d13_present; d.camf.b4_d14_present = b4.d14_present;
+            d.camf.b4_d15_present = b4.d15_present; d.camf.b4_d16_present = b4.d16_present;
+            d.camf.b4_d17_present = b4.d17_present; d.camf.b4_d18_present = b4.d18_present;
+            d.camf.b4_d19_present = b4.d19_present; d.camf.b4_d20_present = b4.d20_present;
+            d.camf.b4_d21_present = b4.d21_present; d.camf.b4_d22_present = b4.d22_present;
+            d.camf.b4_d23_present = b4.d23_present; d.camf.b4_d24_present = b4.d24_present;
+            d.camf.b4_d25_present = b4.d25_present; d.camf.b4_d26_present = b4.d26_present;
+            d.camf.b4_d27_present = b4.d27_present; d.camf.b4_d28_present = b4.d28_present;
+            d.camf.b4_d29_present = b4.d29_present; d.camf.b4_d30_present = b4.d30_present;
+            d.camf.b4_d31_present = b4.d31_present; d.camf.b4_d32_present = b4.d32_present;
+            d.camf.b4_d33_present = b4.d33_present; d.camf.b4_d34_present = b4.d34_present;
+            d.camf.b4_d35_present = b4.d35_present; d.camf.b4_d36_present = b4.d36_present;
+            // Copy D-field values
             d.camf.b4_d1 = b4.d1;   d.camf.b4_d2 = b4.d2;
             d.camf.b4_d3 = b4.d3;   d.camf.b4_d4 = b4.d4;
             d.camf.b4_d5 = b4.d5;   d.camf.b4_d6 = b4.d6;

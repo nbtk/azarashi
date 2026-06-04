@@ -1,24 +1,9 @@
 // azaraC - src/Parser.cpp
 
 #include "Parser.h"
-
-#if !defined(ARDUINO) || ARDUINO < 1
-#  include <chrono>
-#endif
+#include "internal/TimeFields.h"
 
 namespace azaraC {
-
-// Get current time in milliseconds
-static uint32_t getCurrentMillis() {
-#if defined(ARDUINO) && ARDUINO >= 1
-    return millis();
-#else
-    auto now = std::chrono::steady_clock::now();
-    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now.time_since_epoch()).count();
-    return static_cast<uint32_t>(ms);
-#endif
-}
 
 bool Parser::feed(uint8_t byte, Message& out, uint32_t report_unix) {
     internal::Frame frame;
@@ -31,7 +16,7 @@ bool Parser::feed(uint8_t byte, Message& out, uint32_t report_unix) {
         // Nankai Trough page aggregation
         if (out.payload_type == MsgPayloadType::Mt43 &&
             out.mt43.disaster_category == 4) {
-            return processNankaiAggregation(out, out, getCurrentMillis());
+            return processNankaiAggregation(out, out, internal::getMillis());
         }
         
         internal::DedupKey key{ out.svid, out.msg_type, out.crc24 };
@@ -66,9 +51,9 @@ bool Parser::feed(uint8_t byte, Message& out, uint32_t report_unix) {
     // Nankai Trough page aggregation
     if (decoded.payload_type == MsgPayloadType::Mt43 &&
         decoded.mt43.disaster_category == 4) {
-        return processNankaiAggregation(decoded, out, getCurrentMillis());
+        return processNankaiAggregation(decoded, out, internal::getMillis());
     }
-
+    
     // 重複チェック
     internal::DedupKey key{ decoded.svid, decoded.msg_type, decoded.crc24 };
     if (_dedup.isDuplicate(key)) return false;
@@ -98,10 +83,14 @@ bool Parser::processNankaiAggregation(const Message& decoded, Message& out, uint
         // All pages received - copy decoded message and add aggregated text
         out = decoded;
         
+        // Explicitly initialize to deterministic defaults (textLen == 0 path)
+        out.mt43.nankai.is_aggregated = false;
+        out.mt43.nankai.aggregated_len = 0;
+        
         // Copy aggregated text to message
         uint16_t textLen = completed->getTextLength();
-        if (textLen > 0 && textLen <= 1134) {  // 63 pages * 18 bytes
-            completed->getText(out.mt43.nankai.aggregated_text, 1134);
+        if (textLen > 0 && textLen < static_cast<uint16_t>(sizeof(out.mt43.nankai.aggregated_text))) {
+            completed->getText(out.mt43.nankai.aggregated_text, sizeof(out.mt43.nankai.aggregated_text));
             out.mt43.nankai.aggregated_len = textLen;
             out.mt43.nankai.is_aggregated = true;
         }

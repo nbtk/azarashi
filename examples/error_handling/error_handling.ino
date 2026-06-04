@@ -21,7 +21,6 @@ struct Statistics {
     uint32_t mt43_count = 0;          // MT=43 メッセージ数
     uint32_t mt44_count = 0;          // MT=44 メッセージ数
     uint32_t last_svid = 0;           // 最後に受信したSVID
-    uint32_t last_report_time = 0;    // 最後に受信した時刻
 };
 
 Statistics stats;
@@ -135,7 +134,8 @@ bool validateMt44(const azaraC::Message& msg) {
         case azaraC::Mt44ServiceKind::NullMessage:
             break;
         default:
-            Serial.print(F("[WARN] Unknown service_kind"));
+            Serial.print(F("[WARN] Unknown service_kind: "));
+            Serial.println(static_cast<int>(mt44->service_kind));
             break;
     }
 
@@ -193,14 +193,14 @@ void loop() {
             }
         }
     }
-
     // 5秒ごとにハートビートを出力（受信がない場合）
     static uint32_t last_heartbeat = 0;
     uint32_t now = millis();
     if (now - last_heartbeat > 5000) {
         last_heartbeat = now;
-        if (stats.total_messages == 0) {
-            Serial.println(F("[INFO] Waiting for messages..."));
-        }
+        Serial.print(F("[INFO] Heartbeat - Total: "));
+        Serial.print(stats.total_messages);
+        Serial.print(F(" Valid: "));
+        Serial.println(stats.valid_messages);
     }
 }

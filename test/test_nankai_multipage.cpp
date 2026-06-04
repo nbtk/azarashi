@@ -42,6 +42,7 @@ TEST_CASE("NankaiPageKey equality") {
 
 TEST_CASE("NankaiPageBuffer basic operations") {
     NankaiPageBuffer buffer;
+    uint32_t now = currentMillis();
     
     SUBCASE("Initial state") {
         CHECK(buffer.isEmpty());
@@ -51,7 +52,7 @@ TEST_CASE("NankaiPageBuffer basic operations") {
     
     SUBCASE("Add first page sets total_pages") {
         uint8_t text[18] = {'H', 'e', 'l', 'l', 'o', 0};
-        bool result = buffer.addPage(1, 3, text);
+        bool result = buffer.addPage(1, 3, text, now);
         
         CHECK(result);
         CHECK(buffer.total_pages == 3);
@@ -64,9 +65,9 @@ TEST_CASE("NankaiPageBuffer basic operations") {
         uint8_t text2[18] = {'P', 'a', 'g', 'e', '2', 0};
         uint8_t text3[18] = {'P', 'a', 'g', 'e', '3', 0};
         
-        buffer.addPage(1, 3, text1);
-        buffer.addPage(2, 3, text2);
-        bool result = buffer.addPage(3, 3, text3);
+        buffer.addPage(1, 3, text1, now);
+        buffer.addPage(2, 3, text2, now);
+        bool result = buffer.addPage(3, 3, text3, now);
         
         CHECK(result);
         CHECK(buffer.isComplete());
@@ -76,8 +77,8 @@ TEST_CASE("NankaiPageBuffer basic operations") {
     SUBCASE("Duplicate page is rejected") {
         uint8_t text[18] = {'T', 'e', 's', 't', 0};
         
-        buffer.addPage(1, 2, text);
-        bool result = buffer.addPage(1, 2, text);  // Duplicate
+        buffer.addPage(1, 2, text, now);
+        bool result = buffer.addPage(1, 2, text, now);  // Duplicate
         
         CHECK(!result);
         CHECK(buffer.received_pages == 1);
@@ -86,8 +87,8 @@ TEST_CASE("NankaiPageBuffer basic operations") {
     SUBCASE("Invalid page number is rejected") {
         uint8_t text[18] = {'T', 'e', 's', 't', 0};
         
-        bool result0 = buffer.addPage(0, 2, text);  // Page 0 invalid
-        bool result3 = buffer.addPage(3, 2, text);  // Page 3 > total_pages
+        bool result0 = buffer.addPage(0, 2, text, now);  // Page 0 invalid
+        bool result3 = buffer.addPage(3, 2, text, now);  // Page 3 > total_pages
         
         CHECK(!result0);
         CHECK(!result3);
@@ -96,8 +97,8 @@ TEST_CASE("NankaiPageBuffer basic operations") {
     SUBCASE("Mismatched total_pages is rejected") {
         uint8_t text[18] = {'T', 'e', 's', 't', 0};
         
-        buffer.addPage(1, 3, text);
-        bool result = buffer.addPage(2, 2, text);  // Different total_pages
+        buffer.addPage(1, 3, text, now);
+        bool result = buffer.addPage(2, 2, text, now);  // Different total_pages
         
         CHECK(!result);
     }
@@ -105,10 +106,11 @@ TEST_CASE("NankaiPageBuffer basic operations") {
 
 TEST_CASE("NankaiPageBuffer text aggregation") {
     NankaiPageBuffer buffer;
+    uint32_t now = currentMillis();
     
     SUBCASE("Single page text") {
         uint8_t text[18] = {'H', 'e', 'l', 'l', 'o', 0};
-        buffer.addPage(1, 1, text);
+        buffer.addPage(1, 1, text, now);
         
         CHECK(buffer.isComplete());
         CHECK(buffer.getTextLength() == 5);
@@ -122,8 +124,8 @@ TEST_CASE("NankaiPageBuffer text aggregation") {
         uint8_t text1[18] = {'P', 'a', 'g', 'e', '1', ' ', 0};
         uint8_t text2[18] = {'P', 'a', 'g', 'e', '2', 0};
         
-        buffer.addPage(1, 2, text1);
-        buffer.addPage(2, 2, text2);
+        buffer.addPage(1, 2, text1, now);
+        buffer.addPage(2, 2, text2, now);
         
         CHECK(buffer.isComplete());
         
@@ -134,7 +136,7 @@ TEST_CASE("NankaiPageBuffer text aggregation") {
     
     SUBCASE("Null byte terminates page") {
         uint8_t text[18] = {'A', 'B', 0, 'C', 'D', 0};  // 0x00 at position 2
-        buffer.addPage(1, 1, text);
+        buffer.addPage(1, 1, text, now);
         
         CHECK(buffer.getTextLength() == 2);  // Only "AB"
         
@@ -148,9 +150,9 @@ TEST_CASE("NankaiPageBuffer text aggregation") {
         uint8_t text2[18] = {0};  // Empty page
         uint8_t text3[18] = {'C', 'D', 0};
         
-        buffer.addPage(1, 3, text1);
-        buffer.addPage(2, 3, text2);
-        buffer.addPage(3, 3, text3);
+        buffer.addPage(1, 3, text1, now);
+        buffer.addPage(2, 3, text2, now);
+        buffer.addPage(3, 3, text3, now);
         
         char result[256];
         buffer.getText(result, sizeof(result));
@@ -160,10 +162,11 @@ TEST_CASE("NankaiPageBuffer text aggregation") {
 
 TEST_CASE("NankaiPageBuffer clear") {
     NankaiPageBuffer buffer;
+    uint32_t now = currentMillis();
     
     SUBCASE("Clear resets buffer") {
         uint8_t text[18] = {'T', 'e', 's', 't', 0};
-        buffer.addPage(1, 1, text);
+        buffer.addPage(1, 1, text, now);
         
         CHECK(buffer.isComplete());
         
@@ -250,6 +253,7 @@ TEST_CASE("NankaiPageBufferManager buffer limit") {
 
 TEST_CASE("UTF-8 text handling") {
     NankaiPageBuffer buffer;
+    uint32_t now = currentMillis();
     
     SUBCASE("Japanese text") {
         // "こんにちは" in UTF-8 (15 bytes)
@@ -262,7 +266,7 @@ TEST_CASE("UTF-8 text handling") {
             0x00
         };
         
-        buffer.addPage(1, 1, text);
+        buffer.addPage(1, 1, text, now);
         
         CHECK(buffer.getTextLength() == 15);
         
@@ -288,8 +292,8 @@ TEST_CASE("UTF-8 text handling") {
             0x00
         };
         
-        buffer.addPage(1, 2, text1);
-        buffer.addPage(2, 2, text2);
+        buffer.addPage(1, 2, text1, now);
+        buffer.addPage(2, 2, text2, now);
         
         char result[256];
         buffer.getText(result, sizeof(result));

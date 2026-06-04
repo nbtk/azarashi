@@ -146,30 +146,25 @@ struct TestDecoder : Decoder {
     static LatLon testExtractLatLon(const uint8_t* buf, uint16_t start) {
         return extractLatLon(buf, start);
     }
+
+    // 日付変換
+    static void testCivilFromDays(uint32_t days, uint32_t& y, uint32_t& m, uint32_t& d) {
+        civil_from_days(days, y, m, d);
+    }
+
+    static uint32_t testDaysFromCivil(uint32_t y, uint32_t m, uint32_t d) {
+        return days_from_civil(y, m, d);
+    }
 };
 
 // ── 日付計算ヘルパー ─────────────────────────────────────────────────────────
 
 inline void civilFromDays(uint32_t days_since_1970, uint32_t& y, uint32_t& m, uint32_t& d) {
-    uint32_t z = days_since_1970 + 719468u;
-    uint32_t era = z / 146097u;
-    uint32_t doe = z - era * 146097u;
-    uint32_t yoe = (doe - doe / 1460 + doe / 36524 - doe / 146097) / 365;
-    y = yoe + era * 400;
-    uint32_t doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
-    uint32_t mp = (5 * doy + 2) / 153;
-    d = doy - (153 * mp + 2) / 5 + 1;
-    m = mp + (mp < 10 ? 3 : -9);
-    y += (m <= 2);
+    TestDecoder::testCivilFromDays(days_since_1970, y, m, d);
 }
 
 inline uint32_t daysFromCivil(uint32_t y, uint32_t m, uint32_t d) {
-    y -= (m <= 2);
-    uint32_t era = y / 400;
-    uint32_t yoe = y - era * 400;
-    uint32_t doy = (153 * (m + (m > 2 ? -3 : 9)) + 2) / 5 + d - 1;
-    uint32_t doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
-    return era * 146097 + doe - 719468;
+    return TestDecoder::testDaysFromCivil(y, m, d);
 }
 
 #endif // TEST_HELPERS_H

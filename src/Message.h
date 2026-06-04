@@ -98,6 +98,44 @@ struct Mt44CamfRaw {
     // B4 (A17=11) - Quantitative and Detailed Information (EWSS CAMF v1.1 §3.7.4)
     // A18 (15bit) = D-series fields depending on A4 hazard category and type
     bool     b4_present;    // true if A17 == 3
+    // Presence flags for each D-field (true when field is present for the hazard type)
+    bool     b4_d1_present;     // D1: Magnitude on Richter scale
+    bool     b4_d2_present;     // D2: Seismic coefficient
+    bool     b4_d3_present;     // D3: Azimuth from ellipse center to epicenter
+    bool     b4_d4_present;     // D4: Vector length between ellipse center and epicenter
+    bool     b4_d5_present;     // D5: Wave height
+    bool     b4_d6_present;     // D6: Temperature range
+    bool     b4_d7_present;     // D7: Hurricane category
+    bool     b4_d8_present;     // D8: Wind speed
+    bool     b4_d9_present;     // D9: Rainfall amounts
+    bool     b4_d10_present;    // D10: Damage category
+    bool     b4_d11_present;    // D11: Tornado probability
+    bool     b4_d12_present;    // D12: Hail scale
+    bool     b4_d13_present;    // D13: Visibility
+    bool     b4_d14_present;    // D14: Snow depth
+    bool     b4_d15_present;    // D15: Flood severity
+    bool     b4_d16_present;    // D16: Lightning intensity
+    bool     b4_d17_present;    // D17: Fog level
+    bool     b4_d18_present;    // D18: Drought level
+    bool     b4_d19_present;    // D19: Avalanche warning level
+    bool     b4_d20_present;    // D20: Ash fall amount and impact
+    bool     b4_d21_present;    // D21: Geomagnetic scale
+    bool     b4_d22_present;    // D22: Terrorism threat level
+    bool     b4_d23_present;    // D23: Fire risk level
+    bool     b4_d24_present;    // D24: Water quality
+    bool     b4_d25_present;    // D25: UV index
+    bool     b4_d26_present;    // D26: Number of cases per 100000 inhabitants
+    bool     b4_d27_present;    // D27: Noise range
+    bool     b4_d28_present;    // D28: Air quality index
+    bool     b4_d29_present;    // D29: Outage estimated duration
+    bool     b4_d30_present;    // D30: Nuclear event scale
+    bool     b4_d31_present;    // D31: Chemical hazard type
+    bool     b4_d32_present;    // D32: Biohazard level
+    bool     b4_d33_present;    // D33: Biohazard type
+    bool     b4_d34_present;    // D34: Explosive hazard type
+    bool     b4_d35_present;    // D35: Infection type
+    bool     b4_d36_present;    // D36: Typhoon category
+    // D-field values (valid when corresponding _present flag is true)
     uint8_t  b4_d1;         // 4 bits - D1: Magnitude on Richter scale
     uint8_t  b4_d2;         // 3 bits - D2: Seismic coefficient
     uint8_t  b4_d3;         // 4 bits - D3: Azimuth from ellipse center to epicenter
@@ -321,11 +359,11 @@ struct NankaiData {
     uint8_t text[18];            // [57..200] 18 bytes (single page)
     uint8_t page;                // [201..206] 6 bits
     uint8_t total_page;          // [207..212] 6 bits
-    
+
     // Aggregated text from all pages (for multi-page messages)
-    // Maximum possible size: 63 pages * 18 bytes = 1134 bytes
+    // Maximum possible size: 63 pages * 18 bytes = 1134 bytes (+1 for NUL terminator)
     // This is populated when all pages are received
-    char aggregated_text[1134];   // Combined UTF-8 text from all pages
+    char aggregated_text[1135];   // Combined UTF-8 text from all pages (+NUL)
     uint16_t aggregated_len;     // Length of aggregated text
     bool is_aggregated;          // True if this is a complete aggregated message
 };

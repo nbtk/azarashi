@@ -7,9 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Error Handling Example** (`examples/error_handling/error_handling.ino`):
+  - MT=44 メッセージのパース失敗を検出してエラー内容を出力するサンプルスケッチを追加。
+  - `parse_result` の `ParseResultCode` と `error_detail` を利用した具体的なエラーハンドリング方法を提示。
+  - `check.md` のエラーコード一覧（001-007, 100-109）に対応するエラーハンドリングロジックを実装。
+
+### Changed
+
+- `DecoderDcx.cpp`: 構文エラーの返却コードを `ParseResultCode::Error` に変更（`Error` 定数から変更）。
+- `DecoderDcx.h`: `parse_result` の型を `ParseResultCode` に変更（旧 `Error` 型を削除）。
+- `その他`: デフォルト重複除去スロット数を8に再変更、言語テーブルの選択的コンパイルオプションを追加。
+
+### Documentation
+
+- **エラーハンドリングガイドの追加**:
+  - `check.md` に「エラーハンドリング」セクションを追加：
+    - 全エラーコード一覧（001-007, 100-109）
+    - デコード失敗理由ごとの具体的なハンドリング方法
+    - デコード成功・失敗のフロー図
+    - MT44/MT43 共通の処理フロー
+  - `examples/error_handling/error_handling.ino` で上記ガイドを実践的に解説。
+
 ### Planned
+
 - MT=43 全カテゴリのJSON出力例のドキュメント追加
-- エラーハンドリング例の追加
 - パフォーマンス最適化ガイドの追加
 
 ---
@@ -40,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DecoderDcx.cpp`: B3 の未使用変数警告を修正（`(void)` キャスト）
 
 ### 仕様準拠
+
 - EWSS CAMF v1.1 §3.7.2-3.7.4 に準拠
 - A17=01 (B2: Hazard Center Position) のデコード対応
 - A17=10 (B3: Secondary Ellipse Definition) のデコード対応
@@ -67,6 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DecoderDcx.cpp`: Null Message 検出時の Extended Message チェックを `getBits` を使用するように修正（ビット境界の正確性向上）
 
 ### 仕様準拠
+
 - EWSS CAMF v1.1 §3.7.1 に準拠
 - A17=00 (B1: Improved Resolution of Main Ellipse) のデコード対応
 
@@ -114,6 +139,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DecoderDcx.cpp`: EX3/EX4 の符号付きパースを符号なしパースに修正。
 
 ### 仕様準拠
+
 - IS-QZSS-DCX-003 に完全準拠
 - サービス種別（Service Kind）の識別ロジックを A2 Country および A3 Provider に基づいて実装
 - 階層構造化されたCAMF（Common Alert Message Format）のパース処理を刷新
@@ -168,6 +194,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `make -C test run` が警告・コンパイルエラーなく、全113件のテストケース（578アサーション）を 100% SUCCESS で通過することを確認。
 
 ### 仕様準拠
+
 - IS-QZSS-DCX-003 仕様への完全適合
 - C++17 標準への準拠と安全性向上
 
@@ -240,20 +267,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `MarineEntry`, `NwPacTsunamiEntry`, `TyphoonPos`
 
 ### 対応カテゴリ一覧
-| disaster_category | 内容 |
-|-------------------|------|
-| 1 | 緊急地震速報 (EEW) |
-| 2 | 震源情報 (Hypocenter) |
-| 3 | 震度情報 (Seismic Intensity) |
-| 4 | 南海トラフ地震 (Nankai Trough) |
-| 5 | 津波警報・注意報 (Tsunami) |
-| 6 | 北太平洋津波 (NW Pacific Tsunami) |
-| 8 | 火山情報 (Volcano) |
-| 9 | 降灰情報 (Ash Fall) |
-| 10 | 気象警報・注意報 (Weather) |
-| 11 | 洪水警報 (Flood) |
-| 12 | 台風情報 (Typhoon) |
-| 14 | 海上警報 (Marine) |
+
+| disaster_category | 内容                              |
+| ----------------- | --------------------------------- |
+| 1                 | 緊急地震速報 (EEW)                |
+| 2                 | 震源情報 (Hypocenter)             |
+| 3                 | 震度情報 (Seismic Intensity)      |
+| 4                 | 南海トラフ地震 (Nankai Trough)    |
+| 5                 | 津波警報・注意報 (Tsunami)        |
+| 6                 | 北太平洋津波 (NW Pacific Tsunami) |
+| 8                 | 火山情報 (Volcano)                |
+| 9                 | 降灰情報 (Ash Fall)               |
+| 10                | 気象警報・注意報 (Weather)        |
+| 11                | 洪水警報 (Flood)                  |
+| 12                | 台風情報 (Typhoon)                |
+| 14                | 海上警報 (Marine)                 |
 
 ---
 
@@ -273,6 +301,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI: auto PR on azarashi version bump (daily schedule)
 
 ### アーキテクチャ
+
 - **Framer**: UBX/NMEA 自動判別、pluggable IFramer インターフェース
 - **Decoder**: MT=43 (QZQSM) / MT=44 (DCX) デコード
 - **DedupFilter**: {svid, msg_type, crc24} によるリングバッファ重複排除
@@ -282,11 +311,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 仕様書リファレンス
 
-| 規格 | 内容 | バージョン |
-|------|------|------------|
-| IS-QZSS-DCR-016 | DC Report Service (MT=43) | April 03, 2026 |
-| IS-QZSS-DCX-003 | DCX Service (MT=44) | March 28, 2025 |
-| EWSS CAMF v1.1 | Common Alert Message Format | Version 1.1 |
+| 規格            | 内容                        | バージョン     |
+| --------------- | --------------------------- | -------------- |
+| IS-QZSS-DCR-016 | DC Report Service (MT=43)   | April 03, 2026 |
+| IS-QZSS-DCX-003 | DCX Service (MT=44)         | March 28, 2025 |
+| EWSS CAMF v1.1  | Common Alert Message Format | Version 1.1    |
 
 ---
 

@@ -241,6 +241,16 @@ B4DetailedInfo decodeB4DetailedInfo(uint16_t a18, uint8_t a4_code) {
     B4DetailedInfo r{};
     r.present = true;
     r.a4_code = a4_code;
+    // Initialize all presence flags to false
+    r.d1_present = false;  r.d2_present = false;  r.d3_present = false;  r.d4_present = false;
+    r.d5_present = false;  r.d6_present = false;  r.d7_present = false;  r.d8_present = false;
+    r.d9_present = false;  r.d10_present = false; r.d11_present = false; r.d12_present = false;
+    r.d13_present = false; r.d14_present = false; r.d15_present = false; r.d16_present = false;
+    r.d17_present = false; r.d18_present = false; r.d19_present = false; r.d20_present = false;
+    r.d21_present = false; r.d22_present = false; r.d23_present = false; r.d24_present = false;
+    r.d25_present = false; r.d26_present = false; r.d27_present = false; r.d28_present = false;
+    r.d29_present = false; r.d30_present = false; r.d31_present = false; r.d32_present = false;
+    r.d33_present = false; r.d34_present = false; r.d35_present = false; r.d36_present = false;
 
     switch (a4_code) {
         case 36: // Earthquake: D1[131:134](4b) D2[135:137](3b) D3[138:141](4b) D4[142:145](4b)
@@ -248,112 +258,140 @@ B4DetailedInfo decodeB4DetailedInfo(uint16_t a18, uint8_t a4_code) {
             r.d2  = (a18 >> 8)  & 0x07;  // spec[135:137] → a18[10:8]
             r.d3  = (a18 >> 4)  & 0x0F;  // spec[138:141] → a18[7:4]
             r.d4  = (a18 >> 0)  & 0x0F;  // spec[142:145] → a18[3:0]
+            r.d1_present = true; r.d2_present = true; r.d3_present = true; r.d4_present = true;
             break;
         case 43: // Tsunami: D5[131:133](3b)
         case 44: // Tidal wave
             r.d5 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d5_present = true;
             break;
         case 63: // Cold wave: D6[131:134](4b)
         case 71: // Heat wave
             r.d6 = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
+            r.d6_present = true;
             break;
         case 80: // Hurricane: D7[131:133](3b) D8[134:137](4b) D9[138:140](3b)
             r.d7 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
             r.d8 = (a18 >> 8)  & 0x0F;  // spec[134:137] → a18[10:7]  (14-137=7, but 4 bits → 10:7)
             r.d9 = (a18 >> 5)  & 0x07;  // spec[138:140] → a18[7:5]   (14-140=5, 3 bits → 7:5)
+            r.d7_present = true; r.d8_present = true; r.d9_present = true;
             break;
         case 82: // Typhoon: D36[131:133](3b) D8[134:137](4b) D9[138:140](3b)
             r.d36 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
             r.d8  = (a18 >> 8)  & 0x0F;  // spec[134:137] → a18[10:7]
             r.d9  = (a18 >> 5)  & 0x07;  // spec[138:140] → a18[7:5]
+            r.d36_present = true; r.d8_present = true; r.d9_present = true;
             break;
         case 79: // Tornado: D8[131:134](4b) D9[135:137](3b) D11[138:140](3b)
             r.d8  = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
             r.d9  = (a18 >> 8)  & 0x07;  // spec[135:137] → a18[10:8]
             r.d11 = (a18 >> 5)  & 0x07;  // spec[138:140] → a18[7:5]
+            r.d8_present = true; r.d9_present = true; r.d11_present = true;
             break;
         case 77: // Storm/Thunderstorm: D8[131:134](4b) D9[135:137](3b) D10[138:140](3b) D16[141:143](3b)
             r.d8  = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
             r.d9  = (a18 >> 8)  & 0x07;  // spec[135:137] → a18[10:8]
             r.d10 = (a18 >> 5)  & 0x07;  // spec[138:140] → a18[7:5]
             r.d16 = (a18 >> 2)  & 0x07;  // spec[141:143] → a18[4:2]  (14-143=2, 3 bits → 4:2)
+            r.d8_present = true; r.d9_present = true; r.d10_present = true; r.d16_present = true;
             break;
         case 70: // Hail: D12[131:134](4b)
             r.d12 = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
+            r.d12_present = true;
             break;
         case 74: // Rainfall: D9[131:133](3b) D13[134:137](4b)
             r.d9  = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
             r.d13 = (a18 >> 8)  & 0x0F;  // spec[134:137] → a18[10:7]  (4 bits)
+            r.d9_present = true; r.d13_present = true;
             break;
         case 76: // Snowfall: D14[131:135](5b) D13[136:139](4b)
             r.d14 = (a18 >> 10) & 0x1F;  // spec[131:135] → a18[14:10] (5 bits)
             r.d13 = (a18 >> 5)  & 0x0F;  // spec[136:139] → a18[8:5]
+            r.d14_present = true; r.d13_present = true;
             break;
         case 68: // Flood: D15[131:132](2b)
             r.d15 = (a18 >> 13) & 0x03;  // spec[131:132] → a18[14:13]
+            r.d15_present = true;
             break;
         case 72: // Lightning: D16[131:133](3b)
             r.d16 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d16_present = true;
             break;
         case 81: // Wind chill/Frost: D8[131:134](4b) D6[135:138](4b)
             r.d8 = (a18 >> 11) & 0x0F;   // spec[131:134] → a18[14:11]
             r.d6 = (a18 >> 6)  & 0x0F;   // spec[135:138] → a18[9:6]
+            r.d8_present = true; r.d6_present = true;
             break;
         case 64: // Derecho: D8[131:134](4b) D9[135:137](3b) D16[138:140](3b) D11[141:143](3b)
             r.d8  = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
             r.d9  = (a18 >> 8)  & 0x07;  // spec[135:137] → a18[10:8]
             r.d16 = (a18 >> 5)  & 0x07;  // spec[138:140] → a18[7:5]
             r.d11 = (a18 >> 2)  & 0x07;  // spec[141:143] → a18[4:2]
+            r.d8_present = true; r.d9_present = true; r.d16_present = true; r.d11_present = true;
             break;
         case 69: // Fog: D17[131:133](3b) D13[134:137](4b)
             r.d17 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
             r.d13 = (a18 >> 8)  & 0x0F;  // spec[134:137] → a18[10:7]  (4 bits)
+            r.d17_present = true; r.d13_present = true;
             break;
         case 75: // Snow storm/Blizzard: D13[131:134](4b) D8[135:138](4b)
             r.d13 = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
             r.d8  = (a18 >> 6)  & 0x0F;  // spec[135:138] → a18[9:6]
+            r.d13_present = true; r.d8_present = true;
             break;
         case 65: // Drought: D18[131:132](2b)
             r.d18 = (a18 >> 13) & 0x03;  // spec[131:132] → a18[14:13]
+            r.d18_present = true;
             break;
         case 33: // Avalanche: D19[131:133](3b)
             r.d19 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d19_present = true;
             break;
         case 32: // Ash fall: D20[131:133](3b)
             r.d20 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d20_present = true;
             break;
         case 47: // Wind/wave/storm surge: D8[131:134](4b) D5[135:137](3b)
             r.d8 = (a18 >> 11) & 0x0F;   // spec[131:134] → a18[14:11]
             r.d5 = (a18 >> 8)  & 0x07;   // spec[135:137] → a18[10:8]
+            r.d8_present = true; r.d5_present = true;
             break;
         case 37: // Geomagnetic: D21[131:133](3b)
             r.d21 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d21_present = true;
             break;
         case 103: // Terrorism: D22[131:133](3b)
             r.d22 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d22_present = true;
             break;
         case 27: // Forest fire: D23[131:133](3b)
         case 30: // Risk of fire
             r.d23 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d23_present = true;
             break;
         case 16: // Contaminated drinking water: D24[131:133](3b)
         case 18: // Marine pollution
         case 21: // River pollution
             r.d24 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d24_present = true;
             break;
         case 23: // UV radiation: D25[131:134](4b)
             r.d25 = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
+            r.d25_present = true;
             break;
         case 53: // Risk of infection: D26[131:135](5b) D35[136:141](6b)
         case 51: // Pandemic
             r.d26 = (a18 >> 10) & 0x1F;  // spec[131:135] → a18[14:10] (5 bits)
             r.d35 = (a18 >> 3)  & 0x3F;  // spec[136:141] → a18[8:3]
+            r.d26_present = true; r.d35_present = true;
             break;
         case 19: // Noise pollution: D27[131:134](4b)
             r.d27 = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
+            r.d27_present = true;
             break;
         case 15: // Air pollution: D28[131:133](3b)
             r.d28 = (a18 >> 12) & 0x07;  // spec[131:133] → a18[14:12]
+            r.d28_present = true;
             break;
         case 56: // Gas supply outage: D29[131:135](5b)
         case 57: // Outage of IT system
@@ -361,21 +399,26 @@ B4DetailedInfo decodeB4DetailedInfo(uint16_t a18, uint8_t a4_code) {
         case 55: // Emergency number outage
         case 60: // Telephone line outage
             r.d29 = (a18 >> 10) & 0x1F;  // spec[131:135] → a18[14:10] (5 bits)
+            r.d29_present = true;
             break;
         case 9: // Radiological hazard: D30[131:134](4b)
         case 10: // Nuclear hazard
         case 11: // Nuclear power station accident
             r.d30 = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
+            r.d30_present = true;
             break;
         case 5: // Chemical hazard: D31[131:134](4b)
             r.d31 = (a18 >> 11) & 0x0F;  // spec[131:134] → a18[14:11]
+            r.d31_present = true;
             break;
         case 4: // Biological hazard: D32[131:132](2b) D33[133:134](2b)
             r.d32 = (a18 >> 13) & 0x03;  // spec[131:132] → a18[14:13]
             r.d33 = (a18 >> 11) & 0x03;  // spec[133:134] → a18[12:11]  (14-134=11, 2 bits → 12:11)
+            r.d32_present = true; r.d33_present = true;
             break;
         case 6: // Explosive hazard: D34[131:132](2b)
             r.d34 = (a18 >> 13) & 0x03;  // spec[131:132] → a18[14:13]
+            r.d34_present = true;
             break;
         default:
             break;

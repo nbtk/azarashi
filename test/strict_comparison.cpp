@@ -196,8 +196,8 @@ TEST_CASE("Strict Comparison: DCX J-Alert") {
     // Extended fields
     CHECK(msg.mt44.ex_jalert.ex8 == 0); // Prefecture mode
     // EX9: 64-bit field, prefecture bitmask in bits [63:17]
-    // 0x1FFFFFFFFFFFC0000 >> 17 = 0x1FFFFFFFFFFFF (all 47 prefectures set)
-    CHECK((msg.mt44.ex_jalert.ex9 >> 17) == 0x1FFFFFFFFFFFFULL);
+    // 0x1FFFFFFFFFFFC0000 >> 17 = 0x7FFFFFFFFFFF (all 47 prefectures set)
+    CHECK((msg.mt44.ex_jalert.ex9 >> 17) == 0x7FFFFFFFFFFFULL);
     CHECK(msg.mt44.ex_jalert.vn == 1);
 }
 

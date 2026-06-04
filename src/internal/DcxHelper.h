@@ -121,7 +121,44 @@ B3SecondaryEllipse decodeB3SecondaryEllipse(uint8_t c7, uint8_t c8, uint8_t c9, 
 struct B4DetailedInfo {
     bool     present;
     uint8_t  a4_code;           // Hazard category/type (raw)
-    // Raw D-series values (only valid fields depend on A4)
+    // Presence flags for each D-field (true when field is valid for the hazard type)
+    bool     d1_present;   // D1: Magnitude on Richter scale
+    bool     d2_present;   // D2: Seismic coefficient
+    bool     d3_present;   // D3: Azimuth from ellipse center to epicenter
+    bool     d4_present;   // D4: Vector length between ellipse center and epicenter
+    bool     d5_present;   // D5: Wave height
+    bool     d6_present;   // D6: Temperature range
+    bool     d7_present;   // D7: Hurricane category
+    bool     d8_present;   // D8: Wind speed
+    bool     d9_present;   // D9: Rainfall amounts
+    bool     d10_present;  // D10: Damage category
+    bool     d11_present;  // D11: Tornado probability
+    bool     d12_present;  // D12: Hail scale
+    bool     d13_present;  // D13: Visibility
+    bool     d14_present;  // D14: Snow depth
+    bool     d15_present;  // D15: Flood severity
+    bool     d16_present;  // D16: Lightning intensity
+    bool     d17_present;  // D17: Fog level
+    bool     d18_present;  // D18: Drought level
+    bool     d19_present;  // D19: Avalanche warning level
+    bool     d20_present;  // D20: Ash fall amount and impact
+    bool     d21_present;  // D21: Geomagnetic scale
+    bool     d22_present;  // D22: Terrorism threat level
+    bool     d23_present;  // D23: Fire risk level
+    bool     d24_present;  // D24: Water quality
+    bool     d25_present;  // D25: UV index
+    bool     d26_present;  // D26: Number of cases per 100000 inhabitants
+    bool     d27_present;  // D27: Noise range
+    bool     d28_present;  // D28: Air quality index
+    bool     d29_present;  // D29: Outage estimated duration
+    bool     d30_present;  // D30: Nuclear event scale
+    bool     d31_present;  // D31: Chemical hazard type
+    bool     d32_present;  // D32: Biohazard level
+    bool     d33_present;  // D33: Biohazard type
+    bool     d34_present;  // D34: Explosive hazard type
+    bool     d35_present;  // D35: Infection type
+    bool     d36_present;  // D36: Typhoon category
+    // Raw D-series values (valid when corresponding _present flag is true)
     uint8_t  d1;   // 4 bits - Magnitude on Richter scale
     uint8_t  d2;   // 3 bits - Seismic coefficient
     uint8_t  d3;   // 4 bits - Azimuth from ellipse center to epicenter

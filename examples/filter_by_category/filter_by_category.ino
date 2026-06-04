@@ -164,7 +164,7 @@ void loop() {
                 }
             } else if (msg.msg_type == 44) {
                 // DCX メッセージは常に出力
-                Serial.print(F("[MT43:DCX] SVID="));
+                Serial.print(F("[MT44] SVID="));
                 Serial.println(msg.svid);
                 azaraC::toJson(msg, Serial);
                 Serial.println();

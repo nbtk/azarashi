@@ -360,6 +360,18 @@ ESP32 不要でビルド・実行できます:
 make -C test run
 ```
 
+### Windows でのビルド
+
+Windows で MinGW-w64 を使用する場合、`test/Makefile` は既定で `D:\apps\mingw64\bin` を PATH に追加します。MinGW-w64 が別の場所にインストールされているか、既に PATH に含まれている場合は `MINGW64_BIN` 変数で上書きできます:
+
+```bash
+# カスタムパスを指定
+make -C test run MINGW64_BIN=C:\mingw64\bin
+
+# MinGW-w64 が既に PATH に含まれている場合は空に設定
+make -C test run MINGW64_BIN=
+```
+
 ```
 === azaraC unit tests ===
   PASS  crc_known_zeros

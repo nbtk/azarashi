@@ -170,3 +170,24 @@ TEST_CASE("resolveTime: now_unix < 2000年 (複数時刻覚ケース)") {
     TimeFields t2 = TestDecoder::testResolveTime(1, 1, 0, 0, 946684800u);
     CHECK(t2.unix_time == 946684800u);
 }
+
+TEST_CASE("daysFromCivil と civilFromDays の網羅的ストレステスト (1970-2100)") {
+    uint32_t start_days = daysFromCivil(1970, 1, 1);
+    uint32_t end_days = daysFromCivil(2100, 12, 31);
+    
+    for (uint32_t days = start_days; days <= end_days; ++days) {
+        uint32_t y = 0, m = 0, d = 0;
+        civilFromDays(days, y, m, d);
+        uint32_t reconstructed = daysFromCivil(y, m, d);
+        
+        if (reconstructed != days) {
+            CAPTURE(days);
+            CAPTURE(y);
+            CAPTURE(m);
+            CAPTURE(d);
+            CAPTURE(reconstructed);
+            FAIL("日付のラウンドトリップ変換が一致しません");
+        }
+    }
+    CHECK(true);
+}

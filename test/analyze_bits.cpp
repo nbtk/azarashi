@@ -27,8 +27,13 @@ bool decodeNmeaHelper(const char* nmea, Message& msg, uint32_t now = 0) {
 }
 
 // ビット抽出ヘルパー
+// b: バッファポインタ (32バイト = 256ビット)
+// s: 開始ビット位置
+// l: 読み取りビット数
 uint32_t getBits(const uint8_t* b, uint16_t s, uint8_t l) {
     uint32_t v = 0;
+    // 境界チェック: s + l が 256 を超えないように
+    if (s + l > 256) return 0;
     for (uint16_t i = 0; i < l; i++) {
         uint16_t pos = s + i;
         if (b[pos >> 3] & (1 << (7 - (pos & 7)))) v |= (1u << (l - 1 - i));
@@ -74,17 +79,17 @@ int main() {
             }
             
             printf("\n生ビット直接読み取り:\n");
-            printf("Preamble (0-7): 0x%02X = %d\n", getBits(frame.bits, 0, 8), getBits(frame.bits, 0, 8));
-            printf("MT (8-13): %d\n", getBits(frame.bits, 8, 6));
-            printf("Report Class (14-16): %d\n", getBits(frame.bits, 14, 3));
-            printf("Disaster Cat (17-20): %d\n", getBits(frame.bits, 17, 4));
-            printf("Month (21-24): %d\n", getBits(frame.bits, 21, 4));
-            printf("Day (25-29): %d\n", getBits(frame.bits, 25, 5));
-            printf("Hour (30-34): %d\n", getBits(frame.bits, 30, 5));
-            printf("Minute (35-40): %d\n", getBits(frame.bits, 35, 6));
-            printf("Info Type (41-42): %d\n", getBits(frame.bits, 41, 2));
-            printf("Long Period Lower (47-49): %d\n", getBits(frame.bits, 47, 3));
-            printf("Long Period Upper (50-52): %d\n", getBits(frame.bits, 50, 3));
+            printf("Preamble (0-7): 0x%02X = %u\n", (unsigned)getBits(frame.bits, 0, 8), (unsigned)getBits(frame.bits, 0, 8));
+            printf("MT (8-13): %u\n", (unsigned)getBits(frame.bits, 8, 6));
+            printf("Report Class (14-16): %u\n", (unsigned)getBits(frame.bits, 14, 3));
+            printf("Disaster Cat (17-20): %u\n", (unsigned)getBits(frame.bits, 17, 4));
+            printf("Month (21-24): %u\n", (unsigned)getBits(frame.bits, 21, 4));
+            printf("Day (25-29): %u\n", (unsigned)getBits(frame.bits, 25, 5));
+            printf("Hour (30-34): %u\n", (unsigned)getBits(frame.bits, 30, 5));
+            printf("Minute (35-40): %u\n", (unsigned)getBits(frame.bits, 35, 6));
+            printf("Info Type (41-42): %u\n", (unsigned)getBits(frame.bits, 41, 2));
+            printf("Long Period Lower (47-49): %u\n", (unsigned)getBits(frame.bits, 47, 3));
+            printf("Long Period Upper (50-52): %u\n", (unsigned)getBits(frame.bits, 50, 3));
         } else {
             printf("デコード失敗\n");
         }
@@ -121,14 +126,14 @@ int main() {
             }
             
             printf("\n生ビット直接読み取り:\n");
-            printf("Preamble (0-7): 0x%02X = %d\n", getBits(frame.bits, 0, 8), getBits(frame.bits, 0, 8));
-            printf("MT (8-13): %d\n", getBits(frame.bits, 8, 6));
-            printf("Report Class (14-16): %d\n", getBits(frame.bits, 14, 3));
-            printf("Disaster Cat (17-20): %d\n", getBits(frame.bits, 17, 4));
-            printf("Month (21-24): %d\n", getBits(frame.bits, 21, 4));
-            printf("Day (25-29): %d\n", getBits(frame.bits, 25, 5));
-            printf("Hour (30-34): %d\n", getBits(frame.bits, 30, 5));
-            printf("Minute (35-40): %d\n", getBits(frame.bits, 35, 6));
+            printf("Preamble (0-7): 0x%02X = %u\n", (unsigned)getBits(frame.bits, 0, 8), (unsigned)getBits(frame.bits, 0, 8));
+            printf("MT (8-13): %u\n", (unsigned)getBits(frame.bits, 8, 6));
+            printf("Report Class (14-16): %u\n", (unsigned)getBits(frame.bits, 14, 3));
+            printf("Disaster Cat (17-20): %u\n", (unsigned)getBits(frame.bits, 17, 4));
+            printf("Month (21-24): %u\n", (unsigned)getBits(frame.bits, 21, 4));
+            printf("Day (25-29): %u\n", (unsigned)getBits(frame.bits, 25, 5));
+            printf("Hour (30-34): %u\n", (unsigned)getBits(frame.bits, 30, 5));
+            printf("Minute (35-40): %u\n", (unsigned)getBits(frame.bits, 35, 6));
         } else {
             printf("デコード失敗\n");
         }
@@ -166,25 +171,25 @@ int main() {
             }
             
             printf("\n生ビット直接読み取り:\n");
-            printf("Preamble (0-7): 0x%02X = %d\n", getBits(frame.bits, 0, 8), getBits(frame.bits, 0, 8));
-            printf("MT (8-13): %d\n", getBits(frame.bits, 8, 6));
-            printf("SDMT (14): %d\n", getBits(frame.bits, 14, 1));
-            printf("SDM (15-23): %d\n", getBits(frame.bits, 15, 9));
-            printf("A1 (24-25): %d\n", getBits(frame.bits, 24, 2));
-            printf("A2 (26-34): %d\n", getBits(frame.bits, 26, 9));
-            printf("A3 (35-39): %d\n", getBits(frame.bits, 35, 5));
-            printf("A4 (40-46): %d\n", getBits(frame.bits, 40, 7));
-            printf("A5 (47-48): %d\n", getBits(frame.bits, 47, 2));
-            printf("A6 (49): %d\n", getBits(frame.bits, 49, 1));
-            printf("A7 (50-63): %d\n", getBits(frame.bits, 50, 14));
-            printf("A8 (64-65): %d\n", getBits(frame.bits, 64, 2));
-            printf("A9 (66): %d\n", getBits(frame.bits, 66, 1));
-            printf("A10 (67-69): %d\n", getBits(frame.bits, 67, 3));
-            printf("A11 (70-79): %d\n", getBits(frame.bits, 70, 10));
-            printf("A12 (80-95): %d\n", getBits(frame.bits, 80, 16));
-            printf("A13 (96-112): %d\n", getBits(frame.bits, 96, 17));
-            printf("EX1 (146-161): %d\n", getBits(frame.bits, 146, 16));
-            printf("VN (214-219): %d\n", getBits(frame.bits, 214, 6));
+            printf("Preamble (0-7): 0x%02X = %u\n", (unsigned)getBits(frame.bits, 0, 8), (unsigned)getBits(frame.bits, 0, 8));
+            printf("MT (8-13): %u\n", (unsigned)getBits(frame.bits, 8, 6));
+            printf("SDMT (14): %u\n", (unsigned)getBits(frame.bits, 14, 1));
+            printf("SDM (15-23): %u\n", (unsigned)getBits(frame.bits, 15, 9));
+            printf("A1 (24-25): %u\n", (unsigned)getBits(frame.bits, 24, 2));
+            printf("A2 (26-34): %u\n", (unsigned)getBits(frame.bits, 26, 9));
+            printf("A3 (35-39): %u\n", (unsigned)getBits(frame.bits, 35, 5));
+            printf("A4 (40-46): %u\n", (unsigned)getBits(frame.bits, 40, 7));
+            printf("A5 (47-48): %u\n", (unsigned)getBits(frame.bits, 47, 2));
+            printf("A6 (49): %u\n", (unsigned)getBits(frame.bits, 49, 1));
+            printf("A7 (50-63): %u\n", (unsigned)getBits(frame.bits, 50, 14));
+            printf("A8 (64-65): %u\n", (unsigned)getBits(frame.bits, 64, 2));
+            printf("A9 (66): %u\n", (unsigned)getBits(frame.bits, 66, 1));
+            printf("A10 (67-69): %u\n", (unsigned)getBits(frame.bits, 67, 3));
+            printf("A11 (70-79): %u\n", (unsigned)getBits(frame.bits, 70, 10));
+            printf("A12 (80-95): %u\n", (unsigned)getBits(frame.bits, 80, 16));
+            printf("A13 (96-112): %u\n", (unsigned)getBits(frame.bits, 96, 17));
+            printf("EX1 (146-161): %u\n", (unsigned)getBits(frame.bits, 146, 16));
+            printf("VN (214-219): %u\n", (unsigned)getBits(frame.bits, 214, 6));
         } else {
             printf("デコード失敗\n");
         }
@@ -221,15 +226,15 @@ int main() {
             }
             
             printf("\n生ビット直接読み取り:\n");
-            printf("A3 (35-39): %d\n", getBits(frame.bits, 35, 5));
-            printf("EX8 (146): %d\n", getBits(frame.bits, 146, 1));
+            printf("A3 (35-39): %u\n", (unsigned)getBits(frame.bits, 35, 5));
+            printf("EX8 (146): %u\n", (unsigned)getBits(frame.bits, 146, 1));
             uint32_t ex9_hi = getBits(frame.bits, 147, 32);
             uint32_t ex9_lo = getBits(frame.bits, 179, 32);
             printf("EX9 hi (147-178): 0x%08X\n", ex9_hi);
             printf("EX9 lo (179-210): 0x%08X\n", ex9_lo);
             printf("EX9 full: 0x%08X%08X\n", ex9_hi, ex9_lo);
             printf("EX9 >> 17: 0x%016llX\n", (unsigned long long)((uint64_t)ex9_hi << 32 | ex9_lo) >> 17);
-            printf("VN (214-219): %d\n", getBits(frame.bits, 214, 6));
+            printf("VN (214-219): %u\n", (unsigned)getBits(frame.bits, 214, 6));
         } else {
             printf("デコード失敗\n");
         }
@@ -263,8 +268,8 @@ int main() {
             }
             
             printf("\n生ビット直接読み取り:\n");
-            printf("A2 (26-34): %d\n", getBits(frame.bits, 26, 9));
-            printf("VN (214-219): %d\n", getBits(frame.bits, 214, 6));
+            printf("A2 (26-34): %u\n", (unsigned)getBits(frame.bits, 26, 9));
+            printf("VN (214-219): %u\n", (unsigned)getBits(frame.bits, 214, 6));
         } else {
             printf("デコード失敗\n");
         }
