@@ -104,12 +104,47 @@ filter.weather = false;    // 気象警報を出力しない
 メッセージの妥当性チェックと受信統計を表示します。
 
 **機能**:
-- メッセージ妥当性チェック
-- CRCエラー検出
-- 重複メッセージ検出
-- 受信統計の定期表示
-- SVID範囲チェック
+- メッセージ妥当性チェック (`msg.valid`)
+- SVID範囲チェック (QZSS: 193-202)
+- `disaster_category` 範囲チェック (MT=43)
+- `service_kind` チェック (MT=44)
 - 日付・時刻の妥当性チェック
+- 受信統計の定期表示
+- ハートビート出力（受信がない場合）
+
+**バリデーション関数**:
+```cpp
+// 基本的な妥当性チェック
+bool validateMessage(const azaraC::Message& msg) {
+    if (!msg.valid) {
+        Serial.println(F("[WARN] Invalid message flag"));
+        return false;
+    }
+    // SVIDの範囲チェック (QZSS: 193-202)
+    if (msg.svid < 193 || msg.svid > 202) {
+        Serial.print(F("[WARN] Unexpected SVID: "));
+        Serial.println(msg.svid);
+    }
+    return true;
+}
+
+// MT=43 メッセージの詳細バリデーション
+bool validateMt43(const azaraC::Message& msg) {
+    const azaraC::Mt43Data* mt43 = msg.getMt43();
+    if (!mt43) return false;
+    // disaster_categoryの範囲チェック
+    // 日付の妥当性チェック
+    // ...
+}
+
+// MT=44 メッセージの詳細バリデーション
+bool validateMt44(const azaraC::Message& msg) {
+    const azaraC::Mt44Data* mt44 = msg.getMt44();
+    if (!mt44) return false;
+    // service_kindのチェック
+    // ...
+}
+```
 
 **出力例**:
 ```
@@ -122,6 +157,8 @@ MT=44 (DCX):       18
 Last SVID:         193
 Valid ratio:       96%
 ========================
+
+[INFO] Heartbeat - Total: 50 Valid: 48
 ```
 
 ---
