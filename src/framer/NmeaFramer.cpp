@@ -44,12 +44,17 @@ bool NmeaFramer::feed(uint8_t b, Frame& out) {
             }
         }
         break;
-    case St::CSUM1:
-        _csumH = hexVal(c);
+    case St::CSUM1: {
+        uint8_t hi = hexVal(c);
+        if (hi == 0xFF) { reset(); break; }
+        _csumH = hi;
         _st = St::CSUM2;
         break;
+    }
     case St::CSUM2: {
-        uint8_t recv = (_csumH << 4) | hexVal(c);
+        uint8_t lo = hexVal(c);
+        if (lo == 0xFF || _csumH == 0xFF) { reset(); break; }
+        uint8_t recv = (_csumH << 4) | lo;
         _st = St::WAIT;
         if (recv != _xsum) return false;
         return parse(out);

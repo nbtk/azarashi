@@ -35,9 +35,7 @@ jobs:
 
       - name: Generate definition headers
         if: steps.ver.outputs.changed == 'true'
-        run: |
-          cd scripts
-          python gen_definitions.py --out-dir ../src/definition
+        run: python scripts/gen_definitions.py --out-dir include/definition
 
       - name: Install arduino-cli
         if: steps.ver.outputs.changed == 'true'
@@ -68,4 +66,4 @@ jobs:
             | Previous | `${{ steps.ver.outputs.current }}` |
             | New      | `${{ steps.ver.outputs.latest }}`  |
 
-            Changes are in `src/definition/`. Do not edit those files manually.
+            Changes are in `include/definition/`. Do not edit those files manually.

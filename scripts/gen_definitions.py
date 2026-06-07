@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # azaraC - scripts/gen_definitions.py
-# Generates src/definition/*.h from azarashi (installed in current env).
+# Generates include/definition/*.h from azarashi (installed in current env).
 #
 # Usage:
 #   pip install azarashi==<version>
-#   python scripts/gen_definitions.py [--out-dir src/definition]
+#   python scripts/gen_definitions.py [--out-dir include/definition]
 
 import argparse, importlib, os, pkgutil, sys
+sys.path.insert(0, os.path.dirname(__file__))
 from strategy import choose, key_type
 
 BASE_MOD = "azarashi.qzss_dcr_lib.definition"
@@ -129,13 +130,14 @@ def run(out_dir):
     )
     with open(os.path.join(out_dir, "_index.h"), "w", encoding="utf-8") as f:
         f.write(idx)
-    # version marker
-    with open(".azarashi-version", "w") as f:
+    # version marker (write to repo root, relative to script location)
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(repo_root, ".azarashi-version"), "w") as f:
         f.write(ver + "\n")
     print(f"Generated {len(generated)} headers + _index.h  (azarashi {ver})")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out-dir", default="src/definition")
+    parser.add_argument("--out-dir", default="include/definition")
     args = parser.parse_args()
     run(args.out_dir)
