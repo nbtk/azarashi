@@ -1,0 +1,169 @@
+[
+  {
+    "nmea": "$QZQSM,58,C6AFD19CB18001113880115F901186A011ADB011D4C011FBD00000135EAA3F8*73",
+    "type": "QzssDcReportJmaWeather",
+    "params": {
+      "sentence": "$QZQSM,58,C6AFD19CB18001113880115F901186A011ADB011D4C011FBD00000135EAA3F8*73",
+      "timestamp": "2026-06-06T21:34:31.767047",
+      "message": "c6afd19cb18001113880115f901186a011adb011d4c011fbd00000135eaa3f80",
+      "nmea": "$QZQSM,58,C6AFD19CB18001113880115F901186A011ADB011D4C011FBD00000135EAA3F8*73",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afd19cb18001113880115f901186a011adb011d4c011fbd0000010",
+      "preamble": "C",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "気象",
+      "disaster_category_en": "Weather",
+      "disaster_category_no": 10,
+      "report_time": "2026-03-07T05:35:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "weather_warning_state": "発表",
+      "weather_warning_state_raw": 1,
+      "weather_related_disaster_sub_categories": [
+        "大雨特別警報",
+        "大雨特別警報",
+        "大雨特別警報",
+        "大雨特別警報",
+        "大雨特別警報",
+        "大雨特別警報"
+      ],
+      "weather_related_disaster_sub_categories_raw": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "weather_forecast_regions": [
+        "茨城県",
+        "栃木県",
+        "群馬県",
+        "埼玉県",
+        "千葉県",
+        "東京都"
+      ],
+      "weather_forecast_regions_raw": [
+        80000,
+        90000,
+        100000,
+        110000,
+        120000,
+        130000
+      ]
+    }
+  },
+  {
+    "nmea": "$QZQSM,58,9AAFD19CB180011222E0B93880B95F90B986A0B9ADB0B9D4C0000013D276B60*0D",
+    "type": "QzssDcReportJmaWeather",
+    "params": {
+      "sentence": "$QZQSM,58,9AAFD19CB180011222E0B93880B95F90B986A0B9ADB0B9D4C0000013D276B60*0D",
+      "timestamp": "2026-06-06T21:34:31.767537",
+      "message": "9aafd19cb180011222e0b93880b95f90b986a0b9adb0b9d4c0000013d276b600",
+      "nmea": "$QZQSM,58,9AAFD19CB180011222E0B93880B95F90B986A0B9ADB0B9D4C0000013D276B60*0D",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afd19cb180011222e0b93880b95f90b986a0b9adb0b9d4c0000010",
+      "preamble": "B",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "気象",
+      "disaster_category_en": "Weather",
+      "disaster_category_no": 10,
+      "report_time": "2026-03-07T05:35:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "weather_warning_state": "発表",
+      "weather_warning_state_raw": 1,
+      "weather_related_disaster_sub_categories": [
+        "大雨特別警報",
+        "土砂災害警戒情報",
+        "土砂災害警戒情報",
+        "土砂災害警戒情報",
+        "土砂災害警戒情報",
+        "土砂災害警戒情報"
+      ],
+      "weather_related_disaster_sub_categories_raw": [
+        2,
+        23,
+        23,
+        23,
+        23,
+        23
+      ],
+      "weather_forecast_regions": [
+        "神奈川県",
+        "茨城県",
+        "栃木県",
+        "群馬県",
+        "埼玉県",
+        "千葉県"
+      ],
+      "weather_forecast_regions_raw": [
+        140000,
+        80000,
+        90000,
+        100000,
+        110000,
+        120000
+      ]
+    }
+  },
+  {
+    "nmea": "$QZQSM,58,53AFD19CB18001B9FBD0BA22E00000000000000000000000000000107AA71EC*76",
+    "type": "QzssDcReportJmaWeather",
+    "params": {
+      "sentence": "$QZQSM,58,53AFD19CB18001B9FBD0BA22E00000000000000000000000000000107AA71EC*76",
+      "timestamp": "2026-06-06T21:34:31.767848",
+      "message": "53afd19cb18001b9fbd0ba22e00000000000000000000000000000107aa71ec0",
+      "nmea": "$QZQSM,58,53AFD19CB18001B9FBD0BA22E00000000000000000000000000000107AA71EC*76",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afd19cb18001b9fbd0ba22e0000000000000000000000000000010",
+      "preamble": "A",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "気象",
+      "disaster_category_en": "Weather",
+      "disaster_category_no": 10,
+      "report_time": "2026-03-07T05:35:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "weather_warning_state": "発表",
+      "weather_warning_state_raw": 1,
+      "weather_related_disaster_sub_categories": [
+        "土砂災害警戒情報",
+        "土砂災害警戒情報"
+      ],
+      "weather_related_disaster_sub_categories_raw": [
+        23,
+        23
+      ],
+      "weather_forecast_regions": [
+        "東京都",
+        "神奈川県"
+      ],
+      "weather_forecast_regions_raw": [
+        130000,
+        140000
+      ]
+    }
+  }
+]

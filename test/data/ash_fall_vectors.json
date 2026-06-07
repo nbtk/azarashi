@@ -1,0 +1,302 @@
+[
+  {
+    "nmea": "$QZQSM,58,C6AFC99CAA0001CAA43EE541F0782A1220813091811183E0F000001329B16E0*7F",
+    "type": "QzssDcReportJmaAshFall",
+    "params": {
+      "sentence": "$QZQSM,58,C6AFC99CAA0001CAA43EE541F0782A1220813091811183E0F000001329B16E0*7F",
+      "timestamp": "2026-06-06T21:34:31.755577",
+      "message": "c6afc99caa0001caa43ee541f0782a1220813091811183e0f000001329b16e00",
+      "nmea": "$QZQSM,58,C6AFC99CAA0001CAA43EE541F0782A1220813091811183E0F000001329B16E0*7F",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afc99caa0001caa43ee541f0782a1220813091811183e0f0000010",
+      "preamble": "C",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "降灰",
+      "disaster_category_en": "Ash Fall",
+      "disaster_category_no": 9,
+      "report_time": "2026-03-07T05:20:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "activity_time": "2026-03-07T05:20:00",
+      "ash_fall_warning_type": "詳細",
+      "ash_fall_warning_type_raw": 2,
+      "volcano_name": "阿蘇山",
+      "volcano_name_raw": 503,
+      "expected_ash_fall_times": [
+        1,
+        1,
+        1,
+        2
+      ],
+      "ash_fall_warning_codes": [
+        "やや多量の降灰",
+        "やや多量の降灰",
+        "少量の降灰",
+        "少量の降灰"
+      ],
+      "ash_fall_warning_codes_raw": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "local_governments": [
+        "熊本県阿蘇市",
+        "熊本県高森町",
+        "熊本県南阿蘇村",
+        "熊本県阿蘇市"
+      ],
+      "local_governments_raw": [
+        4321400,
+        4342800,
+        4343300,
+        4321400
+      ]
+    }
+  },
+  {
+    "nmea": "$QZQSM,58,C6AFC99CAA0001CAA43EE8C2441046123023307C1E19848820000013E2F3E6C*00",
+    "type": "QzssDcReportJmaAshFall",
+    "params": {
+      "sentence": "$QZQSM,58,C6AFC99CAA0001CAA43EE8C2441046123023307C1E19848820000013E2F3E6C*00",
+      "timestamp": "2026-06-06T21:34:31.756105",
+      "message": "c6afc99caa0001caa43ee8c2441046123023307c1e19848820000013e2f3e6c0",
+      "nmea": "$QZQSM,58,C6AFC99CAA0001CAA43EE8C2441046123023307C1E19848820000013E2F3E6C*00",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afc99caa0001caa43ee8c2441046123023307c1e19848820000010",
+      "preamble": "C",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "降灰",
+      "disaster_category_en": "Ash Fall",
+      "disaster_category_no": 9,
+      "report_time": "2026-03-07T05:20:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "activity_time": "2026-03-07T05:20:00",
+      "ash_fall_warning_type": "詳細",
+      "ash_fall_warning_type_raw": 2,
+      "volcano_name": "阿蘇山",
+      "volcano_name_raw": 503,
+      "expected_ash_fall_times": [
+        2,
+        2,
+        3,
+        3
+      ],
+      "ash_fall_warning_codes": [
+        "少量の降灰",
+        "少量の降灰",
+        "少量の降灰",
+        "少量の降灰"
+      ],
+      "ash_fall_warning_codes_raw": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "local_governments": [
+        "熊本県高森町",
+        "熊本県南阿蘇村",
+        "熊本県阿蘇市",
+        "熊本県高森町"
+      ],
+      "local_governments_raw": [
+        4342800,
+        4343300,
+        4321400,
+        4342800
+      ]
+    }
+  },
+  {
+    "nmea": "$QZQSM,58,9AAFC99CAA0001CAA43EECC24604860F83C430910421848C080000106286874*00",
+    "type": "QzssDcReportJmaAshFall",
+    "params": {
+      "sentence": "$QZQSM,58,9AAFC99CAA0001CAA43EECC24604860F83C430910421848C080000106286874*00",
+      "timestamp": "2026-06-06T21:34:31.756442",
+      "message": "9aafc99caa0001caa43eecc24604860f83c430910421848c0800001062868740",
+      "nmea": "$QZQSM,58,9AAFC99CAA0001CAA43EECC24604860F83C430910421848C080000106286874*00",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afc99caa0001caa43eecc24604860f83c430910421848c08000010",
+      "preamble": "B",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "降灰",
+      "disaster_category_en": "Ash Fall",
+      "disaster_category_no": 9,
+      "report_time": "2026-03-07T05:20:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "activity_time": "2026-03-07T05:20:00",
+      "ash_fall_warning_type": "詳細",
+      "ash_fall_warning_type_raw": 2,
+      "volcano_name": "阿蘇山",
+      "volcano_name_raw": 503,
+      "expected_ash_fall_times": [
+        3,
+        4,
+        4,
+        4
+      ],
+      "ash_fall_warning_codes": [
+        "少量の降灰",
+        "少量の降灰",
+        "少量の降灰",
+        "少量の降灰"
+      ],
+      "ash_fall_warning_codes_raw": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "local_governments": [
+        "熊本県南阿蘇村",
+        "熊本県阿蘇市",
+        "熊本県高森町",
+        "熊本県南阿蘇村"
+      ],
+      "local_governments_raw": [
+        4343300,
+        4321400,
+        4342800,
+        4343300
+      ]
+    }
+  },
+  {
+    "nmea": "$QZQSM,58,53AFC99CAA0001CAA43EF4C1F078A61220853091813183E0F0000010CE8C39C*77",
+    "type": "QzssDcReportJmaAshFall",
+    "params": {
+      "sentence": "$QZQSM,58,53AFC99CAA0001CAA43EF4C1F078A61220853091813183E0F0000010CE8C39C*77",
+      "timestamp": "2026-06-06T21:34:31.756747",
+      "message": "53afc99caa0001caa43ef4c1f078a61220853091813183e0f0000010ce8c39c0",
+      "nmea": "$QZQSM,58,53AFC99CAA0001CAA43EF4C1F078A61220853091813183E0F0000010CE8C39C*77",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afc99caa0001caa43ef4c1f078a61220853091813183e0f0000010",
+      "preamble": "A",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "降灰",
+      "disaster_category_en": "Ash Fall",
+      "disaster_category_no": 9,
+      "report_time": "2026-03-07T05:20:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "activity_time": "2026-03-07T05:20:00",
+      "ash_fall_warning_type": "詳細",
+      "ash_fall_warning_type_raw": 2,
+      "volcano_name": "阿蘇山",
+      "volcano_name_raw": 503,
+      "expected_ash_fall_times": [
+        5,
+        5,
+        5,
+        6
+      ],
+      "ash_fall_warning_codes": [
+        "少量の降灰",
+        "少量の降灰",
+        "少量の降灰",
+        "少量の降灰"
+      ],
+      "ash_fall_warning_codes_raw": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "local_governments": [
+        "熊本県阿蘇市",
+        "熊本県高森町",
+        "熊本県南阿蘇村",
+        "熊本県阿蘇市"
+      ],
+      "local_governments_raw": [
+        4321400,
+        4342800,
+        4343300,
+        4321400
+      ]
+    }
+  },
+  {
+    "nmea": "$QZQSM,58,C6AFC99CAA0001CAA43EF8C24410C61230200000000000000000001148565F4*0A",
+    "type": "QzssDcReportJmaAshFall",
+    "params": {
+      "sentence": "$QZQSM,58,C6AFC99CAA0001CAA43EF8C24410C61230200000000000000000001148565F4*0A",
+      "timestamp": "2026-06-06T21:34:31.757073",
+      "message": "c6afc99caa0001caa43ef8c24410c61230200000000000000000001148565f40",
+      "nmea": "$QZQSM,58,C6AFC99CAA0001CAA43EF8C24410C61230200000000000000000001148565F4*0A",
+      "message_header": "$QZQSM",
+      "satellite_id": 58,
+      "satellite_prn": 186,
+      "raw": "afc99caa0001caa43ef8c24410c612302000000000000000000010",
+      "preamble": "C",
+      "message_type": "DCR",
+      "version": 1,
+      "report_classification": "訓練/試験",
+      "report_classification_en": "Training/Test",
+      "report_classification_no": 7,
+      "disaster_category": "降灰",
+      "disaster_category_en": "Ash Fall",
+      "disaster_category_no": 9,
+      "report_time": "2026-03-07T05:20:00",
+      "information_type": "発表",
+      "information_type_en": "Issue",
+      "information_type_no": 0,
+      "activity_time": "2026-03-07T05:20:00",
+      "ash_fall_warning_type": "詳細",
+      "ash_fall_warning_type_raw": 2,
+      "volcano_name": "阿蘇山",
+      "volcano_name_raw": 503,
+      "expected_ash_fall_times": [
+        6,
+        6
+      ],
+      "ash_fall_warning_codes": [
+        "少量の降灰",
+        "少量の降灰"
+      ],
+      "ash_fall_warning_codes_raw": [
+        1,
+        1
+      ],
+      "local_governments": [
+        "熊本県高森町",
+        "熊本県南阿蘇村"
+      ],
+      "local_governments_raw": [
+        4342800,
+        4343300
+      ]
+    }
+  }
+]

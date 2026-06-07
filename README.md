@@ -1,522 +1,444 @@
-[![Downloads](https://static.pepy.tech/personalized-badge/azarashi?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/azarashi)
+<img src="https://raw.githubusercontent.com/A-vrice/azaraC/refs/heads/main/logo.png" width="256">
 
-<img src="https://raw.githubusercontent.com/nbtk/azarashi/refs/heads/main/logo.png" width="256">
+# AzaraC
 
-# Azarashi
-A QZSS DCR Decoder.
+A QZSS DCR DCX Decoder for Arduino.
+
 ## Description
-azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を準天頂衛星みちびき経由で送信するサービスです。
-## Installation
-```shell
-$ pip install azarashi
-```
-## Preparation
-デバイスに災危通報メッセージを出力させるための設定例です。
-### u-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
-UARTを有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
-```shell
-$ sudo vi /boot/firmware/config.txt
-```
-```shell
-[all]
-...
 
-# Enable the UART port
-enable_uart=1
-```
-再起動して、シリアルデバイスが認識されていることを確認します。
-```shell
-$ sudo reboot
-```
-`/dev/ttyS0` の状態を確認しましょう。
-```shell
-$ stat /dev/ttyS0 
-```
-```shell
-  File: /dev/ttyS0
-  Size: 0         	Blocks: 0          IO Block: 4096   character special file
-Device: 5h/5d	Inode: 602         Links: 1     Device type: 4,40
-Access: (0660/crw-rw----)  Uid: (    0/    root)   Gid: (   20/ dialout)
-...
-```
-もし `/dev/ttyS0` が存在しない場合は dmsg コマンドで確認しましょう。ファイル名が異なるか UART ポートを有効化する設定が間違っているか、有効化に失敗していることが考えられます。
-```shell
-$ sudo dmesg | grep serial
-```
-```shell
-[    0.525432] bcm2835-aux-uart fe215040.serial: there is not valid maps for state default
-[    0.527303] fe215040.serial: ttyS0 at MMIO 0xfe215040 (irq = 21, base_baud = 62500000) is a 16550
-```
-シリアルデバイスに `sudo` コマンドを使わずに読み書きしたいときは、ユーザを `dialout` グループに追加します。
-```shell
-$ sudo usermod -a -G dialout $USER
-$ logout # then re-login to the machine
-```
-データシートを参照して直接インストラクションを流し込むか、設定ツールをつかって SFRBX メッセージの出力を有効にしてください。設定ツール ubxtool は下記のようにインストールします。
-```shell
-$ sudo apt update
-$ sudo apt install gpsd gpsd-clients
-```
-SFRBX メッセージの出力に関連する設定コマンドの例です。
-```shell
-$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram 
-$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram 
-$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # sets 'enable'  to bbr (battery-backed ram)
-$ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,2 # sets 'disable' to bbr (battery-backed ram)
-$ ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX-CFG-VALGET # gets the state
-```
-デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
-### u-blox F9P < USB > Windows + u-center (GUI)
-設定ツール [u-center](https://www.u-blox.com/en/product/u-center) をダウンロードし、インストールしてください。
+AzaraCは準天頂衛星みちびきが送信する災危通報メッセージのデコーダーであるazarashiをArduino向けに移植したものです。QZSS L1S信号を用いた災危通報の**DCX/CAMF**(MT=44)および**DC Report/QZQSM**(MT=43)に対応しており，ESP32シリーズなどのArduino互換ボード向けに設計されています。外部ライブラリには依存していません。
 
-u-center で SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
-```
-Open u-center ->
-  View -> Configuration View ->
-    CFG (Configuration) -> Revert to default configuration -> Send
-    MSG (Messages) -> Messages -> 02-13 RXM-SFRBX ->
-      Check the "USB" box and type 1 in the "on" box -> Send
-    NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
-    CFG (Configuration) -> Save current configuration -> Send
-```
-u-center で QZSS の L1S シグナル受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
-```
-Open u-center ->
-  View -> Generation 9 Configuration View -> GNSS Configuration ->
-    Check All the "GPS" and "QZSS" boxes ->
-  　　  Check the "RAM" and "Flash" boxes in the "Write to layer" ->
- 　　　　   Send Configuration
-```
-設定は永続化され、他の機器に接続し直しても災危通報メッセージを出力します。デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
-### Sony Spresense
-[QZSS 災危通報 (QZQSM) の NMEA センテンスを出力するように設定してください。](https://developer.sony.com/develop/spresense/docs/arduino_tutorials_ja.html#_qzss_災危通報を出力する)
-## CLI
-azarashi コマンドをつかうとプログラミングすることなく災危通報メッセージをデコードできます。
-```shell
-$ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05' | azarashi nmea
-```
-オプションは下記のとおりです。
-```shell
-usage: azarashi [-h] [-f INPUT] [-s] [-u] [-v] {hex,nmea,ublox}
+定義テーブル(`definition/*.h`)は[azarashi](https://github.com/nbtk/azarashi)の
+`definition/*.py`からGitHub Actionsでの自動生成を行っています。azarashiのバージョンが
+更新されるとPRが自動作成されるため、常にazarashiと同じ定義が維持されます。
 
-azarashi CLI
+## 対応メッセージ
 
-positional arguments:
-  {hex,nmea,ublox}      message type
+| msg_type | 規格            | 内容                             |
+| -------- | --------------- | -------------------------------- |
+| 43       | IS-QZSS-DCR-016 | JMA DC Report (QZQSM) — 全12種   |
+| 44       | IS-QZSS-DCX-003 | DCX / CAMF (L-Alert, J-Alert 等) |
 
-options:
-  -h, --help            show this help message and exit
-  -f INPUT, --input INPUT
-                        input device (default: stdin)
-  -s, --source          output the source messages (default: False)
-  -u, --unique          supress duplicate messages (default: False)
-  -v, --verbose         verbose mode (default: False)
+### MT=43 防災カテゴリ一覧
+
+| カテゴリID | 内容                              | 規格セクション |
+| ---------- | --------------------------------- | -------------- |
+| 1          | 緊急地震速報 (EEW)                | §5.1.2.3.1     |
+| 2          | 震源情報 (Hypocenter)             | §5.1.2.3.2     |
+| 3          | 震度情報 (Seismic Intensity)      | §5.1.2.3.3     |
+| 4          | 南海トラフ地震 (Nankai Trough)    | §5.1.2.3.4     |
+| 5          | 津波警報・注意報 (Tsunami)        | §5.1.2.3.5     |
+| 6          | 北太平洋津波 (NW Pacific Tsunami) | §5.1.2.3.6     |
+| 8          | 火山情報 (Volcano)                | §5.1.2.3.7     |
+| 9          | 降灰情報 (Ash Fall)               | §5.1.2.3.8     |
+| 10         | 気象警報・注意報 (Weather)        | §5.1.2.3.9     |
+| 11         | 洪水警報 (Flood)                  | §5.1.2.3.10    |
+| 12         | 台風情報 (Typhoon)                | §5.1.2.3.11    |
+| 14         | 海上警報 (Marine)                 | §5.1.2.3.12    |
+
+### MT=44 サービス種別
+
+| service_kind    | 内容                             | 判定条件                 |
+| --------------- | -------------------------------- | ------------------------ |
+| LAlert          | L-Alert (地方自治体向け緊急速報) | A2=111 (Japan) & A3=1-4  |
+| JAlert          | J-Alert (全国瞬時警報システム)   | A2=111 (Japan) & A3=0    |
+| LocalGovernment | 地方自治体送信情報               | A2=111 (Japan) & A3=5-31 |
+| OutsideJapan    | 国外向け情報                     | A2≠111                   |
+| NullMessage     | Null Message                     | A1=0                     |
+| Unknown         | 不明                             | 上記以外                 |
+
+## 動作環境
+
+| 項目            | 値                                          |
+| --------------- | ------------------------------------------- |
+| 主要ターゲット  | ESP32-C3 (FreeRTOS / Arduino framework)     |
+| Arduino コア    | esp32 ≥ 3.x                                 |
+| ホストテスト    | g++ -std=c++17 (Linux / macOS / WSL)        |
+| GNSS モジュール | u-blox (UBX-RXM-SFRBX) / NMEA $QZQSM 出力機 |
+
+[注意] AzaraCはC++17で記述されています。利用の際は、お使いのIDEのC++コンパイラ設定を17以上にしてください。多くのボード/エディタでは標準設定がC++11となっており、AzaraCライブラリのコンパイル時にエラーが発生する可能性があります。
+
+## インストール
+
+### Arduino IDE（手動）
+
+```bash
+git clone https://github.com/A-vrice/azaraC \
+  <PROJECT_DIR>/libraries/azaraC
 ```
-### u-blox
-stty コマンドでデバイスファイルを `raw` に設定し azarashi コマンドのメッセージタイプに `ublox` を指定します。デバイスファイルのパスは適宜変更してください。
-```shell
-$ stty -F /dev/ttyS0 raw
+
+### PlatformIO（手動）
+
+```bash
+git clone https://github.com/A-vrice/azaraC \
+  <PROJECT_DIR>/.pio/libdeps/<TARGET_BOARD>/azaraC
 ```
-azarashi コマンドに ublox オプションを指定します。
-```shell
-$ azarashi ublox -f /dev/ttyS0
+
+---
+
+## クイックスタート
+
+### NMEA ($QZQSM) を使用する場合
+
+```cpp
+#include <azaraC.h>
+
+azaraC::Parser  parser;
+azaraC::Message msg;
+
+void setup() {
+    Serial.begin(115200);
+    Serial1.begin(9600, SERIAL_8N1, /*rx=*/20, /*tx=*/21);
+}
+
+void loop() {
+    while (Serial1.available()) {
+        if (parser.feed(Serial1.read(), msg)) {
+            azaraC::toJson(msg, Serial);
+            Serial.println();
+        }
+    }
+}
 ```
-なお、デバイスファイルの読込権限が足りず sudo コマンドを使って python3 インタプリタを実行するとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。あるいは次のように実行しても動作は同じです。
-```shell
-$ sudo cat /dev/ttyS0 | azarashi ublox
+
+### UBX (RXM-SFRBX) を使用する場合
+
+u-blox の設定:
+
 ```
-### Sony Spresense
-azarashi コマンドに nmea オプションを指定します。
-```shell
-$ azarashi nmea -f /dev/ttyUSB0
+CFG-MSGOUT-UBX_RXM_SFRBX_UART1 = 1
+CFG-SIGNAL-QZSS_L1S_ENA        = 1
 ```
-### Hexadecimal
-azarashi コマンドのメッセージタイプに `hex` を指定してください。`hex` はヘッダ、チェックサムを含まない16進数文字列のメッセージ形式です。
-```shell
-$ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
+
+コードはNMEAと同じです。`Parser`が自動判別します。
+
+### UNIX時刻付き（メッセージから年月を含めた日時情報を取得したい場合）
+
+```cpp
+// SNTP/GPS等で取得したUNIX時刻を渡す
+uint32_t now = (uint32_t)time(nullptr);
+if (parser.feed(byte, msg, now)) { ... }
 ```
+
+詳細は[`examples/with_sntp/`](examples/with_sntp/)を参照。
+
+---
+
 ## API
-### decode()
-```python
-azarashi.decode(msg, msg_type='nmea')
-```
-- `msg`: メッセージを渡してください。メッセージは str 型または bytes 型です。
-- `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。`nmea` または `hex` を指定したときメッセージは str 型、`ublox` を指定したときメッセージは bytes 型です。
-#### Example
-デコードして得られたレポートオブジェクトを `str()` にわたすとヒューマンリーダブルな災害情報を返します。
-```python
->>> import azarashi
->>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
->>> report = azarashi.decode(msg, 'nmea')
->>> str(report)
-'防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
-```
-つまりレポートオブジェクトを `print()` にわたせば災害情報を出力します。
-```python
->>> print(report)
-```
-```
-防災気象情報(緊急地震速報)(発表)(訓練/試験)
-*** これは訓練です ***
-緊急地震速報
-強い揺れに警戒してください。
 
-発表時刻: 3月10日10時0分
+### `azaraC::Parser`
 
-震央地名: 日向灘
-地震発生時刻: 10日10時0分
-深さ: 10km
-マグニチュード: 7.2
-震度(下限): 震度6弱
-震度(上限): 〜程度以上
-島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
+```cpp
+// 1バイト投入。新しい有効メッセージが揃ったら true を返す
+bool feed(uint8_t byte, Message& out, uint32_t now_unix = 0);
+
+void reset();  // フレーマ・重複フィルタをリセット
 ```
-レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。
-```python
->>> from pprint import pprint
->>> pprint(report.get_params())
+
+重複除去は **{svid, msg_type, crc24}** のリングバッファで行います。
+デフォルトスロット数は 8 としています。複数 SV を受信する場合は 32 や 128 などに適宜調整してください:
+
+```cpp
+#define AZARAC_DEDUP_SLOTS 32
+#include <azaraC.h>
 ```
-```python
-{'assumptive': False,
- 'depth_of_hypocenter': '10km',
- 'depth_of_hypocenter_raw': 10,
- 'disaster_category': '緊急地震速報',
- 'disaster_category_en': 'Earthquake Early Warning',
- 'disaster_category_no': 1,
- 'eew_forecast_regions': ['島根', '岡山', '広島', '山口', '香川', '愛媛',
-                          '高知', '福岡', '佐賀', '長崎', '熊本', '大分',
-                          '宮崎', '鹿児島', '中国', '四国', '九州'],
- 'eew_forecast_regions_raw': [37, 38, 39, 40, 42, 43,
-                              44, 45, 46, 47, 48, 49,
-                              50, 51, 66, 67, 68],
- 'information_type': '発表',
- 'information_type_en': 'Issue',
- 'information_type_no': 0,
- 'long_period_ground_motion_lower_limit': None,
- 'long_period_ground_motion_lower_limit_raw': 0,
- 'long_period_ground_motion_upper_limit': None,
- 'long_period_ground_motion_upper_limit_raw': 0,
- 'magnitude': '7.2',
- 'magnitude_raw': 72,
- 'message': b'\xc6\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00'
-            b'\x03\xdf\xf8\x00\x1c\x00\x00\x11\x85D?\xc0',
- 'message_header': '$QZQSM',
- 'message_type': 'DCR',
- 'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
- 'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
- 'notifications_on_disaster_prevention_raw': [201],
- 'occurrence_time_of_earthquake': datetime.datetime(2024, 3, 10, 1, 0),
- 'preamble': 'C',
- 'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
-        b'\xdf\xf8\x00\x1c\x00\x00\x10',
- 'report_classification': '訓練/試験',
- 'report_classification_en': 'Training/Test',
- 'report_classification_no': 7,
- 'report_time': datetime.datetime(2024, 3, 10, 1, 0),
- 'satellite_id': 55,
- 'satellite_prn': 183,
- 'seismic_epicenter': '日向灘',
- 'seismic_epicenter_raw': 791,
- 'seismic_intensity_lower_limit': '震度6弱',
- 'seismic_intensity_lower_limit_raw': 8,
- 'seismic_intensity_upper_limit': '〜程度以上',
- 'seismic_intensity_upper_limit_raw': 11,
- 'sentence': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
- 'timestamp': datetime.datetime(2024, 6, 21, 15, 40, 34, 960948),
- 'version': 1}
+
+### 言語テーブルの選択的コンパイル
+
+定義テーブルの言語を選択してFlash使用量を削減できます。
+デフォルトは日本語のみ有効です:
+
+```cpp
+// 日本語のみ（デフォルト）- 英語テーブルを除外して約15KB削減
+#include <azaraC.h>
+
+// 英語のみ
+#define AZARAC_LANG_JA 0
+#define AZARAC_LANG_EN 1
+#include <azaraC.h>
+
+// 両方有効
+#define AZARAC_LANG_JA 1
+#define AZARAC_LANG_EN 1
+#include <azaraC.h>
 ```
-重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
-```python
->>> msg2 = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
->>> report2 = azarashi.decode(msg2, 'nmea')
->>> report == report2
+
+### `azaraC::toJson(msg, out)`
+
+`Message`をJSONにシリアライズして任意の`Print&` に出力します。
+`Serial`, `WiFiClient`, `StringPrint`（テスト用）などを渡せます。
+
+### `azaraC::Message`
+
+```cpp
+struct Message {
+    uint8_t  svid;
+    uint8_t  msg_type;   // 43 or 44
+    uint32_t crc24;
+    bool     valid;
+
+    // MT=44 フィールド: service_kind, a1_message_type, a2_country_code ...
+    // MT=43 フィールド: report_classification, disaster_category,
+    //                   information_type, event_time
+    //                   + サブタイプ別フィールド (eew_*, seis_*, tsu_* ...)
+};
 ```
+
+フィールド詳細は[`src/Message.h`](src/Message.h)を参照してください。
+
+### 安全なアクセサ
+
+```cpp
+azaraC::Message msg;
+// ...
+if (msg.msg_type == 43) {
+    const azaraC::Mt43Data* mt43 = msg.getMt43();
+    if (mt43) {
+        // MT=43 フィールドにアクセス
+        uint8_t category = mt43->disaster_category;
+    }
+} else if (msg.msg_type == 44) {
+    const azaraC::Mt44Data* mt44 = msg.getMt44();
+    if (mt44) {
+        // MT=44 フィールドにアクセス
+        auto kind = mt44->service_kind;
+    }
+}
 ```
-True
+
+---
+
+## JSON 出力例
+
+### MT=43 EEW (緊急地震速報)
+
+```json
+{
+  "svid": 193,
+  "msg_type": 43,
+  "crc24": 12345678,
+  "report_classification": 1,
+  "report_classification_label": "警報",
+  "disaster_category": 1,
+  "disaster_category_label": "緊急地震速報",
+  "information_type": 0,
+  "information_type_label": "発表",
+  "report_time": { "day": 19, "hour": 14, "min": 30, "unix": 0 },
+  "detail": {
+    "depth": 60,
+    "magnitude": 65,
+    "epicenter": 42,
+    "epicenter_label": "千葉県北西部",
+    "intensity_lower": 5,
+    "intensity_lower_label": "5弱",
+    "intensity_upper": 6,
+    "intensity_upper_label": "6強",
+    "regions": [
+      { "code": 1, "label": "北海道道央" },
+      { "code": 12, "label": "東京都" }
+    ]
+  }
+}
 ```
-### decode_stream()
-```python
-azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs={}, unique=False, ignore_dcr=False, ignore_dcx=True)
+
+### MT=43 台風情報
+
+```json
+{
+  "svid": 193,
+  "msg_type": 43,
+  "disaster_category": 12,
+  "disaster_category_label": "台風情報",
+  "detail": {
+    "reference_time": { "day": 15, "hour": 9, "min": 0 },
+    "ref_type": 1,
+    "ref_type_label": "Analysis",
+    "number": 202401,
+    "scale": 3,
+    "scale_label": "大型",
+    "intensity": 2,
+    "intensity_label": "強い",
+    "lat_deg": 28.5,
+    "lon_deg": 135.2,
+    "pressure": 965,
+    "max_wind": 33,
+    "max_gust": 50
+  }
+}
 ```
-- `stream`: I/Oストリームを渡してください。デバイスファイルを `open()` して渡すときは、事前に stty コマンドで `ublox` なら `raw` モード、`nmea` ならデフォルト設定にしてください。pySerial つかうときは stty コマンドによる設定は不要です。
-- `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。
-- `callback`: メッセージをデコードしたあとに実行されるコールバック関数です。`None` の場合 `decode_stream()` はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合 `decode_stream()` は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。下記はコールバック関数のインタフェースです。
-```python
-callback(report, *callback_args, **callback_kwargs)
+
+### MT=44 DCX (L-Alert)
+
+```json
+{
+  "svid": 193,
+  "msg_type": 44,
+  "crc24": 11259375,
+  "service_kind": 1,
+  "service_kind_label": "L_ALERT",
+  "a1_msg_type": "Alert",
+  "a2_country": 111,
+  "a2_country_label": "Japan",
+  "a3_provider": 1,
+  "a4_hazard": 10,
+  "a4_hazard_category": "Geological",
+  "a4_hazard_type": "Earthquake",
+  "a5_severity": 3,
+  "a5_severity_label": "Extreme",
+  "onset_time": { "day": 19, "hour": 14, "min": 30, "unix": 1745123400 },
+  "main_ellipse": {
+    "lat_deg": 35.6,
+    "lon_deg": 139.6,
+    "semi_major_km": 10.933,
+    "semi_minor_km": 8.085,
+    "azimuth_deg": 30.0
+  },
+  "ex1_target_area": 1100,
+  "ex1_target_area_label": "Sapporo-shi",
+  "alert_identity": { "a2": 111, "a3": 1, "a4": 10, "ex1": 1100 }
+}
 ```
-- `calback_args`: コールバック関数に渡される引数です。
-- `callback_kwargs`: コールバック関数に渡されるキーワード引数です。
-- `unique`: 重複したメッセージを無視したいときは `True` を指定してください。
-- `ignore_dcr`: DCRメッセージを無視したいときは `True` を指定してください。デフォルトは `False` です。
-- `ignore_dcx`: DCXメッセージを無視したくないときは `False` を指定してください。デフォルトは `True` です。
-#### Example
-指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
-```python
->>> import azarashi
->>> f = open('/dev/ttyS0', mode='r')
->>> azarashi.decode_stream(f, msg_type='ublox', callback=print)
+
+### MT=44 DCX (J-Alert)
+
+```json
+{
+  "svid": 193,
+  "msg_type": 44,
+  "service_kind": 2,
+  "service_kind_label": "J_ALERT",
+  "a4_hazard": 10,
+  "a4_hazard_type": "Earthquake",
+  "jalert_prefecture_mode": true,
+  "prefecture_positions": [1, 12, 13, 14],
+  "prefecture_count": 4
+}
 ```
-### QzssDcrDecoderException
-この例外クラスは何らかの理由でデコードに失敗したときに送出されます。エラーメッセージを表示すると問題解決の一助となるでしょう。
-### QzssDcrDecoderNotImplementedError
-`NotImplementedError` を継承した例外クラスです。実験的な配信など、デコーダが対応していないメッセージを受け取ったときに送出されます。配信がはじまると騒々しいのでデバッグ以外ではこの例外を握りつぶしたほうがよいかもしれません。
+
+---
+
 ## Examples
-### I/O Stream
-例外処理を加えた簡単なプログラムの例です。
-```python
-import azarashi
-import sys
 
-def example():
-    with open('/dev/ttyS0', mode='r') as f:
-        while True:
-            try:
-                azarashi.decode_stream(f, msg_type='ublox', callback=print)
-            except azarashi.QzssDcrDecoderException as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-            except azarashi.QzssDcrDecoderNotImplementedError as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-            except EOFError as e:
-                print(f'{e}', file=sys.stderr)
-                return 0
-            except Exception as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-                return 1
+詳細な使用例は[`examples/`](examples/)ディレクトリを参照してください。
 
-exit(example())
+| Example                                            | 説明                           |
+| -------------------------------------------------- | ------------------------------ |
+| [basic_nmea](examples/basic_nmea/)                 | NMEA $QZQSM の基本的な使用例   |
+| [basic_ubx](examples/basic_ubx/)                   | UBX-RXM-SFRBX の基本的な使用例 |
+| [with_sntp](examples/with_sntp/)                   | SNTP時刻解決 + EEWフィルタ     |
+| [filter_by_category](examples/filter_by_category/) | 災害カテゴリ別フィルタリング   |
+| [error_handling](examples/error_handling/)         | エラーハンドリングと統計       |
+| [wifi_client](examples/wifi_client/)               | Wi-Fiクライアント出力          |
+
+---
+
+## 定義ファイルの自動生成
+
 ```
-### pySerial
-[pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを `open()` して `decode_stream()` に渡すこともできます。この方法では stty コマンドによる設定は不要です。
-```python
-import azarashi
-import sys
-import serial
-import pprint
-
-def handler(report):
-    pprint.pprint(report.get_params())
-
-def example():
-    with serial.Serial('/dev/ttyS0', 9600) as ser:
-        while True:
-            try:
-                azarashi.decode_stream(ser, 'ublox', handler, unique=True)
-            except azarashi.QzssDcrDecoderException as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-            except azarashi.QzssDcrDecoderNotImplementedError as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-            except EOFError as e:
-                print(f'{e}', file=sys.stderr)
-                return 0
-            except Exception as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-                return 1
-
-exit(example())
-```
-## Network
-GPS アンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータを UDP パケットに載せて再送するスクリプトを書きました。IPv4/IPv6 両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
-### Transmitter
-送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。
-```shell
-$ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0
-```
-なお、デバイスファイルの読込権限が足りず sudo コマンドを使って python3 インタプリタを実行するとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。あるいは次のように実行しても動作は同じです。
-```shell
-$ sudo cat /dev/ttyS0 | python3 -m azarashi.network.transmitter -t ublox
-```
-オプションは下記のとおりです。
-```
-usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {hex,nmea,ublox}] [-f INPUT] [-u]
-
-azarashi network transmitter
-
-options:
-  -h, --help            show this help message and exit
-  -d DST_HOST, --dst-host DST_HOST
-                        destination host (default: ff02::1)
-  -p DST_PORT, --dst-port DST_PORT
-                        destination port (default: 2112)
-  -t {hex,nmea,ublox}, --msg-type {hex,nmea,ublox}
-                        message type (default: ublox)
-  -f INPUT, --input INPUT
-                        input device (default: stdin)
-  -u, --unique          supress duplicate messages (default: False)
-```
-### Receiver
-受信側のスクリプトです。
-```shell
-$ python3 -m azarashi.network.receiver
-```
-オプションは下記のとおりです。
-```
-usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-v]
-
-azarashi network receiver
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -b BIND_ADDR, --bind-addr BIND_ADDR
-                        address to bind (default: ::)
-  -p BIND_PORT, --bind-port BIND_PORT
-                        port to bind (default: 2112)
-  -i BIND_IFACE, --bind-iface BIND_IFACE
-                        iface to bind (default: any)
-  -v, --verbose         verbose mode (default: False)
+azarashi (PyPI)
+  └── definition/*.py
+        ↓  .github/workflows/update-definitions.yml (毎日 06:00 UTC)
+  scripts/gen_definitions.py  → src/definition/*.h
+        ↓  PR 自動作成 (peter-evans/create-pull-request)
+  レビュー → マージ
 ```
 
-## DCX
-azarashi は DCX メッセージのデコードをサポートしています。下記は L-Alert をデコードする例です。
-```python
->>> import azarashi
->>> msg = '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E' # l-alert
->>> report = azarashi.decode(msg, 'nmea')
->>> print(report)
-```
-```
-### DCX Message - L-Alert ###
-A1 - Message type: Alert
-A2 - Country/region name: Japan
-A3 - Provider identifier: Foundation for MultiMedia Communications
-A4 - Hazard category and type: MET - Rainfall
-A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is according to each local standard.
-A5 - Severity: Severe - Significant threat to life or property
-A6A7 - Hazard onset: 2024-06-23 13:00:00
-A8 - Hazard duration: 6H <= Duration < 12H
-A11 - Guidance to react: Keep away from Water area.
-A11 - Guidance to react (ja): 離れろ。水場。
-A12 - Ellipse centre latitude: 35.688
-A13 - Ellipse centre longitude: 139.691
-A14 - Ellipse semi - major axis: 10.933
-A15 - Ellipse semi - minor axis: 5.979
-A16 - Ellipse azimuth: 45.0
-A17 - Specific settings: B1 - Improved Resolution of Main Ellipse
-C1 - Refined latitude of centre of main ellipse: 35.688
-C2 - Refined longitude of centre of main ellipse: 139.691
-C3 - Refined length of semi major axis: 10.933
-C4 - Refined length of semi minor axis: 5.979
-```
-レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。
-```python
->>> from pprint import pprint
->>> pprint(report.get_params(), sort_dicts=False)
-```
-```python
-{'sentence': '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E',
- 'timestamp': datetime.datetime(2024, 6, 21, 15, 9, 5, 433111),
- 'message': b'S\xb0`M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc'
-            b'\x00\x00\x00\x00\x00\x00\x00\x10"\xa8\x18\x80',
- 'nmea': '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E',
- 'message_header': '$QZQSM',
- 'satellite_id': 55,
- 'satellite_prn': 183,
- 'raw': b'M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc\x00\x00\x00'
-        b'\x00\x00\x00\x00\x10',
- 'preamble': 'A',
- 'message_type': 'DCX',
- 'camf': <azarashi.qzss_dcr_lib.decoder.qzss_dcx_decoder.QzssDcxDecoder.decode.<locals>.CAMF object at 0x1023af6a0>,
- 'ignore_a12_to_a16': False,
- 'ignore_a17_to_a18': False,
- 'ignore_ex1': True,
- 'ignore_ex2_to_ex7': True,
- 'ignore_ex8_to_ex9': True,
- 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
- 'satellite_designation_mask': ['For Japan',
-                                'For Japan',
-                                'For Japan',
-                                'For Japan',
-                                'For Japan',
-                                'For use outside Japan',
-                                'For use outside Japan',
-                                'For Japan',
-                                'For Japan'],
- 'dcx_message_type': 'L-Alert',
- 'a1_message_type': 'Alert',
- 'a2_country_region_name': 'Japan',
- 'a3_provider_identifier': 'Foundation for MultiMedia Communications',
- 'a4_hazard_category': 'MET',
- 'a4_hazard_type': 'Rainfall',
- 'a4_hazard_definition': 'Rainfall greater than or equal to 50 mm in past 24 '
-                         'hours. Note: Precise threshold is according to each '
-                         'local standard.',
- 'a5_severity': 'Severe - Significant threat to life or property',
- 'a6_hazard_onset_week': 'Current',
- 'a7_hazard_onset_time_of_week': 'SUNDAY - 01:00 PM',
- 'a6a7_hazard_onset_datetime': datetime.datetime(2024, 6, 23, 13, 0),
- 'a8_hazard_duration': '6H <= Duration < 12H',
- 'a9_selection_of_library': 'Country/region guidance library',
- 'a10_library_version': '#1',
- 'a11_japanese_library': 'Keep away from Water area.',
- 'a11_japanese_library_ja': '離れろ。水場。',
- 'a12_ellipse_centre_latitude': 35.6882581826505,
- 'a13_ellipse_centre_longitude': 139.69085457500137,
- 'a14_ellipse_semi_major_axis': 10.932758602420911,
- 'a15_ellipse_semi_minor_axis': 5.978542029422428,
- 'a16_ellipse_azimuth': 45.0,
- 'a17_main_subject_for_specific_settings': 'B1 - Improved Resolution of Main '
-                                           'Ellipse',
- 'c1_refined_latitude_of_centre_of_main_ellipse': 35.6882581826505,
- 'c2_refined_longitude_of_centre_of_main_ellipse': 139.69085457500137,
- 'c3_refined_length_of_semi_major_axis': 10.932758602420911,
- 'c4_refined_length_of_semi_minor_axis': 5.978542029422428,
- 'dcx_version': 1}
-```
-ビットフィールドの値は `report.camf` オブジェクトに格納されています。
-```python
-print(report.camf.get_params())
-```
-```python
-{'sdmt': 0, 'sdm': 96, 'a1': 1, 'a2': 111, 'a3': 1, 'a4': 74, 'a5': 2, 'a6': 0, 'a7': 9421, 'a8': 2, 'a9': 1, 'a10': 0, 'a11': 773, 'a12': 45761, 'a13': 116395, 'a14': 13, 'a15': 11, 'a16': 48, 'a17': 0, 'a18': 0, 'ex1': 13104, 'ex2': 0, 'ex3': 0, 'ex4': 0, 'ex5': 0, 'ex6': 0, 'ex7': 0, 'ex8': 0, 'ex9': 7376896189632872448, 'ex10': 0, 'vn': 1, 'c1': 0, 'c2': 0, 'c3': 0, 'c4': 0}
-```
-### DCX Message Types
-DCX メッセージのデコード結果が格納されるレポートオブジェクトは下記のとおりです。
-#### Null Message 
-CAMF フィールドが空のメッセージです。SD フィールドを監視するために使用します。不要なら無視してください。
-```python
-class QzssDcxNullMsg(QzssDcXtendedMessageBase)
-```
-#### Information from Organizations outside Japan
-日本国外の機関から発報されたメッセージです。
-```python
-class QzssDcxOutsideJapan(QzssDcXtendedMessageBase)
-```
-#### L-Alert
-```python
-class QzssDcxLAlert(QzssDcXtendedMessageBase)
-```
-#### J-Alert
-```python
-class QzssDcxJAlert(QzssDcXtendedMessageBase)
-```
-#### Municipality-Transmitted Information [tentative name]
-```python
-class QzssDcxMTInfo(QzssDcXtendedMessageBase)
-```
-#### Unknown Message
-日本の未定義の機関から発報されたメッセージです。azarashi はこのメッセージを正確にデコードできないでしょう。デバッグの目的以外では無視してください。
-```python
-class QzssDcxUnknown(QzssDcXtendedMessageBase)
-```
-## Note
-IS-QZSS-DCR-016、IS-QZSS-DCX-003 をサポートしています。
-## Tips
-### UnicodeDecodeError
-```
-[UnicodeDecodeError] 'utf-8' codec can't decode byte 0xNN in position XX: ~
-```
-GPS モジュールと接続するインタフェースのボーレートが一致せず、壊れたビット列をデコードしようとして失敗していることが考えられます。ボーレートは例えば次のような値です。
-```
-9600, 19200, 38400, 57600, 115200
-```
-設定方法は GPS モジュール、stty または pySerial のマニュアルを参照してください。
-### Encountered EOF
-CLI でストリームを受けていた azarashi は、書き込み側がクローズすると Encountered EOF と stderr に出力して終了します。これは正常な動作です。その直前までエラーなく動作していたと解釈してください。
-### DCX Satellite Designation Field
-DCX メッセージの SD フィールドを監視する必要があるとき `decode.stream()` メソッドの `unique` オプションは指定しないでください。`unique` オプションを指定したとき、重複した DCX メッセージかどうかを判断するために SD フィールドの差異は考慮されません。SD フィールドが異なるメッセージでも CAMF フィールドが同じメッセージは同一とみなされます。したがって SD フィールドのみが異なるメッセージを取りこぼす可能性があり SD フィールドの変化を正確に監視できません。
-### 
-## Feedback
-イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
-Questions, suggestions, and comments are welcome! Please feel free to write in English.
+手動実行:
 
-## Credits
-This project was originally developed during my time at BitMeister Inc., with support and resources generously provided by the company. I am really thankful for the people and the environment that helped make it happen. It is now maintained independently.
+```bash
+pip install azarashi
+python scripts/gen_definitions.py
+```
+
+---
+
+## ホストテスト
+
+ESP32 不要でビルド・実行できます:
+
+```bash
+make -C test run
+```
+
+### Windows でのビルド
+
+Windows で MinGW-w64 を使用する場合、`test/Makefile` は既定で `D:\apps\mingw64\bin` を PATH に追加します。MinGW-w64 が別の場所にインストールされているか、既に PATH に含まれている場合は `MINGW64_BIN` 変数で上書きできます:
+
+```bash
+# カスタムパスを指定
+make -C test run MINGW64_BIN=C:\mingw64\bin
+
+# MinGW-w64 が既に PATH に含まれている場合は空に設定
+make -C test run MINGW64_BIN=
+```
+
+```
+=== azaraC unit tests ===
+  PASS  crc_known_zeros
+  PASS  crc_known_a5
+  ...
+  PASS  mt44_synthetic
+=== all passed ===
+=== azaraC JSON tests ===
+  PASS  json_dcx_keys
+  PASS  json_eew_keys
+  ...
+  PASS  json_balanced_mt44
+=== all passed ===
+```
+
+---
+
+## トラブルシューティング
+
+### メッセージが受信されない場合
+
+1. **配線を確認**: GNSSのTXがESP32のRXに接続されているか確認
+2. **ボーレートを確認**: 9600 baudがデフォルト
+3. **QZSS L1S信号が有効か確認**: u-bloxの設定を確認
+4. **アンテナを確認**: 屋外または窓際でテスト
+
+### コンパイルエラーが発生する場合
+
+1. **C++17を有効化**: Arduino IDE → ツール → C++ Standard → C++17
+2. **ボードサポートを確認**: ESP32 コア ≥ 3.x
+3. **ライブラリのインストール**: azaraCがlibrariesフォルダにあるか確認
+
+### JSON出力が不正な場合
+
+1. **バッファサイズを確認**: 大きなメッセージの場合、Serialのバッファを増やす
+2. **メモリ不足を確認**: ESP32-C3のメモリ使用量を確認
+
+---
+
+## 仕様書リファレンス
+
+| 規格            | 内容                        | バージョン     |
+| --------------- | --------------------------- | -------------- |
+| IS-QZSS-DCR-016 | DC Report Service (MT=43)   | April 03, 2026 |
+| IS-QZSS-DCX-003 | DCX Service (MT=44)         | March 28, 2025 |
+| EWSS CAMF v1.1  | Common Alert Message Format | Version 1.1    |
+
+---
+
+## ライセンス
+
+MIT
+
+---
+
+## 謝辞
+
+メッセージ定義は [azarashi](https://github.com/nbtk/azarashi)(MIT)の
+`definition/*.py` をもととさせていただきました。
+また，ビット構造の解析の参照実装としてもazarashiのデコーダを参照させていただきました。
+
+## Acknowledgements
+
+The original project `azarashi` was developed by [NBTK](https://github.com/nbtk) during his time at BitMeister Inc., with support and resources generously provided by the company.
+
+AzaraC is maintained independently by [A-vrice](https://github.com/A-vrice).
+
+## 不具合など
+
+何か不具合、疑問点があれば[Issue](https://github.com/A-vrice/azaraC/issues)，作者メールアドレス[AzaraC@vrice.f5.si]，およびTwitter(現X)のDMまでお願いします。

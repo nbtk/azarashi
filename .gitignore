@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*/__pycache__
 *.py[cod]
 *$py.class
 
@@ -131,3 +131,18 @@ dmypy.json
 # PyCharm metadata
 .idea/
 
+.roo/
+
+definition_files.txt
+
+test/*.exe
+test/*.o
+test/*.d
+
+azarashi*
+
+.agents/
+
+.vscode/
+
+plans/

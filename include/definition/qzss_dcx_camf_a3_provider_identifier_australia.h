@@ -1,0 +1,37 @@
+#pragma once
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
+// Source module : qzss_dcx_camf_a3_provider_identifier
+// Variable      : qzss_dcx_camf_a3_provider_identifier_australia
+// Entries       : 12
+// Strategy      : array
+
+#include <cstdint>
+#include <optional>
+#include <string_view>
+
+namespace azaraC {
+namespace def {
+
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_TABLE[] = {
+    "National Emergency Management Agency",
+    "Bureau of Meteorology",
+    "Australian Climate Service",
+    "Geoscience Australia",
+    "Commonwealth Scientific and Industrial Research Organisation",
+    "Australian Bureau of Statistics",
+    "Resilience New South Wales",
+    "State Emergency Service New South Wales",
+    "New South Wales Rural Fire Service",
+    "Joint Australian Tsunami Warning Centre",
+    "Flood Knowledge Centre",
+    "Australian Broadcasting Corporation"
+};
+inline constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE = 1;
+inline constexpr uint8_t QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_SIZE = 12;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_a3_provider_identifier_australia_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE || id >= QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE + QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_SIZE) return std::nullopt;
+    return QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_TABLE[id - QZSS_DCX_CAMF_A3_PROVIDER_IDENTIFIER_AUSTRALIA_BASE];
+}
+
+} // namespace def
+} // namespace azaraC
