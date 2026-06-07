@@ -96,13 +96,14 @@ inline std::string makeNmeaQzqsm(uint8_t svid, const uint8_t* nav_bits) {
     sprintf(hex, "%01X", (nav_bits[31] >> 4) & 0xF);
     s += hex;
 
+
     uint8_t xsum = 0;
     for (size_t i = 1; i < s.size(); ++i) {
         xsum ^= (uint8_t)s[i];
     }
 
-    char tail[5];
-    sprintf(tail, "*%02X\r\n", xsum);
+    char tail[6];
+    snprintf(tail, sizeof(tail), "*%02X\r\n", xsum);
     s += tail;
     return s;
 }

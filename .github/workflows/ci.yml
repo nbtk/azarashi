@@ -15,6 +15,17 @@ jobs:
       - name: Build & run
         run: make -C test run
 
+  # ── ファジングテスト ────────────────────────────────────────────────────
+  fuzz-test:
+    name: Fuzz testing
+    runs-on: ubuntu-latest
+    needs: host-test
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run fuzz test
+        run: make -C test fuzz FUZZ_ITERATIONS=100000
+
   # ── Arduino Lint ─────────────────────────────────────────────────────────
   arduino-lint:
     name: Arduino Lint
