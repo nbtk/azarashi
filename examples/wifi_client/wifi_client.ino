@@ -48,7 +48,7 @@ void connectWiFi() {
     WiFi.begin(WIFI_SSID, WIFI_PASS);
 
     int attempts = 0;
-    while (WiFi.status() != WL_CONNECTED && attempts < 3) {
+    while (WiFi.status() != WL_CONNECTED && attempts < 10) {
         delay(500);
         Serial.print(F("."));
         attempts++;

@@ -16,6 +16,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **ディレクトリ構造のリファクタリング**:
+  - `include/` ディレクトリを作成し、Arduino配布用ヘッダを分離
+  - `src/` をテスト用実装ディレクトリに再編成:
+    - `src/decoder/` — Decoder.cpp, DecoderDcx.cpp, DecoderQzqsm.cpp
+    - `src/framer/` — UbxFramer.cpp, NmeaFramer.cpp
+    - `src/json/` — JsonWriter.cpp, JsonSerializer.cpp, JsonSerializerDcx.cpp, JsonSerializerQzqsm.cpp
+    - `src/helper/` — DcxHelper.cpp, Dedup.cpp
+  - `test/` を機能別サブディレクトリに整理:
+    - `test/core/` — CRC, 時間変換, 緯度経度, 重複除去テスト
+    - `test/decoder/` — QZQSM, DCXデコーダテスト
+    - `test/framer/` — UBX/NMEAフレーマーテスト
+    - `test/json/` — JSONシリアライザテスト
+    - `test/integration/` — 統合テスト, データ駆動テスト, エッジケーステスト
+  - 旧テストファイル（test_crc.cpp等）を新テストファイルに統合
+  - `src/definition/` を削除（`include/definition/` と重複していたため）
+  - `library.properties` に `includes=azaraC.h` を追加
+
 - `DecoderDcx.cpp`: 構文エラーの返却コードを `ParseResultCode::Error` に変更（`Error` 定数から変更）。
 - `DecoderDcx.h`: `parse_result` の型を `ParseResultCode` に変更（旧 `Error` 型を削除）。
 - `その他`: デフォルト重複除去スロット数を8に再変更、言語テーブルの選択的コンパイルオプションを追加。

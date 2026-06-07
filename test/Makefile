@@ -1,6 +1,8 @@
 # test/Makefile — ホストビルド (ESP32不要)
+# 新しいディレクトリ構造に対応
+
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I../src/internal -DARDUINO=0 -DAZARAC_LANG_JA=1 -DAZARAC_LANG_EN=1 -g -MMD -MP
+CXXFLAGS = -std=c++17 -Wall -Wextra -I../include -I. -DARDUINO=0 -DAZARAC_LANG_JA=1 -DAZARAC_LANG_EN=1 -g -MMD -MP
 
 # MinGW-w64 bin path (override on command line if needed, e.g. make MINGW64_BIN=C:\mingw64\bin)
 MINGW64_BIN ?= D:\apps\mingw64\bin
@@ -9,7 +11,7 @@ MINGW64_BIN ?= D:\apps\mingw64\bin
 ifeq ($(OS),Windows_NT)
   TEST_BIN   = run_tests.exe
   RUN_PREFIX =
-  RM         = del /F /Q
+  RM         = cmd /c del /F /Q
   ifneq ($(MINGW64_BIN),)
     export PATH := $(PATH);$(MINGW64_BIN)
   endif
@@ -19,41 +21,37 @@ else
   RM         = rm -f
 endif
 
-# Test sources
-# 注意: test_helpers.h はヘルパーファイルなのでコンパイル対象に含めない
+# Test sources (機能別ディレクトリ)
 TEST_SRCS = \
 	test_main.cpp \
-	test_crc.cpp \
-	test_time.cpp \
-	test_latlon.cpp \
-	test_json.cpp \
-	test_framer.cpp \
-	test_tsunami.cpp \
-	compare_with_azarashi.cpp \
-	test_ublox.cpp \
-	test_decoder.cpp \
-	test_typhoon_marine.cpp \
-	test_coverage.cpp \
-	test_dcx_helper.cpp \
-	test_dedup.cpp \
-	test_nankai_multipage.cpp
+	core/test_core.cpp \
+	decoder/test_qzqsm.cpp \
+	decoder/test_dcx.cpp \
+	framer/test_framer.cpp \
+	framer/test_ublox_azarashi.cpp \
+	json/test_json.cpp \
+	integration/test_parser.cpp \
+	integration/test_nankai.cpp \
+	integration/test_azarashi.cpp \
+	integration/test_azarashi_dcr.cpp \
+	integration/test_azarashi_dcx.cpp
 
-# Library sources
+# Library sources (src/ 配下の実装ファイル)
 LIB_SRCS = \
 	../src/Parser.cpp \
-	../src/internal/Decoder.cpp \
-	../src/internal/DecoderDcx.cpp \
-	../src/internal/DecoderQzqsm.cpp \
-	../src/internal/DcxHelper.cpp \
-	../src/internal/JsonWriter.cpp \
-	../src/internal/JsonSerializer.cpp \
-	../src/internal/JsonSerializerDcx.cpp \
-	../src/internal/JsonSerializerQzqsm.cpp \
-	../src/internal/Dedup.cpp \
-	../src/internal/UbxFramer.cpp \
-	../src/internal/NmeaFramer.cpp
+	../src/decoder/Decoder.cpp \
+	../src/decoder/DecoderDcx.cpp \
+	../src/decoder/DecoderQzqsm.cpp \
+	../src/framer/UbxFramer.cpp \
+	../src/framer/NmeaFramer.cpp \
+	../src/json/JsonWriter.cpp \
+	../src/json/JsonSerializer.cpp \
+	../src/json/JsonSerializerDcx.cpp \
+	../src/json/JsonSerializerQzqsm.cpp \
+	../src/helper/DcxHelper.cpp \
+	../src/helper/Dedup.cpp
 
-# Object files (compiled in current dir to avoid cluttering src/)
+# Object files
 OBJS = $(TEST_SRCS:.cpp=.o) $(notdir $(LIB_SRCS:.cpp=.o))
 
 .PHONY: all clean run
@@ -72,7 +70,16 @@ $(TEST_BIN): $(OBJS)
 %.o: ../src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-%.o: ../src/internal/%.cpp
+%.o: ../src/decoder/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%.o: ../src/framer/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%.o: ../src/json/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%.o: ../src/helper/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 run: all

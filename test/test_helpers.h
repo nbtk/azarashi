@@ -5,11 +5,14 @@
 #define TEST_HELPERS_H
 
 #define ARDUINO 0
-#include "../src/azaraC.h"
-#include "../src/internal/Decoder.h"
-#include "../src/internal/NmeaFramer.h"
+#include "../include/azaraC.h"
+#include "../include/internal/Decoder.h"
+#include "../include/internal/NmeaFramer.h"
 #include <cstdint>
 #include <cstring>
+#include <cstdio>
+#include <string>
+#include <vector>
 
 using namespace azaraC;
 using namespace azaraC::internal;
@@ -23,6 +26,85 @@ inline void setBits(uint8_t* buf, uint16_t start, uint8_t len, uint32_t value) {
         if ((value >> i) & 1) buf[pos >> 3] |=  (1 << (7 - (pos & 7)));
         else                  buf[pos >> 3] &= ~(1 << (7 - (pos & 7)));
     }
+}
+
+// ── UBX SFRBX パケット生成 ────────────────────────────────────────────────────
+
+inline std::vector<uint8_t> makeUbxSfrbx(uint8_t svId, const uint8_t* nav_bits) {
+    std::vector<uint8_t> out;
+    out.push_back(0xB5); out.push_back(0x62); // SYNC
+    out.push_back(0x02); out.push_back(0x13); // CLASS/ID (RXM-SFRBX)
+
+    uint16_t len = 8 + 8 * 4; // header(8) + 8 words(32)
+    out.push_back(len & 0xFF);
+    out.push_back(len >> 8);
+
+    // Header
+    out.push_back(5);    // gnssId (QZSS)
+    out.push_back(svId); // svId
+    out.push_back(0);    // sigId (L1S)
+    out.push_back(0);    // freqId
+    out.push_back(8);    // numWords
+    out.push_back(0);    // chn
+    out.push_back(1);    // version
+    out.push_back(0);    // reserved
+
+    // Payload (8 words)
+    for (int w = 0; w < 8; ++w) {
+        uint32_t val = 0;
+        for (int b = 0; b < 32; ++b) {
+            int bit_idx = w * 32 + b;
+            if (bit_idx < 250) {
+                if (nav_bits[bit_idx / 8] & (0x80u >> (bit_idx % 8))) {
+                    val |= (1u << (31 - b));
+                }
+            }
+        }
+        out.push_back(val & 0xFF);
+        out.push_back((val >> 8) & 0xFF);
+        out.push_back((val >> 16) & 0xFF);
+        out.push_back(val >> 24);
+    }
+
+    // Checksum
+    uint8_t cka = 0, ckb = 0;
+    for (size_t i = 2; i < out.size(); ++i) {
+        cka += out[i];
+        ckb += cka;
+    }
+    out.push_back(cka);
+    out.push_back(ckb);
+
+    return out;
+}
+
+// ── NMEA QZQSM 文生成 ─────────────────────────────────────────────────────────
+
+inline std::string makeNmeaQzqsm(uint8_t svid, const uint8_t* nav_bits) {
+    char buf[256];
+    sprintf(buf, "QZQSM,%d,", svid);
+    std::string s = "$";
+    s += buf;
+    // Output 31 full bytes (62 hex chars)
+    for (int i = 0; i < 31; ++i) {
+        char hex[3];
+        sprintf(hex, "%02X", nav_bits[i]);
+        s += hex;
+    }
+    // Output 1 nibble (1 hex char) for the remaining 2 bits
+    char hex[2];
+    sprintf(hex, "%01X", (nav_bits[31] >> 4) & 0xF);
+    s += hex;
+
+    uint8_t xsum = 0;
+    for (size_t i = 1; i < s.size(); ++i) {
+        xsum ^= (uint8_t)s[i];
+    }
+
+    char tail[5];
+    sprintf(tail, "*%02X\r\n", xsum);
+    s += tail;
+    return s;
 }
 
 // ── CRC-24Q リファレンス実装 ──────────────────────────────────────────────────
