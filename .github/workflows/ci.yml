@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: clear files
+      - name: clean test files
         run: make -C test clean
       - name: Build & run
         run: make -C test run
