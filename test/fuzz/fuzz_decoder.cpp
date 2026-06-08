@@ -205,9 +205,6 @@ static void test_valid_frames(FuzzStats& stats, std::mt19937& rng, int iteration
             if (result) {
                 stats.valid_frames++;
                 stats.decode_success++;
-
-            if (result) {
-                stats.decode_success++;
                 if (msg.msg_type == 43) stats.mt43_count++;
                 else if (msg.msg_type == 44) stats.mt44_count++;
             } else {
