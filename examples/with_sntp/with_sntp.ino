@@ -56,19 +56,19 @@ void loop() {
 
         if (parser.feed(static_cast<uint8_t>(Serial1.read()), msg, now)) {
             // ── EEW および DCX 災害警報のみ警告出力（他は通常 JSON）──────────
-            if (msg.msg_type == 43 && msg.disaster_category == 1) {
+            if (msg.msg_type == 43 && msg.mt43.disaster_category == 1) {
                 Serial.print(F("[EEW] epicenter="));
-                Serial.print(msg.eew_epicenter);
+                Serial.print(msg.mt43.eew.epicenter);
                 Serial.print(F(" mag="));
-                Serial.print(msg.eew_magnitude / 10);
+                Serial.print(msg.mt43.eew.magnitude / 10);
                 Serial.print('.');
-                Serial.print(msg.eew_magnitude % 10);
+                Serial.print(msg.mt43.eew.magnitude % 10);
                 Serial.print(F(" depth="));
-                Serial.print(msg.eew_depth);
+                Serial.print(msg.mt43.eew.depth);
                 Serial.println(F("km"));
             } else if (msg.msg_type == 44) {
                 Serial.print(F("[DCX] "));
-                switch (msg.service_kind) {
+                switch (msg.mt44.service_kind) {
                     case azaraC::Mt44ServiceKind::LAlert:          Serial.print(F("L-Alert")); break;
                     case azaraC::Mt44ServiceKind::JAlert:          Serial.print(F("J-Alert")); break;
                     case azaraC::Mt44ServiceKind::LocalGovernment: Serial.print(F("Local Gov")); break;
@@ -76,11 +76,11 @@ void loop() {
                     case azaraC::Mt44ServiceKind::NullMessage:     Serial.print(F("Null Message")); break;
                     default:                                       Serial.print(F("Unknown")); break;
                 }
-                if (msg.mt44_decoded.main_ellipse_present) {
+                if (msg.mt44.mt44_decoded.main_ellipse_present) {
                     Serial.print(F(" | Lat: "));
-                    Serial.print(msg.mt44_decoded.main_ellipse.lat_deg, 3);
+                    Serial.print(msg.mt44.mt44_decoded.main_ellipse.lat_deg, 3);
                     Serial.print(F(" Lon: "));
-                    Serial.print(msg.mt44_decoded.main_ellipse.lon_deg, 3);
+                    Serial.print(msg.mt44.mt44_decoded.main_ellipse.lon_deg, 3);
                 }
                 Serial.println();
             }
