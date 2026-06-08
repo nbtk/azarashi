@@ -23,6 +23,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Run fuzz test
         run: make -C test fuzz FUZZ_ITERATIONS=100000
 

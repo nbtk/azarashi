@@ -201,7 +201,10 @@ static void test_valid_frames(FuzzStats& stats, std::mt19937& rng, int iteration
             bool result = decoder.decode(frame, msg, 1704067200u);
 
             stats.total_iterations++;
-            stats.valid_frames++;
+
+            if (result) {
+                stats.valid_frames++;
+                stats.decode_success++;
 
             if (result) {
                 stats.decode_success++;
