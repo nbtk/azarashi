@@ -15,10 +15,12 @@ ifeq ($(OS),Windows_NT)
   ifneq ($(MINGW64_BIN),)
     export PATH := $(PATH);$(MINGW64_BIN)
   endif
+  LDFLAGS += -Wl,--stack,33554432
 else
   TEST_BIN   = run_tests
   RUN_PREFIX = ./
   RM         = rm -f
+  LDFLAGS +=
 endif
 
 # Test sources (機能別ディレクトリ)
@@ -65,7 +67,7 @@ all: $(TEST_BIN)
 
 # Rule to build the test binary
 $(TEST_BIN): $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $@ -Wl,--stack,33554432
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 # Pattern rules for test sources (サブディレクトリ対応)
 %.o: %.cpp
