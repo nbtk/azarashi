@@ -34,6 +34,7 @@ NMEAフォーマットの$QZQSMメッセージを受信し、JSONに変換して
 ### basic_ubx - UBX-RXM-SFRBX 入力
 
 u-bloxバイナリフォーマットのUBX-RXM-SFRBXメッセージを受信します。
+ucenter2などを利用して受信を有効化してください。
 
 **必要なu-blox設定**:
 
@@ -254,7 +255,7 @@ Serial1.begin(9600, SERIAL_8N1, 10, 11);
 ### コンパイルエラーが発生する場合
 
 1. **C++17を有効化**: Arduino IDE → ツール → C++ Standard → C++17
-2. **ボードサポートを確認**: ESP32 コア ≥ 3.x
+2. **ボードサポートを確認**: 推奨環境はESP32 コア ≥ 3.x
 3. **ライブラリのインストール**: azaraCがlibrariesフォルダにあるか確認
 
 ### JSON出力が不正な場合
