@@ -1,5 +1,4 @@
-# test/Makefile — ホストビルド (ESP32不要)
-# 新しいディレクトリ構造に対応
+# test/Makefile — ホストビルド
 
 CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I../include -I. -DARDUINO=0 -DAZARAC_LANG_JA=1 -DAZARAC_LANG_EN=1 -g -MMD -MP
@@ -15,12 +14,12 @@ ifeq ($(OS),Windows_NT)
   ifneq ($(MINGW64_BIN),)
     export PATH := $(PATH);$(MINGW64_BIN)
   endif
-  LDFLAGS += -Wl,--stack,33554432
+  LDFLAGS = -Wl,--stack,33554432
 else
   TEST_BIN   = run_tests
   RUN_PREFIX = ./
   RM         = rm -f
-  LDFLAGS +=
+  LDFLAGS =
 endif
 
 # Test sources (機能別ディレクトリ)
@@ -61,7 +60,7 @@ OBJS = $(TEST_OBJS) $(LIB_OBJS)
 # VPATH for library sources
 VPATH = ../src:../src/decoder:../src/framer:../src/json:../src/helper
 
-.PHONY: all clean run
+.PHONY: all clean run fuzz
 
 all: $(TEST_BIN)
 
@@ -73,15 +72,22 @@ $(TEST_BIN): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Pattern rules for library sources
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
 run: all
 	$(RUN_PREFIX)$(TEST_BIN)
 
+# Fuzz target
+FUZZ_BIN = fuzz_decoder
+FUZZ_SRCS = fuzz/fuzz_decoder.cpp
+FUZZ_OBJS = $(FUZZ_SRCS:.cpp=.o)
+
+fuzz: $(FUZZ_BIN)
+	$(RUN_PREFIX)$(FUZZ_BIN)
+
+$(FUZZ_BIN): $(FUZZ_OBJS) $(LIB_OBJS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+
 # Include dependency files
--include $(TEST_OBJS:.o=.d) $(LIB_OBJS:.o=.d)
+-include $(TEST_OBJS:.o=.d) $(LIB_OBJS:.o=.d) $(FUZZ_OBJS:.o=.d)
 
 clean:
 	-$(RM) *.o *.exe *.d
@@ -90,3 +96,4 @@ clean:
 	-$(RM) framer\*.o framer\*.d
 	-$(RM) json\*.o json\*.d
 	-$(RM) integration\*.o integration\*.d
+	-$(RM) fuzz\*.o fuzz\*.d

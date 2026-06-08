@@ -20,6 +20,7 @@
 #include "../include/internal/Decoder.h"
 #include "../include/internal/NmeaFramer.h"
 #include "../include/internal/UbxFramer.h"
+#include "../test_helpers.h"
 
 using namespace azaraC;
 using namespace azaraC::internal;
@@ -57,26 +58,6 @@ struct FuzzStats {
     }
 };
 
-// CRC-24Q リファレンス実装
-static uint32_t crc24q_ref(const uint8_t* d, int total_bits) {
-    uint32_t crc = 0;
-    int bytes = (total_bits + 7) / 8;
-    for (int i = 0; i < bytes; i++) {
-        uint8_t b = d[i];
-        int bits_to_process = 8;
-        if (i == bytes - 1 && (total_bits & 7)) {
-            b &= 0xFFu << (8 - (total_bits & 7));
-            bits_to_process = total_bits & 7;
-        }
-        crc ^= (uint32_t)b << 16;
-        for (int j = 0; j < bits_to_process; j++) {
-            crc <<= 1;
-            if (crc & 0x1000000) crc ^= 0x1864CFB;
-        }
-    }
-    return crc & 0xFFFFFF;
-}
-
 // ランダムなNAVビットを生成
 static void generate_random_nav_bits(uint8_t* bits, size_t size, std::mt19937& rng) {
     std::uniform_int_distribution<int> dist(0, 255);
@@ -109,7 +90,7 @@ static void set_valid_msg_type(uint8_t* bits, std::mt19937& rng) {
 
 // CRCを計算して設定
 static void set_valid_crc(uint8_t* bits) {
-    uint32_t crc = crc24q_ref(bits, 226);
+    uint32_t crc = crc24qRef(bits, 226);
     // CRCはビット226-249に設定
     for (int i = 0; i < 24; i++) {
         if ((crc >> (23 - i)) & 1) {
@@ -118,77 +99,6 @@ static void set_valid_crc(uint8_t* bits) {
             bits[(226 + i) / 8] &= ~(0x80 >> ((226 + i) % 8));
         }
     }
-}
-
-// NMEA QZQSM文を生成
-static std::string make_nmea_qzqsm(uint8_t svid, const uint8_t* nav_bits) {
-    char buf[256];
-    snprintf(buf, sizeof(buf), "$QZQSM,%d,", svid);
-    std::string s = buf;
-    // 63文字のHEXを出力
-    for (int i = 0; i < 31; i++) {
-        char hex[3];
-        snprintf(hex, sizeof(hex), "%02X", nav_bits[i]);
-        s += hex;
-    }
-    char hex[2];
-    snprintf(hex, sizeof(hex), "%01X", (nav_bits[31] >> 4) & 0xF);
-    s += hex;
-
-    uint8_t xsum = 0;
-    for (size_t i = 1; i < s.size(); i++) {
-        xsum ^= (uint8_t)s[i];
-    }
-    char tail[8];
-    snprintf(tail, sizeof(tail), "*%02X\r\n", xsum);
-    s += tail;
-    return s;
-}
-
-// UBX SFRBXパケットを生成
-static std::vector<uint8_t> make_ubx_sfrbx(uint8_t svId, const uint8_t* nav_bits) {
-    std::vector<uint8_t> out;
-    out.push_back(0xB5); out.push_back(0x62);
-    out.push_back(0x02); out.push_back(0x13);
-
-    uint16_t len = 8 + 8 * 4;
-    out.push_back(len & 0xFF);
-    out.push_back(len >> 8);
-
-    out.push_back(5);    // gnssId (QZSS)
-    out.push_back(svId); // svId
-    out.push_back(0);    // sigId (L1S)
-    out.push_back(0);    // freqId
-    out.push_back(8);    // numWords
-    out.push_back(0);    // chn
-    out.push_back(1);    // version
-    out.push_back(0);    // reserved
-
-    for (int w = 0; w < 8; ++w) {
-        uint32_t val = 0;
-        for (int b = 0; b < 32; ++b) {
-            int bit_idx = w * 32 + b;
-            if (bit_idx < 250) {
-                if (nav_bits[bit_idx / 8] & (0x80u >> (bit_idx % 8))) {
-                    val |= (1u << (31 - b));
-                }
-            }
-        }
-        out.push_back(val & 0xFF);
-        out.push_back((val >> 8) & 0xFF);
-        out.push_back((val >> 16) & 0xFF);
-        out.push_back(val >> 24);
-    }
-
-    uint8_t cka = 0, ckb = 0;
-    for (size_t i = 2; i < out.size(); ++i) {
-        cka += out[i];
-        ckb += cka;
-    }
-    out.push_back(cka);
-    out.push_back(ckb);
-
-    return out;
 }
 
 // テスト1: 完全ランダムデータ
@@ -319,7 +229,7 @@ static void test_nmea_framer(FuzzStats& stats, std::mt19937& rng, int iterations
             set_valid_msg_type(bits, rng);
             set_valid_crc(bits);
 
-            std::string nmea = make_nmea_qzqsm(193, bits);
+            std::string nmea = makeNmeaQzqsm(193, bits);
 
             NmeaFramer framer;
             Frame frame;
@@ -359,7 +269,7 @@ static void test_ubx_framer(FuzzStats& stats, std::mt19937& rng, int iterations)
             set_valid_msg_type(bits, rng);
             set_valid_crc(bits);
 
-            auto ubx = make_ubx_sfrbx(193, bits);
+            auto ubx = makeUbxSfrbx(193, bits);
 
             UbxFramer framer;
             Frame frame;
@@ -490,7 +400,7 @@ static void test_long_running(FuzzStats& stats, std::mt19937& rng, int iteration
             set_valid_crc(bits);
 
             // NMEA経由でテスト
-            std::string nmea = make_nmea_qzqsm(193, bits);
+            std::string nmea = makeNmeaQzqsm(193, bits);
 
             NmeaFramer framer;
             Frame frame;
