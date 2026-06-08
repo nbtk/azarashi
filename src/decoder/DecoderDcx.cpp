@@ -1,8 +1,8 @@
 // azaraC - src/internal/DecoderDcx.cpp
 // MT=44 DCX / CAMF decoder (IS-QZSS-DCX-003)
 
-#include "../include/internal/Decoder.h"
-#include "../include/internal/DcxHelper.h"
+#include "internal/Decoder.h"
+#include "internal/DcxHelper.h"
 
 namespace azaraC {
 namespace internal {

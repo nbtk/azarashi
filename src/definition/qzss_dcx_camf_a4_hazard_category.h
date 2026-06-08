@@ -1,0 +1,138 @@
+#pragma once
+// AUTO-GENERATED from azarashi 0.15.1 with CI-CD
+// Source module : qzss_dcx_camf_a4_hazard_category_and_type
+// Variable      : qzss_dcx_camf_a4_hazard_category
+// Entries       : 113
+// Strategy      : array
+
+#include <cstdint>
+#include <optional>
+#include <string_view>
+
+namespace azaraC {
+namespace def {
+
+inline constexpr std::optional<std::string_view> QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[] = {
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "CBRNE",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "ENVIRONMENT",
+    "FIRE",
+    "FIRE",
+    "FIRE",
+    "FIRE",
+    "FIRE",
+    "FIRE",
+    "FIRE",
+    "FIRE",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "GEO",
+    "HEALTH",
+    "HEALTH",
+    "HEALTH",
+    "HEALTH",
+    "HEALTH",
+    "HEALTH",
+    "INFRASTRUCTURE",
+    "INFRASTRUCTURE",
+    "INFRASTRUCTURE",
+    "INFRASTRUCTURE",
+    "INFRASTRUCTURE",
+    "INFRASTRUCTURE",
+    "INFRASTRUCTURE",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "MET",
+    "RESCUE",
+    "RESCUE",
+    "RESCUE",
+    "RESCUE",
+    "RESCUE",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SAFETY",
+    "SECURITY",
+    "SECURITY",
+    "SECURITY",
+    "SECURITY",
+    "SECURITY",
+    "SECURITY",
+    "TRANSPORT",
+    "TRANSPORT",
+    "TRANSPORT",
+    "TRANSPORT",
+    "TRANSPORT",
+    "TRANSPORT",
+    "TRANSPORT",
+    "TRANSPORT",
+    "TRANSPORT",
+    "OTHER"
+};
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE = 1;
+inline constexpr uint8_t QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE = 113;
+[[nodiscard]] inline constexpr std::optional<std::string_view> qzss_dcx_camf_a4_hazard_category_lookup(uint8_t id) {
+    if (id < QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE || id >= QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE + QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_SIZE) return std::nullopt;
+    return QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_TABLE[id - QZSS_DCX_CAMF_A4_HAZARD_CATEGORY_BASE];
+}
+
+} // namespace def
+} // namespace azaraC

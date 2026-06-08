@@ -1,9 +1,9 @@
 // azaraC - src/internal/JsonSerializerDcx.cpp
 // MT=44 DCX JSON serializer
 
-#include "../include/internal/JsonWriter.h"
-#include "../include/internal/DcxHelper.h"
-#include "../include/definition/_index.h"
+#include "internal/JsonWriter.h"
+#include "internal/DcxHelper.h"
+#include "definition/_index.h"
 #include <optional>
 #include <string_view>
 

@@ -1,6 +1,6 @@
 // azaraC - src/internal/UbxFramer.cpp
 
-#include "../include/internal/UbxFramer.h"
+#include "internal/UbxFramer.h"
 #include <cstring>
 
 namespace azaraC {

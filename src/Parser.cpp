@@ -1,7 +1,7 @@
 // azaraC - src/Parser.cpp
 
-#include "../include/Parser.h"
-#include "../include/internal/TimeFields.h"
+#include "Parser.h"
+#include "internal/TimeFields.h"
 
 namespace azaraC {
 

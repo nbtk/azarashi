@@ -1,7 +1,7 @@
 // azaraC - src/internal/Decoder.cpp
 // Common decoder utilities (CRC, bit extraction, time resolution)
 
-#include "../include/internal/Decoder.h"
+#include "internal/Decoder.h"
 
 namespace azaraC {
 namespace internal {

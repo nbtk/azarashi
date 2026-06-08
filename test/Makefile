@@ -1,7 +1,7 @@
 # test/Makefile — ホストビルド
 
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I../include -I. -DARDUINO=0 -DAZARAC_LANG_JA=1 -DAZARAC_LANG_EN=1 -g -MMD -MP
+CXXFLAGS = -std=c++17 -Wall -Wextra -I../src -I. -DARDUINO=0 -DAZARAC_LANG_JA=1 -DAZARAC_LANG_EN=1 -g -MMD -MP
 
 # MinGW-w64 bin path (override on command line if needed, e.g. make MINGW64_BIN=C:\mingw64\bin)
 MINGW64_BIN ?= D:\apps\mingw64\bin

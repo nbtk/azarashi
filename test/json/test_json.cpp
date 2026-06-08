@@ -2,8 +2,8 @@
 // JsonSerializer の出力検証
 
 #define ARDUINO 0
-#include "../include/azaraC.h"
-#include "../include/internal/PrintShim.h"
+#include "../src/azaraC.h"
+#include "../src/internal/PrintShim.h"
 #include "../test_helpers.h"
 #include "doctest.h"
 #include <cstring>

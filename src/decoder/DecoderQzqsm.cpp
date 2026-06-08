@@ -1,7 +1,7 @@
 // azaraC - src/internal/DecoderQzqsm.cpp
 // MT=43 QZQSM / DC Report decoder (IS-QZSS-DCR-016)
 
-#include "../include/internal/Decoder.h"
+#include "internal/Decoder.h"
 
 namespace azaraC {
 namespace internal {

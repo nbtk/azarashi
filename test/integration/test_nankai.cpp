@@ -4,7 +4,7 @@
 #include <string>
 #include <chrono>
 #include "doctest.h"
-#include "../include/internal/NankaiPageBuffer.h"
+#include "../src/internal/NankaiPageBuffer.h"
 
 using namespace azaraC::internal;
 

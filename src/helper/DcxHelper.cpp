@@ -2,7 +2,7 @@
 // DCX MT44 decode helpers
 // Based on IS-QZSS-DCX-003 / EWSS CAMF v1.1
 
-#include "../include/internal/DcxHelper.h"
+#include "internal/DcxHelper.h"
 
 namespace azaraC {
 namespace internal {

@@ -16,10 +16,10 @@
 #include <chrono>
 
 #define ARDUINO 0
-#include "../include/azaraC.h"
-#include "../include/internal/Decoder.h"
-#include "../include/internal/NmeaFramer.h"
-#include "../include/internal/UbxFramer.h"
+#include "../src/azaraC.h"
+#include "../src/internal/Decoder.h"
+#include "../src/internal/NmeaFramer.h"
+#include "../src/internal/UbxFramer.h"
 #include "../test_helpers.h"
 
 using namespace azaraC;

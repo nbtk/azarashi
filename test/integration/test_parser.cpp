@@ -2,7 +2,7 @@
 // EEW, DCX (MT=44), decodePrefectureBitmask, B1 Refinement の統合テスト
 
 #include "../test_helpers.h"
-#include "../include/internal/DcxHelper.h"
+#include "../src/internal/DcxHelper.h"
 #include "doctest.h"
 
 using namespace azaraC;

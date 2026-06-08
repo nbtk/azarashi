@@ -1,6 +1,6 @@
 // azaraC - src/internal/Dedup.cpp
 
-#include "../include/internal/Dedup.h"
+#include "internal/Dedup.h"
 
 namespace azaraC {
 namespace internal {

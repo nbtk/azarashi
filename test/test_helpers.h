@@ -5,9 +5,9 @@
 #define TEST_HELPERS_H
 
 #define ARDUINO 0
-#include "../include/azaraC.h"
-#include "../include/internal/Decoder.h"
-#include "../include/internal/NmeaFramer.h"
+#include "../src/azaraC.h"
+#include "../src/internal/Decoder.h"
+#include "../src/internal/NmeaFramer.h"
 #include <cstdint>
 #include <cstring>
 #include <cstdio>

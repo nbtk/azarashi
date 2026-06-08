@@ -2,7 +2,7 @@
 // DcxHelper のデコード関数テストを統合
 
 #include "../test_helpers.h"
-#include "../include/internal/DcxHelper.h"
+#include "../src/internal/DcxHelper.h"
 #include "doctest.h"
 #include <cmath>
 

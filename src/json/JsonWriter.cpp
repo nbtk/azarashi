@@ -1,7 +1,7 @@
 // azaraC - src/internal/JsonWriter.cpp
 // Common JSON writer helpers for serializers
 
-#include "../include/internal/JsonWriter.h"
+#include "internal/JsonWriter.h"
 #include <cstdio>
 #include <cmath>
 
