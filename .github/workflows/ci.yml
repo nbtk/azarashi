@@ -22,7 +22,9 @@ jobs:
     needs: host-test
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@0f67b83198dd62d5d7144b8ebd6a3dfe33c35770 # v6.0.0
+        with:
+          persist-credentials: false
       - name: Run fuzz test
         run: make -C test fuzz FUZZ_ITERATIONS=100000
 
