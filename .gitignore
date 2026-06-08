@@ -135,9 +135,9 @@ dmypy.json
 
 definition_files.txt
 
-*.exe
-*.o
-*.d
+**/*.exe
+**/*.o
+**/*.d
 
 azarashi*
 
