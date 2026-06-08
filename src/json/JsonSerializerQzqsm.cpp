@@ -1,6 +1,7 @@
 // azaraC - src/internal/JsonSerializerQzqsm.cpp
 // MT=43 QZQSM JSON serializer
 
+#include "azaraC.h"
 #include "internal/JsonWriter.h"
 #include "definition/_index.h"
 #include <optional>
