@@ -7,12 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned
+
+- MT=43 全カテゴリのJSON出力例のドキュメント追加
+- パフォーマンス最適化ガイドの追加
+
+---
+
+## [0.7.0] - 2026-06-07
+
 ### Added
 
 - **Error Handling Example** (`examples/error_handling/error_handling.ino`):
   - MT=44 メッセージのパース失敗を検出してエラー内容を出力するサンプルスケッチを追加。
   - `parse_result` の `ParseResultCode` と `error_detail` を利用した具体的なエラーハンドリング方法を提示。
-  - `check.md` のエラーコード一覧（001-007, 100-109）に対応するエラーハンドリングロジックを実装。
+  - エラーコード一覧（001-007, 100-109）に対応するエラーハンドリングロジックを実装。
+- **DCX A17 B2/B3/B4 の実装** (EWSS CAMF v1.1 §3.7.2-3.7.4):
+  - `DcxHelper.cpp`: B2/B3/B4 デコード関数の追加:
+    - `decodeB2HazardCenter()`: C5/C6 から緯度/経度オフセットを計算（±10°範囲、0.15625°ステップ）
+    - `decodeB3SecondaryEllipse()`: C7-C10 から第2楕円パラメータを計算（シフト・相似比・方位角・ガイダンス）
+    - `decodeB4DetailedInfo()`: A4 ハザード種別に応じて D1-D36 フィールドを抽出（36種のD-series）
+  - `DcxHelper.h`: `B2HazardCenter`, `B3SecondaryEllipse`, `B4DetailedInfo` 構造体および上記関数の宣言を追加
+  - `Message.h`: `Mt44CamfRaw` に B2/B3/B4 フィールド（raw values）を追加
+  - `DecoderDcx.cpp`: A17=01/10/11 の場合の B2/B3/B4 解析処理を実装
+  - `JsonSerializerDcx.cpp`: B2/B3/B4 の JSON 出力を追加
+  - `JsonSerializerDcx.cpp`: `DcxHelper.h` のインクルードを追加（`decodeLatitude16`/`decodeLongitude17` 使用）
 
 ### Changed
 
@@ -32,52 +51,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 旧テストファイル（test_crc.cpp等）を新テストファイルに統合
   - `src/definition/` を削除（`include/definition/` と重複していたため）
   - `library.properties` に `includes=azaraC.h` を追加
+- `DecoderDcx.cpp`: B2/B3 のビット抽出を B1 と同じパターン（LSB から順）に統一
+- `DcxHelper.cpp`: B4 の各ハザード D フィールドのビット配置を仕様書（EWSS CAMF v1.1 §3.7.4）と整合
+- `DecoderDcx.cpp`: B2/B3/B4 フィールドの初期化を追加（ゼロクリア）
+- `DecoderDcx.cpp`: 構文エラーの返却コードを `ParseResultCode::Error` に変更
+- `DecoderDcx.h`: `parse_result` の型を `ParseResultCode` に変更（旧 `Error` 型を削除）
+- デフォルト重複除去スロット数を8に再変更
+- 言語テーブルの選択的コンパイルオプションを追加
 
-- `DecoderDcx.cpp`: 構文エラーの返却コードを `ParseResultCode::Error` に変更（`Error` 定数から変更）。
-- `DecoderDcx.h`: `parse_result` の型を `ParseResultCode` に変更（旧 `Error` 型を削除）。
-- `その他`: デフォルト重複除去スロット数を8に再変更、言語テーブルの選択的コンパイルオプションを追加。
+### Fixed
+
+- `DecoderDcx.cpp`: B3 の未使用変数警告を修正（`(void)` キャスト）
 
 ### Documentation
 
 - **エラーハンドリングガイドの追加**:
-  - `check.md` に「エラーハンドリング」セクションを追加：
+  - エラーハンドリングセクションを追加：
     - 全エラーコード一覧（001-007, 100-109）
     - デコード失敗理由ごとの具体的なハンドリング方法
     - デコード成功・失敗のフロー図
     - MT44/MT43 共通の処理フロー
   - `examples/error_handling/error_handling.ino` で上記ガイドを実践的に解説。
-
-### Planned
-
-- MT=43 全カテゴリのJSON出力例のドキュメント追加
-- パフォーマンス最適化ガイドの追加
-
----
-
-## [0.7.0] - 2026-06-01
-
-### Added
-
-- **DCX A17 B2/B3/B4 の実装** (EWSS CAMF v1.1 §3.7.2-3.7.4):
-  - `DcxHelper.cpp`: B2/B3/B4 デコード関数の追加:
-    - `decodeB2HazardCenter()`: C5/C6 から緯度/経度オフセットを計算（±10°範囲、0.15625°ステップ）
-    - `decodeB3SecondaryEllipse()`: C7-C10 から第2楕円パラメータを計算（シフト・相似比・方位角・ガイダンス）
-    - `decodeB4DetailedInfo()`: A4 ハザード種別に応じて D1-D36 フィールドを抽出（36種のD-series）
-  - `DcxHelper.h`: `B2HazardCenter`, `B3SecondaryEllipse`, `B4DetailedInfo` 構造体および上記関数の宣言を追加
-  - `Message.h`: `Mt44CamfRaw` に B2/B3/B4 フィールド（raw values）を追加
-  - `DecoderDcx.cpp`: A17=01/10/11 の場合の B2/B3/B4 解析処理を実装
-  - `JsonSerializerDcx.cpp`: B2/B3/B4 の JSON 出力を追加
-  - `JsonSerializerDcx.cpp`: `DcxHelper.h` のインクルードを追加（`decodeLatitude16`/`decodeLongitude17` 使用）
-
-### Changed
-
-- `DecoderDcx.cpp`: B2/B3 のビット抽出を B1 と同じパターン（LSB から順）に統一
-- `DcxHelper.cpp`: B4 の各ハザード D フィールドのビット配置を仕様書（EWSS CAMF v1.1 §3.7.4）と整合
-- `DecoderDcx.cpp`: B2/B3/B4 フィールドの初期化を追加（ゼロクリア）
-
-### Fixed
-
-- `DecoderDcx.cpp`: B3 の未使用変数警告を修正（`(void)` キャスト）
 
 ### 仕様準拠
 

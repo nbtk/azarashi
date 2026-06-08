@@ -101,8 +101,8 @@ inline std::string makeNmeaQzqsm(uint8_t svid, const uint8_t* nav_bits) {
         xsum ^= (uint8_t)s[i];
     }
 
-    char tail[5];
-    sprintf(tail, "*%02X\r\n", xsum);
+    char tail[6];
+    snprintf(tail, sizeof(tail), "*%02X\r\n", xsum);
     s += tail;
     return s;
 }

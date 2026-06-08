@@ -25,9 +25,9 @@ NMEAフォーマットの$QZQSMメッセージを受信し、JSONに変換して
 **配線 (ESP32-C3 DevKitM-1)**:
 | GNSS | ESP32-C3 |
 |------|----------|
-| TX   | GPIO20   |
-| RX   | GPIO21   |
-| GND  | GND      |
+| TX | GPIO20 |
+| RX | GPIO21 |
+| GND | GND |
 
 ---
 
@@ -36,6 +36,7 @@ NMEAフォーマットの$QZQSMメッセージを受信し、JSONに変換して
 u-bloxバイナリフォーマットのUBX-RXM-SFRBXメッセージを受信します。
 
 **必要なu-blox設定**:
+
 ```
 CFG-MSGOUT-UBX_RXM_SFRBX_UART1 = 1
 CFG-SIGNAL-QZSS_L1S_ENA        = 1
@@ -53,12 +54,14 @@ CFG-UART1-BAUDRATE              = 9600
 Wi-FiとSNTPを使用してUNIX時刻を取得し、DCR/DCXメッセージの年を正確に解決します。
 
 **機能**:
+
 - Wi-Fi接続
 - SNTP時刻同期
 - EEW (disaster_category=1) フィルタリング
 - DCXメッセージのサービス種別表示
 
 **必要な設定**:
+
 ```cpp
 #define WIFI_SSID "YOUR_SSID"
 #define WIFI_PASS "YOUR_PASS"
@@ -74,22 +77,23 @@ MT=43メッセージを災害カテゴリ別にフィルタリングして出力
 
 **対応カテゴリ**:
 
-| カテゴリID | 内容 | デフォルト |
-|------------|------|------------|
-| 1  | 緊急地震速報 (EEW) | ON |
-| 2  | 震源情報 | ON |
-| 3  | 震度情報 | ON |
-| 4  | 南海トラフ地震 | ON |
-| 5  | 津波警報・注意報 | ON |
-| 6  | 北太平洋津波 | OFF |
-| 8  | 火山情報 | ON |
-| 9  | 降灰情報 | ON |
-| 10 | 気象警報・注意報 | OFF |
-| 11 | 洪水警報 | ON |
-| 12 | 台風情報 | ON |
-| 14 | 海上警報 | OFF |
+| カテゴリID | 内容               | デフォルト |
+| ---------- | ------------------ | ---------- |
+| 1          | 緊急地震速報 (EEW) | ON         |
+| 2          | 震源情報           | ON         |
+| 3          | 震度情報           | ON         |
+| 4          | 南海トラフ地震     | ON         |
+| 5          | 津波警報・注意報   | ON         |
+| 6          | 北太平洋津波       | OFF        |
+| 8          | 火山情報           | ON         |
+| 9          | 降灰情報           | ON         |
+| 10         | 気象警報・注意報   | OFF        |
+| 11         | 洪水警報           | ON         |
+| 12         | 台風情報           | ON         |
+| 14         | 海上警報           | OFF        |
 
 **フィルタ設定の変更**:
+
 ```cpp
 // examples/filter_by_category/filter_by_category.ino の CategoryFilter を編集
 CategoryFilter filter;
@@ -104,14 +108,52 @@ filter.weather = false;    // 気象警報を出力しない
 メッセージの妥当性チェックと受信統計を表示します。
 
 **機能**:
-- メッセージ妥当性チェック
-- CRCエラー検出
-- 重複メッセージ検出
-- 受信統計の定期表示
-- SVID範囲チェック
+
+- メッセージ妥当性チェック (`msg.valid`)
+- SVID範囲チェック (QZSS: 193-202)
+- `disaster_category` 範囲チェック (MT=43)
+- `service_kind` チェック (MT=44)
 - 日付・時刻の妥当性チェック
+- 受信統計の定期表示
+- ハートビート出力（受信がない場合）
+
+**バリデーション関数**:
+
+```cpp
+// 基本的な妥当性チェック
+bool validateMessage(const azaraC::Message& msg) {
+    if (!msg.valid) {
+        Serial.println(F("[WARN] Invalid message flag"));
+        return false;
+    }
+    // SVIDの範囲チェック (QZSS: 193-202)
+    if (msg.svid < 193 || msg.svid > 202) {
+        Serial.print(F("[WARN] Unexpected SVID: "));
+        Serial.println(msg.svid);
+    }
+    return true;
+}
+
+// MT=43 メッセージの詳細バリデーション
+bool validateMt43(const azaraC::Message& msg) {
+    const azaraC::Mt43Data* mt43 = msg.getMt43();
+    if (!mt43) return false;
+    // disaster_categoryの範囲チェック
+    // 日付の妥当性チェック
+    // ...
+}
+
+// MT=44 メッセージの詳細バリデーション
+bool validateMt44(const azaraC::Message& msg) {
+    const azaraC::Mt44Data* mt44 = msg.getMt44();
+    if (!mt44) return false;
+    // service_kindのチェック
+    // ...
+}
+```
 
 **出力例**:
+
 ```
 === azaraC Statistics ===
 Total messages:    50
@@ -122,6 +164,8 @@ MT=44 (DCX):       18
 Last SVID:         193
 Valid ratio:       96%
 ========================
+
+[INFO] Heartbeat - Total: 50 Valid: 48
 ```
 
 ---
@@ -131,11 +175,13 @@ Valid ratio:       96%
 JSONメッセージをTCPサーバーに送信します。
 
 **用途**:
+
 - MQTTブローカーへの転送
 - HTTPエンドポイントへの送信
 - リモートログサーバーへの転送
 
 **必要な設定**:
+
 ```cpp
 #define WIFI_SSID   "YOUR_SSID"
 #define WIFI_PASS   "YOUR_PASS"
@@ -144,6 +190,7 @@ JSONメッセージをTCPサーバーに送信します。
 ```
 
 **カスタムPrintクラス例**:
+
 ```cpp
 class WifiPrint : public Print {
 public:
@@ -158,14 +205,14 @@ public:
 
 ## Example一覧
 
-| Example | 入力 | 出力 | 特徴 |
-|---------|------|------|------|
-| basic_nmea | NMEA $QZQSM | Serial JSON | 最もシンプル |
-| basic_ubx | UBX-RXM-SFRBX | Serial JSON | u-bloxバイナリ |
-| with_sntp | NMEA $QZQSM | Serial JSON + フィルタ | SNTP時刻解決 |
-| filter_by_category | NMEA/UBX | Serial JSON | カテゴリフィルタ |
-| error_handling | NMEA/UBX | Serial JSON + 統計 | エラーハンドリング |
-| wifi_client | NMEA/UBX | Serial + TCP | ネットワーク出力 |
+| Example            | 入力          | 出力                   | 特徴               |
+| ------------------ | ------------- | ---------------------- | ------------------ |
+| basic_nmea         | NMEA $QZQSM   | Serial JSON            | 最もシンプル       |
+| basic_ubx          | UBX-RXM-SFRBX | Serial JSON            | u-bloxバイナリ     |
+| with_sntp          | NMEA $QZQSM   | Serial JSON + フィルタ | SNTP時刻解決       |
+| filter_by_category | NMEA/UBX      | Serial JSON            | カテゴリフィルタ   |
+| error_handling     | NMEA/UBX      | Serial JSON + 統計     | エラーハンドリング |
+| wifi_client        | NMEA/UBX      | Serial + TCP           | ネットワーク出力   |
 
 ---
 
