@@ -21,10 +21,10 @@ jobs:
           LATEST=$(pip index versions azarashi 2>/dev/null \
             | grep -oP '(?<=azarashi \()([\d.]+)' | head -1)
           CURRENT=$(cat .azarashi-version 2>/dev/null | tr -d '\n' || echo "0.0.0")
-          echo "latest=$LATEST"   >> $GITHUB_OUTPUT
+          echo "latest=$LATEST" >> $GITHUB_OUTPUT
           echo "current=$CURRENT" >> $GITHUB_OUTPUT
           if [[ "$LATEST" != "$CURRENT" ]]; then
-            echo "changed=true"  >> $GITHUB_OUTPUT
+            echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
@@ -37,19 +37,42 @@ jobs:
         if: steps.ver.outputs.changed == 'true'
         run: python scripts/gen_definitions.py --out-dir include/definition
 
-      - name: Install arduino-cli
+      - name: Install Arduino CLI
         if: steps.ver.outputs.changed == 'true'
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-          echo "$HOME/bin" >> $GITHUB_PATH
+        uses: arduino/setup-arduino-cli@v2
+        with:
+          version: "1.x"
 
-      - name: Compile check (ESP32-C3)
+      - name: Configure board manager URLs
         if: steps.ver.outputs.changed == 'true'
         run: |
           arduino-cli config init
+          arduino-cli config add board_manager.additional_urls \
+            https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json \
+            https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+
+      - name: Install required cores
+        if: steps.ver.outputs.changed == 'true'
+        run: |
           arduino-cli core update-index
+          arduino-cli core install rp2040:rp2040
           arduino-cli core install esp32:esp32
-          arduino-cli compile --fqbn esp32:esp32:esp32c3 examples/basic_ubx
+
+      - name: Compile check
+        if: steps.ver.outputs.changed == 'true'
+        run: |
+          LIB_DIR=$(arduino-cli config get directories.user)/libraries
+          mkdir -p "$LIB_DIR"
+          ln -s "$GITHUB_WORKSPACE" "$LIB_DIR/azaraC"
+
+          for fqbn in \
+            rp2040:rp2040:rpipico \
+            rp2040:rp2040:rpipico2 \
+            esp32:esp32:esp32s3
+          do
+            echo "=== $fqbn ==="
+            arduino-cli compile --fqbn "$fqbn" examples/basic_ubx
+          done
 
       - name: Create Pull Request
         if: steps.ver.outputs.changed == 'true'
@@ -64,6 +87,6 @@ jobs:
             | | |
             |---|---|
             | Previous | `${{ steps.ver.outputs.current }}` |
-            | New      | `${{ steps.ver.outputs.latest }}`  |
+            | New | `${{ steps.ver.outputs.latest }}` |
 
             Changes are in `include/definition/`. Do not edit those files manually.
