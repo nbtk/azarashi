@@ -141,6 +141,10 @@ definition_files.txt
 
 azarashi*
 
+azarashi*.zip
+
+qzssmsg.txt
+
 .agents/
 
 .vscode/
