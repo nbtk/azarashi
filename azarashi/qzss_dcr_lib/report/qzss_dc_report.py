@@ -681,14 +681,14 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
                           f"A11 - Guidance to react (ja): {self.__dict__.get('a11_japanese_library_ja')}\n"
 
         if self.ignore_a12_to_a16 is False:
-            report += f"A12 - Ellipse centre latitude: {round(self.__dict__.get('a12_ellipse_centre_latitude'), 3)}\n" + \
-                      f"A13 - Ellipse centre longitude: {round(self.__dict__.get('a13_ellipse_centre_longitude'), 3)}\n" + \
+            report += f"A12 - Ellipse centre latitude: {round(self.__dict__.get('a12_ellipse_centre_latitude'), 6)}\n" + \
+                      f"A13 - Ellipse centre longitude: {round(self.__dict__.get('a13_ellipse_centre_longitude'), 6)}\n" + \
                       f"A14 - Ellipse semi - major axis: {round(self.__dict__.get('a14_ellipse_semi_major_axis'), 3)}\n" + \
                       f"A15 - Ellipse semi - minor axis: {round(self.__dict__.get('a15_ellipse_semi_minor_axis'), 3)}\n" + \
-                      f"A16 - Ellipse azimuth: {round(self.__dict__.get('a16_ellipse_azimuth'), 3)}\n"
+                      f"A16 - Ellipse azimuth: {round(self.__dict__.get('a16_ellipse_azimuth'), 5)}\n"
 
         if self.ignore_a17_to_a18 is False:
-            a17 =  self.__dict__.get('a17_main_subject_for_specific_settings')
+            a17 =  self.__dict__.get('a17_type_of_specific_settings')
             if a17 is not None:
                 report += f"A17 - Specific settings: {a17}\n"
                 keys = self.__dict__.keys()

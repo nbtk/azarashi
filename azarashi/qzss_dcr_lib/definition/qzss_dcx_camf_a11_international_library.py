@@ -75,5 +75,5 @@ qzss_dcx_camf_a11_international_library = QzssDcrDefinition(
         30: "This replaces the warning previously in effect for this area.",
         31: "Conditions have improved and are no longer expected to meet alert criteria.",
     },
-    undefined='Undefined guidance to react instruction in the international library. (Code: %d)'
+    undefined='Undefined instruction in the international library. (Code: %d)'
 )

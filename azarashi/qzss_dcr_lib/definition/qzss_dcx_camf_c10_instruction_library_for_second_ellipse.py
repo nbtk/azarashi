@@ -1,6 +1,6 @@
 from .qzss_dcr_definition import QzssDcrDefinition
 
-qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code = QzssDcrDefinition(
+qzss_dcx_camf_c10_instruction_library_for_second_ellipse_code = QzssDcrDefinition(
     {
         0: "IC-C-01",
         1: "IC-C-02",
@@ -25,7 +25,7 @@ qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code = QzssDcrDefinition(
     undefined='IC-C-UNDEFINED (Code: %d)'
 )
 
-qzss_dcx_camf_c10_guidance_library_for_second_ellipse = QzssDcrDefinition(
+qzss_dcx_camf_c10_instruction_library_for_second_ellipse = QzssDcrDefinition(
     {
         0: "",
         1: "Prepare for evacuation. Take only the essentials with you, especially ID cards, passport, credit cards and cash. Evacuate only after the instruction of the emergency authorities.",

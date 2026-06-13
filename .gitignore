@@ -131,3 +131,6 @@ dmypy.json
 # PyCharm metadata
 .idea/
 
+# Spec files
+specs/
+
