@@ -41,7 +41,7 @@ qzss_dcx_camf_a11_japanese_library_en = QzssDcrDefinition(
         774: "Keep away from Building where chemicals are handled, such as a factory.",
         775: "Keep away from Cliffs and areas at risk of collapse.",
     },
-    undefined = "Undefined guidance to react instruction in the japanese library. (Code: %d)"
+    undefined = "Undefined instruction in the japanese library. (Code: %d)"
 )
 
 

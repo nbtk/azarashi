@@ -7,7 +7,7 @@ from ..definition import qzss_dcx_camf_a11_international_library
 from ..definition import qzss_dcx_camf_a11_international_library_code
 from ..definition import qzss_dcx_camf_a11_japanese_library_en
 from ..definition import qzss_dcx_camf_a11_japanese_library_ja
-from ..definition import qzss_dcx_camf_a17_main_subject_for_specific_settings
+from ..definition import qzss_dcx_camf_a17_type_of_specific_settings
 from ..definition import qzss_dcx_camf_a1_message_type
 from ..definition import qzss_dcx_camf_a2_country_region_name
 from ..definition import qzss_dcx_camf_a3_provider_identifier_map
@@ -18,9 +18,9 @@ from ..definition import qzss_dcx_camf_a4_hazard_type
 from ..definition import qzss_dcx_camf_a5_severity
 from ..definition import qzss_dcx_camf_a6_hazard_onset_week
 from ..definition import qzss_dcx_camf_a8_hazard_duration
-from ..definition import qzss_dcx_camf_a9_selection_of_library
-from ..definition import qzss_dcx_camf_c10_guidance_library_for_second_ellipse
-from ..definition import qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code
+from ..definition import qzss_dcx_camf_a9_type_of_library
+from ..definition import qzss_dcx_camf_c10_instruction_library_for_second_ellipse
+from ..definition import qzss_dcx_camf_c10_instruction_library_for_second_ellipse_code
 from ..definition.qzss_dcx_camf_b4_lower_level_fields_tables import *
 from ..definition.qzss_dcx_camf_ex1_target_area_code import *
 from ..definition.qzss_dcx_camf_ex9_target_area_code import *
@@ -162,13 +162,13 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.a7_hazard_onset_time_of_week = 'The Time of the Week Value is Unexpectedly Out of Range (Code: %d)' % camf.a7
             self.a6a7_hazard_onset_datetime = None
         self.a8_hazard_duration = qzss_dcx_camf_a8_hazard_duration[camf.a8]
-        self.a9_selection_of_library = qzss_dcx_camf_a9_selection_of_library[camf.a9]
+        self.a9_type_of_library = qzss_dcx_camf_a9_type_of_library[camf.a9]
         self.a10_library_version = qzss_dcx_camf_a10_library_version[camf.a10]
         if camf.a10 == 0:  # library version #1 is only supported for now.
             if camf.a9 == 0:  # international library
                 self.a11_international_library_code = qzss_dcx_camf_a11_international_library_code[camf.a11]
                 self.a11_international_library = qzss_dcx_camf_a11_international_library[camf.a11]
-            elif camf.a9 == 1:  # country/region guidance library
+            elif camf.a9 == 1:  # country/region library
                 if camf.a2 == 111:  # japanese library
                     self.a11_japanese_library = qzss_dcx_camf_a11_japanese_library_en[camf.a11]
                     self.a11_japanese_library_ja = qzss_dcx_camf_a11_japanese_library_ja[camf.a11]
@@ -177,61 +177,57 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             return pow(10, math.log10(216.2) + factor * (math.log10(2500000) - math.log10(216.2)) / 31) / 1000
 
         if self.ignore_a12_to_a16 is False:
-            self.a12_ellipse_centre_latitude = -90 + 180 / 0xFFFF * camf.a12
-            self.a13_ellipse_centre_longitude = -180 + 360 / 0x1FFFF * camf.a13
-            self.a14_ellipse_semi_major_axis = __get_axis(camf.a14)
-            self.a15_ellipse_semi_minor_axis = __get_axis(camf.a15)
-            self.a16_ellipse_azimuth = -90 + 180 / 0x40 * camf.a16
+            self.a12_ellipse_centre_latitude = round(-90 + 180 / 0xFFFF * camf.a12, 6)
+            self.a13_ellipse_centre_longitude = round(-180 + 360 / 0x1FFFF * camf.a13, 6)
+            self.a14_ellipse_semi_major_axis = round(__get_axis(camf.a14), 3)
+            self.a15_ellipse_semi_minor_axis = round(__get_axis(camf.a15), 3)
+            self.a16_ellipse_azimuth = round(-90 + 180 / 0x40 * camf.a16, 5)
         if self.ignore_a17_to_a18 is False:
             if camf.a17 == 0 and self.ignore_a12_to_a16 is False:  # B1 – improved resolution of main ellipse
-                self.a17_main_subject_for_specific_settings = \
-                    qzss_dcx_camf_a17_main_subject_for_specific_settings[camf.a17]
+                self.a17_type_of_specific_settings = \
+                    qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
                 camf.c1 = self.extract_field(131, 3)
                 camf.c2 = self.extract_field(134, 3)
                 camf.c3 = self.extract_field(137, 3)
                 camf.c4 = self.extract_field(140, 3)
-                self.c1_refined_latitude_of_centre_of_main_ellipse = (
-                        self.a12_ellipse_centre_latitude +
-                        (180 / 0xFFFF) / 8 * camf.c1
+                self.c1_refined_latitude_of_centre_of_main_ellipse = round(
+                    self.a12_ellipse_centre_latitude + (180 / 0xFFFF) / 8 * camf.c1, 6
                 )
-                self.c2_refined_longitude_of_centre_of_main_ellipse = (
-                        self.a13_ellipse_centre_longitude +
-                        (180 / 0xFFFF) / 8 * camf.c2
+                self.c2_refined_longitude_of_centre_of_main_ellipse = round(
+                    self.a13_ellipse_centre_longitude + (180 / 0xFFFF) / 8 * camf.c2, 6
                 )
                 if camf.a14 == 0:
                     delta = self.a14_ellipse_semi_major_axis
                 else:
                     delta = self.a14_ellipse_semi_major_axis - __get_axis(camf.a14 - 1)
-                self.c3_refined_length_of_semi_major_axis = (
-                        self.a14_ellipse_semi_major_axis -
-                        delta * camf.c3 / 8
+                self.c3_refined_length_of_semi_major_axis = round(
+                    self.a14_ellipse_semi_major_axis - delta * camf.c3 / 8, 3
                 )
                 if camf.a15 == 0:
                     delta = self.a15_ellipse_semi_minor_axis
                 else:
                     delta = self.a15_ellipse_semi_minor_axis - __get_axis(camf.a15 - 1)
-                self.c4_refined_length_of_semi_minor_axis = (
-                        self.a15_ellipse_semi_minor_axis -
-                        delta * camf.c4 / 8
+                self.c4_refined_length_of_semi_minor_axis = round(
+                    self.a15_ellipse_semi_minor_axis - delta * camf.c4 / 8, 3
                 )
             elif camf.a17 == 1 and self.ignore_a12_to_a16 is False:  # B2 – position of centre of hazard
-                self.a17_main_subject_for_specific_settings = \
-                    qzss_dcx_camf_a17_main_subject_for_specific_settings[camf.a17]
+                self.a17_type_of_specific_settings = \
+                    qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
                 camf.c5 = self.extract_field(131, 7)
                 camf.c6 = self.extract_field(138, 7)
                 if camf.c5 <= 63:
                     delta = -10 + 20 / 0x80 * camf.c5
                 else:
                     delta = -10 + 20 / 0x80 * (camf.c5 + 1)
-                self.c5_latitude_of_centre_of_hazard = self.a12_ellipse_centre_latitude + delta
+                self.c5_latitude_of_centre_of_hazard = round(self.a12_ellipse_centre_latitude + delta, 6)
                 if camf.c6 <= 63:
                     delta = -10 + 20 / 0x80 * camf.c6
                 else:
                     delta = -10 + 20 / 0x80 * (camf.c6 + 1)
-                self.c6_longitude_of_centre_of_hazard = self.a13_ellipse_centre_longitude + delta
+                self.c6_longitude_of_centre_of_hazard = round(self.a13_ellipse_centre_longitude + delta, 6)
             elif camf.a17 == 2:  # B3 – second ellipse definition
-                self.a17_main_subject_for_specific_settings = \
-                    qzss_dcx_camf_a17_main_subject_for_specific_settings[camf.a17]
+                self.a17_type_of_specific_settings = \
+                    qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
                 camf.c7 = self.extract_field(131, 2)
                 camf.c8 = self.extract_field(133, 3)
                 camf.c9 = self.extract_field(136, 5)
@@ -239,13 +235,13 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                 self.c7_shift_of_second_ellipse_centre = camf.c7
                 self.c8_homothetic_factor_of_second_ellipse = 0.25 * (camf.c8 + 1)
                 self.c9_bearing_angle_of_second_ellipse = camf.c9 * 360 / 32
-                self.c10_guidance_library_for_second_ellipse_code = \
-                    qzss_dcx_camf_c10_guidance_library_for_second_ellipse_code[camf.c10]
-                self.c10_guidance_library_for_second_ellipse = \
-                    qzss_dcx_camf_c10_guidance_library_for_second_ellipse[camf.c10]
+                self.c10_instruction_library_for_second_ellipse_code = \
+                    qzss_dcx_camf_c10_instruction_library_for_second_ellipse_code[camf.c10]
+                self.c10_instruction_library_for_second_ellipse = \
+                    qzss_dcx_camf_c10_instruction_library_for_second_ellipse[camf.c10]
             elif camf.a17 == 3:  # B4 – quantitative and detailed information related to hazard category and type
-                self.a17_main_subject_for_specific_settings = \
-                    qzss_dcx_camf_a17_main_subject_for_specific_settings[camf.a17]
+                self.a17_type_of_specific_settings = \
+                    qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
                 if camf.a4 == 36:  # earthquake
                     camf.d1 = self.extract_field(131, 4)
                     camf.d2 = self.extract_field(135, 3)
@@ -404,11 +400,11 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                 self.ex2_evacuate_direction_type = "Leave the additional target area range."
             else:
                 self.ex2_evacuate_direction_type = "Head to the additional target area range."
-            self.ex3_additional_ellipse_centre_latitude = -90 + 180 / 0x1FFFF * camf.ex3
-            self.ex4_additional_ellipse_centre_longitude = 45 + 180 / 0x1FFFF * camf.ex4
-            self.ex5_additional_ellipse_semi_major_axis = __get_axis(camf.ex5)
-            self.ex6_additional_ellipse_semi_minor_axis = __get_axis(camf.ex6)
-            self.ex7_additional_ellipse_azimuth = -90 + 180 / 0x80 * camf.ex7
+            self.ex3_additional_ellipse_centre_latitude = round(-90 + 180 / 0x1FFFF * camf.ex3, 6)
+            self.ex4_additional_ellipse_centre_longitude = round(45 + 180 / 0x1FFFF * camf.ex4, 6)
+            self.ex5_additional_ellipse_semi_major_axis = round(__get_axis(camf.ex5), 3)
+            self.ex6_additional_ellipse_semi_minor_axis = round(__get_axis(camf.ex6), 3)
+            self.ex7_additional_ellipse_azimuth = round(-90 + 180 / 0x80 * camf.ex7, 5)
         if self.ignore_ex8_to_ex9 is False:
             if camf.ex8 == 0:
                 self.ex8_target_area_list_type = 'Prefecture code'
