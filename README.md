@@ -444,21 +444,20 @@ C4 - Refined length of semi minor axis: 5.979
  'a7_hazard_onset_time_of_week': 'SUNDAY - 01:00 PM',
  'a6a7_hazard_onset_datetime': datetime.datetime(2024, 6, 23, 13, 0),
  'a8_hazard_duration': '6H <= Duration < 12H',
- 'a9_selection_of_library': 'Country/region guidance library',
+ 'a9_type_of_library': 'Country/region library',
  'a10_library_version': '#1',
  'a11_japanese_library': 'Keep away from Water area.',
  'a11_japanese_library_ja': '離れろ。水場。',
- 'a12_ellipse_centre_latitude': 35.6882581826505,
- 'a13_ellipse_centre_longitude': 139.69085457500137,
- 'a14_ellipse_semi_major_axis': 10.932758602420911,
- 'a15_ellipse_semi_minor_axis': 5.978542029422428,
+ 'a12_ellipse_centre_latitude': 35.688258,
+ 'a13_ellipse_centre_longitude': 139.690855,
+ 'a14_ellipse_semi_major_axis': 10.933,
+ 'a15_ellipse_semi_minor_axis': 5.979,
  'a16_ellipse_azimuth': 45.0,
- 'a17_main_subject_for_specific_settings': 'B1 - Improved Resolution of Main '
-                                           'Ellipse',
- 'c1_refined_latitude_of_centre_of_main_ellipse': 35.6882581826505,
- 'c2_refined_longitude_of_centre_of_main_ellipse': 139.69085457500137,
- 'c3_refined_length_of_semi_major_axis': 10.932758602420911,
- 'c4_refined_length_of_semi_minor_axis': 5.978542029422428,
+ 'a17_type_of_specific_settings': 'B1 - Improved Resolution of Main Ellipse',
+ 'c1_refined_latitude_of_centre_of_main_ellipse': 35.688258,
+ 'c2_refined_longitude_of_centre_of_main_ellipse': 139.690855,
+ 'c3_refined_length_of_semi_major_axis': 10.933,
+ 'c4_refined_length_of_semi_minor_axis': 5.979,
  'dcx_version': 1}
 ```
 ビットフィールドの値は `report.camf` オブジェクトに格納されています。
@@ -498,7 +497,7 @@ class QzssDcxMTInfo(QzssDcXtendedMessageBase)
 class QzssDcxUnknown(QzssDcXtendedMessageBase)
 ```
 ## Note
-IS-QZSS-DCR-016、IS-QZSS-DCX-003 をサポートしています。
+IS-QZSS-DCR-016、IS-QZSS-DCX-004 をサポートしています。
 ## Tips
 ### UnicodeDecodeError
 ```
