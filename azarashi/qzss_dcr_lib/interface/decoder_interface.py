@@ -1,5 +1,3 @@
-import datetime
-
 from .hex_interface import hex_qzss_dcr_message_extractor
 from .nmea_interface import nmea_qzss_dcr_message_extractor
 from .ublox_interface import ublox_qzss_dcr_message_extractor
@@ -11,7 +9,6 @@ from ..exception import QzssDcrDecoderException
 
 caches = {}
 cache_size = 256
-cache_expiration = 3600 * 24
 
 
 def decode(msg, msg_type='nmea'):
@@ -99,11 +96,12 @@ def decode_stream(stream,  # do not decode one stream in parallel!
 
         if unique:
             if report in cache:
-                freshness = (datetime.datetime.now() - report.timestamp).total_seconds()
-                if freshness > cache_expiration:  # the cache is rotten
-                    fire = True
-                else:  # the cache is fresh
+                if unique is True:  # never expire: always suppress duplicates
                     fire = False
+                else:  # unique is a number of seconds: re-fire once the cached copy is stale
+                    cached = cache[cache.index(report)]
+                    freshness = (report.timestamp - cached.timestamp).total_seconds()
+                    fire = freshness > unique
                 cache.remove(report)
             else:
                 fire = True
