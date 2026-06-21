@@ -681,11 +681,11 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
                           f"A11 - Guidance to react (ja): {self.__dict__.get('a11_japanese_library_ja')}\n"
 
         if self.ignore_a12_to_a16 is False:
-            report += f"A12 - Ellipse centre latitude: {round(self.__dict__.get('a12_ellipse_centre_latitude'), 6)}\n" + \
-                      f"A13 - Ellipse centre longitude: {round(self.__dict__.get('a13_ellipse_centre_longitude'), 6)}\n" + \
-                      f"A14 - Ellipse semi - major axis: {round(self.__dict__.get('a14_ellipse_semi_major_axis'), 3)}\n" + \
-                      f"A15 - Ellipse semi - minor axis: {round(self.__dict__.get('a15_ellipse_semi_minor_axis'), 3)}\n" + \
-                      f"A16 - Ellipse azimuth: {round(self.__dict__.get('a16_ellipse_azimuth'), 5)}\n"
+            report += f"A12 - Ellipse centre latitude: {self.__dict__.get('a12_ellipse_centre_latitude')}\n" + \
+                      f"A13 - Ellipse centre longitude: {self.__dict__.get('a13_ellipse_centre_longitude')}\n" + \
+                      f"A14 - Ellipse semi - major axis: {self.__dict__.get('a14_ellipse_semi_major_axis')}\n" + \
+                      f"A15 - Ellipse semi - minor axis: {self.__dict__.get('a15_ellipse_semi_minor_axis')}\n" + \
+                      f"A16 - Ellipse azimuth: {self.__dict__.get('a16_ellipse_azimuth')}\n"
 
         if self.ignore_a17_to_a18 is False:
             a17 =  self.__dict__.get('a17_type_of_specific_settings')
@@ -714,11 +714,11 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
 
         if self.ignore_ex2_to_ex7 is False:
             report += f"EX2 - Evacuate direction type: {self.__dict__.get('ex2_evacuate_direction_type')}\n" + \
-                      f"EX3 - Additional ellipse centre latitude: {round(self.__dict__.get('ex3_additional_ellipse_centre_latitude'), 6)}\n" + \
-                      f"EX4 - Additional ellipse centre longitude: {round(self.__dict__.get('ex4_additional_ellipse_centre_longitude'), 6)}\n" + \
-                      f"EX5 - Additional ellipse semi major axis: {round(self.__dict__.get('ex5_additional_ellipse_semi_major_axis'), 3)}\n" + \
-                      f"EX6 - Additional ellipse semi minor axis: {round(self.__dict__.get('ex6_additional_ellipse_semi_minor_axis'), 3)}\n" + \
-                      f"EX7 - Additional ellipse azimuth: {round(self.__dict__.get('ex7_additional_ellipse_azimuth'), 5)}\n"
+                      f"EX3 - Additional ellipse centre latitude: {self.__dict__.get('ex3_additional_ellipse_centre_latitude')}\n" + \
+                      f"EX4 - Additional ellipse centre longitude: {self.__dict__.get('ex4_additional_ellipse_centre_longitude')}\n" + \
+                      f"EX5 - Additional ellipse semi major axis: {self.__dict__.get('ex5_additional_ellipse_semi_major_axis')}\n" + \
+                      f"EX6 - Additional ellipse semi minor axis: {self.__dict__.get('ex6_additional_ellipse_semi_minor_axis')}\n" + \
+                      f"EX7 - Additional ellipse azimuth: {self.__dict__.get('ex7_additional_ellipse_azimuth')}\n"
 
         if self.ignore_ex8_to_ex9 is False:
             report += f"EX8 - Target area list type: {self.__dict__.get('ex8_target_area_list_type')}\n" + \
