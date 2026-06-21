@@ -29,18 +29,19 @@ from ..report import QzssDcReportMessageBase, QzssDcxNullMsg, QzssDcxOutsideJapa
     QzssDcxMTInfo, QzssDcxUnknown
 
 
+class _CAMF:
+    def __str__(self):
+        return str(self.__dict__)
+
+    def get_params(self):
+        return self.__dict__
+
+
 class QzssDcxDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportMessageBase
 
     def decode(self):
-        class CAMF:
-            def __str__(self):
-                return str(self.get_params())
-
-            def get_params(self):
-                return self.__dict__
-
-        self.camf = camf = CAMF()
+        self.camf = camf = _CAMF()
         camf.sdmt = self.extract_field(14, 1)
         camf.sdm = self.extract_field(15, 9)
         camf.a1 = self.extract_field(24, 2)
