@@ -96,7 +96,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
             self.information_type_en = qzss_dcr_jma_information_type_en[it]
         except KeyError:
             raise QzssDcrDecoderException(
-                'Undefined Information Type: {it}',
+                f'Undefined Information Type: {it}',
                 self)
         self.information_type_no = it
 
