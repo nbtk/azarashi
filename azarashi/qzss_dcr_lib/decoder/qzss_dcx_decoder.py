@@ -414,7 +414,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.ex9_target_area_list_ja = []
             if camf.ex8 == 0:  # prefecture code
                 for key in qzss_dcx_camf_ex9_target_area_code_en.keys():
-                    if key & camf.ex9 >> 17:
+                    if camf.ex9 & key:
                         self.ex9_target_area_list.append(qzss_dcx_camf_ex9_target_area_code_en[key])
                         self.ex9_target_area_list_ja.append(qzss_dcx_camf_ex9_target_area_code_ja[key])
             else:  # cities, towns and villages code
