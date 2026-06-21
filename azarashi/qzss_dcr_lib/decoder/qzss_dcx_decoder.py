@@ -51,7 +51,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
 
         dcx_message_type = self._detect_message_type(camf)
         self.dcx_message_type = qzss_dcx_message_type[dcx_message_type]
-        self._set_field_flags(dcx_message_type)
+        self._set_field_flags(dcx_message_type, camf)
         if dcx_message_type == DcxMessageType.NULL_MSG:
             return QzssDcxNullMsg(**self.get_params())
 
@@ -132,7 +132,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         else:  # outside japan
             return DcxMessageType.OUTSIDE_JAPAN
 
-    def _set_field_flags(self, dcx_message_type):
+    def _set_field_flags(self, dcx_message_type, camf):
         # setting flags to ignore fields
         self.ignore_a12_to_a16 = False
         self.ignore_a17_to_a18 = False
@@ -144,8 +144,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.ignore_ex2_to_ex7 = True
             self.ignore_ex8_to_ex9 = True
         elif dcx_message_type == DcxMessageType.L_ALERT:
-            a12_to_a16 = self.extract_field(80, 49)
-            if a12_to_a16 == 0:
+            if camf.a12 == camf.a13 == camf.a14 == camf.a15 == camf.a16 == 0:
                 self.ignore_a12_to_a16 = True
             else:
                 self.ignore_ex1 = True
@@ -157,8 +156,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.ignore_ex1 = True
             self.ignore_ex2_to_ex7 = True
         elif dcx_message_type == DcxMessageType.LOCAL_GOV:
-            ex3_to_ex7 = self.extract_field(163, 51)
-            if ex3_to_ex7 == 0:
+            if camf.ex3 == camf.ex4 == camf.ex5 == camf.ex6 == camf.ex7 == 0:
                 self.ignore_ex2_to_ex7 = True
             self.ignore_ex8_to_ex9 = True
         elif dcx_message_type == DcxMessageType.NULL_MSG:
