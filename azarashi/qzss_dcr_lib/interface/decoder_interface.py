@@ -34,10 +34,12 @@ def decode_stream(stream,  # do not decode one stream in parallel!
                   msg_type='nmea',
                   callback=None,
                   callback_args=(),
-                  callback_kwargs={},
+                  callback_kwargs=None,
                   unique=False,
                   ignore_dcr=False,
                   ignore_dcx=True):
+    if callback_kwargs is None:
+        callback_kwargs = {}
     for existing_stream in caches.copy().keys():
         if existing_stream.closed:
             try:
