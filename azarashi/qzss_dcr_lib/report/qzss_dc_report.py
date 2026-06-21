@@ -24,7 +24,7 @@ class QzssDcReportBase:
         return self.raw == other.raw
 
     def __str__(self):
-        str(self.__dict__)
+        return str(self.__dict__)
 
     def get_params(self):
         return deepcopy(self.__dict__)
