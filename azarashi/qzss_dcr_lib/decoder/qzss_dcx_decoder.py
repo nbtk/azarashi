@@ -268,7 +268,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             camf.c10 = self.extract_field(141, 5)
             self.c7_shift_of_second_ellipse_centre = camf.c7
             self.c8_homothetic_factor_of_second_ellipse = 0.25 * (camf.c8 + 1)
-            self.c9_bearing_angle_of_second_ellipse = camf.c9 * 360 / 32
+            self.c9_bearing_angle_of_second_ellipse = round(camf.c9 * 360 / 32, 5)
             self.c10_instruction_library_for_second_ellipse_code = \
                 qzss_dcx_camf_c10_instruction_library_for_second_ellipse_code[camf.c10]
             self.c10_instruction_library_for_second_ellipse = \

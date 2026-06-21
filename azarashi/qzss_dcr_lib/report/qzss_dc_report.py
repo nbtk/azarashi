@@ -699,13 +699,6 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
                             ident, title = k.split('_', 1)
                             headline = ident.upper() + ' - ' + title.replace('_', ' ').capitalize()
                             content = self.__dict__.get(k)
-                            if type(content) is float:
-                                if ident in ('c1', 'c2', 'c5', 'c6'):  # lat/lon
-                                    content = round(content, 6)
-                                elif ident == 'c9':  # bearing angle
-                                    content = round(content, 5)
-                                else:
-                                    content = round(content, 3)
                             report += f"{headline}: {content}\n"
 
         if self.ignore_ex1 is False:
