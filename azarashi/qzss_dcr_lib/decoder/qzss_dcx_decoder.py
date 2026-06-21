@@ -198,16 +198,16 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                     self.a13_ellipse_centre_longitude + (180 / 0xFFFF) / 8 * camf.c2, 6
                 )
                 if camf.a14 == 0:
-                    delta = self.a14_ellipse_semi_major_axis
+                    delta = __get_axis(camf.a14)
                 else:
-                    delta = self.a14_ellipse_semi_major_axis - __get_axis(camf.a14 - 1)
+                    delta = __get_axis(camf.a14) - __get_axis(camf.a14 - 1)
                 self.c3_refined_length_of_semi_major_axis = round(
                     self.a14_ellipse_semi_major_axis - delta * camf.c3 / 8, 3
                 )
                 if camf.a15 == 0:
-                    delta = self.a15_ellipse_semi_minor_axis
+                    delta = __get_axis(camf.a15)
                 else:
-                    delta = self.a15_ellipse_semi_minor_axis - __get_axis(camf.a15 - 1)
+                    delta = __get_axis(camf.a15) - __get_axis(camf.a15 - 1)
                 self.c4_refined_length_of_semi_minor_axis = round(
                     self.a15_ellipse_semi_minor_axis - delta * camf.c4 / 8, 3
                 )
