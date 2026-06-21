@@ -140,7 +140,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
                     f'{td.month}月頃',  # Approximate time(month)
                     f'{td.year}年頃',  # Approximate time(year)
                     ][du]
-        except:
+        except IndexError:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Ambiguity of Activity Time: {du}',
                 self)
