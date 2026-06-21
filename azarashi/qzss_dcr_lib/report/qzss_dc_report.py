@@ -692,7 +692,7 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
             if a17 is not None:
                 report += f"A17 - Specific settings: {a17}\n"
                 keys = self.__dict__.keys()
-                prefix = ['c%d_' % (i + 1) for i in range(10)] + ['d%d_' % (i + 1) for i in range(34)]
+                prefix = ['c%d_' % (i + 1) for i in range(10)] + ['d%d_' % (i + 1) for i in range(36)]
                 for k in keys:
                     for p in prefix:
                         if k.startswith(p):
