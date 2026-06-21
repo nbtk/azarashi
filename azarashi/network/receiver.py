@@ -25,7 +25,9 @@ class Receiver:
     def default_handler(report):
         logger.info('- - - - - - - - - - - - - - - - - - - - - - - - - - - -\n' + pformat(report.get_params()) + '\n')
 
-    def start(self, callback=None, callback_args=(), callback_kwargs={}):
+    def start(self, callback=None, callback_args=(), callback_kwargs=None):
+        if callback_kwargs is None:
+            callback_kwargs = {}
         callback = callback or self.default_handler
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
             if self.bind_iface is not None:
