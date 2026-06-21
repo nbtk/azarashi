@@ -13,7 +13,8 @@ class QzssDcReportBase:
                  **kwargs):
         self.sentence = sentence
         if raw is None:
-            self.raw = b''
+            raw = b''
+        self.raw = raw
         if timestamp is None:
             timestamp = datetime.now()
         self.timestamp = timestamp
