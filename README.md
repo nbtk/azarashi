@@ -236,7 +236,7 @@ True
 ```
 ### decode_stream()
 ```python
-azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs={}, unique=False, ignore_dcr=False, ignore_dcx=True)
+azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True)
 ```
 - `stream`: I/Oストリームを渡してください。デバイスファイルを `open()` して渡すときは、事前に stty コマンドで `ublox` なら `raw` モード、`nmea` ならデフォルト設定にしてください。pySerial つかうときは stty コマンドによる設定は不要です。
 - `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。
@@ -381,18 +381,18 @@ A3 - Provider identifier: Foundation for MultiMedia Communications
 A4 - Hazard category and type: MET - Rainfall
 A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is according to each local standard.
 A5 - Severity: Severe - Significant threat to life or property
-A6A7 - Hazard onset: 2024-06-23 13:00:00
+A6A7 - Hazard onset: 2024-06-23 13:00:00+00:00
 A8 - Hazard duration: 6H <= Duration < 12H
 A11 - Guidance to react: Keep away from Water area.
 A11 - Guidance to react (ja): 離れろ。水場。
-A12 - Ellipse centre latitude: 35.688
-A13 - Ellipse centre longitude: 139.691
+A12 - Ellipse centre latitude: 35.688258
+A13 - Ellipse centre longitude: 139.690855
 A14 - Ellipse semi - major axis: 10.933
 A15 - Ellipse semi - minor axis: 5.979
 A16 - Ellipse azimuth: 45.0
 A17 - Specific settings: B1 - Improved Resolution of Main Ellipse
-C1 - Refined latitude of centre of main ellipse: 35.688
-C2 - Refined longitude of centre of main ellipse: 139.691
+C1 - Refined latitude of centre of main ellipse: 35.688258
+C2 - Refined longitude of centre of main ellipse: 139.690855
 C3 - Refined length of semi major axis: 10.933
 C4 - Refined length of semi minor axis: 5.979
 ```
@@ -414,7 +414,7 @@ C4 - Refined length of semi minor axis: 5.979
         b'\x00\x00\x00\x00\x10',
  'preamble': 'A',
  'message_type': 'DCX',
- 'camf': <azarashi.qzss_dcr_lib.decoder.qzss_dcx_decoder.QzssDcxDecoder.decode.<locals>.CAMF object at 0x1023af6a0>,
+ 'camf': <azarashi.qzss_dcr_lib.decoder.qzss_dcx_decoder._CAMF object at 0x1023af6a0>,
  'ignore_a12_to_a16': False,
  'ignore_a17_to_a18': False,
  'ignore_ex1': True,
@@ -442,7 +442,7 @@ C4 - Refined length of semi minor axis: 5.979
  'a5_severity': 'Severe - Significant threat to life or property',
  'a6_hazard_onset_week': 'Current',
  'a7_hazard_onset_time_of_week': 'SUNDAY - 01:00 PM',
- 'a6a7_hazard_onset_datetime': datetime.datetime(2024, 6, 23, 13, 0),
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2024, 6, 23, 13, 0, tzinfo=datetime.timezone.utc),
  'a8_hazard_duration': '6H <= Duration < 12H',
  'a9_type_of_library': 'Country/region library',
  'a10_library_version': '#1',
