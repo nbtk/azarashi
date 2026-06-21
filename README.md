@@ -149,7 +149,7 @@ azarashi.decode(msg, msg_type='nmea')
 >>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
 >>> report = azarashi.decode(msg, 'nmea')
 >>> str(report)
-'防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
+'防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向灘\n地震発生時刻: 10日10時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
 ```
 つまりレポートオブジェクトを `print()` にわたせば災害情報を出力します。
 ```python
@@ -205,14 +205,14 @@ azarashi.decode(msg, msg_type='nmea')
  'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
  'notifications_on_disaster_prevention_raw': [201],
- 'occurrence_time_of_earthquake': datetime.datetime(2024, 3, 10, 1, 0),
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 3, 10, 1, 0),
  'preamble': 'C',
  'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
         b'\xdf\xf8\x00\x1c\x00\x00\x10',
  'report_classification': '訓練/試験',
  'report_classification_en': 'Training/Test',
  'report_classification_no': 7,
- 'report_time': datetime.datetime(2024, 3, 10, 1, 0),
+ 'report_time': datetime.datetime(2026, 3, 10, 1, 0),
  'satellite_id': 55,
  'satellite_prn': 183,
  'seismic_epicenter': '日向灘',
