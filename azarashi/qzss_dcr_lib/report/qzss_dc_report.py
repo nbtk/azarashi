@@ -20,7 +20,7 @@ class QzssDcReportBase:
         self.timestamp = timestamp
 
     def __eq__(self, other):
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return False
         return self.raw == other.raw
 
