@@ -24,6 +24,9 @@ class QzssDcReportBase:
             return False
         return self.raw == other.raw
 
+    def __hash__(self):
+        return hash(self.raw)
+
     def __str__(self):
         return str(self.__dict__)
 
