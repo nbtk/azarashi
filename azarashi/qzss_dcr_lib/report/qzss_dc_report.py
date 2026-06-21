@@ -223,9 +223,9 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
                   f'マグニチュード: {self.magnitude}{assumptive_str}\n' + \
                   f'震度(下限): {self.seismic_intensity_lower_limit}\n' + \
                   f'震度(上限): {self.seismic_intensity_upper_limit}\n'
-        if self.long_period_ground_motion_lower_limit != None:
+        if self.long_period_ground_motion_lower_limit is not None:
             report += f'長周期地震動階級(下限): {self.long_period_ground_motion_lower_limit}\n'
-        if self.long_period_ground_motion_upper_limit != None:
+        if self.long_period_ground_motion_upper_limit is not None:
             report += f'長周期地震動階級(上限): {self.long_period_ground_motion_upper_limit}\n'
         report += '、'.join(self.eew_forecast_regions)
         return report
