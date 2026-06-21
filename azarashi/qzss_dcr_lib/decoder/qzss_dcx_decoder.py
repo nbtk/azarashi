@@ -41,6 +41,15 @@ def _get_axis(factor):
     return pow(10, math.log10(216.2) + factor * (math.log10(2500000) - math.log10(216.2)) / 31) / 1000
 
 
+# Fields that must all be zero for a message to be classified as a NULL message.
+# (A2 country code is excluded: it stays "Japan" even in NULL messages.)
+_NULL_MSG_FIELDS = (
+    'a1', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11',
+    'a12', 'a13', 'a14', 'a15', 'a16', 'a17', 'a18',
+    'ex1', 'ex2', 'ex3', 'ex4', 'ex5', 'ex6', 'ex7', 'vn',
+)
+
+
 class QzssDcxDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportMessageBase
 
@@ -116,9 +125,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.satellite_designation_mask.append(sd_list[(camf.sdm & 1 << i) >> i])
 
     def _detect_message_type(self, camf):
-        if camf.a1 == camf.a3 == camf.a4 == camf.a5 == camf.a6 == camf.a7 == camf.a8 == camf.a9 == camf.a10 == \
-                camf.a11 == camf.a12 == camf.a13 == camf.a14 == camf.a15 == camf.a16 == camf.a17 == camf.a18 == \
-                camf.ex1 == camf.ex2 == camf.ex3 == camf.ex4 == camf.ex5 == camf.ex6 == camf.ex7 == camf.vn == 0:
+        if all(getattr(camf, field) == 0 for field in _NULL_MSG_FIELDS):
             return DcxMessageType.NULL_MSG
         elif camf.a2 == 111:  # japan
             if camf.a3 == 1:  # fmmc
