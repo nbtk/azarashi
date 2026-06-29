@@ -41,6 +41,14 @@ def _get_axis(factor):
     return pow(10, math.log10(216.2) + factor * (math.log10(2500000) - math.log10(216.2)) / 31) / 1000
 
 
+def _centre_latitude(code):
+    return -90 + 180 / 0xFFFF * code
+
+
+def _centre_longitude(code):
+    return -180 + 360 / 0x1FFFF * code
+
+
 # Fields that must all be zero for a message to be classified as a NULL message.
 # (A2 country code is excluded: it stays "Japan" even in NULL messages.)
 _NULL_MSG_FIELDS = (
@@ -210,8 +218,8 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                     self.a11_japanese_library_ja = qzss_dcx_camf_a11_japanese_library_ja[camf.a11]
 
     def _decode_a12_to_a16(self, camf):
-        self.a12_ellipse_centre_latitude = round(-90 + 180 / 0xFFFF * camf.a12, 6)
-        self.a13_ellipse_centre_longitude = round(-180 + 360 / 0x1FFFF * camf.a13, 6)
+        self.a12_ellipse_centre_latitude = round(_centre_latitude(camf.a12), 6)
+        self.a13_ellipse_centre_longitude = round(_centre_longitude(camf.a13), 6)
         self.a14_ellipse_semi_major_axis = round(_get_axis(camf.a14), 3)
         self.a15_ellipse_semi_minor_axis = round(_get_axis(camf.a15), 3)
         self.a16_ellipse_azimuth = round(-90 + 180 / 0x40 * camf.a16, 5)
@@ -225,25 +233,17 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             camf.c3 = self.extract_field(137, 3)
             camf.c4 = self.extract_field(140, 3)
             self.c1_refined_latitude_of_centre_of_main_ellipse = round(
-                self.a12_ellipse_centre_latitude + (180 / 0xFFFF) / 8 * camf.c1, 6
+                _centre_latitude(camf.a12) + (180 / 0xFFFF) / 8 * camf.c1, 6
             )
             self.c2_refined_longitude_of_centre_of_main_ellipse = round(
-                self.a13_ellipse_centre_longitude + (180 / 0xFFFF) / 8 * camf.c2, 6
+                _centre_longitude(camf.a13) + (180 / 0xFFFF) / 8 * camf.c2, 6
             )
-            if camf.a14 == 0:
-                delta = _get_axis(camf.a14)
-            else:
-                delta = _get_axis(camf.a14) - _get_axis(camf.a14 - 1)
-            self.c3_refined_length_of_semi_major_axis = round(
-                self.a14_ellipse_semi_major_axis - delta * camf.c3 / 8, 3
-            )
-            if camf.a15 == 0:
-                delta = _get_axis(camf.a15)
-            else:
-                delta = _get_axis(camf.a15) - _get_axis(camf.a15 - 1)
-            self.c4_refined_length_of_semi_minor_axis = round(
-                self.a15_ellipse_semi_minor_axis - delta * camf.c4 / 8, 3
-            )
+            major = _get_axis(camf.a14)
+            delta = major if camf.a14 == 0 else major - _get_axis(camf.a14 - 1)
+            self.c3_refined_length_of_semi_major_axis = round(major - delta * camf.c3 / 8, 3)
+            minor = _get_axis(camf.a15)
+            delta = minor if camf.a15 == 0 else minor - _get_axis(camf.a15 - 1)
+            self.c4_refined_length_of_semi_minor_axis = round(minor - delta * camf.c4 / 8, 3)
         elif camf.a17 == 1 and self.ignore_a12_to_a16 is False:  # B2 – position of centre of hazard
             self.a17_type_of_specific_settings = \
                 qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
@@ -253,12 +253,12 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                 delta = -10 + 20 / 0x80 * camf.c5
             else:
                 delta = -10 + 20 / 0x80 * (camf.c5 + 1)
-            self.c5_latitude_of_centre_of_hazard = round(self.a12_ellipse_centre_latitude + delta, 6)
+            self.c5_latitude_of_centre_of_hazard = round(_centre_latitude(camf.a12) + delta, 6)
             if camf.c6 <= 63:
                 delta = -10 + 20 / 0x80 * camf.c6
             else:
                 delta = -10 + 20 / 0x80 * (camf.c6 + 1)
-            self.c6_longitude_of_centre_of_hazard = round(self.a13_ellipse_centre_longitude + delta, 6)
+            self.c6_longitude_of_centre_of_hazard = round(_centre_longitude(camf.a13) + delta, 6)
         elif camf.a17 == 2:  # B3 – second ellipse definition
             self.a17_type_of_specific_settings = \
                 qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
