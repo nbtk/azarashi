@@ -181,7 +181,7 @@ azarashi.decode(msg, msg_type='nmea')
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。
+レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。パラメータの時刻 (`datetime`) はすべてタイムゾーン付きの UTC です。`str()` が返す日本語の文章では、時刻を JST に変換して表示します。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params())
@@ -215,14 +215,14 @@ azarashi.decode(msg, msg_type='nmea')
  'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
  'notifications_on_disaster_prevention_raw': [201],
- 'occurrence_time_of_earthquake': datetime.datetime(2026, 3, 10, 1, 0),
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
  'preamble': 'C',
  'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
         b'\xdf\xf8\x00\x1c\x00\x00\x10',
  'report_classification': '訓練/試験',
  'report_classification_en': 'Training/Test',
  'report_classification_no': 7,
- 'report_time': datetime.datetime(2026, 3, 10, 1, 0),
+ 'report_time': datetime.datetime(2026, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
  'satellite_id': 55,
  'satellite_prn': 183,
  'seismic_epicenter': '日向灘',
@@ -232,7 +232,7 @@ azarashi.decode(msg, msg_type='nmea')
  'seismic_intensity_upper_limit': '〜程度以上',
  'seismic_intensity_upper_limit_raw': 11,
  'sentence': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
- 'timestamp': datetime.datetime(2024, 6, 21, 15, 40, 34, 960948),
+ 'timestamp': datetime.datetime(2024, 6, 21, 6, 40, 34, 960948, tzinfo=datetime.timezone.utc),
  'version': 1}
 ```
 重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
@@ -428,7 +428,7 @@ C4 - Refined length of semi minor axis: 5.979
 ```
 ```python
 {'sentence': '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E',
- 'timestamp': datetime.datetime(2024, 6, 21, 15, 9, 5, 433111),
+ 'timestamp': datetime.datetime(2024, 6, 21, 6, 9, 5, 433111, tzinfo=datetime.timezone.utc),
  'message': b'S\xb0`M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc'
             b'\x00\x00\x00\x00\x00\x00\x00\x10"\xa8\x18\x80',
  'nmea': '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E',

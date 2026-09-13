@@ -1,7 +1,11 @@
 """DCR (MT43, JMA Disaster Prevention Information) decoding tests."""
+from datetime import datetime
+from datetime import timezone
+
 import pytest
 
 import azarashi
+from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
 
 # Earthquake Early Warning (training/test message)
 EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
@@ -145,6 +149,46 @@ def test_tsunami_arrival_time_out_of_range(hour, minute, message):
     with pytest.raises(azarashi.QzssDcrDecoderException) as e:
         azarashi.decode(_with_arrival_time(TSUNAMI, 0, 0, hour, minute), 'nmea')
     assert e.value.message == message
+
+
+def _with_report_date(sentence, month, day):
+    return _with_field(_with_field(sentence, 21, 4, month), 25, 5, day)  # report time: month (4 bits), day (5 bits)
+
+
+@pytest.mark.parametrize('month, day', [(4, 31), (2, 30)])
+def test_nonexistent_report_date_is_a_decoder_error(month, day):
+    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
+        azarashi.decode(_with_report_date(EEW, month, day), 'nmea')
+    assert e.value.message == f'Invalid Report Time: {day} as day of month {month}'
+
+
+@pytest.mark.parametrize('received, year', [
+    (datetime(2029, 9, 1, tzinfo=timezone.utc), 2028),  # the closest leap day is in the past
+    (datetime(2029, 1, 15, tzinfo=timezone.utc), 2028),
+    (datetime(2031, 6, 1, tzinfo=timezone.utc), 2032),  # the closest leap day is ahead
+    (datetime(2027, 12, 31, tzinfo=timezone.utc), 2028),  # a leap year already
+])
+def test_report_on_a_leap_day_takes_the_closest_leap_year(received, year):
+    report = NmeaQzssDcrDecoder(_with_report_date(EEW, 2, 29), timestamp=received).decode()
+    assert (report.report_time.year, report.report_time.month, report.report_time.day) == (year, 2, 29)
+
+
+@pytest.mark.parametrize('received, day, month', [
+    (datetime(2029, 3, 5, tzinfo=timezone.utc), 29, 2),  # 2029 has no February 29th
+    (datetime(2029, 3, 10, tzinfo=timezone.utc), 31, 2),
+])
+def test_nonexistent_occurrence_date_is_a_decoder_error(received, day, month):
+    sentence = _with_field(_with_report_date(EEW, received.month, received.day), 80, 5, day)  # occurrence day
+    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
+        NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
+    assert e.value.message == f'Invalid Time: {day} as day of month {month}'
+
+
+def test_occurrence_on_a_leap_day():
+    received = datetime(2028, 3, 5, tzinfo=timezone.utc)
+    sentence = _with_field(_with_report_date(EEW, 3, 5), 80, 5, 29)
+    report = NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
+    assert report.occurrence_time_of_earthquake.date() == datetime(2028, 2, 29).date()
 
 
 def _with_nwp_arrival_time(sentence, region, day, hour, minute):

@@ -1,5 +1,6 @@
 from calendar import monthrange
 from datetime import datetime
+from datetime import timezone
 
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
 from ..definition import qzss_dcr_jma_volcanic_warning_code
@@ -76,4 +77,4 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
         while day > monthrange(year, month)[1]:
             year, month = (year, month - 1) if month > 1 else (year - 1, 12)
 
-        return datetime(year=year, month=month, day=day, hour=hour, minute=minute)
+        return datetime(year=year, month=month, day=day, hour=hour, minute=minute, tzinfo=timezone.utc)

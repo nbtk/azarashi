@@ -1,5 +1,7 @@
+from calendar import monthrange
 from datetime import datetime
 from datetime import timedelta
+from datetime import timezone
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
@@ -40,16 +42,17 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 dt_y += 1
             else:
                 dt_mo += 1
-        if dt_mo == 2 and dt_d == 29:
-            while dt_y % 4 != 0 or \
-                    (dt_y % 100 == 0 and dt_y % 400 != 0):
-                dt_y += 1
+        if dt_d > monthrange(dt_y, dt_mo)[1]:  # e.g. the 31st taken as a day of February
+            raise QzssDcrDecoderException(
+                f'Invalid Time: {dt_d} as day of month {dt_mo}',
+                self)
 
         return datetime(year=dt_y,
                         month=dt_mo,
                         day=dt_d,
                         hour=dt_h,
-                        minute=dt_mi)
+                        minute=dt_mi,
+                        tzinfo=timezone.utc)
 
     def extract_local_government(self, slider):
         lg = self.extract_field(slider, 23)
@@ -196,4 +199,5 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                         month=ta_dt.month,
                         day=ta_dt.day,
                         hour=ta_h,
-                        minute=ta_m)
+                        minute=ta_m,
+                        tzinfo=timezone.utc)

@@ -1,4 +1,7 @@
+from calendar import isleap
+from calendar import monthrange
 from datetime import datetime
+from datetime import timezone
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder_jma_ash_fall import QzssDcrDecoderJmaAshFall
@@ -80,15 +83,22 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         elif self.timestamp.month - at_mo > 6:
             at_y += 1
 
-        if at_mo == 2 and at_d == 29:
-            while at_y % 4 != 0 or (at_y % 100 == 0 and at_y % 400 != 0):
-                at_y += 1
+        if at_mo == 2 and at_d == 29 and not isleap(at_y):  # take the leap day closest to the reception time
+            earlier = next(y for y in range(at_y - 1, at_y - 9, -1) if isleap(y))
+            later = next(y for y in range(at_y + 1, at_y + 9) if isleap(y))
+            at_y = min(earlier, later,
+                       key=lambda y: abs(datetime(y, 2, 29, at_h, at_mi, tzinfo=timezone.utc) - self.timestamp))
+        if at_d > monthrange(at_y, at_mo)[1]:
+            raise QzssDcrDecoderException(
+                f'Invalid Report Time: {at_d} as day of month {at_mo}',
+                self)
 
         self.report_time = datetime(year=at_y,
                                     month=at_mo,
                                     day=at_d,
                                     hour=at_h,
-                                    minute=at_mi)
+                                    minute=at_mi,
+                                    tzinfo=timezone.utc)
 
         it = self.extract_field(41, 2)
         try:

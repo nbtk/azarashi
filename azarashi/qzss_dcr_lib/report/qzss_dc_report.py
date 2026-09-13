@@ -1,5 +1,5 @@
 from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from pprint import pformat
 from ..exception import QzssDcrDecoderException
@@ -16,8 +16,8 @@ class QzssDcReportBase:
             raw = b''
         self.raw = raw
         if timestamp is None:
-            timestamp = datetime.now()
-        self.timestamp = timestamp
+            timestamp = datetime.now(timezone.utc)
+        self.timestamp = timestamp.astimezone(timezone.utc)  # a naive timestamp is taken as local time
 
     def __eq__(self, other):
         if type(self) is not type(other):

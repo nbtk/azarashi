@@ -27,7 +27,7 @@ def _seeded_stale(seconds_old):
     """A stream of one message, with an identical cached report aged `seconds_old`."""
     DI.caches.clear()
     cached = azarashi.decode(MSG.strip(), 'nmea')
-    cached.timestamp = datetime.datetime.now() - datetime.timedelta(seconds=seconds_old)
+    cached.timestamp = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(seconds=seconds_old)
     stream = io.StringIO(MSG)
     DI.caches[stream] = [cached]
     return stream
