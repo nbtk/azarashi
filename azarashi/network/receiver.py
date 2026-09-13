@@ -6,6 +6,8 @@ import socket
 from pprint import pformat
 
 from .log import configure_logging
+from ..qzss_dcr_lib.exception import QzssDcrDecoderException
+from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
 from ..qzss_dcr_lib.interface import decode
 
 logger = logging.getLogger(__name__)
@@ -61,10 +63,18 @@ def main():
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
     recver = Receiver(args.bind_addr, args.bind_port, args.bind_iface)
-    if args.verbose:
-        recver.start(ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
-    else:
-        recver.start(callback=simple_handler, ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
+    while True:
+        try:
+            if args.verbose:
+                recver.start(ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
+            else:
+                recver.start(callback=simple_handler, ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
+        except QzssDcrDecoderException as e:  # a datagram that is not a message, e.g. from other software
+            logger.warning(f'[{type(e).__name__}] {e}')
+        except QzssDcrDecoderNotImplementedError as e:
+            logger.warning(f'[{type(e).__name__}] {e}')
+        else:
+            return
 
 
 if __name__ == '__main__':

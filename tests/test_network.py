@@ -155,3 +155,46 @@ def test_receiver_command_filter_options(monkeypatch, args, expected):
     monkeypatch.setattr(sys, 'argv', ['receiver', *args])
     receiver.main()
     assert {k: started[0][k] for k in expected} == expected
+
+
+def test_receiver_command_survives_datagrams_that_are_not_messages(monkeypatch, caplog):
+    errors = [azarashi.QzssDcrDecoderNotImplementedError('Decoder Not Implemented'),
+              azarashi.QzssDcrDecoderException('Too Short Sentence')]
+    calls = []
+
+    def start(self, **kwargs):
+        calls.append(kwargs)
+        if errors:
+            raise errors.pop()
+
+    monkeypatch.setattr(receiver.Receiver, 'start', start)
+    monkeypatch.setattr(sys, 'argv', ['receiver'])
+    with caplog.at_level(logging.WARNING, logger=receiver.logger.name):
+        receiver.main()
+    assert len(calls) == 3  # restarted after each error, returns when start() does
+    assert [r.getMessage() for r in caplog.records] == ['[QzssDcrDecoderException] Too Short Sentence',
+                                                        '[QzssDcrDecoderNotImplementedError] Decoder Not Implemented']
+
+
+def test_receiver_raises_on_a_datagram_that_is_not_a_message():
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
+        probe.bind(('127.0.0.1', 0))
+        port = probe.getsockname()[1]
+    recver = receiver.Receiver('127.0.0.1', port, address_family=socket.AF_INET)
+    errors = []
+
+    def run():
+        try:
+            recver.start(lambda report: None)
+        except azarashi.QzssDcrDecoderException as e:
+            errors.append(e.message)
+
+    thread = threading.Thread(target=run, daemon=True)
+    thread.start()
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sender:
+        deadline = time.monotonic() + 5
+        while thread.is_alive() and time.monotonic() < deadline:
+            sender.sendto(b'hello', ('127.0.0.1', port))
+            time.sleep(0.01)
+    thread.join(1)
+    assert errors == ['Too Short Sentence']
