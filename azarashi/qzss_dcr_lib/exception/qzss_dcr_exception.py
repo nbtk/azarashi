@@ -15,6 +15,14 @@ class QzssDcrDecoderException(Exception):
         return f'{self.message} -> {sentence}'
 
 
+class QzssDcrDecoderTimeoutError(EOFError):
+    """A stream with a read timeout (e.g. pySerial) had no complete message before the timeout expired.
+
+    Partially read data is kept, so calling decode_stream() again continues from it.
+    It is an EOFError so that existing EOF handling keeps working; catch it first to keep reading.
+    """
+
+
 class QzssDcrDecoderNotImplementedError(NotImplementedError):
     def __init__(self, message, instance=None):
         self.message = message

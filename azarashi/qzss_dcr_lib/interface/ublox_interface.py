@@ -1,33 +1,18 @@
 import struct
 
-from .stream_state import StreamKeyedDict
+from .stream_state import ReaderStore
+from .stream_state import empty_read_error
 from ..definition import qzss_dcr_message_type
 from ..definition import ublox_qzss_dcr_message_header
 
-buffers = StreamKeyedDict()  # stream -> {reader name: unread bytes}, released with the stream
-_unowned_buffers = {}  # readers that are not bound methods of a hashable object
-
-
-def __buffer(reader):
-    stream = getattr(reader, '__self__', None)
-    if stream is not None:
-        try:
-            per_reader = buffers.get(stream)
-            if per_reader is None:
-                per_reader = {}
-                buffers[stream] = per_reader
-        except TypeError:  # unhashable stream
-            pass
-        else:
-            return per_reader.setdefault(reader.__name__, bytearray())
-    return _unowned_buffers.setdefault(reader, bytearray())
+buffers = ReaderStore(bytearray)  # unread bytes per reader, released with the stream
 
 
 def __pop(size, buf, reader, reader_args, reader_kwargs):
     while size > len(buf):
         data = reader(*reader_args, **reader_kwargs)
         if not data:
-            raise EOFError('Encountered EOF')
+            raise empty_read_error(reader)
         buf += data
 
     ret = bytes(buf[:size])
@@ -57,7 +42,7 @@ def ublox_qzss_dcr_message_extractor(reader, reader_args=None, reader_kwargs=Non
         reader_kwargs = {}
 
     header = ublox_qzss_dcr_message_header
-    buf = __buffer(reader)
+    buf = buffers.get(reader)
     match_count = 0
     while True:
         try:
