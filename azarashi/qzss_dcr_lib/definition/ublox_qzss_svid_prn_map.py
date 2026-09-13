@@ -1,6 +1,6 @@
 from .qzss_dcr_definition import QzssDcrDefinition
 
-ublox_qzss_svid_prn_map : QzssDcrDefinition = QzssDcrDefinition(
+ublox_qzss_svid_prn_map: QzssDcrDefinition[int, int] = QzssDcrDefinition(
     {
         2: 184,
         3: 185,

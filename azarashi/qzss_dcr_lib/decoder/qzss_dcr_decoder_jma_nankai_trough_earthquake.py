@@ -8,7 +8,7 @@ from ..report import QzssDcReportJmaNankaiTroughEarthquake
 class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaNankaiTroughEarthquake:
         ie = self.extract_field(53, 4)
         try:
             self.information_serial_code = qzss_dcr_jma_information_serial_code[ie]
@@ -18,7 +18,7 @@ class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
                 self) from err
         self.information_serial_code_raw = ie
 
-        te = []
+        te: list[int] = []
         for i in range(18):
             te.append(self.extract_field(57 + i * 8, 8))
 

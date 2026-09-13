@@ -23,13 +23,14 @@ from ..definition import qzss_dcr_jma_disaster_category_en
 from ..definition import qzss_dcr_jma_information_type
 from ..definition import qzss_dcr_jma_information_type_en
 from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReport
 from ..report import QzssDcReportMessageBase
 
 
 class QzssDcrDecoderJma(QzssDcrDecoderBase):
     schema = QzssDcReportMessageBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReport:
         self.version = self.extract_field(214, 6)
         if self.version != 1:
             raise QzssDcrDecoderException(
@@ -110,6 +111,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
                 self) from err
         self.information_type_no = it
 
+        next_decoder: type[QzssDcrDecoderBase]
         if dc == 1:
             next_decoder = QzssDcrDecoderJmaEarthquakeEarlyWarning
         elif dc == 2:

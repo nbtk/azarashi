@@ -9,7 +9,7 @@ from ..report import QzssDcReportJmaBase
 class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaAshFall:
         self.activity_time = self.extract_day_hour_min_field(53)
 
         dw1 = self.extract_field(69, 2)
@@ -32,11 +32,11 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
                 self) from err
         self.volcano_name_raw = vo
 
-        self.expected_ash_fall_times = []
-        self.ash_fall_warning_codes = []
-        self.ash_fall_warning_codes_raw = []
-        self.local_governments = []
-        self.local_governments_raw = []
+        self.expected_ash_fall_times: list[int] = []
+        self.ash_fall_warning_codes: list[str] = []
+        self.ash_fall_warning_codes_raw: list[int] = []
+        self.local_governments: list[str] = []
+        self.local_governments_raw: list[int] = []
         for i in range(4):
             offset = 83 + i * 29
             if self.extract_field(offset, 29) == 0:

@@ -1,13 +1,15 @@
 from .qzss_dcr_decoder import QzssDcrDecoder
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
 
 class HexQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
+    sentence: str
 
-    def decode(self):
+    def decode(self) -> QzssDcReport:
         if not self.sentence:
             raise EOFError('Encountered EOF')
 

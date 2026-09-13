@@ -6,6 +6,7 @@ from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
 from ..definition import qzss_dcr_jma_volcanic_warning_code
 from ..definition import qzss_dcr_jma_volcano_name
 from ..exception import QzssDcrDecoderException
+from ..report import DayHourMinute
 from ..report import QzssDcReportJmaBase
 from ..report import QzssDcReportJmaVolcano
 
@@ -13,11 +14,11 @@ from ..report import QzssDcReportJmaVolcano
 class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaVolcano:
         self.ambiguity_of_activity_time_no = self.extract_field(50, 3)
-        self.activity_time_raw = {'day': self.extract_field(53, 5),
-                                  'hour': self.extract_field(58, 5),
-                                  'minute': self.extract_field(63, 6)}
+        self.activity_time_raw: DayHourMinute = {'day': self.extract_field(53, 5),
+                                                 'hour': self.extract_field(58, 5),
+                                                 'minute': self.extract_field(63, 6)}
         self.activity_time = self.extract_activity_time(self.activity_time_raw, self.ambiguity_of_activity_time_no)
 
         dw = self.extract_field(69, 7)
@@ -38,8 +39,8 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
                 self) from err
         self.volcano_name_raw = vo
 
-        self.local_governments = []
-        self.local_governments_raw = []
+        self.local_governments: list[str] = []
+        self.local_governments_raw: list[int] = []
         for i in range(5):
             offset = 88 + i * 23
             if self.extract_field(offset, 23) == 0:
@@ -50,7 +51,7 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
 
         return QzssDcReportJmaVolcano(**self.get_params())
 
-    def extract_activity_time(self, raw, ambiguity):
+    def extract_activity_time(self, raw: DayHourMinute, ambiguity: int) -> datetime | None:
         """Observed activity time (UTC) with the parts that the ambiguity marks as not valid set to 0."""
         if ambiguity >= 6:  # approximate month or year: day, hour and minute are not valid
             return None

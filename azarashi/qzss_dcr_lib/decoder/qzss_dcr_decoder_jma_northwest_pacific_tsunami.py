@@ -1,8 +1,11 @@
+from datetime import datetime
+
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
 from ..definition import qzss_dcr_jma_coastal_region_en
 from ..definition import qzss_dcr_jma_northwest_pacific_tsunami_height_en
 from ..definition import qzss_dcr_jma_tsunamigenic_potential_en
 from ..exception import QzssDcrDecoderException
+from ..report import DayHourMinute
 from ..report import QzssDcReportJmaBase
 from ..report import QzssDcReportJmaNorthwestPacificTsunami
 
@@ -10,7 +13,7 @@ from ..report import QzssDcReportJmaNorthwestPacificTsunami
 class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaNorthwestPacificTsunami:
         tp = self.extract_field(53, 3)
         try:
             self.tsunamigenic_potential_en = qzss_dcr_jma_tsunamigenic_potential_en[tp]
@@ -20,13 +23,13 @@ class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
                 self) from err
         self.tsunamigenic_potential_raw = tp
 
-        self.expected_tsunami_arrival_times = []
-        self.expected_tsunami_arrival_times_raw = []
-        self.expected_tsunami_arrival_time_types = []
-        self.tsunami_heights_en = []
-        self.tsunami_heights_raw = []
-        self.coastal_regions_en = []
-        self.coastal_regions_raw = []
+        self.expected_tsunami_arrival_times: list[datetime | None] = []
+        self.expected_tsunami_arrival_times_raw: list[DayHourMinute] = []
+        self.expected_tsunami_arrival_time_types: list[str] = []
+        self.tsunami_heights_en: list[str] = []
+        self.tsunami_heights_raw: list[int] = []
+        self.coastal_regions_en: list[str] = []
+        self.coastal_regions_raw: list[int] = []
         for i in range(5):
             offset = 56 + i * 28
 

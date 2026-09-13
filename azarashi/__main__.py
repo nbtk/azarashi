@@ -10,7 +10,7 @@ from azarashi.input_stream import RecordingStream
 from azarashi.input_stream import open_input
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser(description='azarashi CLI', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('type', help='message type', type=str, choices=['hex', 'nmea', 'ublox'])
     parser.add_argument('-f', '--input', help='input serial device or file', type=str, default='stdin')
@@ -23,9 +23,8 @@ def main():
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
-    stream = open_input(args.input, args.baudrate)
-    if args.record is not None:
-        stream = RecordingStream(stream, open(args.record, mode='ab'))
+    source = open_input(args.input, args.baudrate)
+    stream = source if args.record is None else RecordingStream(source, open(args.record, mode='ab'))
 
     while True:
         now = datetime.datetime.now(datetime.UTC).isoformat().replace('+00:00', 'Z')
@@ -40,10 +39,11 @@ def main():
                 print(f'{now} --------------------------------\n{report}\n')
 
             if args.source is True:
-                if type(report.sentence) is bytes:
-                    src = "b'" + ''.join(r'\x%02X' % c for c in report.sentence) + "'"
+                sentence = report.sentence
+                if isinstance(sentence, bytes):
+                    src = "b'" + ''.join(r'\x%02X' % c for c in sentence) + "'"
                 else:
-                    src = report.sentence
+                    src = sentence
                 print(f'# src: {src}\n# hex: {report.message.hex().upper()[:-1]}\n')
 
             sys.stdout.flush()

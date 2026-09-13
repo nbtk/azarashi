@@ -1,14 +1,26 @@
 import warnings
+from collections.abc import Callable
+from collections.abc import Mapping
+from typing import Any
+from typing import TypeVar
+from typing import cast
+
+_K = TypeVar('_K')
+_V = TypeVar('_V')
 
 
-class QzssDcrDefinition(dict):
+class QzssDcrDefinition(dict[_K, _V]):
+    prefix: dict[int, str] | None
+    prefix_extractor: Callable[[_K], int] | None
+    undefined: _V | None
+
     def __init__(self,
-                 default,
-                 prefix=None,
-                 prefix_extractor=None,
-                 undefined=None,
-                 *args,
-                 **kwargs):
+                 default: Mapping[_K, _V],
+                 prefix: dict[int, str] | None = None,
+                 prefix_extractor: Callable[[_K], int] | None = None,
+                 undefined: _V | None = None,
+                 *args: Any,
+                 **kwargs: Any) -> None:
         super().__init__(default, *args, **kwargs)
 
         if (prefix is None) != (prefix_extractor is None):
@@ -29,7 +41,7 @@ class QzssDcrDefinition(dict):
         self.prefix_extractor = prefix_extractor
         self.undefined = undefined
 
-    def __missing__(self, key):
+    def __missing__(self, key: _K) -> _V:
         # for non-string undefined values, return as-is
         if self.undefined is not None and not isinstance(self.undefined, str):
             return self.undefined
@@ -48,4 +60,4 @@ class QzssDcrDefinition(dict):
         if value is None:
             raise KeyError(key)
 
-        return value
+        return cast(_V, value)  # a string, as the values of the tables that name undefined codes with one

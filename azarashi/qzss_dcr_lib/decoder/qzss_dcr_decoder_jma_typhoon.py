@@ -10,7 +10,7 @@ from ..report import QzssDcReportJmaTyphoon
 class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaTyphoon:
         self.reference_time = self.extract_day_hour_min_field(53)
 
         dt = self.extract_field(69, 3)

@@ -9,12 +9,12 @@ from ..report import QzssDcReportJmaSeismicIntensity
 class QzssDcrDecoderJmaSeismicIntensity(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaSeismicIntensity:
         self.occurrence_time_of_earthquake = self.extract_day_hour_min_field(53)
-        self.seismic_intensities = []
-        self.seismic_intensities_raw = []
-        self.prefectures = []
-        self.prefectures_raw = []
+        self.seismic_intensities: list[str] = []
+        self.seismic_intensities_raw: list[int] = []
+        self.prefectures: list[str] = []
+        self.prefectures_raw: list[int] = []
         for i in range(16):
             offset = 69 + i * 9
             es = self.extract_field(offset, 3)

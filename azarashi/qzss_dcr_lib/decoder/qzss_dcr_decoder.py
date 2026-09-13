@@ -4,13 +4,14 @@ from .qzss_dcx_decoder import QzssDcxDecoder
 from ..definition import qzss_dcr_message_type
 from ..definition import qzss_dcr_preamble
 from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReport
 from ..report import QzssDcReportMessagePartial
 
 
 class QzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportMessagePartial
 
-    def decode(self):
+    def decode(self) -> QzssDcReport:
         # checks the preamble
         pab = self.extract_field(0, 8)
         try:
@@ -48,6 +49,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
                 f'Undefined Message Type: {mt}',
                 self) from err
 
+        next_decoder: type[QzssDcrDecoderBase]
         if mt == 43:
             next_decoder = QzssDcrDecoderJma
         elif mt == 44:

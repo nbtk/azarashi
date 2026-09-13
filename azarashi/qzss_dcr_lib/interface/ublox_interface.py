@@ -1,14 +1,20 @@
 import struct
+from collections.abc import Callable
+from typing import Any
 
 from .stream_state import ReaderStore
 from .stream_state import empty_read_error
 from ..definition import qzss_dcr_message_type
 from ..definition import ublox_qzss_dcr_message_header
 
-buffers = ReaderStore(bytearray)  # unread bytes per reader, released with the stream
+buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per reader, released with the stream
 
 
-def __pop(size, buf, reader, reader_args, reader_kwargs):
+def __pop(size: int,
+          buf: bytearray,
+          reader: Callable[..., bytes | None],
+          reader_args: tuple[Any, ...],
+          reader_kwargs: dict[str, Any]) -> bytes:
     while size > len(buf):
         data = reader(*reader_args, **reader_kwargs)
         if not data:
@@ -21,11 +27,11 @@ def __pop(size, buf, reader, reader_args, reader_kwargs):
     return ret
 
 
-def _is_sfrbx_payload_length(length):
+def _is_sfrbx_payload_length(length: int) -> bool:
     return 8 <= length <= 8 + 4 * 255 and length % 4 == 0  # fixed part + numWords (U1) data words
 
 
-def _is_checksum_valid(message):
+def _is_checksum_valid(message: bytes) -> bool:
     ck_a = ck_b = 0
     for b in message[2:-2]:
         ck_a = (ck_a + b) & 0xff
@@ -33,8 +39,9 @@ def _is_checksum_valid(message):
     return ck_a == message[-2] and ck_b == message[-1]
 
 
-def ublox_qzss_dcr_message_extractor(reader, reader_args=None, reader_kwargs=None):
-
+def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
+                                     reader_args: tuple[Any, ...] | None = None,
+                                     reader_kwargs: dict[str, Any] | None = None) -> bytes:
     if reader_args is None:
         reader_args = ()
 

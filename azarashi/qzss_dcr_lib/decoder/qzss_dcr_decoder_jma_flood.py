@@ -9,11 +9,11 @@ from ..report import QzssDcReportJmaFlood
 class QzssDcrDecoderJmaFlood(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
-        self.flood_warning_levels = []
-        self.flood_warning_levels_raw = []
-        self.flood_forecast_regions = []
-        self.flood_forecast_regions_raw = []
+    def decode(self) -> QzssDcReportJmaFlood:
+        self.flood_warning_levels: list[str] = []
+        self.flood_warning_levels_raw: list[int] = []
+        self.flood_forecast_regions: list[str] = []
+        self.flood_forecast_regions_raw: list[int] = []
         for i in range(3):
             offset = 53 + i * 44
 

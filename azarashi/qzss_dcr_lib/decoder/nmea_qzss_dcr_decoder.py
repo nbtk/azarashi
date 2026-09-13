@@ -2,13 +2,15 @@ from ..decoder import QzssDcrDecoder
 from ..decoder import QzssDcrDecoderBase
 from ..definition import nmea_qzss_dcr_message_header
 from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
 
 class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
+    sentence: str
 
-    def decode(self):
+    def decode(self) -> QzssDcReport:
         if not self.sentence:
             raise EOFError('Encountered EOF')
 

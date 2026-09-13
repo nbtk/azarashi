@@ -4,32 +4,42 @@ import argparse
 import logging
 import socket
 import sys
+from collections.abc import Callable
 from pprint import pformat
+from typing import Any
 
 from .log import configure_logging
 from ..qzss_dcr_lib.exception import QzssDcrDecoderException
 from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
 from ..qzss_dcr_lib.interface import decode
+from ..qzss_dcr_lib.report import QzssDcReport
 
 logger = logging.getLogger(__name__)
 
 
 class Receiver:
-    def __init__(self, bind_addr='::', bind_port=2112, bind_iface='any', address_family=socket.AF_UNSPEC):
+    def __init__(self, bind_addr: str = '::', bind_port: int = 2112, bind_iface: str = 'any',
+                 address_family: int = socket.AF_UNSPEC) -> None:
         self.addr_info = socket.getaddrinfo(bind_addr, bind_port,
                                             address_family,
                                             socket.SOCK_DGRAM,
                                             socket.IPPROTO_UDP)[0]
+        self.bind_iface: bytes | None
         if bind_iface == 'any':
             self.bind_iface = None
         else:
             self.bind_iface = (bind_iface + '\0').encode()
 
     @staticmethod
-    def default_handler(report):
+    def default_handler(report: QzssDcReport) -> None:
         logger.info('- - - - - - - - - - - - - - - - - - - - - - - - - - - -\n' + pformat(report.get_params()) + '\n')
 
-    def start(self, callback=None, callback_args=(), callback_kwargs=None, ignore_dcr=False, ignore_dcx=True):
+    def start(self,
+              callback: Callable[..., object] | None = None,
+              callback_args: tuple[Any, ...] = (),
+              callback_kwargs: dict[str, Any] | None = None,
+              ignore_dcr: bool = False,
+              ignore_dcx: bool = True) -> None:
         if callback_kwargs is None:
             callback_kwargs = {}
         callback = callback or self.default_handler
@@ -50,11 +60,11 @@ class Receiver:
                 callback(report, *callback_args, **callback_kwargs)
 
 
-def simple_handler(report):
+def simple_handler(report: QzssDcReport) -> None:
     logger.info('\n' + str(report) + '\n')
 
 
-def main():
+def main() -> int:
     configure_logging()
     parser = argparse.ArgumentParser(description='azarashi network receiver',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -77,7 +87,7 @@ def main():
         except QzssDcrDecoderNotImplementedError as e:
             logger.warning(f'[{type(e).__name__}] {e}')
         else:
-            return
+            return 0
 
 
 if __name__ == '__main__':

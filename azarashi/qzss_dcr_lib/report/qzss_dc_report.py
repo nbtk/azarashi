@@ -1,15 +1,125 @@
 from copy import deepcopy
 from datetime import datetime, timedelta, UTC
+from typing import Any, ClassVar, TypeAlias, TypedDict
 
 from ..exception import QzssDcrDecoderException
 
 
+class Coordinates(TypedDict):
+    """Latitude and longitude as transmitted: 0 is north or east, 1 south or west."""
+    lat_ns: int
+    lat_d: int
+    lat_m: int
+    lat_s: int
+    lon_ew: int
+    lon_d: int
+    lon_m: int
+    lon_s: int
+
+
+class DayHourMinute(TypedDict):
+    """A time as transmitted, before it is checked and completed to a datetime."""
+    day: int
+    hour: int
+    minute: int
+
+
+class QzssDcxCamf:
+    """The fields of a DCX message as transmitted.
+
+    The C and D fields are set only for the specific settings (A17) that carry them.
+    """
+    sdmt: int
+    sdm: int
+    a1: int
+    a2: int
+    a3: int
+    a4: int
+    a5: int
+    a6: int
+    a7: int
+    a8: int
+    a9: int
+    a10: int
+    a11: int
+    a12: int
+    a13: int
+    a14: int
+    a15: int
+    a16: int
+    a17: int
+    a18: int
+    c1: int
+    c2: int
+    c3: int
+    c4: int
+    c5: int
+    c6: int
+    c7: int
+    c8: int
+    c9: int
+    c10: int
+    d1: int
+    d2: int
+    d3: int
+    d4: int
+    d5: int
+    d6: int
+    d7: int
+    d8: int
+    d9: int
+    d10: int
+    d11: int
+    d12: int
+    d13: int
+    d14: int
+    d15: int
+    d16: int
+    d17: int
+    d18: int
+    d19: int
+    d20: int
+    d21: int
+    d22: int
+    d23: int
+    d24: int
+    d25: int
+    d26: int
+    d27: int
+    d28: int
+    d29: int
+    d30: int
+    d31: int
+    d32: int
+    d33: int
+    d34: int
+    d35: int
+    d36: int
+    ex1: int
+    ex2: int
+    ex3: int
+    ex4: int
+    ex5: int
+    ex6: int
+    ex7: int
+    ex8: int
+    ex9: int
+    ex10: int
+    vn: int
+
+    def __str__(self) -> str:
+        return str(self.__dict__)
+
+    def get_params(self) -> dict[str, int]:
+        return self.__dict__
+
+
 class QzssDcReportBase:
     def __init__(self,
-                 sentence,
-                 raw=None,
-                 timestamp=None,
-                 **kwargs):
+                 sentence: str | bytes,
+                 raw: bytes | None = None,
+                 timestamp: datetime | None = None,
+                 **kwargs: Any) -> None:
         self.sentence = sentence
         if raw is None:
             raw = b''
@@ -18,30 +128,30 @@ class QzssDcReportBase:
             timestamp = datetime.now(UTC)
         self.timestamp = timestamp.astimezone(UTC)  # a naive timestamp is taken as local time
 
-    def __eq__(self, other):
-        if type(self) is not type(other):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, QzssDcReportBase) or type(self) is not type(other):
             return False
         return self.raw == other.raw
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.raw)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.__dict__)
 
-    def get_params(self):
+    def get_params(self) -> dict[str, Any]:
         return deepcopy(self.__dict__)
 
 
 class QzssDcReportMessagePartial(QzssDcReportBase):
     def __init__(self,
-                 message,
-                 nmea,
-                 message_header=None,
-                 satellite_id=None,
-                 satellite_prn=None,
-                 sentence=None,
-                 **kwargs):
+                 message: bytes,
+                 nmea: str,
+                 message_header: str | bytes | None = None,
+                 satellite_id: int | None = None,
+                 satellite_prn: int | None = None,
+                 sentence: str | bytes | None = None,
+                 **kwargs: Any) -> None:
         if sentence is None:
             sentence = message
         super().__init__(sentence, **kwargs)
@@ -58,9 +168,9 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
 
 class QzssDcReportMessageBase(QzssDcReportMessagePartial):
     def __init__(self,
-                 preamble,
-                 message_type,
-                 **kwargs):
+                 preamble: str,
+                 message_type: str,
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.preamble = preamble
         self.message_type = message_type
@@ -68,18 +178,18 @@ class QzssDcReportMessageBase(QzssDcReportMessagePartial):
 
 class QzssDcReportJmaBase(QzssDcReportMessageBase):
     def __init__(self,
-                 version,
-                 report_classification,
-                 report_classification_en,
-                 report_classification_no,
-                 disaster_category,
-                 disaster_category_en,
-                 disaster_category_no,
-                 report_time,
-                 information_type,
-                 information_type_en,
-                 information_type_no,
-                 **kwargs):
+                 version: int,
+                 report_classification: str,
+                 report_classification_en: str,
+                 report_classification_no: int,
+                 disaster_category: str,
+                 disaster_category_en: str,
+                 disaster_category_no: int,
+                 report_time: datetime,
+                 information_type: str,
+                 information_type_en: str,
+                 information_type_no: int,
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.version = version
         self.report_classification = report_classification
@@ -93,7 +203,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
         self.information_type_en = information_type_en
         self.information_type_no = information_type_no
 
-    def get_header(self):
+    def get_header(self) -> str:
         header = f'防災気象情報({self.disaster_category})' + \
                  f'({self.information_type})' + \
                  f'({self.report_classification})'
@@ -103,7 +213,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
             header += '\n*** 取り消しされました ***'
         return header
 
-    def get_header_en(self):
+    def get_header_en(self) -> str:
         header = f'JMA-DC Report ({self.disaster_category_en})' + \
                  f' ({self.information_type_en})' + \
                  f' ({self.report_classification_en})'
@@ -113,23 +223,23 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
             header += '\n*** CANCELLATION ***'
         return header
 
-    def get_report_time_str(self, time_diff=9):
+    def get_report_time_str(self, time_diff: int = 9) -> str:
         at = self.report_time + timedelta(hours=time_diff)
         return f'{at.month}月{at.day}日{at.hour}時{at.minute}分'
 
-    def get_report_time_str_iso(self):
+    def get_report_time_str_iso(self) -> str:
         return self.report_time.strftime('--%m-%dT%H:%MZ')
 
     @staticmethod
-    def convert_dt_to_str(dt, time_diff=9):
+    def convert_dt_to_str(dt: datetime, time_diff: int = 9) -> str:
         dt += timedelta(hours=time_diff)
         return f'{dt.day}日{dt.hour}時{dt.minute}分'
 
     @staticmethod
-    def convert_dt_to_str_iso(dt):
+    def convert_dt_to_str_iso(dt: datetime) -> str:
         return dt.strftime('---%dT%H:%MZ')
 
-    def convert_dt_to_ambiguous_time_str(self, td, du, time_diff=9):
+    def convert_dt_to_ambiguous_time_str(self, td: datetime, du: int, time_diff: int = 9) -> str:
         if du == 5:  # Approximate time(day): only the UTC day is valid, which cannot be converted to local time
             return f'{td.month}月{td.day}日頃'
         td += timedelta(hours=time_diff)
@@ -150,7 +260,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
                 self) from err
 
     @staticmethod
-    def convert_lat_lon_to_str(coordinates):
+    def convert_lat_lon_to_str(coordinates: Coordinates) -> str:
         return f'{"北緯" if coordinates["lat_ns"] == 0 else "南緯"}' + \
             f'{coordinates["lat_d"]}度' + \
             f'{coordinates["lat_m"]}分' + \
@@ -163,27 +273,27 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
 
 class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
     def __init__(self,
-                 long_period_ground_motion_lower_limit,
-                 long_period_ground_motion_lower_limit_raw,
-                 long_period_ground_motion_upper_limit,
-                 long_period_ground_motion_upper_limit_raw,
-                 notifications_on_disaster_prevention,
-                 notifications_on_disaster_prevention_raw,
-                 occurrence_time_of_earthquake,
-                 depth_of_hypocenter,
-                 depth_of_hypocenter_raw,
-                 magnitude,
-                 magnitude_raw,
-                 assumptive,
-                 seismic_epicenter,
-                 seismic_epicenter_raw,
-                 seismic_intensity_lower_limit,
-                 seismic_intensity_lower_limit_raw,
-                 seismic_intensity_upper_limit,
-                 seismic_intensity_upper_limit_raw,
-                 eew_forecast_regions,
-                 eew_forecast_regions_raw,
-                 **kwargs):
+                 long_period_ground_motion_lower_limit: str | None,
+                 long_period_ground_motion_lower_limit_raw: int,
+                 long_period_ground_motion_upper_limit: str | None,
+                 long_period_ground_motion_upper_limit_raw: int,
+                 notifications_on_disaster_prevention: list[str],
+                 notifications_on_disaster_prevention_raw: list[int],
+                 occurrence_time_of_earthquake: datetime,
+                 depth_of_hypocenter: str,
+                 depth_of_hypocenter_raw: int,
+                 magnitude: str,
+                 magnitude_raw: int,
+                 assumptive: bool,
+                 seismic_epicenter: str,
+                 seismic_epicenter_raw: int,
+                 seismic_intensity_lower_limit: str,
+                 seismic_intensity_lower_limit_raw: int,
+                 seismic_intensity_upper_limit: str,
+                 seismic_intensity_upper_limit_raw: int,
+                 eew_forecast_regions: list[str],
+                 eew_forecast_regions_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.long_period_ground_motion_lower_limit = long_period_ground_motion_lower_limit
         self.long_period_ground_motion_lower_limit_raw = long_period_ground_motion_lower_limit_raw
@@ -206,7 +316,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
         self.eew_forecast_regions = eew_forecast_regions
         self.eew_forecast_regions_raw = eew_forecast_regions_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '緊急地震速報\n'
 
@@ -234,17 +344,17 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
 
 class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
     def __init__(self,
-                 notifications_on_disaster_prevention,
-                 notifications_on_disaster_prevention_raw,
-                 occurrence_time_of_earthquake,
-                 depth_of_hypocenter,
-                 depth_of_hypocenter_raw,
-                 magnitude,
-                 magnitude_raw,
-                 seismic_epicenter,
-                 seismic_epicenter_raw,
-                 coordinates_of_hypocenter,
-                 **kwargs):
+                 notifications_on_disaster_prevention: list[str],
+                 notifications_on_disaster_prevention_raw: list[int],
+                 occurrence_time_of_earthquake: datetime,
+                 depth_of_hypocenter: str,
+                 depth_of_hypocenter_raw: int,
+                 magnitude: str,
+                 magnitude_raw: int,
+                 seismic_epicenter: str,
+                 seismic_epicenter_raw: int,
+                 coordinates_of_hypocenter: Coordinates,
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
@@ -257,7 +367,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
         self.seismic_epicenter_raw = seismic_epicenter_raw
         self.coordinates_of_hypocenter = coordinates_of_hypocenter
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  f'{self.convert_dt_to_str(self.occurrence_time_of_earthquake)}' + \
                  'ころ、地震がありました。\n'
@@ -274,12 +384,12 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
 
 class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
     def __init__(self,
-                 occurrence_time_of_earthquake,
-                 seismic_intensities,
-                 seismic_intensities_raw,
-                 prefectures,
-                 prefectures_raw,
-                 **kwargs):
+                 occurrence_time_of_earthquake: datetime,
+                 seismic_intensities: list[str],
+                 seismic_intensities_raw: list[int],
+                 prefectures: list[str],
+                 prefectures_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
         self.seismic_intensities = seismic_intensities
@@ -287,7 +397,7 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
         self.prefectures = prefectures
         self.prefectures_raw = prefectures_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  f'{self.convert_dt_to_str(self.occurrence_time_of_earthquake)}' + \
                  'ころ、地震による強い揺れを感じました。\n\n' + \
@@ -300,17 +410,17 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
 
 
 class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
-    completed = False
-    reports = {}  # page number -> page of the announcement being assembled
-    announcement = None  # identifies the announcement being assembled
+    completed: ClassVar[bool] = False
+    reports: ClassVar[dict[int, 'QzssDcReportJmaNankaiTroughEarthquake']] = {}  # page number -> page of the announcement being assembled
+    announcement: ClassVar[tuple[datetime, int, int, int, int] | None] = None  # identifies the announcement being assembled
 
     def __init__(self,
-                 information_serial_code,
-                 information_serial_code_raw,
-                 text_information,
-                 page_number,
-                 total_page,
-                 **kwargs):
+                 information_serial_code: str,
+                 information_serial_code_raw: int,
+                 text_information: bytes,
+                 page_number: int,
+                 total_page: int,
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.information_serial_code = information_serial_code
         self.information_serial_code_raw = information_serial_code_raw
@@ -338,14 +448,14 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         if all(page in cls.reports for page in range(1, self.total_page + 1)):
             cls.completed = True
 
-    def get_announcement(self):
+    def get_announcement(self) -> tuple[datetime, int, int, int, int]:
         return (self.report_time,
                 self.report_classification_no,
                 self.information_type_no,
                 self.information_serial_code_raw,
                 self.total_page)
 
-    def extract_text_information(self):
+    def extract_text_information(self) -> str:
         cls = self.__class__
         if self.get_announcement() != cls.announcement:
             return f'受信中 ({self.page_number}) [-/{self.total_page}]'
@@ -358,7 +468,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
         return msg_bytes.decode('utf-8', errors='ignore')
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '南海トラフ地震に関連する情報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n' + \
@@ -369,18 +479,18 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
 class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
     def __init__(self,
-                 notifications_on_disaster_prevention,
-                 notifications_on_disaster_prevention_raw,
-                 tsunami_warning_code,
-                 tsunami_warning_code_raw,
-                 expected_tsunami_arrival_times,
-                 expected_tsunami_arrival_times_raw,
-                 expected_tsunami_arrival_time_types,
-                 tsunami_heights,
-                 tsunami_heights_raw,
-                 tsunami_forecast_regions,
-                 tsunami_forecast_regions_raw,
-                 **kwargs):
+                 notifications_on_disaster_prevention: list[str],
+                 notifications_on_disaster_prevention_raw: list[int],
+                 tsunami_warning_code: str,
+                 tsunami_warning_code_raw: int,
+                 expected_tsunami_arrival_times: list[datetime | None],
+                 expected_tsunami_arrival_times_raw: list[DayHourMinute],
+                 expected_tsunami_arrival_time_types: list[str],
+                 tsunami_heights: list[str],
+                 tsunami_heights_raw: list[int],
+                 tsunami_forecast_regions: list[str],
+                 tsunami_forecast_regions_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
@@ -394,7 +504,7 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
         self.tsunami_forecast_regions = tsunami_forecast_regions
         self.tsunami_forecast_regions_raw = tsunami_forecast_regions_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  f'{self.tsunami_warning_code}を発表しました。\n'
 
@@ -403,10 +513,11 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
         report += f'\n\n発表時刻: {self.get_report_time_str()}'
 
         for i in range(len(self.expected_tsunami_arrival_times)):
-            if self.expected_tsunami_arrival_times[i] is None:
+            arrival_time = self.expected_tsunami_arrival_times[i]
+            if arrival_time is None:
                 ta = self.expected_tsunami_arrival_time_types[i]
             else:
-                ta = self.convert_dt_to_str(self.expected_tsunami_arrival_times[i])
+                ta = self.convert_dt_to_str(arrival_time)
             report += f'\n\n津波到達予想時刻: {ta}\n' + \
                       f'津波の高さ: {self.tsunami_heights[i]}\n' + \
                       f'{self.tsunami_forecast_regions[i]}'
@@ -415,16 +526,16 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
 
 class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
     def __init__(self,
-                 tsunamigenic_potential_en,
-                 tsunamigenic_potential_raw,
-                 expected_tsunami_arrival_times,
-                 expected_tsunami_arrival_times_raw,
-                 expected_tsunami_arrival_time_types,
-                 tsunami_heights_en,
-                 tsunami_heights_raw,
-                 coastal_regions_en,
-                 coastal_regions_raw,
-                 **kwargs):
+                 tsunamigenic_potential_en: str,
+                 tsunamigenic_potential_raw: int,
+                 expected_tsunami_arrival_times: list[datetime | None],
+                 expected_tsunami_arrival_times_raw: list[DayHourMinute],
+                 expected_tsunami_arrival_time_types: list[str],
+                 tsunami_heights_en: list[str],
+                 tsunami_heights_raw: list[int],
+                 coastal_regions_en: list[str],
+                 coastal_regions_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.tsunamigenic_potential_en = tsunamigenic_potential_en
         self.tsunamigenic_potential_raw = tsunamigenic_potential_raw
@@ -436,16 +547,17 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
         self.coastal_regions_en = coastal_regions_en
         self.coastal_regions_raw = coastal_regions_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header_en()}\n' + \
                  f'{self.tsunamigenic_potential_en}.\n\n' + \
                  f'Time of Issue: {self.get_report_time_str_iso()}'
 
         for i in range(len(self.expected_tsunami_arrival_times)):
-            if self.expected_tsunami_arrival_times[i] is None:
+            arrival_time = self.expected_tsunami_arrival_times[i]
+            if arrival_time is None:
                 ta = self.expected_tsunami_arrival_time_types[i]
             else:
-                ta = self.convert_dt_to_str_iso(self.expected_tsunami_arrival_times[i])
+                ta = self.convert_dt_to_str_iso(arrival_time)
             report += f'\n\nExpected Tsunami Arrival Time: {ta}\n' + \
                       f'Tsunami Height: {self.tsunami_heights_en[i]}\n' + \
                       f'Coastal Region: {self.coastal_regions_en[i]}'
@@ -454,16 +566,16 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
 
 class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
     def __init__(self,
-                 ambiguity_of_activity_time_no,
-                 activity_time,
-                 activity_time_raw,
-                 volcanic_warning_code,
-                 volcanic_warning_code_raw,
-                 volcano_name,
-                 volcano_name_raw,
-                 local_governments,
-                 local_governments_raw,
-                 **kwargs):
+                 ambiguity_of_activity_time_no: int,
+                 activity_time: datetime | None,
+                 activity_time_raw: DayHourMinute,
+                 volcanic_warning_code: str,
+                 volcanic_warning_code_raw: int,
+                 volcano_name: str,
+                 volcano_name_raw: int,
+                 local_governments: list[str],
+                 local_governments_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.ambiguity_of_activity_time_no = ambiguity_of_activity_time_no
         self.activity_time = activity_time
@@ -475,7 +587,7 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
         self.local_governments = local_governments
         self.local_governments_raw = local_governments_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '火山に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
@@ -490,17 +602,17 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
 
 class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
     def __init__(self,
-                 activity_time,
-                 ash_fall_warning_type,
-                 ash_fall_warning_type_raw,
-                 volcano_name,
-                 volcano_name_raw,
-                 expected_ash_fall_times,
-                 ash_fall_warning_codes,
-                 ash_fall_warning_codes_raw,
-                 local_governments,
-                 local_governments_raw,
-                 **kwargs):
+                 activity_time: datetime,
+                 ash_fall_warning_type: str,
+                 ash_fall_warning_type_raw: int,
+                 volcano_name: str,
+                 volcano_name_raw: int,
+                 expected_ash_fall_times: list[int],
+                 ash_fall_warning_codes: list[str],
+                 ash_fall_warning_codes_raw: list[int],
+                 local_governments: list[str],
+                 local_governments_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.activity_time = activity_time
         self.ash_fall_warning_type = ash_fall_warning_type
@@ -513,7 +625,7 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
         self.local_governments = local_governments
         self.local_governments_raw = local_governments_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '降灰に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
@@ -531,13 +643,13 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
 
 class QzssDcReportJmaWeather(QzssDcReportJmaBase):
     def __init__(self,
-                 weather_warning_state,
-                 weather_warning_state_raw,
-                 weather_related_disaster_sub_categories,
-                 weather_related_disaster_sub_categories_raw,
-                 weather_forecast_regions,
-                 weather_forecast_regions_raw,
-                 **kwargs):
+                 weather_warning_state: str,
+                 weather_warning_state_raw: int,
+                 weather_related_disaster_sub_categories: list[str],
+                 weather_related_disaster_sub_categories_raw: list[int],
+                 weather_forecast_regions: list[str],
+                 weather_forecast_regions_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.weather_warning_state = weather_warning_state
         self.weather_warning_state_raw = weather_warning_state_raw
@@ -546,7 +658,7 @@ class QzssDcReportJmaWeather(QzssDcReportJmaBase):
         self.weather_forecast_regions = weather_forecast_regions
         self.weather_forecast_regions_raw = weather_forecast_regions_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '気象に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
@@ -560,18 +672,18 @@ class QzssDcReportJmaWeather(QzssDcReportJmaBase):
 
 class QzssDcReportJmaFlood(QzssDcReportJmaBase):
     def __init__(self,
-                 flood_warning_levels,
-                 flood_warning_levels_raw,
-                 flood_forecast_regions,
-                 flood_forecast_regions_raw,
-                 **kwargs):
+                 flood_warning_levels: list[str],
+                 flood_warning_levels_raw: list[int],
+                 flood_forecast_regions: list[str],
+                 flood_forecast_regions_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.flood_warning_levels = flood_warning_levels
         self.flood_warning_levels_raw = flood_warning_levels_raw
         self.flood_forecast_regions = flood_forecast_regions
         self.flood_forecast_regions_raw = flood_forecast_regions_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '河川の氾濫に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
@@ -584,18 +696,18 @@ class QzssDcReportJmaFlood(QzssDcReportJmaBase):
 
 class QzssDcReportJmaMarine(QzssDcReportJmaBase):
     def __init__(self,
-                 marine_warning_codes,
-                 marine_warning_codes_raw,
-                 marine_forecast_regions,
-                 marine_forecast_regions_raw,
-                 **kwargs):
+                 marine_warning_codes: list[str],
+                 marine_warning_codes_raw: list[int],
+                 marine_forecast_regions: list[str],
+                 marine_forecast_regions_raw: list[int],
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.marine_warning_codes = marine_warning_codes
         self.marine_warning_codes_raw = marine_warning_codes_raw
         self.marine_forecast_regions = marine_forecast_regions
         self.marine_forecast_regions_raw = marine_forecast_regions_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '海上警報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
@@ -608,24 +720,24 @@ class QzssDcReportJmaMarine(QzssDcReportJmaBase):
 
 class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
     def __init__(self,
-                 reference_time,
-                 reference_time_type,
-                 reference_time_type_raw,
-                 elapsed_time_from_reference_time,
-                 typhoon_number,
-                 typhoon_number_raw,
-                 typhoon_scale_category,
-                 typhoon_scale_category_raw,
-                 typhoon_intensity_category,
-                 typhoon_intensity_category_raw,
-                 coordinates_of_typhoon,
-                 central_pressure,
-                 central_pressure_raw,
-                 maximum_wind_speed,
-                 maximum_wind_speed_raw,
-                 maximum_gust_wind_speed,
-                 maximum_gust_wind_speed_raw,
-                 **kwargs):
+                 reference_time: datetime,
+                 reference_time_type: str,
+                 reference_time_type_raw: int,
+                 elapsed_time_from_reference_time: int,
+                 typhoon_number: str,
+                 typhoon_number_raw: int,
+                 typhoon_scale_category: str,
+                 typhoon_scale_category_raw: int,
+                 typhoon_intensity_category: str,
+                 typhoon_intensity_category_raw: int,
+                 coordinates_of_typhoon: Coordinates,
+                 central_pressure: str,
+                 central_pressure_raw: int,
+                 maximum_wind_speed: str,
+                 maximum_wind_speed_raw: int,
+                 maximum_gust_wind_speed: str,
+                 maximum_gust_wind_speed_raw: int,
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.reference_time = reference_time
         self.reference_time_type = reference_time_type
@@ -646,7 +758,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
         self.maximum_gust_wind_speed = maximum_gust_wind_speed
         self.maximum_gust_wind_speed_raw = maximum_gust_wind_speed_raw
 
-    def __str__(self):
+    def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
                  '台風解析・予報情報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
@@ -664,16 +776,103 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
 
 
 class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
+    # set by the decoder as far as the message type (see ignore_*) and the fields carry them
+    dcx_message_type: str
+    dcx_version: int
+    satellite_designation_mask_type: str
+    satellite_designation_mask: list[str]
+    a1_message_type: str
+    a2_country_region_name: str
+    a3_provider_identifier: str
+    a4_hazard_category: str
+    a4_hazard_type: str
+    a4_hazard_definition: str
+    a5_severity: str
+    a6_hazard_onset_week: str
+    a7_hazard_onset_time_of_week: str
+    a6a7_hazard_onset_datetime: datetime | None
+    a8_hazard_duration: str
+    a9_type_of_library: str
+    a10_library_version: str
+    a11_international_library_code: str
+    a11_international_library: str
+    a11_japanese_library: str
+    a11_japanese_library_ja: str
+    a12_ellipse_centre_latitude: float
+    a13_ellipse_centre_longitude: float
+    a14_ellipse_semi_major_axis: float
+    a15_ellipse_semi_minor_axis: float
+    a16_ellipse_azimuth: float
+    a17_type_of_specific_settings: str
+    c1_refined_latitude_of_centre_of_main_ellipse: float
+    c2_refined_longitude_of_centre_of_main_ellipse: float
+    c3_refined_length_of_semi_major_axis: float
+    c4_refined_length_of_semi_minor_axis: float
+    c5_latitude_of_centre_of_hazard: float
+    c6_longitude_of_centre_of_hazard: float
+    c7_shift_of_second_ellipse_centre: int
+    c8_homothetic_factor_of_second_ellipse: float
+    c9_bearing_angle_of_second_ellipse: float
+    c10_instruction_library_for_second_ellipse_code: str
+    c10_instruction_library_for_second_ellipse: str
+    d1_magnitude_on_richter_scale: str
+    d2_seismic_coefficient: str
+    d3_azimuth_from_centre_of_main_ellipse_to_epicentre: float  # degrees
+    d4_vector_length_between_centre_of_main_ellipse_and_epicentre: float  # a factor of the semi-major axis
+    d5_wave_height: str
+    d6_temperature_range: str
+    d7_hurricane_category: str
+    d8_wind_speed: str
+    d9_rainfall_amounts: str
+    d10_damage_category: str
+    d11_tornado_probability: str
+    d12_hail_scale: str
+    d13_visibility: str
+    d14_snow_depth: str
+    d15_flood_severity: str
+    d16_lightning_intensity: str
+    d17_fog_level: str
+    d18_drought_level: str
+    d19_avalanche_warning_level: str
+    d20_ash_fall_amount_and_impact: str
+    d21_geomagnetic_scale: str
+    d22_terrorism_threat_level: str
+    d23_fire_risk_level: str
+    d24_water_quality: str
+    d25_uv_index: str
+    d26_number_of_cases_per_100000_inhabitants: str
+    d27_noise_range: str
+    d28_air_quality_index: str
+    d29_outage_estimated_duration: str
+    d30_nuclear_event_scale: str
+    d31_chemical_hazard_type: str
+    d32_biohazard_level: str
+    d33_biohazard_type: str
+    d34_explosive_hazard_type: str
+    d35_infection_type: str
+    d36_typhoon_category: str
+    ex1_target_area: str
+    ex1_target_area_ja: str
+    ex2_evacuate_direction_type: str
+    ex3_additional_ellipse_centre_latitude: float
+    ex4_additional_ellipse_centre_longitude: float
+    ex5_additional_ellipse_semi_major_axis: float
+    ex6_additional_ellipse_semi_minor_axis: float
+    ex7_additional_ellipse_azimuth: float
+    ex8_target_area_list_type: str
+    ex9_target_area_list: list[str]
+    ex9_target_area_list_ja: list[str]
+
     def __init__(self,
-                 preamble,
-                 message_type,
-                 camf,
-                 ignore_a12_to_a16,
-                 ignore_a17_to_a18,
-                 ignore_ex1,
-                 ignore_ex2_to_ex7,
-                 ignore_ex8_to_ex9,
-                 **kwargs):
+                 preamble: str,
+                 message_type: str,
+                 camf: QzssDcxCamf,
+                 ignore_a12_to_a16: bool,
+                 ignore_a17_to_a18: bool,
+                 ignore_ex1: bool,
+                 ignore_ex2_to_ex7: bool,
+                 ignore_ex8_to_ex9: bool,
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.preamble = preamble
         self.message_type = message_type
@@ -688,11 +887,11 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
             if key not in self.__dict__:
                 self.__dict__[key] = value
 
-    def get_hazard_onset_str(self):
+    def get_hazard_onset_str(self) -> str | None:
         onset = self.__dict__.get('a6a7_hazard_onset_datetime')
         return None if onset is None else onset.isoformat().replace('+00:00', 'Z')
 
-    def __str__(self):
+    def __str__(self) -> str:
         header = f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###\n"
         if self.camf.a1 == 0:
                 header += "*** This is a test message ***\n"
@@ -762,38 +961,41 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
 
 class QzssDcxNullMsg(QzssDcXtendedMessageBase):
     def __init__(self,
-                 **kwargs):
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###"
 
 
 class QzssDcxOutsideJapan(QzssDcXtendedMessageBase):
     def __init__(self,
-                 **kwargs):
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
 class QzssDcxLAlert(QzssDcXtendedMessageBase):
     def __init__(self,
-                 **kwargs):
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
 class QzssDcxJAlert(QzssDcXtendedMessageBase):
     def __init__(self,
-                 **kwargs):
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
 class QzssDcxMTInfo(QzssDcXtendedMessageBase):
     def __init__(self,
-                 **kwargs):
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
 class QzssDcxUnknown(QzssDcXtendedMessageBase):
     def __init__(self,
-                 **kwargs):
+                 **kwargs: Any) -> None:
         super().__init__(**kwargs)
+
+
+QzssDcReport: TypeAlias = QzssDcReportJmaBase | QzssDcXtendedMessageBase  # what decode() and decode_stream() return

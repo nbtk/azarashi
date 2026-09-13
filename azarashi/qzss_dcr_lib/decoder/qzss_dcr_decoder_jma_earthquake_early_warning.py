@@ -12,7 +12,7 @@ from ..report import QzssDcReportJmaEarthquakeEarlyWarning
 class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaEarthquakeEarlyWarning:
         lgll = self.extract_field(47, 3)
         try:
             self.long_period_ground_motion_lower_limit = qzss_dcr_jma_long_period_ground_motion_lower_limit[lgll]
@@ -61,8 +61,8 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
                 self) from err
         self.seismic_intensity_upper_limit_raw = ul
 
-        self.eew_forecast_regions = []
-        self.eew_forecast_regions_raw = []
+        self.eew_forecast_regions: list[str] = []
+        self.eew_forecast_regions_raw: list[int] = []
         for i in range(80):
             if self.extract_field(130 + i, 1) == 1:
                 try:

@@ -9,11 +9,11 @@ from ..report import QzssDcReportJmaMarine
 class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
-        self.marine_warning_codes = []
-        self.marine_warning_codes_raw = []
-        self.marine_forecast_regions = []
-        self.marine_forecast_regions_raw = []
+    def decode(self) -> QzssDcReportJmaMarine:
+        self.marine_warning_codes: list[str] = []
+        self.marine_warning_codes_raw: list[int] = []
+        self.marine_forecast_regions: list[str] = []
+        self.marine_forecast_regions_raw: list[int] = []
         for i in range(8):
             offset = 53 + i * 19
             dw = self.extract_field(offset, 5)

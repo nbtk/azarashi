@@ -12,32 +12,34 @@ from ..input_stream import RecordingStream
 from ..input_stream import open_input
 from ..qzss_dcr_lib.exception import QzssDcrDecoderException
 from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
+from ..qzss_dcr_lib.interface import QzssDcrStream
 from ..qzss_dcr_lib.interface import decode_stream
+from ..qzss_dcr_lib.report import QzssDcReport
 
 logger = logging.getLogger(__name__)
 
 
 class Transmitter:
-    def __init__(self, dst_host='ff02::1', dst_port=2112, address_family=socket.AF_UNSPEC):
+    def __init__(self, dst_host: str = 'ff02::1', dst_port: int = 2112, address_family: int = socket.AF_UNSPEC) -> None:
         self.addr_info = socket.getaddrinfo(dst_host, dst_port,
                                             address_family,
                                             socket.SOCK_DGRAM,
                                             socket.IPPROTO_UDP)[0]
 
-    def handler(self, report):
+    def handler(self, report: QzssDcReport) -> None:
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
             sat_id = (report.satellite_id or 55).to_bytes(1, 'big')  # PRN183, as in message_to_nmea()
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             logger.info(report.nmea)
             sock.sendto(sat_id + report.message, self.addr_info[-1])
 
-    def start(self, stream=sys.stdin, msg_type='ublox', unique=False):
+    def start(self, stream: QzssDcrStream = sys.stdin, msg_type: str = 'ublox', unique: bool | float = False) -> None:
         # relay every message; receivers choose what to use
         decode_stream(stream, msg_type=msg_type, callback=self.handler, unique=unique,
                       ignore_dcr=False, ignore_dcx=False)
 
 
-def main():
+def main() -> int:
     configure_logging()
     parser = argparse.ArgumentParser(description='azarashi network transmitter',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -51,9 +53,8 @@ def main():
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     args = parser.parse_args()
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
-    stream = open_input(args.input, args.baudrate)
-    if args.record is not None:
-        stream = RecordingStream(stream, open(args.record, mode='ab'))
+    source = open_input(args.input, args.baudrate)
+    stream = source if args.record is None else RecordingStream(source, open(args.record, mode='ab'))
 
     xmitter = Transmitter(dst_host=args.dst_host, dst_port=args.dst_port)
     while True:

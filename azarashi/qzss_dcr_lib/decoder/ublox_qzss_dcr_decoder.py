@@ -3,20 +3,22 @@ from ..decoder import QzssDcrDecoderBase
 from ..definition import ublox_qzss_dcr_message_header
 from ..definition import ublox_qzss_svid_prn_map
 from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
 
 class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
+    sentence: bytes
 
-    def decode(self):
+    def decode(self) -> QzssDcReport:
         # extracts a message header, satellite id, and message
         self.message_header = self.sentence[:len(ublox_qzss_dcr_message_header)]
 
         # checks the message header
         if self.message_header != ublox_qzss_dcr_message_header:
             raise QzssDcrDecoderException(
-                f'Unknown Message Header: {self.message_header}',
+                f'Unknown Message Header: {self.message_header!r}',
                 self)
 
         if len(self.sentence) < len(ublox_qzss_dcr_message_header) + 2 + 8 + 2:  # SFRBX + Length + fixed part + CHK

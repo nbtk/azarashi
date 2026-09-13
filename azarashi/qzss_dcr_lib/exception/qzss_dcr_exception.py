@@ -1,10 +1,10 @@
 class QzssDcrDecoderException(Exception):
-    def __init__(self, message, instance=None):
+    def __init__(self, message: str, instance: object = None) -> None:
         self.message = message
         self.instance = instance
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         sentence = getattr(self.instance, 'nmea', None) or getattr(self.instance, 'sentence', None)
         if sentence is None:
             return f'{self.message}'
@@ -24,12 +24,12 @@ class QzssDcrDecoderTimeoutError(EOFError):
 
 
 class QzssDcrDecoderNotImplementedError(NotImplementedError):
-    def __init__(self, message, instance=None):
+    def __init__(self, message: str, instance: object = None) -> None:
         self.message = message
         self.instance = instance
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         sentence = getattr(self.instance, 'nmea', None) or getattr(self.instance, 'sentence', None)
         if sentence is None:
             return f'{self.message}'

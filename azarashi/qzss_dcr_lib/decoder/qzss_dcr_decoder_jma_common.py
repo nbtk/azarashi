@@ -8,10 +8,14 @@ from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
 from ..definition import qzss_dcr_jma_local_government
 from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
 from ..exception import QzssDcrDecoderException
+from ..report import Coordinates
+from ..report import DayHourMinute
 
 
 class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
-    def extract_day_hour_min_field(self, slider):
+    report_time: datetime
+
+    def extract_day_hour_min_field(self, slider: int) -> datetime:
         dt_d = self.extract_field(slider, 5)
         if dt_d < 1 or dt_d > 31:
             raise QzssDcrDecoderException(
@@ -54,7 +58,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                         minute=dt_mi,
                         tzinfo=UTC)
 
-    def extract_local_government(self, slider):
+    def extract_local_government(self, slider: int) -> tuple[str, int]:
         lg = self.extract_field(slider, 23)
         try:
             return qzss_dcr_jma_local_government[lg], lg
@@ -63,9 +67,9 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 f'Undefined JMA Local Government: {lg}',
                 self) from err
 
-    def extract_notification_on_disaster_prevention_fields(self, slider):
-        notifications = []
-        cos = []
+    def extract_notification_on_disaster_prevention_fields(self, slider: int) -> tuple[list[str], list[int]]:
+        notifications: list[str] = []
+        cos: list[int] = []
         for i in range(3):
             co = self.extract_field(slider + i * 9, 9)
             if co == 0:
@@ -79,7 +83,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             cos.append(co)
         return notifications, cos
 
-    def extract_lat_lon_field(self, slider):
+    def extract_lat_lon_field(self, slider: int) -> Coordinates:
         lat_ns = self.extract_field(slider, 1)
         lat_d = self.extract_field(slider + 1, 7)
         if lat_d > 89:
@@ -117,7 +121,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         return {'lat_ns': lat_ns, 'lat_d': lat_d, 'lat_m': lat_m, 'lat_s': lat_s,
                 'lon_ew': lon_ew, 'lon_d': lon_d, 'lon_m': lon_m, 'lon_s': lon_s}
 
-    def extract_depth_field(self, slider):
+    def extract_depth_field(self, slider: int) -> tuple[str, int]:
         de = self.extract_field(slider, 9)
         if de == 501:
             return '500kmより深い', de
@@ -130,7 +134,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         else:
             return f'{de}km', de
 
-    def extract_magnitude_field(self, slider):
+    def extract_magnitude_field(self, slider: int) -> tuple[str, int]:
         ma = self.extract_field(slider, 7)
         if ma == 101:
             return '10.0より大きい', ma
@@ -145,7 +149,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         else:
             return f'{ma / 10}', ma
 
-    def extract_seismic_epicenter_field(self, slider):
+    def extract_seismic_epicenter_field(self, slider: int) -> tuple[str, int]:
         ep = self.extract_field(slider, 10)
         try:
             return qzss_dcr_jma_epicenter_and_hypocenter[ep], ep
@@ -154,12 +158,12 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 f'Undefined JMA Seismic Epicenter: {ep}',
                 self) from err
 
-    def extract_expected_tsunami_arrival_time_raw(self, slider):
+    def extract_expected_tsunami_arrival_time_raw(self, slider: int) -> DayHourMinute:
         return {'day': self.extract_field(slider, 1),
                 'hour': self.extract_field(slider + 1, 5),
                 'minute': self.extract_field(slider + 6, 6)}
 
-    def extract_expected_tsunami_arrival_time_field(self, slider):
+    def extract_expected_tsunami_arrival_time_field(self, slider: int) -> tuple[datetime | None, DayHourMinute, str]:
         """Expected arrival time of JMA-DC Report (Tsunami) with its raw values and type."""
         raw = self.extract_expected_tsunami_arrival_time_raw(slider)
         if raw['hour'] == 31 or (raw['hour'] <= 23 and raw['minute'] == 63):  # has arrived (estimated or observed)
@@ -168,7 +172,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return None, raw, '該当情報なし'
         return self.extract_expected_tsunami_arrival_time(slider), raw, '津波の到達予想時刻'
 
-    def extract_northwest_pacific_tsunami_arrival_time_field(self, slider):
+    def extract_northwest_pacific_tsunami_arrival_time_field(self, slider: int) -> tuple[datetime | None, DayHourMinute, str]:
         """Expected arrival time of JMA-DC Report (Northwest Pacific Tsunami) with its raw values and type."""
         raw = self.extract_expected_tsunami_arrival_time_raw(slider)
         arrival_time = self.extract_expected_tsunami_arrival_time(slider)  # None when the hour is 31 or the minute 63
@@ -176,7 +180,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return None, raw, 'Arrived or Unknown'
         return arrival_time, raw, 'Expected Tsunami Arrival Time'
 
-    def extract_expected_tsunami_arrival_time(self, slider):
+    def extract_expected_tsunami_arrival_time(self, slider: int) -> datetime | None:
         ta_h = self.extract_field(slider + 1, 5)
         if ta_h == 31:
             return None

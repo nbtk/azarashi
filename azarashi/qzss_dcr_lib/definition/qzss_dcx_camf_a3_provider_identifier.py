@@ -63,13 +63,13 @@ qzss_dcx_camf_a3_provider_identifier_thailand = QzssDcrDefinition(
 )
 
 
-qzss_dcx_camf_a3_provider_identifier_undefined = QzssDcrDefinition(
+qzss_dcx_camf_a3_provider_identifier_undefined: QzssDcrDefinition[int, str] = QzssDcrDefinition(
     {},
     undefined="Undefined Provider Identifier (Code: %d)"
 )
 
 
-qzss_dcx_camf_a3_provider_identifier_map = {
+qzss_dcx_camf_a3_provider_identifier_map: dict[int, QzssDcrDefinition[int, str]] = {
     10: qzss_dcx_camf_a3_provider_identifier_australia,
     71: qzss_dcx_camf_a3_provider_identifier_fiji,
     111: qzss_dcx_camf_a3_provider_identifier_japan,

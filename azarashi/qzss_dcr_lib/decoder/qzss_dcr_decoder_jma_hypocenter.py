@@ -6,7 +6,7 @@ from ..report import QzssDcReportJmaHypocenter
 class QzssDcrDecoderJmaHypocenter(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaHypocenter:
         self.notifications_on_disaster_prevention, self.notifications_on_disaster_prevention_raw =\
             self.extract_notification_on_disaster_prevention_fields(53)
         self.occurrence_time_of_earthquake = self.extract_day_hour_min_field(80)

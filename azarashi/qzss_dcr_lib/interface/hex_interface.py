@@ -1,7 +1,12 @@
+from collections.abc import Callable
+from typing import Any
+
 from .stream_state import read_line
 
 
-def hex_qzss_dcr_message_extractor(reader, reader_args=None, reader_kwargs=None):
+def hex_qzss_dcr_message_extractor(reader: Callable[..., str | bytes],
+                                   reader_args: tuple[Any, ...] | None = None,
+                                   reader_kwargs: dict[str, Any] | None = None) -> str:
     if reader_args is None:
         reader_args = ()
     if reader_kwargs is None:

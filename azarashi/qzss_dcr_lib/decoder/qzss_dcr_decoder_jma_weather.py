@@ -10,7 +10,7 @@ from ..report import QzssDcReportJmaWeather
 class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
-    def decode(self):
+    def decode(self) -> QzssDcReportJmaWeather:
         ar = self.extract_field(53, 3)
         try:
             self.weather_warning_state = qzss_dcr_jma_weather_warning_state[ar]
@@ -20,10 +20,10 @@ class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
                 self) from err
         self.weather_warning_state_raw = ar
 
-        self.weather_related_disaster_sub_categories = []
-        self.weather_related_disaster_sub_categories_raw = []
-        self.weather_forecast_regions = []
-        self.weather_forecast_regions_raw = []
+        self.weather_related_disaster_sub_categories: list[str] = []
+        self.weather_related_disaster_sub_categories_raw: list[int] = []
+        self.weather_forecast_regions: list[str] = []
+        self.weather_forecast_regions_raw: list[int] = []
         for i in range(6):
             offset = 56 + i * 24
 

@@ -1,3 +1,6 @@
+from collections.abc import Callable
+from typing import Any, Protocol, TypeAlias
+
 from .hex_interface import hex_qzss_dcr_message_extractor
 from .nmea_interface import nmea_qzss_dcr_message_extractor
 from .stream_state import StreamKeyedDict
@@ -7,12 +10,34 @@ from ..decoder import NetQzssDcrDecoder
 from ..decoder import NmeaQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
 from ..exception import QzssDcrDecoderException
+from ..report import QzssDcReport
 
-caches = StreamKeyedDict()  # stream -> recent reports, released with the stream
+
+class SupportsReadline(Protocol):
+    """A stream of lines, for 'nmea', 'spresense' and 'hex': a text or binary file, pySerial, ..."""
+
+    def readline(self) -> str | bytes: ...
+
+
+class SupportsRead1(Protocol):
+    """A buffered binary stream, for 'ublox'."""
+
+    def read1(self) -> bytes: ...
+
+
+class SupportsRead(Protocol):
+    """A binary stream that is read one byte at a time, for 'ublox': pySerial, an unbuffered file, ..."""
+
+    def read(self, size: int, /) -> bytes | None: ...
+
+
+QzssDcrStream: TypeAlias = SupportsReadline | SupportsRead1 | SupportsRead  # what decode_stream() reads
+
+caches: StreamKeyedDict[list[QzssDcReport]] = StreamKeyedDict()  # stream -> recent reports, released with the stream
 cache_size = 256
 
 
-def decode(msg, msg_type='nmea'):
+def decode(msg: str | bytes, msg_type: str = 'nmea') -> QzssDcReport:
     if not msg:
         raise EOFError('Encountered EOF')
 
@@ -28,48 +53,50 @@ def decode(msg, msg_type='nmea'):
         raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
 
 
-def decode_stream(stream,  # do not decode one stream in parallel!
-                  msg_type='nmea',
-                  callback=None,
-                  callback_args=(),
-                  callback_kwargs=None,
-                  unique=False,
-                  ignore_dcr=False,
-                  ignore_dcx=True):
+def decode_stream(stream: QzssDcrStream,  # do not decode one stream in parallel!
+                  msg_type: str = 'nmea',
+                  callback: Callable[..., object] | None = None,
+                  callback_args: tuple[Any, ...] = (),
+                  callback_kwargs: dict[str, Any] | None = None,
+                  unique: bool | float = False,
+                  ignore_dcr: bool = False,
+                  ignore_dcx: bool = True) -> QzssDcReport:
     if callback_kwargs is None:
         callback_kwargs = {}
 
+    cache: list[QzssDcReport] = []
     if unique:
-        cache = caches.get(stream)
-        if cache is None:
-            cache = []
+        cache = caches.get(stream) or []
 
+    extractor: Callable[..., str | bytes]
+    reader: Callable[..., Any]
+    reader_args: tuple[Any, ...]
     if msg_type == 'hex':
-        if callable(getattr(stream, 'readline', None)):
+        if callable(readline := getattr(stream, 'readline', None)):
             extractor = hex_qzss_dcr_message_extractor
-            reader = stream.readline
+            reader = readline
             reader_args = ()
         else:
             raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
     elif msg_type == 'nmea' or msg_type == 'spresense':
-        if callable(getattr(stream, 'readline', None)):
+        if callable(readline := getattr(stream, 'readline', None)):
             extractor = nmea_qzss_dcr_message_extractor
-            reader = stream.readline
+            reader = readline
             reader_args = ()
         else:
             raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
     elif msg_type == 'ublox':
-        if callable(getattr(stream, 'read1', None)):
+        if callable(read1 := getattr(stream, 'read1', None)):
             extractor = ublox_qzss_dcr_message_extractor
-            reader = stream.read1
+            reader = read1
             reader_args = ()
-        elif hasattr(stream, 'buffer') and callable(getattr(stream.buffer, 'read1', None)):
+        elif callable(buffer_read1 := getattr(getattr(stream, 'buffer', None), 'read1', None)):
             extractor = ublox_qzss_dcr_message_extractor
-            reader = stream.buffer.read1
+            reader = buffer_read1
             reader_args = ()
-        elif callable(getattr(stream, 'read', None)):
+        elif callable(read := getattr(stream, 'read', None)):
             extractor = ublox_qzss_dcr_message_extractor
-            reader = stream.read
+            reader = read
             reader_args = (1,)  # positional: raw streams (io.FileIO, SocketIO) reject read(size=1)
         else:
             raise QzssDcrDecoderException(f'Neither read() nor read1() exists: {type(stream)}')
