@@ -1,5 +1,6 @@
 from .hex_interface import hex_qzss_dcr_message_extractor
 from .nmea_interface import nmea_qzss_dcr_message_extractor
+from .stream_state import StreamKeyedDict
 from .ublox_interface import ublox_qzss_dcr_message_extractor
 from ..decoder import HexQzssDcrDecoder
 from ..decoder import NetQzssDcrDecoder
@@ -7,7 +8,7 @@ from ..decoder import NmeaQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
 from ..exception import QzssDcrDecoderException
 
-caches = {}
+caches = StreamKeyedDict()  # stream -> recent reports, released with the stream
 cache_size = 256
 
 
@@ -37,12 +38,6 @@ def decode_stream(stream,  # do not decode one stream in parallel!
                   ignore_dcx=True):
     if callback_kwargs is None:
         callback_kwargs = {}
-    for existing_stream in caches.copy().keys():
-        if existing_stream.closed:
-            try:
-                caches.pop(existing_stream)  # discards the garbage to prevent memory leaks
-            except KeyError:  # might happen during race conditions
-                pass
 
     if unique:
         cache = caches.get(stream)
@@ -53,36 +48,36 @@ def decode_stream(stream,  # do not decode one stream in parallel!
         if callable(getattr(stream, 'readline', None)):
             extractor = hex_qzss_dcr_message_extractor
             reader = stream.readline
-            reader_kwargs = {}
+            reader_args = ()
         else:
             raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
     elif msg_type == 'nmea' or msg_type == 'spresense':
         if callable(getattr(stream, 'readline', None)):
             extractor = nmea_qzss_dcr_message_extractor
             reader = stream.readline
-            reader_kwargs = {}
+            reader_args = ()
         else:
             raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
     elif msg_type == 'ublox':
         if callable(getattr(stream, 'read1', None)):
             extractor = ublox_qzss_dcr_message_extractor
             reader = stream.read1
-            reader_kwargs = {}
+            reader_args = ()
         elif hasattr(stream, 'buffer') and callable(getattr(stream.buffer, 'read1', None)):
             extractor = ublox_qzss_dcr_message_extractor
             reader = stream.buffer.read1
-            reader_kwargs = {}
+            reader_args = ()
         elif callable(getattr(stream, 'read', None)):
             extractor = ublox_qzss_dcr_message_extractor
             reader = stream.read
-            reader_kwargs = {'size': 1}
+            reader_args = (1,)  # positional: raw streams (io.FileIO, SocketIO) reject read(size=1)
         else:
             raise QzssDcrDecoderException(f'Neither read() nor read1() exists: {type(stream)}')
     else:
         raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
 
     while True:
-        msg = extractor(reader, reader_kwargs=reader_kwargs)
+        msg = extractor(reader, reader_args=reader_args)
         report = decode(msg, msg_type)
 
         if report.message_type == 'DCR':
@@ -107,7 +102,7 @@ def decode_stream(stream,  # do not decode one stream in parallel!
                 fire = True
 
             cache = cache[-(cache_size - 1):] + [report]
-            caches.update({stream: cache})
+            caches[stream] = cache
 
             if fire is False:
                 continue

@@ -7,5 +7,5 @@ def hex_qzss_dcr_message_extractor(reader, reader_args=None, reader_kwargs=None)
     if not msg:
         raise EOFError('Encountered EOF')
     elif isinstance(msg, (bytes, bytearray)):
-        msg = msg.decode()
+        msg = msg.decode(errors='replace')  # line noise must not stop the stream; the decoder rejects it
     return msg
