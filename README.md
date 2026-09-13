@@ -281,6 +281,21 @@ with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
         except azarashi.QzssDcrDecoderTimeoutError:
             continue  # no complete message within a second: check `stopped` and keep reading
 ```
+### Type Hints
+azarashi は型ヒント付きで配布しています (`py.typed`)。mypy や pyright で `decode()` と `decode_stream()` の引数と戻り値、レポートの各フィールドの型を検査できます。戻り値の型 `azarashi.QzssDcReport` は JMA-DC Report (`QzssDcReportJmaBase`) か DCX (`QzssDcXtendedMessageBase`) のどちらかなので、災害種別ごとのフィールドは `isinstance()` で絞り込んでから参照してください。
+```python
+import azarashi
+from azarashi import qzss_dc_report
+
+
+def handler(report: azarashi.QzssDcReport) -> None:
+    if isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):
+        for arrival in report.expected_tsunami_arrival_times:  # datetime | None
+            print(arrival)
+    elif isinstance(report, qzss_dc_report.QzssDcXtendedMessageBase):
+        print(report.a6a7_hazard_onset_datetime)  # datetime | None
+```
+DCX のフィールド (`a12_ellipse_centre_latitude` など) は、メッセージの種類と内容によっては設定されません。型は宣言してありますが、設定されていない属性を参照すると `AttributeError` になるので、必要に応じて `getattr()` や `get_params()` を使ってください。
 ## Examples
 ### I/O Stream
 例外処理を加えた簡単なプログラムの例です。記録したファイルを読み込みます。
@@ -544,11 +559,15 @@ DCX メッセージの SD フィールドを監視する必要があるとき `d
 ## Development
 リポジトリを取得して開発用のツールをインストールすると、テストと静的解析を実行できます。GitHub Actions でも push と pull request のたびに同じチェックを実行しています。
 ```shell
-$ pip install -e . pytest pytest-cov ruff
+$ pip install -e . pytest pytest-cov ruff mypy 'pyright[nodejs]' types-pyserial
 $ python -m pytest tests        # Python 3.11 から 3.14 で実行しています
 $ python -m pytest --cov tests  # カバレッジも測る場合。設定は pyproject.toml の [tool.coverage] にあります
 $ ruff check azarashi/          # 規則は pyproject.toml の [tool.ruff] にあります
+$ mypy --strict azarashi/       # 型検査
+$ pyright                       # 設定は pyproject.toml の [tool.pyright] にあります
 ```
+GitHub Actions の typing ジョブは、ビルドした wheel をインストールした利用者の立場でも型検査をします。`tests/typing/consumer.py` の正しい使い方が通ること、`tests/typing/consumer_mistakes.py` の誤りが検出されること、そして `tests/typing/generate_mistakes.py` が公開している関数とメソッドのすべての引数と戻り値について書く誤用が、一つ残らず検出されることを確かめます。`tests/test_declared_types.py` は、実際にデコードしたレポートの値が宣言した型に合っていることを確かめます。
+
 `tests/golden/` にはサンプルログ (`tests/*.log`) の全メッセージのデコード結果 (`str()` と全フィールド) を保存してあり、出力が変わるとテストが失敗します。意図して出力を変えたときは `python tests/test_golden.py` で再生成し、差分を確認してからコミットしてください。
 
 テスト用のメッセージは `tests/qzqsm.py` を使ってフィールドの値から組み立てられます。CRC とチェックサムも計算されます。

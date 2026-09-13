@@ -16,8 +16,10 @@ setuptools.setup(
         'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
+        'Typing :: Typed',
     ],
     packages=setuptools.find_packages(),
+    package_data={'azarashi': ['py.typed']},
     install_requires=['pyserial>=3.5'],
     python_requires='>=3.11',
     entry_points={

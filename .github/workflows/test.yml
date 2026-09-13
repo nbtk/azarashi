@@ -46,3 +46,54 @@ jobs:
 
       - name: Check the source
         run: ruff check azarashi/
+
+  typing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the package the way a caller would get it
+        run: |
+          python -m pip install build mypy 'pyright[nodejs]' types-pyserial
+          python -m build
+          python -m pip install dist/*.whl
+
+      - name: The library itself type-checks
+        run: |
+          mypy --strict azarashi/
+          pyright
+
+      - name: Check from outside the checkout
+        run: |
+          mkdir -p "$RUNNER_TEMP/asacaller"
+          cp tests/typing/*.py "$RUNNER_TEMP/asacaller/"
+          echo '{"typeCheckingMode": "strict"}' > "$RUNNER_TEMP/asacaller/pyrightconfig.json"
+
+      - name: A caller running --strict sees the annotations
+        working-directory: ${{ runner.temp }}/asacaller
+        run: |
+          mypy --strict consumer.py
+          pyright consumer.py
+
+      - name: And is told when the types are wrong
+        working-directory: ${{ runner.temp }}/asacaller
+        run: |
+          mypy --strict consumer_mistakes.py > out.txt 2>&1 || true
+          cat out.txt
+          grep -q 'Found 4 errors' out.txt
+          pyright --outputjson consumer_mistakes.py > mistakes.json || true
+          python -c "import json,sys; sys.exit(0 if json.load(open('mistakes.json'))['summary']['errorCount'] else 'pyright saw nothing wrong')"
+
+      - name: Every public function is annotated tightly enough to catch a misuse
+        working-directory: ${{ runner.temp }}/asacaller
+        run: |
+          python generate_mistakes.py every_misuse.py
+          mypy --strict every_misuse.py > every.txt 2>&1 || true
+          python check_all_reported.py every_misuse.py every.txt
+          pyright --outputjson every_misuse.py > every.json || true
+          python check_all_reported.py every_misuse.py every.json
