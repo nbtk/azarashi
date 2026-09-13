@@ -131,12 +131,14 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
         return dt.strftime('---%dT%H:%MZ')
 
     def convert_dt_to_ambiguous_time_str(self, td, du, time_diff=9):
+        if du == 5:  # Approximate time(day): only the UTC day is valid, which cannot be converted to local time
+            return f'{td.month}月{td.day}日頃'
         td += timedelta(hours=time_diff)
         try:
             return [f'{td.month}月{td.day}日{td.hour}時{td.minute}分',  # No ambiguity
                     f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',
                     # Approximate time(equivalent to Approximate time (minute))
-                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分',  # Approximate time(second)
+                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',  # Approximate time(second)
                     f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',  # Approximate time(minute)
                     f'{td.month}月{td.day}日{td.hour}時頃',  # Approximate time(hour)
                     f'{td.month}月{td.day}日頃',  # Approximate time(day)
@@ -455,6 +457,7 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
     def __init__(self,
                  ambiguity_of_activity_time_no,
                  activity_time,
+                 activity_time_raw,
                  volcanic_warning_code,
                  volcanic_warning_code_raw,
                  volcano_name,
@@ -465,6 +468,7 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
         super().__init__(**kwargs)
         self.ambiguity_of_activity_time_no = ambiguity_of_activity_time_no
         self.activity_time = activity_time
+        self.activity_time_raw = activity_time_raw
         self.volcanic_warning_code = volcanic_warning_code
         self.volcanic_warning_code_raw = volcanic_warning_code_raw
         self.volcano_name = volcano_name
@@ -476,9 +480,10 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
         report = f'{self.get_header()}\n' + \
                  '火山に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
-                 f'火山名: {self.volcano_name}\n' + \
-                 f'日時: {self.convert_dt_to_ambiguous_time_str(self.activity_time, self.ambiguity_of_activity_time_no)}\n' + \
-                 f'現象: {self.volcanic_warning_code}\n\n'
+                 f'火山名: {self.volcano_name}\n'
+        if self.activity_time is not None:  # no valid activity time for an approximate month or year
+            report += f'日時: {self.convert_dt_to_ambiguous_time_str(self.activity_time, self.ambiguity_of_activity_time_no)}\n'
+        report += f'現象: {self.volcanic_warning_code}\n\n'
 
         report += '、'.join(self.local_governments)
         return report
