@@ -12,3 +12,9 @@ ignore = ["UP031"]
 [tool.ruff.lint.per-file-ignores]
 # the subpackage __init__.py files gather their modules into one namespace
 "azarashi/qzss_dcr_lib/*/__init__.py" = ["F403"]
+
+[tool.coverage.run]
+source = ["azarashi"]
+
+[tool.coverage.report]
+exclude_also = ["if __name__ == .__main__.:"]

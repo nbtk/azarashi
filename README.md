@@ -544,9 +544,18 @@ DCX メッセージの SD フィールドを監視する必要があるとき `d
 ## Development
 リポジトリを取得して開発用のツールをインストールすると、テストと静的解析を実行できます。GitHub Actions でも push と pull request のたびに同じチェックを実行しています。
 ```shell
-$ pip install -e . pytest ruff
-$ python -m pytest tests  # Python 3.11 から 3.14 で実行しています
-$ ruff check azarashi/    # 規則は pyproject.toml の [tool.ruff] にあります
+$ pip install -e . pytest pytest-cov ruff
+$ python -m pytest tests        # Python 3.11 から 3.14 で実行しています
+$ python -m pytest --cov tests  # カバレッジも測る場合。設定は pyproject.toml の [tool.coverage] にあります
+$ ruff check azarashi/          # 規則は pyproject.toml の [tool.ruff] にあります
+```
+`tests/golden/` にはサンプルログ (`tests/*.log`) の全メッセージのデコード結果 (`str()` と全フィールド) を保存してあり、出力が変わるとテストが失敗します。意図して出力を変えたときは `python tests/test_golden.py` で再生成し、差分を確認してからコミットしてください。
+
+テスト用のメッセージは `tests/qzqsm.py` を使ってフィールドの値から組み立てられます。CRC とチェックサムも計算されます。
+```python
+from qzqsm import jma, sfrbx
+sentence = jma(11, [(53, 4, 2), (57, 40, 830303020300)])  # 洪水 (氾濫警戒情報、鬼怒川)
+frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 ```
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
