@@ -287,7 +287,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                 _centre_latitude(camf.a12) + (180 / 0xFFFF) / 8 * camf.c1, 6
             )
             self.c2_refined_longitude_of_centre_of_main_ellipse = round(
-                _centre_longitude(camf.a13) + (180 / 0xFFFF) / 8 * camf.c2, 6
+                _centre_longitude(camf.a13) + (360 / 0x1FFFF) / 8 * camf.c2, 6  # a step of A13 in 8
             )
             major = _get_axis(camf.a14)
             delta = major if camf.a14 == 0 else major - _get_axis(camf.a14 - 1)
@@ -417,7 +417,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.d13_visibility = qzss_dcx_camf_d13_visibility[camf.d13]
         elif camf.a4 == 75:  # snow storm / blizzard
             camf.d13 = self.extract_field(131, 4)
-            camf.d8 = self.extract_field(134, 4)
+            camf.d8 = self.extract_field(135, 4)
             self.d13_visibility = qzss_dcx_camf_d13_visibility[camf.d13]
             self.d8_wind_speed = qzss_dcx_camf_d8_wind_speed[camf.d8]
         elif camf.a4 == 65:  # drought
@@ -447,7 +447,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             camf.d24 = self.extract_field(131, 3)
             self.d24_water_quality = qzss_dcx_camf_d24_water_quality[camf.d24]
         elif camf.a4 == 23:  # uv radiation
-            camf.d25 = self.extract_field(131, 3)
+            camf.d25 = self.extract_field(131, 4)
             self.d25_uv_index = qzss_dcx_camf_d25_uv_index[camf.d25]
         elif camf.a4 == 53 or camf.a4 == 51:  # risk of infection or pandemic
             camf.d26 = self.extract_field(131, 5)
