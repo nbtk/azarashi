@@ -27,7 +27,9 @@ class Transmitter:
             sock.sendto(sat_id + report.message, self.addr_info[-1])
 
     def start(self, stream=sys.stdin, msg_type='ublox', unique=False):
-        decode_stream(stream, msg_type=msg_type, callback=self.handler, unique=unique)
+        # relay every message; receivers choose what to use
+        decode_stream(stream, msg_type=msg_type, callback=self.handler, unique=unique,
+                      ignore_dcr=False, ignore_dcx=False)
 
 
 def main():

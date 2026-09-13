@@ -25,7 +25,7 @@ class Receiver:
     def default_handler(report):
         logger.info('- - - - - - - - - - - - - - - - - - - - - - - - - - - -\n' + pformat(report.get_params()) + '\n')
 
-    def start(self, callback=None, callback_args=(), callback_kwargs=None):
+    def start(self, callback=None, callback_args=(), callback_kwargs=None, ignore_dcr=False, ignore_dcx=True):
         if callback_kwargs is None:
             callback_kwargs = {}
         callback = callback or self.default_handler
@@ -36,8 +36,12 @@ class Receiver:
             while True:
                 data = sock.recvfrom(256)
                 payload = data[0]
-                callback(decode(payload, 'net'),
-                         *callback_args, **callback_kwargs)
+                report = decode(payload, 'net')
+                if report.message_type == 'DCR' and ignore_dcr is True:
+                    continue
+                if report.message_type == 'DCX' and ignore_dcx is True:
+                    continue
+                callback(report, *callback_args, **callback_kwargs)
 
 
 def simple_handler(report):
@@ -52,13 +56,15 @@ def main():
     parser.add_argument('-b', '--bind-addr', help="address to bind", type=str, default='::')
     parser.add_argument('-p', '--bind-port', help='port to bind', type=int, default=2112)
     parser.add_argument('-i', '--bind-iface', help="iface to bind", type=str, default='any')
+    parser.add_argument('-r', '--ignore-dcr', help='ignore dcr messages', action='store_true')
+    parser.add_argument('-x', '--ignore-dcx', help='ignore dcx messages', action='store_true')
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
     recver = Receiver(args.bind_addr, args.bind_port, args.bind_iface)
     if args.verbose:
-        recver.start()
+        recver.start(ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
     else:
-        recver.start(callback=simple_handler)
+        recver.start(callback=simple_handler, ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
 
 
 if __name__ == '__main__':
