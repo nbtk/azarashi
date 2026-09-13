@@ -300,7 +300,8 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
 
 class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
     completed = False
-    reports = {}
+    reports = {}  # page number -> page of the announcement being assembled
+    announcement = None  # identifies the announcement being assembled
 
     def __init__(self,
                  information_serial_code,
@@ -317,6 +318,12 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         self.total_page = total_page
 
         cls = self.__class__
+        if cls.announcement is not None and self.get_announcement() != cls.announcement:
+            if self.report_time < cls.announcement[0]:
+                return  # a late page of an older announcement must not break the newer one
+            cls.completed = False  # a newer announcement replaces the partial one
+            cls.reports = {}
+
         ex_report = cls.reports.get(self.page_number)
         if ex_report is not None:
             if ex_report == self:
@@ -325,16 +332,25 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
                 cls.completed = False
                 cls.reports = {}
 
+        cls.announcement = self.get_announcement()
         cls.reports.update({self.page_number: self})
-        if len(cls.reports) == self.total_page:
+        if all(page in cls.reports for page in range(1, self.total_page + 1)):
             cls.completed = True
+
+    def get_announcement(self):
+        return (self.report_time,
+                self.report_classification_no,
+                self.information_type_no,
+                self.information_serial_code_raw,
+                self.total_page)
 
     def extract_text_information(self):
         cls = self.__class__
+        if self.get_announcement() != cls.announcement:
+            return f'受信中 ({self.page_number}) [-/{self.total_page}]'
         if cls.completed is not True:
             return f'受信中 ({self.page_number}) [{len(cls.reports)}/{self.total_page}]'
 
-        cls = self.__class__
         msg_bytes = b''
         for i in range(1, self.total_page + 1):
             msg_bytes += cls.reports[i].text_information
