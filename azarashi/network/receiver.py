@@ -54,7 +54,7 @@ def main():
     parser.add_argument('-i', '--bind-iface', help="iface to bind", type=str, default='any')
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
-    recver = Receiver(args.bind_addr, args.bind_port)
+    recver = Receiver(args.bind_addr, args.bind_port, args.bind_iface)
     if args.verbose:
         recver.start()
     else:

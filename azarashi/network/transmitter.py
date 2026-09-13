@@ -21,7 +21,7 @@ class Transmitter:
 
     def handler(self, report):
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
-            sat_id = (report.satellite_id or 0x55).to_bytes(1, 'big')
+            sat_id = (report.satellite_id or 55).to_bytes(1, 'big')  # PRN183, as in message_to_nmea()
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             logger.info(report.nmea)
             sock.sendto(sat_id + report.message, self.addr_info[-1])
@@ -42,10 +42,11 @@ def main():
     parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     args = parser.parse_args()
+    # read bytes so that line noise reaches the decoder instead of failing in a text decoder
     if args.input == 'stdin':
-        stream = sys.stdin
+        stream = sys.stdin.buffer
     else:
-        stream = open(args.input, mode='r')
+        stream = open(args.input, mode='rb')
 
     xmitter = Transmitter(dst_host=args.dst_host, dst_port=args.dst_port)
     while True:

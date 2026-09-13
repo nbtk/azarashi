@@ -97,7 +97,7 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 ```
 オプションは下記のとおりです。
 ```shell
-usage: azarashi [-h] [-f INPUT] [-s] [-u] [-v] {hex,nmea,ublox}
+usage: azarashi [-h] [-f INPUT] [-s] [-u] [-r] [-x] [-v] {hex,nmea,ublox}
 
 azarashi CLI
 
@@ -110,6 +110,8 @@ options:
                         input device (default: stdin)
   -s, --source          output the source messages (default: False)
   -u, --unique          supress duplicate messages (default: False)
+  -r, --ignore-dcr      ignore dcr messages (default: False)
+  -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
 ```
 ### u-blox
@@ -499,15 +501,17 @@ class QzssDcxUnknown(QzssDcXtendedMessageBase)
 ## Note
 IS-QZSS-DCR-016、IS-QZSS-DCX-004 をサポートしています。
 ## Tips
-### UnicodeDecodeError
-```
-[UnicodeDecodeError] 'utf-8' codec can't decode byte 0xNN in position XX: ~
-```
-GPS モジュールと接続するインタフェースのボーレートが一致せず、壊れたビット列をデコードしようとして失敗していることが考えられます。ボーレートは例えば次のような値です。
+### 災危通報が出力されない / UnicodeDecodeError
+GPS モジュールと接続するインタフェースのボーレートが一致していないと、壊れたビット列を受け取るため災危通報を検出できません。azarashi CLI は壊れた行を読み飛ばして動作を続けるので、エラーが出ないまま何も出力されないことがあります。ボーレートは例えば次のような値です。
 ```
 9600, 19200, 38400, 57600, 115200
 ```
 設定方法は GPS モジュール、stty または pySerial のマニュアルを参照してください。
+
+テキストモードで開いたストリームを `decode_stream()` に渡している場合は、壊れたビット列を読んだストリーム自体が次の例外を送出することがあります。バイナリモード (`'rb'`) で開けば壊れた行は読み飛ばされます。
+```
+[UnicodeDecodeError] 'utf-8' codec can't decode byte 0xNN in position XX: ~
+```
 ### Encountered EOF
 CLI でストリームを受けていた azarashi は、書き込み側がクローズすると Encountered EOF と stderr に出力して終了します。これは正常な動作です。その直前までエラーなく動作していたと解釈してください。
 ### DCX Satellite Designation Field

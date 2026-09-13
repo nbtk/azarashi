@@ -15,13 +15,14 @@ def main():
     parser.add_argument('-s', '--source', help='output the source messages', action='store_true')
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     parser.add_argument('-r', '--ignore-dcr', help='ignore dcr messages', action='store_true')
-    parser.add_argument('-x', '--ignore-dcx', help='ignore dcr messages', action='store_true')
+    parser.add_argument('-x', '--ignore-dcx', help='ignore dcx messages', action='store_true')
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
+    # read bytes so that line noise reaches the decoder instead of failing in a text decoder
     if args.input == 'stdin':
-        stream = sys.stdin
+        stream = sys.stdin.buffer
     else:
-        stream = open(args.input, mode='r')
+        stream = open(args.input, mode='rb')
 
     while True:
         now = datetime.datetime.now().isoformat()
