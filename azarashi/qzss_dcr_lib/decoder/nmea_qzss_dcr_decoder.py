@@ -12,7 +12,8 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         if not self.sentence:
             raise EOFError('Encountered EOF')
 
-        self.sentence = self.sentence.split()[0]
+        words = self.sentence.split()
+        self.sentence = words[0] if words else ''  # a blank line is too short
 
         if len(self.sentence) < 76:
             raise QzssDcrDecoderException(
@@ -67,7 +68,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
                 self)
 
         # checks the satellite id
-        if len(sat_id) != 2:
+        if len(sat_id) != 2 or not (sat_id.isascii() and sat_id.isdigit()):
             raise QzssDcrDecoderException(
                 f'Invalid Satellite ID: {sat_id}',
                 self)

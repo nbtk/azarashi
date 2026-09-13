@@ -19,6 +19,11 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
                 f'Unknown Message Header: {self.message_header}',
                 self)
 
+        if len(self.sentence) < len(ublox_qzss_dcr_message_header) + 2 + 8 + 2:  # SFRBX + Length + fixed part + CHK
+            raise QzssDcrDecoderException(
+                'Too Short Sentence',
+                self)
+
         # checks the fletcher's checksum
         sum_a = sum_b = 0
         for b in self.sentence[2: -2]:
@@ -52,7 +57,8 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # checks the data size
         num_data_word = self.sentence[10]
-        if num_data_word * 4 + 8 != len(self.sentence) -(len(ublox_qzss_dcr_message_header) + 2 + 2): # SFRBX + Length + CHK
+        if (num_data_word * 4 + 8 != len(self.sentence) -(len(ublox_qzss_dcr_message_header) + 2 + 2) # SFRBX + Length + CHK
+                or num_data_word < 8):  # the 250-bit message takes 8 data words
             raise QzssDcrDecoderException(
                 f'Invalid Message Length: {num_data_word}',
                 self)

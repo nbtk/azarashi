@@ -29,6 +29,10 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
             raise QzssDcrDecoderException(
                 'Invalid Message',
                 self) from err
+        if len(self.message) != 32:  # bytes.fromhex() skips whitespace between the bytes
+            raise QzssDcrDecoderException(
+                'Invalid Message',
+                self)
 
         self.nmea = self.message_to_nmea()
 
