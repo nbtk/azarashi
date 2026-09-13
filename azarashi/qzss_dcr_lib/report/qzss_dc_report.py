@@ -373,6 +373,8 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
                  tsunami_warning_code,
                  tsunami_warning_code_raw,
                  expected_tsunami_arrival_times,
+                 expected_tsunami_arrival_times_raw,
+                 expected_tsunami_arrival_time_types,
                  tsunami_heights,
                  tsunami_heights_raw,
                  tsunami_forecast_regions,
@@ -384,6 +386,8 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
         self.tsunami_warning_code = tsunami_warning_code
         self.tsunami_warning_code_raw = tsunami_warning_code_raw
         self.expected_tsunami_arrival_times = expected_tsunami_arrival_times
+        self.expected_tsunami_arrival_times_raw = expected_tsunami_arrival_times_raw
+        self.expected_tsunami_arrival_time_types = expected_tsunami_arrival_time_types
         self.tsunami_heights = tsunami_heights
         self.tsunami_heights_raw = tsunami_heights_raw
         self.tsunami_forecast_regions = tsunami_forecast_regions
@@ -399,7 +403,7 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
 
         for i in range(len(self.expected_tsunami_arrival_times)):
             if self.expected_tsunami_arrival_times[i] is None:
-                ta = '不明'
+                ta = self.expected_tsunami_arrival_time_types[i]
             else:
                 ta = self.convert_dt_to_str(self.expected_tsunami_arrival_times[i])
             report += f'\n\n津波到達予想時刻: {ta}\n' + \
@@ -413,6 +417,8 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
                  tsunamigenic_potential_en,
                  tsunamigenic_potential_raw,
                  expected_tsunami_arrival_times,
+                 expected_tsunami_arrival_times_raw,
+                 expected_tsunami_arrival_time_types,
                  tsunami_heights_en,
                  tsunami_heights_raw,
                  coastal_regions_en,
@@ -422,6 +428,8 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
         self.tsunamigenic_potential_en = tsunamigenic_potential_en
         self.tsunamigenic_potential_raw = tsunamigenic_potential_raw
         self.expected_tsunami_arrival_times = expected_tsunami_arrival_times
+        self.expected_tsunami_arrival_times_raw = expected_tsunami_arrival_times_raw
+        self.expected_tsunami_arrival_time_types = expected_tsunami_arrival_time_types
         self.tsunami_heights_en = tsunami_heights_en
         self.tsunami_heights_raw = tsunami_heights_raw
         self.coastal_regions_en = coastal_regions_en
@@ -434,7 +442,7 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
 
         for i in range(len(self.expected_tsunami_arrival_times)):
             if self.expected_tsunami_arrival_times[i] is None:
-                ta = 'Unknown'
+                ta = self.expected_tsunami_arrival_time_types[i]
             else:
                 ta = self.convert_dt_to_str_iso(self.expected_tsunami_arrival_times[i])
             report += f'\n\nExpected Tsunami Arrival Time: {ta}\n' + \

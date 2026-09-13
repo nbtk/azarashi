@@ -21,6 +21,8 @@ class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
         self.tsunamigenic_potential_raw = tp
 
         self.expected_tsunami_arrival_times = []
+        self.expected_tsunami_arrival_times_raw = []
+        self.expected_tsunami_arrival_time_types = []
         self.tsunami_heights_en = []
         self.tsunami_heights_raw = []
         self.coastal_regions_en = []
@@ -31,7 +33,10 @@ class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
             if self.extract_field(offset, 28) == 0:
                 break
 
-            self.expected_tsunami_arrival_times.append(self.extract_expected_tsunami_arrival_time(offset))
+            ta, ta_raw, ta_type = self.extract_northwest_pacific_tsunami_arrival_time_field(offset)
+            self.expected_tsunami_arrival_times.append(ta)
+            self.expected_tsunami_arrival_times_raw.append(ta_raw)
+            self.expected_tsunami_arrival_time_types.append(ta_type)
 
             th = self.extract_field(offset + 12, 9)
             try:

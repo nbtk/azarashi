@@ -151,6 +151,28 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 f'Undefined JMA Seismic Epicenter: {ep}',
                 self)
 
+    def extract_expected_tsunami_arrival_time_raw(self, slider):
+        return {'day': self.extract_field(slider, 1),
+                'hour': self.extract_field(slider + 1, 5),
+                'minute': self.extract_field(slider + 6, 6)}
+
+    def extract_expected_tsunami_arrival_time_field(self, slider):
+        """Expected arrival time of JMA-DC Report (Tsunami) with its raw values and type."""
+        raw = self.extract_expected_tsunami_arrival_time_raw(slider)
+        if raw['hour'] == 31 or (raw['hour'] <= 23 and raw['minute'] == 63):  # has arrived (estimated or observed)
+            return None, raw, '津波到達中と推測'
+        if raw['hour'] == 30 or (raw['hour'] <= 23 and raw['minute'] == 62):  # no data
+            return None, raw, '該当情報なし'
+        return self.extract_expected_tsunami_arrival_time(slider), raw, '津波の到達予想時刻'
+
+    def extract_northwest_pacific_tsunami_arrival_time_field(self, slider):
+        """Expected arrival time of JMA-DC Report (Northwest Pacific Tsunami) with its raw values and type."""
+        raw = self.extract_expected_tsunami_arrival_time_raw(slider)
+        arrival_time = self.extract_expected_tsunami_arrival_time(slider)  # None when the hour is 31 or the minute 63
+        if arrival_time is None:  # has arrived or the arrival time is unknown
+            return None, raw, 'Arrived or Unknown'
+        return arrival_time, raw, 'Expected Tsunami Arrival Time'
+
     def extract_expected_tsunami_arrival_time(self, slider):
         ta_h = self.extract_field(slider + 1, 5)
         if ta_h == 31:
