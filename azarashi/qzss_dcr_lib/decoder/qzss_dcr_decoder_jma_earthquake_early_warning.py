@@ -16,19 +16,19 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
         lgll = self.extract_field(47, 3)
         try:
             self.long_period_ground_motion_lower_limit = qzss_dcr_jma_long_period_ground_motion_lower_limit[lgll]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Expected Maximal Long-period Earthquake Ground Motion Lower Limit : {lgll}',
-                self)
-        self.long_period_ground_motion_lower_limit_raw = lgll 
+                self) from err
+        self.long_period_ground_motion_lower_limit_raw = lgll
 
         lgul = self.extract_field(50, 3)
         try:
             self.long_period_ground_motion_upper_limit = qzss_dcr_jma_long_period_ground_motion_upper_limit[lgul]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Expected Maximal Long-period Earthquake Ground Motion Upper Limit : {lgul}',
-                self)
+                self) from err
         self.long_period_ground_motion_upper_limit_raw = lgul
 
         self.notifications_on_disaster_prevention, self.notifications_on_disaster_prevention_raw =\
@@ -46,19 +46,19 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
         ll = self.extract_field(122, 4)
         try:
             self.seismic_intensity_lower_limit = qzss_dcr_jma_seismic_intensity_lower_limit[ll]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Seismic Intensity Lower Limit : {ll}',
-                self)
+                self) from err
         self.seismic_intensity_lower_limit_raw = ll
 
         ul = self.extract_field(126, 4)
         try:
             self.seismic_intensity_upper_limit = qzss_dcr_jma_seismic_intensity_upper_limit[ul]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Seismic Intensity Upper Limit : {ul}',
-                self)
+                self) from err
         self.seismic_intensity_upper_limit_raw = ul
 
         self.eew_forecast_regions = []
@@ -67,10 +67,10 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
             if self.extract_field(130 + i, 1) == 1:
                 try:
                     self.eew_forecast_regions.append(qzss_dcr_jma_eew_forecast_region[i + 1])
-                except KeyError:
+                except KeyError as err:
                     raise QzssDcrDecoderException(
                         f'Undefined JMA EEW Forecast Region: {i + 1}',
-                        self)
+                        self) from err
                 self.eew_forecast_regions_raw.append(i + 1)
 
         return QzssDcReportJmaEarthquakeEarlyWarning(**self.get_params())

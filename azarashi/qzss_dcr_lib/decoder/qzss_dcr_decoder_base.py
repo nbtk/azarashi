@@ -16,9 +16,7 @@ class QzssDcrDecoderBase:
         if sat_id is None:
             sat_id = 55  # Set the satellite_id of PRN183 if it was default.
 
-        nmea_partial = '{header},{satellite_id},{message}'.format(header=nmea_qzss_dcr_message_header,
-                                                                  satellite_id=sat_id,
-                                                                  message=self.message.hex()[:-1].upper())
+        nmea_partial = f'{nmea_qzss_dcr_message_header},{sat_id},{self.message.hex()[:-1].upper()}'
 
         checksum = 0
         for c in nmea_partial[1:]:  # without the '$' at the beginning

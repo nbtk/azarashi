@@ -1,7 +1,7 @@
 from calendar import monthrange
 from datetime import datetime
 from datetime import timedelta
-from datetime import timezone
+from datetime import UTC
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
@@ -52,16 +52,16 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                         day=dt_d,
                         hour=dt_h,
                         minute=dt_mi,
-                        tzinfo=timezone.utc)
+                        tzinfo=UTC)
 
     def extract_local_government(self, slider):
         lg = self.extract_field(slider, 23)
         try:
             return qzss_dcr_jma_local_government[lg], lg
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Local Government: {lg}',
-                self)
+                self) from err
 
     def extract_notification_on_disaster_prevention_fields(self, slider):
         notifications = []
@@ -72,10 +72,10 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 break
             try:
                 notifications.append(qzss_dcr_jma_notification_on_disaster_prevention[co])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Notifications on Disaster Prevention: {co}',
-                    self)
+                    self) from err
             cos.append(co)
         return notifications, cos
 
@@ -149,10 +149,10 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         ep = self.extract_field(slider, 10)
         try:
             return qzss_dcr_jma_epicenter_and_hypocenter[ep], ep
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Seismic Epicenter: {ep}',
-                self)
+                self) from err
 
     def extract_expected_tsunami_arrival_time_raw(self, slider):
         return {'day': self.extract_field(slider, 1),
@@ -200,4 +200,4 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                         day=ta_dt.day,
                         hour=ta_h,
                         minute=ta_m,
-                        tzinfo=timezone.utc)
+                        tzinfo=UTC)

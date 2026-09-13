@@ -23,18 +23,18 @@ class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
 
             try:
                 self.marine_warning_codes.append(qzss_dcr_jma_marine_warning_code[dw])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Marine Warning Code: {dw}',
-                    self)
+                    self) from err
             self.marine_warning_codes_raw.append(dw)
 
             try:
                 self.marine_forecast_regions.append(qzss_dcr_jma_marine_forecast_region[pl])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Marine Forecast: {pl}',
-                    self)
+                    self) from err
             self.marine_forecast_regions_raw.append(pl)
 
         return QzssDcReportJmaMarine(**self.get_params())

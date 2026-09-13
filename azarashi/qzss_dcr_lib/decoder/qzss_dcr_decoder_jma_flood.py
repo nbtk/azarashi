@@ -23,19 +23,19 @@ class QzssDcrDecoderJmaFlood(QzssDcrDecoderJmaCommon):
             lv = self.extract_field(offset, 4)
             try:
                 self.flood_warning_levels.append(qzss_dcr_jma_flood_warning_level[lv])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Flood Warning Level: {lv}',
-                    self)
+                    self) from err
             self.flood_warning_levels_raw.append(lv)
 
             pl = self.extract_field(offset + 4, 40)
             try:
                 self.flood_forecast_regions.append(qzss_dcr_jma_flood_forecast_region[pl])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Flood Forecast Region: {pl}',
-                    self)
+                    self) from err
             self.flood_forecast_regions_raw.append(pl)
 
         return QzssDcReportJmaFlood(**self.get_params())

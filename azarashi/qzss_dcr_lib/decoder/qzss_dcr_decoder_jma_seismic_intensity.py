@@ -24,18 +24,18 @@ class QzssDcrDecoderJmaSeismicIntensity(QzssDcrDecoderJmaCommon):
 
             try:
                 self.seismic_intensities.append(qzss_dcr_jma_seismic_intensity[es])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Seismic Intensity: {es}',
-                    self)
+                    self) from err
             self.seismic_intensities_raw.append(es)
 
             try:
                 self.prefectures.append(qzss_dcr_jma_prefecture[pl])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Prefecture: {pl}',
-                    self)
+                    self) from err
             self.prefectures_raw.append(pl)
 
         return QzssDcReportJmaSeismicIntensity(**self.get_params())

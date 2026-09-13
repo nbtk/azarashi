@@ -1,7 +1,7 @@
 from calendar import isleap
 from calendar import monthrange
 from datetime import datetime
-from datetime import timezone
+from datetime import UTC
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder_jma_ash_fall import QzssDcrDecoderJmaAshFall
@@ -40,20 +40,20 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         try:
             self.report_classification = qzss_dcr_jma_report_classification[rc]
             self.report_classification_en = qzss_dcr_jma_report_classification_en[rc]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined Report Classification: {rc}',
-                self)
+                self) from err
         self.report_classification_no = rc
 
         dc = self.extract_field(17, 4)
         try:
             self.disaster_category = qzss_dcr_jma_disaster_category[dc]
             self.disaster_category_en = qzss_dcr_jma_disaster_category_en[dc]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined Disaster Category: {dc}',
-                self)
+                self) from err
         self.disaster_category_no = dc
 
         at_mo = self.extract_field(21, 4)
@@ -87,7 +87,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
             earlier = next(y for y in range(at_y - 1, at_y - 9, -1) if isleap(y))
             later = next(y for y in range(at_y + 1, at_y + 9) if isleap(y))
             at_y = min(earlier, later,
-                       key=lambda y: abs(datetime(y, 2, 29, at_h, at_mi, tzinfo=timezone.utc) - self.timestamp))
+                       key=lambda y: abs(datetime(y, 2, 29, at_h, at_mi, tzinfo=UTC) - self.timestamp))
         if at_d > monthrange(at_y, at_mo)[1]:
             raise QzssDcrDecoderException(
                 f'Invalid Report Time: {at_d} as day of month {at_mo}',
@@ -98,16 +98,16 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
                                     day=at_d,
                                     hour=at_h,
                                     minute=at_mi,
-                                    tzinfo=timezone.utc)
+                                    tzinfo=UTC)
 
         it = self.extract_field(41, 2)
         try:
             self.information_type = qzss_dcr_jma_information_type[it]
             self.information_type_en = qzss_dcr_jma_information_type_en[it]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined Information Type: {it}',
-                self)
+                self) from err
         self.information_type_no = it
 
         if dc == 1:

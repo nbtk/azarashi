@@ -28,7 +28,7 @@ def main():
         stream = RecordingStream(stream, open(args.record, mode='ab'))
 
     while True:
-        now = datetime.datetime.now(datetime.timezone.utc).isoformat().replace('+00:00', 'Z')
+        now = datetime.datetime.now(datetime.UTC).isoformat().replace('+00:00', 'Z')
         try:
             report = decode_stream(stream, args.type,
                                    unique=args.unique,

@@ -12,10 +12,10 @@ class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
         ie = self.extract_field(53, 4)
         try:
             self.information_serial_code = qzss_dcr_jma_information_serial_code[ie]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Information Serial Code: {ie}',
-                self)
+                self) from err
         self.information_serial_code_raw = ie
 
         te = []

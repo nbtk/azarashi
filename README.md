@@ -538,8 +538,14 @@ azarashi CLI では `-b` オプションで指定します。GPS モジュール
 ### Encountered EOF
 CLI でストリームを受けていた azarashi は、書き込み側がクローズすると Encountered EOF と stderr に出力して終了します。これは正常な動作です。その直前までエラーなく動作していたと解釈してください。
 ### DCX Satellite Designation Field
-DCX メッセージの SD フィールドを監視する必要があるとき `decode.stream()` メソッドの `unique` オプションは指定しないでください。`unique` オプションを指定したとき、重複した DCX メッセージかどうかを判断するために SD フィールドの差異は考慮されません。SD フィールドが異なるメッセージでも CAMF フィールドが同じメッセージは同一とみなされます。したがって SD フィールドのみが異なるメッセージを取りこぼす可能性があり SD フィールドの変化を正確に監視できません。
-### 
+DCX メッセージの SD フィールドを監視する必要があるとき `decode_stream()` メソッドの `unique` オプションは指定しないでください。`unique` オプションを指定したとき、重複した DCX メッセージかどうかを判断するために SD フィールドの差異は考慮されません。SD フィールドが異なるメッセージでも CAMF フィールドが同じメッセージは同一とみなされます。したがって SD フィールドのみが異なるメッセージを取りこぼす可能性があり SD フィールドの変化を正確に監視できません。
+## Development
+リポジトリを取得して開発用のツールをインストールすると、テストと静的解析を実行できます。GitHub Actions でも push と pull request のたびに同じチェックを実行しています。
+```shell
+$ pip install -e . pytest ruff
+$ python -m pytest tests  # Python 3.11 から 3.14 で実行しています
+$ ruff check azarashi/    # 規則は pyproject.toml の [tool.ruff] にあります
+```
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
 Questions, suggestions, and comments are welcome! Please feel free to write in English.

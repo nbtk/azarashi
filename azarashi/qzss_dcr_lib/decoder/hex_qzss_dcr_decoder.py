@@ -25,10 +25,10 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
         # converts the message to bytes type
         try:
             self.message = bytes.fromhex(self.sentence + '0')
-        except ValueError:
+        except ValueError as err:
             raise QzssDcrDecoderException(
                 'Invalid Message',
-                self)
+                self) from err
 
         self.nmea = self.message_to_nmea()
 

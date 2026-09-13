@@ -1,7 +1,6 @@
 from copy import deepcopy
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, UTC
 
-from pprint import pformat
 from ..exception import QzssDcrDecoderException
 
 
@@ -16,8 +15,8 @@ class QzssDcReportBase:
             raw = b''
         self.raw = raw
         if timestamp is None:
-            timestamp = datetime.now(timezone.utc)
-        self.timestamp = timestamp.astimezone(timezone.utc)  # a naive timestamp is taken as local time
+            timestamp = datetime.now(UTC)
+        self.timestamp = timestamp.astimezone(UTC)  # a naive timestamp is taken as local time
 
     def __eq__(self, other):
         if type(self) is not type(other):
@@ -145,10 +144,10 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
                     f'{td.month}月頃',  # Approximate time(month)
                     f'{td.year}年頃',  # Approximate time(year)
                     ][du]
-        except IndexError:
+        except IndexError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Ambiguity of Activity Time: {du}',
-                self)
+                self) from err
 
     @staticmethod
     def convert_lat_lon_to_str(coordinates):
@@ -361,7 +360,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                 f'南海トラフ地震に関連する情報が発表されました。\n\n' + \
+                 '南海トラフ地震に関連する情報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n' + \
                  f'地震関連情報: {self.information_serial_code}\n' + \
                  f'{self.extract_text_information()}'

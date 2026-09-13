@@ -25,10 +25,10 @@ class NetQzssDcrDecoder(QzssDcrDecoderBase):
         # converts the message to bytes type
         try:
             self.message = self.sentence[1:]
-        except ValueError:
+        except ValueError as err:
             raise QzssDcrDecoderException(
                 'Invalid Message',
-                self)
+                self) from err
 
         # extracts a satellite id
         self.satellite_id = self.sentence[0]

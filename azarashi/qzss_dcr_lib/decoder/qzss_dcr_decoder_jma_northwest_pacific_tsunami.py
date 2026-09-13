@@ -14,10 +14,10 @@ class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
         tp = self.extract_field(53, 3)
         try:
             self.tsunamigenic_potential_en = qzss_dcr_jma_tsunamigenic_potential_en[tp]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Tsunamigenic Potential : {tp}',
-                self)
+                self) from err
         self.tsunamigenic_potential_raw = tp
 
         self.expected_tsunami_arrival_times = []
@@ -41,19 +41,19 @@ class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
             th = self.extract_field(offset + 12, 9)
             try:
                 self.tsunami_heights_en.append(qzss_dcr_jma_northwest_pacific_tsunami_height_en[th])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Northwest Pacific Tsunami Height: {th}',
-                    self)
+                    self) from err
             self.tsunami_heights_raw.append(th)
 
             pl = self.extract_field(offset + 21, 7)
             try:
                 self.coastal_regions_en.append(qzss_dcr_jma_coastal_region_en[pl])
-            except KeyError:
+            except KeyError as err:
                 raise QzssDcrDecoderException(
                     f'Undefined JMA Coastal Region: {pl}',
-                    self)
+                    self) from err
             self.coastal_regions_raw.append(pl)
 
         return QzssDcReportJmaNorthwestPacificTsunami(**self.get_params())

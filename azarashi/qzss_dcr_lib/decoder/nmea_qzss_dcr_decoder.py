@@ -26,10 +26,10 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         # checks the checksum
         try:
             payload, csum = self.sentence.split('*')
-        except ValueError:
+        except ValueError as err:
             raise QzssDcrDecoderException(
                 'Checksum Not Found',
-                self)
+                self) from err
 
         if len(csum) != 2:
             raise QzssDcrDecoderException(
@@ -38,10 +38,10 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
 
         try:
             checksum = int(csum, 16)
-        except ValueError:
+        except ValueError as err:
             raise QzssDcrDecoderException(
                 'Invalid Checksum',
-                self)
+                self) from err
 
         summed = 0
         for c in payload[1:]:  # without the '$' at the beginning
@@ -55,10 +55,10 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         # extracts a message header, satellite id, and message
         try:
             self.message_header, sat_id, message_str = payload.split(',')
-        except ValueError:
+        except ValueError as err:
             raise QzssDcrDecoderException(
                 'Invalid Sentence',
-                self)
+                self) from err
 
         # checks the message header
         if self.message_header != nmea_qzss_dcr_message_header:
@@ -77,10 +77,10 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         # converts the message to bytes type
         try:
             self.message = bytes.fromhex(message_str + '0')  # padded with six 0s. the actual message size is 250 bits.
-        except ValueError:
+        except ValueError as err:
             raise QzssDcrDecoderException(
                 'Invalid Message',
-                self)
+                self) from err
 
         # generates a nmea sentence
         self.nmea = self.message_to_nmea()

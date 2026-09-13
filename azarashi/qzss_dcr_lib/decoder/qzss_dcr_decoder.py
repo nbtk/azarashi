@@ -15,10 +15,10 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         pab = self.extract_field(0, 8)
         try:
             self.preamble = qzss_dcr_preamble[pab]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Invalid Preamble: {pab}',
-                self)
+                self) from err
 
         # checks the crc
         crc = 0
@@ -43,10 +43,10 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         mt = self.extract_field(8, 6)  # 6 bits
         try:
             self.message_type = qzss_dcr_message_type[mt]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined Message Type: {mt}',
-                self)
+                self) from err
 
         if mt == 43:
             next_decoder = QzssDcrDecoderJma

@@ -1,6 +1,6 @@
 from calendar import monthrange
 from datetime import datetime
-from datetime import timezone
+from datetime import UTC
 
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
 from ..definition import qzss_dcr_jma_volcanic_warning_code
@@ -23,19 +23,19 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
         dw = self.extract_field(69, 7)
         try:
             self.volcanic_warning_code = qzss_dcr_jma_volcanic_warning_code[dw]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Volcanic Warning Code: {dw}',
-                self)
+                self) from err
         self.volcanic_warning_code_raw = dw
 
         vo = self.extract_field(76, 12)
         try:
             self.volcano_name = qzss_dcr_jma_volcano_name[vo]
-        except KeyError:
+        except KeyError as err:
             raise QzssDcrDecoderException(
                 f'Undefined JMA Volcano Name: {vo}',
-                self)
+                self) from err
         self.volcano_name_raw = vo
 
         self.local_governments = []
@@ -77,4 +77,4 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
         while day > monthrange(year, month)[1]:
             year, month = (year, month - 1) if month > 1 else (year - 1, 12)
 
-        return datetime(year=year, month=month, day=day, hour=hour, minute=minute, tzinfo=timezone.utc)
+        return datetime(year=year, month=month, day=day, hour=hour, minute=minute, tzinfo=UTC)
