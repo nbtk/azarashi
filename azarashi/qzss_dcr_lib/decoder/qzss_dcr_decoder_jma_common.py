@@ -103,7 +103,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
         lon_m = self.extract_field(slider + 29, 6)
         if lon_m > 59:
             raise QzssDcrDecoderException(
-                f'Invalid Longitude: {lon_d} as minute',
+                f'Invalid Longitude: {lon_m} as minute',
                 self)
         lon_s = self.extract_field(slider + 35, 6)
         if lon_s > 59:
