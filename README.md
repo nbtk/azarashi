@@ -365,7 +365,7 @@ options:
   -u, --unique          supress duplicate messages (default: False)
 ```
 ### Receiver
-受信側のスクリプトです。DCR と DCX の両方を表示します。表示したくないメッセージは `-r` (DCR) または `-x` (DCX) で除外できます。
+受信側のスクリプトです。DCR と DCX の両方を表示します。表示したくないメッセージは `-r` (DCR) または `-x` (DCX) で除外できます。受信するインタフェースを指定する `-i` は `SO_BINDTODEVICE` を使うので Linux でのみ使えます。
 ```shell
 $ python3 -m azarashi.network.receiver
 ```

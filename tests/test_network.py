@@ -245,3 +245,10 @@ def test_network_commands_run_as_modules(module):
     result = subprocess.run([sys.executable, '-m', module, '--help'], capture_output=True, encoding='utf-8', timeout=60)
     assert result.returncode == 0, result.stderr
     assert result.stdout.startswith('usage: ')
+
+
+def test_receiver_binds_to_an_interface_only_on_linux(monkeypatch):
+    recver = receiver.Receiver('127.0.0.1', 0, bind_iface='eth0', address_family=socket.AF_INET)
+    monkeypatch.setattr(sys, 'platform', 'darwin')
+    with pytest.raises(OSError, match='SO_BINDTODEVICE'):
+        recver.start()

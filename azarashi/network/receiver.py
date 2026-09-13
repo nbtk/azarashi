@@ -3,6 +3,7 @@
 import argparse
 import logging
 import socket
+import sys
 from pprint import pformat
 
 from .log import configure_logging
@@ -34,6 +35,8 @@ class Receiver:
         callback = callback or self.default_handler
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
             if self.bind_iface is not None:
+                if sys.platform != 'linux':
+                    raise OSError('Binding to an interface needs SO_BINDTODEVICE, which only Linux has')
                 sock.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, self.bind_iface)
             sock.bind(self.addr_info[-1])
             while True:
