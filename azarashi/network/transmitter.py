@@ -7,6 +7,7 @@ import sys
 
 import serial
 
+from .log import configure_logging
 from ..input_stream import RecordingStream
 from ..input_stream import open_input
 from ..qzss_dcr_lib.exception import QzssDcrDecoderException
@@ -37,8 +38,7 @@ class Transmitter:
 
 
 def main():
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s')
+    configure_logging()
     parser = argparse.ArgumentParser(description='azarashi network transmitter',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-d', '--dst-host', help="destination host", type=str, default='ff02::1')

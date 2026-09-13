@@ -110,6 +110,11 @@ def test_hazard_onset(week, code, time_of_week, minutes):
     assert p['a6a7_hazard_onset_datetime'] == datetime.datetime(2026, 9, 7, tzinfo=UTC) + datetime.timedelta(minutes=minutes)
 
 
+def test_hazard_onset_is_written_in_utc_with_z():
+    report = _decode_at(L_ALERT, datetime.datetime(2026, 9, 13, tzinfo=UTC))
+    assert 'A6A7 - Hazard onset: 2026-09-13T13:00:00Z\n' in str(report)
+
+
 def test_hazard_onset_week_follows_the_reception_time():
     received = datetime.datetime(2024, 6, 21, 15, 9, 5, tzinfo=UTC)  # the README example
     p = _decode_at(L_ALERT, received).get_params()

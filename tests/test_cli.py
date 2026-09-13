@@ -1,5 +1,7 @@
 """azarashi CLI tests."""
+import datetime
 import io
+import re
 import sys
 
 from azarashi import __main__ as cli
@@ -46,3 +48,12 @@ def test_ublox_from_stdin_with_source(monkeypatch, capsys):
     assert code == 0
     assert '\n緊急地震速報\n' in out
     assert "# src: b'\\xB5\\x62\\x02\\x13" in out
+
+
+def test_header_time_is_utc_with_z(monkeypatch, capsys):
+    before = datetime.datetime.now(datetime.timezone.utc)
+    code, out, err = _run(monkeypatch, capsys, ['nmea'], EEW.encode() + b'\r\n')
+    header = out.splitlines()[0]
+    match = re.fullmatch(r'(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d{6})?Z) -{32}', header)
+    assert match, header
+    assert before <= datetime.datetime.fromisoformat(match.group(1)) <= datetime.datetime.now(datetime.timezone.utc)

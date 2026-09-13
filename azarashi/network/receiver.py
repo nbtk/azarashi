@@ -5,6 +5,7 @@ import logging
 import socket
 from pprint import pformat
 
+from .log import configure_logging
 from ..qzss_dcr_lib.interface import decode
 
 logger = logging.getLogger(__name__)
@@ -49,8 +50,7 @@ def simple_handler(report):
 
 
 def main():
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s')
+    configure_logging()
     parser = argparse.ArgumentParser(description='azarashi network receiver',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-b', '--bind-addr', help="address to bind", type=str, default='::')

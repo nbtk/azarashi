@@ -406,7 +406,7 @@ A3 - Provider identifier: Foundation for MultiMedia Communications
 A4 - Hazard category and type: MET - Rainfall
 A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is according to each local standard.
 A5 - Severity: Severe - Significant threat to life or property
-A6A7 - Hazard onset: 2024-06-23 13:00:00+00:00
+A6A7 - Hazard onset: 2024-06-23T13:00:00Z
 A8 - Hazard duration: 6H <= Duration < 12H
 A11 - Guidance to react: Keep away from Water area.
 A11 - Guidance to react (ja): 離れろ。水場。

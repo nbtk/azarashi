@@ -1,5 +1,6 @@
 """azarashi.network transmitter/receiver tests (loopback only)."""
 import io
+import logging
 import socket
 import sys
 import threading
@@ -125,6 +126,13 @@ def test_receiver_filters_message_types(start_kwargs, expected_types):
     thread.join(1)
     assert not thread.is_alive()
     assert set(received) == expected_types
+
+
+def test_log_time_is_utc_with_z():
+    from azarashi.network.log import utc_formatter
+    record = logging.LogRecord('azarashi', logging.INFO, 'receiver.py', 1, 'hello', None, None)
+    record.created, record.msecs = 1789300000.25, 250.0  # 2026-09-13T11:46:40.250 UTC
+    assert utc_formatter().format(record) == '2026-09-13T11:46:40.250Z - INFO - hello'
 
 
 @pytest.mark.parametrize('args, expected', [([], None), (['-i', 'eth0'], b'eth0\0')])

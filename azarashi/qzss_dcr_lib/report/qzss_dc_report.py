@@ -689,6 +689,10 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
             if key not in self.__dict__:
                 self.__dict__[key] = value
 
+    def get_hazard_onset_str(self):
+        onset = self.__dict__.get('a6a7_hazard_onset_datetime')
+        return None if onset is None else onset.isoformat().replace('+00:00', 'Z')
+
     def __str__(self):
         header = f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###\n"
         if self.camf.a1 == 0:
@@ -702,7 +706,7 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
                  f"{self.__dict__.get('a4_hazard_type')}\n" + \
                  f"A4 - Hazard definition: {self.__dict__.get('a4_hazard_definition')}\n" + \
                  f"A5 - Severity: {self.__dict__.get('a5_severity')}\n" + \
-                 f"A6A7 - Hazard onset: {self.__dict__.get('a6a7_hazard_onset_datetime')}\n" + \
+                 f"A6A7 - Hazard onset: {self.get_hazard_onset_str()}\n" + \
                  f"A8 - Hazard duration: {self.__dict__.get('a8_hazard_duration')}\n"
         if self.camf.a9 == 0: # international
             report += f"A11 - Guidance to react code: {self.__dict__.get('a11_international_library_code')}\n"
