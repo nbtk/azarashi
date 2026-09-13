@@ -5,7 +5,16 @@ These lock in behaviour that regressed in the 0.16.3 line:
 - B1 refined ellipse values computed at full precision, rounded once at the end
 - spec display precision (lat/lon 6dp, angle 5dp, distance 3dp)
 """
+import datetime
+import locale
+
+import pytest
+
 import azarashi
+from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
+from test_dcr import _with_field
+
+UTC = datetime.timezone.utc
 
 # DCX message (L-Alert), B1 with no refinement (c1..c4 = 0)
 L_ALERT = '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E'
@@ -74,3 +83,61 @@ def test_jalert_ex9_prefecture_list():
 def test_str_does_not_crash():
     for m in (L_ALERT, L_ALERT_B1, J_ALERT):
         assert isinstance(str(azarashi.decode(m, 'nmea')), str)
+
+
+def _decode_at(sentence, timestamp):
+    """Decode as if the sentence had been received at `timestamp`."""
+    return NmeaQzssDcrDecoder(sentence, timestamp=timestamp).decode()
+
+
+def _with_hazard_onset(sentence, week, time_of_week):
+    return _with_field(_with_field(sentence, 49, 1, week), 50, 14, time_of_week)  # A6: 1 bit, A7: 14 bits
+
+
+@pytest.mark.parametrize('week, code, time_of_week, minutes', [
+    (0, 1, 'MONDAY - 00:00 AM', 0),
+    (0, 2, 'MONDAY - 00:01 AM', 1),
+    (0, 720, 'MONDAY - 11:59 AM', 719),
+    (0, 721, 'MONDAY - 00:00 PM', 720),
+    (0, 9421, 'SUNDAY - 01:00 PM', 9420),
+    (0, 10080, 'SUNDAY - 11:59 PM', 10079),
+    (1, 3, 'MONDAY - 00:02 AM', 7 * 24 * 60 + 2),  # the example in the spec: next week, 2 minutes after midnight
+])
+def test_hazard_onset(week, code, time_of_week, minutes):
+    received = datetime.datetime(2026, 9, 13, 23, 59, tzinfo=UTC)  # a Sunday: the week started on Monday the 7th
+    p = _decode_at(_with_hazard_onset(L_ALERT, week, code), received).get_params()
+    assert p['a7_hazard_onset_time_of_week'] == time_of_week
+    assert p['a6a7_hazard_onset_datetime'] == datetime.datetime(2026, 9, 7, tzinfo=UTC) + datetime.timedelta(minutes=minutes)
+
+
+def test_hazard_onset_week_follows_the_reception_time():
+    received = datetime.datetime(2024, 6, 21, 15, 9, 5, tzinfo=UTC)  # the README example
+    p = _decode_at(L_ALERT, received).get_params()
+    assert p['a6a7_hazard_onset_datetime'] == datetime.datetime(2024, 6, 23, 13, 0, tzinfo=UTC)
+    report = azarashi.decode(L_ALERT)  # with the default timestamp: the time of decoding
+    week_start = report.timestamp.astimezone(UTC).replace(hour=0, minute=0, second=0, microsecond=0)
+    week_start -= datetime.timedelta(days=week_start.weekday())
+    assert report.a6a7_hazard_onset_datetime == week_start + datetime.timedelta(minutes=9420)
+
+
+@pytest.mark.parametrize('code, time_of_week', [
+    (0, 'NOT USED'),
+    (10081, 'RESERVED (Code: 10081)'),
+    (16383, 'RESERVED (Code: 16383)'),
+])
+def test_hazard_onset_not_used_or_reserved(code, time_of_week):
+    p = azarashi.decode(_with_hazard_onset(L_ALERT, 0, code), 'nmea').get_params()
+    assert (p['a7_hazard_onset_time_of_week'], p['a6a7_hazard_onset_datetime']) == (time_of_week, None)
+
+
+def test_hazard_onset_does_not_depend_on_the_locale():
+    saved = locale.setlocale(locale.LC_TIME)
+    try:
+        locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
+    except locale.Error:
+        pytest.skip('the ja_JP.UTF-8 locale is not available')
+    try:
+        p = _decode_at(L_ALERT, datetime.datetime(2026, 9, 13, tzinfo=UTC)).get_params()
+    finally:
+        locale.setlocale(locale.LC_TIME, saved)
+    assert p['a7_hazard_onset_time_of_week'] == 'SUNDAY - 01:00 PM'

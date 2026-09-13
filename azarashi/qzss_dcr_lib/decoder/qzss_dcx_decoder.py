@@ -37,6 +37,9 @@ class _CAMF:
         return self.__dict__
 
 
+_WEEKDAYS = ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY')
+
+
 def _get_axis(factor):
     return pow(10, math.log10(216.2) + factor * (math.log10(2500000) - math.log10(216.2)) / 31) / 1000
 
@@ -197,13 +200,21 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         self.a4_hazard_definition = qzss_dcx_camf_a4_hazard_definition[camf.a4]
         self.a5_severity = qzss_dcx_camf_a5_severity[camf.a5]
         self.a6_hazard_onset_week = qzss_dcx_camf_a6_hazard_onset_week[camf.a6]
-        today = datetime.datetime.now(datetime.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
+        # the week (Monday 00:00 to Sunday 23:59 UTC) is the one in which the message was received
+        today = self.timestamp.astimezone(datetime.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
         hazard_onset = today + datetime.timedelta(weeks=camf.a6, days=-today.weekday(), minutes=camf.a7 - 1)
         if 1 <= camf.a7 <= 10080:
-            self.a7_hazard_onset_time_of_week = hazard_onset.strftime('%A - %I:%M %p').upper()
+            # the spec writes hours as 00-11 AM/PM; strftime would give 12 for them and follow the locale
+            self.a7_hazard_onset_time_of_week = '%s - %02d:%02d %s' % (_WEEKDAYS[hazard_onset.weekday()],
+                                                                     hazard_onset.hour % 12,
+                                                                     hazard_onset.minute,
+                                                                     'AM' if hazard_onset.hour < 12 else 'PM')
             self.a6a7_hazard_onset_datetime = hazard_onset
-        else:  # a7 is unexpectedly out of range...
-            self.a7_hazard_onset_time_of_week = 'The Time of the Week Value is Unexpectedly Out of Range (Code: %d)' % camf.a7
+        elif camf.a7 == 0:
+            self.a7_hazard_onset_time_of_week = 'NOT USED'
+            self.a6a7_hazard_onset_datetime = None
+        else:
+            self.a7_hazard_onset_time_of_week = 'RESERVED (Code: %d)' % camf.a7
             self.a6a7_hazard_onset_datetime = None
         self.a8_hazard_duration = qzss_dcx_camf_a8_hazard_duration[camf.a8]
         self.a9_type_of_library = qzss_dcx_camf_a9_type_of_library[camf.a9]
