@@ -109,3 +109,12 @@ def test_cli_passes_the_baud_rate(monkeypatch, capsys):
     assert code == 0 and opened == [('/dev/ttyUSB0', 115200)]
     code, out = _run(monkeypatch, capsys, ['ublox', '-f', '/dev/ttyS0'])
     assert opened[-1] == ('/dev/ttyS0', 9600)
+
+
+def test_recording_read(tmp_path):
+    path = tmp_path / 'record'
+    stream = RecordingStream(io.BytesIO(b'abc'), open(path, 'ab'))
+    assert (stream.read(2), stream.read(), stream.read()) == (b'ab', b'c', b'')
+    assert stream.seekable()  # anything else is passed through to the stream
+    stream.close()
+    assert path.read_bytes() == b'abc'

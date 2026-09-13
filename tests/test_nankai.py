@@ -92,3 +92,13 @@ def test_late_page_of_an_older_announcement_is_ignored():
     report = azarashi.decode(b[27])
     assert report.completed is True
     assert report.extract_text_information() == 'B' * 18 * 27
+
+
+def test_page_that_differs_from_the_one_received_restarts_the_assembly():
+    a = _announcement_a()
+    azarashi.decode(a[1])
+    azarashi.decode(a[2])
+    changed = _with_field(a[1], *TEXT_BYTES[0], ord('C'))  # the same page of the same announcement, other text
+    report = azarashi.decode(changed)
+    assert report.extract_text_information() == '受信中 (1) [1/27]'
+    assert Nankai.reports == {1: report}

@@ -2,6 +2,7 @@
 import io
 import logging
 import socket
+import subprocess
 import sys
 import threading
 import time
@@ -198,3 +199,49 @@ def test_receiver_raises_on_a_datagram_that_is_not_a_message():
             time.sleep(0.01)
     thread.join(1)
     assert errors == ['Too Short Sentence']
+
+
+def test_receiver_handlers_log_the_report(caplog):
+    report = azarashi.decode(EEW)
+    with caplog.at_level(logging.INFO, logger=receiver.logger.name):
+        receiver.Receiver.default_handler(report)
+        receiver.simple_handler(report)
+    verbose, simple = [r.getMessage() for r in caplog.records]
+    assert "'disaster_category': '緊急地震速報'," in verbose
+    assert simple == f'\n{report}\n'
+
+
+def test_transmitter_command_warns_about_decoder_errors(monkeypatch, caplog, udp_sink, tmp_path):
+    record = tmp_path / 'record.nmea'
+    data = f'{EEW[:-2]}00\r\n{EEW}\r\n'.encode()
+    monkeypatch.setattr(sys, 'argv', ['transmitter', '-d', '127.0.0.1', '-p', str(udp_sink.getsockname()[1]),
+                                      '-t', 'nmea', '--record', str(record)])
+    monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO(data)))
+    with caplog.at_level(logging.WARNING, logger=transmitter.logger.name):
+        assert transmitter.main() == 0
+    assert [r.getMessage() for r in caplog.records] == [f'[QzssDcrDecoderException] Checksum Mismatch, should be 05 -> {EEW[:-2]}00']
+    assert azarashi.decode(udp_sink.recv(256), 'net') == azarashi.decode(EEW)
+    assert record.read_bytes() == data
+
+
+def test_transmitter_command_warns_about_unimplemented_decoders(monkeypatch, caplog):
+    errors = [azarashi.QzssDcrDecoderNotImplementedError('Decoder Not Implemented')]
+
+    def start(self, stream, msg_type, unique):
+        if errors:
+            raise errors.pop()
+        raise EOFError('Encountered EOF')
+
+    monkeypatch.setattr(transmitter.Transmitter, 'start', start)
+    monkeypatch.setattr(sys, 'argv', ['transmitter', '-d', '127.0.0.1'])
+    monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO()))
+    with caplog.at_level(logging.WARNING, logger=transmitter.logger.name):
+        assert transmitter.main() == 0
+    assert [r.getMessage() for r in caplog.records] == ['[QzssDcrDecoderNotImplementedError] Decoder Not Implemented']
+
+
+@pytest.mark.parametrize('module', ['azarashi.network.receiver', 'azarashi.network.transmitter'])
+def test_network_commands_run_as_modules(module):
+    result = subprocess.run([sys.executable, '-m', module, '--help'], capture_output=True, encoding='utf-8', timeout=60)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.startswith('usage: ')
