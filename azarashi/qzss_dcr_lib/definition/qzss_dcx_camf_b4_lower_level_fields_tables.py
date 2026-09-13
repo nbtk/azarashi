@@ -185,7 +185,7 @@ qzss_dcx_camf_d12_hail_scale = QzssDcrDefinition(
         9: 'H9 Super Hailstorms. Typical hail diameter of 75-100 mm (size of a grapefruit). Extensive structural damage. Risk of severe or even fatal injuries to persons caught in the open',
         10: 'H10 Super Hailstorms. Typical hail diameter > 100 mm (size of a melon). Extensive structural damage. Risk of severe or even fatal injuries to persons caught in the open',
     },
-    undefined='Undefined tornado probability (Code: %d)'
+    undefined='Undefined hail scale (Code: %d)'
 )
 
 qzss_dcx_camf_d13_visibility = QzssDcrDefinition(
@@ -325,7 +325,7 @@ qzss_dcx_camf_d22_terrorism_threat_level = QzssDcrDefinition(
         3: 'High threat level. A violent act of terrorism is likely. Heightened measures are in place to keep the population safe.',
         4: 'Critical threat level. A violent act of terrorism is highly likely and could occur imminently. Exceptional measures are in place to keep the population safe.',
     },
-    undefined='Undefined geomagnetic scale (Code: %d)'
+    undefined='Undefined terrorism threat level (Code: %d)'
 )
 
 qzss_dcx_camf_d23_fire_risk_level = QzssDcrDefinition(

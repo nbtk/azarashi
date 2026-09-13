@@ -140,10 +140,10 @@ def test_tsunami_heights(code, height):
 
 
 @pytest.mark.parametrize('hour, minute, message', [
-    (24, 0, 'Invalid JMA Expected Tsunami Arrivale Time: 24 as hour'),
-    (29, 63, 'Invalid JMA Expected Tsunami Arrivale Time: 29 as hour'),
-    (4, 60, 'Invalid JMA Expected Tsunami Arrivale Time: 60 as minute'),
-    (4, 61, 'Invalid JMA Expected Tsunami Arrivale Time: 61 as minute'),
+    (24, 0, 'Invalid JMA Expected Tsunami Arrival Time: 24 as hour'),
+    (29, 63, 'Invalid JMA Expected Tsunami Arrival Time: 29 as hour'),
+    (4, 60, 'Invalid JMA Expected Tsunami Arrival Time: 60 as minute'),
+    (4, 61, 'Invalid JMA Expected Tsunami Arrival Time: 61 as minute'),
 ])
 def test_tsunami_arrival_time_out_of_range(hour, minute, message):
     with pytest.raises(azarashi.QzssDcrDecoderException) as e:
@@ -232,8 +232,8 @@ def test_northwest_pacific_tsunami_arrival_time_types(hour, minute, time_type):
 
 
 @pytest.mark.parametrize('hour, minute, message', [
-    (30, 62, 'Invalid JMA Expected Tsunami Arrivale Time: 30 as hour'),  # "no data" is only for JMA-DC Report (Tsunami)
-    (4, 62, 'Invalid JMA Expected Tsunami Arrivale Time: 62 as minute'),
+    (30, 62, 'Invalid JMA Expected Tsunami Arrival Time: 30 as hour'),  # "no data" is only for JMA-DC Report (Tsunami)
+    (4, 62, 'Invalid JMA Expected Tsunami Arrival Time: 62 as minute'),
 ])
 def test_northwest_pacific_tsunami_arrival_time_out_of_range(hour, minute, message):
     with pytest.raises(azarashi.QzssDcrDecoderException) as e:

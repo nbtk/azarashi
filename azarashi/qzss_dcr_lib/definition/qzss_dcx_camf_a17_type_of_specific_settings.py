@@ -7,5 +7,5 @@ qzss_dcx_camf_a17_type_of_specific_settings = QzssDcrDefinition(
         2: 'B3 - Secondary Ellipse Definition',
         3: 'B4 - Quantitative and detailed information about the Hazard',
     },
-    undefined='Unsupported Library Version (Code: %d)'
+    undefined='Undefined Type of Specific Settings (Code: %d)'
 )

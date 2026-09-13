@@ -360,7 +360,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
     def __str__(self):
         report = f'{self.get_header()}\n' + \
-                 '南海トラフ地震に関連する情報が発表されました。\n\n' + \
+                 '南海トラフ地震に関連する情報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n' + \
                  f'地震関連情報: {self.information_serial_code}\n' + \
                  f'{self.extract_text_information()}'

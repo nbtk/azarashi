@@ -182,7 +182,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return None
         elif ta_h > 23:
             raise QzssDcrDecoderException(
-                f'Invalid JMA Expected Tsunami Arrivale Time: {ta_h} as hour',
+                f'Invalid JMA Expected Tsunami Arrival Time: {ta_h} as hour',
                 self)
 
         ta_m = self.extract_field(slider + 6, 6)
@@ -190,7 +190,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             return None
         elif ta_m > 59:
             raise QzssDcrDecoderException(
-                f'Invalid JMA Expected Tsunami Arrivale Time: {ta_m} as minute',
+                f'Invalid JMA Expected Tsunami Arrival Time: {ta_m} as minute',
                 self)
 
         ta_dt = self.report_time + timedelta(self.extract_field(slider, 1))
