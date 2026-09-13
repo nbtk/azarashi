@@ -8,6 +8,7 @@ qzss_dcr_jma_tsunami_height = QzssDcrDefinition(
         4: "5m",
         5: "10m",
         6: "10m超",
+        13: "該当情報なし",
         14: "不明",
         15: "その他の津波の高さ",
         # "NN*": "津波の高さ(コード番号：NN)",

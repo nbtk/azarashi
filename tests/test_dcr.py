@@ -9,6 +9,10 @@ EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC
 EEW_DUP = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
 # Hypocenter (training/test message)
 HYPOCENTER = '$QZQSM,58,9AAF919C82800388000039051440C5C82A0108300000000000000012497DA18*0A'
+# Flood (training/test message)
+FLOOD = '$QZQSM,58,C6AFD99CB1800160A8F5528600000000000000000000000000000010E502538*0E'
+# Tsunami (training/test message), three forecast regions arriving at 04:05 UTC
+TSUNAMI = '$QZQSM,58,9AAFA99C828001E8F67C31053960414E621053BE00000000000000132735038*0F'
 
 
 def _with_field(sentence, pos, size, value):
@@ -62,3 +66,26 @@ def test_invalid_longitude_minute_names_the_minute():
     with pytest.raises(azarashi.QzssDcrDecoderException) as e:
         azarashi.decode(_with_field(HYPOCENTER, lon_m_pos, 6, 60), 'nmea')
     assert e.value.message == 'Invalid Longitude: 60 as minute'
+
+
+@pytest.mark.parametrize('code, name', [  # added or renamed in IS-QZSS-DCR-017
+    (880801000200, '石手川(愛媛県)'),
+    (880802000103, '肱川水系肱川(菅田〜鹿野川)(愛媛県)'),
+    (890907000103, '矢部川中流部(福岡県)'),
+    (890907000100, '矢部川下流部(福岡県)'),
+    (890917000100, '番匠川水系(大分県)'),
+])
+def test_flood_forecast_regions(code, name):
+    report = azarashi.decode(_with_field(FLOOD, 53 + 4, 40, code), 'nmea')  # region of the first flood warning
+    assert report.flood_forecast_regions_raw == [code]
+    assert report.flood_forecast_regions == [name]
+
+
+@pytest.mark.parametrize('code, height', [
+    (13, '該当情報なし'),  # added in IS-QZSS-DCR-017
+    (14, '不明'),
+    (12, '津波の高さ(コード番号：12)'),
+])
+def test_tsunami_heights(code, height):
+    report = azarashi.decode(_with_field(TSUNAMI, 84 + 12, 4, code), 'nmea')  # height of the first forecast region
+    assert (report.tsunami_heights[0], report.tsunami_heights_raw[0]) == (height, code)
