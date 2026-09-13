@@ -6,12 +6,16 @@ from pprint import pformat
 from azarashi import QzssDcrDecoderException
 from azarashi import QzssDcrDecoderNotImplementedError
 from azarashi import decode_stream
+from azarashi.input_stream import RecordingStream
+from azarashi.input_stream import open_input
 
 
 def main():
     parser = argparse.ArgumentParser(description='azarashi CLI', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('type', help='message type', type=str, choices=['hex', 'nmea', 'ublox'])
-    parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
+    parser.add_argument('-f', '--input', help='input serial device or file', type=str, default='stdin')
+    parser.add_argument('-b', '--baudrate', help='baud rate of the serial device', type=int, default=9600)
+    parser.add_argument('--record', help='append the raw input to this file', type=str, default=None)
     parser.add_argument('-s', '--source', help='output the source messages', action='store_true')
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     parser.add_argument('-r', '--ignore-dcr', help='ignore dcr messages', action='store_true')
@@ -19,10 +23,9 @@ def main():
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
-    if args.input == 'stdin':
-        stream = sys.stdin.buffer
-    else:
-        stream = open(args.input, mode='rb')
+    stream = open_input(args.input, args.baudrate)
+    if args.record is not None:
+        stream = RecordingStream(stream, open(args.record, mode='ab'))
 
     while True:
         now = datetime.datetime.now().isoformat()

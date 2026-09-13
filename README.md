@@ -10,6 +10,7 @@ azarashi は準天頂衛星みちびきが送信する災危通報メッセー�
 ```shell
 $ pip install azarashi
 ```
+シリアルデバイスの読み込みに使う [pySerial](https://pythonhosted.org/pyserial/) も一緒にインストールされます。
 ## Preparation
 デバイスに災危通報メッセージを出力させるための設定例です。
 ### u-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
@@ -97,7 +98,9 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 ```
 オプションは下記のとおりです。
 ```shell
-usage: azarashi [-h] [-f INPUT] [-s] [-u] [-r] [-x] [-v] {hex,nmea,ublox}
+usage: azarashi [-h] [-f INPUT] [-b BAUDRATE] [--record RECORD] [-s] [-u] [-r]
+                [-x] [-v]
+                {hex,nmea,ublox}
 
 azarashi CLI
 
@@ -107,35 +110,40 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -f INPUT, --input INPUT
-                        input device (default: stdin)
+                        input serial device or file (default: stdin)
+  -b BAUDRATE, --baudrate BAUDRATE
+                        baud rate of the serial device (default: 9600)
+  --record RECORD       append the raw input to this file (default: None)
   -s, --source          output the source messages (default: False)
   -u, --unique          supress duplicate messages (default: False)
   -r, --ignore-dcr      ignore dcr messages (default: False)
   -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
 ```
+`-f` にシリアルデバイス (`/dev/ttyS0` や `COM3` など) を指定すると pySerial で開くので、stty コマンドによる設定は不要です。ボーレートは `-b` で指定してください。通常のファイルを指定するとそのまま読み込みます。
+
+CLI は DCR と DCX の両方を表示します。`decode_stream()` のデフォルトでは DCX は無視されるので注意してください。表示したくないメッセージは `-r` (DCR) または `-x` (DCX) で除外できます。
 ### u-blox
-stty コマンドでデバイスファイルを `raw` に設定し azarashi コマンドのメッセージタイプに `ublox` を指定します。デバイスファイルのパスは適宜変更してください。
+azarashi コマンドのメッセージタイプに `ublox` を指定します。デバイスファイルのパスとボーレートは適宜変更してください。
 ```shell
-$ stty -F /dev/ttyS0 raw
+$ azarashi ublox -f /dev/ttyS0 -b 9600
 ```
-azarashi コマンドに ublox オプションを指定します。
-```shell
-$ azarashi ublox -f /dev/ttyS0
-```
-なお、デバイスファイルの読込権限が足りず sudo コマンドを使って python3 インタプリタを実行するとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。あるいは次のように実行しても動作は同じです。
-```shell
-$ sudo cat /dev/ttyS0 | azarashi ublox
-```
+デバイスファイルの読込権限が足りないときは、sudo を使わずに前述のとおりユーザを `dialout` グループに追加してください。
 ### Sony Spresense
-azarashi コマンドに nmea オプションを指定します。
+azarashi コマンドに nmea オプションを指定します。ボーレートはスケッチで設定した値に合わせてください。
 ```shell
-$ azarashi nmea -f /dev/ttyUSB0
+$ azarashi nmea -f /dev/ttyUSB0 -b 115200
 ```
 ### Hexadecimal
 azarashi コマンドのメッセージタイプに `hex` を指定してください。`hex` はヘッダ、チェックサムを含まない16進数文字列のメッセージ形式です。
 ```shell
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
+```
+### Record and Replay
+`--record` を指定すると、デコードしながら受信した生データをファイルに追記します。記録したファイルは `-f` または標準入力で再生できます。
+```shell
+$ azarashi ublox -f /dev/ttyS0 --record qzss.ubx
+$ azarashi ublox -f qzss.ubx
 ```
 ## API
 ### decode()
@@ -240,7 +248,7 @@ True
 ```python
 azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True)
 ```
-- `stream`: I/Oストリームを渡してください。デバイスファイルを `open()` して渡すときは、事前に stty コマンドで `ublox` なら `raw` モード、`nmea` ならデフォルト設定にしてください。pySerial つかうときは stty コマンドによる設定は不要です。
+- `stream`: I/Oストリームを渡してください。シリアルデバイスは pySerial で開いて渡してください。stty コマンドによる設定は不要です。ファイルは `open(path, 'rb')` のようにバイナリモードで開くことをおすすめします。
 - `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。
 - `callback`: メッセージをデコードしたあとに実行されるコールバック関数です。`None` の場合 `decode_stream()` はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合 `decode_stream()` は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。下記はコールバック関数のインタフェースです。
 ```python
@@ -252,25 +260,36 @@ callback(report, *callback_args, **callback_kwargs)
 - `ignore_dcr`: DCRメッセージを無視したいときは `True` を指定してください。デフォルトは `False` です。
 - `ignore_dcx`: DCXメッセージを無視したくないときは `False` を指定してください。デフォルトは `True` です。
 #### Example
-指定したデバイスファイルを読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
+シリアルデバイスを pySerial で開いて読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
 ```python
 >>> import azarashi
->>> f = open('/dev/ttyS0', mode='r')
->>> azarashi.decode_stream(f, msg_type='ublox', callback=print)
+>>> import serial
+>>> ser = serial.Serial('/dev/ttyS0', 9600)
+>>> azarashi.decode_stream(ser, msg_type='ublox', callback=print)
 ```
 ### QzssDcrDecoderException
 この例外クラスは何らかの理由でデコードに失敗したときに送出されます。エラーメッセージを表示すると問題解決の一助となるでしょう。
 ### QzssDcrDecoderNotImplementedError
 `NotImplementedError` を継承した例外クラスです。実験的な配信など、デコーダが対応していないメッセージを受け取ったときに送出されます。配信がはじまると騒々しいのでデバッグ以外ではこの例外を握りつぶしたほうがよいかもしれません。
+### QzssDcrDecoderTimeoutError
+`EOFError` を継承した例外クラスです。pySerial などを `timeout` 付きで開いたストリームで、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは保持されるので、もう一度 `decode_stream()` を呼べば続きから再開します。`EOFError` より先に捕捉してください。
+```python
+with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
+    while not stopped:
+        try:
+            azarashi.decode_stream(ser, 'ublox', handler)
+        except azarashi.QzssDcrDecoderTimeoutError:
+            continue  # no complete message within a second: check `stopped` and keep reading
+```
 ## Examples
 ### I/O Stream
-例外処理を加えた簡単なプログラムの例です。
+例外処理を加えた簡単なプログラムの例です。記録したファイルを読み込みます。
 ```python
 import azarashi
 import sys
 
 def example():
-    with open('/dev/ttyS0', mode='r') as f:
+    with open('qzss.ubx', mode='rb') as f:
         while True:
             try:
                 azarashi.decode_stream(f, msg_type='ublox', callback=print)
@@ -288,7 +307,7 @@ def example():
 exit(example())
 ```
 ### pySerial
-[pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを `open()` して `decode_stream()` に渡すこともできます。この方法では stty コマンドによる設定は不要です。
+[pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを開いて `decode_stream()` に渡す例です。stty コマンドによる設定は不要です。
 ```python
 import azarashi
 import sys
@@ -319,17 +338,14 @@ exit(example())
 ## Network
 GPS アンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータを UDP パケットに載せて再送するスクリプトを書きました。IPv4/IPv6 両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
 ### Transmitter
-送信側のスクリプトです。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。
+送信側のスクリプトです。DCR と DCX の両方のメッセージを送信します。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。`-f`、`-b`、`--record` は azarashi CLI と同じです。
 ```shell
-$ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0
-```
-なお、デバイスファイルの読込権限が足りず sudo コマンドを使って python3 インタプリタを実行するとき azarashi モジュールも sudo で実行される python3 環境にインストールされている必要があることに注意してください。あるいは次のように実行しても動作は同じです。
-```shell
-$ sudo cat /dev/ttyS0 | python3 -m azarashi.network.transmitter -t ublox
+$ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0 -b 9600
 ```
 オプションは下記のとおりです。
 ```
-usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {hex,nmea,ublox}] [-f INPUT] [-u]
+usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {hex,nmea,ublox}]
+                      [-f INPUT] [-b BAUDRATE] [--record RECORD] [-u]
 
 azarashi network transmitter
 
@@ -340,23 +356,27 @@ options:
   -p DST_PORT, --dst-port DST_PORT
                         destination port (default: 2112)
   -t {hex,nmea,ublox}, --msg-type {hex,nmea,ublox}
-                        message type (default: ublox)
+                        message type (default: nmea)
   -f INPUT, --input INPUT
-                        input device (default: stdin)
+                        input serial device or file (default: stdin)
+  -b BAUDRATE, --baudrate BAUDRATE
+                        baud rate of the serial device (default: 9600)
+  --record RECORD       append the raw input to this file (default: None)
   -u, --unique          supress duplicate messages (default: False)
 ```
 ### Receiver
-受信側のスクリプトです。
+受信側のスクリプトです。DCR と DCX の両方を表示します。表示したくないメッセージは `-r` (DCR) または `-x` (DCX) で除外できます。
 ```shell
 $ python3 -m azarashi.network.receiver
 ```
 オプションは下記のとおりです。
 ```
-usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-v]
+usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-r]
+                   [-x] [-v]
 
 azarashi network receiver
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -b BIND_ADDR, --bind-addr BIND_ADDR
                         address to bind (default: ::)
@@ -364,8 +384,11 @@ optional arguments:
                         port to bind (default: 2112)
   -i BIND_IFACE, --bind-iface BIND_IFACE
                         iface to bind (default: any)
+  -r, --ignore-dcr      ignore dcr messages (default: False)
+  -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
 ```
+`Receiver.start()` をプログラムから使う場合は、`decode_stream()` と同じく `ignore_dcr=False`、`ignore_dcx=True` がデフォルトです。DCX も受け取るときは `ignore_dcx=False` を指定してください。
 
 ## DCX
 azarashi は DCX メッセージのデコードをサポートしています。下記は L-Alert をデコードする例です。
@@ -506,7 +529,7 @@ GPS モジュールと接続するインタフェースのボーレートが一�
 ```
 9600, 19200, 38400, 57600, 115200
 ```
-設定方法は GPS モジュール、stty または pySerial のマニュアルを参照してください。
+azarashi CLI では `-b` オプションで指定します。GPS モジュール側の設定方法はモジュールのマニュアルを参照してください。
 
 テキストモードで開いたストリームを `decode_stream()` に渡している場合は、壊れたビット列を読んだストリーム自体が次の例外を送出することがあります。バイナリモード (`'rb'`) で開けば壊れた行は読み飛ばされます。
 ```

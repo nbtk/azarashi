@@ -18,7 +18,7 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
     ],
     packages=setuptools.find_packages(),
-    install_requires=[],
+    install_requires=['pyserial>=3.5'],
     python_requires='>=3.11',
     entry_points={
         'console_scripts': [

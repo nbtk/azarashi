@@ -6,6 +6,7 @@ import threading
 import time
 
 import pytest
+import serial
 
 import azarashi
 from azarashi.network import receiver
@@ -46,6 +47,44 @@ def test_transmitter_forwards_sentence_after_line_noise(monkeypatch, udp_sink):
     monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(stdin, encoding='utf-8', errors='strict'))
     assert transmitter.main() == 0
     assert azarashi.decode(udp_sink.recv(256), 'net') == azarashi.decode(EEW, 'nmea')
+
+
+def test_transmitter_stops_when_the_serial_device_is_gone(monkeypatch, udp_sink):
+    class Unplugged:
+        closed = False
+
+        def readline(self):
+            raise serial.SerialException('device reports readiness to read but returned no data')
+
+        def close(self):
+            self.closed = True
+
+    stream = Unplugged()
+    monkeypatch.setattr(transmitter, 'open_input', lambda path, baudrate=9600: stream)
+    monkeypatch.setattr(sys, 'argv', ['transmitter', '-d', '127.0.0.1', '-p', str(udp_sink.getsockname()[1]),
+                                      '-t', 'nmea', '-f', '/dev/ttyUSB0'])
+    result = []
+    thread = threading.Thread(target=lambda: result.append(transmitter.main()), daemon=True)
+    thread.start()
+    thread.join(5)
+    assert result == [1] and stream.closed
+
+
+def test_transmitter_survives_a_failed_send(monkeypatch, udp_sink):
+    sent = []
+
+    def flaky_handler(self, report):
+        if not sent:
+            sent.append('failed')
+            raise OSError('Network is unreachable')
+        sent.append(report.message_type)
+
+    monkeypatch.setattr(transmitter.Transmitter, 'handler', flaky_handler)
+    monkeypatch.setattr(sys, 'argv', ['transmitter', '-d', '127.0.0.1', '-p', str(udp_sink.getsockname()[1]),
+                                      '-t', 'nmea'])
+    monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO(f'{EEW}\r\n{EEW}\r\n'.encode())))
+    assert transmitter.main() == 0
+    assert sent == ['failed', 'DCR']
 
 
 def test_transmitter_relays_dcr_and_dcx(udp_sink):

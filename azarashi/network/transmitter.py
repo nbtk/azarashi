@@ -5,6 +5,10 @@ import logging
 import socket
 import sys
 
+import serial
+
+from ..input_stream import RecordingStream
+from ..input_stream import open_input
 from ..qzss_dcr_lib.exception import QzssDcrDecoderException
 from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
 from ..qzss_dcr_lib.interface import decode_stream
@@ -41,14 +45,15 @@ def main():
     parser.add_argument('-p', '--dst-port', help='destination port', type=int, default=2112)
     parser.add_argument('-t', '--msg-type', help="message type", type=str, choices=['hex', 'nmea', 'ublox'],
                         default='nmea')
-    parser.add_argument('-f', '--input', help='input device', type=str, default='stdin')
+    parser.add_argument('-f', '--input', help='input serial device or file', type=str, default='stdin')
+    parser.add_argument('-b', '--baudrate', help='baud rate of the serial device', type=int, default=9600)
+    parser.add_argument('--record', help='append the raw input to this file', type=str, default=None)
     parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
     args = parser.parse_args()
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
-    if args.input == 'stdin':
-        stream = sys.stdin.buffer
-    else:
-        stream = open(args.input, mode='rb')
+    stream = open_input(args.input, args.baudrate)
+    if args.record is not None:
+        stream = RecordingStream(stream, open(args.record, mode='ab'))
 
     xmitter = Transmitter(dst_host=args.dst_host, dst_port=args.dst_port)
     while True:
@@ -61,6 +66,10 @@ def main():
         except EOFError as e:
             logger.info(f'{e}')
             break
+        except serial.SerialException as e:  # the serial device is gone (e.g. unplugged); retrying would spin
+            logger.error(f'[{type(e).__name__}] {e}')
+            stream.close()
+            return 1
         except Exception as e:
             logger.warning(f'[{type(e).__name__}] {e}')
 
