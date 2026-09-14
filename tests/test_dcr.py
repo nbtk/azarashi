@@ -10,7 +10,7 @@ from qzqsm import with_fields
 
 # Earthquake Early Warning (training/test message)
 EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
-# Same report, different satellite/sentence framing -> equal report
+# the same report with another preamble, and so another CRC
 EEW_DUP = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
 # Hypocenter (training/test message)
 HYPOCENTER = '$QZQSM,58,9AAF919C82800388000039051440C5C82A0108300000000000000012497DA18*0A'

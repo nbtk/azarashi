@@ -1,15 +1,10 @@
-"""Assert the checker reported every line the generator wrote, for the right reason.
+"""Check that the type checker reported every line of the generated file with its expected error code.
 
-A line that goes unreported means the annotation behind it does not constrain
-anything - Any somewhere, or a return type wide enough to accept the wrong
-assignment. Counting errors would not catch that: two reports on one line and
-none on another still adds up.
+A count of errors is not enough, since two errors on one line and none on another add up to the
+same count. The error code matters as well: a call reported for a missing argument does not show
+that the type of the argument is checked.
 
-Neither would the line number alone: a call reported for a missing argument
-says nothing about whether the argument's type was checked. Each generated
-line names the error code it is meant to provoke, and that code has to appear.
-
-Takes mypy's output as text, or pyright's as --outputjson.
+Reads mypy's text output or pyright's --outputjson output.
 
   python check_all_reported.py every_misuse.py mypy.txt
   python check_all_reported.py every_misuse.py pyright.json

@@ -57,30 +57,30 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install the package the way a caller would get it
+      - name: Build and install the wheel
         run: |
           python -m pip install build mypy 'pyright[nodejs]' types-pyserial
           python -m build
           python -m pip install dist/*.whl
 
-      - name: The library itself type-checks
+      - name: Type-check the library
         run: |
           mypy --strict azarashi/
           pyright
 
-      - name: Check from outside the checkout
+      - name: Copy the caller checks out of the checkout
         run: |
           mkdir -p "$RUNNER_TEMP/asacaller"
           cp tests/typing/*.py "$RUNNER_TEMP/asacaller/"
           echo '{"typeCheckingMode": "strict"}' > "$RUNNER_TEMP/asacaller/pyrightconfig.json"
 
-      - name: A caller running --strict sees the annotations
+      - name: Type-check correct uses
         working-directory: ${{ runner.temp }}/asacaller
         run: |
           mypy --strict consumer.py
           pyright consumer.py
 
-      - name: And is told when the types are wrong
+      - name: Type-check the hand-written wrong uses
         working-directory: ${{ runner.temp }}/asacaller
         run: |
           mypy --strict consumer_mistakes.py > out.txt 2>&1 || true
@@ -89,7 +89,7 @@ jobs:
           pyright --outputjson consumer_mistakes.py > mistakes.json || true
           python -c "import json,sys; sys.exit(0 if json.load(open('mistakes.json'))['summary']['errorCount'] else 'pyright saw nothing wrong')"
 
-      - name: Every public function is annotated tightly enough to catch a misuse
+      - name: Type-check a wrong use of every public function
         working-directory: ${{ runner.temp }}/asacaller
         run: |
           python generate_mistakes.py every_misuse.py

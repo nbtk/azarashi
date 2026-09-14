@@ -1,15 +1,13 @@
-"""Write a file that uses every public function and method wrongly, one line each.
+"""Write a file that uses every public function and method wrongly, one use per line.
 
-The hand-written consumer_mistakes.py covers four calls. This covers all of
-them, and keeps covering them when one is added: a return type too loose to
-constrain anything, or an argument annotated Any, shows up here as a function
-no misuse could be written for.
-
-Each line carries the error code it is meant to provoke, so that a line
-reported for some unrelated reason does not pass as a catch.
+Each line passes a wrong argument or assigns the return value to a wrong type, and ends with the
+error code it should cause; check_all_reported.py checks that the type checker reports every line
+with that code. The script fails for a function whose annotations accept anything, since no wrong
+use can be written for it. Wrong uses of report attributes are only in consumer_mistakes.py.
 
   python tests/typing/generate_mistakes.py out.py
-  mypy --strict out.py        # every line must be reported, with that code
+  mypy --strict out.py > mypy.txt
+  python tests/typing/check_all_reported.py out.py mypy.txt
 """
 import datetime
 import inspect
@@ -23,13 +21,13 @@ from azarashi.network.receiver import Receiver
 from azarashi.network.transmitter import Transmitter
 from azarashi.qzss_dcr_lib.report import qzss_dc_report
 
-#: contradiction() の答え -> その型のリテラル
+#: what contradiction() answers -> a literal of that type
 ARG_VALUE = {'str': "'not the right type'", 'int': '123', 'bytes': "b'\\x00'"}
-#: 必須引数に置く、注釈どおりの値
+#: a value that fits the annotation, for the required arguments
 SAMPLE = {int: '0', bool: 'False', float: '0.0', str: "''", bytes: "b''", list: '[]', dict: '{}', tuple: '()',
           datetime.datetime: 'datetime.datetime.now()'}
 _numbers = itertools.count()
-#: 何でも受け取るのが正しい引数
+#: the arguments that are right to accept anything
 OPEN = {('QzssDcrDecoderException.__init__', 'instance'): 'the object a message came from, whatever it is',
         ('QzssDcrDecoderNotImplementedError.__init__', 'instance'): 'the object a message came from, whatever it is'}
 

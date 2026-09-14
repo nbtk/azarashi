@@ -1,8 +1,6 @@
-"""Mistakes the published package must catch, one per line.
+"""Wrong uses of the installed package, one per line, which mypy --strict must all report.
 
-Each line is expected to fail; the CI step asserts the count, so a checker
-that has stopped seeing azarashi's types fails here rather than passing
-silently.
+CI checks the number of errors, so a type checker that no longer sees azarashi's types fails the job.
 """
 import azarashi
 

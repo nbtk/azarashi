@@ -1,9 +1,7 @@
-"""What a caller must be able to type-check against the published package.
+"""Correct uses of the installed package, which mypy --strict and pyright must accept.
 
-Built and installed the way a user would get it, then checked with --strict:
-the annotations have to be visible (py.typed and __all__), the return types
-have to be the declared ones, and a mistake has to be caught rather than
-waved through as Any.
+CI builds and installs the wheel before checking this file, so it also fails when the
+annotations do not reach callers (py.typed, __all__).
 """
 import datetime
 import io

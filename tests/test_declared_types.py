@@ -1,10 +1,8 @@
-"""What the reports declare their attributes to be, against what decoding puts in them.
+"""The declared types of the report attributes against the values that decoding puts in them.
 
-py.typed hands these annotations to a caller's type checker as the truth, so one that
-is wrong is worse than one that is missing: a checker would reject correct code on the
-strength of it. mypy and pyright check that the decoders and the reports agree with each
-other, which they can do while both say the same wrong thing. Only decoding messages and
-looking at what comes back tells them apart.
+With py.typed, the type checkers of callers trust these annotations. mypy and pyright check the
+decoders and the reports against each other, so they miss an annotation that both get wrong;
+decoding real and crafted messages finds it.
 """
 import datetime
 import inspect
