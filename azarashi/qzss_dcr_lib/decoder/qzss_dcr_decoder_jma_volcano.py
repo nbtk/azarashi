@@ -19,9 +19,7 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
 
     def decode(self) -> QzssDcReportJmaVolcano:
         self.ambiguity_of_activity_time_no = self.extract_field(50, 3)
-        self.activity_time_raw: DayHourMinute = {'day': self.extract_field(53, 5),
-                                                 'hour': self.extract_field(58, 5),
-                                                 'minute': self.extract_field(63, 6)}
+        self.activity_time_raw = self.extract_day_hour_min_raw(53)
         self.activity_time = self.extract_activity_time(self.activity_time_raw, self.ambiguity_of_activity_time_no)
 
         dw = self.extract_field(69, 7)

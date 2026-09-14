@@ -28,10 +28,13 @@ from ..report import QzssDcReportJmaBase
 class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
     report_time: datetime
 
+    def extract_day_hour_min_raw(self, slider: int) -> DayHourMinute:
+        return {'day': self.extract_field(slider, 5),
+                'hour': self.extract_field(slider + 5, 5),
+                'minute': self.extract_field(slider + 10, 6)}
+
     def extract_day_hour_min_field(self, slider: int) -> tuple[datetime | None, DayHourMinute]:
-        raw: DayHourMinute = {'day': self.extract_field(slider, 5),
-                              'hour': self.extract_field(slider + 5, 5),
-                              'minute': self.extract_field(slider + 10, 6)}
+        raw = self.extract_day_hour_min_raw(slider)
         dt_d, dt_h, dt_mi = raw['day'], raw['hour'], raw['minute']
         if dt_d not in qzss_dcr_jma_days or dt_h not in qzss_dcr_jma_hours or dt_mi not in qzss_dcr_jma_minutes:
             return None, raw
