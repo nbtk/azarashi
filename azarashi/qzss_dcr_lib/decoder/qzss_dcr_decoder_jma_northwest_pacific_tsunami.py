@@ -25,7 +25,7 @@ class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
 
         self.expected_tsunami_arrival_times: list[datetime | None] = []
         self.expected_tsunami_arrival_times_raw: list[DayHourMinute] = []
-        self.expected_tsunami_arrival_time_types: list[str] = []
+        self.expected_tsunami_arrival_time_types_en: list[str] = []
         self.tsunami_heights_en: list[str] = []
         self.tsunami_heights_raw: list[int] = []
         self.coastal_regions_en: list[str] = []
@@ -39,7 +39,7 @@ class QzssDcrDecoderJmaNorthwestPacificTsunami(QzssDcrDecoderJmaCommon):
             ta, ta_raw, ta_type = self.extract_northwest_pacific_tsunami_arrival_time_field(offset)
             self.expected_tsunami_arrival_times.append(ta)
             self.expected_tsunami_arrival_times_raw.append(ta_raw)
-            self.expected_tsunami_arrival_time_types.append(ta_type)
+            self.expected_tsunami_arrival_time_types_en.append(ta_type)
 
             th = self.extract_field(offset + 12, 9)
             try:

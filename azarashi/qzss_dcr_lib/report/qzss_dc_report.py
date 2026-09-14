@@ -556,7 +556,7 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
                  tsunamigenic_potential_raw: int,
                  expected_tsunami_arrival_times: list[datetime | None],
                  expected_tsunami_arrival_times_raw: list[DayHourMinute],
-                 expected_tsunami_arrival_time_types: list[str],
+                 expected_tsunami_arrival_time_types_en: list[str],
                  tsunami_heights_en: list[str],
                  tsunami_heights_raw: list[int],
                  coastal_regions_en: list[str],
@@ -567,7 +567,7 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
         self.tsunamigenic_potential_raw = tsunamigenic_potential_raw
         self.expected_tsunami_arrival_times = expected_tsunami_arrival_times
         self.expected_tsunami_arrival_times_raw = expected_tsunami_arrival_times_raw
-        self.expected_tsunami_arrival_time_types = expected_tsunami_arrival_time_types
+        self.expected_tsunami_arrival_time_types_en = expected_tsunami_arrival_time_types_en
         self.tsunami_heights_en = tsunami_heights_en
         self.tsunami_heights_raw = tsunami_heights_raw
         self.coastal_regions_en = coastal_regions_en
@@ -581,7 +581,7 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
         for i in range(len(self.expected_tsunami_arrival_times)):
             arrival_time = self.expected_tsunami_arrival_times[i]
             if arrival_time is None:
-                ta = self.expected_tsunami_arrival_time_types[i]
+                ta = self.expected_tsunami_arrival_time_types_en[i]
             else:
                 ta = self.convert_dt_to_str_iso(arrival_time)
             report += f'\n\nExpected Tsunami Arrival Time: {ta}\n' + \

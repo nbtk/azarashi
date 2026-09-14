@@ -206,7 +206,7 @@ def test_northwest_pacific_tsunami_arrival_times():
     assert report.expected_tsunami_arrival_times[1] is None
     assert [(r['hour'], r['minute']) for r in report.expected_tsunami_arrival_times_raw[:2]] == [(14, 46), (31, 63)]
     assert report.expected_tsunami_arrival_times_raw[1]['day'] == 0
-    assert report.expected_tsunami_arrival_time_types == ['Expected Tsunami Arrival Time', 'Arrived or Unknown'] + \
+    assert report.expected_tsunami_arrival_time_types_en == ['Expected Tsunami Arrival Time', 'Arrived or Unknown'] + \
         ['Expected Tsunami Arrival Time'] * 3
     lines = [line for line in str(report).splitlines() if line.startswith('Expected Tsunami Arrival Time')]
     assert lines[:2] == [f'Expected Tsunami Arrival Time: {report.convert_dt_to_str_iso(first)}',
@@ -216,7 +216,7 @@ def test_northwest_pacific_tsunami_arrival_times():
 def test_northwest_pacific_tsunami_arrived_or_unknown_sample():
     report = azarashi.decode(NWP_ARRIVED_OR_UNKNOWN, 'nmea')
     assert report.expected_tsunami_arrival_times == [None]
-    assert report.expected_tsunami_arrival_time_types == ['Arrived or Unknown']
+    assert report.expected_tsunami_arrival_time_types_en == ['Arrived or Unknown']
     assert 'Expected Tsunami Arrival Time: Arrived or Unknown\n' in str(report)
 
 
@@ -232,7 +232,7 @@ def test_northwest_pacific_tsunami_arrived_or_unknown_sample():
 ])
 def test_northwest_pacific_tsunami_arrival_time_types(hour, minute, time_type):
     report = azarashi.decode(_with_nwp_arrival_time(NWP, 0, 0, hour, minute), 'nmea')
-    assert report.expected_tsunami_arrival_time_types[0] == time_type
+    assert report.expected_tsunami_arrival_time_types_en[0] == time_type
     assert (report.expected_tsunami_arrival_times[0] is None) == (time_type != 'Expected Tsunami Arrival Time')
     assert report.expected_tsunami_arrival_times_raw[0] == {'day': 0, 'hour': hour, 'minute': minute}
 
