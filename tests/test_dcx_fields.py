@@ -179,9 +179,11 @@ def test_b1_refines_by_an_eighth_of_a_grid_step(code):
 
 
 def test_b1_longitude_is_refined_by_a_longitude_step():
-    # EWSS CAMF Issue 1.1, 3.6.2 and 3.7.1.2: A13 steps by 0.0027466029861678 deg, C2 code 7 adds 0.002403278 deg
+    # EWSS CAMF Issue 1.2, 3.6.2 and 3.7.1.2: Refined longitude(i) = Longitude(k) + i * IntervalLongitude / 2^3,
+    # where IntervalLongitude = 360 / (2^17 - 1), k is the A13 code and i the C2 code
     report = _decode(dcx([(134, 3, 7)], a1=1, a2=10, a3=2, a13=2, a14=1, a17=0))
-    assert report.c2_refined_longitude_of_centre_of_main_ellipse == round(-180 + 2 * 0.0027466029861678 + 0.002403278, 6)
+    interval = 360 / (2 ** 17 - 1)
+    assert report.c2_refined_longitude_of_centre_of_main_ellipse == round(-180 + 2 * interval + 7 * interval / 2 ** 3, 6)
     assert report.c2_refined_longitude_of_centre_of_main_ellipse == -179.992104  # not -179.992103 from a latitude step
 
 
@@ -306,7 +308,7 @@ def test_b4_lower_level_fields(a4, fields):
 
 @pytest.mark.parametrize('hazards, fields', B4_FIELDS)
 def test_b4_lower_level_fields_follow_each_other(hazards, fields):
-    # EWSS CAMF Issue 1.1, 3.7.4: the fields are packed from the first bit of A18 (bit 131 of the message)
+    # EWSS CAMF Issue 1.2, 3.7.4: the fields are packed from the first bit of A18 (bit 131 of the message)
     assert [pos for _, pos, _, _ in fields] == [131 + sum(size for _, _, size, _ in fields[:i]) for i in range(len(fields))]
     assert sum(size for _, _, size, _ in fields) <= 15
 
