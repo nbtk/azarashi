@@ -235,7 +235,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         today = self.timestamp.astimezone(datetime.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
         hazard_onset = today + datetime.timedelta(weeks=camf.a6, days=-today.weekday(), minutes=camf.a7 - 1)
         if 1 <= camf.a7 <= 10080:
-            # the spec writes hours as 00-11 AM/PM; strftime would give 12 for them and follow the locale
+            # hours are written 00-11 with AM/PM as in the spec, and in English whatever the locale
             self.a7_hazard_onset_time_of_week = '%s - %02d:%02d %s' % (_WEEKDAYS[hazard_onset.weekday()],
                                                                      hazard_onset.hour % 12,
                                                                      hazard_onset.minute,
@@ -278,7 +278,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                 _centre_latitude(camf.a12) + (180 / 0xFFFF) / 8 * camf.c1, 6
             )
             self.c2_refined_longitude_of_centre_of_main_ellipse = round(
-                _centre_longitude(camf.a13) + (360 / 0x1FFFF) / 8 * camf.c2, 6  # a step of A13 in 8
+                _centre_longitude(camf.a13) + (360 / 0x1FFFF) / 8 * camf.c2, 6  # an eighth of the A13 longitude step
             )
             major = _get_axis(camf.a14)
             delta = major if camf.a14 == 0 else major - _get_axis(camf.a14 - 1)

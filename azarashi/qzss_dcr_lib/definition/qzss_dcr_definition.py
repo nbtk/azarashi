@@ -60,4 +60,4 @@ class QzssDcrDefinition(dict[_K, _V]):
         if value is None:
             raise KeyError(key)
 
-        return cast(_V, value)  # a string, as the values of the tables that name undefined codes with one
+        return cast(_V, value)  # a formatted string: the tables that name undefined codes hold strings

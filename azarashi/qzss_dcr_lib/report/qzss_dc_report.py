@@ -629,7 +629,7 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
                  f'火山名: {self.volcano_name}\n'
         du = self.ambiguity_of_activity_time_no
-        if du < 6:  # no part of the activity time is valid for an approximate month or year
+        if du < 6:  # an approximate month or year leaves no part of the activity time to show
             if self.activity_time is not None:
                 activity_time = self.convert_dt_to_ambiguous_time_str(self.activity_time, du)
             else:
@@ -831,7 +831,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
 
 
 class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
-    # set by the decoder as far as the message type (see ignore_*) and the fields carry them
+    # set by the decoder only when the message type and its fields carry them (see the ignore_* flags)
     dcx_message_type: str
     dcx_version: int
     satellite_designation_mask_type: str

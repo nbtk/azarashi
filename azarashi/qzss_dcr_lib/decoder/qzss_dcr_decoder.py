@@ -12,7 +12,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportMessagePartial
 
     def decode(self) -> QzssDcReport:
-        # names the preamble
+        # extracts the preamble
         self.preamble = qzss_dcr_preamble[self.extract_field(0, 8)]
 
         # checks the crc
