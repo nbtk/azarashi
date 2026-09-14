@@ -255,7 +255,8 @@ def test_earthquake_early_warning_without_long_period_ground_motion():
 def test_earthquake_early_warning_every_forecast_region():
     report = _decode(jma(1, EEW + [(130 + i, 1, 1) for i in range(80)]))
     assert report.eew_forecast_regions_raw == list(range(1, 81))
-    assert report.eew_forecast_regions[-1] == 'その他の府県予報区および地方予報区'
+    assert report.eew_forecast_regions[-1] == 'その他の府県予報区および地方予報区_緊急地震速報(警報)'
+    assert report.eew_forecast_regions[74] == '府県予報区および地方予報区_緊急地震速報(警報)(地点：75)'  # an undefined point
 
 
 HYPOCENTER = [(53, 9, 201), *_time(80, 7, 5, 2), (96, 9, 30), (105, 7, 65), (112, 10, 341),
