@@ -10,7 +10,7 @@ class QzssDcrDecoderJmaSeismicIntensity(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
     def decode(self) -> QzssDcReportJmaSeismicIntensity:
-        self.occurrence_time_of_earthquake = self.extract_day_hour_min_field(53)
+        self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw = self.extract_day_hour_min_field(53)
         self.seismic_intensities: list[str] = []
         self.seismic_intensities_raw: list[int] = []
         self.prefectures: list[str] = []

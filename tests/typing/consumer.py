@@ -26,6 +26,8 @@ if isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):
         text: str = what
 elif isinstance(report, qzss_dc_report.QzssDcReportJmaHypocenter):
     position: str = report.coordinates_of_hypocenter
+    occurred: datetime.datetime | None = report.occurrence_time_of_earthquake
+    occurred_day: int = report.occurrence_time_of_earthquake_raw['day']
     degrees: int = report.coordinates_of_hypocenter_raw['lat_d']
     issued: str = report.get_report_time_str()
 elif isinstance(report, qzss_dc_report.QzssDcReportJmaVolcano):

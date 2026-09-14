@@ -60,13 +60,15 @@ def test_volcano_activity_date_is_not_after_the_report(report_month, report_day,
     assert report.activity_time <= report.report_time
 
 
-@pytest.mark.parametrize('ambiguity, day, hour, minute, message', [
-    (0, 6, 24, 0, 'Invalid Time: 24 as hour'),
-    (3, 6, 20, 60, 'Invalid Time: 60 as minute'),
-    (4, 6, 24, 63, 'Invalid Time: 24 as hour'),
-    (5, 0, 0, 0, 'Invalid Time: 0 as day'),
+@pytest.mark.parametrize('ambiguity, day, hour, minute, code', [  # the code is the whole field (16 bits)
+    (0, 6, 24, 0, 13824),
+    (3, 6, 20, 60, 13628),
+    (4, 6, 24, 63, 13887),
+    (5, 0, 0, 0, 0),  # the day is valid for this ambiguity, but day 0 is not a day
+    (5, 0, 31, 63, 2047),  # activity time unknown until IS-QZSS-DCR-015
 ])
-def test_volcano_activity_time_out_of_range(ambiguity, day, hour, minute, message):
-    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
-        azarashi.decode(_with_activity_time(ambiguity, day, hour, minute), 'nmea')
-    assert e.value.message == message
+def test_volcano_activity_time_out_of_range(ambiguity, day, hour, minute, code):
+    report = azarashi.decode(_with_activity_time(ambiguity, day, hour, minute), 'nmea')
+    assert report.activity_time is None
+    assert report.activity_time_raw == {'day': day, 'hour': hour, 'minute': minute}
+    assert _date_line(report) == f'日時: 日時(コード番号：{code})'

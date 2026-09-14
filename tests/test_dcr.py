@@ -116,11 +116,14 @@ def test_tsunami_arrival_times():
 
 
 @pytest.mark.parametrize('day, hour, minute, time_type', [
-    (0, 31, 0, '津波到達中と推測'),  # the hour decides first, as before
-    (1, 4, 63, '津波到達中と推測'),
-    (0, 30, 0, '該当情報なし'),
-    (0, 4, 62, '該当情報なし'),
+    (1, 31, 63, '津波到達中と推測'),
     (1, 23, 59, '津波の到達予想時刻'),
+    # only the combinations of IS-QZSS-DCR-017 are special values; the code is the whole field (12 bits)
+    (0, 31, 0, '津波到達予想時刻(コード番号：1984)'),
+    (1, 4, 63, '津波到達予想時刻(コード番号：2367)'),
+    (0, 30, 0, '津波到達予想時刻(コード番号：1920)'),
+    (0, 4, 62, '津波到達予想時刻(コード番号：318)'),
+    (1, 30, 62, '津波到達予想時刻(コード番号：4030)'),  # no data is on day 0
 ])
 def test_tsunami_arrival_time_types(day, hour, minute, time_type):
     report = azarashi.decode(_with_arrival_time(TSUNAMI, 0, day, hour, minute), 'nmea')
@@ -139,16 +142,12 @@ def test_tsunami_heights(code, height):
     assert (report.tsunami_heights[0], report.tsunami_heights_raw[0]) == (height, code)
 
 
-@pytest.mark.parametrize('hour, minute, message', [
-    (24, 0, 'Invalid JMA Expected Tsunami Arrival Time: 24 as hour'),
-    (29, 63, 'Invalid JMA Expected Tsunami Arrival Time: 29 as hour'),
-    (4, 60, 'Invalid JMA Expected Tsunami Arrival Time: 60 as minute'),
-    (4, 61, 'Invalid JMA Expected Tsunami Arrival Time: 61 as minute'),
-])
-def test_tsunami_arrival_time_out_of_range(hour, minute, message):
-    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
-        azarashi.decode(_with_arrival_time(TSUNAMI, 0, 0, hour, minute), 'nmea')
-    assert e.value.message == message
+@pytest.mark.parametrize('hour, minute, code', [(24, 0, 1536), (29, 63, 1919), (4, 60, 316), (4, 61, 317)])
+def test_tsunami_arrival_time_out_of_range(hour, minute, code):
+    report = azarashi.decode(_with_arrival_time(TSUNAMI, 0, 0, hour, minute), 'nmea')
+    assert report.expected_tsunami_arrival_times[0] is None
+    assert report.expected_tsunami_arrival_times_raw[0] == {'day': 0, 'hour': hour, 'minute': minute}
+    assert f'津波到達予想時刻: 津波到達予想時刻(コード番号：{code})\n' in str(report)
 
 
 def _with_report_date(sentence, month, day):
@@ -173,15 +172,16 @@ def test_report_on_a_leap_day_takes_the_closest_leap_year(received, year):
     assert (report.report_time.year, report.report_time.month, report.report_time.day) == (year, 2, 29)
 
 
-@pytest.mark.parametrize('received, day, month', [
-    (datetime(2029, 3, 5, tzinfo=timezone.utc), 29, 2),  # 2029 has no February 29th
-    (datetime(2029, 3, 10, tzinfo=timezone.utc), 31, 2),
+@pytest.mark.parametrize('received, day, code', [
+    (datetime(2029, 3, 5, tzinfo=timezone.utc), 29, 59456),  # 2029 has no February 29th
+    (datetime(2029, 3, 10, tzinfo=timezone.utc), 31, 63552),
 ])
-def test_nonexistent_occurrence_date_is_a_decoder_error(received, day, month):
+def test_nonexistent_occurrence_date_is_a_code(received, day, code):
     sentence = _with_field(_with_report_date(EEW, received.month, received.day), 80, 5, day)  # occurrence day
-    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
-        NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
-    assert e.value.message == f'Invalid Time: {day} as day of month {month}'
+    report = NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
+    assert report.occurrence_time_of_earthquake is None
+    assert report.occurrence_time_of_earthquake_raw == {'day': day, 'hour': 1, 'minute': 0}
+    assert f'地震発生時刻: 地震発生時刻(コード番号：{code})\n' in str(report)
 
 
 def test_occurrence_on_a_leap_day():
@@ -221,21 +221,22 @@ def test_northwest_pacific_tsunami_arrived_or_unknown_sample():
 
 
 @pytest.mark.parametrize('hour, minute, time_type', [
-    (31, 0, 'Arrived or Unknown'),  # the hour decides first, as for JMA-DC Report (Tsunami)
-    (4, 63, 'Arrived or Unknown'),
+    (31, 63, 'Arrived or Unknown'),
     (23, 59, 'Expected Tsunami Arrival Time'),
+    # only the combination of IS-QZSS-DCR-017 is a special value; the code is the whole field (12 bits)
+    (31, 0, 'Undefined Expected Tsunami Arrival Time (Code: 1984)'),
+    (4, 63, 'Undefined Expected Tsunami Arrival Time (Code: 319)'),
+    (30, 62, 'Undefined Expected Tsunami Arrival Time (Code: 1982)'),  # "no data" is only for JMA-DC Report (Tsunami)
+    (4, 62, 'Undefined Expected Tsunami Arrival Time (Code: 318)'),
+    (24, 0, 'Undefined Expected Tsunami Arrival Time (Code: 1536)'),
 ])
 def test_northwest_pacific_tsunami_arrival_time_types(hour, minute, time_type):
     report = azarashi.decode(_with_nwp_arrival_time(NWP, 0, 0, hour, minute), 'nmea')
     assert report.expected_tsunami_arrival_time_types[0] == time_type
+    assert (report.expected_tsunami_arrival_times[0] is None) == (time_type != 'Expected Tsunami Arrival Time')
     assert report.expected_tsunami_arrival_times_raw[0] == {'day': 0, 'hour': hour, 'minute': minute}
 
 
-@pytest.mark.parametrize('hour, minute, message', [
-    (30, 62, 'Invalid JMA Expected Tsunami Arrival Time: 30 as hour'),  # "no data" is only for JMA-DC Report (Tsunami)
-    (4, 62, 'Invalid JMA Expected Tsunami Arrival Time: 62 as minute'),
-])
-def test_northwest_pacific_tsunami_arrival_time_out_of_range(hour, minute, message):
-    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
-        azarashi.decode(_with_nwp_arrival_time(NWP, 0, 0, hour, minute), 'nmea')
-    assert e.value.message == message
+def test_northwest_pacific_tsunami_arrival_time_code_is_shown():
+    report = azarashi.decode(_with_nwp_arrival_time(NWP, 0, 0, 24, 0), 'nmea')
+    assert 'Expected Tsunami Arrival Time: Undefined Expected Tsunami Arrival Time (Code: 1536)\n' in str(report)

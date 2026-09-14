@@ -2,6 +2,9 @@ from copy import deepcopy
 from datetime import datetime, timedelta, UTC
 from typing import Any, ClassVar, TypeAlias, TypedDict
 
+from ..definition import qzss_dcr_jma_activity_time_undefined
+from ..definition import qzss_dcr_jma_occurrence_time_of_earthquake_undefined
+from ..definition import qzss_dcr_jma_typhoon_reference_time_undefined
 from ..exception import QzssDcrDecoderException
 
 
@@ -22,6 +25,11 @@ class DayHourMinute(TypedDict):
     day: int
     hour: int
     minute: int
+
+
+def _day_hour_minute_code(raw: DayHourMinute) -> int:
+    """A time field of 16 bits (day 5, hour 5 and minute 6) as one number."""
+    return raw['day'] << 11 | raw['hour'] << 6 | raw['minute']
 
 
 class QzssDcxCamf:
@@ -235,6 +243,10 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
         dt += timedelta(hours=time_diff)
         return f'{dt.day}日{dt.hour}時{dt.minute}分'
 
+    @classmethod
+    def _convert_time_to_str(cls, dt: datetime | None, raw: DayHourMinute, undefined: str) -> str:
+        return cls.convert_dt_to_str(dt) if dt is not None else undefined % _day_hour_minute_code(raw)
+
     @staticmethod
     def convert_dt_to_str_iso(dt: datetime) -> str:
         return dt.strftime('---%dT%H:%MZ')
@@ -279,7 +291,8 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
                  long_period_ground_motion_upper_limit_raw: int,
                  notifications_on_disaster_prevention: list[str],
                  notifications_on_disaster_prevention_raw: list[int],
-                 occurrence_time_of_earthquake: datetime,
+                 occurrence_time_of_earthquake: datetime | None,
+                 occurrence_time_of_earthquake_raw: DayHourMinute,
                  depth_of_hypocenter: str,
                  depth_of_hypocenter_raw: int,
                  magnitude: str,
@@ -302,6 +315,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
+        self.occurrence_time_of_earthquake_raw = occurrence_time_of_earthquake_raw
         self.depth_of_hypocenter = depth_of_hypocenter
         self.depth_of_hypocenter_raw = depth_of_hypocenter_raw
         self.magnitude = magnitude
@@ -317,6 +331,8 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
         self.eew_forecast_regions_raw = eew_forecast_regions_raw
 
     def __str__(self) -> str:
+        occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
+                                             qzss_dcr_jma_occurrence_time_of_earthquake_undefined)
         report = f'{self.get_header()}\n' + \
                  '緊急地震速報\n'
 
@@ -329,7 +345,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
 
         report += f'\n\n発表時刻: {self.get_report_time_str()}\n\n' + \
                   f'震央地名: {self.seismic_epicenter}\n' + \
-                  f'地震発生時刻: {self.convert_dt_to_str(self.occurrence_time_of_earthquake)}\n' + \
+                  f'地震発生時刻: {occurred}\n' + \
                   f'深さ: {self.depth_of_hypocenter}{assumptive_str}\n' + \
                   f'マグニチュード: {self.magnitude}{assumptive_str}\n' + \
                   f'震度(下限): {self.seismic_intensity_lower_limit}\n' + \
@@ -346,7 +362,8 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
     def __init__(self,
                  notifications_on_disaster_prevention: list[str],
                  notifications_on_disaster_prevention_raw: list[int],
-                 occurrence_time_of_earthquake: datetime,
+                 occurrence_time_of_earthquake: datetime | None,
+                 occurrence_time_of_earthquake_raw: DayHourMinute,
                  depth_of_hypocenter: str,
                  depth_of_hypocenter_raw: int,
                  magnitude: str,
@@ -360,6 +377,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
+        self.occurrence_time_of_earthquake_raw = occurrence_time_of_earthquake_raw
         self.depth_of_hypocenter = depth_of_hypocenter
         self.depth_of_hypocenter_raw = depth_of_hypocenter_raw
         self.magnitude = magnitude
@@ -370,8 +388,10 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
         self.coordinates_of_hypocenter_raw = coordinates_of_hypocenter_raw
 
     def __str__(self) -> str:
+        occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
+                                             qzss_dcr_jma_occurrence_time_of_earthquake_undefined)
         report = f'{self.get_header()}\n' + \
-                 f'{self.convert_dt_to_str(self.occurrence_time_of_earthquake)}' + \
+                 f'{occurred}' + \
                  'ころ、地震がありました。\n'
 
         report += '\n'.join(self.notifications_on_disaster_prevention)
@@ -386,7 +406,8 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
 
 class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
     def __init__(self,
-                 occurrence_time_of_earthquake: datetime,
+                 occurrence_time_of_earthquake: datetime | None,
+                 occurrence_time_of_earthquake_raw: DayHourMinute,
                  seismic_intensities: list[str],
                  seismic_intensities_raw: list[int],
                  prefectures: list[str],
@@ -394,14 +415,17 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
+        self.occurrence_time_of_earthquake_raw = occurrence_time_of_earthquake_raw
         self.seismic_intensities = seismic_intensities
         self.seismic_intensities_raw = seismic_intensities_raw
         self.prefectures = prefectures
         self.prefectures_raw = prefectures_raw
 
     def __str__(self) -> str:
+        occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
+                                             qzss_dcr_jma_occurrence_time_of_earthquake_undefined)
         report = f'{self.get_header()}\n' + \
-                 f'{self.convert_dt_to_str(self.occurrence_time_of_earthquake)}' + \
+                 f'{occurred}' + \
                  'ころ、地震による強い揺れを感じました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}'
 
@@ -594,8 +618,13 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
                  '火山に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
                  f'火山名: {self.volcano_name}\n'
-        if self.activity_time is not None:  # no valid activity time for an approximate month or year
-            report += f'日時: {self.convert_dt_to_ambiguous_time_str(self.activity_time, self.ambiguity_of_activity_time_no)}\n'
+        du = self.ambiguity_of_activity_time_no
+        if du < 6:  # no part of the activity time is valid for an approximate month or year
+            if self.activity_time is not None:
+                activity_time = self.convert_dt_to_ambiguous_time_str(self.activity_time, du)
+            else:
+                activity_time = qzss_dcr_jma_activity_time_undefined % _day_hour_minute_code(self.activity_time_raw)
+            report += f'日時: {activity_time}\n'
         report += f'現象: {self.volcanic_warning_code}\n\n'
 
         report += '、'.join(self.local_governments)
@@ -604,7 +633,8 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
 
 class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
     def __init__(self,
-                 activity_time: datetime,
+                 activity_time: datetime | None,
+                 activity_time_raw: DayHourMinute,
                  ash_fall_warning_type: str,
                  ash_fall_warning_type_raw: int,
                  volcano_name: str,
@@ -618,6 +648,7 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.activity_time = activity_time
+        self.activity_time_raw = activity_time_raw
         self.ash_fall_warning_type = ash_fall_warning_type
         self.ash_fall_warning_type_raw = ash_fall_warning_type_raw
         self.volcano_name = volcano_name
@@ -630,12 +661,14 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
         self.local_governments_raw = local_governments_raw
 
     def __str__(self) -> str:
+        activity_time = self._convert_time_to_str(self.activity_time, self.activity_time_raw,
+                                                  qzss_dcr_jma_activity_time_undefined)
         report = f'{self.get_header()}\n' + \
                  '降灰に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
                  f'{self.ash_fall_warning_type}\n' + \
                  f'火山名: {self.volcano_name}\n' + \
-                 f'日時: {self.convert_dt_to_str(self.activity_time)}'
+                 f'日時: {activity_time}'
 
         for i in range(len(self.expected_ash_fall_times)):
             report += '\n\n' + \
@@ -724,7 +757,8 @@ class QzssDcReportJmaMarine(QzssDcReportJmaBase):
 
 class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
     def __init__(self,
-                 reference_time: datetime,
+                 reference_time: datetime | None,
+                 reference_time_raw: DayHourMinute,
                  reference_time_type: str,
                  reference_time_type_raw: int,
                  elapsed_time_from_reference_time: int,
@@ -745,6 +779,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.reference_time = reference_time
+        self.reference_time_raw = reference_time_raw
         self.reference_time_type = reference_time_type
         self.reference_time_type_raw = reference_time_type_raw
         # the time elapsed from the analysis
@@ -765,11 +800,13 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
         self.maximum_gust_wind_speed_raw = maximum_gust_wind_speed_raw
 
     def __str__(self) -> str:
+        reference_time = self._convert_time_to_str(self.reference_time, self.reference_time_raw,
+                                                   qzss_dcr_jma_typhoon_reference_time_undefined)
         report = f'{self.get_header()}\n' + \
                  '台風解析・予報情報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
                  f'台風番号: {self.typhoon_number}\n' + \
-                 f'基点時刻: {self.convert_dt_to_str(self.reference_time)}\n' + \
+                 f'基点時刻: {reference_time}\n' + \
                  f'基点時刻分類: {self.reference_time_type}\n' + \
                  f'情報の基点時刻(実況)からの経過時間: {self.elapsed_time_from_reference_time}時間後\n' + \
                  f'大きさ: {self.typhoon_scale_category}\n' + \

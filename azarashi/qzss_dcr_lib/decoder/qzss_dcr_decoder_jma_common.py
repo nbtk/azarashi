@@ -4,14 +4,19 @@ from datetime import timedelta
 from datetime import UTC
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
+from ..definition import qzss_dcr_jma_days
 from ..definition import qzss_dcr_jma_depth_of_hypocenter
 from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
+from ..definition import qzss_dcr_jma_expected_tsunami_arrival_time_undefined
+from ..definition import qzss_dcr_jma_expected_tsunami_arrival_time_undefined_en
+from ..definition import qzss_dcr_jma_hours
 from ..definition import qzss_dcr_jma_latitude_and_longitude_minutes
 from ..definition import qzss_dcr_jma_latitude_and_longitude_seconds
 from ..definition import qzss_dcr_jma_latitude_and_longitude_undefined
 from ..definition import qzss_dcr_jma_latitude_degrees
 from ..definition import qzss_dcr_jma_local_government
 from ..definition import qzss_dcr_jma_longitude_degrees
+from ..definition import qzss_dcr_jma_minutes
 from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
 from ..definition.qzss_dcr_definition import QzssDcrDefinition
 from ..exception import QzssDcrDecoderException
@@ -23,22 +28,13 @@ from ..report import QzssDcReportJmaBase
 class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
     report_time: datetime
 
-    def extract_day_hour_min_field(self, slider: int) -> datetime:
-        dt_d = self.extract_field(slider, 5)
-        if dt_d < 1 or dt_d > 31:
-            raise QzssDcrDecoderException(
-                f'Invalid Time: {dt_d} as day',
-                self)
-        dt_h = self.extract_field(slider + 5, 5)
-        if dt_h > 23:
-            raise QzssDcrDecoderException(
-                f'Invalid Time: {dt_h} as hour',
-                self)
-        dt_mi = self.extract_field(slider + 10, 6)
-        if dt_mi > 59:
-            raise QzssDcrDecoderException(
-                f'Invalid Time: {dt_mi} as minute',
-                self)
+    def extract_day_hour_min_field(self, slider: int) -> tuple[datetime | None, DayHourMinute]:
+        raw: DayHourMinute = {'day': self.extract_field(slider, 5),
+                              'hour': self.extract_field(slider + 5, 5),
+                              'minute': self.extract_field(slider + 10, 6)}
+        dt_d, dt_h, dt_mi = raw['day'], raw['hour'], raw['minute']
+        if dt_d not in qzss_dcr_jma_days or dt_h not in qzss_dcr_jma_hours or dt_mi not in qzss_dcr_jma_minutes:
+            return None, raw
 
         dt_y = self.report_time.year
         dt_mo = self.report_time.month
@@ -55,16 +51,14 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             else:
                 dt_mo += 1
         if dt_d > monthrange(dt_y, dt_mo)[1]:  # e.g. the 31st taken as a day of February
-            raise QzssDcrDecoderException(
-                f'Invalid Time: {dt_d} as day of month {dt_mo}',
-                self)
+            return None, raw
 
         return datetime(year=dt_y,
                         month=dt_mo,
                         day=dt_d,
                         hour=dt_h,
                         minute=dt_mi,
-                        tzinfo=UTC)
+                        tzinfo=UTC), raw
 
     def extract_local_government(self, slider: int) -> tuple[str, int]:
         lg = self.extract_field(slider, 23)
@@ -147,42 +141,36 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
     def extract_expected_tsunami_arrival_time_field(self, slider: int) -> tuple[datetime | None, DayHourMinute, str]:
         """Expected arrival time of JMA-DC Report (Tsunami) with its raw values and type."""
         raw = self.extract_expected_tsunami_arrival_time_raw(slider)
-        if raw['hour'] == 31 or (raw['hour'] <= 23 and raw['minute'] == 63):  # has arrived (estimated or observed)
+        if (raw['hour'], raw['minute']) == (31, 63):  # has arrived (estimated or observed)
             return None, raw, '津波到達中と推測'
-        if raw['hour'] == 30 or (raw['hour'] <= 23 and raw['minute'] == 62):  # no data
+        if (raw['day'], raw['hour'], raw['minute']) == (0, 30, 62):  # no data
             return None, raw, '該当情報なし'
-        return self.extract_expected_tsunami_arrival_time(slider), raw, '津波の到達予想時刻'
+        arrival_time = self.extract_expected_tsunami_arrival_time(slider)
+        if arrival_time is None:
+            return None, raw, qzss_dcr_jma_expected_tsunami_arrival_time_undefined % self.extract_field(slider, 12)
+        return arrival_time, raw, '津波の到達予想時刻'
 
     def extract_northwest_pacific_tsunami_arrival_time_field(self, slider: int) -> tuple[datetime | None, DayHourMinute, str]:
         """Expected arrival time of JMA-DC Report (Northwest Pacific Tsunami) with its raw values and type."""
         raw = self.extract_expected_tsunami_arrival_time_raw(slider)
-        arrival_time = self.extract_expected_tsunami_arrival_time(slider)  # None when the hour is 31 or the minute 63
-        if arrival_time is None:  # has arrived or the arrival time is unknown
+        if (raw['hour'], raw['minute']) == (31, 63):  # has arrived or the arrival time is unknown
             return None, raw, 'Arrived or Unknown'
+        arrival_time = self.extract_expected_tsunami_arrival_time(slider)
+        if arrival_time is None:
+            return None, raw, qzss_dcr_jma_expected_tsunami_arrival_time_undefined_en % self.extract_field(slider, 12)
         return arrival_time, raw, 'Expected Tsunami Arrival Time'
 
     def extract_expected_tsunami_arrival_time(self, slider: int) -> datetime | None:
-        ta_h = self.extract_field(slider + 1, 5)
-        if ta_h == 31:
+        """The arrival time, or None when the hour and minute are not a time."""
+        raw = self.extract_expected_tsunami_arrival_time_raw(slider)
+        if raw['hour'] not in qzss_dcr_jma_hours or raw['minute'] not in qzss_dcr_jma_minutes:
             return None
-        elif ta_h > 23:
-            raise QzssDcrDecoderException(
-                f'Invalid JMA Expected Tsunami Arrival Time: {ta_h} as hour',
-                self)
 
-        ta_m = self.extract_field(slider + 6, 6)
-        if ta_m == 63:
-            return None
-        elif ta_m > 59:
-            raise QzssDcrDecoderException(
-                f'Invalid JMA Expected Tsunami Arrival Time: {ta_m} as minute',
-                self)
-
-        ta_dt = self.report_time + timedelta(self.extract_field(slider, 1))
+        ta_dt = self.report_time + timedelta(raw['day'])
 
         return datetime(year=ta_dt.year,
                         month=ta_dt.month,
                         day=ta_dt.day,
-                        hour=ta_h,
-                        minute=ta_m,
+                        hour=raw['hour'],
+                        minute=raw['minute'],
                         tzinfo=UTC)

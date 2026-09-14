@@ -181,7 +181,7 @@ azarashi.decode(msg, msg_type='nmea')
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。パラメータの時刻 (`datetime`) はすべてタイムゾーン付きの UTC です。`str()` が返す日本語の文章では、時刻を JST に変換して表示します。
+レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。パラメータの時刻 (`datetime`) はすべてタイムゾーン付きの UTC です。発表時刻以外の時刻は、時刻として読めない値が届くと `None` になり、送られてきた日・時・分が `_raw` に残ります。`str()` が返す日本語の文章では、時刻を JST に変換して表示します。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params())
@@ -216,6 +216,7 @@ azarashi.decode(msg, msg_type='nmea')
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
  'notifications_on_disaster_prevention_raw': [201],
  'occurrence_time_of_earthquake': datetime.datetime(2026, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 10, 'hour': 1, 'minute': 0},
  'preamble': 'C',
  'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
         b'\xdf\xf8\x00\x1c\x00\x00\x10',

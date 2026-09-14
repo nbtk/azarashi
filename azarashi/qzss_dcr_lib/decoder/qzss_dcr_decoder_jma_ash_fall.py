@@ -12,7 +12,7 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
     schema = QzssDcReportJmaBase
 
     def decode(self) -> QzssDcReportJmaAshFall:
-        self.activity_time = self.extract_day_hour_min_field(53)
+        self.activity_time, self.activity_time_raw = self.extract_day_hour_min_field(53)
 
         dw1 = self.extract_field(69, 2)
         try:

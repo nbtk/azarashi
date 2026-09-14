@@ -131,13 +131,17 @@ def test_day_hour_minute_field_takes_the_nearest_month(report_date, day, expecte
     assert report.occurrence_time_of_earthquake == expected
 
 
-@pytest.mark.parametrize('day, hour, minute, message', [
-    (0, 5, 2, 'Invalid Time: 0 as day'),
-    (7, 24, 2, 'Invalid Time: 24 as hour'),
-    (7, 5, 60, 'Invalid Time: 60 as minute'),
+@pytest.mark.parametrize('day, hour, minute, code', [  # the code is the whole field (16 bits)
+    (0, 5, 2, 322),
+    (7, 24, 2, 15874),
+    (7, 5, 60, 14716),
+    (31, 31, 63, 65535),
 ])
-def test_day_hour_minute_field_out_of_range(day, hour, minute, message):
-    assert _error(jma(3, _time(53, day, hour, minute))) == message
+def test_day_hour_minute_field_out_of_range(day, hour, minute, code):
+    report = _decode(jma(3, _time(53, day, hour, minute)))
+    assert report.occurrence_time_of_earthquake is None
+    assert report.occurrence_time_of_earthquake_raw == {'day': day, 'hour': hour, 'minute': minute}
+    assert f'地震発生時刻(コード番号：{code})ころ、地震による強い揺れを感じました。\n' in str(report)
 
 
 @pytest.mark.parametrize('lat, lon, south, west, text', [
@@ -620,3 +624,18 @@ def test_marine_every_entry():
     report = _decode(jma(14, entries))
     assert report.marine_warning_codes == ['その他の警報等情報要素_海上警報'] * 8
     assert report.marine_forecast_regions == ['その他の地方海上予報区'] * 8
+
+
+@pytest.mark.parametrize('category, fields, attribute, text', [  # the code is the whole field (16 bits)
+    (1, EEW + _time(80, 0, 5, 9), 'occurrence_time_of_earthquake', '地震発生時刻: 地震発生時刻(コード番号：329)\n'),
+    (2, HYPOCENTER + _time(80, 0, 5, 2), 'occurrence_time_of_earthquake',
+     '地震発生時刻(コード番号：322)ころ、地震がありました。\n'),
+    (9, ASH_FALL + _time(53, 7, 24, 30), 'activity_time', '日時: 日時(コード番号：15902)'),
+    (12, TYPHOON + _time(53, 7, 3, 60), 'reference_time', '基点時刻: 基点時刻(コード番号：14588)\n'),
+])
+def test_time_that_is_not_a_time(category, fields, attribute, text):
+    report = _decode(jma(category, fields))
+    day, hour, minute = (value for _, _, value in fields[-3:])
+    assert getattr(report, attribute) is None
+    assert getattr(report, f'{attribute}_raw') == {'day': day, 'hour': hour, 'minute': minute}
+    assert text in str(report)

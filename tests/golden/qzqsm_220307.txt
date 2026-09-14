@@ -55,6 +55,7 @@ QzssDcReportJmaEarthquakeEarlyWarning
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
  'notifications_on_disaster_prevention_raw': [201],
  'occurrence_time_of_earthquake': datetime.datetime(2022, 3, 7, 4, 0, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 7, 'hour': 4, 'minute': 0},
  'preamble': 'B',
  'raw': b'\xaf\x89\x9c\x80\x00\x03$\x00\x009\x00\x05H\xc5\xe2\xc0\x00\x00\x00\x03\xdf\xf8\x00\x1c\x00\x00\x10',
  'report_classification': '訓練/試験',
@@ -119,6 +120,7 @@ QzssDcReportJmaSeismicIntensity
  'message_type': 'DCR',
  'nmea': '$QZQSM,58,C6AF999C828001C82CB25AE775A8D4CA854AB8000000000000000011E027E5C*76',
  'occurrence_time_of_earthquake': datetime.datetime(2022, 3, 7, 4, 5, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 7, 'hour': 4, 'minute': 5},
  'preamble': 'C',
  'prefectures': ['大分県', '宮崎県', '高知県', '熊本県', '山口県', '愛媛県', '福岡県', '佐賀県', '鹿児島県'],
  'prefectures_raw': [44, 45, 39, 43, 35, 38, 40, 41, 46],
@@ -175,6 +177,7 @@ QzssDcReportJmaHypocenter
  'notifications_on_disaster_prevention': ['震源の近傍で津波発生の可能性があります。'],
  'notifications_on_disaster_prevention_raw': [226],
  'occurrence_time_of_earthquake': datetime.datetime(2022, 3, 7, 4, 5, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 7, 'hour': 4, 'minute': 5},
  'preamble': 'B',
  'raw': b'\xaf\x91\x9c\x82\x80\x03\x88\x00\x009\x05\x14@\xc5\xc8*\x01\x080\x00\x00\x00\x00\x00\x00\x00\x10',
  'report_classification': '訓練/試験',
@@ -3376,6 +3379,7 @@ QzssDcReportJmaAshFall
 現象: 少量の降灰
 熊本県南阿蘇村
 {'activity_time': datetime.datetime(2022, 3, 7, 5, 10, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 7, 'hour': 5, 'minute': 10},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰'],
  'ash_fall_warning_codes_raw': [1, 1, 1],
  'ash_fall_warning_type': '速報',
@@ -3437,6 +3441,7 @@ QzssDcReportJmaAshFall
 現象: 少量の降灰
 熊本県阿蘇市
 {'activity_time': datetime.datetime(2022, 3, 7, 5, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 7, 'hour': 5, 'minute': 20},
  'ash_fall_warning_codes': ['やや多量の降灰', 'やや多量の降灰', '少量の降灰', '少量の降灰'],
  'ash_fall_warning_codes_raw': [2, 2, 1, 1],
  'ash_fall_warning_type': '詳細',
@@ -3497,6 +3502,7 @@ QzssDcReportJmaAshFall
 現象: 少量の降灰
 熊本県高森町
 {'activity_time': datetime.datetime(2022, 3, 7, 5, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 7, 'hour': 5, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
  'ash_fall_warning_codes_raw': [1, 1, 1, 1],
  'ash_fall_warning_type': '詳細',
@@ -3557,6 +3563,7 @@ QzssDcReportJmaAshFall
 現象: 少量の降灰
 熊本県南阿蘇村
 {'activity_time': datetime.datetime(2022, 3, 7, 5, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 7, 'hour': 5, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
  'ash_fall_warning_codes_raw': [1, 1, 1, 1],
  'ash_fall_warning_type': '詳細',
@@ -3618,6 +3625,7 @@ QzssDcReportJmaAshFall
 現象: 少量の降灰
 熊本県阿蘇市
 {'activity_time': datetime.datetime(2022, 3, 7, 5, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 7, 'hour': 5, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
  'ash_fall_warning_codes_raw': [1, 1, 1, 1],
  'ash_fall_warning_type': '詳細',
@@ -3671,6 +3679,7 @@ QzssDcReportJmaAshFall
 現象: 少量の降灰
 熊本県南阿蘇村
 {'activity_time': datetime.datetime(2022, 3, 7, 5, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 7, 'hour': 5, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰'],
  'ash_fall_warning_codes_raw': [1, 1],
  'ash_fall_warning_type': '詳細',

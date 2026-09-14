@@ -3,6 +3,9 @@ from datetime import datetime
 from datetime import UTC
 
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from ..definition import qzss_dcr_jma_days
+from ..definition import qzss_dcr_jma_hours
+from ..definition import qzss_dcr_jma_minutes
 from ..definition import qzss_dcr_jma_volcanic_warning_code
 from ..definition import qzss_dcr_jma_volcano_name
 from ..exception import QzssDcrDecoderException
@@ -52,24 +55,17 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
         return QzssDcReportJmaVolcano(**self.get_params())
 
     def extract_activity_time(self, raw: DayHourMinute, ambiguity: int) -> datetime | None:
-        """Observed activity time (UTC) with the parts that the ambiguity marks as not valid set to 0."""
+        """Observed activity time (UTC) with the parts that the ambiguity marks as not valid set to 0.
+
+        None when the ambiguity marks no part as valid, or when the valid parts are not a time.
+        """
         if ambiguity >= 6:  # approximate month or year: day, hour and minute are not valid
             return None
         day = raw['day']
         hour = raw['hour'] if ambiguity <= 4 else 0  # approximate day: hour and minute are not valid
         minute = raw['minute'] if ambiguity <= 3 else 0  # approximate hour: minute is not valid
-        if day < 1 or day > 31:
-            raise QzssDcrDecoderException(
-                f'Invalid Time: {day} as day',
-                self)
-        if hour > 23:
-            raise QzssDcrDecoderException(
-                f'Invalid Time: {hour} as hour',
-                self)
-        if minute > 59:
-            raise QzssDcrDecoderException(
-                f'Invalid Time: {minute} as minute',
-                self)
+        if day not in qzss_dcr_jma_days or hour not in qzss_dcr_jma_hours or minute not in qzss_dcr_jma_minutes:
+            return None
 
         # the activity was observed by the time of the report: take the latest such date with this day
         year, month = self.report_time.year, self.report_time.month
