@@ -73,14 +73,19 @@ def test_ignored_field_groups(camf, ignored):
     assert {group for group in groups if getattr(report, f'ignore_{group}')} == ignored
 
 
-@pytest.mark.parametrize('sdmt, sdm, mask_type, mask', [
-    (0, 0b000000101, 'MT44 is for Japan or for use outside Japan',
-     ['For use outside Japan', 'For Japan', 'For use outside Japan'] + ['For Japan'] * 6),
-    (1, 0b110000000, 'MT44 transmission status',
-     ['Transmission stopped'] * 7 + ['Transmission in progress'] * 2),
+FOR_JAPAN, FOR_OUTSIDE = 'For Japan', 'For use outside Japan'
+STOPPED, SENDING = 'Transmission stopped', 'Transmission in progress'
+
+
+@pytest.mark.parametrize('sdmt, sdm, mask', [  # the examples of IS-QZSS-DCX-004 5.6.1, then Bit1 alone
+    (0, 0b010000100,
+     [FOR_JAPAN, FOR_OUTSIDE, FOR_JAPAN, FOR_JAPAN, FOR_JAPAN, FOR_JAPAN, FOR_OUTSIDE, FOR_JAPAN, FOR_JAPAN]),
+    (1, 0b011100100, [STOPPED, SENDING, SENDING, SENDING, STOPPED, STOPPED, SENDING, STOPPED, STOPPED]),
+    (0, 0b100000000, [FOR_OUTSIDE] + [FOR_JAPAN] * 8),  # Bit1 is PRN183
 ])
-def test_satellite_designation_mask(sdmt, sdm, mask_type, mask):
+def test_satellite_designation_mask(sdmt, sdm, mask):
     report = _decode(dcx(sdmt=sdmt, sdm=sdm, **JAPAN, a3=2))
+    mask_type = ['MT44 is for Japan or for use outside Japan', 'MT44 transmission status'][sdmt]
     assert (report.satellite_designation_mask_type, report.satellite_designation_mask) == (mask_type, mask)
 
 

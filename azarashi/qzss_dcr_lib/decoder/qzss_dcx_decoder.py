@@ -162,9 +162,8 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.satellite_designation_mask_type = 'MT44 transmission status'
             sd_list = ['Transmission stopped', 'Transmission in progress']
 
-        self.satellite_designation_mask: list[str] = []
-        for i in range(9):
-            self.satellite_designation_mask.append(sd_list[(camf.sdm & 1 << i) >> i])
+        # Bit1, the most significant bit, is for the first satellite (PRN183)
+        self.satellite_designation_mask: list[str] = [sd_list[camf.sdm >> (8 - i) & 1] for i in range(9)]
 
     def _detect_message_type(self, camf: QzssDcxCamf) -> DcxMessageType:
         if all(getattr(camf, field) == 0 for field in _NULL_MSG_FIELDS):
