@@ -4,6 +4,7 @@ import io
 import re
 import subprocess
 import sys
+import time
 
 import azarashi
 from azarashi import __main__ as cli
@@ -84,6 +85,18 @@ def test_header_time_is_utc_with_z(monkeypatch, capsys):
     match = re.fullmatch(r'(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d{6})?Z) -{32}', header)
     assert match, header
     assert before <= datetime.datetime.fromisoformat(match.group(1)) <= datetime.datetime.now(datetime.timezone.utc)
+
+
+def test_header_time_is_when_the_message_arrived(monkeypatch, capsys):
+    def decode_stream(stream, msg_type, **kwargs):
+        time.sleep(0.3)  # the message takes a while to arrive
+        return azarashi.decode_stream(stream, msg_type, **kwargs)
+
+    monkeypatch.setattr(cli, 'decode_stream', decode_stream)
+    started = datetime.datetime.now(datetime.timezone.utc)
+    code, out, err = _run(monkeypatch, capsys, ['nmea'], EEW.encode() + b'\r\n')
+    header = datetime.datetime.fromisoformat(out.splitlines()[0].split(' ')[0])
+    assert header - started >= datetime.timedelta(seconds=0.3)
 
 
 def test_verbose_prints_every_field(monkeypatch, capsys):

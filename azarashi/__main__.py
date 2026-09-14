@@ -10,6 +10,10 @@ from azarashi.input_stream import RecordingStream
 from azarashi.input_stream import open_input
 
 
+def _utc(time: datetime.datetime) -> str:
+    return time.astimezone(datetime.UTC).isoformat().replace('+00:00', 'Z')
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description='azarashi CLI', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('type', help='message type', type=str, choices=['hex', 'nmea', 'ublox'])
@@ -27,16 +31,16 @@ def main() -> int:
     stream = source if args.record is None else RecordingStream(source, open(args.record, mode='ab'))
 
     while True:
-        now = datetime.datetime.now(datetime.UTC).isoformat().replace('+00:00', 'Z')
         try:
             report = decode_stream(stream, args.type,
                                    unique=args.unique,
                                    ignore_dcr=args.ignore_dcr,
                                    ignore_dcx=args.ignore_dcx)
+            received = _utc(report.timestamp)  # decode_stream() waits for a message: this is when it arrived
             if args.verbose is True:
-                print(f'{now} --------------------------------\n{pformat(report.get_params())}\n')
+                print(f'{received} --------------------------------\n{pformat(report.get_params())}\n')
             else:
-                print(f'{now} --------------------------------\n{report}\n')
+                print(f'{received} --------------------------------\n{report}\n')
 
             if args.source is True:
                 sentence = report.sentence
@@ -48,15 +52,18 @@ def main() -> int:
 
             sys.stdout.flush()
         except QzssDcrDecoderException as e:
-            print(f'{now} --------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
+            print(f'{_utc(datetime.datetime.now(datetime.UTC))} --------------------------------\n'
+                  f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
         except QzssDcrDecoderNotImplementedError as e:
-            print(f'{now} --------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
+            print(f'{_utc(datetime.datetime.now(datetime.UTC))} --------------------------------\n'
+                  f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
         except EOFError as e:
             print(f'{e}\n', file=sys.stderr)
             stream.close()
             return 0
         except Exception as e:
-            print(f'{now} --------------------------------\n# [{type(e).__name__}] {e}\n', file=sys.stderr)
+            print(f'{_utc(datetime.datetime.now(datetime.UTC))} --------------------------------\n'
+                  f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
             stream.close()
             return 1
 
