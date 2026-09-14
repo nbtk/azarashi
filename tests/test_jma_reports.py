@@ -591,5 +591,5 @@ def test_marine_entries_end_where_both_fields_are_zero():
 def test_marine_every_entry():
     entries = [field for i in range(8) for field in ((53 + i * 19, 5, 31), (58 + i * 19, 14, 10000))]
     report = _decode(jma(14, entries))
-    assert report.marine_warning_codes == ['その他の警報等情報要素 海上警報'] * 8
+    assert report.marine_warning_codes == ['その他の警報等情報要素_海上警報'] * 8
     assert report.marine_forecast_regions == ['その他の地方海上予報区'] * 8
