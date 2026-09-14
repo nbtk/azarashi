@@ -8,13 +8,16 @@ from ..report import QzssDcReportBase
 
 class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
-    sentence: str
+    sentence: str | bytes
 
     def decode(self) -> QzssDcReport:
         if not self.sentence:
             raise EOFError('Encountered EOF')
 
-        words = self.sentence.split()
+        sentence = self.sentence
+        if isinstance(sentence, (bytes, bytearray)):  # a line read as bytes, as from pySerial
+            sentence = sentence.decode(errors='replace')
+        words = sentence.split()
         self.sentence = words[0] if words else ''  # a blank line is too short
 
         if len(self.sentence) < 76:

@@ -7,13 +7,16 @@ from ..report import QzssDcReportBase
 
 class HexQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
-    sentence: str
+    sentence: str | bytes
 
     def decode(self) -> QzssDcReport:
         if not self.sentence:
             raise EOFError('Encountered EOF')
 
-        self.sentence = self.sentence.strip()
+        sentence = self.sentence
+        if isinstance(sentence, (bytes, bytearray)):  # a line read as bytes, as from pySerial
+            sentence = sentence.decode(errors='replace')
+        self.sentence = sentence.strip()
 
         if len(self.sentence) < 63:
             raise QzssDcrDecoderException(

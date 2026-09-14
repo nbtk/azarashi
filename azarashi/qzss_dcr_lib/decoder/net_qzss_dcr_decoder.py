@@ -7,12 +7,16 @@ from ..report import QzssDcReportBase
 
 class NetQzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportBase
-    sentence: bytes
+    sentence: str | bytes
 
     def decode(self) -> QzssDcReport:
         if not self.sentence:
             raise EOFError('Encountered EOF')
 
+        if not isinstance(self.sentence, (bytes, bytearray)):  # a datagram is bytes
+            raise QzssDcrDecoderException(
+                'Invalid Sentence',
+                self)
         self.sentence = self.sentence.strip()
 
         if len(self.sentence) < 33:
