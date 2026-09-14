@@ -53,7 +53,9 @@ def test_pages_are_assembled():
     for page, sentence in _announcement_a().items():
         report = azarashi.decode(sentence)
         assert report.completed is (page == 27)
-    assert report.extract_text_information().startswith('南海トラフ沿いのプレート境界で')
+    text = report.extract_text_information()
+    assert text.startswith('南海トラフ沿いのプレート境界で')
+    assert text.endswith('防災対応をとってください。')  # without the 0s after the last character
 
 
 def test_duplicate_pages_from_several_satellites():

@@ -338,6 +338,15 @@ def test_nankai_trough_earthquake(fresh_nankai_assembly):
 訓練の情報。'''
 
 
+def test_nankai_trough_earthquake_text_shorter_than_a_page(fresh_nankai_assembly):
+    text = '訓練。'.encode()  # 9 bytes: the other 9 characters of the page are 0
+    fields = [(53, 4, 5), *((57 + i * 8, 8, byte) for i, byte in enumerate(text)), (201, 6, 1), (207, 6, 1)]
+    report = _decode(jma(4, fields))
+    assert report.text_information == text + bytes(9)
+    assert report.extract_text_information() == '訓練。'
+    assert str(report).endswith('地震関連情報: 巨大地震注意\n訓練。')
+
+
 def test_nankai_trough_earthquake_while_receiving(fresh_nankai_assembly):
     report = _decode(jma(4, [(53, 4, 4), (201, 6, 2), (207, 6, 3)]))
     assert str(report).endswith('地震関連情報: 巨大地震警戒\n受信中 (2) [1/3]')

@@ -504,7 +504,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         for i in range(1, self.total_page + 1):
             msg_bytes += cls.reports[i].text_information
 
-        return msg_bytes.decode('utf-8', errors='ignore')
+        return msg_bytes.replace(b'\x00', b'').decode('utf-8', errors='ignore')  # a Te of 0 is no character
 
     def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
