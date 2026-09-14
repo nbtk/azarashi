@@ -160,7 +160,7 @@ def test_message_rejects(msg, message):
 
 @pytest.mark.parametrize('preamble, name', [
     (0x53, 'A'), (0x9A, 'B'), (0xC6, 'C'),
-    (0x00, 'Undefined Preamble (Code: 0)'),  # undefined codes are decoded as such (a7af359); the CRC still applies
+    (0x00, 'Undefined Preamble (Code: 0)'),  # not an error, since a later edition may add patterns; the CRC still applies
 ])
 def test_preamble(preamble, name):
     assert azarashi.decode(with_fields(EEW, [(0, 8, preamble)])).preamble == name

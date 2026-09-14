@@ -6,5 +6,5 @@ qzss_dcr_preamble = QzssDcrDefinition(
         0x9A: "B",  # 10011010
         0xC6: "C",  # 11000110
     },
-    undefined="Undefined Preamble (Code: %d)"
+    undefined="Undefined Preamble (Code: %d)"  # not an error: a later edition may add patterns
 )

@@ -12,14 +12,8 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
     schema = QzssDcReportMessagePartial
 
     def decode(self) -> QzssDcReport:
-        # checks the preamble
-        pab = self.extract_field(0, 8)
-        try:
-            self.preamble = qzss_dcr_preamble[pab]
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Invalid Preamble: {pab}',
-                self) from err
+        # names the preamble
+        self.preamble = qzss_dcr_preamble[self.extract_field(0, 8)]
 
         # checks the crc
         crc = 0
