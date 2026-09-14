@@ -6,12 +6,12 @@ import pytest
 import serial
 
 import azarashi
-from test_ublox import FRAME
+from samples import EEW
+from samples import EEW_HEX
+from samples import FRAME
 
-# Earthquake Early Warning (training/test message)
-EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
 EEW_LINE = EEW.encode() + b'\r\n'
-EEW_HEX_LINE = EEW.split(',')[2].split('*')[0].encode() + b'\n'
+EEW_HEX_LINE = EEW_HEX.encode() + b'\n'
 
 
 class _SerialLike:

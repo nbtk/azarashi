@@ -7,11 +7,11 @@ import sys
 
 import azarashi
 from azarashi import __main__ as cli
-from test_ublox import FRAME
+from samples import EEW
+from samples import EEW_HEX
+from samples import FRAME
+from samples import L_ALERT
 
-# Earthquake Early Warning (training/test message)
-EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
-EEW_HEX = EEW.split(',')[2].split('*')[0]
 NOISE = b'\xff\xfe\r\n'
 
 
@@ -75,7 +75,7 @@ def test_source_of_a_text_message(monkeypatch, capsys):
 
 
 def test_dcx_is_shown_unless_ignored(monkeypatch, capsys):
-    l_alert = b'$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E\r\n'
+    l_alert = L_ALERT.encode() + b'\r\n'
     code, out, err = _run(monkeypatch, capsys, ['nmea'], EEW.encode() + b'\r\n' + l_alert)
     assert '### DCX Message - L-Alert ###' in out and '\n緊急地震速報\n' in out
     code, out, err = _run(monkeypatch, capsys, ['nmea', '-x'], EEW.encode() + b'\r\n' + l_alert)

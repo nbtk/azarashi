@@ -17,6 +17,8 @@ import pytest
 import azarashi
 from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
 from azarashi.qzss_dcr_lib.report import qzss_dc_report
+from qzqsm import jma
+from qzqsm import sfrbx
 from test_dcx_fields import B4_FIELDS
 from test_dcx_fields import ELLIPSE
 from test_dcx_fields import JAPAN
@@ -30,8 +32,6 @@ from test_jma_reports import TSUNAMI
 from test_jma_reports import TYPHOON
 from test_jma_reports import VOLCANO
 from test_jma_reports import WEATHER
-from test_jma_reports import jma
-from qzqsm import sfrbx
 
 TESTS = os.path.dirname(os.path.realpath(__file__))
 RECEIVED = datetime.datetime(2026, 3, 7, 6, 0, tzinfo=datetime.UTC)

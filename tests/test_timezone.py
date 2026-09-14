@@ -4,11 +4,10 @@ import os
 
 import azarashi
 from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
+from samples import EEW
 
 TESTS = os.path.dirname(os.path.realpath(__file__))
 UTC = datetime.timezone.utc
-# Earthquake Early Warning (training/test message)
-EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
 
 
 def _datetimes(value, path):

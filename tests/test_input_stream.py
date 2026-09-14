@@ -10,10 +10,8 @@ import azarashi
 from azarashi import __main__ as cli
 from azarashi.input_stream import RecordingStream
 from azarashi.input_stream import open_input
-from test_ublox import FRAME
-
-# Earthquake Early Warning (training/test message)
-EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
+from samples import EEW
+from samples import FRAME
 
 
 class _ReadOnly:  # like pySerial: read() but no read1()

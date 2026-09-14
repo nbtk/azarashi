@@ -6,14 +6,9 @@ import weakref
 import pytest
 
 import azarashi
-from qzqsm import sfrbx
 from qzqsm import ubx
-
-# Earthquake Early Warning (training/test message)
-EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
-
-
-FRAME = sfrbx(EEW)
+from samples import EEW
+from samples import FRAME
 
 
 def _drain(stream):

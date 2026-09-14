@@ -6,16 +6,13 @@ import pytest
 import azarashi
 from azarashi.qzss_dcr_lib.decoder import QzssDcrDecoderBase
 from azarashi.qzss_dcr_lib.report import QzssDcReportBase
-from qzqsm import hex_message
 from qzqsm import nmea_checksum
 from qzqsm import sentence
 from qzqsm import sfrbx
 from qzqsm import ubx
 from qzqsm import with_fields
-
-# Earthquake Early Warning (training/test message)
-EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
-EEW_HEX = hex_message(EEW)
+from samples import EEW
+from samples import EEW_HEX
 
 
 def _nmea(body):
