@@ -1,34 +1,19 @@
 """u-blox UBX-RXM-SFRBX stream decoding tests."""
 import gc
 import io
-import struct
 import weakref
 
 import pytest
 
 import azarashi
+from qzqsm import sfrbx
+from qzqsm import ubx
 
 # Earthquake Early Warning (training/test message)
 EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
 
 
-def _ubx(msg_class_id, payload):
-    body = msg_class_id + struct.pack('<H', len(payload)) + payload
-    ck_a = ck_b = 0
-    for b in body:
-        ck_a = (ck_a + b) & 0xff
-        ck_b = (ck_b + ck_a) & 0xff
-    return b'\xB5\x62' + body + bytes((ck_a, ck_b))
-
-
-def _sfrbx_frame(nmea):
-    message = bytes.fromhex(nmea.split(',')[2].split('*')[0] + '0')  # 250 bits padded to 32 bytes
-    words = b''.join(message[i:i + 4][::-1] for i in range(0, 32, 4))  # data words are little-endian
-    # gnssId=QZSS, svId, sigId=L1S, freqId, numWords=8, chn, version, reserved
-    return _ubx(b'\x02\x13', bytes((5, 0, 1, 0, 8, 0, 2, 0)) + words)
-
-
-FRAME = _sfrbx_frame(EEW)
+FRAME = sfrbx(EEW)
 
 
 def _drain(stream):
@@ -119,7 +104,7 @@ def test_corrupted_payload_is_reported_and_skipped():
 
 
 def test_sfrbx_without_data_words_is_skipped():
-    empty = _ubx(b'\x02\x13', bytes((5, 0, 1, 0, 0, 0, 2, 0)))  # QZSS L1S, numWords=0
+    empty = ubx(b'\x02\x13', bytes((5, 0, 1, 0, 0, 0, 2, 0)))  # QZSS L1S, numWords=0
     assert azarashi.decode_stream(io.BytesIO(empty + FRAME), 'ublox') == azarashi.decode(EEW, 'nmea')
 
 

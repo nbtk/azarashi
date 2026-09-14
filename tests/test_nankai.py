@@ -5,7 +5,7 @@ import pytest
 
 import azarashi
 from azarashi.qzss_dcr_lib.report.qzss_dc_report import QzssDcReportJmaNankaiTroughEarthquake as Nankai
-from test_dcr import _with_field
+from qzqsm import with_fields
 
 LOG = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'qzqsm_220307.log')
 REPORT_MINUTE = (35, 6)
@@ -41,10 +41,8 @@ def _announcement_b():
     """A later announcement (04:40 UTC) with the same layout and a text of 'B's."""
     pages = {}
     for page, sentence in _announcement_a().items():
-        sentence = _with_field(sentence, *REPORT_MINUTE, 40)
-        for pos, size in TEXT_BYTES:
-            sentence = _with_field(sentence, pos, size, ord('B'))
-        pages[page] = sentence
+        text = [(pos, size, ord('B')) for pos, size in TEXT_BYTES]
+        pages[page] = with_fields(sentence, [(*REPORT_MINUTE, 40), *text])
     return pages
 
 
@@ -101,14 +99,14 @@ def test_page_that_differs_from_the_one_received_restarts_the_assembly():
     a = _announcement_a()
     azarashi.decode(a[1])
     azarashi.decode(a[2])
-    changed = _with_field(a[1], *TEXT_BYTES[0], ord('C'))  # the same page of the same announcement, other text
+    changed = with_fields(a[1], [(*TEXT_BYTES[0], ord('C'))])  # the same page of the same announcement, other text
     report = azarashi.decode(changed)
     assert report.extract_text_information() == '受信中 (1) [1/27]'
     assert Nankai.reports == {1: report}
 
 
 def _with_page(sentence, page, total):
-    return _with_field(_with_field(sentence, *PAGE_NUMBER, page), *TOTAL_PAGE, total)
+    return with_fields(sentence, [(*PAGE_NUMBER, page), (*TOTAL_PAGE, total)])
 
 
 @pytest.mark.parametrize('page, total, code', [  # the code is the page number and the total page (12 bits)

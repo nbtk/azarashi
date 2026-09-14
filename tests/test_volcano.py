@@ -5,16 +5,14 @@ from datetime import timezone
 import pytest
 
 import azarashi
-from test_dcr import _with_field
+from qzqsm import with_fields
 
 # Volcano (training/test message): reported 2026-03-07 05:10 UTC, activity at the same time with no ambiguity
 VOLCANO = '$QZQSM,58,C6AFC19CA50001CA5341F783E0F10910421230200000000000000011B086438*70'
 
 
 def _with_activity_time(ambiguity, day, hour, minute, sentence=VOLCANO):
-    for pos, size, value in ((50, 3, ambiguity), (53, 5, day), (58, 5, hour), (63, 6, minute)):
-        sentence = _with_field(sentence, pos, size, value)
-    return sentence
+    return with_fields(sentence, [(50, 3, ambiguity), (53, 5, day), (58, 5, hour), (63, 6, minute)])
 
 
 def _date_line(report):
@@ -54,7 +52,7 @@ def test_volcano_activity_time_without_valid_values(ambiguity):
     (1, 5, 20, 1, 12),  # the previous year
 ])
 def test_volcano_activity_date_is_not_after_the_report(report_month, report_day, day, years_before, month):
-    sentence = _with_field(_with_field(VOLCANO, 21, 4, report_month), 25, 5, report_day)  # report time: month, day
+    sentence = with_fields(VOLCANO, [(21, 4, report_month), (25, 5, report_day)])  # report time: month, day
     report = azarashi.decode(_with_activity_time(5, day, 0, 0, sentence), 'nmea')
     assert report.activity_time == datetime(report.report_time.year - years_before, month, day, tzinfo=timezone.utc)
     assert report.activity_time <= report.report_time

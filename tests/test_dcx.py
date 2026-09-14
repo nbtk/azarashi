@@ -12,7 +12,7 @@ import pytest
 
 import azarashi
 from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
-from test_dcr import _with_field
+from qzqsm import with_fields
 
 UTC = datetime.timezone.utc
 
@@ -91,7 +91,7 @@ def _decode_at(sentence, timestamp):
 
 
 def _with_hazard_onset(sentence, week, time_of_week):
-    return _with_field(_with_field(sentence, 49, 1, week), 50, 14, time_of_week)  # A6: 1 bit, A7: 14 bits
+    return with_fields(sentence, [(49, 1, week), (50, 14, time_of_week)])  # A6: 1 bit, A7: 14 bits
 
 
 @pytest.mark.parametrize('week, code, time_of_week, minutes', [

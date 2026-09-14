@@ -6,6 +6,7 @@ import pytest
 
 import azarashi
 from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
+from qzqsm import with_fields
 
 # Earthquake Early Warning (training/test message)
 EEW = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
@@ -23,29 +24,10 @@ NWP_ARRIVED_OR_UNKNOWN = '$QZQSM,55,53AD360D5B80047FFFFE300000000000000000000000
 NWP = '$QZQSM,56,9AAD3609E080023AE008D3D1008E449009D457009E3E5011F00000138B3E720*09'
 
 
-def _with_field(sentence, pos, size, value):
-    """Return the sentence with one message field replaced and its CRC and checksum recomputed."""
-    bits = int(sentence.split(',')[2].split('*')[0], 16) >> 2  # 250-bit message
-    shift = 250 - pos - size
-    bits = bits & ~(((1 << size) - 1) << shift) | value << shift
-    crc = 0
-    for i in range(226):  # CRC-24Q over everything but the CRC field
-        crc ^= (bits >> (249 - i) & 1) << 23
-        crc = (crc << 1) ^ 0x1864cfb if crc & 0x800000 else crc << 1
-    bits = bits & ~0xffffff | crc & 0xffffff
-    body = f'QZQSM,{sentence.split(",")[1]},{bits << 2:063X}'
-    checksum = 0
-    for c in body:
-        checksum ^= ord(c)
-    return f'${body}*{checksum:02X}'
-
-
 def _with_arrival_time(sentence, region, day, hour, minute):
     """Return the tsunami sentence with the expected arrival time of one forecast region replaced."""
     pos = 84 + region * 26  # expected arrival time: day (1 bit), hour (5 bits), minute (6 bits)
-    sentence = _with_field(sentence, pos, 1, day)
-    sentence = _with_field(sentence, pos + 1, 5, hour)
-    return _with_field(sentence, pos + 6, 6, minute)
+    return with_fields(sentence, [(pos, 1, day), (pos + 1, 5, hour), (pos + 6, 6, minute)])
 
 
 def test_eew_fields():
@@ -78,8 +60,8 @@ def test_longitude_minute_out_of_range_makes_the_coordinates_a_code():
     lon_m_pos = 122 + 29  # hypocenter coordinates start at bit 122; longitude minutes are 6 bits at +29
     coordinates = azarashi.decode(HYPOCENTER, 'nmea').coordinates_of_hypocenter_raw
     assert coordinates['lon_m'] != 60
-    assert _with_field(HYPOCENTER, lon_m_pos, 6, coordinates['lon_m']) == HYPOCENTER  # the helper round-trips
-    report = azarashi.decode(_with_field(HYPOCENTER, lon_m_pos, 6, 60), 'nmea')
+    assert with_fields(HYPOCENTER, [(lon_m_pos, 6, coordinates['lon_m'])]) == HYPOCENTER  # the helper round-trips
+    report = azarashi.decode(with_fields(HYPOCENTER, [(lon_m_pos, 6, 60)]), 'nmea')
     assert report.coordinates_of_hypocenter == '緯度・経度(コード番号：280515596032)'
     assert report.coordinates_of_hypocenter_raw == {**coordinates, 'lon_m': 60}
 
@@ -92,7 +74,7 @@ def test_longitude_minute_out_of_range_makes_the_coordinates_a_code():
     (890917000100, '番匠川水系(大分県)'),
 ])
 def test_flood_forecast_regions(code, name):
-    report = azarashi.decode(_with_field(FLOOD, 53 + 4, 40, code), 'nmea')  # region of the first flood warning
+    report = azarashi.decode(with_fields(FLOOD, [(53 + 4, 40, code)]), 'nmea')  # the first flood warning region
     assert report.flood_forecast_regions_raw == [code]
     assert report.flood_forecast_regions == [name]
 
@@ -138,7 +120,7 @@ def test_tsunami_arrival_time_types(day, hour, minute, time_type):
     (12, '津波の高さ(コード番号：12)'),
 ])
 def test_tsunami_heights(code, height):
-    report = azarashi.decode(_with_field(TSUNAMI, 84 + 12, 4, code), 'nmea')  # height of the first forecast region
+    report = azarashi.decode(with_fields(TSUNAMI, [(84 + 12, 4, code)]), 'nmea')  # height of the first forecast region
     assert (report.tsunami_heights[0], report.tsunami_heights_raw[0]) == (height, code)
 
 
@@ -151,7 +133,7 @@ def test_tsunami_arrival_time_out_of_range(hour, minute, code):
 
 
 def _with_report_date(sentence, month, day):
-    return _with_field(_with_field(sentence, 21, 4, month), 25, 5, day)  # report time: month (4 bits), day (5 bits)
+    return with_fields(sentence, [(21, 4, month), (25, 5, day)])  # report time: month (4 bits), day (5 bits)
 
 
 @pytest.mark.parametrize('month, day', [(4, 31), (2, 30)])
@@ -177,7 +159,7 @@ def test_report_on_a_leap_day_takes_the_closest_leap_year(received, year):
     (datetime(2029, 3, 10, tzinfo=timezone.utc), 31, 63552),
 ])
 def test_nonexistent_occurrence_date_is_a_code(received, day, code):
-    sentence = _with_field(_with_report_date(EEW, received.month, received.day), 80, 5, day)  # occurrence day
+    sentence = with_fields(_with_report_date(EEW, received.month, received.day), [(80, 5, day)])  # occurrence day
     report = NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
     assert report.occurrence_time_of_earthquake is None
     assert report.occurrence_time_of_earthquake_raw == {'day': day, 'hour': 1, 'minute': 0}
@@ -186,7 +168,7 @@ def test_nonexistent_occurrence_date_is_a_code(received, day, code):
 
 def test_occurrence_on_a_leap_day():
     received = datetime(2028, 3, 5, tzinfo=timezone.utc)
-    sentence = _with_field(_with_report_date(EEW, 3, 5), 80, 5, 29)
+    sentence = with_fields(_with_report_date(EEW, 3, 5), [(80, 5, 29)])
     report = NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
     assert report.occurrence_time_of_earthquake.date() == datetime(2028, 2, 29).date()
 
@@ -194,9 +176,7 @@ def test_occurrence_on_a_leap_day():
 def _with_nwp_arrival_time(sentence, region, day, hour, minute):
     """Return the Northwest Pacific tsunami sentence with the arrival time of one coastal region replaced."""
     pos = 56 + region * 28  # expected arrival time: day (1 bit), hour (5 bits), minute (6 bits)
-    sentence = _with_field(sentence, pos, 1, day)
-    sentence = _with_field(sentence, pos + 1, 5, hour)
-    return _with_field(sentence, pos + 6, 6, minute)
+    return with_fields(sentence, [(pos, 1, day), (pos + 1, 5, hour), (pos + 6, 6, minute)])
 
 
 def test_northwest_pacific_tsunami_arrival_times():
