@@ -22,6 +22,7 @@ from .qzss_dcr_jma_marine_forecast_region import *
 from .qzss_dcr_jma_marine_warning_code import *
 from .qzss_dcr_jma_northwest_pacific_tsunami_height import *
 from .qzss_dcr_jma_notification_on_disaster_prevention import *
+from .qzss_dcr_jma_page_number_and_total_page import *
 from .qzss_dcr_jma_prefecture import *
 from .qzss_dcr_jma_seismic_intensity import *
 from .qzss_dcr_jma_seismic_intensity_lower_limit import *

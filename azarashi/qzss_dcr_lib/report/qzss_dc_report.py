@@ -4,6 +4,9 @@ from typing import Any, ClassVar, TypeAlias, TypedDict
 
 from ..definition import qzss_dcr_jma_activity_time_undefined
 from ..definition import qzss_dcr_jma_occurrence_time_of_earthquake_undefined
+from ..definition import qzss_dcr_jma_page_number_and_total_page_undefined
+from ..definition import qzss_dcr_jma_page_numbers
+from ..definition import qzss_dcr_jma_total_pages
 from ..definition import qzss_dcr_jma_typhoon_reference_time_undefined
 from ..exception import QzssDcrDecoderException
 
@@ -455,6 +458,8 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         self.total_page = total_page
 
         cls = self.__class__
+        if not self._has_page_position():
+            return  # a page that cannot be placed must not break the announcement being assembled
         if cls.announcement is not None and self.get_announcement() != cls.announcement:
             if self.report_time < cls.announcement[0]:
                 return  # a late page of an older announcement must not break the newer one
@@ -474,6 +479,11 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         if all(page in cls.reports for page in range(1, self.total_page + 1)):
             cls.completed = True
 
+    def _has_page_position(self) -> bool:
+        """Whether the page number and the total page place this page in the text."""
+        return (self.page_number in qzss_dcr_jma_page_numbers and self.total_page in qzss_dcr_jma_total_pages
+                and self.page_number <= self.total_page)
+
     def get_announcement(self) -> tuple[datetime, int, int, int, int]:
         return (self.report_time,
                 self.report_classification_no,
@@ -483,6 +493,8 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
 
     def extract_text_information(self) -> str:
         cls = self.__class__
+        if not self._has_page_position():
+            return qzss_dcr_jma_page_number_and_total_page_undefined % (self.page_number << 6 | self.total_page)
         if self.get_announcement() != cls.announcement:
             return f'受信中 ({self.page_number}) [-/{self.total_page}]'
         if cls.completed is not True:

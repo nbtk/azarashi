@@ -10,6 +10,7 @@ from test_dcr import _with_field
 LOG = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'qzqsm_220307.log')
 REPORT_MINUTE = (35, 6)
 PAGE_NUMBER = (201, 6)
+TOTAL_PAGE = (207, 6)
 TEXT_BYTES = [(57 + i * 8, 8) for i in range(18)]
 
 
@@ -102,3 +103,32 @@ def test_page_that_differs_from_the_one_received_restarts_the_assembly():
     report = azarashi.decode(changed)
     assert report.extract_text_information() == '受信中 (1) [1/27]'
     assert Nankai.reports == {1: report}
+
+
+def _with_page(sentence, page, total):
+    return _with_field(_with_field(sentence, *PAGE_NUMBER, page), *TOTAL_PAGE, total)
+
+
+@pytest.mark.parametrize('page, total, code', [  # the code is the page number and the total page (12 bits)
+    (0, 1, 1),
+    (1, 0, 64),
+    (0, 0, 0),
+    (5, 3, 323),  # beyond the total page
+])
+def test_page_that_cannot_be_placed_is_a_code(page, total, code):
+    report = azarashi.decode(_with_page(_announcement_a()[1], page, total))
+    assert (report.page_number, report.total_page) == (page, total)
+    assert report.extract_text_information() == f'ページ番号・総ページ数(コード番号：{code})'
+    assert str(report).endswith(f'\nページ番号・総ページ数(コード番号：{code})')
+    assert (Nankai.reports, Nankai.completed, Nankai.announcement) == ({}, False, None)
+
+
+@pytest.mark.parametrize('page, total', [(0, 27), (1, 0), (28, 27)])
+def test_page_that_cannot_be_placed_does_not_break_the_assembly(page, total):
+    a = _announcement_a()
+    for number in range(1, 27):
+        azarashi.decode(a[number])
+    azarashi.decode(_with_page(a[1], page, total))  # the same announcement time
+    report = azarashi.decode(a[27])
+    assert report.completed is True
+    assert report.extract_text_information().startswith('南海トラフ沿いのプレート境界で')
