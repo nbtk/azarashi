@@ -5,7 +5,7 @@
 # Azarashi
 A QZSS DCR Decoder.
 ## Description
-azarashi は準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報(災害・危機管理通報サービス)とは、防災機関から発表される地震や津波発生時の災害情報などの危機管理情報を準天頂衛星みちびき経由で送信するサービスです。
+azarashi は、準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報は「災害・危機管理通報サービス」の略です。地震や津波などの災害情報や危機管理情報を、防災機関から受けてみちびき経由で送信するサービスです。
 ## Installation
 ```shell
 $ pip install azarashi
@@ -40,7 +40,7 @@ Device: 5h/5d	Inode: 602         Links: 1     Device type: 4,40
 Access: (0660/crw-rw----)  Uid: (    0/    root)   Gid: (   20/ dialout)
 ...
 ```
-もし `/dev/ttyS0` が存在しない場合は dmsg コマンドで確認しましょう。ファイル名が異なるか UART ポートを有効化する設定が間違っているか、有効化に失敗していることが考えられます。
+`/dev/ttyS0` が存在しないときは、dmesg コマンドでシリアルデバイスがどう認識されているかを確認しましょう。デバイスのファイル名が違う、UART を有効にする設定が間違っている、有効化に失敗している、といった原因が考えられます。
 ```shell
 $ sudo dmesg | grep serial
 ```
@@ -53,7 +53,7 @@ $ sudo dmesg | grep serial
 $ sudo usermod -a -G dialout $USER
 $ logout # then re-login to the machine
 ```
-データシートを参照して直接インストラクションを流し込むか、設定ツールをつかって SFRBX メッセージの出力を有効にしてください。設定ツール ubxtool は下記のようにインストールします。
+次に、SFRBX メッセージの出力を有効にします。データシートを見て設定コマンドを直接送るか、設定ツールを使ってください。ここでは設定ツール ubxtool を使います。ubxtool は次のようにインストールします。
 ```shell
 $ sudo apt update
 $ sudo apt install gpsd gpsd-clients
@@ -120,9 +120,9 @@ options:
   -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
 ```
-`-f` にシリアルデバイス (`/dev/ttyS0` や `COM3` など) を指定すると pySerial で開くので、stty コマンドによる設定は不要です。ボーレートは `-b` で指定してください。通常のファイルを指定するとそのまま読み込みます。
+`-f` には、シリアルデバイスかファイルを指定します。`/dev/ttyS0` や `COM3` のようなシリアルデバイスを指定するときは、ボーレートを `-b` で指定してください。ファイルを指定したときは、その中身をそのまま読み込みます。
 
-CLI は DCR と DCX の両方を表示します。`decode_stream()` のデフォルトでは DCX は無視されるので注意してください。表示したくないメッセージは `-r` (DCR) または `-x` (DCX) で除外できます。
+CLI は DCR と DCX の両方を表示します。DCR を表示したくないときは `-r` を、DCX を表示したくないときは `-x` を指定してください。API の `decode_stream()` はデフォルトで DCX を無視するので、CLI とは動きが違います。
 ### u-blox
 azarashi コマンドのメッセージタイプに `ublox` を指定します。デバイスファイルのパスとボーレートは適宜変更してください。
 ```shell
@@ -130,17 +130,17 @@ $ azarashi ublox -f /dev/ttyS0 -b 9600
 ```
 デバイスファイルの読込権限が足りないときは、sudo を使わずに前述のとおりユーザを `dialout` グループに追加してください。
 ### Sony Spresense
-azarashi コマンドに nmea オプションを指定します。ボーレートはスケッチで設定した値に合わせてください。
+azarashi コマンドのメッセージタイプに `nmea` を指定します。ボーレートは、スケッチで設定した値に合わせてください。
 ```shell
 $ azarashi nmea -f /dev/ttyUSB0 -b 115200
 ```
 ### Hexadecimal
-azarashi コマンドのメッセージタイプに `hex` を指定してください。`hex` はヘッダ、チェックサムを含まない16進数文字列のメッセージ形式です。
+azarashi コマンドのメッセージタイプに `hex` を指定します。`hex` は、ヘッダとチェックサムを含まない、16進数の文字列だけのメッセージ形式です。
 ```shell
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
 ### Record and Replay
-`--record` を指定すると、デコードしながら受信した生データをファイルに追記します。記録したファイルは `-f` または標準入力で再生できます。
+`--record` を指定すると、デコードしながら、受信したデータをそのままファイルに追記します。記録したファイルを `-f` で指定するか標準入力に流すと、同じ受信を再現できます。
 ```shell
 $ azarashi ublox -f /dev/ttyS0 --record qzss.ubx
 $ azarashi ublox -f qzss.ubx
@@ -150,10 +150,10 @@ $ azarashi ublox -f qzss.ubx
 ```python
 azarashi.decode(msg, msg_type='nmea')
 ```
-- `msg`: メッセージを渡してください。メッセージは str 型または bytes 型です。
-- `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。`nmea` または `hex` を指定したときメッセージは str 型、`ublox` を指定したときメッセージは bytes 型です。
+- `msg`: デコードするメッセージです。
+- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型で、`ublox` のメッセージは bytes 型で渡してください。
 #### Example
-デコードして得られたレポートオブジェクトを `str()` にわたすとヒューマンリーダブルな災害情報を返します。
+`decode()` はレポートオブジェクトを返します。レポートオブジェクトを `str()` に渡すと、災害情報を読みやすい文章にして返します。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
@@ -161,7 +161,7 @@ azarashi.decode(msg, msg_type='nmea')
 >>> str(report)
 '防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向灘\n地震発生時刻: 10日10時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
 ```
-つまりレポートオブジェクトを `print()` にわたせば災害情報を出力します。
+そのため、レポートオブジェクトを `print()` に渡すと災害情報を表示できます。
 ```python
 >>> print(report)
 ```
@@ -181,7 +181,9 @@ azarashi.decode(msg, msg_type='nmea')
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。パラメータの時刻 (`datetime`) はすべてタイムゾーン付きの UTC です。発表時刻以外の時刻は、時刻として読めない値が届くと `None` になり、送られてきた日・時・分が `_raw` に残ります。`str()` が返す日本語の文章では、時刻を JST に変換して表示します。
+レポートオブジェクトのパラメータは、`get_params()` メソッドで辞書として取得できます。時刻のパラメータは、すべて UTC のタイムゾーンが付いた `datetime` です。`str()` が返す文章では、時刻を JST に変換して表示します。
+
+時刻として読めない値が届いたときは、その時刻のパラメータは `None` になります。送られてきた日・時・分は、名前の末尾に `_raw` が付いたパラメータに残ります。例えば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`QzssDcrDecoderException` が送出されます。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params())
@@ -215,7 +217,7 @@ azarashi.decode(msg, msg_type='nmea')
  'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
  'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
  'notifications_on_disaster_prevention_raw': [201],
- 'occurrence_time_of_earthquake': datetime.datetime(2026, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake': datetime.datetime(2024, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
  'occurrence_time_of_earthquake_raw': {'day': 10, 'hour': 1, 'minute': 0},
  'preamble': 'C',
  'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
@@ -223,7 +225,7 @@ azarashi.decode(msg, msg_type='nmea')
  'report_classification': '訓練/試験',
  'report_classification_en': 'Training/Test',
  'report_classification_no': 7,
- 'report_time': datetime.datetime(2026, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
+ 'report_time': datetime.datetime(2024, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
  'satellite_id': 55,
  'satellite_prn': 183,
  'seismic_epicenter': '日向灘',
@@ -236,7 +238,7 @@ azarashi.decode(msg, msg_type='nmea')
  'timestamp': datetime.datetime(2024, 6, 21, 6, 40, 34, 960948, tzinfo=datetime.timezone.utc),
  'version': 1}
 ```
-重複して受信した同一情報のメッセージかどうかは等価演算子で判別できます。
+同じ情報を重複して受信したかどうかは、`==` で比べると判別できます。
 ```python
 >>> msg2 = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
 >>> report2 = azarashi.decode(msg2, 'nmea')
@@ -249,17 +251,20 @@ True
 ```python
 azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True)
 ```
-- `stream`: I/Oストリームを渡してください。シリアルデバイスは pySerial で開いて渡してください。stty コマンドによる設定は不要です。ファイルは `open(path, 'rb')` のようにバイナリモードで開くことをおすすめします。
-- `msg_type`: デフォルトは `nmea` 、オプションとして `hex` または `ublox` を指定できます。
-- `callback`: メッセージをデコードしたあとに実行されるコールバック関数です。`None` の場合 `decode_stream()` はメッセージをデコードするたびに結果を返します。コールバック関数が与えられた場合 `decode_stream()` は例外が発生しない限り繰り返しメッセージをデコードし、そのたびにコールバック関数に結果を渡して実行します。下記はコールバック関数のインタフェースです。
+- `stream`: メッセージを読み込むストリームです。シリアルデバイスは pySerial で開いて渡してください。ファイルは `open(path, 'rb')` のように、バイナリモードで開くことをおすすめします。
+- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。
+- `callback`: レポートを受け取る関数です。`None` のときは、メッセージを一つデコードして、そのレポートを返します。関数を指定したときは、例外が発生するまでデコードを繰り返し、レポートができるたびに関数を呼び出します。関数は次のように呼び出されます。
 ```python
 callback(report, *callback_args, **callback_kwargs)
 ```
-- `calback_args`: コールバック関数に渡される引数です。
-- `callback_kwargs`: コールバック関数に渡されるキーワード引数です。
-- `unique`: 重複したメッセージを無視したいときは `True` を指定してください。`True` は同一メッセージを常に無視します（期限なし）。秒数（数値）を指定すると、最後に受信してからの経過秒数がその値を超えた重複メッセージは鮮度切れとみなして再び通知します。例えば継続中の警報が翌日再ブロードキャストされたときに再通知させたい場合は `unique=3600*24` のように指定してください。デフォルトの `False` は重複排除をしません。
-- `ignore_dcr`: DCRメッセージを無視したいときは `True` を指定してください。デフォルトは `False` です。
-- `ignore_dcx`: DCXメッセージを無視したくないときは `False` を指定してください。デフォルトは `True` です。
+- `callback_args`: 関数に渡す位置引数です。
+- `callback_kwargs`: 関数に渡すキーワード引数です。
+- `unique`: 重複したメッセージを無視するかどうかです。
+  - `False`: 重複を無視しません。デフォルトです。
+  - `True`: 同じメッセージは、2回目以降をいつまでも無視します。
+  - 秒数: 同じメッセージでも、最後に受信してからその秒数を過ぎていれば、もう一度通知します。例えば、続いている警報が翌日にもう一度配信されたときに通知させたいなら、`unique=3600*24` と指定します。
+- `ignore_dcr`: DCR メッセージを無視するときは `True` を指定します。デフォルトは `False` です。
+- `ignore_dcx`: DCX メッセージを無視するかどうかです。デフォルトは `True` で、DCX メッセージを無視します。DCX メッセージも受け取るときは `False` を指定してください。
 #### Example
 シリアルデバイスを pySerial で開いて読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
 ```python
@@ -269,11 +274,11 @@ callback(report, *callback_args, **callback_kwargs)
 >>> azarashi.decode_stream(ser, msg_type='ublox', callback=print)
 ```
 ### QzssDcrDecoderException
-この例外クラスは何らかの理由でデコードに失敗したときに送出されます。エラーメッセージを表示すると問題解決の一助となるでしょう。
+デコードに失敗したときに送出される例外クラスです。エラーメッセージに失敗の理由が書かれているので、表示すると原因を調べる手がかりになります。
 ### QzssDcrDecoderNotImplementedError
-`NotImplementedError` を継承した例外クラスです。実験的な配信など、デコーダが対応していないメッセージを受け取ったときに送出されます。配信がはじまると騒々しいのでデバッグ以外ではこの例外を握りつぶしたほうがよいかもしれません。
+`NotImplementedError` を継承した例外クラスです。実験的な配信など、azarashi が対応していないメッセージを受け取ったときに送出されます。そうした配信が始まると頻繁に送出されるので、デバッグのとき以外は捕捉して無視してもよいでしょう。
 ### QzssDcrDecoderTimeoutError
-`EOFError` を継承した例外クラスです。pySerial などを `timeout` 付きで開いたストリームで、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは保持されるので、もう一度 `decode_stream()` を呼べば続きから再開します。`EOFError` より先に捕捉してください。
+`EOFError` を継承した例外クラスです。pySerial などで `timeout` を指定して開いたストリームから、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。`EOFError` と区別するときは、`EOFError` より先に捕捉してください。
 ```python
 with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
     while not stopped:
@@ -283,7 +288,14 @@ with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
             continue  # no complete message within a second: check `stopped` and keep reading
 ```
 ### Type Hints
-azarashi は型ヒント付きで配布しています (`py.typed`)。mypy や pyright で `decode()` と `decode_stream()` の引数と戻り値、レポートの各フィールドの型を検査できます。戻り値の型 `azarashi.QzssDcReport` は JMA-DC Report (`QzssDcReportJmaBase`) か DCX (`QzssDcXtendedMessageBase`) のどちらかなので、災害種別ごとのフィールドは `isinstance()` で絞り込んでから参照してください。
+azarashi は型ヒント付きで配布しています。mypy や pyright を使うと、関数の引数と戻り値や、レポートのフィールドの型を検査できます。
+
+`decode()` と `decode_stream()` が返すレポートの型は `azarashi.QzssDcReport` です。これは次の二つのどちらかです。
+
+- JMA-DC Report のレポート: `QzssDcReportJmaBase` とそのサブクラス
+- DCX のレポート: `QzssDcXtendedMessageBase` とそのサブクラス
+
+災害の種類ごとのフィールドを参照するときは、先に `isinstance()` でレポートのクラスを確かめてください。
 ```python
 import azarashi
 from azarashi import qzss_dc_report
@@ -296,7 +308,7 @@ def handler(report: azarashi.QzssDcReport) -> None:
     elif isinstance(report, qzss_dc_report.QzssDcXtendedMessageBase):
         print(report.a6a7_hazard_onset_datetime)  # datetime | None
 ```
-DCX のフィールド (`a12_ellipse_centre_latitude` など) は、メッセージの種類と内容によっては設定されません。型は宣言してありますが、設定されていない属性を参照すると `AttributeError` になるので、必要に応じて `getattr()` や `get_params()` を使ってください。
+DCX のレポートには、メッセージの種類や内容によって設定されないフィールドがあります。例えば `a12_ellipse_centre_latitude` は、楕円の情報を持たないメッセージでは設定されません。設定されていないフィールドを参照すると `AttributeError` になります。型ヒントには宣言してあるので、型検査では気づけません。そうしたフィールドは `getattr()` や `get_params()` で確かめてから使ってください。
 ## Examples
 ### I/O Stream
 例外処理を加えた簡単なプログラムの例です。記録したファイルを読み込みます。
@@ -323,7 +335,7 @@ def example():
 exit(example())
 ```
 ### pySerial
-[pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを開いて `decode_stream()` に渡す例です。stty コマンドによる設定は不要です。
+[pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを開いて `decode_stream()` に渡す例です。
 ```python
 import azarashi
 import sys
@@ -352,9 +364,9 @@ def example():
 exit(example())
 ```
 ## Network
-GPS アンテナは屋外や窓際に設置する必要があるため、それが実際にデータを処理する装置の近くとは限りません。そこでデータを UDP パケットに載せて再送するスクリプトを書きました。IPv4/IPv6 両方に対応しています。簡単な実装なので、ソースを参考に改造するベースにもよいと思います。
+GPS アンテナは屋外や窓際に置く必要があるので、データを処理する装置の近くに置けるとは限りません。そこで、受信したデータを UDP パケットで別の装置に送るスクリプトを用意しました。IPv4 と IPv6 の両方に対応しています。簡単な実装なので、改造して使うときのベースにもしやすいと思います。
 ### Transmitter
-送信側のスクリプトです。DCR と DCX の両方のメッセージを送信します。デフォルトでは IPv6 リンクローカルマルチキャストアドレスにパケットを送信します。宛先アドレスを指定したい場合は -d オプションを使用してください。`-f`、`-b`、`--record` は azarashi CLI と同じです。
+送信側のスクリプトです。DCR と DCX の両方のメッセージを送信します。デフォルトの宛先は IPv6 のリンクローカルマルチキャストアドレスです。宛先を変えるときは `-d` で指定してください。`-f`、`-b`、`--record` の使い方は azarashi CLI と同じです。
 ```shell
 $ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0 -b 9600
 ```
@@ -381,7 +393,7 @@ options:
   -u, --unique          supress duplicate messages (default: False)
 ```
 ### Receiver
-受信側のスクリプトです。DCR と DCX の両方を表示します。表示したくないメッセージは `-r` (DCR) または `-x` (DCX) で除外できます。受信するインタフェースを指定する `-i` は `SO_BINDTODEVICE` を使うので Linux でのみ使えます。
+受信側のスクリプトです。DCR と DCX の両方を表示します。DCR を表示したくないときは `-r` を、DCX を表示したくないときは `-x` を指定してください。受信するインタフェースは `-i` で指定できます。ただし `-i` は Linux の `SO_BINDTODEVICE` を使うので、Linux でしか使えません。
 ```shell
 $ python3 -m azarashi.network.receiver
 ```
@@ -404,9 +416,9 @@ options:
   -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
 ```
-`Receiver.start()` をプログラムから使う場合は、`decode_stream()` と同じく `ignore_dcr=False`、`ignore_dcx=True` がデフォルトです。DCX も受け取るときは `ignore_dcx=False` を指定してください。
+プログラムから `Receiver.start()` を呼ぶときは、`decode_stream()` と同じく、DCX を無視するのがデフォルトです。DCX も受け取るときは `ignore_dcx=False` を指定してください。
 
-受信したパケットがメッセージとしてデコードできないとき、receiver コマンドは警告をログに出力して受信を続けます。`Receiver.start()` は `QzssDcrDecoderException` を送出して終了するので、プログラムから使う場合は捕捉してもう一度呼び出してください。
+受信したパケットをデコードできないとき、receiver コマンドは警告をログに出力して受信を続けます。一方 `Receiver.start()` は、`QzssDcrDecoderException` を送出して終了します。プログラムから使うときは、例外を捕捉してもう一度呼び出してください。
 
 ## DCX
 azarashi は DCX メッセージのデコードをサポートしています。下記は L-Alert をデコードする例です。
@@ -446,6 +458,8 @@ C4 - Refined length of semi minor axis: 5.979
 ```
 ```python
 {'sentence': '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E',
+ 'raw': b'M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc\x00\x00\x00'
+        b'\x00\x00\x00\x00\x10',
  'timestamp': datetime.datetime(2024, 6, 21, 6, 9, 5, 433111, tzinfo=datetime.timezone.utc),
  'message': b'S\xb0`M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc'
             b'\x00\x00\x00\x00\x00\x00\x00\x10"\xa8\x18\x80',
@@ -453,17 +467,16 @@ C4 - Refined length of semi minor axis: 5.979
  'message_header': '$QZQSM',
  'satellite_id': 55,
  'satellite_prn': 183,
- 'raw': b'M\xe1\x95$\xcd\xa3\x05\xb2\xc1\xe3U\xb5x\x00\x00\x0c\xcc\x00\x00\x00'
-        b'\x00\x00\x00\x00\x10',
  'preamble': 'A',
  'message_type': 'DCX',
- 'camf': <azarashi.qzss_dcr_lib.decoder.qzss_dcx_decoder._CAMF object at 0x1023af6a0>,
+ 'camf': <azarashi.qzss_dcr_lib.report.qzss_dc_report.QzssDcxCamf object at 0x10aeb3d10>,
  'ignore_a12_to_a16': False,
  'ignore_a17_to_a18': False,
  'ignore_ex1': True,
  'ignore_ex2_to_ex7': True,
  'ignore_ex8_to_ex9': True,
- 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside '
+                                    'Japan',
  'satellite_designation_mask': ['For Japan',
                                 'For Japan',
                                 'For Japan',
@@ -503,7 +516,7 @@ C4 - Refined length of semi minor axis: 5.979
  'c4_refined_length_of_semi_minor_axis': 5.979,
  'dcx_version': 1}
 ```
-ビットフィールドの値は `report.camf` オブジェクトに格納されています。
+デコードする前のビットフィールドの値は、`report.camf` に入っています。
 ```python
 print(report.camf.get_params())
 ```
@@ -535,7 +548,7 @@ class QzssDcxJAlert(QzssDcXtendedMessageBase)
 class QzssDcxMTInfo(QzssDcXtendedMessageBase)
 ```
 #### Unknown Message
-日本の未定義の機関から発報されたメッセージです。azarashi はこのメッセージを正確にデコードできないでしょう。デバッグの目的以外では無視してください。
+日本から発報されたメッセージのうち、発信機関が L-Alert、J-Alert、自治体のどれでもないものです。azarashi は正確にデコードできない可能性が高いので、デバッグのとき以外は無視してください。
 ```python
 class QzssDcxUnknown(QzssDcXtendedMessageBase)
 ```
@@ -549,32 +562,38 @@ GPS モジュールと接続するインタフェースのボーレートが一�
 ```
 azarashi CLI では `-b` オプションで指定します。GPS モジュール側の設定方法はモジュールのマニュアルを参照してください。
 
-テキストモードで開いたストリームを `decode_stream()` に渡している場合は、壊れたビット列を読んだストリーム自体が次の例外を送出することがあります。バイナリモード (`'rb'`) で開けば壊れた行は読み飛ばされます。
+`decode_stream()` にテキストモードで開いたストリームを渡していると、壊れたビット列を読んだときに、ストリーム自体が次の例外を送出することがあります。ストリームを `'rb'` のバイナリモードで開けば、壊れた行は読み飛ばされます。
 ```
 [UnicodeDecodeError] 'utf-8' codec can't decode byte 0xNN in position XX: ~
 ```
 ### Encountered EOF
-CLI でストリームを受けていた azarashi は、書き込み側がクローズすると Encountered EOF と stderr に出力して終了します。これは正常な動作です。その直前までエラーなく動作していたと解釈してください。
+azarashi CLI は、読み込んでいるストリームの書き込み側が閉じられると、stderr に Encountered EOF と出力して終了します。これはエラーではなく、正常な終了です。
 ### DCX Satellite Designation Field
-DCX メッセージの SD フィールドを監視する必要があるとき `decode_stream()` メソッドの `unique` オプションは指定しないでください。`unique` オプションを指定したとき、重複した DCX メッセージかどうかを判断するために SD フィールドの差異は考慮されません。SD フィールドが異なるメッセージでも CAMF フィールドが同じメッセージは同一とみなされます。したがって SD フィールドのみが異なるメッセージを取りこぼす可能性があり SD フィールドの変化を正確に監視できません。
+DCX メッセージの SD フィールドを監視するときは、`decode_stream()` の `unique` を指定しないでください。`unique` は、CAMF フィールドが同じ DCX メッセージを重複とみなし、SD フィールドの違いを見ません。そのため、SD フィールドだけが変わったメッセージを取りこぼし、SD フィールドの変化を監視できません。
 ## Development
 リポジトリを取得して開発用のツールをインストールすると、テストと静的解析を実行できます。GitHub Actions でも push と pull request のたびに同じチェックを実行しています。
 ```shell
 $ pip install -e . pytest pytest-cov ruff mypy 'pyright[nodejs]' types-pyserial
 $ python -m pytest tests        # Python 3.11 から 3.14 で実行しています
-$ python -m pytest --cov tests  # カバレッジも測る場合。設定は pyproject.toml の [tool.coverage] にあります
-$ ruff check azarashi/          # 規則は pyproject.toml の [tool.ruff] にあります
+$ python -m pytest --cov tests  # カバレッジも測るとき。設定: pyproject.toml の [tool.coverage]
+$ ruff check azarashi/          # 規則: pyproject.toml の [tool.ruff]
 $ mypy --strict azarashi/       # 型検査
-$ pyright                       # 設定は pyproject.toml の [tool.pyright] にあります
+$ pyright                       # 設定: pyproject.toml の [tool.pyright]
 ```
-GitHub Actions の typing ジョブは、ビルドした wheel をインストールした利用者の立場でも型検査をします。`tests/typing/consumer.py` の正しい使い方が通ること、`tests/typing/consumer_mistakes.py` の誤りが検出されること、そして `tests/typing/generate_mistakes.py` が公開している関数とメソッドのすべての引数と戻り値について書く誤用が、一つ残らず検出されることを確かめます。`tests/test_declared_types.py` は、実際にデコードしたレポートの値が宣言した型に合っていることを確かめます。
+GitHub Actions の typing ジョブは、ビルドした wheel をインストールして、利用者と同じ立場で型検査をします。確かめている内容は次のとおりです。
 
-`tests/golden/` にはサンプルログ (`tests/*.log`) の全メッセージのデコード結果 (`str()` と全フィールド) を保存してあり、出力が変わるとテストが失敗します。意図して出力を変えたときは `python tests/test_golden.py` で再生成し、差分を確認してからコミットしてください。
+- `tests/typing/consumer.py` の正しい使い方が、エラーなく通ること
+- `tests/typing/consumer_mistakes.py` の誤った使い方が、エラーとして検出されること
+- `tests/typing/generate_mistakes.py` が作る誤用が、すべて検出されること。誤用は、公開している関数とメソッドのすべての引数と戻り値について作ります
 
-テスト用のメッセージは `tests/qzqsm.py` を使ってフィールドの値から組み立てられます。CRC とチェックサムも計算されます。
+また `tests/test_declared_types.py` は、実際にデコードしたレポートの値が、宣言した型に合っていることを確かめます。
+
+`tests/golden/` には、`tests/*.log` のサンプルログにある全メッセージのデコード結果を保存してあります。保存しているのは、`str()` の文章と全フィールドの値です。出力が変わるとテストが失敗します。意図して出力を変えたときは、`python tests/test_golden.py` で再生成し、差分を確認してからコミットしてください。
+
+テスト用のメッセージは、`tests/qzqsm.py` を使ってフィールドの値から組み立てられます。CRC とチェックサムも自動で計算します。
 ```python
 from qzqsm import jma, sfrbx
-sentence = jma(11, [(53, 4, 2), (57, 40, 830303020300)])  # 洪水 (氾濫警戒情報、鬼怒川)
+sentence = jma(11, [(53, 4, 2), (57, 40, 830303020300)])  # 洪水: 鬼怒川の氾濫警戒情報
 frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 ```
 ## Feedback
