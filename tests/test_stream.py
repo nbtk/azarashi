@@ -6,8 +6,10 @@ import weakref
 import pytest
 
 import azarashi
+from azarashi.qzss_dcr_lib.interface import decoder_interface
 from samples import EEW
 from samples import EEW_HEX
+from samples import L_ALERT
 
 
 class _LineSource:  # readline() only: no .closed, no buffer
@@ -74,3 +76,30 @@ def test_dedup_cache_does_not_keep_stream_alive():
     del stream
     gc.collect()
     assert ref() is None
+
+
+@pytest.mark.parametrize('unique', [True, 60])
+def test_unique_counts_a_report_only_once_it_is_delivered(unique):
+    delivered = []
+
+    def callback(report):
+        delivered.append(report)
+        if len(delivered) == 1:
+            raise OSError('Network is unreachable')
+
+    stream = io.StringIO(f'{EEW}\n' * 3)
+    with pytest.raises(OSError):
+        azarashi.decode_stream(stream, callback=callback, unique=unique)
+    with pytest.raises(EOFError):
+        azarashi.decode_stream(stream, callback=callback, unique=unique)
+    assert len(delivered) == 2  # the second copy is delivered, and the third is its duplicate
+
+
+def test_unique_keeps_the_newest_cache_size_reports(monkeypatch):
+    monkeypatch.setattr(decoder_interface, 'cache_size', 1)
+    stream = io.StringIO(f'{EEW}\n{L_ALERT}\n{EEW}\n')
+    received = []
+    with pytest.raises(EOFError):
+        azarashi.decode_stream(stream, callback=received.append, unique=True, ignore_dcx=False)
+    assert [report.message_type for report in received] == ['DCR', 'DCX', 'DCR']  # the L-Alert pushed the EEW out
+    assert len(decoder_interface.caches.get(stream)) == 1

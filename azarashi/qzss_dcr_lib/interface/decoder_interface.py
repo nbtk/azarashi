@@ -116,6 +116,7 @@ def decode_stream(stream: QzssDcrStream,  # do not decode one stream in parallel
         else:  # unknown message type
             continue
 
+        seen = cache
         if unique:
             if report in cache:
                 if unique is True:  # never expire: always suppress duplicates
@@ -124,16 +125,19 @@ def decode_stream(stream: QzssDcrStream,  # do not decode one stream in parallel
                     cached = cache[cache.index(report)]
                     freshness = (report.timestamp - cached.timestamp).total_seconds()
                     fire = freshness > unique
-                cache.remove(report)
             else:
                 fire = True
 
-            cache = cache[-(cache_size - 1):] + [report]
-            caches[stream] = cache
-
+            seen = ([r for r in cache if r != report] + [report])[-cache_size:]
             if fire is False:
+                cache = seen
+                caches[stream] = cache
                 continue
 
+        if callback is not None:
+            callback(report, *callback_args, **callback_kwargs)
+        if unique:  # only a delivered report counts as seen, so a failed callback gets the next copy
+            cache = seen
+            caches[stream] = cache
         if callback is None:
             return report
-        callback(report, *callback_args, **callback_kwargs)

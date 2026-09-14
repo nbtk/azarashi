@@ -69,7 +69,8 @@ def test_transmitter_stops_when_the_serial_device_is_gone(monkeypatch, udp_sink)
     assert result == [1] and stream.closed
 
 
-def test_transmitter_survives_a_failed_send(monkeypatch, udp_sink):
+@pytest.mark.parametrize('options', [[], ['-u']])  # with -u, the next copy of the alert is relayed
+def test_transmitter_survives_a_failed_send(monkeypatch, udp_sink, options):
     sent = []
 
     def flaky_handler(self, report):
@@ -80,7 +81,7 @@ def test_transmitter_survives_a_failed_send(monkeypatch, udp_sink):
 
     monkeypatch.setattr(transmitter.Transmitter, 'handler', flaky_handler)
     monkeypatch.setattr(sys, 'argv', ['transmitter', '-d', '127.0.0.1', '-p', str(udp_sink.getsockname()[1]),
-                                      '-t', 'nmea'])
+                                      '-t', 'nmea', *options])
     monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO(f'{EEW}\r\n{EEW}\r\n'.encode())))
     assert transmitter.main() == 0
     assert sent == ['failed', 'DCR']
