@@ -31,6 +31,7 @@ from .qzss_dcr_jma_tsunami_height import *
 from .qzss_dcr_jma_tsunami_warning_code import *
 from .qzss_dcr_jma_tsunamigenic_potential import *
 from .qzss_dcr_jma_typhoon_central_pressure import *
+from .qzss_dcr_jma_typhoon_elapsed_time_from_reference_time import *
 from .qzss_dcr_jma_typhoon_intensity_category import *
 from .qzss_dcr_jma_typhoon_maximum_gust_wind_speed import *
 from .qzss_dcr_jma_typhoon_maximum_wind_speed import *

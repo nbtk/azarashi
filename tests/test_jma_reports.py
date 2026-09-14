@@ -538,8 +538,8 @@ def test_typhoon():
     report = _decode(jma(12, TYPHOON))
     assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaTyphoon
     assert report.reference_time == datetime(2026, 3, 7, 3, 0, tzinfo=UTC)
-    assert (report.typhoon_number_raw, report.central_pressure_raw, report.maximum_wind_speed_raw,
-            report.maximum_gust_wind_speed_raw) == (5, 950, 45, 0)
+    assert (report.elapsed_time_from_reference_time_raw, report.typhoon_number_raw, report.central_pressure_raw,
+            report.maximum_wind_speed_raw, report.maximum_gust_wind_speed_raw) == (24, 5, 950, 45, 0)
     assert report.coordinates_of_typhoon_raw == {'lat_ns': 0, 'lat_d': 25, 'lat_m': 30, 'lat_s': 0,
                                                  'lon_ew': 0, 'lon_d': 130, 'lon_m': 15, 'lon_s': 45}
     assert str(report) == f'''防災気象情報(台風)(発表)(訓練/試験)
@@ -561,6 +561,8 @@ def test_typhoon():
 
 
 @pytest.mark.parametrize('fields, attribute, value', [
+    ([(80, 7, 0)], 'elapsed_time_from_reference_time', '0時間後'),
+    ([(80, 7, 127)], 'elapsed_time_from_reference_time', '127時間後'),
     ([(87, 7, 1)], 'typhoon_number', '1号'),
     ([(87, 7, 99)], 'typhoon_number', '99号'),
     ([(143, 11, 0)], 'central_pressure', '0hPa'),

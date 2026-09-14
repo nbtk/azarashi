@@ -761,7 +761,8 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
                  reference_time_raw: DayHourMinute,
                  reference_time_type: str,
                  reference_time_type_raw: int,
-                 elapsed_time_from_reference_time: int,
+                 elapsed_time_from_reference_time: str,
+                 elapsed_time_from_reference_time_raw: int,
                  typhoon_number: str,
                  typhoon_number_raw: int,
                  typhoon_scale_category: str,
@@ -784,6 +785,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
         self.reference_time_type_raw = reference_time_type_raw
         # the time elapsed from the analysis
         self.elapsed_time_from_reference_time = elapsed_time_from_reference_time
+        self.elapsed_time_from_reference_time_raw = elapsed_time_from_reference_time_raw
         self.typhoon_number = typhoon_number
         self.typhoon_number_raw = typhoon_number_raw
         self.typhoon_scale_category = typhoon_scale_category
@@ -808,7 +810,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
                  f'台風番号: {self.typhoon_number}\n' + \
                  f'基点時刻: {reference_time}\n' + \
                  f'基点時刻分類: {self.reference_time_type}\n' + \
-                 f'情報の基点時刻(実況)からの経過時間: {self.elapsed_time_from_reference_time}時間後\n' + \
+                 f'情報の基点時刻(実況)からの経過時間: {self.elapsed_time_from_reference_time}\n' + \
                  f'大きさ: {self.typhoon_scale_category}\n' + \
                  f'強さ: {self.typhoon_intensity_category}\n' + \
                  f'緯度・経度: {self.coordinates_of_typhoon}\n' + \

@@ -1,5 +1,6 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
 from ..definition import qzss_dcr_jma_typhoon_central_pressure
+from ..definition import qzss_dcr_jma_typhoon_elapsed_time_from_reference_time
 from ..definition import qzss_dcr_jma_typhoon_intensity_category
 from ..definition import qzss_dcr_jma_typhoon_maximum_gust_wind_speed
 from ..definition import qzss_dcr_jma_typhoon_maximum_wind_speed
@@ -27,7 +28,14 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
         self.reference_time_type_raw = dt
 
         # the time elapsed from the analysis
-        self.elapsed_time_from_reference_time = self.extract_field(80, 7)
+        du = self.extract_field(80, 7)
+        try:
+            self.elapsed_time_from_reference_time = qzss_dcr_jma_typhoon_elapsed_time_from_reference_time[du]
+        except KeyError as err:
+            raise QzssDcrDecoderException(
+                f'Undefined JMA Elapsed Time from Reference Time: {du}',
+                self) from err
+        self.elapsed_time_from_reference_time_raw = du
 
         tn = self.extract_field(87, 7)
         try:
