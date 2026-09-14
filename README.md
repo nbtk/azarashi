@@ -543,7 +543,7 @@ class QzssDcxLAlert(QzssDcXtendedMessageBase)
 ```python
 class QzssDcxJAlert(QzssDcXtendedMessageBase)
 ```
-#### Municipality-Transmitted Information [tentative name]
+#### Information from Local Government
 ```python
 class QzssDcxMTInfo(QzssDcXtendedMessageBase)
 ```
