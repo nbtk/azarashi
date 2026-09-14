@@ -540,7 +540,7 @@ class QzssDcxMTInfo(QzssDcXtendedMessageBase)
 class QzssDcxUnknown(QzssDcXtendedMessageBase)
 ```
 ## Note
-IS-QZSS-DCR-016、IS-QZSS-DCX-004 をサポートしています。
+IS-QZSS-DCR-017、IS-QZSS-DCX-004 をサポートしています。
 ## Tips
 ### 災危通報が出力されない / UnicodeDecodeError
 GPS モジュールと接続するインタフェースのボーレートが一致していないと、壊れたビット列を受け取るため災危通報を検出できません。azarashi CLI は壊れた行を読み飛ばして動作を続けるので、エラーが出ないまま何も出力されないことがあります。ボーレートは例えば次のような値です。
