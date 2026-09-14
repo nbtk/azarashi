@@ -146,21 +146,27 @@ def test_day_hour_minute_field_out_of_range(day, hour, minute, message):
 ])
 def test_coordinates(lat, lon, south, west, text):
     report = _decode(jma(2, HYPOCENTER[:-8] + _lat_lon(122, lat, lon, south, west)))
-    assert report.coordinates_of_hypocenter == {'lat_ns': south, 'lat_d': lat[0], 'lat_m': lat[1], 'lat_s': lat[2],
-                                                'lon_ew': west, 'lon_d': lon[0], 'lon_m': lon[1], 'lon_s': lon[2]}
+    assert report.coordinates_of_hypocenter == text
+    assert report.coordinates_of_hypocenter_raw == {'lat_ns': south, 'lat_d': lat[0], 'lat_m': lat[1], 'lat_s': lat[2],
+                                                    'lon_ew': west, 'lon_d': lon[0], 'lon_m': lon[1], 'lon_s': lon[2]}
     assert f'緯度・経度: {text}\n' in str(report)
 
 
-@pytest.mark.parametrize('lat, lon, message', [
-    ((90, 0, 0), (139, 0, 0), 'Invalid Latitude: 90 as degree'),
-    ((35, 60, 0), (139, 0, 0), 'Invalid Latitude: 60 as minute'),
-    ((35, 0, 60), (139, 0, 0), 'Invalid Latitude: 60 as second'),
-    ((35, 0, 0), (180, 0, 0), 'Invalid Longitude: 180 as degree'),
-    ((35, 0, 0), (139, 60, 0), 'Invalid Longitude: 60 as minute'),
-    ((35, 0, 0), (139, 0, 60), 'Invalid Longitude: 60 as second'),
+@pytest.mark.parametrize('lat, lon, south, west, code', [  # the code is the whole LatLon field (41 bits)
+    ((90, 0, 0), (139, 0, 0), 0, 0, 773094682624),
+    ((35, 60, 0), (139, 0, 0), 0, 0, 308701343744),
+    ((35, 0, 60), (139, 0, 0), 0, 0, 300774109184),
+    ((35, 0, 0), (180, 0, 0), 0, 0, 300648448000),
+    ((35, 0, 0), (139, 60, 0), 0, 0, 300648283904),
+    ((35, 0, 0), (139, 0, 60), 0, 0, 300648280124),
+    ((127, 63, 63), (255, 63, 63), 1, 1, 2199023255551),
 ])
-def test_coordinates_out_of_range(lat, lon, message):
-    assert _error(jma(2, HYPOCENTER[:-8] + _lat_lon(122, lat, lon))) == message
+def test_coordinates_out_of_range(lat, lon, south, west, code):
+    report = _decode(jma(2, HYPOCENTER[:-8] + _lat_lon(122, lat, lon, south, west)))
+    assert report.coordinates_of_hypocenter == f'緯度・経度(コード番号：{code})'
+    assert report.coordinates_of_hypocenter_raw == {'lat_ns': south, 'lat_d': lat[0], 'lat_m': lat[1], 'lat_s': lat[2],
+                                                    'lon_ew': west, 'lon_d': lon[0], 'lon_m': lon[1], 'lon_s': lon[2]}
+    assert f'緯度・経度: 緯度・経度(コード番号：{code})\n' in str(report)
 
 
 @pytest.mark.parametrize('category', [1, 2])  # earthquake early warning and hypocenter
@@ -530,6 +536,8 @@ def test_typhoon():
     assert report.reference_time == datetime(2026, 3, 7, 3, 0, tzinfo=UTC)
     assert (report.typhoon_number_raw, report.central_pressure_raw, report.maximum_wind_speed_raw,
             report.maximum_gust_wind_speed_raw) == (5, 950, 45, 0)
+    assert report.coordinates_of_typhoon_raw == {'lat_ns': 0, 'lat_d': 25, 'lat_m': 30, 'lat_s': 0,
+                                                 'lon_ew': 0, 'lon_d': 130, 'lon_m': 15, 'lon_s': 45}
     assert str(report) == f'''防災気象情報(台風)(発表)(訓練/試験)
 {TRAINING}
 台風解析・予報情報が発表されました。
@@ -576,6 +584,12 @@ def test_typhoon_fields(fields, attribute, value):
     report = _decode(jma(12, TYPHOON + fields))
     assert getattr(report, attribute) == value
     assert getattr(report, f'{attribute}_raw') == fields[0][2]
+
+
+def test_typhoon_coordinates_out_of_range():
+    report = _decode(jma(12, TYPHOON + _lat_lon(102, (25, 30, 0), (180, 15, 45))))
+    assert report.coordinates_of_typhoon == '緯度・経度(コード番号：218775634925)'
+    assert report.coordinates_of_typhoon_raw['lon_d'] == 180
 
 
 def test_marine():

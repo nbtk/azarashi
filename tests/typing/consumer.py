@@ -25,7 +25,8 @@ if isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):
         hour: int = raw['hour']
         text: str = what
 elif isinstance(report, qzss_dc_report.QzssDcReportJmaHypocenter):
-    degrees: int = report.coordinates_of_hypocenter['lat_d']
+    position: str = report.coordinates_of_hypocenter
+    degrees: int = report.coordinates_of_hypocenter_raw['lat_d']
     issued: str = report.get_report_time_str()
 elif isinstance(report, qzss_dc_report.QzssDcReportJmaVolcano):
     observed: datetime.datetime | None = report.activity_time

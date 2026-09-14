@@ -353,7 +353,8 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
                  magnitude_raw: int,
                  seismic_epicenter: str,
                  seismic_epicenter_raw: int,
-                 coordinates_of_hypocenter: Coordinates,
+                 coordinates_of_hypocenter: str,
+                 coordinates_of_hypocenter_raw: Coordinates,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
@@ -366,6 +367,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
         self.seismic_epicenter = seismic_epicenter
         self.seismic_epicenter_raw = seismic_epicenter_raw
         self.coordinates_of_hypocenter = coordinates_of_hypocenter
+        self.coordinates_of_hypocenter_raw = coordinates_of_hypocenter_raw
 
     def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
@@ -376,7 +378,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
 
         report += f'\n\n発表時刻: {self.get_report_time_str()}\n\n' + \
                   f'震央地名: {self.seismic_epicenter}\n' + \
-                  f'緯度・経度: {self.convert_lat_lon_to_str(self.coordinates_of_hypocenter)}\n' + \
+                  f'緯度・経度: {self.coordinates_of_hypocenter}\n' + \
                   f'深さ: {self.depth_of_hypocenter}\n' + \
                   f'マグニチュード: {self.magnitude}'
         return report
@@ -732,7 +734,8 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
                  typhoon_scale_category_raw: int,
                  typhoon_intensity_category: str,
                  typhoon_intensity_category_raw: int,
-                 coordinates_of_typhoon: Coordinates,
+                 coordinates_of_typhoon: str,
+                 coordinates_of_typhoon_raw: Coordinates,
                  central_pressure: str,
                  central_pressure_raw: int,
                  maximum_wind_speed: str,
@@ -753,6 +756,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
         self.typhoon_intensity_category = typhoon_intensity_category
         self.typhoon_intensity_category_raw = typhoon_intensity_category_raw
         self.coordinates_of_typhoon = coordinates_of_typhoon
+        self.coordinates_of_typhoon_raw = coordinates_of_typhoon_raw
         self.central_pressure = central_pressure
         self.central_pressure_raw = central_pressure_raw
         self.maximum_wind_speed = maximum_wind_speed
@@ -770,7 +774,7 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
                  f'情報の基点時刻(実況)からの経過時間: {self.elapsed_time_from_reference_time}時間後\n' + \
                  f'大きさ: {self.typhoon_scale_category}\n' + \
                  f'強さ: {self.typhoon_intensity_category}\n' + \
-                 f'緯度・経度: {self.convert_lat_lon_to_str(self.coordinates_of_typhoon)}\n' + \
+                 f'緯度・経度: {self.coordinates_of_typhoon}\n' + \
                  f'中心気圧: {self.central_pressure}\n' + \
                  f'最大風速: {self.maximum_wind_speed}\n' + \
                  f'最大瞬間風速: {self.maximum_gust_wind_speed}'

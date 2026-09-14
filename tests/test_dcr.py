@@ -74,14 +74,14 @@ def test_equal_reports_are_equal_and_hashable():
     assert len({a, b}) == 1             # usable as set members
 
 
-def test_invalid_longitude_minute_names_the_minute():
+def test_longitude_minute_out_of_range_makes_the_coordinates_a_code():
     lon_m_pos = 122 + 29  # hypocenter coordinates start at bit 122; longitude minutes are 6 bits at +29
-    coordinates = azarashi.decode(HYPOCENTER, 'nmea').coordinates_of_hypocenter
-    assert coordinates['lon_d'] != 60
+    coordinates = azarashi.decode(HYPOCENTER, 'nmea').coordinates_of_hypocenter_raw
+    assert coordinates['lon_m'] != 60
     assert _with_field(HYPOCENTER, lon_m_pos, 6, coordinates['lon_m']) == HYPOCENTER  # the helper round-trips
-    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
-        azarashi.decode(_with_field(HYPOCENTER, lon_m_pos, 6, 60), 'nmea')
-    assert e.value.message == 'Invalid Longitude: 60 as minute'
+    report = azarashi.decode(_with_field(HYPOCENTER, lon_m_pos, 6, 60), 'nmea')
+    assert report.coordinates_of_hypocenter == '緯度・経度(コード番号：280515596032)'
+    assert report.coordinates_of_hypocenter_raw == {**coordinates, 'lon_m': 60}
 
 
 @pytest.mark.parametrize('code, name', [  # added or renamed in IS-QZSS-DCR-017

@@ -148,14 +148,15 @@ QzssDcReportJmaHypocenter
 緯度・経度: 北緯32度42分0秒 東経132度6分0秒
 深さ: 40km
 マグニチュード: 6.4
-{'coordinates_of_hypocenter': {'lat_d': 32,
-                               'lat_m': 42,
-                               'lat_ns': 0,
-                               'lat_s': 0,
-                               'lon_d': 132,
-                               'lon_ew': 0,
-                               'lon_m': 6,
-                               'lon_s': 0},
+{'coordinates_of_hypocenter': '北緯32度42分0秒 東経132度6分0秒',
+ 'coordinates_of_hypocenter_raw': {'lat_d': 32,
+                                   'lat_m': 42,
+                                   'lat_ns': 0,
+                                   'lat_s': 0,
+                                   'lon_d': 132,
+                                   'lon_ew': 0,
+                                   'lon_m': 6,
+                                   'lon_s': 0},
  'depth_of_hypocenter': '40km',
  'depth_of_hypocenter_raw': 40,
  'disaster_category': '震源',

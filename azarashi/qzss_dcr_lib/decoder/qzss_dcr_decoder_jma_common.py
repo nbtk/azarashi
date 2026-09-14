@@ -6,12 +6,18 @@ from datetime import UTC
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from ..definition import qzss_dcr_jma_depth_of_hypocenter
 from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
+from ..definition import qzss_dcr_jma_latitude_and_longitude_minutes
+from ..definition import qzss_dcr_jma_latitude_and_longitude_seconds
+from ..definition import qzss_dcr_jma_latitude_and_longitude_undefined
+from ..definition import qzss_dcr_jma_latitude_degrees
 from ..definition import qzss_dcr_jma_local_government
+from ..definition import qzss_dcr_jma_longitude_degrees
 from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
 from ..definition.qzss_dcr_definition import QzssDcrDefinition
 from ..exception import QzssDcrDecoderException
 from ..report import Coordinates
 from ..report import DayHourMinute
+from ..report import QzssDcReportJmaBase
 
 
 class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
@@ -85,43 +91,26 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             cos.append(co)
         return notifications, cos
 
-    def extract_lat_lon_field(self, slider: int) -> Coordinates:
-        lat_ns = self.extract_field(slider, 1)
-        lat_d = self.extract_field(slider + 1, 7)
-        if lat_d > 89:
-            raise QzssDcrDecoderException(
-                f'Invalid Latitude: {lat_d} as degree',
-                self)
-        lat_m = self.extract_field(slider + 8, 6)
-        if lat_m > 59:
-            raise QzssDcrDecoderException(
-                f'Invalid Latitude: {lat_m} as minute',
-                self)
-        lat_s = self.extract_field(slider + 14, 6)
-        if lat_s > 59:
-            raise QzssDcrDecoderException(
-                f'Invalid Latitude: {lat_s} as second',
-                self)
-
-        lon_ew = self.extract_field(slider + 20, 1)
-        lon_d = self.extract_field(slider + 21, 8)
-        if lon_d > 179:
-            raise QzssDcrDecoderException(
-                f'Invalid Longitude: {lon_d} as degree',
-                self)
-        lon_m = self.extract_field(slider + 29, 6)
-        if lon_m > 59:
-            raise QzssDcrDecoderException(
-                f'Invalid Longitude: {lon_m} as minute',
-                self)
-        lon_s = self.extract_field(slider + 35, 6)
-        if lon_s > 59:
-            raise QzssDcrDecoderException(
-                f'Invalid Longitude: {lon_s} as second',
-                self)
-
-        return {'lat_ns': lat_ns, 'lat_d': lat_d, 'lat_m': lat_m, 'lat_s': lat_s,
-                'lon_ew': lon_ew, 'lon_d': lon_d, 'lon_m': lon_m, 'lon_s': lon_s}
+    def extract_lat_lon_field(self, slider: int) -> tuple[str, Coordinates]:
+        coordinates: Coordinates = {
+            'lat_ns': self.extract_field(slider, 1),
+            'lat_d': self.extract_field(slider + 1, 7),
+            'lat_m': self.extract_field(slider + 8, 6),
+            'lat_s': self.extract_field(slider + 14, 6),
+            'lon_ew': self.extract_field(slider + 20, 1),
+            'lon_d': self.extract_field(slider + 21, 8),
+            'lon_m': self.extract_field(slider + 29, 6),
+            'lon_s': self.extract_field(slider + 35, 6),
+        }
+        if (coordinates['lat_d'] in qzss_dcr_jma_latitude_degrees
+                and coordinates['lat_m'] in qzss_dcr_jma_latitude_and_longitude_minutes
+                and coordinates['lat_s'] in qzss_dcr_jma_latitude_and_longitude_seconds
+                and coordinates['lon_d'] in qzss_dcr_jma_longitude_degrees
+                and coordinates['lon_m'] in qzss_dcr_jma_latitude_and_longitude_minutes
+                and coordinates['lon_s'] in qzss_dcr_jma_latitude_and_longitude_seconds):
+            return QzssDcReportJmaBase.convert_lat_lon_to_str(coordinates), coordinates
+        # with one part outside its range, the other parts cannot be trusted as a position either
+        return qzss_dcr_jma_latitude_and_longitude_undefined % self.extract_field(slider, 41), coordinates
 
     def extract_depth_field(self, slider: int) -> tuple[str, int]:
         de = self.extract_field(slider, 9)

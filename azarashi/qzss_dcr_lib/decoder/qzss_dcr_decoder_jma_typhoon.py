@@ -56,7 +56,7 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
                 self) from err
         self.typhoon_intensity_category_raw = lc
 
-        self.coordinates_of_typhoon = self.extract_lat_lon_field(102)
+        self.coordinates_of_typhoon, self.coordinates_of_typhoon_raw = self.extract_lat_lon_field(102)
 
         pr = self.extract_field(143, 11)
         try:
