@@ -962,13 +962,13 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
                  f"A6A7 - Hazard onset: {self.get_hazard_onset_str()}\n" + \
                  f"A8 - Hazard duration: {self.__dict__.get('a8_hazard_duration')}\n"
         if self.camf.a9 == 0: # international
-            report += f"A11 - Guidance to react code: {self.__dict__.get('a11_international_library_code')}\n"
+            report += f"A11 - Instruction code: {self.__dict__.get('a11_international_library_code')}\n"
             if self.camf.a11 != 0:
-                report += f"A11 - Guidance to react: {self.__dict__.get('a11_international_library')}\n"
+                report += f"A11 - Instruction: {self.__dict__.get('a11_international_library')}\n"
         elif self.camf.a9 == 1: # japanese
             if self.camf.a11 != 0:
-                report += f"A11 - Guidance to react: {self.__dict__.get('a11_japanese_library')}\n" + \
-                          f"A11 - Guidance to react (ja): {self.__dict__.get('a11_japanese_library_ja')}\n"
+                report += f"A11 - Instruction: {self.__dict__.get('a11_japanese_library')}\n" + \
+                          f"A11 - Instruction (ja): {self.__dict__.get('a11_japanese_library_ja')}\n"
 
         if self.ignore_a12_to_a16 is False:
             report += f"A12 - Ellipse centre latitude: {self.__dict__.get('a12_ellipse_centre_latitude')}\n" + \
@@ -980,7 +980,7 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
         if self.ignore_a17_to_a18 is False:
             a17 =  self.__dict__.get('a17_type_of_specific_settings')
             if a17 is not None:
-                report += f"A17 - Specific settings: {a17}\n"
+                report += f"A17 - Type of specific settings: {a17}\n"
                 keys = self.__dict__.keys()
                 prefix = ['c%d_' % (i + 1) for i in range(10)] + ['d%d_' % (i + 1) for i in range(36)]
                 for k in keys:

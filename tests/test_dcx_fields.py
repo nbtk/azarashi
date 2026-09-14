@@ -121,28 +121,28 @@ def test_international_library():
     assert (report.a9_type_of_library, report.a10_library_version) == ('International library', '#1')
     assert report.a11_international_library_code == 'IC-A-04'
     assert report.a11_international_library == 'Seek shelter in a building immediately. Stay under cover and stay informed.'
-    assert 'A11 - Guidance to react code: IC-A-04\n' \
-           'A11 - Guidance to react: Seek shelter in a building immediately. Stay under cover and stay informed.\n' \
+    assert 'A11 - Instruction code: IC-A-04\n' \
+           'A11 - Instruction: Seek shelter in a building immediately. Stay under cover and stay informed.\n' \
            in str(report)
 
 
-def test_international_library_without_guidance():
+def test_international_library_without_instruction():
     report = _decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=0))
     assert (report.a11_international_library_code, report.a11_international_library) == ('IC-A-01', '')
-    assert 'A11 - Guidance to react code: IC-A-01\nA12 - ' in str(report)
+    assert 'A11 - Instruction code: IC-A-01\nA12 - ' in str(report)
 
 
 def test_japanese_library():
     report = _decode(dcx(**JAPAN, a3=2, a9=1, a11=126))
     assert (report.a11_japanese_library, report.a11_japanese_library_ja) == \
         ('This is a test message for DCX.', 'これは、DCX のテストです。')
-    assert 'A11 - Guidance to react: This is a test message for DCX.\n' \
-           'A11 - Guidance to react (ja): これは、DCX のテストです。\n' in str(report)
+    assert 'A11 - Instruction: This is a test message for DCX.\n' \
+           'A11 - Instruction (ja): これは、DCX のテストです。\n' in str(report)
 
 
-def test_japanese_library_without_guidance():
+def test_japanese_library_without_instruction():
     report = _decode(dcx(**JAPAN, a3=2, a9=1, a11=0))
-    assert 'A11 - Guidance' not in str(report)
+    assert 'A11 - Instruction' not in str(report)
 
 
 def test_country_library_of_another_country_is_not_decoded():
@@ -214,7 +214,7 @@ def test_b3_secondary_ellipse():
     assert report.c9_bearing_angle_of_second_ellipse == 90.0
     assert report.c10_instruction_library_for_second_ellipse_code == 'IC-C-32'
     lines = str(report).splitlines()
-    assert lines[lines.index('A17 - Specific settings: B3 - Secondary Ellipse Definition') + 1:][:4] == [
+    assert lines[lines.index('A17 - Type of specific settings: B3 - Secondary Ellipse Definition') + 1:][:4] == [
         'C7 - Shift of second ellipse centre: 3',
         'C8 - Homothetic factor of second ellipse: 2.0',
         'C9 - Bearing angle of second ellipse: 90.0',
@@ -399,14 +399,14 @@ A4 - Hazard definition: %s
 A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-14T00:00:00Z
 A8 - Hazard duration: Duration < 6H
-A11 - Guidance to react code: IC-A-02
-A11 - Guidance to react: You are in the danger zone, leave the area immediately. Listen to radio or media for directions and information.
+A11 - Instruction code: IC-A-02
+A11 - Instruction: You are in the danger zone, leave the area immediately. Listen to radio or media for directions and information.
 A12 - Ellipse centre latitude: 0.001373
 A13 - Ellipse centre longitude: 0.001373
 A14 - Ellipse semi - major axis: 4.421
 A15 - Ellipse semi - minor axis: 0.978
 A16 - Ellipse azimuth: 0.0
-A17 - Specific settings: B3 - Secondary Ellipse Definition
+A17 - Type of specific settings: B3 - Secondary Ellipse Definition
 C7 - Shift of second ellipse centre: 0
 C8 - Homothetic factor of second ellipse: 0.25
 C9 - Bearing angle of second ellipse: 0.0

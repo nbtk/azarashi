@@ -438,14 +438,14 @@ A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours
 A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2024-06-23T13:00:00Z
 A8 - Hazard duration: 6H <= Duration < 12H
-A11 - Guidance to react: Keep away from Water area.
-A11 - Guidance to react (ja): 離れろ。水場。
+A11 - Instruction: Keep away from Water area.
+A11 - Instruction (ja): 離れろ。水場。
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.690855
 A14 - Ellipse semi - major axis: 10.933
 A15 - Ellipse semi - minor axis: 5.979
 A16 - Ellipse azimuth: 45.0
-A17 - Specific settings: B1 - Improved Resolution of Main Ellipse
+A17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse
 C1 - Refined latitude of centre of main ellipse: 35.688258
 C2 - Refined longitude of centre of main ellipse: 139.690855
 C3 - Refined length of semi major axis: 10.933
