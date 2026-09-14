@@ -458,7 +458,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         cls = self.__class__
         if not self._has_page_position():
             return  # a page that cannot be placed must not break the announcement being assembled
-        if cls.announcement is not None and self.get_announcement() != cls.announcement:
+        if cls.announcement is not None and self._get_announcement() != cls.announcement:
             if self.report_time < cls.announcement[0]:
                 return  # a late page of an older announcement must not break the newer one
             cls.completed = False  # a newer announcement replaces the partial one
@@ -472,7 +472,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
                 cls.completed = False
                 cls.reports = {}
 
-        cls.announcement = self.get_announcement()
+        cls.announcement = self._get_announcement()
         cls.reports.update({self.page_number: self})
         if all(page in cls.reports for page in range(1, self.total_page + 1)):
             cls.completed = True
@@ -482,7 +482,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         return (self.page_number in qzss_dcr_jma_page_numbers and self.total_page in qzss_dcr_jma_total_pages
                 and self.page_number <= self.total_page)
 
-    def get_announcement(self) -> tuple[datetime, int, int, int, int]:
+    def _get_announcement(self) -> tuple[datetime, int, int, int, int]:
         return (self.report_time,
                 self.report_classification_no,
                 self.information_type_no,
@@ -493,7 +493,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         cls = self.__class__
         if not self._has_page_position():
             return qzss_dcr_jma_page_number_and_total_page_undefined % (self.page_number << 6 | self.total_page)
-        if self.get_announcement() != cls.announcement:
+        if self._get_announcement() != cls.announcement:
             return f'受信中 ({self.page_number}) [-/{self.total_page}]'
         if cls.completed is not True:
             return f'受信中 ({self.page_number}) [{len(cls.reports)}/{self.total_page}]'
