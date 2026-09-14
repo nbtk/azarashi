@@ -163,30 +163,34 @@ def test_coordinates_out_of_range(lat, lon, message):
     assert _error(jma(2, HYPOCENTER[:-8] + _lat_lon(122, lat, lon))) == message
 
 
-@pytest.mark.parametrize('code, depth', [(0, '0km'), (500, '500km'), (501, '500kmより深い'), (511, '不明')])
-def test_depth(code, depth):
-    report = _decode(jma(2, HYPOCENTER + [(96, 9, code)]))
+@pytest.mark.parametrize('category', [1, 2])  # earthquake early warning and hypocenter
+@pytest.mark.parametrize('code, depth', [
+    (0, '0km'), (500, '500km'), (501, '500kmより深い'), (511, '不明'),
+    (502, '深さ(コード番号：502)'), (510, '深さ(コード番号：510)'),  # between the special codes: may be defined later
+])
+def test_depth(category, code, depth):
+    report = _decode(jma(category, {1: EEW, 2: HYPOCENTER}[category] + [(96, 9, code)]))
     assert (report.depth_of_hypocenter, report.depth_of_hypocenter_raw) == (depth, code)
-
-
-@pytest.mark.parametrize('code', [502, 510])
-def test_depth_out_of_range(code):
-    assert _error(jma(2, HYPOCENTER + [(96, 9, code)])) == f'Invalid Depth of Hypocenter: {code}'
 
 
 @pytest.mark.parametrize('code, magnitude', [
     (1, '0.1'), (72, '7.2'), (100, '10.0'), (101, '10.0より大きい'), (126, '不明(8.0より大きい)'), (127, '不明'),
+    (0, 'マグニチュード(コード番号：0)'), (102, 'マグニチュード(コード番号：102)'), (125, 'マグニチュード(コード番号：125)'),
 ])
-def test_magnitude(code, magnitude):
+def test_hypocenter_magnitude(code, magnitude):
     report = _decode(jma(2, HYPOCENTER + [(105, 7, code)]))
     assert (report.magnitude, report.magnitude_raw) == (magnitude, code)
 
 
-@pytest.mark.parametrize('code, message', [
-    (0, 'Invalid Magnitude: 0.0'), (102, 'Invalid Magnitude: 10.2'), (125, 'Invalid Magnitude: 12.5'),
+@pytest.mark.parametrize('code, magnitude', [
+    (1, '0.1'), (72, '7.2'), (100, '10.0'), (101, '10.0より大きい'), (127, '不明'),
+    (126, 'マグニチュード(コード番号：126)'),  # IS-QZSS-DCR-017 defines 126 for JMA-DC Report (Hypocenter) only
+    (0, 'マグニチュード(コード番号：0)'), (102, 'マグニチュード(コード番号：102)'), (125, 'マグニチュード(コード番号：125)'),
 ])
-def test_magnitude_out_of_range(code, message):
-    assert _error(jma(2, HYPOCENTER + [(105, 7, code)])) == message
+def test_earthquake_early_warning_magnitude(code, magnitude):
+    report = _decode(jma(1, EEW + [(105, 7, code)]))
+    assert (report.magnitude, report.magnitude_raw) == (magnitude, code)
+    assert f'マグニチュード: {magnitude}\n' in str(report)
 
 
 @pytest.mark.parametrize('codes, count', [((0, 201, 211), 0), ((201, 0, 211), 1), ((201, 211, 212), 3)])
@@ -543,26 +547,24 @@ def test_typhoon():
     ([(154, 7, 0)], 'maximum_wind_speed', '不明'),
     ([(161, 7, 15)], 'maximum_gust_wind_speed', '15m/s'),
     ([(161, 7, 105)], 'maximum_gust_wind_speed', '105m/s'),
+    ([(87, 7, 0)], 'typhoon_number', '台風番号(コード番号：0)'),
+    ([(87, 7, 100)], 'typhoon_number', '台風番号(コード番号：100)'),
+    ([(143, 11, 1101)], 'central_pressure', '中心気圧(コード番号：1101)'),
+    ([(143, 11, 2047)], 'central_pressure', '中心気圧(コード番号：2047)'),
+    ([(154, 7, 14)], 'maximum_wind_speed', '最大風速(コード番号：14)'),
+    ([(154, 7, 106)], 'maximum_wind_speed', '最大風速(コード番号：106)'),
+    ([(161, 7, 0)], 'maximum_gust_wind_speed', '不明'),
+    ([(161, 7, 14)], 'maximum_gust_wind_speed', '最大瞬間風速(コード番号：14)'),
+    ([(161, 7, 106)], 'maximum_gust_wind_speed', '最大瞬間風速(コード番号：106)'),
     ([(69, 3, 3)], 'reference_time_type', '予報'),
     ([(69, 3, 0)], 'reference_time_type', '基点時刻分類(コード番号：0)'),
     ([(94, 4, 15)], 'typhoon_scale_category', 'その他の大きさ階級分類'),
     ([(98, 4, 3)], 'typhoon_intensity_category', '猛烈な'),
 ])
 def test_typhoon_fields(fields, attribute, value):
-    assert getattr(_decode(jma(12, TYPHOON + fields)), attribute) == value
-
-
-@pytest.mark.parametrize('fields, message', [
-    ([(87, 7, 0)], 'Invalid JMA Typhoon Number: 0'),
-    ([(87, 7, 100)], 'Invalid JMA Typhoon Number: 100'),
-    ([(143, 11, 1101)], 'Invalid JMA Central Pressure: 1101'),
-    ([(154, 7, 14)], 'Invalid JMA Maximum Wind Speed: 14'),
-    ([(154, 7, 106)], 'Invalid JMA Maximum Wind Speed: 106'),
-    ([(161, 7, 14)], 'Invalid JMA Maximum Gust Wind Speed: 14'),
-    ([(161, 7, 106)], 'Invalid JMA Maximum Gust Wind Speed: 106'),
-])
-def test_typhoon_out_of_range(fields, message):
-    assert _error(jma(12, TYPHOON + fields)) == message
+    report = _decode(jma(12, TYPHOON + fields))
+    assert getattr(report, attribute) == value
+    assert getattr(report, f'{attribute}_raw') == fields[0][2]
 
 
 def test_marine():

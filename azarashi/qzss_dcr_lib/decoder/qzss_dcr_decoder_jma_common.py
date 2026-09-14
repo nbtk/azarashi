@@ -4,9 +4,11 @@ from datetime import timedelta
 from datetime import UTC
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
+from ..definition import qzss_dcr_jma_depth_of_hypocenter
 from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
 from ..definition import qzss_dcr_jma_local_government
 from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
+from ..definition.qzss_dcr_definition import QzssDcrDefinition
 from ..exception import QzssDcrDecoderException
 from ..report import Coordinates
 from ..report import DayHourMinute
@@ -123,31 +125,21 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
 
     def extract_depth_field(self, slider: int) -> tuple[str, int]:
         de = self.extract_field(slider, 9)
-        if de == 501:
-            return '500kmより深い', de
-        elif de == 511:
-            return '不明', de
-        elif 501 < de < 511:
+        try:
+            return qzss_dcr_jma_depth_of_hypocenter[de], de
+        except KeyError as err:
             raise QzssDcrDecoderException(
-                f'Invalid Depth of Hypocenter: {de}',
-                self)
-        else:
-            return f'{de}km', de
+                f'Undefined JMA Depth of Hypocenter: {de}',
+                self) from err
 
-    def extract_magnitude_field(self, slider: int) -> tuple[str, int]:
+    def extract_magnitude_field(self, slider: int, magnitudes: QzssDcrDefinition[int, str]) -> tuple[str, int]:
         ma = self.extract_field(slider, 7)
-        if ma == 101:
-            return '10.0より大きい', ma
-        elif ma == 126:
-            return '不明(8.0より大きい)', ma
-        elif ma == 127:
-            return '不明', ma
-        elif ma < 1 or (101 < ma < 126):
+        try:
+            return magnitudes[ma], ma
+        except KeyError as err:
             raise QzssDcrDecoderException(
-                f'Invalid Magnitude: {ma / 10}',
-                self)
-        else:
-            return f'{ma / 10}', ma
+                f'Undefined JMA Magnitude: {ma}',
+                self) from err
 
     def extract_seismic_epicenter_field(self, slider: int) -> tuple[str, int]:
         ep = self.extract_field(slider, 10)

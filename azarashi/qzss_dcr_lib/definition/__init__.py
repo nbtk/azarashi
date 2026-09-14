@@ -2,11 +2,14 @@ from .nmea_qzss_dcr_message_header import *
 from .qzss_dcr_jma_ash_fall_warning_code import *
 from .qzss_dcr_jma_ash_fall_warning_type import *
 from .qzss_dcr_jma_coastal_region import *
+from .qzss_dcr_jma_depth_of_hypocenter import *
 from .qzss_dcr_jma_disaster_category import *
 from .qzss_dcr_jma_eew_forecast_region import *
+from .qzss_dcr_jma_eew_magnitude import *
 from .qzss_dcr_jma_epicenter_and_hypocenter import *
 from .qzss_dcr_jma_flood_forecast_region import *
 from .qzss_dcr_jma_flood_warning_level import *
+from .qzss_dcr_jma_hypocenter_magnitude import *
 from .qzss_dcr_jma_information_serial_code import *
 from .qzss_dcr_jma_information_type import *
 from .qzss_dcr_jma_local_government import *
@@ -24,7 +27,11 @@ from .qzss_dcr_jma_tsunami_forecast_region import *
 from .qzss_dcr_jma_tsunami_height import *
 from .qzss_dcr_jma_tsunami_warning_code import *
 from .qzss_dcr_jma_tsunamigenic_potential import *
+from .qzss_dcr_jma_typhoon_central_pressure import *
 from .qzss_dcr_jma_typhoon_intensity_category import *
+from .qzss_dcr_jma_typhoon_maximum_gust_wind_speed import *
+from .qzss_dcr_jma_typhoon_maximum_wind_speed import *
+from .qzss_dcr_jma_typhoon_number import *
 from .qzss_dcr_jma_typhoon_reference_time_type import *
 from .qzss_dcr_jma_typhoon_scale_category import *
 from .qzss_dcr_jma_volcanic_warning_code import *

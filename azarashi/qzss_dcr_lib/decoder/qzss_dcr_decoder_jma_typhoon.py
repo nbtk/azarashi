@@ -1,5 +1,9 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from ..definition import qzss_dcr_jma_typhoon_central_pressure
 from ..definition import qzss_dcr_jma_typhoon_intensity_category
+from ..definition import qzss_dcr_jma_typhoon_maximum_gust_wind_speed
+from ..definition import qzss_dcr_jma_typhoon_maximum_wind_speed
+from ..definition import qzss_dcr_jma_typhoon_number
 from ..definition import qzss_dcr_jma_typhoon_reference_time_type
 from ..definition import qzss_dcr_jma_typhoon_scale_category
 from ..exception import QzssDcrDecoderException
@@ -26,11 +30,12 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
         self.elapsed_time_from_reference_time = self.extract_field(80, 7)
 
         tn = self.extract_field(87, 7)
-        if tn < 1 or tn > 99:
+        try:
+            self.typhoon_number = qzss_dcr_jma_typhoon_number[tn]
+        except KeyError as err:
             raise QzssDcrDecoderException(
-                f'Invalid JMA Typhoon Number: {tn}',
-                self)
-        self.typhoon_number = f'{tn}号'
+                f'Undefined JMA Typhoon Number: {tn}',
+                self) from err
         self.typhoon_number_raw = tn
 
         sr = self.extract_field(94, 4)
@@ -54,33 +59,30 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
         self.coordinates_of_typhoon = self.extract_lat_lon_field(102)
 
         pr = self.extract_field(143, 11)
-        if pr > 1100:
+        try:
+            self.central_pressure = qzss_dcr_jma_typhoon_central_pressure[pr]
+        except KeyError as err:
             raise QzssDcrDecoderException(
-                f'Invalid JMA Central Pressure: {pr}',
-                self)
-        self.central_pressure = f'{pr}hPa'
+                f'Undefined JMA Central Pressure: {pr}',
+                self) from err
         self.central_pressure_raw = pr
 
         w1 = self.extract_field(154, 7)
-        if w1 == 0:
-            self.maximum_wind_speed = '不明'
-        elif w1 < 15 or w1 > 105:
+        try:
+            self.maximum_wind_speed = qzss_dcr_jma_typhoon_maximum_wind_speed[w1]
+        except KeyError as err:
             raise QzssDcrDecoderException(
-                f'Invalid JMA Maximum Wind Speed: {w1}',
-                self)
-        else:
-            self.maximum_wind_speed = f'{w1}m/s'
+                f'Undefined JMA Maximum Wind Speed: {w1}',
+                self) from err
         self.maximum_wind_speed_raw = w1
 
         w2 = self.extract_field(161, 7)
-        if w2 == 0:
-            self.maximum_gust_wind_speed = '不明'
-        elif w2 < 15 or w2 > 105:
+        try:
+            self.maximum_gust_wind_speed = qzss_dcr_jma_typhoon_maximum_gust_wind_speed[w2]
+        except KeyError as err:
             raise QzssDcrDecoderException(
-                f'Invalid JMA Maximum Gust Wind Speed: {w2}',
-                self)
-        else:
-            self.maximum_gust_wind_speed = f'{w2}m/s'
+                f'Undefined JMA Maximum Gust Wind Speed: {w2}',
+                self) from err
         self.maximum_gust_wind_speed_raw = w2
 
         return QzssDcReportJmaTyphoon(**self.get_params())
