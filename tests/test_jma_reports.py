@@ -411,7 +411,8 @@ ASH_FALL = [*_time(53, 7, 4, 30), (69, 2, 1), (71, 12, 506),
 def test_ash_fall():
     report = _decode(jma(9, ASH_FALL))
     assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaAshFall
-    assert (report.expected_ash_fall_times, report.ash_fall_warning_codes_raw) == ([1, 2], [3, 1])
+    assert (report.expected_ash_fall_times, report.expected_ash_fall_times_raw) == (['1時間', '2時間'], [1, 2])
+    assert report.ash_fall_warning_codes_raw == [3, 1]
     assert str(report) == f'''防災気象情報(降灰)(発表)(訓練/試験)
 {TRAINING}
 降灰に関連する情報をお知らせします。
@@ -441,10 +442,20 @@ def test_ash_fall_warning_type(code, warning_type):
     assert f'発表時刻: 3月7日14時10分\n\n{warning_type}\n火山名: 桜島\n' in str(report)
 
 
+@pytest.mark.parametrize('code, hours', [
+    (1, '1時間'), (6, '6時間'),
+    (0, '基点時刻からの時間(コード番号：0)'), (7, '基点時刻からの時間(コード番号：7)'),  # may be defined later
+])
+def test_ash_fall_expected_time(code, hours):
+    report = _decode(jma(9, ASH_FALL + [(83, 3, code)]))
+    assert (report.expected_ash_fall_times, report.expected_ash_fall_times_raw) == ([hours, '2時間'], [code, 2])
+    assert f'基点時刻からの時間: {hours}\n' in str(report)
+
+
 def test_ash_fall_every_entry():
     entries = [field for i in range(4) for field in ((83 + i * 29, 3, 6), (86 + i * 29, 3, 7), (89 + i * 29, 23, 4620100))]
     report = _decode(jma(9, ASH_FALL[:5] + entries))
-    assert report.expected_ash_fall_times == [6] * 4
+    assert (report.expected_ash_fall_times, report.expected_ash_fall_times_raw) == (['6時間'] * 4, [6] * 4)
     assert report.ash_fall_warning_codes == ['その他の防災気象情報要素2'] * 4
 
 

@@ -1,6 +1,7 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
 from ..definition import qzss_dcr_jma_ash_fall_warning_code
 from ..definition import qzss_dcr_jma_ash_fall_warning_type
+from ..definition import qzss_dcr_jma_expected_ash_fall_time
 from ..definition import qzss_dcr_jma_volcano_name
 from ..exception import QzssDcrDecoderException
 from ..report import QzssDcReportJmaAshFall
@@ -31,7 +32,8 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
                 self) from err
         self.volcano_name_raw = vo
 
-        self.expected_ash_fall_times: list[int] = []
+        self.expected_ash_fall_times: list[str] = []
+        self.expected_ash_fall_times_raw: list[int] = []
         self.ash_fall_warning_codes: list[str] = []
         self.ash_fall_warning_codes_raw: list[int] = []
         self.local_governments: list[str] = []
@@ -42,11 +44,13 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
                 break
 
             ho = self.extract_field(offset, 3)
-            if 1 > ho > 6:
+            try:
+                self.expected_ash_fall_times.append(qzss_dcr_jma_expected_ash_fall_time[ho])
+            except KeyError as err:
                 raise QzssDcrDecoderException(
-                    f'Invalid JMA Expected Ash Fall Time: {ho}',
-                    self)
-            self.expected_ash_fall_times.append(ho)
+                    f'Undefined JMA Expected Ash Fall Time: {ho}',
+                    self) from err
+            self.expected_ash_fall_times_raw.append(ho)
 
             dw2 = self.extract_field(offset + 3, 3)
             try:

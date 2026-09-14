@@ -7,6 +7,7 @@ from .qzss_dcr_jma_disaster_category import *
 from .qzss_dcr_jma_eew_forecast_region import *
 from .qzss_dcr_jma_eew_magnitude import *
 from .qzss_dcr_jma_epicenter_and_hypocenter import *
+from .qzss_dcr_jma_expected_ash_fall_time import *
 from .qzss_dcr_jma_flood_forecast_region import *
 from .qzss_dcr_jma_flood_warning_level import *
 from .qzss_dcr_jma_hypocenter_magnitude import *

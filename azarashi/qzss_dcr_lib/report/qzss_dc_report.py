@@ -607,7 +607,8 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
                  ash_fall_warning_type_raw: int,
                  volcano_name: str,
                  volcano_name_raw: int,
-                 expected_ash_fall_times: list[int],
+                 expected_ash_fall_times: list[str],
+                 expected_ash_fall_times_raw: list[int],
                  ash_fall_warning_codes: list[str],
                  ash_fall_warning_codes_raw: list[int],
                  local_governments: list[str],
@@ -620,6 +621,7 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
         self.volcano_name = volcano_name
         self.volcano_name_raw = volcano_name_raw
         self.expected_ash_fall_times = expected_ash_fall_times
+        self.expected_ash_fall_times_raw = expected_ash_fall_times_raw
         self.ash_fall_warning_codes = ash_fall_warning_codes
         self.ash_fall_warning_codes_raw = ash_fall_warning_codes_raw
         self.local_governments = local_governments
@@ -635,7 +637,7 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
 
         for i in range(len(self.expected_ash_fall_times)):
             report += '\n\n' + \
-                      f'基点時刻からの時間: {self.expected_ash_fall_times[i]}時間\n' + \
+                      f'基点時刻からの時間: {self.expected_ash_fall_times[i]}\n' + \
                       f'現象: {self.ash_fall_warning_codes[i]}\n' + \
                       f'{self.local_governments[i]}'
         return report
