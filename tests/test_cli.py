@@ -24,6 +24,31 @@ def _run(monkeypatch, capsys, args, stdin=b''):
     return code, out, err
 
 
+def test_records_and_replays(monkeypatch, capsys, tmp_path):
+    record = tmp_path / 'record.ubx'
+    record.write_bytes(b'')  # recording appends
+    data = b'noise' + FRAME + b'$GNGGA,,*00\r\n' + FRAME
+    code, live, err = _run(monkeypatch, capsys, ['ublox', '--record', str(record)], data)
+    assert code == 0 and live.count('\n緊急地震速報\n') == 2
+    assert record.read_bytes() == data
+    code, replay, err = _run(monkeypatch, capsys, ['ublox', '-f', str(record)])
+    assert code == 0 and replay.count('\n緊急地震速報\n') == 2
+
+
+def test_passes_the_baud_rate(monkeypatch, capsys):
+    opened = []
+
+    def fake_open_input(path, baudrate=9600):
+        opened.append((path, baudrate))
+        return io.BytesIO(FRAME)
+
+    monkeypatch.setattr(cli, 'open_input', fake_open_input)
+    code, out, err = _run(monkeypatch, capsys, ['ublox', '-f', '/dev/ttyUSB0', '-b', '115200'])
+    assert code == 0 and opened == [('/dev/ttyUSB0', 115200)]
+    _run(monkeypatch, capsys, ['ublox', '-f', '/dev/ttyS0'])
+    assert opened[-1] == ('/dev/ttyS0', 9600)
+
+
 def test_nmea_line_noise_from_stdin(monkeypatch, capsys):
     code, out, err = _run(monkeypatch, capsys, ['nmea'], NOISE + EEW.encode() + b'\r\n')
     assert code == 0

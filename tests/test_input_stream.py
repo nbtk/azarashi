@@ -7,7 +7,6 @@ import pytest
 import serial
 
 import azarashi
-from azarashi import __main__ as cli
 from azarashi.input_stream import RecordingStream
 from azarashi.input_stream import open_input
 from samples import EEW
@@ -74,39 +73,6 @@ def test_recording_copies_everything_read(tmp_path, msg_type, data, make_stream)
     stream.close()
     assert reports == [azarashi.decode(EEW, 'nmea')] * 2
     assert path.read_bytes() == data
-
-
-def _run(monkeypatch, capsys, args, stdin=b''):
-    monkeypatch.setattr(sys, 'argv', ['azarashi', *args])
-    monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO(stdin)))
-    code = cli.main()
-    out, err = capsys.readouterr()
-    return code, out
-
-
-def test_cli_records_and_replays(monkeypatch, capsys, tmp_path):
-    record = tmp_path / 'record.ubx'
-    record.write_bytes(b'')  # recording appends
-    data = b'noise' + FRAME + b'$GNGGA,,*00\r\n' + FRAME
-    code, live = _run(monkeypatch, capsys, ['ublox', '--record', str(record)], data)
-    assert code == 0 and live.count('\n緊急地震速報\n') == 2
-    assert record.read_bytes() == data
-    code, replay = _run(monkeypatch, capsys, ['ublox', '-f', str(record)])
-    assert code == 0 and replay.count('\n緊急地震速報\n') == 2
-
-
-def test_cli_passes_the_baud_rate(monkeypatch, capsys):
-    opened = []
-
-    def fake_open_input(path, baudrate=9600):
-        opened.append((path, baudrate))
-        return io.BytesIO(FRAME)
-
-    monkeypatch.setattr(cli, 'open_input', fake_open_input)
-    code, out = _run(monkeypatch, capsys, ['ublox', '-f', '/dev/ttyUSB0', '-b', '115200'])
-    assert code == 0 and opened == [('/dev/ttyUSB0', 115200)]
-    code, out = _run(monkeypatch, capsys, ['ublox', '-f', '/dev/ttyS0'])
-    assert opened[-1] == ('/dev/ttyS0', 9600)
 
 
 def test_recording_read(tmp_path):
