@@ -30,6 +30,10 @@ class _SlotsLineSource:  # cannot be weakly referenced
         return self._lines.readline()
 
 
+class _UnhashableLineSource(io.StringIO):  # can be weakly referenced, but not hashed
+    __hash__ = None
+
+
 def test_nmea_line_noise_does_not_stop_the_stream():
     # binary line sources such as pySerial's readline() may deliver non-UTF-8 noise
     stream = io.BytesIO(b'\xff\xfe\r\n' + EEW.encode() + b'\r\n')
@@ -85,7 +89,7 @@ def test_hex_line_noise_is_a_decoder_error():
     assert azarashi.decode_stream(stream, 'hex') == azarashi.decode(EEW, 'nmea')
 
 
-@pytest.mark.parametrize('make_source', [_LineSource, _SlotsLineSource])
+@pytest.mark.parametrize('make_source', [_LineSource, _SlotsLineSource, _UnhashableLineSource])
 def test_unique_with_minimal_stream_objects(make_source):
     source = make_source(EEW + '\n' + EEW + '\n')
     assert azarashi.decode_stream(source, 'nmea', unique=True) == azarashi.decode(EEW, 'nmea')
@@ -95,8 +99,9 @@ def test_unique_with_minimal_stream_objects(make_source):
     assert azarashi.decode_stream(io.StringIO(EEW + '\n'), 'nmea') == azarashi.decode(EEW, 'nmea')
 
 
-def test_dedup_cache_does_not_keep_stream_alive():
-    stream = io.StringIO(EEW + '\n')
+@pytest.mark.parametrize('make_stream', [io.StringIO, _UnhashableLineSource])
+def test_dedup_cache_does_not_keep_stream_alive(make_stream):
+    stream = make_stream(EEW + '\n')
     azarashi.decode_stream(stream, 'nmea', unique=True)
     ref = weakref.ref(stream)
     del stream
