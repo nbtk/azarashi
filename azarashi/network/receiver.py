@@ -52,7 +52,14 @@ class Receiver:
             while True:
                 data = sock.recvfrom(256)
                 payload = data[0]
-                report = decode(payload, 'net')
+                try:
+                    if not payload:  # a datagram never ends a stream, so an empty one is only too short
+                        raise QzssDcrDecoderException('Too Short Sentence')
+                    report = decode(payload, 'net')
+                except (QzssDcrDecoderException, QzssDcrDecoderNotImplementedError) as e:
+                    # a datagram that is not a message, e.g. from other software: leaving would drop what is queued
+                    logger.warning(f'[{type(e).__name__}] {e}')
+                    continue
                 if report.message_type == 'DCR' and ignore_dcr is True:
                     continue
                 if report.message_type == 'DCX' and ignore_dcx is True:
@@ -76,18 +83,11 @@ def main() -> int:
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     args = parser.parse_args()
     recver = Receiver(args.bind_addr, args.bind_port, args.bind_iface)
-    while True:
-        try:
-            if args.verbose:
-                recver.start(ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
-            else:
-                recver.start(callback=simple_handler, ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
-        except QzssDcrDecoderException as e:  # a datagram that is not a message, e.g. from other software
-            logger.warning(f'[{type(e).__name__}] {e}')
-        except QzssDcrDecoderNotImplementedError as e:
-            logger.warning(f'[{type(e).__name__}] {e}')
-        else:
-            return 0
+    if args.verbose:
+        recver.start(ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
+    else:
+        recver.start(callback=simple_handler, ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
+    return 0
 
 
 if __name__ == '__main__':

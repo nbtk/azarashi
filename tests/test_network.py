@@ -156,47 +156,56 @@ def test_receiver_command_filter_options(monkeypatch, args, expected):
     assert {k: started[0][k] for k in expected} == expected
 
 
-def test_receiver_command_survives_datagrams_that_are_not_messages(monkeypatch, caplog):
-    errors = [azarashi.QzssDcrDecoderNotImplementedError('Decoder Not Implemented'),
-              azarashi.QzssDcrDecoderException('Too Short Sentence')]
-    calls = []
-
-    def start(self, **kwargs):
-        calls.append(kwargs)
-        if errors:
-            raise errors.pop()
-
-    monkeypatch.setattr(receiver.Receiver, 'start', start)
-    monkeypatch.setattr(sys, 'argv', ['receiver'])
-    with caplog.at_level(logging.WARNING, logger=receiver.logger.name):
-        receiver.main()
-    assert len(calls) == 3  # restarted after each error, returns when start() does
-    assert [r.getMessage() for r in caplog.records] == ['[QzssDcrDecoderException] Too Short Sentence',
-                                                        '[QzssDcrDecoderNotImplementedError] Decoder Not Implemented']
-
-
-def test_receiver_raises_on_a_datagram_that_is_not_a_message():
+@pytest.mark.parametrize('datagram, warning', [
+    (b'hello', "[QzssDcrDecoderException] Too Short Sentence -> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
+    (b'', '[QzssDcrDecoderException] Too Short Sentence'),
+    (bytes((55,)) + bytes(32), '[QzssDcrDecoderException] Undefined Message Type: 0 -> $QZQSM,55,' + '0' * 63 + '*74'),
+])
+def test_receiver_skips_datagrams_that_are_not_messages(caplog, datagram, warning):
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
         probe.bind(('127.0.0.1', 0))
         port = probe.getsockname()[1]
     recver = receiver.Receiver('127.0.0.1', port, address_family=socket.AF_INET)
-    errors = []
+    received = []
+    payload = bytes((55,)) + azarashi.decode(EEW).message
+    with caplog.at_level(logging.WARNING, logger=receiver.logger.name):
+        thread = threading.Thread(target=recver.start, args=(received.append,), daemon=True)
+        thread.start()
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sender:
+            deadline = time.monotonic() + 5  # until the socket is bound, datagrams are dropped
+            while time.monotonic() < deadline and not (received and warning in [r.getMessage() for r in caplog.records]):
+                sender.sendto(datagram, ('127.0.0.1', port))
+                sender.sendto(payload, ('127.0.0.1', port))  # right behind it: nothing queued may be lost
+                time.sleep(0.01)
+        messages = [r.getMessage() for r in caplog.records]
+    assert thread.is_alive()
+    assert received and received[0] == azarashi.decode(EEW)
+    assert warning in messages
 
-    def run():
-        try:
-            recver.start(lambda report: None)
-        except azarashi.QzssDcrDecoderException as e:
-            errors.append(e.message)
 
-    thread = threading.Thread(target=run, daemon=True)
-    thread.start()
-    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sender:
-        deadline = time.monotonic() + 5
-        while thread.is_alive() and time.monotonic() < deadline:
-            sender.sendto(b'hello', ('127.0.0.1', port))
-            time.sleep(0.01)
-    thread.join(1)
-    assert errors == ['Too Short Sentence']
+def test_receiver_command_keeps_receiving_after_an_empty_datagram(monkeypatch, caplog):
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
+        probe.bind(('127.0.0.1', 0))
+        port = probe.getsockname()[1]
+    monkeypatch.setattr(sys, 'argv', ['receiver', '-b', '127.0.0.1', '-p', str(port)])
+    payload = bytes((55,)) + azarashi.decode(EEW).message
+    with caplog.at_level(logging.INFO, logger=receiver.logger.name):
+        thread = threading.Thread(target=receiver.main, daemon=True)
+        thread.start()
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sender:
+            warning = '[QzssDcrDecoderException] Too Short Sentence'
+            deadline = time.monotonic() + 5  # until the socket is bound, datagrams are dropped
+            while time.monotonic() < deadline:
+                messages = [r.getMessage() for r in caplog.records]
+                if warning in messages and any('緊急地震速報' in m for m in messages[messages.index(warning):]):
+                    break
+                sender.sendto(b'', ('127.0.0.1', port))
+                sender.sendto(payload, ('127.0.0.1', port))
+                time.sleep(0.01)
+        messages = [r.getMessage() for r in caplog.records]
+    assert thread.is_alive()
+    assert warning in messages
+    assert any('緊急地震速報' in message for message in messages[messages.index(warning):])  # after the empty one
 
 
 def test_receiver_handlers_log_the_report(caplog):

@@ -418,7 +418,7 @@ options:
 ```
 プログラムから `Receiver.start()` を呼ぶときは、`decode_stream()` と同じく、DCX を無視するのがデフォルトです。DCX も受け取るときは `ignore_dcx=False` を指定してください。
 
-受信したパケットをデコードできないとき、receiver コマンドは警告をログに出力して受信を続けます。一方 `Receiver.start()` は、`QzssDcrDecoderException` を送出して終了します。プログラムから使うときは、例外を捕捉してもう一度呼び出してください。
+受信したパケットをデコードできないとき、receiver コマンドと `Receiver.start()` は警告をログに出力し、そのパケットを読み飛ばして受信を続けます。
 
 ## DCX
 azarashi は DCX メッセージのデコードをサポートしています。下記は L-Alert をデコードする例です。
