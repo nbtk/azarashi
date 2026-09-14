@@ -1,5 +1,6 @@
 from .nmea_qzss_dcr_message_header import *
 from .qzss_dcr_jma_ash_fall_warning_code import *
+from .qzss_dcr_jma_ash_fall_warning_type import *
 from .qzss_dcr_jma_coastal_region import *
 from .qzss_dcr_jma_disaster_category import *
 from .qzss_dcr_jma_eew_forecast_region import *

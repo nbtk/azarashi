@@ -426,15 +426,14 @@ def test_ash_fall():
 鹿児島県垂水市'''
 
 
-@pytest.mark.parametrize('code, warning_type', [(1, '速報'), (2, '詳細')])
+@pytest.mark.parametrize('code, warning_type', [
+    (1, '速報'), (2, '詳細'),
+    (0, '降灰予報(コード番号：0)'), (3, '降灰予報(コード番号：3)'),  # not an error: a later edition may define them
+])
 def test_ash_fall_warning_type(code, warning_type):
     report = _decode(jma(9, ASH_FALL + [(69, 2, code)]))
     assert (report.ash_fall_warning_type, report.ash_fall_warning_type_raw) == (warning_type, code)
-
-
-@pytest.mark.parametrize('code', [0, 3])
-def test_ash_fall_undefined_warning_type(code):
-    assert _error(jma(9, ASH_FALL + [(69, 2, code)])) == f'Undefined JMA Ash Fall Warning Type: {code}'
+    assert f'発表時刻: 3月7日14時10分\n\n{warning_type}\n火山名: 桜島\n' in str(report)
 
 
 def test_ash_fall_every_entry():
