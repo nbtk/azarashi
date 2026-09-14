@@ -52,6 +52,32 @@ def test_nmea_truncated_sentence_after_garbage_is_a_decoder_error():
     assert azarashi.decode_stream(stream, 'nmea') == azarashi.decode(EEW, 'nmea')
 
 
+@pytest.mark.parametrize('line, results', [  # the newline between the sentences was lost
+    (EEW[:30] + EEW, ['Too Short Sentence', 'EEW']),
+    (EEW + EEW, ['EEW', 'EEW']),
+    (EEW + EEW[:30], ['EEW', 'Too Short Sentence']),
+])
+def test_nmea_sentences_on_one_line_are_decoded_one_by_one(line, results):
+    stream = io.BytesIO(line.encode() + b'\r\n')
+    decoded = []
+    with pytest.raises(EOFError):
+        while True:
+            try:
+                decoded.append('EEW' if azarashi.decode_stream(stream, 'nmea') == azarashi.decode(EEW) else 'other')
+            except azarashi.QzssDcrDecoderException as e:
+                decoded.append(e.message)
+    assert decoded == results
+
+
+def test_sentences_left_on_a_line_do_not_keep_the_stream_alive():
+    stream = io.BytesIO((EEW + EEW + '\r\n').encode())
+    azarashi.decode_stream(stream, 'nmea')  # the second sentence is kept for the next call
+    ref = weakref.ref(stream)
+    del stream
+    gc.collect()
+    assert ref() is None
+
+
 def test_hex_line_noise_is_a_decoder_error():
     stream = io.BytesIO(b'\xff\xfe\n' + EEW_HEX.encode() + b'\n')
     with pytest.raises(azarashi.QzssDcrDecoderException):
