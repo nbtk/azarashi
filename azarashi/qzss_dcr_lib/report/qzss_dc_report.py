@@ -255,19 +255,17 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
         return dt.strftime('---%dT%H:%MZ')
 
     def convert_dt_to_ambiguous_time_str(self, td: datetime, du: int, time_diff: int = 9) -> str:
-        if du == 5:  # Approximate time(day): only the UTC day is valid, which cannot be converted to local time
-            return f'{td.month}月{td.day}日頃'
-        td += timedelta(hours=time_diff)
+        lt = td + timedelta(hours=time_diff)
         try:
-            return [f'{td.month}月{td.day}日{td.hour}時{td.minute}分',  # No ambiguity
-                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',
+            return [f'{lt.month}月{lt.day}日{lt.hour}時{lt.minute}分',  # No ambiguity
+                    f'{lt.month}月{lt.day}日{lt.hour}時{lt.minute}分頃',
                     # Approximate time(equivalent to Approximate time (minute))
-                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',  # Approximate time(second)
-                    f'{td.month}月{td.day}日{td.hour}時{td.minute}分頃',  # Approximate time(minute)
-                    f'{td.month}月{td.day}日{td.hour}時頃',  # Approximate time(hour)
-                    f'{td.month}月{td.day}日頃',  # Approximate time(day)
-                    f'{td.month}月頃',  # Approximate time(month)
-                    f'{td.year}年頃',  # Approximate time(year)
+                    f'{lt.month}月{lt.day}日{lt.hour}時{lt.minute}分頃',  # Approximate time(second)
+                    f'{lt.month}月{lt.day}日{lt.hour}時{lt.minute}分頃',  # Approximate time(minute)
+                    f'{lt.month}月{lt.day}日{lt.hour}時頃',  # Approximate time(hour)
+                    f'{td.month}月{td.day}日頃',  # Approximate time(day): only the UTC day is valid, so it stays in UTC
+                    f'{lt.month}月頃',  # Approximate time(month)
+                    f'{lt.year}年頃',  # Approximate time(year)
                     ][du]
         except IndexError as err:
             raise QzssDcrDecoderException(
