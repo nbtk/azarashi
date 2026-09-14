@@ -25,19 +25,31 @@ def open_input(path: str, baudrate: int = 9600) -> BinaryIO | serial.SerialBase:
 
 
 class RecordingStream:
-    """Passes a binary stream through while appending every byte read from it to a file."""
+    """Passes a binary stream through while appending every byte read from it to a file.
+
+    If the file cannot be written, recording stops with a warning on stderr and reading goes on,
+    since what was read has to reach the decoder.
+    """
 
     def __init__(self, stream: BinaryIO | serial.SerialBase, record: BinaryIO) -> None:
         self._stream = stream
-        self._record = record
+        self._record: BinaryIO | None = record
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._stream, name)
 
     def _copy(self, data: bytes) -> bytes:
-        if data:
-            self._record.write(data)
-            self._record.flush()
+        if data and self._record is not None:
+            try:
+                self._record.write(data)
+                self._record.flush()
+            except (OSError, ValueError) as e:  # e.g. a full disk, or a record file closed elsewhere
+                print(f'# recording stopped: [{type(e).__name__}] {e}', file=sys.stderr)
+                record, self._record = self._record, None
+                try:
+                    record.close()
+                except (OSError, ValueError):  # closing flushes what could not be written
+                    pass
         return data
 
     def read(self, *args: Any) -> bytes:
@@ -56,4 +68,5 @@ class RecordingStream:
         try:
             self._stream.close()
         finally:
-            self._record.close()
+            if self._record is not None:
+                self._record.close()

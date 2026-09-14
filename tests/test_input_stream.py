@@ -82,3 +82,29 @@ def test_recording_read(tmp_path):
     assert stream.seekable()  # anything else is passed through to the stream
     stream.close()
     assert path.read_bytes() == b'abc'
+
+
+class _FullDisk(io.BytesIO):
+    """A record file that runs out of space after `room` bytes."""
+
+    def __init__(self, room):
+        super().__init__()
+        self._room = room
+
+    def write(self, data):
+        if self.tell() + len(data) > self._room:
+            raise OSError(28, 'No space left on device')
+        return super().write(data)
+
+
+def test_a_record_that_cannot_be_written_does_not_stop_decoding(capsys):
+    record = _FullDisk(len(FRAME))
+    stream = RecordingStream(io.BytesIO(FRAME * 3), record)
+    reports = []
+    with pytest.raises(EOFError):
+        while True:
+            reports.append(azarashi.decode_stream(stream, 'ublox'))
+    stream.close()
+    assert reports == [azarashi.decode(EEW, 'nmea')] * 3
+    assert capsys.readouterr().err == '# recording stopped: [OSError] [Errno 28] No space left on device\n'  # once
+    assert record.closed
