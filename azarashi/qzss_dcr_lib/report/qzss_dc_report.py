@@ -161,6 +161,7 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
                  message_header: str | bytes | None = None,
                  satellite_id: int | None = None,
                  satellite_prn: int | None = None,
+                 satellite_svid: int | None = None,
                  sentence: str | bytes | None = None,
                  **kwargs: Any) -> None:
         if sentence is None:
@@ -171,6 +172,7 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
         self.message_header = message_header
         self.satellite_id = satellite_id
         self.satellite_prn = satellite_prn
+        self.satellite_svid = satellite_svid  # the number a u-blox receiver gives the satellite
         if self.message[1] >> 2 == 44: # DCX
             # starts from camf, discards pab, mt and sd fields.
             self.raw = self.message[3:27] + bytes((self.message[27] & 0xF0,))

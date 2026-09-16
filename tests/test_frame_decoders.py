@@ -94,7 +94,7 @@ def test_hex_rejects(msg, message):
 
 def test_hex_has_no_satellite():
     report = azarashi.decode(EEW_HEX + '\n', 'hex')
-    assert (report.satellite_id, report.satellite_prn) == (None, None)
+    assert (report.satellite_id, report.satellite_prn, report.satellite_svid) == (None, None, None)
     assert report.nmea == EEW  # written as from PRN183
     assert report == azarashi.decode(EEW)
 
@@ -111,7 +111,7 @@ def test_net_rejects(msg, message):
 
 def test_net_carries_the_satellite():
     report = azarashi.decode(bytes((58,)) + azarashi.decode(EEW).message, 'net')
-    assert (report.satellite_id, report.satellite_prn) == (58, 186)
+    assert (report.satellite_id, report.satellite_prn, report.satellite_svid) == (58, 186, None)
     assert report.nmea == with_fields(EEW.replace(',55,', ',58,'), [])  # with the checksum recomputed
 
 
@@ -141,10 +141,16 @@ def test_ublox_checksum_mismatch_names_both_checksums():
                                       f'but got {broken[-2]:02X}{broken[-1]:02X}'
 
 
-@pytest.mark.parametrize('sv, satellite_prn', [(2, 184), (3, 185), (4, 186), (7, 189), (1, 183), (0, 183)])
+@pytest.mark.parametrize('sv, satellite_prn', [
+    (1, 183), (2, 184), (3, 185), (4, 186), (7, 189),  # the PRN numbers of IS-QZSS-L1S-009
+    (0, None), (5, None), (6, None), (8, None), (255, None),  # no PRN is assigned to these svIds
+])
 def test_ublox_satellite(sv, satellite_prn):
     report = azarashi.decode(sfrbx(EEW, sv=sv), 'ublox')
-    assert (report.satellite_prn, report.satellite_id) == (satellite_prn, satellite_prn & 0x3f)
+    satellite_id = None if satellite_prn is None else satellite_prn & 0x3f
+    assert (report.satellite_prn, report.satellite_id) == (satellite_prn, satellite_id)
+    assert report.satellite_svid == sv  # what the receiver said, whether or not it has a PRN number
+    assert report.nmea.startswith(f'$QZQSM,{satellite_id or 55},')  # 55 stands in for an unknown satellite
 
 
 def test_ublox_ignores_extra_data_words():

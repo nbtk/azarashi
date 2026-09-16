@@ -98,7 +98,8 @@ def test_undefined_codes_are_named(name):
     if table.undefined is None:  # codes that the decoders reject
         assert name in {'qzss_dcr_jma_disaster_category.qzss_dcr_jma_disaster_category',
                         'qzss_dcr_jma_disaster_category.qzss_dcr_jma_disaster_category_en',
-                        'qzss_dcr_message_type.qzss_dcr_message_type'}
+                        'qzss_dcr_message_type.qzss_dcr_message_type',
+                        'ublox_qzss_svid_prn_map.ublox_qzss_svid_prn_map'}
     elif isinstance(table.undefined, str):
         key = next((k for k in range(1 << 16) if k not in table), None) if not name.startswith('qzss_dcx_message_type') \
             else None
