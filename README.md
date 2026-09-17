@@ -10,7 +10,7 @@ azarashi は、準天頂衛星みちびきが送信する災危通報メッセ�
 ```shell
 $ pip install azarashi
 ```
-シリアルデバイスの読み込みに使う [pySerial](https://pythonhosted.org/pyserial/) も一緒にインストールされます。
+シリアルデバイスの読み込みに使う [pySerial](https://pyserial.readthedocs.io/en/latest/) も一緒にインストールされます。
 ## Preparation
 デバイスに災危通報メッセージを出力させるための設定例です。
 ### u-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
@@ -344,7 +344,7 @@ def example():
 exit(example())
 ```
 ### pySerial
-[pySerial](https://pythonhosted.org/pyserial/) でシリアルポートを開いて `decode_stream()` に渡す例です。
+[pySerial](https://pyserial.readthedocs.io/en/latest/) でシリアルポートを開いて `decode_stream()` に渡す例です。
 ```python
 import azarashi
 import sys
