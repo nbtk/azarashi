@@ -1,5 +1,6 @@
 """Every datetime the library returns carries a UTC timezone."""
 import datetime
+import io
 import os
 
 import azarashi
@@ -41,6 +42,14 @@ def test_default_timestamp_is_now_in_utc():
     report = azarashi.decode(EEW)
     assert report.timestamp.tzinfo is UTC
     assert before <= report.timestamp <= datetime.datetime.now(UTC)
+
+
+def test_a_replayed_message_is_dated_from_the_given_time():
+    received = datetime.datetime(2019, 5, 1, tzinfo=UTC)  # a message kept in a recording since 2019
+    report = azarashi.decode(EEW, 'nmea', received)
+    assert (report.timestamp, report.report_time.year) == (received, 2019)
+    from_stream = azarashi.decode_stream(io.StringIO(EEW + '\r\n'), 'nmea', timestamp=received)
+    assert (from_stream.timestamp, from_stream.report_time.year) == (received, 2019)
 
 
 def test_given_timestamp_is_normalized_to_utc():

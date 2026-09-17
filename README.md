@@ -98,8 +98,8 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 ```
 オプションは下記のとおりです。
 ```shell
-usage: azarashi [-h] [-f INPUT] [-b BAUDRATE] [--record RECORD] [-s] [-u] [-r]
-                [-x] [-v]
+usage: azarashi [-h] [-f INPUT] [-b BAUDRATE] [--record RECORD] [--time TIME]
+                [-s] [-u] [-r] [-x] [-v]
                 {hex,nmea,ublox}
 
 azarashi CLI
@@ -114,6 +114,8 @@ options:
   -b BAUDRATE, --baudrate BAUDRATE
                         baud rate of the serial device (default: 9600)
   --record RECORD       append the raw input to this file (default: None)
+  --time TIME           time the input was received, e.g. 2026-09-01T12:00:00Z
+                        (default: None)
   -s, --source          output the source messages (default: False)
   -u, --unique          supress duplicate messages (default: False)
   -r, --ignore-dcr      ignore dcr messages (default: False)
@@ -145,13 +147,18 @@ $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarash
 $ azarashi ublox -f /dev/ttyS0 --record qzss.ubx
 $ azarashi ublox -f qzss.ubx
 ```
+メッセージは日付をすべて持っているわけではありません。DCR には年がなく、DCX には曜日と時刻しかありません。足りない部分は受信時刻から補います。記録してすぐに再生するなら、そのままで正しい日付になります。前の週や前の年に記録したファイルを再生するときは、記録した時刻を `--time` で指定してください。表示する時刻も、指定した時刻になります。
+```shell
+$ azarashi ublox -f qzss.ubx --time 2026-09-01T12:00:00Z
+```
 ## API
 ### decode()
 ```python
-azarashi.decode(msg, msg_type='nmea')
+azarashi.decode(msg, msg_type='nmea', timestamp=None)
 ```
 - `msg`: デコードするメッセージです。
 - `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型で、`ublox` のメッセージは bytes 型で渡してください。
+- `timestamp`: メッセージを受信した時刻です。デフォルトは現在時刻です。メッセージにない年や日付は、この時刻から補います。記録しておいたメッセージをあとからデコードするときに指定してください。タイムゾーンのない datetime は、実行環境のローカル時刻として扱います。
 #### Example
 `decode()` はレポートオブジェクトを返します。レポートオブジェクトを `str()` に渡すと、災害情報を読みやすい文章にして返します。
 ```python
@@ -250,7 +257,7 @@ True
 ```
 ### decode_stream()
 ```python
-azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True)
+azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True, timestamp=None)
 ```
 - `stream`: メッセージを読み込むストリームです。シリアルデバイスは pySerial で開いて渡してください。ファイルは `open(path, 'rb')` のように、バイナリモードで開くことをおすすめします。
 - `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。
@@ -266,6 +273,7 @@ callback(report, *callback_args, **callback_kwargs)
   - 秒数: 同じメッセージでも、最後に受信してからその秒数を過ぎていれば、もう一度通知します。例えば、続いている警報が翌日にもう一度配信されたときに通知させたいなら、`unique=3600*24` と指定します。
 - `ignore_dcr`: DCR メッセージを無視するときは `True` を指定します。デフォルトは `False` です。
 - `ignore_dcx`: DCX メッセージを無視するかどうかです。デフォルトは `True` で、DCX メッセージを無視します。DCX メッセージも受け取るときは `False` を指定してください。
+- `timestamp`: ストリームのデータを受信した時刻です。デフォルトは現在時刻です。記録しておいたデータを読み込むときに、記録した時刻を指定してください。この時刻はすべてのレポートに使われるので、リアルタイムに受信するときは指定しないでください。
 #### Example
 シリアルデバイスを pySerial で開いて読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
 ```python

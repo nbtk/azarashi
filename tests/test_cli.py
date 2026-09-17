@@ -99,6 +99,15 @@ def test_header_time_is_when_the_message_arrived(monkeypatch, capsys):
     assert header - started >= datetime.timedelta(seconds=0.3)
 
 
+def test_given_time_replaces_the_clock(monkeypatch, capsys):
+    args = ['hex', '-v', '--time', '2019-05-01T00:00:00Z']
+    code, out, err = _run(monkeypatch, capsys, args, NOISE + EEW_HEX.encode() + b'\n')
+    assert code == 0
+    assert out.startswith('2019-05-01T00:00:00Z -')
+    assert "'report_time': datetime.datetime(2019, 3, 10, 1, 0," in out
+    assert err.startswith('2019-05-01T00:00:00Z -')  # the noise, dated as the input it came with
+
+
 def test_verbose_prints_every_field(monkeypatch, capsys):
     code, out, err = _run(monkeypatch, capsys, ['nmea', '-v'], EEW.encode() + b'\r\n')
     assert code == 0

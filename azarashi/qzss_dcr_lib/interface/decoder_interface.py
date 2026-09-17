@@ -1,4 +1,5 @@
 from collections.abc import Callable
+from datetime import datetime
 from typing import Any, Protocol, TypeAlias
 
 from .hex_interface import hex_qzss_dcr_message_extractor
@@ -37,18 +38,18 @@ caches: StreamKeyedDict[list[QzssDcReport]] = StreamKeyedDict()  # stream -> rec
 cache_size = 256
 
 
-def decode(msg: str | bytes, msg_type: str = 'nmea') -> QzssDcReport:
+def decode(msg: str | bytes, msg_type: str = 'nmea', timestamp: datetime | None = None) -> QzssDcReport:
     if not msg:
         raise EOFError('Encountered EOF')
 
     if msg_type == 'hex':
-        return HexQzssDcrDecoder(msg).decode()
+        return HexQzssDcrDecoder(msg, timestamp=timestamp).decode()
     elif msg_type == 'net':
-        return NetQzssDcrDecoder(msg).decode()
+        return NetQzssDcrDecoder(msg, timestamp=timestamp).decode()
     elif msg_type == 'nmea' or msg_type == 'spresense':
-        return NmeaQzssDcrDecoder(msg).decode()
+        return NmeaQzssDcrDecoder(msg, timestamp=timestamp).decode()
     elif msg_type == 'ublox':
-        return UBloxQzssDcrDecoder(msg).decode()
+        return UBloxQzssDcrDecoder(msg, timestamp=timestamp).decode()
     else:
         raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
 
@@ -60,7 +61,8 @@ def decode_stream(stream: QzssDcrStream,  # do not decode one stream in parallel
                   callback_kwargs: dict[str, Any] | None = None,
                   unique: bool | float = False,
                   ignore_dcr: bool = False,
-                  ignore_dcx: bool = True) -> QzssDcReport:
+                  ignore_dcx: bool = True,
+                  timestamp: datetime | None = None) -> QzssDcReport:
     if callback_kwargs is None:
         callback_kwargs = {}
 
@@ -105,7 +107,7 @@ def decode_stream(stream: QzssDcrStream,  # do not decode one stream in parallel
 
     while True:
         msg = extractor(reader, reader_args=reader_args)
-        report = decode(msg, msg_type)
+        report = decode(msg, msg_type, timestamp)
 
         if report.message_type == 'DCR':
             if ignore_dcr is True:
