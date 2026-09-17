@@ -1,3 +1,4 @@
+import threading
 import weakref
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar, cast
@@ -46,6 +47,20 @@ class StreamKeyedDict(Generic[_T]):
         for key, (held, _) in list(self._by_id.items()):
             if getattr(_held(held), 'closed', False):
                 del self._by_id[key]
+
+
+_locks: StreamKeyedDict['threading.RLock'] = StreamKeyedDict()  # one lock per stream, released with the stream
+_locks_guard = threading.Lock()
+
+
+def stream_lock(stream: object) -> 'threading.RLock':
+    """The lock that keeps the state of one stream to one thread at a time."""
+    with _locks_guard:  # two threads must not each make a lock of their own for the same stream
+        lock = _locks.get(stream)
+        if lock is None:
+            lock = threading.RLock()
+            _locks[stream] = lock
+        return lock
 
 
 def _held(held: object) -> object:

@@ -1,6 +1,8 @@
 """decode_stream() tests for line-based messages and the per-stream dedup cache."""
 import gc
 import io
+import threading
+import time
 import weakref
 
 import pytest
@@ -9,6 +11,7 @@ import azarashi
 from azarashi.qzss_dcr_lib.interface import decoder_interface
 from samples import EEW
 from samples import EEW_HEX
+from samples import FRAME
 from samples import L_ALERT
 
 
@@ -124,6 +127,111 @@ def test_unique_counts_a_report_only_once_it_is_delivered(unique):
     with pytest.raises(EOFError):
         azarashi.decode_stream(stream, callback=callback, unique=unique)
     assert len(delivered) == 2  # the second copy is delivered, and the third is its duplicate
+
+
+class _Trickle:  # a few bytes per read, the way a serial port delivers them
+    def __init__(self, data, chunk=7):
+        self._data, self._chunk, self._pos = data, chunk, 0
+
+    def read1(self, size=-1):
+        time.sleep(0)  # a real device releases the GIL while it waits for the bytes
+        data = self._data[self._pos:self._pos + self._chunk]
+        self._pos += len(data)
+        return data
+
+
+def _drain(target, *args, **kwargs):
+    threads = [threading.Thread(target=target, args=args, kwargs=kwargs) for _ in range(4)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+
+
+def test_threads_reading_one_stream_lose_no_message():
+    stream = _Trickle(FRAME * 50, chunk=1)  # a byte at a time, as decode_stream() reads an unbuffered stream
+    decoded = []
+
+    def drain():
+        while True:
+            try:
+                decoded.append(azarashi.decode_stream(stream, 'ublox'))
+            except EOFError:
+                return
+
+    _drain(drain)
+    assert len(decoded) == 50
+
+
+def test_a_callback_does_not_hold_the_stream():
+    stream = io.StringIO(f'{EEW}\n{L_ALERT}\n')
+    first_in_callback, second_delivered = threading.Event(), threading.Event()
+    delivered, overlapped = [], []
+
+    def callback(report):
+        delivered.append(report)
+        if first_in_callback.is_set():
+            second_delivered.set()
+        else:
+            first_in_callback.set()
+            overlapped.append(second_delivered.wait(5))  # the second message has to arrive while we wait here
+
+    def drain():
+        try:
+            azarashi.decode_stream(stream, 'nmea', callback=callback, ignore_dcx=False)
+        except EOFError:
+            return
+
+    _drain(drain)
+    assert overlapped == [True]  # False: the stream stayed locked until the callback returned
+    assert len(delivered) == 2
+
+
+def test_a_report_being_delivered_does_not_suppress_it_on_another_stream():
+    streams = [io.StringIO(f'{EEW}\n'), io.StringIO(f'{EEW}\n')]
+    in_callback, second_done = threading.Event(), threading.Event()
+    delivered = []
+
+    def callback(report):
+        delivered.append(report)
+        if in_callback.is_set():
+            second_done.set()
+        else:
+            in_callback.set()
+            second_done.wait(5)  # the other stream delivers its copy while this one is still in the callback
+
+    def drain(stream, wait_first):
+        if wait_first:
+            in_callback.wait(5)
+        try:
+            azarashi.decode_stream(stream, 'nmea', callback=callback, unique=True)
+        except EOFError:
+            return
+
+    threads = [threading.Thread(target=drain, args=(stream, i > 0)) for i, stream in enumerate(streams)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    assert len(delivered) == 2  # unique is per stream: one delivery must not swallow the other
+
+
+def test_threads_reading_one_stream_share_the_dedup_cache():
+    stream = io.StringIO(f'{EEW}\n' * 40)
+    delivered = []
+
+    def callback(report):
+        delivered.append(report)
+        time.sleep(0.05)  # long enough for the other threads to reach the duplicates behind it
+
+    def drain():
+        try:
+            azarashi.decode_stream(stream, 'nmea', callback=callback, unique=True)
+        except EOFError:
+            return
+
+    _drain(drain)
+    assert len(delivered) == 1
 
 
 def test_unique_keeps_the_newest_cache_size_reports(monkeypatch):
