@@ -1,6 +1,6 @@
 """Volcano (JMA-DC Report) activity time: ambiguity, validity and the inferred date."""
 from datetime import datetime
-from datetime import timezone
+from datetime import UTC
 
 import pytest
 
@@ -30,7 +30,7 @@ def _date_line(report):
 ])
 def test_volcano_activity_time(ambiguity, hour, minute, valid_time, line):
     report = azarashi.decode(_with_activity_time(ambiguity, 6, hour, minute), 'nmea')
-    assert report.activity_time == datetime(report.report_time.year, 3, 6, *valid_time, tzinfo=timezone.utc)
+    assert report.activity_time == datetime(report.report_time.year, 3, 6, *valid_time, tzinfo=UTC)
     assert report.activity_time_raw == {'day': 6, 'hour': hour, 'minute': minute}
     assert _date_line(report) == line
 
@@ -54,7 +54,7 @@ def test_volcano_activity_time_without_valid_values(ambiguity):
 def test_volcano_activity_date_is_not_after_the_report(report_month, report_day, day, years_before, month):
     sentence = with_fields(VOLCANO, [(21, 4, report_month), (25, 5, report_day)])  # report time: month, day
     report = azarashi.decode(_with_activity_time(5, day, 0, 0, sentence), 'nmea')
-    assert report.activity_time == datetime(report.report_time.year - years_before, month, day, tzinfo=timezone.utc)
+    assert report.activity_time == datetime(report.report_time.year - years_before, month, day, tzinfo=UTC)
     assert report.activity_time <= report.report_time
 
 

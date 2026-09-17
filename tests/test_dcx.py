@@ -14,7 +14,7 @@ import azarashi
 from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
 from qzqsm import with_fields
 
-UTC = datetime.timezone.utc
+UTC = datetime.UTC
 
 # DCX message (L-Alert), B1 with no refinement (c1..c4 = 0)
 L_ALERT = '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E'

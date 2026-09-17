@@ -8,7 +8,7 @@ from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
 from samples import EEW
 
 TESTS = os.path.dirname(os.path.realpath(__file__))
-UTC = datetime.timezone.utc
+UTC = datetime.UTC
 
 
 def _datetimes(value, path):

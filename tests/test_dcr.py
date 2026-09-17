@@ -1,6 +1,6 @@
 """DCR (MT43, JMA Disaster Prevention Information) decoding tests."""
 from datetime import datetime
-from datetime import timezone
+from datetime import UTC
 
 import pytest
 
@@ -144,10 +144,10 @@ def test_nonexistent_report_date_is_a_decoder_error(month, day):
 
 
 @pytest.mark.parametrize('received, year', [
-    (datetime(2029, 9, 1, tzinfo=timezone.utc), 2028),  # the closest leap day is in the past
-    (datetime(2029, 1, 15, tzinfo=timezone.utc), 2028),
-    (datetime(2031, 6, 1, tzinfo=timezone.utc), 2032),  # the closest leap day is ahead
-    (datetime(2027, 12, 31, tzinfo=timezone.utc), 2028),  # a leap year already
+    (datetime(2029, 9, 1, tzinfo=UTC), 2028),  # the closest leap day is in the past
+    (datetime(2029, 1, 15, tzinfo=UTC), 2028),
+    (datetime(2031, 6, 1, tzinfo=UTC), 2032),  # the closest leap day is ahead
+    (datetime(2027, 12, 31, tzinfo=UTC), 2028),  # a leap year already
 ])
 def test_report_on_a_leap_day_takes_the_closest_leap_year(received, year):
     report = NmeaQzssDcrDecoder(_with_report_date(EEW, 2, 29), timestamp=received).decode()
@@ -155,8 +155,8 @@ def test_report_on_a_leap_day_takes_the_closest_leap_year(received, year):
 
 
 @pytest.mark.parametrize('received, day, code', [
-    (datetime(2029, 3, 5, tzinfo=timezone.utc), 29, 59456),  # 2029 has no February 29th
-    (datetime(2029, 3, 10, tzinfo=timezone.utc), 31, 63552),
+    (datetime(2029, 3, 5, tzinfo=UTC), 29, 59456),  # 2029 has no February 29th
+    (datetime(2029, 3, 10, tzinfo=UTC), 31, 63552),
 ])
 def test_nonexistent_occurrence_date_is_a_code(received, day, code):
     sentence = with_fields(_with_report_date(EEW, received.month, received.day), [(80, 5, day)])  # occurrence day
@@ -167,7 +167,7 @@ def test_nonexistent_occurrence_date_is_a_code(received, day, code):
 
 
 def test_occurrence_on_a_leap_day():
-    received = datetime(2028, 3, 5, tzinfo=timezone.utc)
+    received = datetime(2028, 3, 5, tzinfo=UTC)
     sentence = with_fields(_with_report_date(EEW, 3, 5), [(80, 5, 29)])
     report = NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
     assert report.occurrence_time_of_earthquake.date() == datetime(2028, 2, 29).date()

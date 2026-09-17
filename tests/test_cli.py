@@ -79,12 +79,12 @@ def test_ublox_from_stdin_with_source(monkeypatch, capsys):
 
 
 def test_header_time_is_utc_with_z(monkeypatch, capsys):
-    before = datetime.datetime.now(datetime.timezone.utc)
+    before = datetime.datetime.now(datetime.UTC)
     code, out, err = _run(monkeypatch, capsys, ['nmea'], EEW.encode() + b'\r\n')
     header = out.splitlines()[0]
     match = re.fullmatch(r'(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d{6})?Z) -{32}', header)
     assert match, header
-    assert before <= datetime.datetime.fromisoformat(match.group(1)) <= datetime.datetime.now(datetime.timezone.utc)
+    assert before <= datetime.datetime.fromisoformat(match.group(1)) <= datetime.datetime.now(datetime.UTC)
 
 
 def test_header_time_is_when_the_message_arrived(monkeypatch, capsys):
@@ -93,7 +93,7 @@ def test_header_time_is_when_the_message_arrived(monkeypatch, capsys):
         return azarashi.decode_stream(stream, msg_type, **kwargs)
 
     monkeypatch.setattr(cli, 'decode_stream', decode_stream)
-    started = datetime.datetime.now(datetime.timezone.utc)
+    started = datetime.datetime.now(datetime.UTC)
     code, out, err = _run(monkeypatch, capsys, ['nmea'], EEW.encode() + b'\r\n')
     header = datetime.datetime.fromisoformat(out.splitlines()[0].split(' ')[0])
     assert header - started >= datetime.timedelta(seconds=0.3)

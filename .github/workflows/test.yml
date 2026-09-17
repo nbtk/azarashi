@@ -45,7 +45,7 @@ jobs:
         run: python -m pip install ruff
 
       - name: Check the source
-        run: ruff check azarashi/
+        run: ruff check .
 
   typing:
     runs-on: ubuntu-latest
