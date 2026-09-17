@@ -133,4 +133,5 @@ dmypy.json
 
 # Spec files
 specs/
+*.pdf
 
