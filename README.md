@@ -284,6 +284,8 @@ callback(report, *callback_args, **callback_kwargs)
 ```
 ### QzssDcrDecoderException
 デコードに失敗したときに送出される例外クラスです。エラーメッセージに失敗の理由が書かれているので、表示すると原因を調べる手がかりになります。
+
+送出されるのは、メッセージそのものを読めないときです。チェックサムや CRC が合わない、長さが足りない、どのデコーダに渡すか決められない、といった場合です。仕様にないコード値を受け取っただけでは送出しません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。仕様が改訂されて新しいコードが増えても、メッセージは読めるままです。
 ### QzssDcrDecoderNotImplementedError
 `NotImplementedError` を継承した例外クラスです。実験的な配信など、azarashi が対応していないメッセージを受け取ったときに送出されます。そうした配信が始まると頻繁に送出されるので、デバッグのとき以外は捕捉して無視してもよいでしょう。
 ### QzssDcrDecoderTimeoutError
@@ -586,7 +588,7 @@ DCX メッセージの SD フィールドを監視するときは、`decode_stre
 $ pip install -e . pytest pytest-cov ruff mypy 'pyright[nodejs]' types-pyserial
 $ python -m pytest tests        # Python 3.11 から 3.14 で実行しています
 $ python -m pytest --cov tests  # カバレッジも測るとき。設定: pyproject.toml の [tool.coverage]
-$ ruff check azarashi/          # 規則: pyproject.toml の [tool.ruff]
+$ ruff check .                  # 規則: pyproject.toml の [tool.ruff]
 $ mypy --strict azarashi/       # 型検査
 $ pyright                       # 設定: pyproject.toml の [tool.pyright]
 ```

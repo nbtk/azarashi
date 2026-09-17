@@ -38,13 +38,8 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
                 self)
 
         rc = self.extract_field(14, 3)
-        try:
-            self.report_classification = qzss_dcr_jma_report_classification[rc]
-            self.report_classification_en = qzss_dcr_jma_report_classification_en[rc]
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined Report Classification: {rc}',
-                self) from err
+        self.report_classification = qzss_dcr_jma_report_classification[rc]
+        self.report_classification_en = qzss_dcr_jma_report_classification_en[rc]
         self.report_classification_no = rc
 
         dc = self.extract_field(17, 4)
@@ -102,13 +97,8 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
                                     tzinfo=UTC)
 
         it = self.extract_field(41, 2)
-        try:
-            self.information_type = qzss_dcr_jma_information_type[it]
-            self.information_type_en = qzss_dcr_jma_information_type_en[it]
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined Information Type: {it}',
-                self) from err
+        self.information_type = qzss_dcr_jma_information_type[it]
+        self.information_type_en = qzss_dcr_jma_information_type_en[it]
         self.information_type_no = it
 
         next_decoder: type[QzssDcrDecoderBase]

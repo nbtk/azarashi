@@ -19,7 +19,6 @@ from ..definition import qzss_dcr_jma_longitude_degrees
 from ..definition import qzss_dcr_jma_minutes
 from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
 from ..definition.qzss_dcr_definition import QzssDcrDefinition
-from ..exception import QzssDcrDecoderException
 from ..report import Coordinates
 from ..report import DayHourMinute
 from ..report import QzssDcReportJmaBase
@@ -65,12 +64,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
 
     def extract_local_government(self, slider: int) -> tuple[str, int]:
         lg = self.extract_field(slider, 23)
-        try:
-            return qzss_dcr_jma_local_government[lg], lg
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined JMA Local Government: {lg}',
-                self) from err
+        return qzss_dcr_jma_local_government[lg], lg
 
     def extract_notification_on_disaster_prevention_fields(self, slider: int) -> tuple[list[str], list[int]]:
         notifications: list[str] = []
@@ -79,12 +73,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
             co = self.extract_field(slider + i * 9, 9)
             if co == 0:
                 break
-            try:
-                notifications.append(qzss_dcr_jma_notification_on_disaster_prevention[co])
-            except KeyError as err:
-                raise QzssDcrDecoderException(
-                    f'Undefined JMA Notifications on Disaster Prevention: {co}',
-                    self) from err
+            notifications.append(qzss_dcr_jma_notification_on_disaster_prevention[co])
             cos.append(co)
         return notifications, cos
 
@@ -111,30 +100,15 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
 
     def extract_depth_field(self, slider: int) -> tuple[str, int]:
         de = self.extract_field(slider, 9)
-        try:
-            return qzss_dcr_jma_depth_of_hypocenter[de], de
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined JMA Depth of Hypocenter: {de}',
-                self) from err
+        return qzss_dcr_jma_depth_of_hypocenter[de], de
 
     def extract_magnitude_field(self, slider: int, magnitudes: QzssDcrDefinition[int, str]) -> tuple[str, int]:
         ma = self.extract_field(slider, 7)
-        try:
-            return magnitudes[ma], ma
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined JMA Magnitude: {ma}',
-                self) from err
+        return magnitudes[ma], ma
 
     def extract_seismic_epicenter_field(self, slider: int) -> tuple[str, int]:
         ep = self.extract_field(slider, 10)
-        try:
-            return qzss_dcr_jma_epicenter_and_hypocenter[ep], ep
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined JMA Seismic Epicenter: {ep}',
-                self) from err
+        return qzss_dcr_jma_epicenter_and_hypocenter[ep], ep
 
     def extract_expected_tsunami_arrival_time_raw(self, slider: int) -> DayHourMinute:
         return {'day': self.extract_field(slider, 1),

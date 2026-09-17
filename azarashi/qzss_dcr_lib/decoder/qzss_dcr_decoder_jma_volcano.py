@@ -8,7 +8,6 @@ from ..definition import qzss_dcr_jma_hours
 from ..definition import qzss_dcr_jma_minutes
 from ..definition import qzss_dcr_jma_volcanic_warning_code
 from ..definition import qzss_dcr_jma_volcano_name
-from ..exception import QzssDcrDecoderException
 from ..report import DayHourMinute
 from ..report import QzssDcReportJmaBase
 from ..report import QzssDcReportJmaVolcano
@@ -23,21 +22,11 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
         self.activity_time = self.extract_activity_time(self.activity_time_raw, self.ambiguity_of_activity_time_no)
 
         dw = self.extract_field(69, 7)
-        try:
-            self.volcanic_warning_code = qzss_dcr_jma_volcanic_warning_code[dw]
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined JMA Volcanic Warning Code: {dw}',
-                self) from err
+        self.volcanic_warning_code = qzss_dcr_jma_volcanic_warning_code[dw]
         self.volcanic_warning_code_raw = dw
 
         vo = self.extract_field(76, 12)
-        try:
-            self.volcano_name = qzss_dcr_jma_volcano_name[vo]
-        except KeyError as err:
-            raise QzssDcrDecoderException(
-                f'Undefined JMA Volcano Name: {vo}',
-                self) from err
+        self.volcano_name = qzss_dcr_jma_volcano_name[vo]
         self.volcano_name_raw = vo
 
         self.local_governments: list[str] = []

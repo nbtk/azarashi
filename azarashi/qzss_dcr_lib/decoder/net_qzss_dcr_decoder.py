@@ -28,13 +28,7 @@ class NetQzssDcrDecoder(QzssDcrDecoderBase):
                 'Too Long Sentence',
                 self)
 
-        # converts the message to bytes type
-        try:
-            self.message = self.sentence[1:]
-        except ValueError as err:
-            raise QzssDcrDecoderException(
-                'Invalid Message',
-                self) from err
+        self.message = self.sentence[1:]
 
         # extracts a satellite id
         self.satellite_id = self.sentence[0]

@@ -1,11 +1,14 @@
 """Code tables: QzssDcrDefinition lookups, and conventions that every table follows."""
+import ast
 import importlib
+import pathlib
 import pkgutil
 import unicodedata
 import warnings
 
 import pytest
 
+from azarashi.qzss_dcr_lib import decoder
 from azarashi.qzss_dcr_lib import definition
 from azarashi.qzss_dcr_lib.definition.qzss_dcr_definition import QzssDcrDefinition
 from azarashi.qzss_dcr_lib.definition.qzss_dcx_message_type import DcxMessageType
@@ -107,6 +110,27 @@ def test_undefined_codes_are_named(name):
             assert f'{key}' in table[key]
     for text in (table.prefix or {}).values():
         assert text.count('%d') == 1
+
+
+def _tables_of(node):
+    return {sub.value.id for sub in ast.walk(node)
+            if isinstance(sub, ast.Subscript) and isinstance(sub.value, ast.Name)
+            and isinstance(getattr(definition, sub.value.id, None), QzssDcrDefinition)}
+
+
+@pytest.mark.parametrize('path', sorted(pathlib.Path(decoder.__path__[0]).glob('*.py')), ids=lambda p: p.name)
+def test_a_lookup_is_guarded_only_where_the_table_can_fail(path):
+    tree = ast.parse(path.read_text(encoding='utf-8'))
+    guarded = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Try) and any(isinstance(handler.type, ast.Name) and handler.type.id == 'KeyError'
+                                             for handler in node.handlers):
+            for statement in node.body:
+                guarded |= _tables_of(statement)
+
+    for name in _tables_of(tree):
+        can_fail = getattr(definition, name).undefined is None
+        assert (name in guarded) is can_fail, name
 
 
 @pytest.mark.parametrize('name', sorted(TABLES))
