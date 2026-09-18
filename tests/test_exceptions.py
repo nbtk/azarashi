@@ -1,10 +1,33 @@
 """The exceptions azarashi raises: hierarchy, messages and the sentence they show."""
+import ast
+import pathlib
+
 import pytest
 
 import azarashi
+from azarashi.qzss_dcr_lib.exception import qzss_dcr_exception
 from qzqsm import nmea_checksum
 from qzqsm import sfrbx
 from samples import EEW
+
+PACKAGE = pathlib.Path(azarashi.__file__).parent
+#: the classes that exist to be caught, not to be raised
+GROUPING = ('AzarashiError', 'AzarashiDecodeError')
+#: the names that existed before the classes were renamed
+EARLIER = (azarashi.QzssDcrDecoderException,
+           azarashi.QzssDcrDecoderNotImplementedError,
+           azarashi.QzssDcrDecoderTimeoutError)
+
+
+def _built():
+    """Where the package builds one of its own exceptions, whether it raises or returns it."""
+    exceptions = {name for name, cls in vars(qzss_dcr_exception).items()
+                  if isinstance(cls, type) and issubclass(cls, BaseException)
+                  and cls.__module__ == qzss_dcr_exception.__name__}
+    for path in sorted(PACKAGE.rglob('*.py')):
+        for node in ast.walk(ast.parse(path.read_text(encoding='utf-8'))):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in exceptions:
+                yield f'{path.relative_to(PACKAGE)}:{node.lineno}', node.func.id
 
 
 class _Instance:
@@ -44,6 +67,21 @@ def test_one_clause_catches_every_decode_failure():
     assert not issubclass(azarashi.AzarashiTimeoutError, azarashi.AzarashiDecodeError)  # nothing failed to decode
     for exception in (azarashi.AzarashiDecodeError, azarashi.AzarashiTimeoutError):
         assert issubclass(exception, azarashi.AzarashiError)
+
+
+def test_the_package_builds_its_exceptions_somewhere():
+    assert len(list(_built())) > 40  # the scan below proves nothing if it finds nothing
+
+
+def test_the_grouping_classes_are_never_raised():
+    # they say what to do next, so raising one would leave the caller unable to tell what happened
+    assert [where for where, name in _built() if name in GROUPING] == []
+
+
+def test_everything_raised_is_caught_by_the_earlier_names():
+    # code written against the earlier names must keep catching every failure, so no leaf may sit outside them
+    assert [f'{where} {name}' for where, name in _built()
+            if not issubclass(getattr(qzss_dcr_exception, name), EARLIER)] == []
 
 
 @pytest.mark.parametrize('earlier, current', [
