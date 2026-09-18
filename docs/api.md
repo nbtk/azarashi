@@ -7,7 +7,9 @@ azarashi をプログラムから使うための関数と例外です。コマ�
 azarashi.decode(msg, msg_type='nmea', timestamp=None)
 ```
 - `msg`: デコードするメッセージです。
-- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型で、`ublox` のメッセージは bytes 型で渡してください。
+- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型でも bytes 型でも渡せます。pySerial の `readline()` が返すバイト列は、そのまま渡してください。`ublox` のメッセージは bytes 型です。
+  - `spresense` は `nmea` の別名です。
+  - `net` は、[receiver](network.md#receiver) が受け取る33バイトのデータグラム形式です。先頭の1バイトが衛星 ID で、残りがメッセージ本体です。
 - `timestamp`: メッセージを受信した時刻です。デフォルトは現在時刻です。メッセージにない年や日付は、この時刻から補います。[記録しておいたメッセージ](cli.md#record-and-replay)をあとからデコードするときに指定してください。タイムゾーンのない datetime は、実行環境のローカル時刻として扱います。
 ### Example
 `decode()` はレポートオブジェクトを返します。レポートオブジェクトを `str()` に渡すと、災害情報を読みやすい文章にして返します。
@@ -110,7 +112,7 @@ True
 azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True, timestamp=None)
 ```
 - `stream`: メッセージを読み込むストリームです。シリアルデバイスは pySerial で開いて渡してください。ファイルは `open(path, 'rb')` のように、バイナリモードで開くことをおすすめします。
-- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。
+- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
 - `callback`: レポートを受け取る関数です。`None` のときは、メッセージを一つデコードして、そのレポートを返します。関数を指定したときは、例外が発生するまでデコードを繰り返し、レポートができるたびに関数を呼び出します。関数は次のように呼び出されます。
 ```python
 callback(report, *callback_args, **callback_kwargs)
@@ -151,7 +153,7 @@ with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
 ## Type Hints
 azarashi は型ヒント付きで配布しています。mypy や pyright を使うと、関数の引数と戻り値や、レポートのフィールドの型を検査できます。
 
-`decode()` と `decode_stream()` が返すレポートの型は `azarashi.QzssDcReport` です。これは次の二つのどちらかです。
+`decode()` と `decode_stream()` が返すレポートの型は `azarashi.QzssDcReport` です。これは次の二つのどちらかです。クラスとフィールドの一覧は [Reports](reports.md) にあります。
 
 - JMA-DC Report のレポート: `QzssDcReportJmaBase` とそのサブクラス
 - DCX のレポート: `QzssDcXtendedMessageBase` とそのサブクラス

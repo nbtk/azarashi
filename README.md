@@ -13,6 +13,8 @@ IS-QZSS-DCR-017 と IS-QZSS-DCX-004 をサポートしています。DCX は災�
 $ pip install azarashi
 ```
 シリアルデバイスの読み込みに使う [pySerial](https://pyserial.readthedocs.io/en/latest/) も一緒にインストールされます。
+
+Python 3.11 以降で動きます。
 ## Usage
 azarashi コマンドにメッセージを渡すと、災害情報を読みやすい文章にして表示します。
 ```shell
@@ -56,7 +58,8 @@ $ azarashi ublox -f /dev/ttyS0 -b 9600
 - [Preparation](https://github.com/nbtk/azarashi/blob/main/docs/preparation.md): u-blox や Sony Spresense に災危通報を出力させる設定
 - [CLI](https://github.com/nbtk/azarashi/blob/main/docs/cli.md): azarashi コマンドのオプション、受信データの記録と再生
 - [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md): `decode()`、`decode_stream()`、例外、型ヒント、プログラムの例
-- [DCX](https://github.com/nbtk/azarashi/blob/main/docs/dcx.md): DCX メッセージのデコードと、レポートオブジェクトの種類
+- [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): レポートオブジェクトのクラスとフィールドの一覧
+- [DCX](https://github.com/nbtk/azarashi/blob/main/docs/dcx.md): DCX メッセージのデコード例
 - [Network](https://github.com/nbtk/azarashi/blob/main/docs/network.md): 受信したデータを UDP で別の装置に送る
 - [Tips](https://github.com/nbtk/azarashi/blob/main/docs/tips.md): 何も表示されないとき、Encountered EOF、SD フィールドの監視
 - [Development](https://github.com/nbtk/azarashi/blob/main/docs/development.md): テストと静的解析の実行方法
