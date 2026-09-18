@@ -37,7 +37,7 @@ def test_decode_nothing_is_eof(msg):
 
 
 def test_decode_unknown_message_type():
-    with pytest.raises(azarashi.QzssDcrDecoderException) as excinfo:
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode(EEW, 'rtcm')
     assert str(excinfo.value) == 'Unknown Message Type: rtcm'
 
@@ -52,7 +52,7 @@ def test_decoders_take_nothing_as_eof(decoder):
 # decode_stream(): how streams are read
 
 def test_decode_stream_unknown_message_type():
-    with pytest.raises(azarashi.QzssDcrDecoderException) as excinfo:
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode_stream(io.BytesIO(), 'rtcm')
     assert str(excinfo.value) == 'Unknown Message Type: rtcm'
 
@@ -64,7 +64,7 @@ def test_decode_stream_unknown_message_type():
     ('ublox', "Neither read() nor read1() exists: <class 'test_interface._Nothing'>"),
 ])
 def test_decode_stream_needs_a_reader(msg_type, message):
-    with pytest.raises(azarashi.QzssDcrDecoderException) as excinfo:
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode_stream(_Nothing(), msg_type)
     assert str(excinfo.value) == message
 
@@ -115,7 +115,7 @@ def test_callback_arguments():
 
 def test_decoder_errors_leave_the_stream_readable():
     stream = io.StringIO(f'{EEW[:-2]}00\n{EEW}\n')
-    with pytest.raises(azarashi.QzssDcrDecoderException):
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
         azarashi.decode_stream(stream)
     assert azarashi.decode_stream(stream) == azarashi.decode(EEW)
 

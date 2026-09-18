@@ -28,8 +28,8 @@ SAMPLE = {int: '0', bool: 'False', float: '0.0', str: "''", bytes: "b''", list: 
           datetime.datetime: 'datetime.datetime.now()'}
 _numbers = itertools.count()
 #: the arguments that are right to accept anything
-OPEN = {('QzssDcrDecoderException.__init__', 'instance'): 'the object a message came from, whatever it is',
-        ('QzssDcrDecoderNotImplementedError.__init__', 'instance'): 'the object a message came from, whatever it is'}
+OPEN = {('AzarashiInvalidMessageError.__init__', 'instance'): 'the object a message came from, whatever it is',
+        ('AzarashiNotImplementedError.__init__', 'instance'): 'the object a message came from, whatever it is'}
 
 
 def base_of(ann):
@@ -140,7 +140,7 @@ for cls, var in ((Transmitter, 'tx'), (Receiver, 'rx')):
         call = cls.__name__ if method == '__init__' else '%s.%s' % (var, method)
         body += emit('%s.%s' % (cls.__name__, method), call, sig, skipped)
 
-for cls in (azarashi.QzssDcrDecoderException, azarashi.QzssDcrDecoderNotImplementedError):
+for cls in (azarashi.AzarashiInvalidMessageError, azarashi.AzarashiNotImplementedError):
     body += emit('%s.__init__' % cls.__name__, 'azarashi.%s' % cls.__name__, inspect.signature(cls.__init__), skipped)
 
 out += ['', 'def _uses(%s) -> None:' % ', '.join(params)]

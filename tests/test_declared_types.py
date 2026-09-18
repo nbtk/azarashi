@@ -61,7 +61,7 @@ def _reports():
         for message in _messages():
             try:
                 reports.append(NmeaQzssDcrDecoder(message, timestamp=RECEIVED).decode())
-            except azarashi.QzssDcrDecoderException:
+            except azarashi.AzarashiInvalidMessageError:
                 continue
     finally:  # the pages are assembled in the class: leave it as the other tests expect to find it
         nankai.reports, nankai.completed, nankai.announcement = assembly

@@ -21,7 +21,7 @@ def _nmea(body):
 
 
 def _error(msg, msg_type='nmea'):
-    with pytest.raises(azarashi.QzssDcrDecoderException) as excinfo:
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode(msg, msg_type)
     return excinfo.value.message
 
@@ -189,7 +189,7 @@ def test_decoder_base_is_abstract():
     class Decoder(QzssDcrDecoderBase):
         schema = QzssDcReportBase
 
-    with pytest.raises(azarashi.QzssDcrDecoderNotImplementedError) as excinfo:
+    with pytest.raises(azarashi.AzarashiNotImplementedError) as excinfo:
         Decoder(EEW).decode()
     assert str(excinfo.value) == 'Decoder Not Implemented'
 

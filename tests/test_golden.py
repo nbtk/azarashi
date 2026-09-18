@@ -32,7 +32,7 @@ def render(log):
             sentence = line.strip()
             try:
                 report = NmeaQzssDcrDecoder(sentence, timestamp=LOGS[log]).decode()
-            except azarashi.QzssDcrDecoderException as e:
+            except azarashi.AzarashiInvalidMessageError as e:
                 blocks.append(f'>>> {sentence}\n# [{type(e).__name__}] {e}\n')
                 continue
             params = report.get_params()

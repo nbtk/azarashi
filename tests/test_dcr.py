@@ -138,7 +138,7 @@ def _with_report_date(sentence, month, day):
 
 @pytest.mark.parametrize('month, day', [(4, 31), (2, 30)])
 def test_nonexistent_report_date_is_a_decoder_error(month, day):
-    with pytest.raises(azarashi.QzssDcrDecoderException) as e:
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as e:
         azarashi.decode(_with_report_date(EEW, month, day), 'nmea')
     assert e.value.message == f'Invalid Report Time: {day} as day of month {month}'
 

@@ -237,15 +237,15 @@ def test_from_file():
 
 
 def test_decode_error():
-    with pytest.raises(azarashi.QzssDcrDecoderException):
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
         # crc mismatch
         azarashi.decode('C6AF89A820000324000050400548C5E2C000000003DFF8001C000011854432D', 'hex')
 
-    with pytest.raises(azarashi.QzssDcrDecoderException):
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
         # checksum mismatch
         azarashi.decode('$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*00')
 
-    with pytest.raises(azarashi.QzssDcrDecoderException):
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
         # checksum mismatch
         azarashi.decode(b'\xB5\x62\x02\x13\x2C\x00\x05\x02\x01\x00\x09\x40\x02\x00\xC5\xF1'
                         b'\xAD\x9A\x04\x05\x80\x11\x54\x8D\xA0\x60\x3F\x82\xD2\x11\x0F\xAA'

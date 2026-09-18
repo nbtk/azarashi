@@ -47,10 +47,10 @@ def _expected():
 def test_ublox_frame_split_by_a_timeout():
     for split in range(1, len(FRAME)):
         stream = _SerialLike(FRAME[:split], b'', FRAME[split:])
-        with pytest.raises(azarashi.QzssDcrDecoderTimeoutError):
+        with pytest.raises(azarashi.AzarashiTimeoutError):
             azarashi.decode_stream(stream, 'ublox')
         assert azarashi.decode_stream(stream, 'ublox') == _expected(), split
-        with pytest.raises(azarashi.QzssDcrDecoderTimeoutError):
+        with pytest.raises(azarashi.AzarashiTimeoutError):
             azarashi.decode_stream(stream, 'ublox')
 
 
@@ -58,7 +58,7 @@ def test_ublox_frame_split_by_a_timeout():
 def test_line_split_by_a_timeout(msg_type, line):
     for split in range(1, len(line)):
         stream = _SerialLike(line[:split], b'', line[split:])
-        with pytest.raises(azarashi.QzssDcrDecoderTimeoutError):
+        with pytest.raises(azarashi.AzarashiTimeoutError):
             azarashi.decode_stream(stream, msg_type)
         assert azarashi.decode_stream(stream, msg_type) == _expected(), split
 
@@ -82,7 +82,7 @@ def test_pyserial_timeout_mid_message(msg_type, data):
     try:
         with serial.Serial(os.ttyname(slave), 115200, timeout=0.2) as port:
             os.write(master, data[:20])
-            with pytest.raises(azarashi.QzssDcrDecoderTimeoutError):
+            with pytest.raises(azarashi.AzarashiTimeoutError):
                 azarashi.decode_stream(port, msg_type)
             os.write(master, data[20:])
             assert azarashi.decode_stream(port, msg_type) == _expected()

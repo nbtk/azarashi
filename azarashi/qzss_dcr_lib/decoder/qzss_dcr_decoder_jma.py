@@ -22,7 +22,7 @@ from ..definition import qzss_dcr_jma_disaster_category
 from ..definition import qzss_dcr_jma_disaster_category_en
 from ..definition import qzss_dcr_jma_information_type
 from ..definition import qzss_dcr_jma_information_type_en
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
 from ..report import QzssDcReportMessageBase
 
@@ -33,7 +33,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
     def decode(self) -> QzssDcReport:
         self.version = self.extract_field(214, 6)
         if self.version != 1:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Unsupported JMA-DC Report Version: {self.version}',
                 self)
 
@@ -47,29 +47,29 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
             self.disaster_category = qzss_dcr_jma_disaster_category[dc]
             self.disaster_category_en = qzss_dcr_jma_disaster_category_en[dc]
         except KeyError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Undefined Disaster Category: {dc}',
                 self) from err
         self.disaster_category_no = dc
 
         at_mo = self.extract_field(21, 4)
         if at_mo < 1 or at_mo > 12:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Invalid Report Time: {at_mo} as month',
                 self)
         at_d = self.extract_field(25, 5)
         if at_d < 1 or at_d > 31:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Invalid Report Time: {at_d} as day',
                 self)
         at_h = self.extract_field(30, 5)
         if at_h > 23:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Invalid Report Time: {at_h} as hour',
                 self)
         at_mi = self.extract_field(35, 6)
         if at_mi > 59:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Invalid Report Time: {at_mi} as minute',
                 self)
 
@@ -85,7 +85,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
             at_y = min(earlier, later,
                        key=lambda y: abs(datetime(y, 2, 29, at_h, at_mi, tzinfo=UTC) - self.timestamp))
         if at_d > monthrange(at_y, at_mo)[1]:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Invalid Report Time: {at_d} as day of month {at_mo}',
                 self)
 
@@ -127,7 +127,7 @@ class QzssDcrDecoderJma(QzssDcrDecoderBase):
         elif dc == 14:
             next_decoder = QzssDcrDecoderJmaMarine
         else:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Unsupported Disaster Category: {self.disaster_category}',
                 self)
 

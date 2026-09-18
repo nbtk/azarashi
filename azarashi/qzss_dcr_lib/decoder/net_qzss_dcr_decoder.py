@@ -1,6 +1,6 @@
 from .qzss_dcr_decoder import QzssDcrDecoder
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
@@ -14,17 +14,17 @@ class NetQzssDcrDecoder(QzssDcrDecoderBase):
             raise EOFError('Encountered EOF')
 
         if not isinstance(self.sentence, (bytes, bytearray)):  # a datagram is bytes
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Invalid Sentence',
                 self)
         self.sentence = self.sentence.strip()
 
         if len(self.sentence) < 33:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Too Short Sentence',
                 self)
         if len(self.sentence) > 33:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Too Long Sentence',
                 self)
 

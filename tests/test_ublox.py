@@ -17,7 +17,7 @@ def _drain(stream):
     while True:
         try:
             reports.append(azarashi.decode_stream(stream, 'ublox'))
-        except azarashi.QzssDcrDecoderException as e:
+        except azarashi.AzarashiInvalidMessageError as e:
             errors.append(e.message)
         except EOFError:
             return reports, errors

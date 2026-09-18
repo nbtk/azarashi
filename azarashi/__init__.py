@@ -1,3 +1,8 @@
+from .qzss_dcr_lib.exception import AzarashiDecodeError
+from .qzss_dcr_lib.exception import AzarashiError
+from .qzss_dcr_lib.exception import AzarashiInvalidMessageError
+from .qzss_dcr_lib.exception import AzarashiNotImplementedError
+from .qzss_dcr_lib.exception import AzarashiTimeoutError
 from .qzss_dcr_lib.exception import QzssDcrDecoderException
 from .qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
 from .qzss_dcr_lib.exception import QzssDcrDecoderTimeoutError
@@ -15,7 +20,14 @@ __all__ = [
     'qzss_dc_report',
     'QzssDcReport',
 
-    # every exception azarashi raises
+    # every exception azarashi defines
+    'AzarashiError',
+    'AzarashiDecodeError',
+    'AzarashiInvalidMessageError',
+    'AzarashiNotImplementedError',
+    'AzarashiTimeoutError',
+
+    # the earlier names of three of them
     'QzssDcrDecoderException',
     'QzssDcrDecoderNotImplementedError',
     'QzssDcrDecoderTimeoutError',

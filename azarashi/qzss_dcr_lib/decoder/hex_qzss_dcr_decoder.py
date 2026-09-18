@@ -1,6 +1,6 @@
 from .qzss_dcr_decoder import QzssDcrDecoder
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
@@ -19,11 +19,11 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
         self.sentence = sentence.strip()
 
         if len(self.sentence) < 63:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Too Short Sentence',
                 self)
         if len(self.sentence) > 63:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Too Long Sentence',
                 self)
 
@@ -31,11 +31,11 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
         try:
             self.message = bytes.fromhex(self.sentence + '0')
         except ValueError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Invalid Message',
                 self) from err
         if len(self.message) != 32:  # bytes.fromhex() skips whitespace between the bytes
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Invalid Message',
                 self)
 

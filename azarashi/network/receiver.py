@@ -9,8 +9,8 @@ from pprint import pformat
 from typing import Any
 
 from .log import configure_logging
-from ..qzss_dcr_lib.exception import QzssDcrDecoderException
-from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
+from ..qzss_dcr_lib.exception import AzarashiDecodeError
+from ..qzss_dcr_lib.exception import AzarashiInvalidMessageError
 from ..qzss_dcr_lib.interface import decode
 from ..qzss_dcr_lib.report import QzssDcReport
 
@@ -54,9 +54,9 @@ class Receiver:
                 payload = data[0]
                 try:
                     if not payload:  # a datagram never ends a stream, so an empty one is only too short
-                        raise QzssDcrDecoderException('Too Short Sentence')
+                        raise AzarashiInvalidMessageError('Too Short Sentence')
                     report = decode(payload, 'net')
-                except (QzssDcrDecoderException, QzssDcrDecoderNotImplementedError) as e:
+                except AzarashiDecodeError as e:
                     # a datagram that is not a message, e.g. from other software: leaving would drop what is queued
                     logger.warning(f'[{type(e).__name__}] {e}')
                     continue

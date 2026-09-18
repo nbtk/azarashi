@@ -48,12 +48,29 @@ $ azarashi ublox -f /dev/ttyS0 -b 9600
 >>> report.disaster_category, report.magnitude, report.seismic_epicenter
 ('緊急地震速報', '7.2', '日向灘')
 ```
-ストリームから読み続けるときは `decode_stream()` を使います。
+ストリームから読み続けるときは `decode_stream()` を使います。シリアルデバイスは pySerial で開いて渡してください。メッセージが一つ読めるたびに `callback` が呼ばれます。
 ```python
->>> import serial
->>> ser = serial.Serial('/dev/ttyS0', 9600)
->>> azarashi.decode_stream(ser, msg_type='ublox', callback=print)
+import azarashi
+import serial
+
+with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
+    while True:
+        try:
+            azarashi.decode_stream(ser, msg_type='ublox', callback=print)
+        except azarashi.AzarashiTimeoutError:
+            continue
+        except azarashi.AzarashiDecodeError as e:
+            print(f'# [{type(e).__name__}] {e}')
+        except EOFError:
+            break
 ```
+捕捉しているのは次の3つです。
+
+- `AzarashiTimeoutError`: 1秒のあいだにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度呼べば続きから読みます。`EOFError` を継承しているため、`EOFError` より先に捕捉してください。
+- `AzarashiDecodeError`: メッセージをレポートにできなかったときに送出されます。壊れたメッセージと、azarashi が対応していないメッセージがこれにあたります。その一つを読み飛ばして次へ進めば済みます。
+- `EOFError`: ストリームが終わったときに送出されます。
+
+仕様にないコード値を受け取っただけでは例外になりません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。例外の一覧は [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md) を見てください。
 ## Documentation
 - [Preparation](https://github.com/nbtk/azarashi/blob/main/docs/preparation.md): u-blox や Sony Spresense に災危通報を出力させる設定
 - [CLI](https://github.com/nbtk/azarashi/blob/main/docs/cli.md): azarashi コマンドのオプション、受信データの記録と再生

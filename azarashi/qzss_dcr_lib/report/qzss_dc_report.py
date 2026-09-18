@@ -8,7 +8,7 @@ from ..definition import qzss_dcr_jma_page_number_and_total_page_undefined
 from ..definition import qzss_dcr_jma_page_numbers
 from ..definition import qzss_dcr_jma_total_pages
 from ..definition import qzss_dcr_jma_typhoon_reference_time_undefined
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 
 
 class Coordinates(TypedDict):
@@ -270,7 +270,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
                     f'{lt.year}年頃',  # Approximate time(year)
                     ][du]
         except IndexError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Undefined JMA Ambiguity of Activity Time: {du}',
                 self) from err
 

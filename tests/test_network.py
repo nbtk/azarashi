@@ -157,9 +157,9 @@ def test_receiver_command_filter_options(monkeypatch, args, expected):
 
 
 @pytest.mark.parametrize('datagram, warning', [
-    (b'hello', "[QzssDcrDecoderException] Too Short Sentence -> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
-    (b'', '[QzssDcrDecoderException] Too Short Sentence'),
-    (bytes((55,)) + bytes(32), '[QzssDcrDecoderException] Undefined Message Type: 0 -> $QZQSM,55,' + '0' * 63 + '*74'),
+    (b'hello', "[AzarashiInvalidMessageError] Too Short Sentence -> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
+    (b'', '[AzarashiInvalidMessageError] Too Short Sentence'),
+    (bytes((55,)) + bytes(32), '[AzarashiInvalidMessageError] Undefined Message Type: 0 -> $QZQSM,55,' + '0' * 63 + '*74'),
 ])
 def test_receiver_skips_datagrams_that_are_not_messages(caplog, datagram, warning):
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
@@ -193,7 +193,7 @@ def test_receiver_command_keeps_receiving_after_an_empty_datagram(monkeypatch, c
         thread = threading.Thread(target=receiver.main, daemon=True)
         thread.start()
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sender:
-            warning = '[QzssDcrDecoderException] Too Short Sentence'
+            warning = '[AzarashiInvalidMessageError] Too Short Sentence'
             deadline = time.monotonic() + 5  # until the socket is bound, datagrams are dropped
             while time.monotonic() < deadline:
                 messages = [r.getMessage() for r in caplog.records]
@@ -226,13 +226,13 @@ def test_transmitter_command_warns_about_decoder_errors(monkeypatch, caplog, udp
     monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO(data)))
     with caplog.at_level(logging.WARNING, logger=transmitter.logger.name):
         assert transmitter.main() == 0
-    assert [r.getMessage() for r in caplog.records] == [f'[QzssDcrDecoderException] Checksum Mismatch, should be 05 -> {EEW[:-2]}00']
+    assert [r.getMessage() for r in caplog.records] == [f'[AzarashiInvalidMessageError] Checksum Mismatch, should be 05 -> {EEW[:-2]}00']
     assert azarashi.decode(udp_sink.recv(256), 'net') == azarashi.decode(EEW)
     assert record.read_bytes() == data
 
 
 def test_transmitter_command_warns_about_unimplemented_decoders(monkeypatch, caplog):
-    errors = [azarashi.QzssDcrDecoderNotImplementedError('Decoder Not Implemented')]
+    errors = [azarashi.AzarashiNotImplementedError('Decoder Not Implemented')]
 
     def start(self, stream, msg_type, unique):
         if errors:
@@ -244,7 +244,7 @@ def test_transmitter_command_warns_about_unimplemented_decoders(monkeypatch, cap
     monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO()))
     with caplog.at_level(logging.WARNING, logger=transmitter.logger.name):
         assert transmitter.main() == 0
-    assert [r.getMessage() for r in caplog.records] == ['[QzssDcrDecoderNotImplementedError] Decoder Not Implemented']
+    assert [r.getMessage() for r in caplog.records] == ['[AzarashiNotImplementedError] Decoder Not Implemented']
 
 
 @pytest.mark.parametrize('module', ['azarashi.network.receiver', 'azarashi.network.transmitter'])

@@ -44,12 +44,22 @@ def handler(report: azarashi.QzssDcReport) -> None:
 with open('frames.ubx', 'rb') as frames:
     try:
         azarashi.decode_stream(frames, 'ublox', callback=handler, unique=60)
+    except azarashi.AzarashiTimeoutError:
+        pass
+    except EOFError:
+        pass
+    except azarashi.AzarashiInvalidMessageError as e:
+        reason: str = e.message
+
+with open('frames.ubx', 'rb') as frames:  # the same code written with the earlier names
+    try:
+        azarashi.decode_stream(frames, 'ublox', callback=handler, unique=60)
     except azarashi.QzssDcrDecoderTimeoutError:
         pass
     except EOFError:
         pass
-    except azarashi.QzssDcrDecoderException as e:
-        reason: str = e.message
+    except azarashi.QzssDcrDecoderException as old:
+        earlier_reason: str = old.message
 
 lines = io.StringIO()
 next_report: azarashi.QzssDcReport = azarashi.decode_stream(lines, ignore_dcx=False)

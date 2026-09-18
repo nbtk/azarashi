@@ -42,7 +42,7 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
 ```
 レポートオブジェクトのパラメータは、`get_params()` メソッドで辞書として取得できます。時刻のパラメータは、すべて UTC のタイムゾーンが付いた `datetime` です。`str()` が返す文章では、時刻を JST に変換して表示します。
 
-時刻として読めない値が届いたときは、その時刻のパラメータは `None` になります。送られてきた日・時・分は、名前の末尾に `_raw` が付いたパラメータに残ります。例えば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`QzssDcrDecoderException` が送出されます。
+時刻として読めない値が届いたときは、その時刻のパラメータは `None` になります。送られてきた日・時・分は、名前の末尾に `_raw` が付いたパラメータに残ります。例えば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`AzarashiInvalidMessageError` が送出されます。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params())
@@ -134,22 +134,40 @@ callback(report, *callback_args, **callback_kwargs)
 >>> ser = serial.Serial('/dev/ttyS0', 9600)
 >>> azarashi.decode_stream(ser, msg_type='ublox', callback=print)
 ```
-## QzssDcrDecoderException
+## AzarashiError
+azarashi が定義する例外は、すべてこのクラスを継承しています。
+## AzarashiDecodeError
+メッセージをレポートにできなかったことを表すクラスです。次の二つの親にあたります。デコードの失敗をまとめて捕捉したいときは、これを捕捉してください。
+## AzarashiInvalidMessageError
 デコードに失敗したときに送出される例外クラスです。エラーメッセージに失敗の理由が書かれているので、表示すると原因を調べる手がかりになります。
 
 送出されるのは、メッセージそのものを読めないときです。チェックサムや CRC が合わない、長さが足りない、どのデコーダに渡すか決められない、といった場合です。仕様にないコード値を受け取っただけでは送出しません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。仕様が改訂されて新しいコードが増えても、メッセージは読めるままです。
-## QzssDcrDecoderNotImplementedError
+## AzarashiNotImplementedError
 `NotImplementedError` を継承した例外クラスです。実験的な配信など、azarashi が対応していないメッセージを受け取ったときに送出されます。そうした配信が始まると頻繁に送出されるので、デバッグのとき以外は捕捉して無視してもよいでしょう。
-## QzssDcrDecoderTimeoutError
+## AzarashiTimeoutError
 `EOFError` を継承した例外クラスです。pySerial などで `timeout` を指定して開いたストリームから、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。`EOFError` と区別するときは、`EOFError` より先に捕捉してください。
+
+このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。
 ```python
 with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
     while not stopped:
         try:
             azarashi.decode_stream(ser, 'ublox', handler)
-        except azarashi.QzssDcrDecoderTimeoutError:
+        except azarashi.AzarashiTimeoutError:
             continue  # no complete message within a second: check `stopped` and keep reading
 ```
+## 以前の例外名
+次の名前も使えます。それぞれ右の名前と同じクラスです。以前から使っているコードは、書き換えなくてもそのまま動きます。
+
+| 以前の名前 | 今の名前 |
+| --- | --- |
+| `QzssDcrDecoderException` | `AzarashiInvalidMessageError` |
+| `QzssDcrDecoderNotImplementedError` | `AzarashiNotImplementedError` |
+| `QzssDcrDecoderTimeoutError` | `AzarashiTimeoutError` |
+
+名前を変えたのは、azarashi が DCR 以外も扱うようになったからです。DCX のメッセージが読めなかったときも、同じ例外を送出します。今後ほかの測位衛星システムに対応しても同じです。
+
+ログやエラー出力に出るクラス名は、今の名前に変わります。以前の名前で出力を検索しているときは、書き換えてください。
 ## Type Hints
 azarashi は型ヒント付きで配布しています。mypy や pyright を使うと、関数の引数と戻り値や、レポートのフィールドの型を検査できます。
 
@@ -184,9 +202,7 @@ def example():
         while True:
             try:
                 azarashi.decode_stream(f, msg_type='ublox', callback=print)
-            except azarashi.QzssDcrDecoderException as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-            except azarashi.QzssDcrDecoderNotImplementedError as e:
+            except azarashi.AzarashiDecodeError as e:
                 print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except EOFError as e:
                 print(f'{e}', file=sys.stderr)
@@ -213,9 +229,7 @@ def example():
         while True:
             try:
                 azarashi.decode_stream(ser, 'ublox', handler, unique=True)
-            except azarashi.QzssDcrDecoderException as e:
-                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
-            except azarashi.QzssDcrDecoderNotImplementedError as e:
+            except azarashi.AzarashiDecodeError as e:
                 print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except EOFError as e:
                 print(f'{e}', file=sys.stderr)

@@ -3,7 +3,7 @@ from .qzss_dcr_decoder_jma import QzssDcrDecoderJma
 from .qzss_dcx_decoder import QzssDcxDecoder
 from ..definition import qzss_dcr_message_type
 from ..definition import qzss_dcr_preamble
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
 from ..report import QzssDcReportMessagePartial
 
@@ -30,7 +30,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
                     break
         crc &= 0xffffff
         if crc != self.extract_field(226, 24):
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'CRC Mismatch',
                 self)
 
@@ -39,7 +39,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         try:
             self.message_type = qzss_dcr_message_type[mt]
         except KeyError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Undefined Message Type: {mt}',
                 self) from err
 
@@ -49,7 +49,7 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
         elif mt == 44:
             next_decoder = QzssDcxDecoder
         else:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Unsupported Message Type: {mt}',
                 self)
 

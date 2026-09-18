@@ -10,8 +10,7 @@ import serial
 from .log import configure_logging
 from ..input_stream import RecordingStream
 from ..input_stream import open_input
-from ..qzss_dcr_lib.exception import QzssDcrDecoderException
-from ..qzss_dcr_lib.exception import QzssDcrDecoderNotImplementedError
+from ..qzss_dcr_lib.exception import AzarashiDecodeError
 from ..qzss_dcr_lib.interface import QzssDcrStream
 from ..qzss_dcr_lib.interface import decode_stream
 from ..qzss_dcr_lib.report import QzssDcReport
@@ -60,9 +59,7 @@ def main() -> int:
     while True:
         try:
             xmitter.start(stream=stream, msg_type=args.msg_type, unique=args.unique)
-        except QzssDcrDecoderException as e:
-            logger.warning(f'[{type(e).__name__}] {e}')
-        except QzssDcrDecoderNotImplementedError as e:
+        except AzarashiDecodeError as e:
             logger.warning(f'[{type(e).__name__}] {e}')
         except EOFError as e:
             logger.info(f'{e}')

@@ -68,7 +68,7 @@ def test_hex_line_noise_from_stdin(monkeypatch, capsys):
     code, out, err = _run(monkeypatch, capsys, ['hex'], NOISE + EEW_HEX.encode() + b'\n')
     assert code == 0
     assert '\n緊急地震速報\n' in out
-    assert '[QzssDcrDecoderException]' in err
+    assert '[AzarashiInvalidMessageError]' in err
 
 
 def test_ublox_from_stdin_with_source(monkeypatch, capsys):
@@ -132,8 +132,8 @@ def test_dcx_is_shown_unless_ignored(monkeypatch, capsys):
 
 
 def test_decoder_errors_are_reported_and_skipped(monkeypatch, capsys):
-    errors = [azarashi.QzssDcrDecoderNotImplementedError('Decoder Not Implemented'),
-              azarashi.QzssDcrDecoderException('Bad Message')]
+    errors = [azarashi.AzarashiNotImplementedError('Decoder Not Implemented'),
+              azarashi.AzarashiInvalidMessageError('Bad Message')]
 
     def decode_stream(stream, msg_type, **kwargs):
         if errors:
@@ -143,8 +143,8 @@ def test_decoder_errors_are_reported_and_skipped(monkeypatch, capsys):
     monkeypatch.setattr(cli, 'decode_stream', decode_stream)
     code, out, err = _run(monkeypatch, capsys, ['nmea'], EEW.encode() + b'\r\n')
     assert code == 0
-    assert '# [QzssDcrDecoderException] Bad Message\n' in err
-    assert '# [QzssDcrDecoderNotImplementedError] Decoder Not Implemented\n' in err
+    assert '# [AzarashiInvalidMessageError] Bad Message\n' in err
+    assert '# [AzarashiNotImplementedError] Decoder Not Implemented\n' in err
     assert err.endswith('Encountered EOF\n\n')
     assert '\n緊急地震速報\n' in out
 

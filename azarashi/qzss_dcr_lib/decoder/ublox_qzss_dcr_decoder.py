@@ -2,7 +2,7 @@ from ..decoder import QzssDcrDecoder
 from ..decoder import QzssDcrDecoderBase
 from ..definition import ublox_qzss_dcr_message_header
 from ..definition import ublox_qzss_svid_prn_map
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
@@ -17,12 +17,12 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
 
         # checks the message header
         if self.message_header != ublox_qzss_dcr_message_header:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Unknown Message Header: {self.message_header!r}',
                 self)
 
         if len(self.sentence) < len(ublox_qzss_dcr_message_header) + 2 + 8 + 2:  # SFRBX + Length + fixed part + CHK
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Too Short Sentence',
                 self)
 
@@ -34,14 +34,14 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         sum_a &= 0xff
         sum_b &= 0xff
         if sum_a != self.sentence[-2] or sum_b != self.sentence[-1]:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Checksum Mismatch: expected {sum_a:02X}{sum_b:02X}, but got {self.sentence[-2]:02X}{self.sentence[-1]:02X}',
                 self)
 
         # checks the gnss id
         gnss_id = self.sentence[6]
         if gnss_id != 5:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'This Sentence is not from QZSS: {gnss_id}',
                 self)
 
@@ -53,7 +53,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         # checks the signal id
         sig_id = self.sentence[8]
         if sig_id != 1:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'The Sentence is not an L1S Signal: {sig_id}',
                 self)
 
@@ -61,7 +61,7 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         num_data_word = self.sentence[10]
         if (num_data_word * 4 + 8 != len(self.sentence) -(len(ublox_qzss_dcr_message_header) + 2 + 2) # SFRBX + Length + CHK
                 or num_data_word < 8):  # the 250-bit message takes 8 data words
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Invalid Message Length: {num_data_word}',
                 self)
 

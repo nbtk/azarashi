@@ -11,7 +11,7 @@ from ..decoder import HexQzssDcrDecoder
 from ..decoder import NetQzssDcrDecoder
 from ..decoder import NmeaQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
 
 
@@ -61,7 +61,7 @@ def decode(msg: str | bytes, msg_type: str = 'nmea', timestamp: datetime | None 
     elif msg_type == 'ublox':
         return UBloxQzssDcrDecoder(msg, timestamp=timestamp).decode()
     else:
-        raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
+        raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 
 
 def decode_stream(stream: QzssDcrStream,
@@ -85,14 +85,14 @@ def decode_stream(stream: QzssDcrStream,
             reader = readline
             reader_args = ()
         else:
-            raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
+            raise AzarashiInvalidMessageError(f'readline() does not exist: {type(stream)}')
     elif msg_type == 'nmea' or msg_type == 'spresense':
         if callable(readline := getattr(stream, 'readline', None)):
             extractor = nmea_qzss_dcr_message_extractor
             reader = readline
             reader_args = ()
         else:
-            raise QzssDcrDecoderException(f'readline() does not exist: {type(stream)}')
+            raise AzarashiInvalidMessageError(f'readline() does not exist: {type(stream)}')
     elif msg_type == 'ublox':
         if callable(read1 := getattr(stream, 'read1', None)):
             extractor = ublox_qzss_dcr_message_extractor
@@ -107,9 +107,9 @@ def decode_stream(stream: QzssDcrStream,
             reader = read
             reader_args = (1,)  # positional: raw streams (io.FileIO, SocketIO) reject read(size=1)
         else:
-            raise QzssDcrDecoderException(f'Neither read() nor read1() exists: {type(stream)}')
+            raise AzarashiInvalidMessageError(f'Neither read() nor read1() exists: {type(stream)}')
     else:
-        raise QzssDcrDecoderException(f'Unknown Message Type: {msg_type}')
+        raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 
     lock = stream_lock(stream)
     while True:

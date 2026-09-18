@@ -18,7 +18,7 @@ def _decode(sentence, timestamp=RECEIVED):
 
 
 def _error(sentence, timestamp=RECEIVED):
-    with pytest.raises(azarashi.QzssDcrDecoderException) as excinfo:
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         _decode(sentence, timestamp)
     return excinfo.value.message
 
@@ -418,7 +418,7 @@ def test_volcano():
 
 def test_ambiguity_beyond_the_table():
     report = _decode(jma(8, VOLCANO))
-    with pytest.raises(azarashi.QzssDcrDecoderException) as excinfo:
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         report.convert_dt_to_ambiguous_time_str(report.activity_time, 8)
     assert excinfo.value.message == 'Undefined JMA Ambiguity of Activity Time: 8'
 

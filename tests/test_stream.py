@@ -54,7 +54,7 @@ def test_nmea_sentence_after_garbage_on_the_same_line(stream):
 
 def test_nmea_truncated_sentence_after_garbage_is_a_decoder_error():
     stream = io.StringIO('garbage' + EEW[:40] + '\n' + EEW + '\n')
-    with pytest.raises(azarashi.QzssDcrDecoderException):
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
         azarashi.decode_stream(stream, 'nmea')
     assert azarashi.decode_stream(stream, 'nmea') == azarashi.decode(EEW, 'nmea')
 
@@ -71,7 +71,7 @@ def test_nmea_sentences_on_one_line_are_decoded_one_by_one(line, results):
         while True:
             try:
                 decoded.append('EEW' if azarashi.decode_stream(stream, 'nmea') == azarashi.decode(EEW) else 'other')
-            except azarashi.QzssDcrDecoderException as e:
+            except azarashi.AzarashiInvalidMessageError as e:
                 decoded.append(e.message)
     assert decoded == results
 
@@ -87,7 +87,7 @@ def test_sentences_left_on_a_line_do_not_keep_the_stream_alive():
 
 def test_hex_line_noise_is_a_decoder_error():
     stream = io.BytesIO(b'\xff\xfe\n' + EEW_HEX.encode() + b'\n')
-    with pytest.raises(azarashi.QzssDcrDecoderException):
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
         azarashi.decode_stream(stream, 'hex')
     assert azarashi.decode_stream(stream, 'hex') == azarashi.decode(EEW, 'nmea')
 

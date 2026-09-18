@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any, ClassVar
 
 from ..definition import nmea_qzss_dcr_message_header
-from ..exception import QzssDcrDecoderNotImplementedError
+from ..exception import AzarashiNotImplementedError
 from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
@@ -16,7 +16,7 @@ class QzssDcrDecoderBase:
         self.set_params(sentence=sentence, **kwargs)
 
     def decode(self) -> QzssDcReport:
-        raise QzssDcrDecoderNotImplementedError('Decoder Not Implemented')
+        raise AzarashiNotImplementedError('Decoder Not Implemented')
 
     def message_to_nmea(self) -> str:
         sat_id = getattr(self, 'satellite_id', None)

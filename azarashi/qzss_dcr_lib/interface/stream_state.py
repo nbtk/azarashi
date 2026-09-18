@@ -3,7 +3,7 @@ import weakref
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar, cast
 
-from ..exception import QzssDcrDecoderTimeoutError
+from ..exception import AzarashiTimeoutError
 
 _T = TypeVar('_T')
 
@@ -104,7 +104,7 @@ def has_read_timeout(reader: Callable[..., Any]) -> bool:
 
 def empty_read_error(reader: Callable[..., Any]) -> EOFError:
     if has_read_timeout(reader):
-        return QzssDcrDecoderTimeoutError('Timed Out')
+        return AzarashiTimeoutError('Timed Out')
     return EOFError('Encountered EOF')
 
 
@@ -122,7 +122,7 @@ def read_line(reader: Callable[..., str | bytes],
         if not line or not complete:
             if line:
                 partial.append(line)
-            raise QzssDcrDecoderTimeoutError('Timed Out')
+            raise AzarashiTimeoutError('Timed Out')
     if not line:
         raise EOFError('Encountered EOF')
     if partial:

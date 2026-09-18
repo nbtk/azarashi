@@ -1,7 +1,7 @@
 from ..decoder import QzssDcrDecoder
 from ..decoder import QzssDcrDecoderBase
 from ..definition import nmea_qzss_dcr_message_header
-from ..exception import QzssDcrDecoderException
+from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
 from ..report import QzssDcReportBase
 
@@ -21,11 +21,11 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         self.sentence = words[0] if words else ''  # a blank line is too short
 
         if len(self.sentence) < 76:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Too Short Sentence',
                 self)
         if len(self.sentence) > 76:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Too Long Sentence',
                 self)
 
@@ -33,19 +33,19 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         try:
             payload, csum = self.sentence.split('*')
         except ValueError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Checksum Not Found',
                 self) from err
 
         if len(csum) != 2:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Invalid Checksum Length',
                 self)
 
         try:
             checksum = int(csum, 16)
         except ValueError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Invalid Checksum',
                 self) from err
 
@@ -54,7 +54,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
             summed ^= ord(c)
 
         if summed != checksum:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Checksum Mismatch, should be %02X' % summed,
                 self)
 
@@ -62,19 +62,19 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         try:
             self.message_header, sat_id, message_str = payload.split(',')
         except ValueError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Invalid Sentence',
                 self) from err
 
         # checks the message header
         if self.message_header != nmea_qzss_dcr_message_header:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Unknown Message Header: {self.message_header}',
                 self)
 
         # checks the satellite id
         if len(sat_id) != 2 or not (sat_id.isascii() and sat_id.isdigit()):
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 f'Invalid Satellite ID: {sat_id}',
                 self)
         self.satellite_id = int(sat_id)
@@ -84,7 +84,7 @@ class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
         try:
             self.message = bytes.fromhex(message_str + '0')  # padded with six 0s. the actual message size is 250 bits.
         except ValueError as err:
-            raise QzssDcrDecoderException(
+            raise AzarashiInvalidMessageError(
                 'Invalid Message',
                 self) from err
 
