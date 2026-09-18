@@ -268,105 +268,105 @@ DCX メッセージのレポートです。`QzssDcXtendedMessageBase` を継承�
 ### メッセージの種類と衛星
 | フィールド | 型 |
 |---|---|
-| `dcx_message_type` | `<class 'str'>` |
-| `dcx_version` | `<class 'int'>` |
-| `satellite_designation_mask_type` | `<class 'str'>` |
+| `dcx_message_type` | `str` |
+| `dcx_version` | `int` |
+| `satellite_designation_mask_type` | `str` |
 | `satellite_designation_mask` | `list[str]` |
 
 ### A フィールド
 | フィールド | 型 |
 |---|---|
-| `a1_message_type` | `<class 'str'>` |
-| `a2_country_region_name` | `<class 'str'>` |
-| `a3_provider_identifier` | `<class 'str'>` |
-| `a4_hazard_category` | `<class 'str'>` |
-| `a4_hazard_type` | `<class 'str'>` |
-| `a4_hazard_definition` | `<class 'str'>` |
-| `a5_severity` | `<class 'str'>` |
-| `a6_hazard_onset_week` | `<class 'str'>` |
-| `a7_hazard_onset_time_of_week` | `<class 'str'>` |
+| `a1_message_type` | `str` |
+| `a2_country_region_name` | `str` |
+| `a3_provider_identifier` | `str` |
+| `a4_hazard_category` | `str` |
+| `a4_hazard_type` | `str` |
+| `a4_hazard_definition` | `str` |
+| `a5_severity` | `str` |
+| `a6_hazard_onset_week` | `str` |
+| `a7_hazard_onset_time_of_week` | `str` |
 | `a6a7_hazard_onset_datetime` | `datetime \| None` |
-| `a8_hazard_duration` | `<class 'str'>` |
-| `a9_type_of_library` | `<class 'str'>` |
-| `a10_library_version` | `<class 'str'>` |
-| `a11_international_library_code` | `<class 'str'>` |
-| `a11_international_library` | `<class 'str'>` |
-| `a11_japanese_library` | `<class 'str'>` |
-| `a11_japanese_library_ja` | `<class 'str'>` |
-| `a12_ellipse_centre_latitude` | `<class 'float'>` |
-| `a13_ellipse_centre_longitude` | `<class 'float'>` |
-| `a14_ellipse_semi_major_axis` | `<class 'float'>` |
-| `a15_ellipse_semi_minor_axis` | `<class 'float'>` |
-| `a16_ellipse_azimuth` | `<class 'float'>` |
-| `a17_type_of_specific_settings` | `<class 'str'>` |
+| `a8_hazard_duration` | `str` |
+| `a9_type_of_library` | `str` |
+| `a10_library_version` | `str` |
+| `a11_international_library_code` | `str` |
+| `a11_international_library` | `str` |
+| `a11_japanese_library` | `str` |
+| `a11_japanese_library_ja` | `str` |
+| `a12_ellipse_centre_latitude` | `float` |
+| `a13_ellipse_centre_longitude` | `float` |
+| `a14_ellipse_semi_major_axis` | `float` |
+| `a15_ellipse_semi_minor_axis` | `float` |
+| `a16_ellipse_azimuth` | `float` |
+| `a17_type_of_specific_settings` | `str` |
 
 ### C フィールド
 | フィールド | 型 |
 |---|---|
-| `c1_refined_latitude_of_centre_of_main_ellipse` | `<class 'float'>` |
-| `c2_refined_longitude_of_centre_of_main_ellipse` | `<class 'float'>` |
-| `c3_refined_length_of_semi_major_axis` | `<class 'float'>` |
-| `c4_refined_length_of_semi_minor_axis` | `<class 'float'>` |
-| `c5_latitude_of_centre_of_hazard` | `<class 'float'>` |
-| `c6_longitude_of_centre_of_hazard` | `<class 'float'>` |
-| `c7_shift_of_second_ellipse_centre` | `<class 'int'>` |
-| `c8_homothetic_factor_of_second_ellipse` | `<class 'float'>` |
-| `c9_bearing_angle_of_second_ellipse` | `<class 'float'>` |
-| `c10_instruction_library_for_second_ellipse_code` | `<class 'str'>` |
-| `c10_instruction_library_for_second_ellipse` | `<class 'str'>` |
+| `c1_refined_latitude_of_centre_of_main_ellipse` | `float` |
+| `c2_refined_longitude_of_centre_of_main_ellipse` | `float` |
+| `c3_refined_length_of_semi_major_axis` | `float` |
+| `c4_refined_length_of_semi_minor_axis` | `float` |
+| `c5_latitude_of_centre_of_hazard` | `float` |
+| `c6_longitude_of_centre_of_hazard` | `float` |
+| `c7_shift_of_second_ellipse_centre` | `int` |
+| `c8_homothetic_factor_of_second_ellipse` | `float` |
+| `c9_bearing_angle_of_second_ellipse` | `float` |
+| `c10_instruction_library_for_second_ellipse_code` | `str` |
+| `c10_instruction_library_for_second_ellipse` | `str` |
 
 ### D フィールド
 | フィールド | 型 |
 |---|---|
-| `d1_magnitude_on_richter_scale` | `<class 'str'>` |
-| `d2_seismic_coefficient` | `<class 'str'>` |
-| `d3_azimuth_from_centre_of_main_ellipse_to_epicentre` | `<class 'float'>` |
-| `d4_vector_length_between_centre_of_main_ellipse_and_epicentre` | `<class 'float'>` |
-| `d5_wave_height` | `<class 'str'>` |
-| `d6_temperature_range` | `<class 'str'>` |
-| `d7_hurricane_category` | `<class 'str'>` |
-| `d8_wind_speed` | `<class 'str'>` |
-| `d9_rainfall_amounts` | `<class 'str'>` |
-| `d10_damage_category` | `<class 'str'>` |
-| `d11_tornado_probability` | `<class 'str'>` |
-| `d12_hail_scale` | `<class 'str'>` |
-| `d13_visibility` | `<class 'str'>` |
-| `d14_snow_depth` | `<class 'str'>` |
-| `d15_flood_severity` | `<class 'str'>` |
-| `d16_lightning_intensity` | `<class 'str'>` |
-| `d17_fog_level` | `<class 'str'>` |
-| `d18_drought_level` | `<class 'str'>` |
-| `d19_avalanche_warning_level` | `<class 'str'>` |
-| `d20_ash_fall_amount_and_impact` | `<class 'str'>` |
-| `d21_geomagnetic_scale` | `<class 'str'>` |
-| `d22_terrorism_threat_level` | `<class 'str'>` |
-| `d23_fire_risk_level` | `<class 'str'>` |
-| `d24_water_quality` | `<class 'str'>` |
-| `d25_uv_index` | `<class 'str'>` |
-| `d26_number_of_cases_per_100000_inhabitants` | `<class 'str'>` |
-| `d27_noise_range` | `<class 'str'>` |
-| `d28_air_quality_index` | `<class 'str'>` |
-| `d29_outage_estimated_duration` | `<class 'str'>` |
-| `d30_nuclear_event_scale` | `<class 'str'>` |
-| `d31_chemical_hazard_type` | `<class 'str'>` |
-| `d32_biohazard_level` | `<class 'str'>` |
-| `d33_biohazard_type` | `<class 'str'>` |
-| `d34_explosive_hazard_type` | `<class 'str'>` |
-| `d35_infection_type` | `<class 'str'>` |
-| `d36_typhoon_category` | `<class 'str'>` |
+| `d1_magnitude_on_richter_scale` | `str` |
+| `d2_seismic_coefficient` | `str` |
+| `d3_azimuth_from_centre_of_main_ellipse_to_epicentre` | `float` |
+| `d4_vector_length_between_centre_of_main_ellipse_and_epicentre` | `float` |
+| `d5_wave_height` | `str` |
+| `d6_temperature_range` | `str` |
+| `d7_hurricane_category` | `str` |
+| `d8_wind_speed` | `str` |
+| `d9_rainfall_amounts` | `str` |
+| `d10_damage_category` | `str` |
+| `d11_tornado_probability` | `str` |
+| `d12_hail_scale` | `str` |
+| `d13_visibility` | `str` |
+| `d14_snow_depth` | `str` |
+| `d15_flood_severity` | `str` |
+| `d16_lightning_intensity` | `str` |
+| `d17_fog_level` | `str` |
+| `d18_drought_level` | `str` |
+| `d19_avalanche_warning_level` | `str` |
+| `d20_ash_fall_amount_and_impact` | `str` |
+| `d21_geomagnetic_scale` | `str` |
+| `d22_terrorism_threat_level` | `str` |
+| `d23_fire_risk_level` | `str` |
+| `d24_water_quality` | `str` |
+| `d25_uv_index` | `str` |
+| `d26_number_of_cases_per_100000_inhabitants` | `str` |
+| `d27_noise_range` | `str` |
+| `d28_air_quality_index` | `str` |
+| `d29_outage_estimated_duration` | `str` |
+| `d30_nuclear_event_scale` | `str` |
+| `d31_chemical_hazard_type` | `str` |
+| `d32_biohazard_level` | `str` |
+| `d33_biohazard_type` | `str` |
+| `d34_explosive_hazard_type` | `str` |
+| `d35_infection_type` | `str` |
+| `d36_typhoon_category` | `str` |
 
 ### EX フィールド
 | フィールド | 型 |
 |---|---|
-| `ex1_target_area` | `<class 'str'>` |
-| `ex1_target_area_ja` | `<class 'str'>` |
-| `ex2_evacuate_direction_type` | `<class 'str'>` |
-| `ex3_additional_ellipse_centre_latitude` | `<class 'float'>` |
-| `ex4_additional_ellipse_centre_longitude` | `<class 'float'>` |
-| `ex5_additional_ellipse_semi_major_axis` | `<class 'float'>` |
-| `ex6_additional_ellipse_semi_minor_axis` | `<class 'float'>` |
-| `ex7_additional_ellipse_azimuth` | `<class 'float'>` |
-| `ex8_target_area_list_type` | `<class 'str'>` |
+| `ex1_target_area` | `str` |
+| `ex1_target_area_ja` | `str` |
+| `ex2_evacuate_direction_type` | `str` |
+| `ex3_additional_ellipse_centre_latitude` | `float` |
+| `ex4_additional_ellipse_centre_longitude` | `float` |
+| `ex5_additional_ellipse_semi_major_axis` | `float` |
+| `ex6_additional_ellipse_semi_minor_axis` | `float` |
+| `ex7_additional_ellipse_azimuth` | `float` |
+| `ex8_target_area_list_type` | `str` |
 | `ex9_target_area_list` | `list[str]` |
 | `ex9_target_area_list_ja` | `list[str]` |
 
