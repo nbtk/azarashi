@@ -53,20 +53,17 @@ $ azarashi ublox -f /dev/ttyS0 -b 9600
 import azarashi
 import serial
 
-with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
+with serial.Serial('/dev/ttyS0', 9600) as ser:
     while True:
         try:
             azarashi.decode_stream(ser, msg_type='ublox', callback=print)
-        except azarashi.AzarashiTimeoutError:
-            continue
         except azarashi.AzarashiDecodeError as e:
             print(f'# [{type(e).__name__}] {e}')
         except EOFError:
             break
 ```
-捕捉しているのは次の3つです。
+捕捉しているのは次の2つです。
 
-- `AzarashiTimeoutError`: 1秒のあいだにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度呼べば続きから読みます。`EOFError` を継承しているため、`EOFError` より先に捕捉してください。
 - `AzarashiDecodeError`: メッセージをレポートにできなかったときに送出されます。壊れたメッセージと、azarashi が対応していないメッセージがこれにあたります。その一つを読み飛ばして次へ進めば済みます。
 - `EOFError`: ストリームが終わったときに送出されます。
 

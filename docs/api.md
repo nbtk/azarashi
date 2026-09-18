@@ -147,15 +147,7 @@ azarashi が定義する例外は、すべてこのクラスを継承してい�
 ## AzarashiTimeoutError
 `EOFError` を継承した例外クラスです。pySerial などで `timeout` を指定して開いたストリームから、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。`EOFError` と区別するときは、`EOFError` より先に捕捉してください。
 
-このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。
-```python
-with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
-    while not stopped:
-        try:
-            azarashi.decode_stream(ser, 'ublox', handler)
-        except azarashi.AzarashiTimeoutError:
-            continue  # no complete message within a second: check `stopped` and keep reading
-```
+このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。プログラムの例は [Timeout](#timeout) にあります。
 ## 以前の例外名
 次の名前も使えます。それぞれ右の名前と同じクラスです。以前から使っているコードは、書き換えなくてもそのまま動きます。
 
@@ -229,6 +221,46 @@ def example():
         while True:
             try:
                 azarashi.decode_stream(ser, 'ublox', handler, unique=True)
+            except azarashi.AzarashiDecodeError as e:
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
+            except EOFError as e:
+                print(f'{e}', file=sys.stderr)
+                return 0
+            except Exception as e:
+                print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
+                return 1
+
+exit(example())
+```
+### Timeout
+シリアルポートを `timeout` 付きで開くと、`decode_stream()` はメッセージが届かないまま待ち続けることがなくなります。一定の時間で `AzarashiTimeoutError` を送出して戻ってくるので、その合間に別の仕事ができます。終了の合図を見にいく例です。
+
+`AzarashiTimeoutError` は `EOFError` を継承しています。`EOFError` より先に捕捉してください。順番を逆にすると、タイムアウトのたびにストリームの終わりだと判断してしまいます。
+
+読みかけのデータは残っています。もう一度 `decode_stream()` を呼べば、途中から読み続けます。
+```python
+import azarashi
+import signal
+import sys
+import serial
+
+stopping = False
+
+def stop(signum, frame):
+    global stopping
+    stopping = True
+
+signal.signal(signal.SIGTERM, stop)
+
+def example():
+    with serial.Serial('/dev/ttyS0', 9600, timeout=1) as ser:
+        while True:
+            try:
+                azarashi.decode_stream(ser, 'ublox', print, unique=True)
+            except azarashi.AzarashiTimeoutError:
+                if stopping:
+                    return 0
+                continue  # 1秒のあいだにメッセージを読み終えられなかった。続きを読む
             except azarashi.AzarashiDecodeError as e:
                 print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except EOFError as e:
