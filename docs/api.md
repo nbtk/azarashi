@@ -136,6 +136,8 @@ callback(report, *callback_args, **callback_kwargs)
 ```
 ## AzarashiError
 azarashi が定義する例外は、すべてこのクラスを継承しています。
+
+これを捕捉したときは、`decode_stream()` をもう一度呼んでください。読めないメッセージも、扱えないメッセージも、読み終えていないメッセージも、すべてこのクラスの下にあります。どれも次を読めば済みます。ストリームが終わったことを表す `EOFError` だけが、このクラスの外にあります。つまり、このクラスは「続けてよい」、`EOFError` は「やめる」を表します。例は [Minimal Loop](#minimal-loop) にあります。
 ## AzarashiDecodeError
 メッセージをレポートにできなかったことを表すクラスです。次の二つの親にあたります。デコードの失敗をまとめて捕捉したいときは、これを捕捉してください。
 ## AzarashiInvalidMessageError
@@ -183,6 +185,25 @@ def handler(report: azarashi.QzssDcReport) -> None:
 ```
 DCX のレポートには、メッセージの種類や内容によって設定されないフィールドがあります。例えば `a12_ellipse_centre_latitude` は、楕円の情報を持たないメッセージでは設定されません。設定されていないフィールドを参照すると `AttributeError` になります。型ヒントには宣言してあるので、型検査では気づけません。そうしたフィールドは `getattr()` や `get_params()` で確かめてから使ってください。
 ## Examples
+### Minimal Loop
+ストリームから読み続けるときの、いちばん短い形です。捕捉するのは2つだけです。`AzarashiError` なら次を読み、`EOFError` なら止めます。
+```python
+import azarashi
+import sys
+import serial
+
+with serial.Serial('/dev/ttyS0', 9600) as ser:
+    while True:
+        try:
+            azarashi.decode_stream(ser, 'ublox', print)
+        except azarashi.AzarashiError as e:
+            print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
+        except EOFError:
+            break
+```
+読めないメッセージと、azarashi が扱えないメッセージは、ここで読み飛ばされます。何を飛ばしたかを気にしないなら、`AzarashiError` の節は `pass` だけでも構いません。
+
+`timeout` を付けて開いたストリームでも、この形のまま動きます。タイムアウトも `AzarashiError` の下にあるからです。タイムアウトの合間に別の仕事をしたいときだけ、[Timeout](#timeout) のように節を分けてください。
 ### I/O Stream
 例外処理を加えた簡単なプログラムの例です。記録したファイルを読み込みます。
 ```python

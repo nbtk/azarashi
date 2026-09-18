@@ -57,14 +57,14 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
     while True:
         try:
             azarashi.decode_stream(ser, msg_type='ublox', callback=print)
-        except azarashi.AzarashiDecodeError as e:
+        except azarashi.AzarashiError as e:
             print(f'# [{type(e).__name__}] {e}')
         except EOFError:
             break
 ```
 捕捉しているのは次の2つです。
 
-- `AzarashiDecodeError`: メッセージをレポートにできなかったときに送出されます。壊れたメッセージと、azarashi が対応していないメッセージがこれにあたります。その一つを読み飛ばして次へ進めば済みます。
+- `AzarashiError`: azarashi が定義する例外の親です。壊れたメッセージも、azarashi が対応していないメッセージも、この下にあります。どれも読み飛ばして次へ進めば済みます。
 - `EOFError`: ストリームが終わったときに送出されます。
 
 仕様にないコード値を受け取っただけでは例外になりません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。例外の一覧は [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md) を見てください。
