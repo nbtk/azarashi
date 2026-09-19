@@ -108,3 +108,21 @@ def test_a_record_that_cannot_be_written_does_not_stop_decoding(capsys):
     assert reports == [azarashi.decode(EEW, 'nmea')] * 3
     assert capsys.readouterr().err == '# recording stopped: [OSError] [Errno 28] No space left on device\n'  # once
     assert record.closed
+
+
+class _FullDiskThatFailsToClose(_FullDisk):
+    """The same, but flushing what could not be written fails too."""
+
+    def close(self):
+        raise OSError(28, 'No space left on device')
+
+
+def test_a_record_file_that_cannot_be_closed_does_not_stop_decoding(capsys):
+    record = _FullDiskThatFailsToClose(len(FRAME))
+    stream = RecordingStream(io.BytesIO(FRAME * 2), record)
+    reports = []
+    with pytest.raises(EOFError):
+        while True:
+            reports.append(azarashi.decode_stream(stream, 'ublox'))
+    assert reports == [azarashi.decode(EEW, 'nmea')] * 2
+    assert capsys.readouterr().err == '# recording stopped: [OSError] [Errno 28] No space left on device\n'

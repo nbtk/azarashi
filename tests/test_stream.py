@@ -242,3 +242,22 @@ def test_unique_keeps_the_newest_cache_size_reports(monkeypatch):
         azarashi.decode_stream(stream, callback=received.append, unique=True, ignore_dcx=False)
     assert [report.message_type for report in received] == ['DCR', 'DCX', 'DCR']  # the L-Alert pushed the EEW out
     assert len(decoder_interface.caches.get(stream)) == 1
+
+
+class _PlainFunctionReader:
+    """A stream whose readline is a plain function, so the reader has no __self__ to key state on."""
+
+    def __init__(self, chunks):
+        chunks = iter(chunks)
+        self.readline = lambda *args: next(chunks, b'')
+
+
+def test_a_reader_that_is_not_a_bound_method_gets_its_own_state():
+    # such a reader cannot have a read timeout, so it never holds a partial line, but it still needs an entry
+    line = EEW.encode() + b'\r\n'
+    first, second = _PlainFunctionReader([line, line]), _PlainFunctionReader([line])
+    assert azarashi.decode_stream(first, 'nmea') == azarashi.decode(EEW, 'nmea')
+    assert azarashi.decode_stream(second, 'nmea') == azarashi.decode(EEW, 'nmea')
+    assert azarashi.decode_stream(first, 'nmea') == azarashi.decode(EEW, 'nmea')  # its own chunks, not the other's
+    with pytest.raises(EOFError):
+        azarashi.decode_stream(first, 'nmea')

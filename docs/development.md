@@ -5,7 +5,7 @@
 ```shell
 $ pip install -e . pytest pytest-cov ruff mypy 'pyright[nodejs]' types-pyserial
 $ python -m pytest tests        # Python 3.11 から 3.14 で実行しています
-$ python -m pytest --cov tests  # カバレッジも測るとき。設定: pyproject.toml の [tool.coverage]
+$ python -m pytest --cov=azarashi tests  # カバレッジも測るとき。設定: pyproject.toml の [tool.coverage]
 $ ruff check .                  # 規則: pyproject.toml の [tool.ruff]
 $ mypy --strict azarashi/       # 型検査
 $ pyright                       # 設定: pyproject.toml の [tool.pyright]

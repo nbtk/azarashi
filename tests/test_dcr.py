@@ -220,3 +220,24 @@ def test_northwest_pacific_tsunami_arrival_time_types(hour, minute, time_type):
 def test_northwest_pacific_tsunami_arrival_time_code_is_shown():
     report = azarashi.decode(_with_nwp_arrival_time(NWP, 0, 0, 24, 0), 'nmea')
     assert 'Expected Tsunami Arrival Time: Undefined Expected Tsunami Arrival Time (Code: 1536)\n' in str(report)
+
+
+def test_every_defined_disaster_category_has_a_decoder():
+    # the decoder's last else raises Unsupported Disaster Category; it is there so that a category
+    # added to the table without a decoder fails cleanly, and this keeps it unreachable
+    from qzqsm import jma
+    from azarashi.qzss_dcr_lib.definition import qzss_dcr_jma_disaster_category
+    decoded = {dc: type(azarashi.decode(jma(dc, []))).__name__ for dc in qzss_dcr_jma_disaster_category}
+    assert len(decoded) == 12
+    assert all(name.startswith('QzssDcReportJma') for name in decoded.values())
+    assert len(set(decoded.values())) == len(decoded)  # one class each
+
+
+def test_every_defined_message_type_has_a_decoder():
+    # same idea for Unsupported Message Type, which the two decoders below keep out of reach
+    from qzqsm import jma
+    from test_dcx_fields import dcx
+    from azarashi.qzss_dcr_lib.definition import qzss_dcr_message_type
+    assert set(qzss_dcr_message_type) == {43, 44}
+    assert azarashi.decode(jma(1, [])).message_type == qzss_dcr_message_type[43]
+    assert azarashi.decode(dcx(a1=1, a2=111, a3=2)).message_type == qzss_dcr_message_type[44]
