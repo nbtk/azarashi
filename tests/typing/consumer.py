@@ -30,11 +30,14 @@ elif isinstance(report, qzss_dc_report.QzssDcReportJmaHypocenter):
     issued: str = report.get_report_time_str()
 elif isinstance(report, qzss_dc_report.QzssDcReportJmaVolcano):
     observed: datetime.datetime | None = report.activity_time
-elif isinstance(report, qzss_dc_report.QzssDcXtendedMessageBase):
+elif isinstance(report, qzss_dc_report.QzssDcxAlertBase):
     onset: datetime.datetime | None = report.a6a7_hazard_onset_datetime
-    areas: list[str] = report.ex9_target_area_list
+    category: str = report.a4_hazard_category  # always set on an alert
+    areas: list[str] | None = report.ex9_target_area_list
     hazard: int = report.camf.a4
-    latitude: float = report.a12_ellipse_centre_latitude
+    latitude: float | None = report.a12_ellipse_centre_latitude
+elif isinstance(report, qzss_dc_report.QzssDcxNullMsg):  # an alert field here is a type error
+    null_kind: str = report.dcx_message_type
 
 
 def handler(report: azarashi.QzssDcReport) -> None:

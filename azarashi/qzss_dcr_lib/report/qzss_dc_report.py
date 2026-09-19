@@ -832,12 +832,44 @@ class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
-    # set by the decoder only when the message type and its fields carry them (see the ignore_* flags)
+class QzssDcXtendedMessageBase(QzssDcReportMessageBase):
+    """What every DCX message carries, a null message included.
+
+    The alert itself is on QzssDcxAlertBase; a null message has none.
+    """
     dcx_message_type: str
-    dcx_version: int
     satellite_designation_mask_type: str
     satellite_designation_mask: list[str]
+
+    def __init__(self,
+                 camf: QzssDcxCamf,
+                 ignore_a12_to_a16: bool,
+                 ignore_a17_to_a18: bool,
+                 ignore_ex1: bool,
+                 ignore_ex2_to_ex7: bool,
+                 ignore_ex8_to_ex9: bool,
+                 **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self.camf = camf
+        self.ignore_a12_to_a16 = ignore_a12_to_a16
+        self.ignore_a17_to_a18 = ignore_a17_to_a18
+        self.ignore_ex1 = ignore_ex1
+        self.ignore_ex2_to_ex7 = ignore_ex2_to_ex7
+        self.ignore_ex8_to_ex9 = ignore_ex8_to_ex9
+
+        for key, value in kwargs.items():
+            if key not in self.__dict__:
+                self.__dict__[key] = value
+
+
+
+class QzssDcxAlertBase(QzssDcXtendedMessageBase):
+    """A DCX message that carries an alert: everything but a null message.
+
+    The fields below the blank line are set only when the message and its A17 specific settings
+    carry them, so they are None otherwise. The ignore_* flags say which groups were read.
+    """
+    dcx_version: int
     a1_message_type: str
     a2_country_region_name: str
     a3_provider_identifier: str
@@ -851,98 +883,75 @@ class QzssDcXtendedMessageBase(QzssDcReportMessagePartial):
     a8_hazard_duration: str
     a9_type_of_library: str
     a10_library_version: str
-    a11_international_library_code: str
-    a11_international_library: str
-    a11_japanese_library: str
-    a11_japanese_library_ja: str
-    a12_ellipse_centre_latitude: float
-    a13_ellipse_centre_longitude: float
-    a14_ellipse_semi_major_axis: float
-    a15_ellipse_semi_minor_axis: float
-    a16_ellipse_azimuth: float
-    a17_type_of_specific_settings: str
-    c1_refined_latitude_of_centre_of_main_ellipse: float
-    c2_refined_longitude_of_centre_of_main_ellipse: float
-    c3_refined_length_of_semi_major_axis: float
-    c4_refined_length_of_semi_minor_axis: float
-    c5_latitude_of_centre_of_hazard: float
-    c6_longitude_of_centre_of_hazard: float
-    c7_shift_of_second_ellipse_centre: int
-    c8_homothetic_factor_of_second_ellipse: float
-    c9_bearing_angle_of_second_ellipse: float
-    c10_instruction_library_for_second_ellipse_code: str
-    c10_instruction_library_for_second_ellipse: str
-    d1_magnitude_on_richter_scale: str
-    d2_seismic_coefficient: str
-    d3_azimuth_from_centre_of_main_ellipse_to_epicentre: float  # degrees
-    d4_vector_length_between_centre_of_main_ellipse_and_epicentre: float  # a factor of the semi-major axis
-    d5_wave_height: str
-    d6_temperature_range: str
-    d7_hurricane_category: str
-    d8_wind_speed: str
-    d9_rainfall_amounts: str
-    d10_damage_category: str
-    d11_tornado_probability: str
-    d12_hail_scale: str
-    d13_visibility: str
-    d14_snow_depth: str
-    d15_flood_severity: str
-    d16_lightning_intensity: str
-    d17_fog_level: str
-    d18_drought_level: str
-    d19_avalanche_warning_level: str
-    d20_ash_fall_amount_and_impact: str
-    d21_geomagnetic_scale: str
-    d22_terrorism_threat_level: str
-    d23_fire_risk_level: str
-    d24_water_quality: str
-    d25_uv_index: str
-    d26_number_of_cases_per_100000_inhabitants: str
-    d27_noise_range: str
-    d28_air_quality_index: str
-    d29_outage_estimated_duration: str
-    d30_nuclear_event_scale: str
-    d31_chemical_hazard_type: str
-    d32_biohazard_level: str
-    d33_biohazard_type: str
-    d34_explosive_hazard_type: str
-    d35_infection_type: str
-    d36_typhoon_category: str
-    ex1_target_area: str
-    ex1_target_area_ja: str
-    ex2_evacuate_direction_type: str
-    ex3_additional_ellipse_centre_latitude: float
-    ex4_additional_ellipse_centre_longitude: float
-    ex5_additional_ellipse_semi_major_axis: float
-    ex6_additional_ellipse_semi_minor_axis: float
-    ex7_additional_ellipse_azimuth: float
-    ex8_target_area_list_type: str
-    ex9_target_area_list: list[str]
-    ex9_target_area_list_ja: list[str]
 
-    def __init__(self,
-                 preamble: str,
-                 message_type: str,
-                 camf: QzssDcxCamf,
-                 ignore_a12_to_a16: bool,
-                 ignore_a17_to_a18: bool,
-                 ignore_ex1: bool,
-                 ignore_ex2_to_ex7: bool,
-                 ignore_ex8_to_ex9: bool,
-                 **kwargs: Any) -> None:
-        super().__init__(**kwargs)
-        self.preamble = preamble
-        self.message_type = message_type
-        self.camf = camf
-        self.ignore_a12_to_a16 = ignore_a12_to_a16
-        self.ignore_a17_to_a18 = ignore_a17_to_a18
-        self.ignore_ex1 = ignore_ex1
-        self.ignore_ex2_to_ex7 = ignore_ex2_to_ex7
-        self.ignore_ex8_to_ex9 = ignore_ex8_to_ex9
-
-        for key, value in kwargs.items():
-            if key not in self.__dict__:
-                self.__dict__[key] = value
+    a11_international_library_code: str | None = None
+    a11_international_library: str | None = None
+    a11_japanese_library: str | None = None
+    a11_japanese_library_ja: str | None = None
+    a12_ellipse_centre_latitude: float | None = None
+    a13_ellipse_centre_longitude: float | None = None
+    a14_ellipse_semi_major_axis: float | None = None
+    a15_ellipse_semi_minor_axis: float | None = None
+    a16_ellipse_azimuth: float | None = None
+    a17_type_of_specific_settings: str | None = None
+    c1_refined_latitude_of_centre_of_main_ellipse: float | None = None
+    c2_refined_longitude_of_centre_of_main_ellipse: float | None = None
+    c3_refined_length_of_semi_major_axis: float | None = None
+    c4_refined_length_of_semi_minor_axis: float | None = None
+    c5_latitude_of_centre_of_hazard: float | None = None
+    c6_longitude_of_centre_of_hazard: float | None = None
+    c7_shift_of_second_ellipse_centre: int | None = None
+    c8_homothetic_factor_of_second_ellipse: float | None = None
+    c9_bearing_angle_of_second_ellipse: float | None = None
+    c10_instruction_library_for_second_ellipse_code: str | None = None
+    c10_instruction_library_for_second_ellipse: str | None = None
+    d1_magnitude_on_richter_scale: str | None = None
+    d2_seismic_coefficient: str | None = None
+    d3_azimuth_from_centre_of_main_ellipse_to_epicentre: float | None = None  # degrees
+    d4_vector_length_between_centre_of_main_ellipse_and_epicentre: float | None = None  # a factor of the semi-major axis
+    d5_wave_height: str | None = None
+    d6_temperature_range: str | None = None
+    d7_hurricane_category: str | None = None
+    d8_wind_speed: str | None = None
+    d9_rainfall_amounts: str | None = None
+    d10_damage_category: str | None = None
+    d11_tornado_probability: str | None = None
+    d12_hail_scale: str | None = None
+    d13_visibility: str | None = None
+    d14_snow_depth: str | None = None
+    d15_flood_severity: str | None = None
+    d16_lightning_intensity: str | None = None
+    d17_fog_level: str | None = None
+    d18_drought_level: str | None = None
+    d19_avalanche_warning_level: str | None = None
+    d20_ash_fall_amount_and_impact: str | None = None
+    d21_geomagnetic_scale: str | None = None
+    d22_terrorism_threat_level: str | None = None
+    d23_fire_risk_level: str | None = None
+    d24_water_quality: str | None = None
+    d25_uv_index: str | None = None
+    d26_number_of_cases_per_100000_inhabitants: str | None = None
+    d27_noise_range: str | None = None
+    d28_air_quality_index: str | None = None
+    d29_outage_estimated_duration: str | None = None
+    d30_nuclear_event_scale: str | None = None
+    d31_chemical_hazard_type: str | None = None
+    d32_biohazard_level: str | None = None
+    d33_biohazard_type: str | None = None
+    d34_explosive_hazard_type: str | None = None
+    d35_infection_type: str | None = None
+    d36_typhoon_category: str | None = None
+    ex1_target_area: str | None = None
+    ex1_target_area_ja: str | None = None
+    ex2_evacuate_direction_type: str | None = None
+    ex3_additional_ellipse_centre_latitude: float | None = None
+    ex4_additional_ellipse_centre_longitude: float | None = None
+    ex5_additional_ellipse_semi_major_axis: float | None = None
+    ex6_additional_ellipse_semi_minor_axis: float | None = None
+    ex7_additional_ellipse_azimuth: float | None = None
+    ex8_target_area_list_type: str | None = None
+    ex9_target_area_list: list[str] | None = None
+    ex9_target_area_list_ja: list[str] | None = None
 
     def get_hazard_onset_str(self) -> str | None:
         onset = self.__dict__.get('a6a7_hazard_onset_datetime')
@@ -1025,31 +1034,31 @@ class QzssDcxNullMsg(QzssDcXtendedMessageBase):
         return f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###"
 
 
-class QzssDcxOutsideJapan(QzssDcXtendedMessageBase):
+class QzssDcxOutsideJapan(QzssDcxAlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxLAlert(QzssDcXtendedMessageBase):
+class QzssDcxLAlert(QzssDcxAlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxJAlert(QzssDcXtendedMessageBase):
+class QzssDcxJAlert(QzssDcxAlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxMTInfo(QzssDcXtendedMessageBase):
+class QzssDcxMTInfo(QzssDcxAlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxUnknown(QzssDcXtendedMessageBase):
+class QzssDcxUnknown(QzssDcxAlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)

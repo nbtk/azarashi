@@ -134,6 +134,21 @@ def test_every_attribute_is_declared_and_fits(report):
         assert _fits(value, declared[name]), f'{type(report).__name__}.{name} = {value!r} is not {declared[name]}'
 
 
+def test_every_declared_attribute_can_be_read():
+    # a declared attribute that does not exist is a hint that lies: the checker passes and the read raises
+    missing = [f'{type(report).__name__}.{name}'
+               for report in REPORTS for name in _declared(type(report))
+               if not hasattr(report, name)]
+    assert missing == []
+
+
+def test_a_null_message_declares_no_alert_field():
+    null = next(r for r in REPORTS if type(r) is qzss_dc_report.QzssDcxNullMsg)
+    alert = _declared(qzss_dc_report.QzssDcxAlertBase).keys() - _declared(type(null)).keys()
+    assert {'a1_message_type', 'a4_hazard_category', 'a12_ellipse_centre_latitude'} <= alert
+    assert not any(hasattr(null, name) for name in alert)
+
+
 def test_camf_fields_are_declared_ints():
     declared = typing.get_type_hints(qzss_dc_report.QzssDcxCamf)
     seen = set()

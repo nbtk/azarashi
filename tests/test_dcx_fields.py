@@ -39,7 +39,7 @@ def test_null_message(camf):
     assert type(report) is qzss_dc_report.QzssDcxNullMsg
     assert (report.message_type, report.dcx_message_type) == ('DCX', 'Null Message')
     assert str(report) == '### DCX Message - Null Message ###'
-    assert not hasattr(report, 'a1_message_type')
+    assert not hasattr(report, 'a1_message_type')  # a null message does not declare the alert fields at all
 
 
 @pytest.mark.parametrize('camf, report_type, dcx_message_type', [
@@ -148,13 +148,13 @@ def test_japanese_library_without_instruction():
 def test_country_library_of_another_country_is_not_decoded():
     report = _decode(dcx(a1=1, a2=10, a3=2, a9=1, a11=126))
     assert report.a9_type_of_library == 'Country/region library'
-    assert not hasattr(report, 'a11_japanese_library')
+    assert report.a11_japanese_library is None
 
 
 def test_unsupported_library_version():
     report = _decode(dcx(**JAPAN, a3=2, a9=1, a10=1, a11=126))
     assert report.a10_library_version == 'Unsupported Library Version (Code: 1)'
-    assert not hasattr(report, 'a11_japanese_library')
+    assert report.a11_japanese_library is None
 
 
 def test_test_message_header():
@@ -231,7 +231,7 @@ def test_b3_is_decoded_without_the_main_ellipse():
 @pytest.mark.parametrize('a17', [0, 1])
 def test_b1_and_b2_need_the_main_ellipse(a17):
     report = _decode(dcx(**JAPAN, a3=1, ex1=1100, a17=a17, a18=0x7fff))
-    assert not hasattr(report, 'a17_type_of_specific_settings')
+    assert report.a17_type_of_specific_settings is None
     assert 'A17 - ' not in str(report)
 
 

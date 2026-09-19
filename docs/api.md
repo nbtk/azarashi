@@ -180,10 +180,12 @@ def handler(report: azarashi.QzssDcReport) -> None:
     if isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):
         for arrival in report.expected_tsunami_arrival_times:  # datetime | None
             print(arrival)
-    elif isinstance(report, qzss_dc_report.QzssDcXtendedMessageBase):
+    elif isinstance(report, qzss_dc_report.QzssDcxAlertBase):
         print(report.a6a7_hazard_onset_datetime)  # datetime | None
 ```
-DCX のレポートには、メッセージの種類や内容によって設定されないフィールドがあります。例えば `a12_ellipse_centre_latitude` は、楕円の情報を持たないメッセージでは設定されません。設定されていないフィールドを参照すると `AttributeError` になります。型ヒントには宣言してあるので、型検査では気づけません。そうしたフィールドは `getattr()` や `get_params()` で確かめてから使ってください。
+DCX のレポートには、メッセージの種類や内容によって設定されないフィールドがあります。例えば `a12_ellipse_centre_latitude` は、楕円の情報を持たないメッセージでは `None` になります。型も `float | None` と宣言してあるので、型検査が `None` の確認を促します。A1 から A10 までと `dcx_version` は必ず設定されるので `None` になりません。
+
+警報を持たない `QzssDcxNullMsg` は、これらのフィールドを一つも持ちません。そのため警報のフィールドを読むときは `QzssDcxAlertBase` で絞ってください。`QzssDcXtendedMessageBase` で絞ると `QzssDcxNullMsg` も通ってしまいます。
 ## Examples
 ### Minimal Loop
 ストリームから読み続けるときの、いちばん短い形です。捕捉するのは2つだけです。`AzarashiError` なら次を読み、`EOFError` なら止めます。

@@ -263,7 +263,11 @@ DCX メッセージのレポートです。`QzssDcXtendedMessageBase` を継承�
 | 自治体 | `QzssDcxMTInfo` |
 | 上記以外 | `QzssDcxUnknown` |
 
-フィールドはすべて `QzssDcXtendedMessageBase` で宣言しています。メッセージの種類や内容によって設定されないものがあり、設定されていないフィールドを読むと `AttributeError` になります。`getattr()` や `get_params()` で確かめてから使ってください。
+警報のフィールドは `QzssDcxAlertBase` で宣言しています。上の表の `QzssDcxNullMsg` 以外の5クラスが、これを継承します。
+
+メッセージの種類や内容によって設定されないフィールドは `None` になります。型も `float | None` のように宣言してあるので、型検査で気づけます。A1 から A10 までと `dcx_version` は必ず設定されるので `None` になりません。どのフィールド群が読まれたかは `ignore_a12_to_a16` などのフラグで分かります。
+
+`QzssDcxNullMsg` は警報を持たないメッセージなので、これらのフィールドを一つも持ちません。読もうとすると型検査が止めます。
 
 ### メッセージの種類と衛星
 | フィールド | 型 |
