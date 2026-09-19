@@ -6,6 +6,7 @@ import pytest
 import serial
 
 import azarashi
+from azarashi.qzss_dcr_lib.interface import stream_state
 from samples import EEW
 from samples import EEW_HEX
 from samples import FRAME
@@ -89,3 +90,30 @@ def test_pyserial_timeout_mid_message(msg_type, data):
     finally:
         os.close(master)
         os.close(slave)
+
+
+class _NeverANewline:
+    """A stream with a read timeout that keeps sending data and never ends a line."""
+
+    timeout = 1
+
+    def readline(self, *args):
+        return b'X' * 100
+
+
+def test_a_stream_that_never_sends_a_newline_does_not_fill_the_memory():
+    stream = _NeverANewline()
+    for _ in range(1000):
+        with pytest.raises(azarashi.AzarashiTimeoutError):
+            azarashi.decode_stream(stream, 'nmea')
+    held = stream_state._partial_lines.get(stream.readline)
+    assert sum(map(len, held)) <= stream_state.max_partial_line
+
+
+def test_a_sentence_split_by_timeouts_is_still_completed():
+    # the cap is far above any sentence, so the parts of a real one are never dropped
+    stream = _SerialLike(EEW_LINE[:20], b'', EEW_LINE[20:50], b'', EEW_LINE[50:])
+    for _ in range(2):
+        with pytest.raises(azarashi.AzarashiTimeoutError):
+            azarashi.decode_stream(stream, 'nmea')
+    assert azarashi.decode_stream(stream, 'nmea') == _expected()

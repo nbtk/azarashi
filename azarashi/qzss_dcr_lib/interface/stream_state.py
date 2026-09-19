@@ -109,6 +109,7 @@ def empty_read_error(reader: Callable[..., Any]) -> EOFError:
 
 
 _partial_lines: ReaderStore[list[Any]] = ReaderStore(list)  # the parts of a line, str or bytes as read
+max_partial_line = 1024  # the longest sentence a decoder takes is 76 characters, so this cannot cut a message
 
 
 def read_line(reader: Callable[..., str | bytes],
@@ -122,6 +123,8 @@ def read_line(reader: Callable[..., str | bytes],
         if not line or not complete:
             if line:
                 partial.append(line)
+                if sum(map(len, partial)) > max_partial_line:
+                    partial.clear()  # a stream that never sends a newline must not fill the memory
             raise AzarashiTimeoutError('Timed Out')
     if not line:
         raise EOFError('Encountered EOF')
