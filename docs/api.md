@@ -12,100 +12,12 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
   - `net` は、[receiver](network.md#receiver) が受け取る33バイトのデータグラム形式です。先頭の1バイトが衛星 ID で、残りがメッセージ本体です。
 - `timestamp`: メッセージを受信した時刻です。デフォルトは現在時刻です。メッセージにない年や日付は、この時刻から補います。[記録しておいたメッセージ](cli.md#record-and-replay)をあとからデコードするときに指定してください。タイムゾーンのない datetime は、実行環境のローカル時刻として扱います。
 ### Example
-`decode()` はレポートオブジェクトを返します。レポートオブジェクトを `str()` に渡すと、災害情報を読みやすい文章にして返します。
+`decode()` はレポートオブジェクトを返します。返るクラスとフィールド、デコードした例は [Reports](reports.md) を見てください。
 ```python
 >>> import azarashi
->>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
->>> report = azarashi.decode(msg, 'nmea')
->>> str(report)
-'防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月10日10時0分\n\n震央地名: 日向灘\n地震発生時刻: 10日10時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州'
-```
-そのため、レポートオブジェクトを `print()` に渡すと災害情報を表示できます。
-```python
->>> print(report)
-```
-```
-防災気象情報(緊急地震速報)(発表)(訓練/試験)
-*** これは訓練です ***
-緊急地震速報
-強い揺れに警戒してください。
-
-発表時刻: 3月10日10時0分
-
-震央地名: 日向灘
-地震発生時刻: 10日10時0分
-深さ: 10km
-マグニチュード: 7.2
-震度(下限): 震度6弱
-震度(上限): 〜程度以上
-島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
-```
-レポートオブジェクトのパラメータは、`get_params()` メソッドで辞書として取得できます。時刻のパラメータは、すべて UTC のタイムゾーンが付いた `datetime` です。`str()` が返す文章では、時刻を JST に変換して表示します。
-
-時刻として読めない値が届いたときは、その時刻のパラメータは `None` になります。送られてきた日・時・分は、名前の末尾に `_raw` が付いたパラメータに残ります。例えば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`AzarashiInvalidMessageError` が送出されます。
-```python
->>> from pprint import pprint
->>> pprint(report.get_params())
-```
-```python
-{'assumptive': False,
- 'depth_of_hypocenter': '10km',
- 'depth_of_hypocenter_raw': 10,
- 'disaster_category': '緊急地震速報',
- 'disaster_category_en': 'Earthquake Early Warning',
- 'disaster_category_no': 1,
- 'eew_forecast_regions': ['島根', '岡山', '広島', '山口', '香川', '愛媛',
-                          '高知', '福岡', '佐賀', '長崎', '熊本', '大分',
-                          '宮崎', '鹿児島', '中国', '四国', '九州'],
- 'eew_forecast_regions_raw': [37, 38, 39, 40, 42, 43,
-                              44, 45, 46, 47, 48, 49,
-                              50, 51, 66, 67, 68],
- 'information_type': '発表',
- 'information_type_en': 'Issue',
- 'information_type_no': 0,
- 'long_period_ground_motion_lower_limit': None,
- 'long_period_ground_motion_lower_limit_raw': 0,
- 'long_period_ground_motion_upper_limit': None,
- 'long_period_ground_motion_upper_limit_raw': 0,
- 'magnitude': '7.2',
- 'magnitude_raw': 72,
- 'message': b'\xc6\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00'
-            b'\x03\xdf\xf8\x00\x1c\x00\x00\x11\x85D?\xc0',
- 'message_header': '$QZQSM',
- 'message_type': 'DCR',
- 'nmea': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
- 'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
- 'notifications_on_disaster_prevention_raw': [201],
- 'occurrence_time_of_earthquake': datetime.datetime(2024, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
- 'occurrence_time_of_earthquake_raw': {'day': 10, 'hour': 1, 'minute': 0},
- 'preamble': 'C',
- 'raw': b'\xaf\x89\xa8 \x00\x03$\x00\x00P@\x05H\xc5\xe2\xc0\x00\x00\x00\x03'
-        b'\xdf\xf8\x00\x1c\x00\x00\x10',
- 'report_classification': '訓練/試験',
- 'report_classification_en': 'Training/Test',
- 'report_classification_no': 7,
- 'report_time': datetime.datetime(2024, 3, 10, 1, 0, tzinfo=datetime.timezone.utc),
- 'satellite_id': 55,
- 'satellite_prn': 183,
- 'satellite_svid': None,
- 'seismic_epicenter': '日向灘',
- 'seismic_epicenter_raw': 791,
- 'seismic_intensity_lower_limit': '震度6弱',
- 'seismic_intensity_lower_limit_raw': 8,
- 'seismic_intensity_upper_limit': '〜程度以上',
- 'seismic_intensity_upper_limit_raw': 11,
- 'sentence': '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05',
- 'timestamp': datetime.datetime(2024, 6, 21, 6, 40, 34, 960948, tzinfo=datetime.timezone.utc),
- 'version': 1}
-```
-同じ情報を重複して受信したかどうかは、`==` で比べると判別できます。
-```python
->>> msg2 = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
->>> report2 = azarashi.decode(msg2, 'nmea')
->>> report == report2
-```
-```
-True
+>>> report = azarashi.decode('$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05')
+>>> report.disaster_category, report.magnitude
+('緊急地震速報', '7.2')
 ```
 ## decode_stream()
 ```python

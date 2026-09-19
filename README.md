@@ -72,8 +72,7 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 - [Preparation](https://github.com/nbtk/azarashi/blob/main/docs/preparation.md): u-blox や Sony Spresense に災危通報を出力させる設定
 - [CLI](https://github.com/nbtk/azarashi/blob/main/docs/cli.md): azarashi コマンドのオプション、受信データの記録と再生
 - [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md): `decode()`、`decode_stream()`、例外、型ヒント、プログラムの例
-- [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): レポートオブジェクトのクラスとフィールドの一覧
-  - [DCX Example](https://github.com/nbtk/azarashi/blob/main/docs/dcx.md): DCX メッセージをデコードした例
+- [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): DCR と DCX、それぞれのクラスとフィールドとデコード例
 - [Network](https://github.com/nbtk/azarashi/blob/main/docs/network.md): 受信したデータを UDP で別の装置に送る
 - [Tips](https://github.com/nbtk/azarashi/blob/main/docs/tips.md): 何も表示されないとき、Encountered EOF、SD フィールドの監視
 - [Development](https://github.com/nbtk/azarashi/blob/main/docs/development.md): テストと静的解析の実行方法
