@@ -4,7 +4,7 @@ import io
 import os
 
 import azarashi
-from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
+from azarashi.decoders import NmeaQzssDcrDecoder
 from samples import EEW
 
 TESTS = os.path.dirname(os.path.realpath(__file__))

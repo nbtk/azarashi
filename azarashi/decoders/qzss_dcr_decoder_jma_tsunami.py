@@ -1,12 +1,12 @@
 from datetime import datetime
 
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_tsunami_forecast_region
-from ..definition import qzss_dcr_jma_tsunami_height
-from ..definition import qzss_dcr_jma_tsunami_warning_code
-from ..report import DayHourMinute
-from ..report import QzssDcReportJmaBase
-from ..report import QzssDcReportJmaTsunami
+from ..definitions import qzss_dcr_jma_tsunami_forecast_region
+from ..definitions import qzss_dcr_jma_tsunami_height
+from ..definitions import qzss_dcr_jma_tsunami_warning_code
+from ..reports import DayHourMinute
+from ..reports import QzssDcReportJmaBase
+from ..reports import QzssDcReportJmaTsunami
 
 
 class QzssDcrDecoderJmaTsunami(QzssDcrDecoderJmaCommon):

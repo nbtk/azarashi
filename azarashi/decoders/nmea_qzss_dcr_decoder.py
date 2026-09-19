@@ -1,9 +1,9 @@
-from ..decoder import QzssDcrDecoder
-from ..decoder import QzssDcrDecoderBase
-from ..definition import nmea_qzss_dcr_message_header
-from ..exception import AzarashiInvalidMessageError
-from ..report import QzssDcReport
-from ..report import QzssDcReportBase
+from ..decoders import QzssDcrDecoder
+from ..decoders import QzssDcrDecoderBase
+from ..definitions import nmea_qzss_dcr_message_header
+from ..exceptions import AzarashiInvalidMessageError
+from ..reports import QzssDcReport
+from ..reports import QzssDcReportBase
 
 
 class NmeaQzssDcrDecoder(QzssDcrDecoderBase):

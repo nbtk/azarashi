@@ -1,8 +1,8 @@
 from .qzss_dcr_decoder import QzssDcrDecoder
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from ..exception import AzarashiInvalidMessageError
-from ..report import QzssDcReport
-from ..report import QzssDcReportBase
+from ..exceptions import AzarashiInvalidMessageError
+from ..reports import QzssDcReport
+from ..reports import QzssDcReportBase
 
 
 class NetQzssDcrDecoder(QzssDcrDecoderBase):

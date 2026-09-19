@@ -1,8 +1,8 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_flood_forecast_region
-from ..definition import qzss_dcr_jma_flood_warning_level
-from ..report import QzssDcReportJmaBase
-from ..report import QzssDcReportJmaFlood
+from ..definitions import qzss_dcr_jma_flood_forecast_region
+from ..definitions import qzss_dcr_jma_flood_warning_level
+from ..reports import QzssDcReportJmaBase
+from ..reports import QzssDcReportJmaFlood
 
 
 class QzssDcrDecoderJmaFlood(QzssDcrDecoderJmaCommon):

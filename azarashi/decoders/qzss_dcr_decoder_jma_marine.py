@@ -1,8 +1,8 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_marine_forecast_region
-from ..definition import qzss_dcr_jma_marine_warning_code
-from ..report import QzssDcReportJmaBase
-from ..report import QzssDcReportJmaMarine
+from ..definitions import qzss_dcr_jma_marine_forecast_region
+from ..definitions import qzss_dcr_jma_marine_warning_code
+from ..reports import QzssDcReportJmaBase
+from ..reports import QzssDcReportJmaMarine
 
 
 class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):

@@ -3,13 +3,13 @@ from copy import deepcopy
 from datetime import datetime, timedelta, UTC
 from typing import Any, ClassVar, TypeAlias, TypedDict
 
-from ..definition import qzss_dcr_jma_activity_time_undefined
-from ..definition import qzss_dcr_jma_occurrence_time_of_earthquake_undefined
-from ..definition import qzss_dcr_jma_page_number_and_total_page_undefined
-from ..definition import qzss_dcr_jma_page_numbers
-from ..definition import qzss_dcr_jma_total_pages
-from ..definition import qzss_dcr_jma_typhoon_reference_time_undefined
-from ..exception import AzarashiInvalidMessageError
+from .definitions import qzss_dcr_jma_activity_time_undefined
+from .definitions import qzss_dcr_jma_occurrence_time_of_earthquake_undefined
+from .definitions import qzss_dcr_jma_page_number_and_total_page_undefined
+from .definitions import qzss_dcr_jma_page_numbers
+from .definitions import qzss_dcr_jma_total_pages
+from .definitions import qzss_dcr_jma_typhoon_reference_time_undefined
+from .exceptions import AzarashiInvalidMessageError
 
 
 class Coordinates(TypedDict):

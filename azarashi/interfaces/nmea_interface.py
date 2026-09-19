@@ -3,7 +3,7 @@ from typing import Any
 
 from .stream_state import ReaderStore
 from .stream_state import read_line
-from ..definition import nmea_qzss_dcr_message_header
+from ..definitions import nmea_qzss_dcr_message_header
 
 _pending_sentences: ReaderStore[list[str]] = ReaderStore(list)  # the sentences of a line not handed out yet
 

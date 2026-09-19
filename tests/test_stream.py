@@ -8,7 +8,7 @@ import weakref
 import pytest
 
 import azarashi
-from azarashi.qzss_dcr_lib.interface import decoder_interface
+from azarashi.interfaces import decoder_interface
 from samples import EEW
 from samples import EEW_HEX
 from samples import FRAME

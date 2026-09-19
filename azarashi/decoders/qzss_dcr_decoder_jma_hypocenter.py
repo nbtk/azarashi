@@ -1,7 +1,7 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_hypocenter_magnitude
-from ..report import QzssDcReportJmaBase
-from ..report import QzssDcReportJmaHypocenter
+from ..definitions import qzss_dcr_jma_hypocenter_magnitude
+from ..reports import QzssDcReportJmaBase
+from ..reports import QzssDcReportJmaHypocenter
 
 
 class QzssDcrDecoderJmaHypocenter(QzssDcrDecoderJmaCommon):

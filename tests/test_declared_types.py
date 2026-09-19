@@ -15,8 +15,8 @@ import typing
 import pytest
 
 import azarashi
-from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
-from azarashi.qzss_dcr_lib.report import qzss_dc_report
+from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi import reports as dc_report
 from qzqsm import jma
 from qzqsm import sfrbx
 from test_dcx_fields import B4_FIELDS
@@ -57,7 +57,7 @@ def _messages():
 
 
 def _reports():
-    nankai = qzss_dc_report.QzssDcReportJmaNankaiTroughEarthquake
+    nankai = dc_report.QzssDcReportJmaNankaiTroughEarthquake
     assembly = dict(nankai.reports), nankai.completed, nankai.announcement  # reports is updated in place
     reports = []
     try:
@@ -121,10 +121,10 @@ def _declared(cls):
 
 def test_there_are_reports_of_every_kind():
     kinds = {type(report) for report in REPORTS}
-    concrete = {cls for cls in vars(qzss_dc_report).values()
-                if isinstance(cls, type) and cls.__module__ == qzss_dc_report.__name__
+    concrete = {cls for cls in vars(dc_report).values()
+                if isinstance(cls, type) and cls.__module__ == dc_report.__name__
                 and cls.__name__.startswith(('QzssDcReportJma', 'QzssDcx')) and not cls.__name__.endswith('Base')
-                and cls is not qzss_dc_report.QzssDcxCamf}
+                and cls is not dc_report.QzssDcxCamf}
     assert concrete - kinds == set()
     assert len(REPORTS) > 400
 
@@ -146,14 +146,14 @@ def test_every_declared_attribute_can_be_read():
 
 
 def test_a_null_message_declares_no_alert_field():
-    null = next(r for r in REPORTS if type(r) is qzss_dc_report.QzssDcxNullMsg)
-    alert = _declared(qzss_dc_report.QzssDcxAlertBase).keys() - _declared(type(null)).keys()
+    null = next(r for r in REPORTS if type(r) is dc_report.QzssDcxNullMsg)
+    alert = _declared(dc_report.QzssDcxAlertBase).keys() - _declared(type(null)).keys()
     assert {'a1_message_type', 'a4_hazard_category', 'a12_ellipse_centre_latitude'} <= alert
     assert not any(hasattr(null, name) for name in alert)
 
 
 def test_camf_fields_are_declared_ints():
-    declared = typing.get_type_hints(qzss_dc_report.QzssDcxCamf)
+    declared = typing.get_type_hints(dc_report.QzssDcxCamf)
     seen = set()
     for report in REPORTS:
         camf = getattr(report, 'camf', None)
@@ -165,20 +165,20 @@ def test_camf_fields_are_declared_ints():
 
 def test_only_the_camf_c_and_d_fields_are_optional():
     # the message carries the rest whatever it says, so only these are read under a condition
-    declared = typing.get_type_hints(qzss_dc_report.QzssDcxCamf)
+    declared = typing.get_type_hints(dc_report.QzssDcxCamf)
     optional = {name for name, ann in declared.items() if type(None) in typing.get_args(ann)}
     assert optional == {f'c{i}' for i in range(1, 11)} | {f'd{i}' for i in range(1, 37)}
 
 
 def test_every_declared_camf_field_can_be_read():
     camfs = [report.camf for report in REPORTS if hasattr(report, 'camf')]
-    declared = typing.get_type_hints(qzss_dc_report.QzssDcxCamf)
+    declared = typing.get_type_hints(dc_report.QzssDcxCamf)
     assert camfs and [f'{name}' for camf in camfs for name in declared if not hasattr(camf, name)] == []
 
 
 def test_the_nankai_assembly_state_is_declared():
-    hints = typing.get_type_hints(qzss_dc_report.QzssDcReportJmaNankaiTroughEarthquake)
-    cls = qzss_dc_report.QzssDcReportJmaNankaiTroughEarthquake
+    hints = typing.get_type_hints(dc_report.QzssDcReportJmaNankaiTroughEarthquake)
+    cls = dc_report.QzssDcReportJmaNankaiTroughEarthquake
     for name in ('completed', 'reports', 'announcement'):
         assert typing.get_origin(hints[name]) is typing.ClassVar
         (inner,) = typing.get_args(hints[name])
@@ -186,9 +186,9 @@ def test_the_nankai_assembly_state_is_declared():
 
 
 def test_what_decode_returns_is_a_report():
-    alias = typing.get_args(qzss_dc_report.QzssDcReport)
+    alias = typing.get_args(dc_report.QzssDcReport)
     assert all(isinstance(report, alias) for report in REPORTS)
-    assert isinstance(azarashi.decode(sfrbx(jma(12, TYPHOON)), 'ublox'), qzss_dc_report.QzssDcReport)
+    assert isinstance(azarashi.decode(sfrbx(jma(12, TYPHOON)), 'ublox'), dc_report.QzssDcReport)
 
 
 def _rendered(annotation):
@@ -200,8 +200,8 @@ def _rendered(annotation):
 def test_the_documented_types_are_the_declared_ones():
     # the DCX tables list a hundred fields by hand, and an annotation that changes has to reach them
     declared = {}
-    for cls in vars(qzss_dc_report).values():
-        if isinstance(cls, type) and cls.__module__ == qzss_dc_report.__name__:
+    for cls in vars(dc_report).values():
+        if isinstance(cls, type) and cls.__module__ == dc_report.__name__:
             hints = typing.get_type_hints(cls)
             for field in getattr(cls, '__annotations__', {}):
                 declared.setdefault(field, _rendered(hints[field]))
@@ -215,8 +215,8 @@ def test_the_documented_types_are_the_declared_ones():
 def test_the_check_would_notice_a_wrong_one():
     assert not _fits(256, dict[str, int])
     assert not _fits([1, None], list[int])
-    assert not _fits({'day': 1, 'hour': 2}, qzss_dc_report.DayHourMinute)
+    assert not _fits({'day': 1, 'hour': 2}, dc_report.DayHourMinute)
     assert not _fits(True, int)
     assert not _fits('7.2', float)
     assert _fits(7, float)
-    assert _fits({'day': 1, 'hour': 2, 'minute': 3}, qzss_dc_report.DayHourMinute)
+    assert _fits({'day': 1, 'hour': 2, 'minute': 3}, dc_report.DayHourMinute)

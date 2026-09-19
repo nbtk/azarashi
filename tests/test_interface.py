@@ -4,11 +4,11 @@ import io
 import pytest
 
 import azarashi
-from azarashi.qzss_dcr_lib.interface import hex_qzss_dcr_message_extractor
-from azarashi.qzss_dcr_lib.interface import nmea_qzss_dcr_message_extractor
-from azarashi.qzss_dcr_lib.interface import ublox_qzss_dcr_message_extractor
-from azarashi.qzss_dcr_lib.interface.stream_state import ReaderStore
-from azarashi.qzss_dcr_lib.interface.stream_state import StreamKeyedDict
+from azarashi.interfaces import hex_qzss_dcr_message_extractor
+from azarashi.interfaces import nmea_qzss_dcr_message_extractor
+from azarashi.interfaces import ublox_qzss_dcr_message_extractor
+from azarashi.interfaces.stream_state import ReaderStore
+from azarashi.interfaces.stream_state import StreamKeyedDict
 from qzqsm import hex_message
 from qzqsm import sfrbx
 from qzqsm import ubx
@@ -44,7 +44,7 @@ def test_decode_unknown_message_type():
 
 @pytest.mark.parametrize('decoder', ['HexQzssDcrDecoder', 'NetQzssDcrDecoder', 'NmeaQzssDcrDecoder'])
 def test_decoders_take_nothing_as_eof(decoder):
-    from azarashi.qzss_dcr_lib import decoder as decoders
+    from azarashi import decoders
     with pytest.raises(EOFError):
         getattr(decoders, decoder)('').decode()
 

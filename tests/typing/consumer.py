@@ -8,6 +8,7 @@ import io
 
 import azarashi
 from azarashi import qzss_dc_report
+from azarashi import reports
 from azarashi.network.receiver import Receiver
 from azarashi.network.transmitter import Transmitter
 
@@ -16,27 +17,27 @@ received: datetime.datetime = report.timestamp
 kind: str = report.message_type
 message: bytes = report.message
 
-if isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):
+if isinstance(report, reports.QzssDcReportJmaTsunami):
     for arrival, raw, what in zip(report.expected_tsunami_arrival_times, report.expected_tsunami_arrival_times_raw,
                                   report.expected_tsunami_arrival_time_types, strict=True):
         when: datetime.datetime | None = arrival
         hour: int = raw['hour']
         text: str = what
-elif isinstance(report, qzss_dc_report.QzssDcReportJmaHypocenter):
+elif isinstance(report, reports.QzssDcReportJmaHypocenter):
     position: str = report.coordinates_of_hypocenter
     occurred: datetime.datetime | None = report.occurrence_time_of_earthquake
     occurred_day: int = report.occurrence_time_of_earthquake_raw['day']
     degrees: int = report.coordinates_of_hypocenter_raw['lat_d']
     issued: str = report.get_report_time_str()
-elif isinstance(report, qzss_dc_report.QzssDcReportJmaVolcano):
+elif isinstance(report, reports.QzssDcReportJmaVolcano):
     observed: datetime.datetime | None = report.activity_time
-elif isinstance(report, qzss_dc_report.QzssDcxAlertBase):
+elif isinstance(report, reports.QzssDcxAlertBase):
     onset: datetime.datetime | None = report.a6a7_hazard_onset_datetime
     category: str = report.a4_hazard_category  # always set on an alert
     areas: list[str] | None = report.ex9_target_area_list
     hazard: int = report.camf.a4
     latitude: float | None = report.a12_ellipse_centre_latitude
-elif isinstance(report, qzss_dc_report.QzssDcxNullMsg):  # an alert field here is a type error
+elif isinstance(report, qzss_dc_report.QzssDcxNullMsg):  # the earlier module name; an alert field here is a type error
     null_kind: str = report.dcx_message_type
 
 

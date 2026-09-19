@@ -8,10 +8,10 @@ import warnings
 
 import pytest
 
-from azarashi.qzss_dcr_lib import decoder
-from azarashi.qzss_dcr_lib import definition
-from azarashi.qzss_dcr_lib.definition.qzss_dcr_definition import QzssDcrDefinition
-from azarashi.qzss_dcr_lib.definition.qzss_dcx_message_type import DcxMessageType
+from azarashi import decoders
+from azarashi import definitions
+from azarashi.definitions.qzss_dcr_definition import QzssDcrDefinition
+from azarashi.definitions.qzss_dcx_message_type import DcxMessageType
 
 
 def _prefecture(code):
@@ -69,8 +69,8 @@ def test_consistent_settings_do_not_warn():
 
 
 def _tables():
-    for module_info in pkgutil.iter_modules(definition.__path__):
-        module = importlib.import_module(f'{definition.__name__}.{module_info.name}')
+    for module_info in pkgutil.iter_modules(definitions.__path__):
+        module = importlib.import_module(f'{definitions.__name__}.{module_info.name}')
         for name, value in vars(module).items():
             if isinstance(value, QzssDcrDefinition):
                 yield f'{module_info.name}.{name}', value
@@ -115,10 +115,10 @@ def test_undefined_codes_are_named(name):
 def _tables_of(node):
     return {sub.value.id for sub in ast.walk(node)
             if isinstance(sub, ast.Subscript) and isinstance(sub.value, ast.Name)
-            and isinstance(getattr(definition, sub.value.id, None), QzssDcrDefinition)}
+            and isinstance(getattr(definitions, sub.value.id, None), QzssDcrDefinition)}
 
 
-@pytest.mark.parametrize('path', sorted(pathlib.Path(decoder.__path__[0]).glob('*.py')), ids=lambda p: p.name)
+@pytest.mark.parametrize('path', sorted(pathlib.Path(decoders.__path__[0]).glob('*.py')), ids=lambda p: p.name)
 def test_a_lookup_is_guarded_only_where_the_table_can_fail(path):
     tree = ast.parse(path.read_text(encoding='utf-8'))
     guarded = set()
@@ -129,7 +129,7 @@ def test_a_lookup_is_guarded_only_where_the_table_can_fail(path):
                 guarded |= _tables_of(statement)
 
     for name in _tables_of(tree):
-        can_fail = getattr(definition, name).undefined is None
+        can_fail = getattr(definitions, name).undefined is None
         assert (name in guarded) is can_fail, name
 
 

@@ -3,7 +3,7 @@ import weakref
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar, cast
 
-from ..exception import AzarashiTimeoutError
+from ..exceptions import AzarashiTimeoutError
 
 _T = TypeVar('_T')
 

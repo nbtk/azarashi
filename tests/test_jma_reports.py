@@ -5,8 +5,8 @@ from datetime import datetime
 import pytest
 
 import azarashi
-from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
-from azarashi.qzss_dcr_lib.report.qzss_dc_report import QzssDcReportJmaNankaiTroughEarthquake as Nankai
+from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.reports import QzssDcReportJmaNankaiTroughEarthquake as Nankai
 from qzqsm import jma
 
 RECEIVED = datetime(2026, 3, 7, 6, 0, tzinfo=UTC)  # the crafted reports are issued at 05:10 UTC on March 7th

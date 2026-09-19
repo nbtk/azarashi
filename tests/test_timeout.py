@@ -6,7 +6,7 @@ import pytest
 import serial
 
 import azarashi
-from azarashi.qzss_dcr_lib.interface import stream_state
+from azarashi.interfaces import stream_state
 from samples import EEW
 from samples import EEW_HEX
 from samples import FRAME

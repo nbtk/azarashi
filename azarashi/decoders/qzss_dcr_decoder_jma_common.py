@@ -4,24 +4,24 @@ from datetime import timedelta
 from datetime import UTC
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from ..definition import qzss_dcr_jma_days
-from ..definition import qzss_dcr_jma_depth_of_hypocenter
-from ..definition import qzss_dcr_jma_epicenter_and_hypocenter
-from ..definition import qzss_dcr_jma_expected_tsunami_arrival_time_undefined
-from ..definition import qzss_dcr_jma_expected_tsunami_arrival_time_undefined_en
-from ..definition import qzss_dcr_jma_hours
-from ..definition import qzss_dcr_jma_latitude_and_longitude_minutes
-from ..definition import qzss_dcr_jma_latitude_and_longitude_seconds
-from ..definition import qzss_dcr_jma_latitude_and_longitude_undefined
-from ..definition import qzss_dcr_jma_latitude_degrees
-from ..definition import qzss_dcr_jma_local_government
-from ..definition import qzss_dcr_jma_longitude_degrees
-from ..definition import qzss_dcr_jma_minutes
-from ..definition import qzss_dcr_jma_notification_on_disaster_prevention
-from ..definition.qzss_dcr_definition import QzssDcrDefinition
-from ..report import Coordinates
-from ..report import DayHourMinute
-from ..report import QzssDcReportJmaBase
+from ..definitions import qzss_dcr_jma_days
+from ..definitions import qzss_dcr_jma_depth_of_hypocenter
+from ..definitions import qzss_dcr_jma_epicenter_and_hypocenter
+from ..definitions import qzss_dcr_jma_expected_tsunami_arrival_time_undefined
+from ..definitions import qzss_dcr_jma_expected_tsunami_arrival_time_undefined_en
+from ..definitions import qzss_dcr_jma_hours
+from ..definitions import qzss_dcr_jma_latitude_and_longitude_minutes
+from ..definitions import qzss_dcr_jma_latitude_and_longitude_seconds
+from ..definitions import qzss_dcr_jma_latitude_and_longitude_undefined
+from ..definitions import qzss_dcr_jma_latitude_degrees
+from ..definitions import qzss_dcr_jma_local_government
+from ..definitions import qzss_dcr_jma_longitude_degrees
+from ..definitions import qzss_dcr_jma_minutes
+from ..definitions import qzss_dcr_jma_notification_on_disaster_prevention
+from ..definitions.qzss_dcr_definition import QzssDcrDefinition
+from ..reports import Coordinates
+from ..reports import DayHourMinute
+from ..reports import QzssDcReportJmaBase
 
 
 class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):

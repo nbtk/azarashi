@@ -150,11 +150,12 @@ azarashi が定義する例外は、すべてこのクラスを継承してい�
 `EOFError` を継承した例外クラスです。pySerial などで `timeout` を指定して開いたストリームから、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。`EOFError` と区別するときは、`EOFError` より先に捕捉してください。
 
 このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。プログラムの例は [Timeout](#timeout) にあります。
-## 以前の例外名
-次の名前も使えます。それぞれ右の名前と同じクラスです。以前から使っているコードは、書き換えなくてもそのまま動きます。
+## 以前の名前
+次の名前も使えます。それぞれ右の名前と同じものです。以前から使っているコードは、書き換えなくてもそのまま動きます。
 
 | 以前の名前 | 今の名前 |
 | --- | --- |
+| `azarashi.qzss_dc_report` | `azarashi.reports` |
 | `QzssDcrDecoderException` | `AzarashiInvalidMessageError` |
 | `QzssDcrDecoderNotImplementedError` | `AzarashiNotImplementedError` |
 | `QzssDcrDecoderTimeoutError` | `AzarashiTimeoutError` |
@@ -173,14 +174,14 @@ azarashi は型ヒント付きで配布しています。mypy や pyright を使
 災害の種類ごとのフィールドを参照するときは、先に `isinstance()` でレポートのクラスを確かめてください。
 ```python
 import azarashi
-from azarashi import qzss_dc_report
+from azarashi import reports
 
 
 def handler(report: azarashi.QzssDcReport) -> None:
-    if isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):
+    if isinstance(report, reports.QzssDcReportJmaTsunami):
         for arrival in report.expected_tsunami_arrival_times:  # datetime | None
             print(arrival)
-    elif isinstance(report, qzss_dc_report.QzssDcxAlertBase):
+    elif isinstance(report, reports.QzssDcxAlertBase):
         print(report.a6a7_hazard_onset_datetime)  # datetime | None
 ```
 DCX のレポートには、メッセージの種類や内容によって設定されないフィールドがあります。例えば `a12_ellipse_centre_latitude` は、楕円の情報を持たないメッセージでは `None` になります。型も `float | None` と宣言してあるので、型検査が `None` の確認を促します。A1 から A10 までと `dcx_version` は必ず設定されるので `None` になりません。

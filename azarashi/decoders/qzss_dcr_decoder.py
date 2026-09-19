@@ -1,11 +1,11 @@
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
 from .qzss_dcr_decoder_jma import QzssDcrDecoderJma
 from .qzss_dcx_decoder import QzssDcxDecoder
-from ..definition import qzss_dcr_message_type
-from ..definition import qzss_dcr_preamble
-from ..exception import AzarashiInvalidMessageError
-from ..report import QzssDcReport
-from ..report import QzssDcReportMessagePartial
+from ..definitions import qzss_dcr_message_type
+from ..definitions import qzss_dcr_preamble
+from ..exceptions import AzarashiInvalidMessageError
+from ..reports import QzssDcReport
+from ..reports import QzssDcReportMessagePartial
 
 
 class QzssDcrDecoder(QzssDcrDecoderBase):

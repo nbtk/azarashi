@@ -3,14 +3,14 @@ from datetime import datetime
 from datetime import UTC
 
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_days
-from ..definition import qzss_dcr_jma_hours
-from ..definition import qzss_dcr_jma_minutes
-from ..definition import qzss_dcr_jma_volcanic_warning_code
-from ..definition import qzss_dcr_jma_volcano_name
-from ..report import DayHourMinute
-from ..report import QzssDcReportJmaBase
-from ..report import QzssDcReportJmaVolcano
+from ..definitions import qzss_dcr_jma_days
+from ..definitions import qzss_dcr_jma_hours
+from ..definitions import qzss_dcr_jma_minutes
+from ..definitions import qzss_dcr_jma_volcanic_warning_code
+from ..definitions import qzss_dcr_jma_volcano_name
+from ..reports import DayHourMinute
+from ..reports import QzssDcReportJmaBase
+from ..reports import QzssDcReportJmaVolcano
 
 
 class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):

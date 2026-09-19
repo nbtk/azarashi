@@ -7,12 +7,12 @@ from .nmea_interface import nmea_qzss_dcr_message_extractor
 from .stream_state import StreamKeyedDict
 from .stream_state import stream_lock
 from .ublox_interface import ublox_qzss_dcr_message_extractor
-from ..decoder import HexQzssDcrDecoder
-from ..decoder import NetQzssDcrDecoder
-from ..decoder import NmeaQzssDcrDecoder
-from ..decoder import UBloxQzssDcrDecoder
-from ..exception import AzarashiInvalidMessageError
-from ..report import QzssDcReport
+from ..decoders import HexQzssDcrDecoder
+from ..decoders import NetQzssDcrDecoder
+from ..decoders import NmeaQzssDcrDecoder
+from ..decoders import UBloxQzssDcrDecoder
+from ..exceptions import AzarashiInvalidMessageError
+from ..reports import QzssDcReport
 
 #: the forms a message can arrive in; 'spresense' is another name for 'nmea'
 MessageFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox', 'net']

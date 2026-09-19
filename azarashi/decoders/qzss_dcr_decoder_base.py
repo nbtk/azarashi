@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import Any, ClassVar
 
-from ..definition import nmea_qzss_dcr_message_header
-from ..exception import AzarashiNotImplementedError
-from ..report import QzssDcReport
-from ..report import QzssDcReportBase
+from ..definitions import nmea_qzss_dcr_message_header
+from ..exceptions import AzarashiNotImplementedError
+from ..reports import QzssDcReport
+from ..reports import QzssDcReportBase
 
 
 class QzssDcrDecoderBase:

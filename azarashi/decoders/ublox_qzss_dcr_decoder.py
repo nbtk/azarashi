@@ -1,10 +1,10 @@
-from ..decoder import QzssDcrDecoder
-from ..decoder import QzssDcrDecoderBase
-from ..definition import ublox_qzss_dcr_message_header
-from ..definition import ublox_qzss_svid_prn_map
-from ..exception import AzarashiInvalidMessageError
-from ..report import QzssDcReport
-from ..report import QzssDcReportBase
+from ..decoders import QzssDcrDecoder
+from ..decoders import QzssDcrDecoderBase
+from ..definitions import ublox_qzss_dcr_message_header
+from ..definitions import ublox_qzss_svid_prn_map
+from ..exceptions import AzarashiInvalidMessageError
+from ..reports import QzssDcReport
+from ..reports import QzssDcReportBase
 
 
 class UBloxQzssDcrDecoder(QzssDcrDecoderBase):

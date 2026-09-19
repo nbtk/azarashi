@@ -10,11 +10,11 @@ import serial
 from .log import configure_logging
 from ..input_stream import RecordingStream
 from ..input_stream import open_input
-from ..qzss_dcr_lib.exception import AzarashiDecodeError
-from ..qzss_dcr_lib.interface import MessageFormat
-from ..qzss_dcr_lib.interface import QzssDcrStream
-from ..qzss_dcr_lib.interface import decode_stream
-from ..qzss_dcr_lib.report import QzssDcReport
+from ..exceptions import AzarashiDecodeError
+from ..interfaces import MessageFormat
+from ..interfaces import QzssDcrStream
+from ..interfaces import decode_stream
+from ..reports import QzssDcReport
 
 logger = logging.getLogger(__name__)
 

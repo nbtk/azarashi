@@ -1,14 +1,14 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_typhoon_central_pressure
-from ..definition import qzss_dcr_jma_typhoon_elapsed_time_from_reference_time
-from ..definition import qzss_dcr_jma_typhoon_intensity_category
-from ..definition import qzss_dcr_jma_typhoon_maximum_gust_wind_speed
-from ..definition import qzss_dcr_jma_typhoon_maximum_wind_speed
-from ..definition import qzss_dcr_jma_typhoon_number
-from ..definition import qzss_dcr_jma_typhoon_reference_time_type
-from ..definition import qzss_dcr_jma_typhoon_scale_category
-from ..report import QzssDcReportJmaBase
-from ..report import QzssDcReportJmaTyphoon
+from ..definitions import qzss_dcr_jma_typhoon_central_pressure
+from ..definitions import qzss_dcr_jma_typhoon_elapsed_time_from_reference_time
+from ..definitions import qzss_dcr_jma_typhoon_intensity_category
+from ..definitions import qzss_dcr_jma_typhoon_maximum_gust_wind_speed
+from ..definitions import qzss_dcr_jma_typhoon_maximum_wind_speed
+from ..definitions import qzss_dcr_jma_typhoon_number
+from ..definitions import qzss_dcr_jma_typhoon_reference_time_type
+from ..definitions import qzss_dcr_jma_typhoon_scale_category
+from ..reports import QzssDcReportJmaBase
+from ..reports import QzssDcReportJmaTyphoon
 
 
 class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):

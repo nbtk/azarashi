@@ -4,16 +4,18 @@ import os
 import pathlib
 
 import azarashi
-from azarashi.qzss_dcr_lib.exception import qzss_dcr_exception
+from azarashi import exceptions
 
 ROOT = pathlib.Path(os.path.dirname(os.path.realpath(__file__))).parent
 
 
 def test_every_public_name_is_declared():
     # with py.typed, mypy takes a name imported into __init__.py as private unless __all__ lists it
+    modules = {'reports', 'qzss_dc_report'}  # the two names of the one module the package hands out
     public = {name for name in dir(azarashi)
-              if not name.startswith('_') and not (inspect.ismodule(getattr(azarashi, name)) and name != 'qzss_dc_report')}
+              if not name.startswith('_') and not (inspect.ismodule(getattr(azarashi, name)) and name not in modules)}
     assert public - set(azarashi.__all__) == set()
+    assert modules <= public  # a module dropped from __init__.py would otherwise go unnoticed
 
 
 def test_every_declared_name_exists():
@@ -21,9 +23,9 @@ def test_every_declared_name_exists():
 
 
 def test_every_exception_is_exported():
-    exceptions = {name for name, cls in vars(qzss_dcr_exception).items()
-                  if isinstance(cls, type) and issubclass(cls, BaseException) and cls.__module__ == qzss_dcr_exception.__name__}
-    assert exceptions and exceptions <= set(azarashi.__all__)
+    defined = {name for name, cls in vars(exceptions).items()
+               if isinstance(cls, type) and issubclass(cls, BaseException) and cls.__module__ == exceptions.__name__}
+    assert defined and defined <= set(azarashi.__all__)
 
 
 def test_the_typing_marker_is_there_and_ships():

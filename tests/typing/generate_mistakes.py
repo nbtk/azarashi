@@ -19,7 +19,7 @@ import typing
 import azarashi
 from azarashi.network.receiver import Receiver
 from azarashi.network.transmitter import Transmitter
-from azarashi.qzss_dcr_lib.report import qzss_dc_report
+from azarashi import reports as dc_report
 
 #: what contradiction() answers -> a literal of that type
 ARG_VALUE = {'str': "'not the right type'", 'int': '123', 'bytes': "b'\\x00'"}
@@ -111,13 +111,13 @@ def methods(cls):
 
 
 def report_classes():
-    for name, cls in sorted(vars(qzss_dc_report).items()):
-        if isinstance(cls, type) and cls.__module__ == qzss_dc_report.__name__ and not typing.is_typeddict(cls):
+    for name, cls in sorted(vars(dc_report).items()):
+        if isinstance(cls, type) and cls.__module__ == dc_report.__name__ and not typing.is_typeddict(cls):
             yield name, cls
 
 
 out = ['"""Generated: every public function and method used wrongly, one line each."""',
-       'import datetime', '', 'import azarashi', 'from azarashi import qzss_dc_report',
+       'import datetime', '', 'import azarashi', 'from azarashi import reports',
        'from azarashi.network.receiver import Receiver', 'from azarashi.network.transmitter import Transmitter', '']
 skipped: list[str] = []
 body: list[str] = []
@@ -128,7 +128,7 @@ for function in (azarashi.decode, azarashi.decode_stream):
 params = []
 for name, cls in report_classes():
     var = 'r_%s' % name
-    params.append('%s: qzss_dc_report.%s' % (var, name))
+    params.append('%s: reports.%s' % (var, name))
     for method, sig in methods(cls):
         if method == '__init__':
             continue                   # built by the decoders, not by a caller

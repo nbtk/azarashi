@@ -11,7 +11,7 @@ import locale
 import pytest
 
 import azarashi
-from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
+from azarashi.decoders import NmeaQzssDcrDecoder
 from qzqsm import with_fields
 
 UTC = datetime.UTC

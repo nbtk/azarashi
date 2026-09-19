@@ -4,8 +4,8 @@ from typing import Any
 
 from .stream_state import ReaderStore
 from .stream_state import empty_read_error
-from ..definition import qzss_dcr_message_type
-from ..definition import ublox_qzss_dcr_message_header
+from ..definitions import qzss_dcr_message_type
+from ..definitions import ublox_qzss_dcr_message_header
 
 buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per reader, released with the stream
 

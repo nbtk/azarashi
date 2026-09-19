@@ -4,8 +4,8 @@ import random
 import pytest
 
 import azarashi
-from azarashi.qzss_dcr_lib.decoder import QzssDcrDecoderBase
-from azarashi.qzss_dcr_lib.report import QzssDcReportBase
+from azarashi.decoders import QzssDcrDecoderBase
+from azarashi.reports import QzssDcReportBase
 from qzqsm import nmea_checksum
 from qzqsm import sentence
 from qzqsm import sfrbx

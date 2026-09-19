@@ -1,7 +1,7 @@
 """Behaviour shared by every report: equality, hashing, parameters and the fallbacks of the base classes."""
 import azarashi
-from azarashi.qzss_dcr_lib.report import QzssDcReportBase
-from azarashi.qzss_dcr_lib.report import QzssDcReportMessagePartial
+from azarashi.reports import QzssDcReportBase
+from azarashi.reports import QzssDcReportMessagePartial
 from qzqsm import with_fields
 from samples import EEW
 from samples import L_ALERT

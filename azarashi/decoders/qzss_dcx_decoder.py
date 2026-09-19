@@ -2,26 +2,26 @@ import datetime
 import math
 
 from .qzss_dcr_decoder_base import QzssDcrDecoderBase
-from ..definition import qzss_dcx_camf_a10_library_version
-from ..definition import qzss_dcx_camf_a11_international_library
-from ..definition import qzss_dcx_camf_a11_international_library_code
-from ..definition import qzss_dcx_camf_a11_japanese_library_en
-from ..definition import qzss_dcx_camf_a11_japanese_library_ja
-from ..definition import qzss_dcx_camf_a17_type_of_specific_settings
-from ..definition import qzss_dcx_camf_a1_message_type
-from ..definition import qzss_dcx_camf_a2_country_region_name
-from ..definition import qzss_dcx_camf_a3_provider_identifier_map
-from ..definition import qzss_dcx_camf_a3_provider_identifier_undefined
-from ..definition import qzss_dcx_camf_a4_hazard_category
-from ..definition import qzss_dcx_camf_a4_hazard_definition
-from ..definition import qzss_dcx_camf_a4_hazard_type
-from ..definition import qzss_dcx_camf_a5_severity
-from ..definition import qzss_dcx_camf_a6_hazard_onset_week
-from ..definition import qzss_dcx_camf_a8_hazard_duration
-from ..definition import qzss_dcx_camf_a9_type_of_library
-from ..definition import qzss_dcx_camf_c10_instruction_library_for_second_ellipse
-from ..definition import qzss_dcx_camf_c10_instruction_library_for_second_ellipse_code
-from ..definition.qzss_dcx_camf_b4_lower_level_fields_tables import (
+from ..definitions import qzss_dcx_camf_a10_library_version
+from ..definitions import qzss_dcx_camf_a11_international_library
+from ..definitions import qzss_dcx_camf_a11_international_library_code
+from ..definitions import qzss_dcx_camf_a11_japanese_library_en
+from ..definitions import qzss_dcx_camf_a11_japanese_library_ja
+from ..definitions import qzss_dcx_camf_a17_type_of_specific_settings
+from ..definitions import qzss_dcx_camf_a1_message_type
+from ..definitions import qzss_dcx_camf_a2_country_region_name
+from ..definitions import qzss_dcx_camf_a3_provider_identifier_map
+from ..definitions import qzss_dcx_camf_a3_provider_identifier_undefined
+from ..definitions import qzss_dcx_camf_a4_hazard_category
+from ..definitions import qzss_dcx_camf_a4_hazard_definition
+from ..definitions import qzss_dcx_camf_a4_hazard_type
+from ..definitions import qzss_dcx_camf_a5_severity
+from ..definitions import qzss_dcx_camf_a6_hazard_onset_week
+from ..definitions import qzss_dcx_camf_a8_hazard_duration
+from ..definitions import qzss_dcx_camf_a9_type_of_library
+from ..definitions import qzss_dcx_camf_c10_instruction_library_for_second_ellipse
+from ..definitions import qzss_dcx_camf_c10_instruction_library_for_second_ellipse_code
+from ..definitions.qzss_dcx_camf_b4_lower_level_fields_tables import (
     qzss_dcx_camf_d1_magnitude_on_richter_scale,
     qzss_dcx_camf_d2_seismic_coefficient,
     qzss_dcx_camf_d3_azimuth_from_centre_of_main_ellipse_to_epicentre,
@@ -59,13 +59,13 @@ from ..definition.qzss_dcx_camf_b4_lower_level_fields_tables import (
     qzss_dcx_camf_d35_infection_type,
     qzss_dcx_camf_d36_typhoon_category,
 )
-from ..definition.qzss_dcx_camf_ex1_target_area_code import qzss_dcx_ex1_target_area_code_en
-from ..definition.qzss_dcx_camf_ex1_target_area_code import qzss_dcx_ex1_target_area_code_ja
-from ..definition.qzss_dcx_camf_ex9_target_area_code import qzss_dcx_camf_ex9_target_area_code_en
-from ..definition.qzss_dcx_camf_ex9_target_area_code import qzss_dcx_camf_ex9_target_area_code_ja
-from ..definition.qzss_dcx_message_type import DcxMessageType
-from ..definition.qzss_dcx_message_type import qzss_dcx_message_type
-from ..report import QzssDcReportMessageBase, QzssDcxNullMsg, QzssDcxOutsideJapan, QzssDcxLAlert, QzssDcxJAlert, \
+from ..definitions.qzss_dcx_camf_ex1_target_area_code import qzss_dcx_ex1_target_area_code_en
+from ..definitions.qzss_dcx_camf_ex1_target_area_code import qzss_dcx_ex1_target_area_code_ja
+from ..definitions.qzss_dcx_camf_ex9_target_area_code import qzss_dcx_camf_ex9_target_area_code_en
+from ..definitions.qzss_dcx_camf_ex9_target_area_code import qzss_dcx_camf_ex9_target_area_code_ja
+from ..definitions.qzss_dcx_message_type import DcxMessageType
+from ..definitions.qzss_dcx_message_type import qzss_dcx_message_type
+from ..reports import QzssDcReportMessageBase, QzssDcxNullMsg, QzssDcxOutsideJapan, QzssDcxLAlert, QzssDcxJAlert, \
     QzssDcxMTInfo, QzssDcxUnknown, QzssDcXtendedMessageBase, QzssDcxCamf
 
 _WEEKDAYS = ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY')

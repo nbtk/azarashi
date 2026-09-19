@@ -1,9 +1,9 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_weather_forecast_region
-from ..definition import qzss_dcr_jma_weather_related_disaster_sub_category
-from ..definition import qzss_dcr_jma_weather_warning_state
-from ..report import QzssDcReportJmaBase
-from ..report import QzssDcReportJmaWeather
+from ..definitions import qzss_dcr_jma_weather_forecast_region
+from ..definitions import qzss_dcr_jma_weather_related_disaster_sub_category
+from ..definitions import qzss_dcr_jma_weather_warning_state
+from ..reports import QzssDcReportJmaBase
+from ..reports import QzssDcReportJmaWeather
 
 
 class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):

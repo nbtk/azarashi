@@ -1,10 +1,10 @@
 from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
-from ..definition import qzss_dcr_jma_ash_fall_warning_code
-from ..definition import qzss_dcr_jma_ash_fall_warning_type
-from ..definition import qzss_dcr_jma_expected_ash_fall_time
-from ..definition import qzss_dcr_jma_volcano_name
-from ..report import QzssDcReportJmaAshFall
-from ..report import QzssDcReportJmaBase
+from ..definitions import qzss_dcr_jma_ash_fall_warning_code
+from ..definitions import qzss_dcr_jma_ash_fall_warning_type
+from ..definitions import qzss_dcr_jma_expected_ash_fall_time
+from ..definitions import qzss_dcr_jma_volcano_name
+from ..reports import QzssDcReportJmaAshFall
+from ..reports import QzssDcReportJmaBase
 
 
 class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):

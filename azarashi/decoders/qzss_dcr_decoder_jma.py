@@ -16,15 +16,15 @@ from .qzss_dcr_decoder_jma_tsunami import QzssDcrDecoderJmaTsunami
 from .qzss_dcr_decoder_jma_typhoon import QzssDcrDecoderJmaTyphoon
 from .qzss_dcr_decoder_jma_volcano import QzssDcrDecoderJmaVolcano
 from .qzss_dcr_decoder_jma_weather import QzssDcrDecoderJmaWeather
-from ..definition import qzss_dcr_jma_report_classification
-from ..definition import qzss_dcr_jma_report_classification_en
-from ..definition import qzss_dcr_jma_disaster_category
-from ..definition import qzss_dcr_jma_disaster_category_en
-from ..definition import qzss_dcr_jma_information_type
-from ..definition import qzss_dcr_jma_information_type_en
-from ..exception import AzarashiInvalidMessageError
-from ..report import QzssDcReport
-from ..report import QzssDcReportMessageBase
+from ..definitions import qzss_dcr_jma_report_classification
+from ..definitions import qzss_dcr_jma_report_classification_en
+from ..definitions import qzss_dcr_jma_disaster_category
+from ..definitions import qzss_dcr_jma_disaster_category_en
+from ..definitions import qzss_dcr_jma_information_type
+from ..definitions import qzss_dcr_jma_information_type_en
+from ..exceptions import AzarashiInvalidMessageError
+from ..reports import QzssDcReport
+from ..reports import QzssDcReportMessageBase
 
 
 class QzssDcrDecoderJma(QzssDcrDecoderBase):

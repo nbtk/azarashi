@@ -9,10 +9,10 @@ from pprint import pformat
 from typing import Any
 
 from .log import configure_logging
-from ..qzss_dcr_lib.exception import AzarashiDecodeError
-from ..qzss_dcr_lib.exception import AzarashiInvalidMessageError
-from ..qzss_dcr_lib.interface import decode
-from ..qzss_dcr_lib.report import QzssDcReport
+from ..exceptions import AzarashiDecodeError
+from ..exceptions import AzarashiInvalidMessageError
+from ..interfaces import decode
+from ..reports import QzssDcReport
 
 logger = logging.getLogger(__name__)
 

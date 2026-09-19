@@ -11,8 +11,8 @@ from pprint import pformat
 import pytest
 
 import azarashi
-from azarashi.qzss_dcr_lib.decoder import NmeaQzssDcrDecoder
-from azarashi.qzss_dcr_lib.report.qzss_dc_report import QzssDcReportJmaNankaiTroughEarthquake as Nankai
+from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.reports import QzssDcReportJmaNankaiTroughEarthquake as Nankai
 
 _CONTROLS = {c: f'\\x{c:02x}' for c in [*range(0x00, 0x09), *range(0x0b, 0x20), *range(0x7f, 0xa0)]}  # readable diffs
 TESTS = os.path.dirname(os.path.realpath(__file__))
