@@ -4,6 +4,7 @@ import os
 import pytest
 
 import azarashi
+from azarashi.qzss_dcr_lib.report import qzss_dc_report
 from azarashi.qzss_dcr_lib.report.qzss_dc_report import QzssDcReportJmaNankaiTroughEarthquake as Nankai
 from qzqsm import with_fields
 
@@ -132,3 +133,41 @@ def test_page_that_cannot_be_placed_does_not_break_the_assembly(page, total):
     report = azarashi.decode(a[27])
     assert report.completed is True
     assert report.extract_text_information().startswith('南海トラフ沿いのプレート境界で')
+
+
+class _WatchingTheLock(dict):
+    """Records whether the assembly lock was held each time the pages were touched."""
+
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.held = []
+
+    def _note(self):
+        self.held.append(qzss_dc_report._assembly_lock.locked())
+
+    def __getitem__(self, key):
+        self._note()
+        return super().__getitem__(key)
+
+    def update(self, *args, **kwargs):
+        self._note()
+        return super().update(*args, **kwargs)
+
+
+def test_the_pages_are_read_under_the_lock(monkeypatch):
+    # another thread starting a newer announcement empties the pages, and a report renders its text
+    # from a callback, which decode_stream runs outside its own lock
+    a = _announcement_a()
+    for number in sorted(a):
+        report = azarashi.decode(a[number])
+    watched = _WatchingTheLock(Nankai.reports)
+    monkeypatch.setattr(Nankai, 'reports', watched)
+    assert report.extract_text_information().startswith('南海トラフ沿いのプレート境界で')
+    assert watched.held == [True] * 27
+
+
+def test_a_page_is_placed_under_the_lock(monkeypatch):
+    watched = _WatchingTheLock()
+    monkeypatch.setattr(Nankai, 'reports', watched)
+    azarashi.decode(_announcement_a()[1])
+    assert watched.held == [True]

@@ -1,3 +1,4 @@
+import threading
 from copy import deepcopy
 from datetime import datetime, timedelta, UTC
 from typing import Any, ClassVar, TypeAlias, TypedDict
@@ -438,6 +439,11 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
         return report
 
 
+#: The pages of an announcement are assembled in the class, which every stream and every thread shares,
+#: and a report renders its text outside the lock that decoding holds, so both ends take this one.
+_assembly_lock = threading.Lock()
+
+
 class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
     completed: ClassVar[bool] = False
     reports: ClassVar[dict[int, 'QzssDcReportJmaNankaiTroughEarthquake']] = {}  # page number -> page of the announcement being assembled
@@ -460,24 +466,25 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         cls = self.__class__
         if not self._has_page_position():
             return  # a page that cannot be placed must not break the announcement being assembled
-        if cls.announcement is not None and self._get_announcement() != cls.announcement:
-            if self.report_time < cls.announcement[0]:
-                return  # a late page of an older announcement must not break the newer one
-            cls.completed = False  # a newer announcement replaces the partial one
-            cls.reports = {}
-
-        ex_report = cls.reports.get(self.page_number)
-        if ex_report is not None:
-            if ex_report == self:
-                return
-            else:
-                cls.completed = False
+        with _assembly_lock:
+            if cls.announcement is not None and self._get_announcement() != cls.announcement:
+                if self.report_time < cls.announcement[0]:
+                    return  # a late page of an older announcement must not break the newer one
+                cls.completed = False  # a newer announcement replaces the partial one
                 cls.reports = {}
 
-        cls.announcement = self._get_announcement()
-        cls.reports.update({self.page_number: self})
-        if all(page in cls.reports for page in range(1, self.total_page + 1)):
-            cls.completed = True
+            ex_report = cls.reports.get(self.page_number)
+            if ex_report is not None:
+                if ex_report == self:
+                    return
+                else:
+                    cls.completed = False
+                    cls.reports = {}
+
+            cls.announcement = self._get_announcement()
+            cls.reports.update({self.page_number: self})
+            if all(page in cls.reports for page in range(1, self.total_page + 1)):
+                cls.completed = True
 
     def _has_page_position(self) -> bool:
         """Whether the page number and the total page place this page in the text."""
@@ -495,14 +502,15 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         cls = self.__class__
         if not self._has_page_position():
             return qzss_dcr_jma_page_number_and_total_page_undefined % (self.page_number << 6 | self.total_page)
-        if self._get_announcement() != cls.announcement:
-            return f'受信中 ({self.page_number}) [-/{self.total_page}]'
-        if cls.completed is not True:
-            return f'受信中 ({self.page_number}) [{len(cls.reports)}/{self.total_page}]'
+        with _assembly_lock:  # a page of a newer announcement must not empty the pages while they are read
+            if self._get_announcement() != cls.announcement:
+                return f'受信中 ({self.page_number}) [-/{self.total_page}]'
+            if cls.completed is not True:
+                return f'受信中 ({self.page_number}) [{len(cls.reports)}/{self.total_page}]'
 
-        msg_bytes = b''
-        for i in range(1, self.total_page + 1):
-            msg_bytes += cls.reports[i].text_information
+            msg_bytes = b''
+            for i in range(1, self.total_page + 1):
+                msg_bytes += cls.reports[i].text_information
 
         return msg_bytes.replace(b'\x00', b'').decode('utf-8', errors='ignore')  # a Te of 0 is no character
 
