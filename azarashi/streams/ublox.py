@@ -2,8 +2,8 @@ import struct
 from collections.abc import Callable
 from typing import Any
 
-from .stream_state import ReaderStore
-from .stream_state import empty_read_error
+from .state import ReaderStore
+from .state import empty_read_error
 from ..definitions import qzss_dcr_message_type
 from ..definitions import ublox_qzss_dcr_message_header
 

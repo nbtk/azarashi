@@ -1,4 +1,4 @@
-from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_prefecture
 from ..definitions import qzss_dcr_jma_seismic_intensity
 from ..reports import QzssDcReportJmaBase

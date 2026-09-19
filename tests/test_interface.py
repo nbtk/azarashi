@@ -4,11 +4,11 @@ import io
 import pytest
 
 import azarashi
-from azarashi.interfaces import hex_qzss_dcr_message_extractor
-from azarashi.interfaces import nmea_qzss_dcr_message_extractor
-from azarashi.interfaces import ublox_qzss_dcr_message_extractor
-from azarashi.interfaces.stream_state import ReaderStore
-from azarashi.interfaces.stream_state import StreamKeyedDict
+from azarashi.streams import hex_qzss_dcr_message_extractor
+from azarashi.streams import nmea_qzss_dcr_message_extractor
+from azarashi.streams import ublox_qzss_dcr_message_extractor
+from azarashi.streams.state import ReaderStore
+from azarashi.streams.state import StreamKeyedDict
 from qzqsm import hex_message
 from qzqsm import sfrbx
 from qzqsm import ubx

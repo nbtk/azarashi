@@ -6,7 +6,7 @@ import pytest
 import serial
 
 import azarashi
-from azarashi.interfaces import stream_state
+from azarashi.streams import state
 from samples import EEW
 from samples import EEW_HEX
 from samples import FRAME
@@ -106,8 +106,8 @@ def test_a_stream_that_never_sends_a_newline_does_not_fill_the_memory():
     for _ in range(1000):
         with pytest.raises(azarashi.AzarashiTimeoutError):
             azarashi.decode_stream(stream, 'nmea')
-    held = stream_state._partial_lines.get(stream.readline)
-    assert sum(map(len, held)) <= stream_state.max_partial_line
+    held = state._partial_lines.get(stream.readline)
+    assert sum(map(len, held)) <= state.max_partial_line
 
 
 def test_a_sentence_split_by_timeouts_is_still_completed():

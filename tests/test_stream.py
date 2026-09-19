@@ -8,7 +8,7 @@ import weakref
 import pytest
 
 import azarashi
-from azarashi.interfaces import decoder_interface
+from azarashi import api
 from samples import EEW
 from samples import EEW_HEX
 from samples import FRAME
@@ -235,13 +235,13 @@ def test_threads_reading_one_stream_share_the_dedup_cache():
 
 
 def test_unique_keeps_the_newest_cache_size_reports(monkeypatch):
-    monkeypatch.setattr(decoder_interface, 'cache_size', 1)
+    monkeypatch.setattr(api, 'cache_size', 1)
     stream = io.StringIO(f'{EEW}\n{L_ALERT}\n{EEW}\n')
     received = []
     with pytest.raises(EOFError):
         azarashi.decode_stream(stream, callback=received.append, unique=True, ignore_dcx=False)
     assert [report.message_type for report in received] == ['DCR', 'DCX', 'DCR']  # the L-Alert pushed the EEW out
-    assert len(decoder_interface.caches.get(stream)) == 1
+    assert len(api.caches.get(stream)) == 1
 
 
 class _PlainFunctionReader:

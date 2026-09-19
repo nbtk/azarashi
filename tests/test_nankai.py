@@ -4,7 +4,7 @@ import os
 import pytest
 
 import azarashi
-from azarashi import reports as dc_report
+from azarashi.reports import jma
 from azarashi.reports import QzssDcReportJmaNankaiTroughEarthquake as Nankai
 from qzqsm import with_fields
 
@@ -143,7 +143,7 @@ class _WatchingTheLock(dict):
         self.held = []
 
     def _note(self):
-        self.held.append(dc_report._assembly_lock.locked())
+        self.held.append(jma._assembly_lock.locked())
 
     def __getitem__(self, key):
         self._note()

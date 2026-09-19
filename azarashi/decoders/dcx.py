@@ -1,7 +1,7 @@
 import datetime
 import math
 
-from .qzss_dcr_decoder_base import QzssDcrDecoderBase
+from .base import QzssDcrDecoderBase
 from ..definitions import qzss_dcx_camf_a10_library_version
 from ..definitions import qzss_dcx_camf_a11_international_library
 from ..definitions import qzss_dcx_camf_a11_international_library_code

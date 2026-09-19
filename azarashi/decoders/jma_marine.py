@@ -1,4 +1,4 @@
-from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_marine_forecast_region
 from ..definitions import qzss_dcr_jma_marine_warning_code
 from ..reports import QzssDcReportJmaBase

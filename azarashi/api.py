@@ -2,17 +2,17 @@ from collections.abc import Callable
 from datetime import datetime
 from typing import Any, Literal, Protocol, TypeAlias
 
-from .hex_interface import hex_qzss_dcr_message_extractor
-from .nmea_interface import nmea_qzss_dcr_message_extractor
-from .stream_state import StreamKeyedDict
-from .stream_state import stream_lock
-from .ublox_interface import ublox_qzss_dcr_message_extractor
-from ..decoders import HexQzssDcrDecoder
-from ..decoders import NetQzssDcrDecoder
-from ..decoders import NmeaQzssDcrDecoder
-from ..decoders import UBloxQzssDcrDecoder
-from ..exceptions import AzarashiInvalidMessageError
-from ..reports import QzssDcReport
+from .streams import hex_qzss_dcr_message_extractor
+from .streams import nmea_qzss_dcr_message_extractor
+from .streams import StreamKeyedDict
+from .streams import stream_lock
+from .streams import ublox_qzss_dcr_message_extractor
+from .decoders import HexQzssDcrDecoder
+from .decoders import NetQzssDcrDecoder
+from .decoders import NmeaQzssDcrDecoder
+from .decoders import UBloxQzssDcrDecoder
+from .exceptions import AzarashiInvalidMessageError
+from .reports import QzssDcReport
 
 #: the forms a message can arrive in; 'spresense' is another name for 'nmea'
 MessageFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox', 'net']

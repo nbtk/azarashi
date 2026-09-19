@@ -3,7 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import UTC
 
-from .qzss_dcr_decoder_base import QzssDcrDecoderBase
+from .base import QzssDcrDecoderBase
 from ..definitions import qzss_dcr_jma_days
 from ..definitions import qzss_dcr_jma_depth_of_hypocenter
 from ..definitions import qzss_dcr_jma_epicenter_and_hypocenter

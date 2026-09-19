@@ -11,9 +11,9 @@ from .log import configure_logging
 from ..input_stream import RecordingStream
 from ..input_stream import open_input
 from ..exceptions import AzarashiDecodeError
-from ..interfaces import MessageFormat
-from ..interfaces import QzssDcrStream
-from ..interfaces import decode_stream
+from ..api import MessageFormat
+from ..api import QzssDcrStream
+from ..api import decode_stream
 from ..reports import QzssDcReport
 
 logger = logging.getLogger(__name__)

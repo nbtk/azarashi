@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from typing import Any
 
-from .stream_state import read_line
+from .state import read_line
 
 
 def hex_qzss_dcr_message_extractor(reader: Callable[..., str | bytes],

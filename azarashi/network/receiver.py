@@ -11,7 +11,7 @@ from typing import Any
 from .log import configure_logging
 from ..exceptions import AzarashiDecodeError
 from ..exceptions import AzarashiInvalidMessageError
-from ..interfaces import decode
+from ..api import decode
 from ..reports import QzssDcReport
 
 logger = logging.getLogger(__name__)

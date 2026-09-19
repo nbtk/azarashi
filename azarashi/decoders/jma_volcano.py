@@ -2,7 +2,7 @@ from calendar import monthrange
 from datetime import datetime
 from datetime import UTC
 
-from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_days
 from ..definitions import qzss_dcr_jma_hours
 from ..definitions import qzss_dcr_jma_minutes

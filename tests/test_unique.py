@@ -8,7 +8,7 @@ import datetime
 import io
 
 import azarashi
-from azarashi.interfaces import decoder_interface as DI
+from azarashi import api as DI
 
 MSG = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05\n'
 

@@ -1,5 +1,5 @@
-from .qzss_dcr_decoder import QzssDcrDecoder
-from .qzss_dcr_decoder_base import QzssDcrDecoderBase
+from .dcr import QzssDcrDecoder
+from .base import QzssDcrDecoderBase
 from ..exceptions import AzarashiInvalidMessageError
 from ..reports import QzssDcReport
 from ..reports import QzssDcReportBase

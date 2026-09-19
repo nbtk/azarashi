@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_coastal_region_en
 from ..definitions import qzss_dcr_jma_northwest_pacific_tsunami_height_en
 from ..definitions import qzss_dcr_jma_tsunamigenic_potential_en

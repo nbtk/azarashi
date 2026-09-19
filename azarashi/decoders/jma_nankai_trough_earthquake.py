@@ -1,4 +1,4 @@
-from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_information_serial_code
 from ..reports import QzssDcReportJmaBase
 from ..reports import QzssDcReportJmaNankaiTroughEarthquake

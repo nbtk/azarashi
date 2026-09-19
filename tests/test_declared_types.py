@@ -122,7 +122,7 @@ def _declared(cls):
 def test_there_are_reports_of_every_kind():
     kinds = {type(report) for report in REPORTS}
     concrete = {cls for cls in vars(dc_report).values()
-                if isinstance(cls, type) and cls.__module__ == dc_report.__name__
+                if isinstance(cls, type) and cls.__module__.startswith(dc_report.__name__)
                 and cls.__name__.startswith(('QzssDcReportJma', 'QzssDcx')) and not cls.__name__.endswith('Base')
                 and cls is not dc_report.QzssDcxCamf}
     assert concrete - kinds == set()
@@ -201,7 +201,7 @@ def test_the_documented_types_are_the_declared_ones():
     # the DCX tables list a hundred fields by hand, and an annotation that changes has to reach them
     declared = {}
     for cls in vars(dc_report).values():
-        if isinstance(cls, type) and cls.__module__ == dc_report.__name__:
+        if isinstance(cls, type) and cls.__module__.startswith(dc_report.__name__):
             hints = typing.get_type_hints(cls)
             for field in getattr(cls, '__annotations__', {}):
                 declared.setdefault(field, _rendered(hints[field]))

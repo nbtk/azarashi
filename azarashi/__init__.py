@@ -8,8 +8,8 @@ from .exceptions import AzarashiTimeoutError
 from .exceptions import QzssDcrDecoderException
 from .exceptions import QzssDcrDecoderNotImplementedError
 from .exceptions import QzssDcrDecoderTimeoutError
-from .interfaces import decode
-from .interfaces import decode_stream
+from .api import decode
+from .api import decode_stream
 from .reports import QzssDcReport
 
 __all__ = [

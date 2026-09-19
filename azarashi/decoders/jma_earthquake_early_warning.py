@@ -1,4 +1,4 @@
-from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_eew_forecast_region
 from ..definitions import qzss_dcr_jma_eew_magnitude
 from ..definitions import qzss_dcr_jma_long_period_ground_motion_lower_limit

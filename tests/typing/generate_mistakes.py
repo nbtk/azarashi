@@ -112,7 +112,7 @@ def methods(cls):
 
 def report_classes():
     for name, cls in sorted(vars(dc_report).items()):
-        if isinstance(cls, type) and cls.__module__ == dc_report.__name__ and not typing.is_typeddict(cls):
+        if isinstance(cls, type) and cls.__module__.startswith(dc_report.__name__) and not typing.is_typeddict(cls):
             yield name, cls
 
 

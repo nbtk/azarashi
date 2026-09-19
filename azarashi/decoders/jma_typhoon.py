@@ -1,4 +1,4 @@
-from .qzss_dcr_decoder_jma_common import QzssDcrDecoderJmaCommon
+from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_typhoon_central_pressure
 from ..definitions import qzss_dcr_jma_typhoon_elapsed_time_from_reference_time
 from ..definitions import qzss_dcr_jma_typhoon_intensity_category
