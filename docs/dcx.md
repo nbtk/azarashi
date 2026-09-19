@@ -20,7 +20,7 @@ MT44 は全員が同じ形式を使い、発信機関によって拡張領域の
 
 `dcx.NullMsg` は警報を持たないメッセージなので、これらのフィールドを一つも持ちません。読もうとすると型検査が止めます。
 
-## メッセージの種類と衛星
+## Message Type and Satellite Designation
 | フィールド | 型 |
 |---|---|
 | `dcx_message_type` | `str` |
@@ -28,7 +28,7 @@ MT44 は全員が同じ形式を使い、発信機関によって拡張領域の
 | `satellite_designation_mask_type` | `str` |
 | `satellite_designation_mask` | `list[str]` |
 
-## A フィールド
+## A Fields
 | フィールド | 型 |
 |---|---|
 | `a1_message_type` | `str` |
@@ -55,7 +55,7 @@ MT44 は全員が同じ形式を使い、発信機関によって拡張領域の
 | `a16_ellipse_azimuth` | `float \| None` |
 | `a17_type_of_specific_settings` | `str \| None` |
 
-## C フィールド
+## C Fields
 | フィールド | 型 |
 |---|---|
 | `c1_refined_latitude_of_centre_of_main_ellipse` | `float \| None` |
@@ -70,7 +70,7 @@ MT44 は全員が同じ形式を使い、発信機関によって拡張領域の
 | `c10_instruction_library_for_second_ellipse_code` | `str \| None` |
 | `c10_instruction_library_for_second_ellipse` | `str \| None` |
 
-## D フィールド
+## D Fields
 | フィールド | 型 |
 |---|---|
 | `d1_magnitude_on_richter_scale` | `str \| None` |
@@ -110,7 +110,7 @@ MT44 は全員が同じ形式を使い、発信機関によって拡張領域の
 | `d35_infection_type` | `str \| None` |
 | `d36_typhoon_category` | `str \| None` |
 
-## EX フィールド
+## EX Fields
 | フィールド | 型 |
 |---|---|
 | `ex1_target_area` | `str \| None` |
@@ -127,7 +127,7 @@ MT44 は全員が同じ形式を使い、発信機関によって拡張領域の
 
 ほかに、ビットフィールドのままの値を持つ `camf` と、どの範囲を読み飛ばしたかを示す `ignore_a12_to_a16`、`ignore_a17_to_a18`、`ignore_ex1`、`ignore_ex2_to_ex7`、`ignore_ex8_to_ex9` があります。
 
-## デコードした例
+## Example
 DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。下記は L-Alert をデコードする例です。
 ```python
 >>> import azarashi

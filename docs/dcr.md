@@ -213,7 +213,7 @@ MT43 は災害種別ごとに電文の構造が違うので、クラスも災害
 | `marine_forecast_regions` | `list[str]` |
 | `marine_forecast_regions_raw` | `list[int]` |
 
-## デコードした例
+## Example
 `decode()` はレポートオブジェクトを返します。レポートオブジェクトを `str()` に渡すと、災害情報を読みやすい文章にして返します。
 ```python
 >>> import azarashi
