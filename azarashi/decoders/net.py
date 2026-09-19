@@ -1,6 +1,6 @@
 from ..reports import Report
 from ..reports import base
-from .dcr import QzssDcrDecoder
+from .common import QzssDcrDecoder
 from .base import QzssDcrDecoderBase
 from ..exceptions import AzarashiInvalidMessageError
 

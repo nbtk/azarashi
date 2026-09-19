@@ -229,7 +229,7 @@ def test_every_defined_disaster_category_has_a_decoder():
     from azarashi.definitions import qzss_dcr_jma_disaster_category
     decoded = {dc: type(azarashi.decode(jma(dc, []))) for dc in qzss_dcr_jma_disaster_category}
     assert len(decoded) == 12
-    assert all(cls.__module__.endswith('reports.jma') for cls in decoded.values())
+    assert all(cls.__module__.endswith('reports.dcr') for cls in decoded.values())
     assert len(set(decoded.values())) == len(decoded)  # one class each
 
 

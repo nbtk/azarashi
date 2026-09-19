@@ -12,7 +12,7 @@ import pytest
 
 import azarashi
 from azarashi.decoders import NmeaQzssDcrDecoder
-from azarashi.reports.jma import NankaiTroughEarthquake as Nankai
+from azarashi.reports.dcr import NankaiTroughEarthquake as Nankai
 
 _CONTROLS = {c: f'\\x{c:02x}' for c in [*range(0x00, 0x09), *range(0x0b, 0x20), *range(0x7f, 0xa0)]}  # readable diffs
 TESTS = os.path.dirname(os.path.realpath(__file__))

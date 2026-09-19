@@ -17,19 +17,19 @@ received: datetime.datetime = report.timestamp
 kind: str = report.message_type
 message: bytes = report.message
 
-if isinstance(report, reports.jma.Tsunami):
+if isinstance(report, reports.dcr.Tsunami):
     for arrival, raw, what in zip(report.expected_tsunami_arrival_times, report.expected_tsunami_arrival_times_raw,
                                   report.expected_tsunami_arrival_time_types, strict=True):
         when: datetime.datetime | None = arrival
         hour: int = raw['hour']
         text: str = what
-elif isinstance(report, reports.jma.Hypocenter):
+elif isinstance(report, reports.dcr.Hypocenter):
     position: str = report.coordinates_of_hypocenter
     occurred: datetime.datetime | None = report.occurrence_time_of_earthquake
     occurred_day: int = report.occurrence_time_of_earthquake_raw['day']
     degrees: int = report.coordinates_of_hypocenter_raw['lat_d']
     issued: str = report.get_report_time_str()
-elif isinstance(report, reports.jma.Volcano):
+elif isinstance(report, reports.dcr.Volcano):
     observed: datetime.datetime | None = report.activity_time
 elif isinstance(report, reports.dcx.AlertBase):
     onset: datetime.datetime | None = report.a6a7_hazard_onset_datetime

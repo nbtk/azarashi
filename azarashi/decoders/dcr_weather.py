@@ -1,14 +1,14 @@
-from ..reports import jma
-from .jma_common import QzssDcrDecoderJmaCommon
+from ..reports import dcr
+from .dcr_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_weather_forecast_region
 from ..definitions import qzss_dcr_jma_weather_related_disaster_sub_category
 from ..definitions import qzss_dcr_jma_weather_warning_state
 
 
 class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
-    schema = jma.Base
+    schema = dcr.Base
 
-    def decode(self) -> jma.Weather:
+    def decode(self) -> dcr.Weather:
         ar = self.extract_field(53, 3)
         self.weather_warning_state = qzss_dcr_jma_weather_warning_state[ar]
         self.weather_warning_state_raw = ar
@@ -32,4 +32,4 @@ class QzssDcrDecoderJmaWeather(QzssDcrDecoderJmaCommon):
             self.weather_forecast_regions.append(qzss_dcr_jma_weather_forecast_region[pl])
             self.weather_forecast_regions_raw.append(pl)
 
-        return jma.Weather(**self.get_params())
+        return dcr.Weather(**self.get_params())

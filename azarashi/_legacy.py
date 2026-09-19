@@ -10,26 +10,26 @@ from .exceptions import AzarashiTimeoutError
 from .reports import Report as QzssDcReport
 from .reports import base
 from .reports import dcx
-from .reports import jma
+from .reports import dcr
 
 QzssDcrDecoderException = AzarashiInvalidMessageError
 QzssDcrDecoderNotImplementedError = AzarashiNotImplementedError
 QzssDcrDecoderTimeoutError = AzarashiTimeoutError
 
 QzssDcReportBase = base.Base
-QzssDcReportJmaAshFall = jma.AshFall
-QzssDcReportJmaBase = jma.Base
-QzssDcReportJmaEarthquakeEarlyWarning = jma.EarthquakeEarlyWarning
-QzssDcReportJmaFlood = jma.Flood
-QzssDcReportJmaHypocenter = jma.Hypocenter
-QzssDcReportJmaMarine = jma.Marine
-QzssDcReportJmaNankaiTroughEarthquake = jma.NankaiTroughEarthquake
-QzssDcReportJmaNorthwestPacificTsunami = jma.NorthwestPacificTsunami
-QzssDcReportJmaSeismicIntensity = jma.SeismicIntensity
-QzssDcReportJmaTsunami = jma.Tsunami
-QzssDcReportJmaTyphoon = jma.Typhoon
-QzssDcReportJmaVolcano = jma.Volcano
-QzssDcReportJmaWeather = jma.Weather
+QzssDcReportJmaAshFall = dcr.AshFall
+QzssDcReportJmaBase = dcr.Base
+QzssDcReportJmaEarthquakeEarlyWarning = dcr.EarthquakeEarlyWarning
+QzssDcReportJmaFlood = dcr.Flood
+QzssDcReportJmaHypocenter = dcr.Hypocenter
+QzssDcReportJmaMarine = dcr.Marine
+QzssDcReportJmaNankaiTroughEarthquake = dcr.NankaiTroughEarthquake
+QzssDcReportJmaNorthwestPacificTsunami = dcr.NorthwestPacificTsunami
+QzssDcReportJmaSeismicIntensity = dcr.SeismicIntensity
+QzssDcReportJmaTsunami = dcr.Tsunami
+QzssDcReportJmaTyphoon = dcr.Typhoon
+QzssDcReportJmaVolcano = dcr.Volcano
+QzssDcReportJmaWeather = dcr.Weather
 QzssDcReportMessageBase = base.MessageBase
 QzssDcReportMessagePartial = base.MessagePartial
 QzssDcXtendedMessageBase = dcx.Base

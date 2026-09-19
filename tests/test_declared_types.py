@@ -57,7 +57,7 @@ def _messages():
 
 
 def _reports():
-    nankai = reports.jma.NankaiTroughEarthquake
+    nankai = reports.dcr.NankaiTroughEarthquake
     assembly = dict(nankai.reports), nankai.completed, nankai.announcement  # reports is updated in place
     decoded = []
     try:
@@ -121,7 +121,7 @@ def _declared(cls):
 
 def test_there_are_reports_of_every_kind():
     kinds = {type(report) for report in REPORTS}
-    concrete = {cls for module in (reports.dcx, reports.jma) for cls in vars(module).values()
+    concrete = {cls for module in (reports.dcx, reports.dcr) for cls in vars(module).values()
                 if isinstance(cls, type) and cls.__module__.startswith(reports.__name__)
                 and cls.__name__.startswith(('QzssDcReportJma', 'QzssDcx')) and not cls.__name__.endswith('Base')
                 and cls is not reports.dcx.Camf}
@@ -177,8 +177,8 @@ def test_every_declared_camf_field_can_be_read():
 
 
 def test_the_nankai_assembly_state_is_declared():
-    hints = typing.get_type_hints(reports.jma.NankaiTroughEarthquake)
-    cls = reports.jma.NankaiTroughEarthquake
+    hints = typing.get_type_hints(reports.dcr.NankaiTroughEarthquake)
+    cls = reports.dcr.NankaiTroughEarthquake
     for name in ('completed', 'reports', 'announcement'):
         assert typing.get_origin(hints[name]) is typing.ClassVar
         (inner,) = typing.get_args(hints[name])
@@ -200,7 +200,7 @@ def _rendered(annotation):
 def test_the_documented_types_are_the_declared_ones():
     # the DCX tables list a hundred fields by hand, and an annotation that changes has to reach them
     declared = {}
-    for module in (reports.base, reports.dcx, reports.jma):
+    for module in (reports.base, reports.dcx, reports.dcr):
         for cls in vars(module).values():
             if isinstance(cls, type) and cls.__module__.startswith(reports.__name__):
                 hints = typing.get_type_hints(cls)

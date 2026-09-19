@@ -4,8 +4,8 @@ import os
 import pytest
 
 import azarashi
-from azarashi.reports import jma
-from azarashi.reports.jma import NankaiTroughEarthquake as Nankai
+from azarashi.reports import dcr
+from azarashi.reports.dcr import NankaiTroughEarthquake as Nankai
 from qzqsm import with_fields
 
 LOG = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'qzqsm_220307.log')
@@ -143,7 +143,7 @@ class _WatchingTheLock(dict):
         self.held = []
 
     def _note(self):
-        self.held.append(jma._assembly_lock.locked())
+        self.held.append(dcr._assembly_lock.locked())
 
     def __getitem__(self, key):
         self._note()

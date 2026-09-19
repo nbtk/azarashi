@@ -1,57 +1,134 @@
+from calendar import isleap
+from calendar import monthrange
+from datetime import datetime
+from datetime import UTC
+
 from ..reports import Report
 from ..reports import base
 from .base import QzssDcrDecoderBase
-from .jma import QzssDcrDecoderJma
-from .dcx import QzssDcxDecoder
-from ..definitions import qzss_dcr_message_type
-from ..definitions import qzss_dcr_preamble
+from .dcr_ash_fall import QzssDcrDecoderJmaAshFall
+from .dcr_earthquake_early_warning import QzssDcrDecoderJmaEarthquakeEarlyWarning
+from .dcr_flood import QzssDcrDecoderJmaFlood
+from .dcr_hypocenter import QzssDcrDecoderJmaHypocenter
+from .dcr_marine import QzssDcrDecoderJmaMarine
+from .dcr_nankai_trough_earthquake import QzssDcrDecoderJmaNankaiTroughEarthquake
+from .dcr_northwest_pacific_tsunami import QzssDcrDecoderJmaNorthwestPacificTsunami
+from .dcr_seismic_intensity import QzssDcrDecoderJmaSeismicIntensity
+from .dcr_tsunami import QzssDcrDecoderJmaTsunami
+from .dcr_typhoon import QzssDcrDecoderJmaTyphoon
+from .dcr_volcano import QzssDcrDecoderJmaVolcano
+from .dcr_weather import QzssDcrDecoderJmaWeather
+from ..definitions import qzss_dcr_jma_report_classification
+from ..definitions import qzss_dcr_jma_report_classification_en
+from ..definitions import qzss_dcr_jma_disaster_category
+from ..definitions import qzss_dcr_jma_disaster_category_en
+from ..definitions import qzss_dcr_jma_information_type
+from ..definitions import qzss_dcr_jma_information_type_en
 from ..exceptions import AzarashiInvalidMessageError
 
 
-class QzssDcrDecoder(QzssDcrDecoderBase):
-    schema = base.MessagePartial
+class QzssDcrDecoderJma(QzssDcrDecoderBase):
+    schema = base.MessageBase
 
     def decode(self) -> Report:
-        # extracts the preamble
-        self.preamble = qzss_dcr_preamble[self.extract_field(0, 8)]
-
-        # checks the crc
-        crc = 0
-        crc_remaining_len = 226
-        data = self.message[:28] + bytes((self.message[28] & 0xC0,))  # clears the last 6 bits
-        for byte in data:
-            crc ^= (byte << 16)
-            for _ in range(8):
-                crc <<= 1
-                if crc & 0x1000000:
-                    crc ^= 0x1864cfb  # polynomial
-                crc_remaining_len -= 1
-                if crc_remaining_len == 0:
-                    break
-        crc &= 0xffffff
-        if crc != self.extract_field(226, 24):
+        self.version = self.extract_field(214, 6)
+        if self.version != 1:
             raise AzarashiInvalidMessageError(
-                'CRC Mismatch',
+                f'Unsupported JMA-DC Report Version: {self.version}',
                 self)
 
-        # checks the message type
-        mt = self.extract_field(8, 6)  # 6 bits
+        rc = self.extract_field(14, 3)
+        self.report_classification = qzss_dcr_jma_report_classification[rc]
+        self.report_classification_en = qzss_dcr_jma_report_classification_en[rc]
+        self.report_classification_no = rc
+
+        dc = self.extract_field(17, 4)
         try:
-            self.message_type = qzss_dcr_message_type[mt]
+            self.disaster_category = qzss_dcr_jma_disaster_category[dc]
+            self.disaster_category_en = qzss_dcr_jma_disaster_category_en[dc]
         except KeyError as err:
             raise AzarashiInvalidMessageError(
-                f'Undefined Message Type: {mt}',
+                f'Undefined Disaster Category: {dc}',
                 self) from err
+        self.disaster_category_no = dc
 
-        next_decoder: type[QzssDcrDecoderBase]
-        if mt == 43:
-            next_decoder = QzssDcrDecoderJma
-        elif mt == 44:
-            next_decoder = QzssDcxDecoder
-        else:
+        at_mo = self.extract_field(21, 4)
+        if at_mo < 1 or at_mo > 12:
             raise AzarashiInvalidMessageError(
-                f'Unsupported Message Type: {mt}',
+                f'Invalid Report Time: {at_mo} as month',
+                self)
+        at_d = self.extract_field(25, 5)
+        if at_d < 1 or at_d > 31:
+            raise AzarashiInvalidMessageError(
+                f'Invalid Report Time: {at_d} as day',
+                self)
+        at_h = self.extract_field(30, 5)
+        if at_h > 23:
+            raise AzarashiInvalidMessageError(
+                f'Invalid Report Time: {at_h} as hour',
+                self)
+        at_mi = self.extract_field(35, 6)
+        if at_mi > 59:
+            raise AzarashiInvalidMessageError(
+                f'Invalid Report Time: {at_mi} as minute',
                 self)
 
-        # stacks the next decoder
+        at_y = self.timestamp.year
+        if at_mo - self.timestamp.month > 6:
+            at_y -= 1
+        elif self.timestamp.month - at_mo > 6:
+            at_y += 1
+
+        if at_mo == 2 and at_d == 29 and not isleap(at_y):  # take the leap day closest to the reception time
+            earlier = next(y for y in range(at_y - 1, at_y - 9, -1) if isleap(y))
+            later = next(y for y in range(at_y + 1, at_y + 9) if isleap(y))
+            at_y = min(earlier, later,
+                       key=lambda y: abs(datetime(y, 2, 29, at_h, at_mi, tzinfo=UTC) - self.timestamp))
+        if at_d > monthrange(at_y, at_mo)[1]:
+            raise AzarashiInvalidMessageError(
+                f'Invalid Report Time: {at_d} as day of month {at_mo}',
+                self)
+
+        self.report_time = datetime(year=at_y,
+                                    month=at_mo,
+                                    day=at_d,
+                                    hour=at_h,
+                                    minute=at_mi,
+                                    tzinfo=UTC)
+
+        it = self.extract_field(41, 2)
+        self.information_type = qzss_dcr_jma_information_type[it]
+        self.information_type_en = qzss_dcr_jma_information_type_en[it]
+        self.information_type_no = it
+
+        next_decoder: type[QzssDcrDecoderBase]
+        if dc == 1:
+            next_decoder = QzssDcrDecoderJmaEarthquakeEarlyWarning
+        elif dc == 2:
+            next_decoder = QzssDcrDecoderJmaHypocenter
+        elif dc == 3:
+            next_decoder = QzssDcrDecoderJmaSeismicIntensity
+        elif dc == 4:
+            next_decoder = QzssDcrDecoderJmaNankaiTroughEarthquake
+        elif dc == 5:
+            next_decoder = QzssDcrDecoderJmaTsunami
+        elif dc == 6:
+            next_decoder = QzssDcrDecoderJmaNorthwestPacificTsunami
+        elif dc == 8:
+            next_decoder = QzssDcrDecoderJmaVolcano
+        elif dc == 9:
+            next_decoder = QzssDcrDecoderJmaAshFall
+        elif dc == 10:
+            next_decoder = QzssDcrDecoderJmaWeather
+        elif dc == 11:
+            next_decoder = QzssDcrDecoderJmaFlood
+        elif dc == 12:
+            next_decoder = QzssDcrDecoderJmaTyphoon
+        elif dc == 14:
+            next_decoder = QzssDcrDecoderJmaMarine
+        else:
+            raise AzarashiInvalidMessageError(
+                f'Unsupported Disaster Category: {self.disaster_category}',
+                self)
+
         return next_decoder(**self.get_params()).decode()

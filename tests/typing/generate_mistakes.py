@@ -112,7 +112,7 @@ def methods(cls):
 
 def report_classes():
     """The report classes, each under the module a caller names it by: jma.Tsunami, dcx.JAlert, ..."""
-    for module in (reports.base, reports.dcx, reports.jma):
+    for module in (reports.base, reports.dcx, reports.dcr):
         for name, cls in sorted(vars(module).items()):
             if isinstance(cls, type) and cls.__module__ == module.__name__ and not typing.is_typeddict(cls):
                 yield f'{module.__name__.rsplit(".", 1)[-1]}.{name}', cls

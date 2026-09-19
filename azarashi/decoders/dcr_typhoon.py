@@ -1,5 +1,5 @@
-from ..reports import jma
-from .jma_common import QzssDcrDecoderJmaCommon
+from ..reports import dcr
+from .dcr_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_typhoon_central_pressure
 from ..definitions import qzss_dcr_jma_typhoon_elapsed_time_from_reference_time
 from ..definitions import qzss_dcr_jma_typhoon_intensity_category
@@ -11,9 +11,9 @@ from ..definitions import qzss_dcr_jma_typhoon_scale_category
 
 
 class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
-    schema = jma.Base
+    schema = dcr.Base
 
-    def decode(self) -> jma.Typhoon:
+    def decode(self) -> dcr.Typhoon:
         self.reference_time, self.reference_time_raw = self.extract_day_hour_min_field(53)
 
         dt = self.extract_field(69, 3)
@@ -51,4 +51,4 @@ class QzssDcrDecoderJmaTyphoon(QzssDcrDecoderJmaCommon):
         self.maximum_gust_wind_speed = qzss_dcr_jma_typhoon_maximum_gust_wind_speed[w2]
         self.maximum_gust_wind_speed_raw = w2
 
-        return jma.Typhoon(**self.get_params())
+        return dcr.Typhoon(**self.get_params())

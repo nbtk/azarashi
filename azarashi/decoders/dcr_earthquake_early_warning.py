@@ -1,5 +1,5 @@
-from ..reports import jma
-from .jma_common import QzssDcrDecoderJmaCommon
+from ..reports import dcr
+from .dcr_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_eew_forecast_region
 from ..definitions import qzss_dcr_jma_eew_magnitude
 from ..definitions import qzss_dcr_jma_long_period_ground_motion_lower_limit
@@ -9,9 +9,9 @@ from ..definitions import qzss_dcr_jma_seismic_intensity_upper_limit
 
 
 class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
-    schema = jma.Base
+    schema = dcr.Base
 
-    def decode(self) -> jma.EarthquakeEarlyWarning:
+    def decode(self) -> dcr.EarthquakeEarlyWarning:
         lgll = self.extract_field(47, 3)
         self.long_period_ground_motion_lower_limit = qzss_dcr_jma_long_period_ground_motion_lower_limit[lgll]
         self.long_period_ground_motion_lower_limit_raw = lgll
@@ -47,4 +47,4 @@ class QzssDcrDecoderJmaEarthquakeEarlyWarning(QzssDcrDecoderJmaCommon):
                 self.eew_forecast_regions.append(qzss_dcr_jma_eew_forecast_region[i + 1])
                 self.eew_forecast_regions_raw.append(i + 1)
 
-        return jma.EarthquakeEarlyWarning(**self.get_params())
+        return dcr.EarthquakeEarlyWarning(**self.get_params())

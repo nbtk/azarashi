@@ -38,8 +38,10 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `preamble` | `str` |
 | `message_type` | `str` |
 
-## JMA-DC Report
-気象庁が発表する災危通報のレポートです。`jma.Base` を継承します。共通のフィールドは次のとおりです。
+## DCR (MT43)
+気象庁が発表する防災気象情報のレポートです。`dcr.Base` を継承します。仕様は [IS-QZSS-DCR](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcr-017.pdf) の Message Type 43 です。
+
+MT43 は災害種別ごとに電文の構造が違うので、クラスも災害種別ごとに分かれます。共通のフィールドは次のとおりです。
 | フィールド | 型 |
 |---|---|
 | `version` | `int` |
@@ -57,20 +59,20 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 災害種別ごとに、次のクラスが返ります。
 | `disaster_category_no` | 災害種別 | クラス |
 |---|---|---|
-| 1 | 緊急地震速報 | `jma.EarthquakeEarlyWarning` |
-| 2 | 震源 | `jma.Hypocenter` |
-| 3 | 震度 | `jma.SeismicIntensity` |
-| 4 | 南海トラフ地震 | `jma.NankaiTroughEarthquake` |
-| 5 | 津波 | `jma.Tsunami` |
-| 6 | 北西太平洋津波 | `jma.NorthwestPacificTsunami` |
-| 8 | 火山 | `jma.Volcano` |
-| 9 | 降灰 | `jma.AshFall` |
-| 10 | 気象 | `jma.Weather` |
-| 11 | 洪水 | `jma.Flood` |
-| 12 | 台風 | `jma.Typhoon` |
-| 14 | 海上 | `jma.Marine` |
+| 1 | 緊急地震速報 | `dcr.EarthquakeEarlyWarning` |
+| 2 | 震源 | `dcr.Hypocenter` |
+| 3 | 震度 | `dcr.SeismicIntensity` |
+| 4 | 南海トラフ地震 | `dcr.NankaiTroughEarthquake` |
+| 5 | 津波 | `dcr.Tsunami` |
+| 6 | 北西太平洋津波 | `dcr.NorthwestPacificTsunami` |
+| 8 | 火山 | `dcr.Volcano` |
+| 9 | 降灰 | `dcr.AshFall` |
+| 10 | 気象 | `dcr.Weather` |
+| 11 | 洪水 | `dcr.Flood` |
+| 12 | 台風 | `dcr.Typhoon` |
+| 14 | 海上 | `dcr.Marine` |
 
-### jma.EarthquakeEarlyWarning
+### dcr.EarthquakeEarlyWarning
 緊急地震速報のレポートです。`disaster_category_no` は 1 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -96,7 +98,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `eew_forecast_regions` | `list[str]` |
 | `eew_forecast_regions_raw` | `list[int]` |
 
-### jma.Hypocenter
+### dcr.Hypocenter
 震源のレポートです。`disaster_category_no` は 2 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -113,7 +115,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `coordinates_of_hypocenter` | `str` |
 | `coordinates_of_hypocenter_raw` | `Coordinates` |
 
-### jma.SeismicIntensity
+### dcr.SeismicIntensity
 震度のレポートです。`disaster_category_no` は 3 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -124,7 +126,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `prefectures` | `list[str]` |
 | `prefectures_raw` | `list[int]` |
 
-### jma.NankaiTroughEarthquake
+### dcr.NankaiTroughEarthquake
 南海トラフ地震のレポートです。`disaster_category_no` は 4 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -134,7 +136,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `page_number` | `int` |
 | `total_page` | `int` |
 
-### jma.Tsunami
+### dcr.Tsunami
 津波のレポートです。`disaster_category_no` は 5 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -150,7 +152,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `tsunami_forecast_regions` | `list[str]` |
 | `tsunami_forecast_regions_raw` | `list[int]` |
 
-### jma.NorthwestPacificTsunami
+### dcr.NorthwestPacificTsunami
 北西太平洋津波のレポートです。`disaster_category_no` は 6 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -164,7 +166,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `coastal_regions_en` | `list[str]` |
 | `coastal_regions_raw` | `list[int]` |
 
-### jma.Volcano
+### dcr.Volcano
 火山のレポートです。`disaster_category_no` は 8 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -178,7 +180,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `local_governments` | `list[str]` |
 | `local_governments_raw` | `list[int]` |
 
-### jma.AshFall
+### dcr.AshFall
 降灰のレポートです。`disaster_category_no` は 9 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -195,7 +197,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `local_governments` | `list[str]` |
 | `local_governments_raw` | `list[int]` |
 
-### jma.Weather
+### dcr.Weather
 気象のレポートです。`disaster_category_no` は 10 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -206,7 +208,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `weather_forecast_regions` | `list[str]` |
 | `weather_forecast_regions_raw` | `list[int]` |
 
-### jma.Flood
+### dcr.Flood
 洪水のレポートです。`disaster_category_no` は 11 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -215,7 +217,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `flood_forecast_regions` | `list[str]` |
 | `flood_forecast_regions_raw` | `list[int]` |
 
-### jma.Typhoon
+### dcr.Typhoon
 台風のレポートです。`disaster_category_no` は 12 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -240,7 +242,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `maximum_gust_wind_speed` | `str` |
 | `maximum_gust_wind_speed_raw` | `int` |
 
-### jma.Marine
+### dcr.Marine
 海上のレポートです。`disaster_category_no` は 14 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -249,10 +251,10 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 | `marine_forecast_regions` | `list[str]` |
 | `marine_forecast_regions_raw` | `list[int]` |
 
-## DCX
-DCX メッセージのレポートです。`dcx.Base` を継承します。デコード例は [DCX](dcx.md) を見てください。
+## DCX (MT44)
+気象庁以外の機関が発表するメッセージのレポートです。`dcx.Base` を継承します。仕様は [IS-QZSS-DCX](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) の Message Type 44 で、CAMF という共通の形式を使います。デコード例は [DCX](dcx.md) を見てください。
 
-発信元ごとに、次のクラスが返ります。
+MT44 は全員が同じ形式を使い、発信機関によって拡張領域の読み方が変わります。そのためクラスは発信機関ごとに分かれます。
 
 | 発信元 | クラス |
 |---|---|

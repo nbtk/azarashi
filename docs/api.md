@@ -165,11 +165,15 @@ azarashi が定義する例外は、すべてこのクラスを継承してい�
 
 | 以前の名前 | 今の名前 |
 | --- | --- |
-| `QzssDcReportJmaTsunami` | `reports.jma.Tsunami` |
+| `QzssDcReportJmaTsunami` | `reports.dcr.Tsunami` |
 | `QzssDcxJAlert` | `reports.dcx.JAlert` |
 | `QzssDcReportBase` | `reports.base.Base` |
 
-規則は同じです。`QzssDcReportJma` で始まるものは `reports.jma`、`QzssDcx` で始まるものは `reports.dcx`、残りは `reports.base` に入り、接頭辞が落ちます。全クラスの一覧は [Reports](reports.md) にあります。
+分け方はメッセージ形式です。`reports.dcr` が MT43、`reports.dcx` が MT44、両方に共通するものが `reports.base` です。仕様書が2冊に分かれている境界と同じところで割っています。
+
+その下は、それぞれの形式の作りに従います。MT43 は災害種別ごとに電文の構造が違うので、クラスも災害種別ごとです。MT44 は CAMF という1つの構造を全員が共有し、発信機関によって拡張領域の読み方が変わるので、クラスは発信機関ごとです。
+
+全クラスの一覧は [Reports](reports.md) にあります。
 
 名前を変えたのは、azarashi が DCR 以外も扱うようになったからです。DCX のメッセージが読めなかったときも、同じ例外を送出します。今後ほかの測位衛星システムに対応しても同じです。そのとき `reports.ewss` のように仲間が増えても、クラス名はぶつかりません。
 
@@ -179,7 +183,7 @@ azarashi は型ヒント付きで配布しています。mypy や pyright を使
 
 `decode()` と `decode_stream()` が返すレポートの型は `azarashi.Report` です。これは次の二つのどちらかです。クラスとフィールドの一覧は [Reports](reports.md) にあります。
 
-- JMA-DC Report のレポート: `jma.Base` とそのサブクラス
+- JMA-DC Report のレポート: `dcr.Base` とそのサブクラス
 - DCX のレポート: `dcx.Base` とそのサブクラス
 
 災害の種類ごとのフィールドを参照するときは、先に `isinstance()` でレポートのクラスを確かめてください。
@@ -189,7 +193,7 @@ from azarashi import reports
 
 
 def handler(report: azarashi.Report) -> None:
-    if isinstance(report, reports.jma.Tsunami):
+    if isinstance(report, reports.dcr.Tsunami):
         for arrival in report.expected_tsunami_arrival_times:  # datetime | None
             print(arrival)
     elif isinstance(report, reports.dcx.AlertBase):
