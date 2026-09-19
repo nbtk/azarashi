@@ -1,7 +1,7 @@
-[azarashi](../README.md) / DCX
+[azarashi](../README.md) / [Reports](reports.md) / DCX Example
 
-# DCX
-azarashi は DCX メッセージのデコードをサポートしています。DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。下記は L-Alert をデコードする例です。
+# DCX のデコード例
+DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。下記は L-Alert をデコードする例です。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E' # l-alert
@@ -104,32 +104,5 @@ print(report.camf.get_params())
 ```python
 {'sdmt': 0, 'sdm': 96, 'a1': 1, 'a2': 111, 'a3': 1, 'a4': 74, 'a5': 2, 'a6': 0, 'a7': 9421, 'a8': 2, 'a9': 1, 'a10': 0, 'a11': 773, 'a12': 45761, 'a13': 116395, 'a14': 13, 'a15': 11, 'a16': 48, 'a17': 0, 'a18': 0, 'ex1': 13104, 'ex2': 0, 'ex3': 0, 'ex4': 0, 'ex5': 0, 'ex6': 0, 'ex7': 0, 'ex8': 0, 'ex9': 7376896189632872448, 'ex10': 0, 'vn': 1, 'c1': 0, 'c2': 0, 'c3': 0, 'c4': 0}
 ```
-## DCX Message Types
-DCX メッセージのデコード結果が格納されるレポートオブジェクトは下記のとおりです。フィールドの一覧は [Reports](reports.md#dcx) にあります。
-### Null Message
-CAMF フィールドを使わないメッセージです。SD フィールドを監視するために使用します。不要なら無視してください。
-```python
-class dcx.NullMsg(dcx.Base)
-```
-### Information from Organizations outside Japan
-日本国外の機関から発報されたメッセージです。
-```python
-class dcx.OutsideJapan(dcx.Base)
-```
-### L-Alert
-```python
-class dcx.LAlert(dcx.Base)
-```
-### J-Alert
-```python
-class dcx.JAlert(dcx.Base)
-```
-### Information from Local Government
-```python
-class dcx.MTInfo(dcx.Base)
-```
-### Unknown Message
-日本から発報されたメッセージのうち、発信機関が L-Alert、J-Alert、自治体のどれでもないものです。azarashi は正確にデコードできない可能性が高いので、デバッグのとき以外は無視してください。
-```python
-class dcx.Unknown(dcx.Base)
-```
+
+どのクラスが返るか、フィールドに何が入るかは [Reports](reports.md#dcx-mt44) を見てください。

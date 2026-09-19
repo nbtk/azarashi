@@ -41,7 +41,7 @@ DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィ
 ## DCR (MT43)
 気象庁が発表する防災気象情報のレポートです。`dcr.Base` を継承します。仕様は [IS-QZSS-DCR](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcr-017.pdf) の Message Type 43 です。
 
-MT43 は災害種別ごとに電文の構造が違うので、クラスも災害種別ごとに分かれます。共通のフィールドは次のとおりです。
+MT43 は災害種別ごとに電文の構造が違うので、クラスも災害種別ごとに分かれます。デコードした例は [API](api.md#example) にあります。共通のフィールドは次のとおりです。
 | フィールド | 型 |
 |---|---|
 | `version` | `int` |
@@ -252,18 +252,18 @@ MT43 は災害種別ごとに電文の構造が違うので、クラスも災害
 | `marine_forecast_regions_raw` | `list[int]` |
 
 ## DCX (MT44)
-気象庁以外の機関が発表するメッセージのレポートです。`dcx.Base` を継承します。仕様は [IS-QZSS-DCX](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) の Message Type 44 で、CAMF という共通の形式を使います。デコード例は [DCX](dcx.md) を見てください。
+気象庁以外の機関が発表するメッセージのレポートです。`dcx.Base` を継承します。仕様は [IS-QZSS-DCX](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) の Message Type 44 で、CAMF という共通の形式を使います。デコードした例は [DCX Example](dcx.md) にあります。
 
 MT44 は全員が同じ形式を使い、発信機関によって拡張領域の読み方が変わります。そのためクラスは発信機関ごとに分かれます。
 
-| 発信元 | クラス |
-|---|---|
-| CAMF フィールドを使わないメッセージ | `dcx.NullMsg` |
-| 日本国外の機関 | `dcx.OutsideJapan` |
-| L-Alert | `dcx.LAlert` |
-| J-Alert | `dcx.JAlert` |
-| 自治体 | `dcx.MTInfo` |
-| 上記以外 | `dcx.Unknown` |
+| 発信元 | クラス | 説明 |
+|---|---|---|
+| L-Alert | `dcx.LAlert` | 一般財団法人マルチメディア振興センターが発表します。 |
+| J-Alert | `dcx.JAlert` | 消防庁と関係省庁が発表します。 |
+| 自治体 | `dcx.MTInfo` | 地方公共団体が発表します。 |
+| 日本国外の機関 | `dcx.OutsideJapan` | 日本国外の機関が発表します。 |
+| CAMF フィールドを使わないメッセージ | `dcx.NullMsg` | 警報を持ちません。SD フィールドを監視するために使います。不要なら無視してください。 |
+| 上記以外 | `dcx.Unknown` | 日本から発表されたもので、発信機関が上のどれでもないものです。正確にデコードできない可能性が高いので、デバッグのとき以外は無視してください。 |
 
 警報のフィールドは `dcx.AlertBase` で宣言しています。上の表の `dcx.NullMsg` 以外の5クラスが、これを継承します。
 

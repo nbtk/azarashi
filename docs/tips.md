@@ -16,4 +16,4 @@ azarashi CLI では [`-b` オプション](cli.md)で指定します。GPS モ�
 ## Encountered EOF
 azarashi CLI は、読み込んでいるストリームの書き込み側が閉じられると、stderr に Encountered EOF と出力して終了します。これはエラーではなく、正常な終了です。
 ## DCX Satellite Designation Field
-[DCX メッセージ](dcx.md)の SD フィールドを監視するときは、`decode_stream()` の `unique` を指定しないでください。`unique` は、CAMF フィールドが同じ DCX メッセージを重複とみなし、SD フィールドの違いを見ません。そのため、SD フィールドだけが変わったメッセージを取りこぼし、SD フィールドの変化を監視できません。
+[DCX メッセージ](reports.md#dcx-mt44)の SD フィールドを監視するときは、`decode_stream()` の `unique` を指定しないでください。`unique` は、CAMF フィールドが同じ DCX メッセージを重複とみなし、SD フィールドの違いを見ません。そのため、SD フィールドだけが変わったメッセージを取りこぼし、SD フィールドの変化を監視できません。
