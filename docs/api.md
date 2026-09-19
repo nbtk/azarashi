@@ -156,20 +156,31 @@ azarashi が定義する例外は、すべてこのクラスを継承してい�
 | 以前の名前 | 今の名前 |
 | --- | --- |
 | `azarashi.qzss_dc_report` | `azarashi.reports` |
+| `azarashi.QzssDcReport` | `azarashi.Report` |
 | `QzssDcrDecoderException` | `AzarashiInvalidMessageError` |
 | `QzssDcrDecoderNotImplementedError` | `AzarashiNotImplementedError` |
 | `QzssDcrDecoderTimeoutError` | `AzarashiTimeoutError` |
 
-名前を変えたのは、azarashi が DCR 以外も扱うようになったからです。DCX のメッセージが読めなかったときも、同じ例外を送出します。今後ほかの測位衛星システムに対応しても同じです。
+レポートのクラスも短くなりました。所属するモジュールで修飾して書きます。
+
+| 以前の名前 | 今の名前 |
+| --- | --- |
+| `QzssDcReportJmaTsunami` | `reports.jma.Tsunami` |
+| `QzssDcxJAlert` | `reports.dcx.JAlert` |
+| `QzssDcReportBase` | `reports.base.Base` |
+
+規則は同じです。`QzssDcReportJma` で始まるものは `reports.jma`、`QzssDcx` で始まるものは `reports.dcx`、残りは `reports.base` に入り、接頭辞が落ちます。全クラスの一覧は [Reports](reports.md) にあります。
+
+名前を変えたのは、azarashi が DCR 以外も扱うようになったからです。DCX のメッセージが読めなかったときも、同じ例外を送出します。今後ほかの測位衛星システムに対応しても同じです。そのとき `reports.ewss` のように仲間が増えても、クラス名はぶつかりません。
 
 ログやエラー出力に出るクラス名は、今の名前に変わります。以前の名前で出力を検索しているときは、書き換えてください。
 ## Type Hints
 azarashi は型ヒント付きで配布しています。mypy や pyright を使うと、関数の引数と戻り値や、レポートのフィールドの型を検査できます。
 
-`decode()` と `decode_stream()` が返すレポートの型は `azarashi.QzssDcReport` です。これは次の二つのどちらかです。クラスとフィールドの一覧は [Reports](reports.md) にあります。
+`decode()` と `decode_stream()` が返すレポートの型は `azarashi.Report` です。これは次の二つのどちらかです。クラスとフィールドの一覧は [Reports](reports.md) にあります。
 
-- JMA-DC Report のレポート: `QzssDcReportJmaBase` とそのサブクラス
-- DCX のレポート: `QzssDcXtendedMessageBase` とそのサブクラス
+- JMA-DC Report のレポート: `jma.Base` とそのサブクラス
+- DCX のレポート: `dcx.Base` とそのサブクラス
 
 災害の種類ごとのフィールドを参照するときは、先に `isinstance()` でレポートのクラスを確かめてください。
 ```python
@@ -177,16 +188,16 @@ import azarashi
 from azarashi import reports
 
 
-def handler(report: azarashi.QzssDcReport) -> None:
-    if isinstance(report, reports.QzssDcReportJmaTsunami):
+def handler(report: azarashi.Report) -> None:
+    if isinstance(report, reports.jma.Tsunami):
         for arrival in report.expected_tsunami_arrival_times:  # datetime | None
             print(arrival)
-    elif isinstance(report, reports.QzssDcxAlertBase):
+    elif isinstance(report, reports.dcx.AlertBase):
         print(report.a6a7_hazard_onset_datetime)  # datetime | None
 ```
 DCX のレポートには、メッセージの種類や内容によって設定されないフィールドがあります。例えば `a12_ellipse_centre_latitude` は、楕円の情報を持たないメッセージでは `None` になります。型も `float | None` と宣言してあるので、型検査が `None` の確認を促します。A1 から A10 までと `dcx_version` は必ず設定されるので `None` になりません。
 
-警報を持たない `QzssDcxNullMsg` は、これらのフィールドを一つも持ちません。そのため警報のフィールドを読むときは `QzssDcxAlertBase` で絞ってください。`QzssDcXtendedMessageBase` で絞ると `QzssDcxNullMsg` も通ってしまいます。
+警報を持たない `dcx.NullMsg` は、これらのフィールドを一つも持ちません。そのため警報のフィールドを読むときは `dcx.AlertBase` で絞ってください。`dcx.Base` で絞ると `dcx.NullMsg` も通ってしまいます。
 ## Examples
 ### Minimal Loop
 ストリームから読み続けるときの、いちばん短い形です。捕捉するのは2つだけです。`AzarashiError` なら次を読み、`EOFError` なら止めます。

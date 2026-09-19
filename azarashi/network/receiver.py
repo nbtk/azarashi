@@ -8,11 +8,11 @@ from collections.abc import Callable
 from pprint import pformat
 from typing import Any
 
+from ..reports import Report
 from .log import configure_logging
 from ..exceptions import AzarashiDecodeError
 from ..exceptions import AzarashiInvalidMessageError
 from ..api import decode
-from ..reports import QzssDcReport
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class Receiver:
             self.bind_iface = (bind_iface + '\0').encode()
 
     @staticmethod
-    def default_handler(report: QzssDcReport) -> None:
+    def default_handler(report: Report) -> None:
         logger.info('- - - - - - - - - - - - - - - - - - - - - - - - - - - -\n' + pformat(report.get_params()) + '\n')
 
     def start(self,
@@ -67,7 +67,7 @@ class Receiver:
                 callback(report, *callback_args, **callback_kwargs)
 
 
-def simple_handler(report: QzssDcReport) -> None:
+def simple_handler(report: Report) -> None:
     logger.info('\n' + str(report) + '\n')
 
 

@@ -1,16 +1,13 @@
 from . import reports
-from . import reports as qzss_dc_report  # the earlier name of the module
+from ._legacy import *  # every earlier name; delete with the module
+from .api import decode
+from .api import decode_stream
 from .exceptions import AzarashiDecodeError
 from .exceptions import AzarashiError
 from .exceptions import AzarashiInvalidMessageError
 from .exceptions import AzarashiNotImplementedError
 from .exceptions import AzarashiTimeoutError
-from .exceptions import QzssDcrDecoderException
-from .exceptions import QzssDcrDecoderNotImplementedError
-from .exceptions import QzssDcrDecoderTimeoutError
-from .api import decode
-from .api import decode_stream
-from .reports import QzssDcReport
+from .reports import Report
 
 __all__ = [
     # the two entry points
@@ -19,7 +16,7 @@ __all__ = [
 
     # the report classes, and the type of what the entry points return
     'reports',
-    'QzssDcReport',
+    'Report',
 
     # every exception azarashi defines
     'AzarashiError',
@@ -28,9 +25,35 @@ __all__ = [
     'AzarashiNotImplementedError',
     'AzarashiTimeoutError',
 
-    # the earlier names: of the module above, and of three of the exceptions
+    # every earlier name; delete this block with _legacy.py
     'qzss_dc_report',
+    'QzssDcReport',
     'QzssDcrDecoderException',
     'QzssDcrDecoderNotImplementedError',
     'QzssDcrDecoderTimeoutError',
+    'QzssDcReportBase',
+    'QzssDcReportJmaAshFall',
+    'QzssDcReportJmaBase',
+    'QzssDcReportJmaEarthquakeEarlyWarning',
+    'QzssDcReportJmaFlood',
+    'QzssDcReportJmaHypocenter',
+    'QzssDcReportJmaMarine',
+    'QzssDcReportJmaNankaiTroughEarthquake',
+    'QzssDcReportJmaNorthwestPacificTsunami',
+    'QzssDcReportJmaSeismicIntensity',
+    'QzssDcReportJmaTsunami',
+    'QzssDcReportJmaTyphoon',
+    'QzssDcReportJmaVolcano',
+    'QzssDcReportJmaWeather',
+    'QzssDcReportMessageBase',
+    'QzssDcReportMessagePartial',
+    'QzssDcXtendedMessageBase',
+    'QzssDcxAlertBase',
+    'QzssDcxCamf',
+    'QzssDcxJAlert',
+    'QzssDcxLAlert',
+    'QzssDcxMTInfo',
+    'QzssDcxNullMsg',
+    'QzssDcxOutsideJapan',
+    'QzssDcxUnknown',
 ]

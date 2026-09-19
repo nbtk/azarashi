@@ -5,7 +5,7 @@ import pytest
 
 import azarashi
 from azarashi.decoders import QzssDcrDecoderBase
-from azarashi.reports import QzssDcReportBase
+from azarashi.reports.base import Base
 from qzqsm import nmea_checksum
 from qzqsm import sentence
 from qzqsm import sfrbx
@@ -187,7 +187,7 @@ def test_preamble(preamble, name):
 
 def test_decoder_base_is_abstract():
     class Decoder(QzssDcrDecoderBase):
-        schema = QzssDcReportBase
+        schema = Base
 
     with pytest.raises(azarashi.AzarashiNotImplementedError) as excinfo:
         Decoder(EEW).decode()
@@ -198,7 +198,7 @@ def test_extract_field_matches_the_bit_string():
     rng = random.Random(250)
 
     class Decoder(QzssDcrDecoderBase):
-        schema = QzssDcReportBase
+        schema = Base
 
     for _ in range(20):
         bits = rng.getrandbits(250)

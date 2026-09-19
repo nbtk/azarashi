@@ -24,7 +24,7 @@ class DayHourMinute(TypedDict):
 
 
 
-class QzssDcReportBase:
+class Base:
     def __init__(self,
                  sentence: str | bytes,
                  raw: bytes | None = None,
@@ -39,7 +39,7 @@ class QzssDcReportBase:
         self.timestamp = timestamp.astimezone(UTC)  # a naive timestamp is taken as local time
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, QzssDcReportBase) or type(self) is not type(other):
+        if not isinstance(other, Base) or type(self) is not type(other):
             return False
         return self.raw == other.raw
 
@@ -53,7 +53,7 @@ class QzssDcReportBase:
         return deepcopy(self.__dict__)
 
 
-class QzssDcReportMessagePartial(QzssDcReportBase):
+class MessagePartial(Base):
     def __init__(self,
                  message: bytes,
                  nmea: str,
@@ -78,7 +78,7 @@ class QzssDcReportMessagePartial(QzssDcReportBase):
         else:
             self.raw = self.message[1:27] + bytes((self.message[27] & 0xF0,))
 
-class QzssDcReportMessageBase(QzssDcReportMessagePartial):
+class MessageBase(MessagePartial):
     def __init__(self,
                  preamble: str,
                  message_type: str,

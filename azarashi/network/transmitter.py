@@ -7,6 +7,7 @@ import sys
 
 import serial
 
+from ..reports import Report
 from .log import configure_logging
 from ..input_stream import RecordingStream
 from ..input_stream import open_input
@@ -14,7 +15,6 @@ from ..exceptions import AzarashiDecodeError
 from ..api import MessageFormat
 from ..api import QzssDcrStream
 from ..api import decode_stream
-from ..reports import QzssDcReport
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class Transmitter:
                                             socket.SOCK_DGRAM,
                                             socket.IPPROTO_UDP)[0]
 
-    def handler(self, report: QzssDcReport) -> None:
+    def handler(self, report: Report) -> None:
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
             sat_id = (report.satellite_id or 55).to_bytes(1, 'big')  # PRN183, as in message_to_nmea()
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)

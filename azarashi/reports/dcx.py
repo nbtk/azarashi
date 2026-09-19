@@ -2,10 +2,10 @@
 from datetime import datetime
 from typing import Any
 
-from .base import QzssDcReportMessageBase
+from .base import MessageBase
 
 
-class QzssDcxCamf:
+class Camf:
     """The fields of a DCX message as transmitted.
 
     The C and D fields are None unless the specific settings (A17) and the hazard (A4) carry them.
@@ -95,20 +95,20 @@ class QzssDcxCamf:
         return f'{type(self).__name__}({", ".join(f"{k}={v}" for k, v in self.__dict__.items())})'
 
     def get_params(self) -> dict[str, int]:
-        return dict(self.__dict__)  # a copy, as QzssDcReportBase.get_params() gives
+        return dict(self.__dict__)  # a copy, as Report.get_params() gives
 
 
-class QzssDcXtendedMessageBase(QzssDcReportMessageBase):
+class Base(MessageBase):
     """What every DCX message carries, a null message included.
 
-    The alert itself is on QzssDcxAlertBase; a null message has none.
+    The alert itself is on AlertBase; a null message has none.
     """
     dcx_message_type: str
     satellite_designation_mask_type: str
     satellite_designation_mask: list[str]
 
     def __init__(self,
-                 camf: QzssDcxCamf,
+                 camf: Camf,
                  ignore_a12_to_a16: bool,
                  ignore_a17_to_a18: bool,
                  ignore_ex1: bool,
@@ -129,7 +129,7 @@ class QzssDcXtendedMessageBase(QzssDcReportMessageBase):
 
 
 
-class QzssDcxAlertBase(QzssDcXtendedMessageBase):
+class AlertBase(Base):
     """A DCX message that carries an alert: everything but a null message.
 
     The fields below the blank line are set only when the message and its A17 specific settings
@@ -291,7 +291,7 @@ class QzssDcxAlertBase(QzssDcXtendedMessageBase):
         return report
 
 
-class QzssDcxNullMsg(QzssDcXtendedMessageBase):
+class NullMsg(Base):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
@@ -300,31 +300,31 @@ class QzssDcxNullMsg(QzssDcXtendedMessageBase):
         return f"### DCX Message - {self.dcx_message_type} ###"
 
 
-class QzssDcxOutsideJapan(QzssDcxAlertBase):
+class OutsideJapan(AlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxLAlert(QzssDcxAlertBase):
+class LAlert(AlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxJAlert(QzssDcxAlertBase):
+class JAlert(AlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxMTInfo(QzssDcxAlertBase):
+class MTInfo(AlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
 
-class QzssDcxUnknown(QzssDcxAlertBase):
+class Unknown(AlertBase):
     def __init__(self,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)

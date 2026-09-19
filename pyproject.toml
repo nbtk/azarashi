@@ -17,6 +17,8 @@ ignore = ["UP031"]
 [tool.ruff.lint.per-file-ignores]
 # the subpackage __init__.py files gather their modules into one namespace
 "azarashi/*/__init__.py" = ["F403"]
+# __init__.py gathers every earlier name from _legacy in one line, so that one line can go
+"azarashi/__init__.py" = ["F403", "F405"]
 
 [tool.coverage.run]
 source = ["azarashi"]

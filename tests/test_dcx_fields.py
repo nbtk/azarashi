@@ -5,7 +5,7 @@ import pytest
 
 from azarashi.decoders import NmeaQzssDcrDecoder
 from azarashi.definitions import qzss_dcx_camf_b4_lower_level_fields_tables as b4
-from azarashi import reports as dc_report
+from azarashi import reports
 from qzqsm import sentence
 
 UTC = datetime.UTC
@@ -36,21 +36,21 @@ def _decode(msg):
 @pytest.mark.parametrize('camf', [{}, {'a2': 111}, {'a2': 111, 'sdmt': 1, 'sdm': 0x1ff}])  # A2 and the mask may be set
 def test_null_message(camf):
     report = _decode(dcx(**camf))
-    assert type(report) is dc_report.QzssDcxNullMsg
+    assert type(report) is reports.dcx.NullMsg
     assert (report.message_type, report.dcx_message_type) == ('DCX', 'Null Message')
     assert str(report) == '### DCX Message - Null Message ###'
     assert not hasattr(report, 'a1_message_type')  # a null message does not declare the alert fields at all
 
 
 @pytest.mark.parametrize('camf, report_type, dcx_message_type', [
-    ({'a2': 111, 'a3': 1}, dc_report.QzssDcxLAlert, 'L-Alert'),
-    ({'a2': 111, 'a3': 2}, dc_report.QzssDcxJAlert, 'J-Alert'),
-    ({'a2': 111, 'a3': 3}, dc_report.QzssDcxJAlert, 'J-Alert'),
-    ({'a2': 111, 'a3': 4}, dc_report.QzssDcxMTInfo, 'Information from Local Government'),
-    ({'a2': 111, 'a3': 0, 'a1': 1}, dc_report.QzssDcxUnknown, 'Unknown DCX Message Type'),
-    ({'a2': 111, 'a3': 5}, dc_report.QzssDcxUnknown, 'Unknown DCX Message Type'),
-    ({'a2': 10, 'a3': 2}, dc_report.QzssDcxOutsideJapan, 'Information from Organizations outside Japan'),
-    ({'a2': 0, 'a1': 1}, dc_report.QzssDcxOutsideJapan, 'Information from Organizations outside Japan'),
+    ({'a2': 111, 'a3': 1}, reports.dcx.LAlert, 'L-Alert'),
+    ({'a2': 111, 'a3': 2}, reports.dcx.JAlert, 'J-Alert'),
+    ({'a2': 111, 'a3': 3}, reports.dcx.JAlert, 'J-Alert'),
+    ({'a2': 111, 'a3': 4}, reports.dcx.MTInfo, 'Information from Local Government'),
+    ({'a2': 111, 'a3': 0, 'a1': 1}, reports.dcx.Unknown, 'Unknown DCX Message Type'),
+    ({'a2': 111, 'a3': 5}, reports.dcx.Unknown, 'Unknown DCX Message Type'),
+    ({'a2': 10, 'a3': 2}, reports.dcx.OutsideJapan, 'Information from Organizations outside Japan'),
+    ({'a2': 0, 'a1': 1}, reports.dcx.OutsideJapan, 'Information from Organizations outside Japan'),
 ])
 def test_message_types(camf, report_type, dcx_message_type):
     report = _decode(dcx(**camf))

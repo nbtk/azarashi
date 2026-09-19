@@ -1,17 +1,17 @@
+from ..reports import Report
+from ..reports import base
 from .base import QzssDcrDecoderBase
 from .jma import QzssDcrDecoderJma
 from .dcx import QzssDcxDecoder
 from ..definitions import qzss_dcr_message_type
 from ..definitions import qzss_dcr_preamble
 from ..exceptions import AzarashiInvalidMessageError
-from ..reports import QzssDcReport
-from ..reports import QzssDcReportMessagePartial
 
 
 class QzssDcrDecoder(QzssDcrDecoderBase):
-    schema = QzssDcReportMessagePartial
+    schema = base.MessagePartial
 
-    def decode(self) -> QzssDcReport:
+    def decode(self) -> Report:
         # extracts the preamble
         self.preamble = qzss_dcr_preamble[self.extract_field(0, 8)]
 

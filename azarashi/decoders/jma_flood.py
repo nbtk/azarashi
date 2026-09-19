@@ -1,14 +1,13 @@
+from ..reports import jma
 from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_flood_forecast_region
 from ..definitions import qzss_dcr_jma_flood_warning_level
-from ..reports import QzssDcReportJmaBase
-from ..reports import QzssDcReportJmaFlood
 
 
 class QzssDcrDecoderJmaFlood(QzssDcrDecoderJmaCommon):
-    schema = QzssDcReportJmaBase
+    schema = jma.Base
 
-    def decode(self) -> QzssDcReportJmaFlood:
+    def decode(self) -> jma.Flood:
         self.flood_warning_levels: list[str] = []
         self.flood_warning_levels_raw: list[int] = []
         self.flood_forecast_regions: list[str] = []
@@ -27,4 +26,4 @@ class QzssDcrDecoderJmaFlood(QzssDcrDecoderJmaCommon):
             self.flood_forecast_regions.append(qzss_dcr_jma_flood_forecast_region[pl])
             self.flood_forecast_regions_raw.append(pl)
 
-        return QzssDcReportJmaFlood(**self.get_params())
+        return jma.Flood(**self.get_params())

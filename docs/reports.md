@@ -13,14 +13,14 @@
 - 時刻として読めない値が届いたときは、その時刻のフィールドは `None` になります。
 
 ## すべてのレポートに共通するフィールド
-`QzssDcReportBase` のフィールドです。どのレポートにもあります。
+`base.Base` のフィールドです。どのレポートにもあります。
 | フィールド | 型 |
 |---|---|
 | `sentence` | `str \| bytes` |
 | `raw` | `bytes` |
 | `timestamp` | `datetime` |
 
-メッセージを取り出せたレポートには、`QzssDcReportMessagePartial` のフィールドが加わります。
+メッセージを取り出せたレポートには、`base.MessagePartial` のフィールドが加わります。
 | フィールド | 型 |
 |---|---|
 | `message` | `bytes` |
@@ -32,14 +32,14 @@
 
 `hex` 形式のようにヘッダや衛星の情報を持たないメッセージでは、`message_header` と `satellite_id` と `satellite_prn` は `None` です。`satellite_svid` は u-blox から受け取ったときだけ値が入ります。
 
-DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次のフィールドがあります。
+DCR と DCX のレポートには、さらに `base.MessageBase` の次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `preamble` | `str` |
 | `message_type` | `str` |
 
 ## JMA-DC Report
-気象庁が発表する災危通報のレポートです。`QzssDcReportJmaBase` を継承します。共通のフィールドは次のとおりです。
+気象庁が発表する災危通報のレポートです。`jma.Base` を継承します。共通のフィールドは次のとおりです。
 | フィールド | 型 |
 |---|---|
 | `version` | `int` |
@@ -57,20 +57,20 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 災害種別ごとに、次のクラスが返ります。
 | `disaster_category_no` | 災害種別 | クラス |
 |---|---|---|
-| 1 | 緊急地震速報 | `QzssDcReportJmaEarthquakeEarlyWarning` |
-| 2 | 震源 | `QzssDcReportJmaHypocenter` |
-| 3 | 震度 | `QzssDcReportJmaSeismicIntensity` |
-| 4 | 南海トラフ地震 | `QzssDcReportJmaNankaiTroughEarthquake` |
-| 5 | 津波 | `QzssDcReportJmaTsunami` |
-| 6 | 北西太平洋津波 | `QzssDcReportJmaNorthwestPacificTsunami` |
-| 8 | 火山 | `QzssDcReportJmaVolcano` |
-| 9 | 降灰 | `QzssDcReportJmaAshFall` |
-| 10 | 気象 | `QzssDcReportJmaWeather` |
-| 11 | 洪水 | `QzssDcReportJmaFlood` |
-| 12 | 台風 | `QzssDcReportJmaTyphoon` |
-| 14 | 海上 | `QzssDcReportJmaMarine` |
+| 1 | 緊急地震速報 | `jma.EarthquakeEarlyWarning` |
+| 2 | 震源 | `jma.Hypocenter` |
+| 3 | 震度 | `jma.SeismicIntensity` |
+| 4 | 南海トラフ地震 | `jma.NankaiTroughEarthquake` |
+| 5 | 津波 | `jma.Tsunami` |
+| 6 | 北西太平洋津波 | `jma.NorthwestPacificTsunami` |
+| 8 | 火山 | `jma.Volcano` |
+| 9 | 降灰 | `jma.AshFall` |
+| 10 | 気象 | `jma.Weather` |
+| 11 | 洪水 | `jma.Flood` |
+| 12 | 台風 | `jma.Typhoon` |
+| 14 | 海上 | `jma.Marine` |
 
-### QzssDcReportJmaEarthquakeEarlyWarning
+### jma.EarthquakeEarlyWarning
 緊急地震速報のレポートです。`disaster_category_no` は 1 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -96,7 +96,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `eew_forecast_regions` | `list[str]` |
 | `eew_forecast_regions_raw` | `list[int]` |
 
-### QzssDcReportJmaHypocenter
+### jma.Hypocenter
 震源のレポートです。`disaster_category_no` は 2 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -113,7 +113,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `coordinates_of_hypocenter` | `str` |
 | `coordinates_of_hypocenter_raw` | `Coordinates` |
 
-### QzssDcReportJmaSeismicIntensity
+### jma.SeismicIntensity
 震度のレポートです。`disaster_category_no` は 3 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -124,7 +124,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `prefectures` | `list[str]` |
 | `prefectures_raw` | `list[int]` |
 
-### QzssDcReportJmaNankaiTroughEarthquake
+### jma.NankaiTroughEarthquake
 南海トラフ地震のレポートです。`disaster_category_no` は 4 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -134,7 +134,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `page_number` | `int` |
 | `total_page` | `int` |
 
-### QzssDcReportJmaTsunami
+### jma.Tsunami
 津波のレポートです。`disaster_category_no` は 5 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -150,7 +150,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `tsunami_forecast_regions` | `list[str]` |
 | `tsunami_forecast_regions_raw` | `list[int]` |
 
-### QzssDcReportJmaNorthwestPacificTsunami
+### jma.NorthwestPacificTsunami
 北西太平洋津波のレポートです。`disaster_category_no` は 6 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -164,7 +164,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `coastal_regions_en` | `list[str]` |
 | `coastal_regions_raw` | `list[int]` |
 
-### QzssDcReportJmaVolcano
+### jma.Volcano
 火山のレポートです。`disaster_category_no` は 8 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -178,7 +178,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `local_governments` | `list[str]` |
 | `local_governments_raw` | `list[int]` |
 
-### QzssDcReportJmaAshFall
+### jma.AshFall
 降灰のレポートです。`disaster_category_no` は 9 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -195,7 +195,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `local_governments` | `list[str]` |
 | `local_governments_raw` | `list[int]` |
 
-### QzssDcReportJmaWeather
+### jma.Weather
 気象のレポートです。`disaster_category_no` は 10 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -206,7 +206,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `weather_forecast_regions` | `list[str]` |
 | `weather_forecast_regions_raw` | `list[int]` |
 
-### QzssDcReportJmaFlood
+### jma.Flood
 洪水のレポートです。`disaster_category_no` は 11 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -215,7 +215,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `flood_forecast_regions` | `list[str]` |
 | `flood_forecast_regions_raw` | `list[int]` |
 
-### QzssDcReportJmaTyphoon
+### jma.Typhoon
 台風のレポートです。`disaster_category_no` は 12 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -240,7 +240,7 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `maximum_gust_wind_speed` | `str` |
 | `maximum_gust_wind_speed_raw` | `int` |
 
-### QzssDcReportJmaMarine
+### jma.Marine
 海上のレポートです。`disaster_category_no` は 14 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
@@ -250,24 +250,24 @@ DCR と DCX のレポートには、さらに `QzssDcReportMessageBase` の次�
 | `marine_forecast_regions_raw` | `list[int]` |
 
 ## DCX
-DCX メッセージのレポートです。`QzssDcXtendedMessageBase` を継承します。デコード例は [DCX](dcx.md) を見てください。
+DCX メッセージのレポートです。`dcx.Base` を継承します。デコード例は [DCX](dcx.md) を見てください。
 
 発信元ごとに、次のクラスが返ります。
 
 | 発信元 | クラス |
 |---|---|
-| CAMF フィールドを使わないメッセージ | `QzssDcxNullMsg` |
-| 日本国外の機関 | `QzssDcxOutsideJapan` |
-| L-Alert | `QzssDcxLAlert` |
-| J-Alert | `QzssDcxJAlert` |
-| 自治体 | `QzssDcxMTInfo` |
-| 上記以外 | `QzssDcxUnknown` |
+| CAMF フィールドを使わないメッセージ | `dcx.NullMsg` |
+| 日本国外の機関 | `dcx.OutsideJapan` |
+| L-Alert | `dcx.LAlert` |
+| J-Alert | `dcx.JAlert` |
+| 自治体 | `dcx.MTInfo` |
+| 上記以外 | `dcx.Unknown` |
 
-警報のフィールドは `QzssDcxAlertBase` で宣言しています。上の表の `QzssDcxNullMsg` 以外の5クラスが、これを継承します。
+警報のフィールドは `dcx.AlertBase` で宣言しています。上の表の `dcx.NullMsg` 以外の5クラスが、これを継承します。
 
 メッセージの種類や内容によって設定されないフィールドは `None` になります。型も `float | None` のように宣言してあるので、型検査で気づけます。A1 から A10 までと `dcx_version` は必ず設定されるので `None` になりません。どのフィールド群が読まれたかは `ignore_a12_to_a16` などのフラグで分かります。
 
-`QzssDcxNullMsg` は警報を持たないメッセージなので、これらのフィールドを一つも持ちません。読もうとすると型検査が止めます。
+`dcx.NullMsg` は警報を持たないメッセージなので、これらのフィールドを一つも持ちません。読もうとすると型検査が止めます。
 
 ### メッセージの種類と衛星
 | フィールド | 型 |

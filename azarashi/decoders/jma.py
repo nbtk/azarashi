@@ -3,6 +3,8 @@ from calendar import monthrange
 from datetime import datetime
 from datetime import UTC
 
+from ..reports import Report
+from ..reports import base
 from .base import QzssDcrDecoderBase
 from .jma_ash_fall import QzssDcrDecoderJmaAshFall
 from .jma_earthquake_early_warning import QzssDcrDecoderJmaEarthquakeEarlyWarning
@@ -23,14 +25,12 @@ from ..definitions import qzss_dcr_jma_disaster_category_en
 from ..definitions import qzss_dcr_jma_information_type
 from ..definitions import qzss_dcr_jma_information_type_en
 from ..exceptions import AzarashiInvalidMessageError
-from ..reports import QzssDcReport
-from ..reports import QzssDcReportMessageBase
 
 
 class QzssDcrDecoderJma(QzssDcrDecoderBase):
-    schema = QzssDcReportMessageBase
+    schema = base.MessageBase
 
-    def decode(self) -> QzssDcReport:
+    def decode(self) -> Report:
         self.version = self.extract_field(214, 6)
         if self.version != 1:
             raise AzarashiInvalidMessageError(

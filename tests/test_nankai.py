@@ -5,7 +5,7 @@ import pytest
 
 import azarashi
 from azarashi.reports import jma
-from azarashi.reports import QzssDcReportJmaNankaiTroughEarthquake as Nankai
+from azarashi.reports.jma import NankaiTroughEarthquake as Nankai
 from qzqsm import with_fields
 
 LOG = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'qzqsm_220307.log')

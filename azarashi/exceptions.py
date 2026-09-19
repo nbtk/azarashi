@@ -39,9 +39,3 @@ class AzarashiTimeoutError(AzarashiError, EOFError):
     It is an EOFError so that existing EOF handling keeps working; catch it first to keep reading.
     It stays outside AzarashiDecodeError because nothing failed to decode.
     """
-
-
-# The earlier names, kept so that existing code keeps working. Each catches exactly what it caught before.
-QzssDcrDecoderException = AzarashiInvalidMessageError
-QzssDcrDecoderNotImplementedError = AzarashiNotImplementedError
-QzssDcrDecoderTimeoutError = AzarashiTimeoutError

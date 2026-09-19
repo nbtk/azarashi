@@ -17,9 +17,9 @@ import types
 import typing
 
 import azarashi
+from azarashi import reports
 from azarashi.network.receiver import Receiver
 from azarashi.network.transmitter import Transmitter
-from azarashi import reports as dc_report
 
 #: what contradiction() answers -> a literal of that type
 ARG_VALUE = {'str': "'not the right type'", 'int': '123', 'bytes': "b'\\x00'"}
@@ -111,9 +111,11 @@ def methods(cls):
 
 
 def report_classes():
-    for name, cls in sorted(vars(dc_report).items()):
-        if isinstance(cls, type) and cls.__module__.startswith(dc_report.__name__) and not typing.is_typeddict(cls):
-            yield name, cls
+    """The report classes, each under the module a caller names it by: jma.Tsunami, dcx.JAlert, ..."""
+    for module in (reports.base, reports.dcx, reports.jma):
+        for name, cls in sorted(vars(module).items()):
+            if isinstance(cls, type) and cls.__module__ == module.__name__ and not typing.is_typeddict(cls):
+                yield f'{module.__name__.rsplit(".", 1)[-1]}.{name}', cls
 
 
 out = ['"""Generated: every public function and method used wrongly, one line each."""',
@@ -127,7 +129,7 @@ for function in (azarashi.decode, azarashi.decode_stream):
 
 params = []
 for name, cls in report_classes():
-    var = 'r_%s' % name
+    var = 'r_%s' % name.replace('.', '_')
     params.append('%s: reports.%s' % (var, name))
     for method, sig in methods(cls):
         if method == '__init__':

@@ -1,7 +1,9 @@
 """What the package exports and ships."""
+import importlib
 import inspect
 import os
 import pathlib
+import re
 
 import azarashi
 from azarashi import exceptions
@@ -33,3 +35,24 @@ def test_the_typing_marker_is_there_and_ships():
     setup = (ROOT / 'setup.py').read_text(encoding='utf-8')
     assert "package_data={'azarashi': ['py.typed']}" in setup
     assert "'Typing :: Typed'" in setup
+
+
+def test_the_earlier_names_are_all_in_one_module():
+    # they are meant to be dropped one day: deleting _legacy.py, the line that star-imports it in
+    # __init__.py and the block it adds to __all__ has to take every one of them away
+    legacy = importlib.import_module('azarashi._legacy')
+    assert set(legacy.__all__) <= set(azarashi.__all__)
+    assert all(getattr(azarashi, name) is getattr(legacy, name) for name in legacy.__all__)
+    for path in (ROOT / 'azarashi').rglob('*.py'):
+        if path.name in ('__init__.py', '_legacy.py'):
+            continue
+        assert '_legacy' not in path.read_text(encoding='utf-8'), f'{path} would keep the earlier names alive'
+
+
+def test_no_earlier_name_is_used_inside_the_package():
+    legacy = importlib.import_module('azarashi._legacy')
+    # __init__.py names them in __all__ on purpose, which is the block that goes with the module
+    used = [f'{path.relative_to(ROOT)}: {name}'
+            for path in (ROOT / 'azarashi').rglob('*.py') if path.name not in ('_legacy.py', '__init__.py')
+            for name in legacy.__all__ if re.search(rf'\b{name}\b', path.read_text(encoding='utf-8'))]
+    assert used == []

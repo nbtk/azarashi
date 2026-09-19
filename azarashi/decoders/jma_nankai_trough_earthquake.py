@@ -1,13 +1,12 @@
+from ..reports import jma
 from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_information_serial_code
-from ..reports import QzssDcReportJmaBase
-from ..reports import QzssDcReportJmaNankaiTroughEarthquake
 
 
 class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
-    schema = QzssDcReportJmaBase
+    schema = jma.Base
 
-    def decode(self) -> QzssDcReportJmaNankaiTroughEarthquake:
+    def decode(self) -> jma.NankaiTroughEarthquake:
         ie = self.extract_field(53, 4)
         self.information_serial_code = qzss_dcr_jma_information_serial_code[ie]
         self.information_serial_code_raw = ie
@@ -20,4 +19,4 @@ class QzssDcrDecoderJmaNankaiTroughEarthquake(QzssDcrDecoderJmaCommon):
         self.page_number = self.extract_field(201, 6)
         self.total_page = self.extract_field(207, 6)
 
-        return QzssDcReportJmaNankaiTroughEarthquake(**self.get_params())
+        return jma.NankaiTroughEarthquake(**self.get_params())

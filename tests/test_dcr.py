@@ -227,9 +227,9 @@ def test_every_defined_disaster_category_has_a_decoder():
     # added to the table without a decoder fails cleanly, and this keeps it unreachable
     from qzqsm import jma
     from azarashi.definitions import qzss_dcr_jma_disaster_category
-    decoded = {dc: type(azarashi.decode(jma(dc, []))).__name__ for dc in qzss_dcr_jma_disaster_category}
+    decoded = {dc: type(azarashi.decode(jma(dc, []))) for dc in qzss_dcr_jma_disaster_category}
     assert len(decoded) == 12
-    assert all(name.startswith('QzssDcReportJma') for name in decoded.values())
+    assert all(cls.__module__.endswith('reports.jma') for cls in decoded.values())
     assert len(set(decoded.values())) == len(decoded)  # one class each
 
 

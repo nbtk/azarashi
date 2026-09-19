@@ -5,8 +5,9 @@ from datetime import datetime
 import pytest
 
 import azarashi
+from azarashi import reports
 from azarashi.decoders import NmeaQzssDcrDecoder
-from azarashi.reports import QzssDcReportJmaNankaiTroughEarthquake as Nankai
+from azarashi.reports.jma import NankaiTroughEarthquake as Nankai
 from qzqsm import jma
 
 RECEIVED = datetime(2026, 3, 7, 6, 0, tzinfo=UTC)  # the crafted reports are issued at 05:10 UTC on March 7th
@@ -231,7 +232,7 @@ EEW = [(47, 3, 3), (50, 3, 5), (53, 9, 201), *_time(80, 7, 5, 9), (96, 9, 10), (
 
 def test_earthquake_early_warning():
     report = _decode(jma(1, EEW))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaEarthquakeEarlyWarning
+    assert type(report) is reports.jma.EarthquakeEarlyWarning
     assert report.assumptive is True
     assert (report.eew_forecast_regions, report.eew_forecast_regions_raw) == (['北海道道央', '青森'], [1, 5])
     assert str(report) == f'''防災気象情報(緊急地震速報)(発表)(訓練/試験)
@@ -279,7 +280,7 @@ HYPOCENTER = [(53, 9, 201), *_time(80, 7, 5, 2), (96, 9, 30), (105, 7, 65), (112
 
 def test_hypocenter():
     report = _decode(jma(2, HYPOCENTER))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaHypocenter
+    assert type(report) is reports.jma.Hypocenter
     assert str(report) == f'''防災気象情報(震源)(発表)(訓練/試験)
 {TRAINING}
 7日14時2分ころ、地震がありました。
@@ -295,7 +296,7 @@ def test_hypocenter():
 
 def test_seismic_intensity():
     report = _decode(jma(3, [*_time(53, 7, 5, 2), (69, 3, 5), (72, 6, 13), (78, 3, 3), (81, 6, 14)]))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaSeismicIntensity
+    assert type(report) is reports.jma.SeismicIntensity
     assert (report.seismic_intensities_raw, report.prefectures_raw) == ([5, 3], [13, 14])
     assert str(report) == f'''防災気象情報(震度)(発表)(訓練/試験)
 {TRAINING}
@@ -327,7 +328,7 @@ def test_nankai_trough_earthquake(fresh_nankai_assembly):
     text = '訓練の情報。'.encode()  # 18 bytes: one page
     fields = [(53, 4, 5), *((57 + i * 8, 8, byte) for i, byte in enumerate(text)), (201, 6, 1), (207, 6, 1)]
     report = _decode(jma(4, fields))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaNankaiTroughEarthquake
+    assert type(report) is reports.jma.NankaiTroughEarthquake
     assert (report.information_serial_code, report.text_information) == ('巨大地震注意', text)
     assert str(report) == f'''防災気象情報(南海トラフ地震)(発表)(訓練/試験)
 {TRAINING}
@@ -359,7 +360,7 @@ TSUNAMI = [(53, 9, 109), (62, 9, 111), (80, 4, 3),
 
 def test_tsunami():
     report = _decode(jma(5, TSUNAMI))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaTsunami
+    assert type(report) is reports.jma.Tsunami
     assert report.expected_tsunami_arrival_times == [datetime(2026, 3, 7, 5, 30, tzinfo=UTC),
                                                      datetime(2026, 3, 8, 0, 15, tzinfo=UTC)]  # the next day
     assert str(report) == f'''防災気象情報(津波)(発表)(訓練/試験)
@@ -384,7 +385,7 @@ NORTHWEST_PACIFIC_TSUNAMI = [(53, 3, 1), (56, 1, 0), (57, 5, 6), (62, 6, 0), (68
 
 def test_northwest_pacific_tsunami():
     report = _decode(jma(6, NORTHWEST_PACIFIC_TSUNAMI, classification=3, information_type=2))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaNorthwestPacificTsunami
+    assert type(report) is reports.jma.NorthwestPacificTsunami
     assert report.tsunami_heights_raw == [1]
     assert str(report) == f'''JMA-DC Report (Northwest Pacific Tsunami) (Cancellation) (Regular)
 *** CANCELLATION ***
@@ -402,7 +403,7 @@ VOLCANO = [(50, 3, 1), *_time(53, 7, 4, 58), (69, 7, 13), (76, 12, 506), (88, 23
 
 def test_volcano():
     report = _decode(jma(8, VOLCANO))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaVolcano
+    assert type(report) is reports.jma.Volcano
     assert str(report) == f'''防災気象情報(火山)(発表)(訓練/試験)
 {TRAINING}
 火山に関連する情報をお知らせします。
@@ -429,7 +430,7 @@ ASH_FALL = [*_time(53, 7, 4, 30), (69, 2, 1), (71, 12, 506),
 
 def test_ash_fall():
     report = _decode(jma(9, ASH_FALL))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaAshFall
+    assert type(report) is reports.jma.AshFall
     assert (report.expected_ash_fall_times, report.expected_ash_fall_times_raw) == (['1時間', '2時間'], [1, 2])
     assert report.ash_fall_warning_codes_raw == [3, 1]
     assert str(report) == f'''防災気象情報(降灰)(発表)(訓練/試験)
@@ -483,7 +484,7 @@ WEATHER = [(53, 3, 1), (56, 5, 2), (61, 19, 130010), (80, 5, 23), (85, 19, 14000
 
 def test_weather():
     report = _decode(jma(10, WEATHER))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaWeather
+    assert type(report) is reports.jma.Weather
     assert str(report) == f'''防災気象情報(気象)(発表)(訓練/試験)
 {TRAINING}
 気象に関連する情報をお知らせします。
@@ -510,7 +511,7 @@ FLOOD = [(53, 4, 2), (57, 40, 830303020300)]
 
 def test_flood():
     report = _decode(jma(11, FLOOD + [(97, 4, 4), (101, 40, 890907000100)]))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaFlood
+    assert type(report) is reports.jma.Flood
     assert str(report) == f'''防災気象情報(洪水)(発表)(訓練/試験)
 {TRAINING}
 河川の氾濫に関連する情報をお知らせします。
@@ -545,7 +546,7 @@ TYPHOON = [*_time(53, 7, 3, 0), (69, 3, 1), (80, 7, 24), (87, 7, 5), (94, 4, 1),
 
 def test_typhoon():
     report = _decode(jma(12, TYPHOON))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaTyphoon
+    assert type(report) is reports.jma.Typhoon
     assert report.reference_time == datetime(2026, 3, 7, 3, 0, tzinfo=UTC)
     assert (report.elapsed_time_from_reference_time_raw, report.typhoon_number_raw, report.central_pressure_raw,
             report.maximum_wind_speed_raw, report.maximum_gust_wind_speed_raw) == (24, 5, 950, 45, 0)
@@ -609,7 +610,7 @@ def test_typhoon_coordinates_out_of_range():
 
 def test_marine():
     report = _decode(jma(14, [(53, 5, 22), (58, 14, 1030), (72, 5, 11), (77, 14, 1120)]))
-    assert type(report) is azarashi.qzss_dc_report.QzssDcReportJmaMarine
+    assert type(report) is reports.jma.Marine
     assert (report.marine_warning_codes_raw, report.marine_forecast_regions_raw) == ([22, 11], [1030, 1120])
     assert str(report) == f'''防災気象情報(海上)(発表)(訓練/試験)
 {TRAINING}

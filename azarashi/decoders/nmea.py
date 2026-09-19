@@ -1,16 +1,16 @@
+from ..reports import Report
+from ..reports import base
 from ..decoders import QzssDcrDecoder
 from ..decoders import QzssDcrDecoderBase
 from ..definitions import nmea_qzss_dcr_message_header
 from ..exceptions import AzarashiInvalidMessageError
-from ..reports import QzssDcReport
-from ..reports import QzssDcReportBase
 
 
 class NmeaQzssDcrDecoder(QzssDcrDecoderBase):
-    schema = QzssDcReportBase
+    schema = base.Base
     sentence: str | bytes
 
-    def decode(self) -> QzssDcReport:
+    def decode(self) -> Report:
         if not self.sentence:
             raise EOFError('Encountered EOF')
 

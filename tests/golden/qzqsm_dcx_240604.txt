@@ -1,5 +1,5 @@
 >>> $QZQSM,54,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0F
-QzssDcxNullMsg
+NullMsg
 ### DCX Message - Null Message ###
 {'camf': {'a1': 0,
           'a10': 0,
@@ -62,7 +62,7 @@ QzssDcxNullMsg
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE100868FA0000000000000000000041B40000000000000124402A20*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -154,7 +154,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE100868FA0000000000000000000041B40000000000000124402A20*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -246,7 +246,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100868FA0000000000000000000041B40000000000000129A239E0*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -338,7 +338,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100868FA0000000000000000000041B40000000000000129A239E0*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -430,7 +430,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE10208ADE0000000000000000000011340000000000000132F0D238*05
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -523,7 +523,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE10208ADE0000000000000000000011340000000000000132F0D238*05
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -616,7 +616,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE10408ADE000000000000000000001134000000000000011273F5F8*7D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -709,7 +709,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE10408ADE000000000000000000001134000000000000011273F5F8*7D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -802,7 +802,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE10608AEE000000000000000000001134000000000000012E196BC8*77
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -894,7 +894,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE10608AEE000000000000000000001134000000000000012E196BC8*77
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -986,7 +986,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE10808AFE00000000000000000000113400000000000001082C0790*0E
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1079,7 +1079,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE10808AFE00000000000000000000113400000000000001082C0790*0E
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1172,7 +1172,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE10808AFE000000000000000000001134000000000000010FE54064*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1265,7 +1265,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE10808AFE000000000000000000001134000000000000010FE54064*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1358,7 +1358,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE10A08AFE0000000000000000000011340000000000000127496BB8*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1451,7 +1451,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE10A08AFE0000000000000000000011340000000000000127496BB8*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1544,7 +1544,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE10C08B0E0000000000000000000011340000000000000100FECBB0*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1637,7 +1637,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE10C08B0E0000000000000000000011340000000000000100FECBB0*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1730,7 +1730,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE1008695A0000000000000000000041B40000000000000110E04A2C*02
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1822,7 +1822,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE1008695A0000000000000000000041B40000000000000110E04A2C*02
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -1914,7 +1914,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B2E40DE1008695A0000000000000000000041B40000000000000117E73980*76
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2006,7 +2006,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B2E40DE1008695A0000000000000000000041B40000000000000117E73980*76
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2098,7 +2098,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE10E08B0E000000000000000000001134000000000000011F5238F8*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2190,7 +2190,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE10E08B0E000000000000000000001134000000000000011F5238F8*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2282,7 +2282,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE11008B1E00000000000000000000113400000000000001392A6834*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2374,7 +2374,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE11008B1E00000000000000000000113400000000000001392A6834*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2466,7 +2466,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11008B1E000000000000000000001134000000000000013EE32FC0*7D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2558,7 +2558,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11008B1E000000000000000000001134000000000000013EE32FC0*7D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2650,7 +2650,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11208B1E00000000000000000000113400000000000001111B81E8*7F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2743,7 +2743,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11208B1E00000000000000000000113400000000000001111B81E8*7F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2836,7 +2836,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE11208B1E00000000000000000000113400000000000001164F041C*76
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -2929,7 +2929,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE11208B1E00000000000000000000113400000000000001164F041C*76
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3022,7 +3022,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE11408B2E0000000000000000000011340000000000000130D8CFB4*0F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3114,7 +3114,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE11408B2E0000000000000000000011340000000000000130D8CFB4*0F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3206,7 +3206,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11608B2E000000000000000000001134000000000000010AA6BDEC*79
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3299,7 +3299,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11608B2E000000000000000000001134000000000000010AA6BDEC*79
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3392,7 +3392,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE11808B3E000000000000000000001134000000000000012BC75440*0F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3485,7 +3485,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE11808B3E000000000000000000001134000000000000012BC75440*0F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3578,7 +3578,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11808B3E000000000000000000001134000000000000012C0E13B4*00
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3671,7 +3671,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11808B3E000000000000000000001134000000000000012C0E13B4*00
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3764,7 +3764,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11A08B3E0000000000000000000011340000000000000103F6BD9C*06
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3856,7 +3856,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11A08B3E0000000000000000000011340000000000000103F6BD9C*06
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -3948,7 +3948,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11C08B4E0000000000000000000011340000000000000124F4C740*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4042,7 +4042,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE11C08B4E0000000000000000000011340000000000000124F4C740*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4136,7 +4136,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE11E08B4E000000000000000000001134000000000000013C9173FC*7E
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4228,7 +4228,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE11E08B4E000000000000000000001134000000000000013C9173FC*7E
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4320,7 +4320,7 @@ EX1 - Target area (ja): 札幌市中央区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE12288B5E00000000000000000000CCB40000000000000137C3246C*0C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4412,7 +4412,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE12288B5E00000000000000000000CCB40000000000000137C3246C*0C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4504,7 +4504,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE12488B6E00000000000000000000CCB4000000000000011154EFC4*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4599,7 +4599,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE12488B6E00000000000000000000CCB4000000000000011154EFC4*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4694,7 +4694,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE12688B6E00000000000000000000CCB4000000000000012C7E1868*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4787,7 +4787,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE12688B6E00000000000000000000CCB4000000000000012C7E1868*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4880,7 +4880,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,9AB08408E0598969E00066AFFE8E6F70091200000000000000000100CD1A410*09
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -4993,7 +4993,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,9AB08408E0598969E00066AFFE8E6F70091200000000000000000100CD1A410*09
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5106,7 +5106,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,53B08408E0598969E00066AFFE8E6F700912000000000000000001015651FB8*0F
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5218,7 +5218,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,53B08408E0598969E00066AFFE8E6F700912000000000000000001015651FB8*0F
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5330,7 +5330,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE12A88B7E00000000000000000000CCB400000000000001227A9DEC*7A
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5423,7 +5423,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE12A88B7E00000000000000000000CCB400000000000001227A9DEC*7A
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5516,7 +5516,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE12C88B8E00000000000000000000CCB400000000000001076801D8*0E
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5613,7 +5613,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE12C88B8E00000000000000000000CCB400000000000001076801D8*0E
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5710,7 +5710,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE12E88B8E00000000000000000000CCB40000000000000118593090*73
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5802,7 +5802,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE12E88B8E00000000000000000000CCB40000000000000118593090*73
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5894,7 +5894,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE13088B9E00000000000000000000CCB4000000000000013975E5A8*76
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -5986,7 +5986,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE13088B9E00000000000000000000CCB4000000000000013975E5A8*76
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6078,7 +6078,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE13088B9E00000000000000000000CCB4000000000000013EBCA25C*7B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6170,7 +6170,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE13088B9E00000000000000000000CCB4000000000000013EBCA25C*7B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6262,7 +6262,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE13A88BBE00000000000000000000CCB40000000000000103A93000*7B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6355,7 +6355,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE13A88BBE00000000000000000000CCB40000000000000103A93000*7B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6448,7 +6448,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE13A88BBE00000000000000000000CCB40000000000000104FDB5F4*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6541,7 +6541,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE13A88BBE00000000000000000000CCB40000000000000104FDB5F4*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6634,7 +6634,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE13C88BCE00000000000000000000CCB40000000000000123620D28*05
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6726,7 +6726,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE13C88BCE00000000000000000000CCB40000000000000123620D28*05
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6818,7 +6818,7 @@ EX1 - Target area (ja): 東京都千代田区
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE13F08BCE00000000000000000001A770000000000000013EB560A4*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -6910,7 +6910,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE13F08BCE00000000000000000001A770000000000000013EB560A4*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7002,7 +7002,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE14308BDE00000000000000000001A77000000000000001315252CC*7C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7099,7 +7099,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE14308BDE00000000000000000001A77000000000000001315252CC*7C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7196,7 +7196,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE14308BDE00000000000000000001A770000000000000013606D738*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7293,7 +7293,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE14308BDE00000000000000000001A770000000000000013606D738*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7390,7 +7390,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE14508BEE00000000000000000001A7700000000000000110911C90*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7483,7 +7483,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE14508BEE00000000000000000001A7700000000000000110911C90*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7576,7 +7576,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE14508BEE00000000000000000001A7700000000000000117585B64*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7669,7 +7669,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE14508BEE00000000000000000001A7700000000000000117585B64*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7762,7 +7762,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE14708BEE00000000000000000001A770000000000000012AEF6EC8*03
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7855,7 +7855,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE14708BEE00000000000000000001A770000000000000012AEF6EC8*03
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -7948,7 +7948,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE14D08C0E00000000000000000001A7700000000000000103FC2814*0B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8040,7 +8040,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE14D08C0E00000000000000000001A7700000000000000103FC2814*0B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8132,7 +8132,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE14F08C0E00000000000000000001A770000000000000011B045EA8*01
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8224,7 +8224,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE14F08C0E00000000000000000001A770000000000000011B045EA8*01
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8316,7 +8316,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE14F08C0E00000000000000000001A770000000000000011C50DB5C*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8408,7 +8408,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE14F08C0E00000000000000000001A770000000000000011C50DB5C*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8500,7 +8500,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE14F08C0E00000000000000000001A770000000000000011C50DB5C*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8592,7 +8592,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE14F08C0E00000000000000000001A770000000000000011C50DB5C*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8684,7 +8684,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE10106A5A0000000000000000000041B4000000000000012713CE3C*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8776,7 +8776,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE10106A5A0000000000000000000041B4000000000000012713CE3C*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8868,7 +8868,7 @@ EX1 - Target area (ja): 宮城県気仙沼市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15108C1E00000000000000000001A770000000000000013A288B90*7D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -8960,7 +8960,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15108C1E00000000000000000001A770000000000000013A288B90*7D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9052,7 +9052,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15108C1E00000000000000000001A770000000000000013DE1CC64*09
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9144,7 +9144,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15108C1E00000000000000000001A770000000000000013DE1CC64*09
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9236,7 +9236,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE15108C1E00000000000000000001A770000000000000013DE1CC64*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9328,7 +9328,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE15108C1E00000000000000000001A770000000000000013DE1CC64*08
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9420,7 +9420,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15308C1E00000000000000000001A770000000000000011219624C*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9513,7 +9513,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15308C1E00000000000000000001A770000000000000011219624C*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9606,7 +9606,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15308C1E00000000000000000001A77000000000000001154DE7B8*7B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9699,7 +9699,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15308C1E00000000000000000001A77000000000000001154DE7B8*7B
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9792,7 +9792,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15508C2E00000000000000000001A7700000000000000133DA2C10*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9885,7 +9885,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15508C2E00000000000000000001A7700000000000000133DA2C10*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -9978,7 +9978,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15508C2E00000000000000000001A7700000000000000134136BE4*0F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10071,7 +10071,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15508C2E00000000000000000001A7700000000000000134136BE4*0F
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10164,7 +10164,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15708C2E00000000000000000001A7700000000000000109A45E48*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10257,7 +10257,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15708C2E00000000000000000001A7700000000000000109A45E48*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10350,7 +10350,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15708C2E00000000000000000001A770000000000000010EF0DBBC*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10443,7 +10443,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15708C2E00000000000000000001A770000000000000010EF0DBBC*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10536,7 +10536,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15908C3E00000000000000000001A7700000000000000128C5B7E4*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10631,7 +10631,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15908C3E00000000000000000001A7700000000000000128C5B7E4*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10726,7 +10726,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15908C3E00000000000000000001A770000000000000012F0CF010*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10821,7 +10821,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15908C3E00000000000000000001A770000000000000012F0CF010*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -10916,7 +10916,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15B08C3E00000000000000000001A7700000000000000100F45E38*70
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11010,7 +11010,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15B08C3E00000000000000000001A7700000000000000100F45E38*70
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11104,7 +11104,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15B08C3E00000000000000000001A7700000000000000107A0DBCC*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11198,7 +11198,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15B08C3E00000000000000000001A7700000000000000107A0DBCC*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11292,7 +11292,7 @@ EX1 - Target area (ja): 大阪府大阪市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15D88C4E00000000000000000002E184000000000000012045DEC4*71
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11385,7 +11385,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE15D88C4E00000000000000000002E184000000000000012045DEC4*71
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11478,7 +11478,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15D88C4E00000000000000000002E18400000000000001278C9930*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11571,7 +11571,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15D88C4E00000000000000000002E18400000000000001278C9930*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11664,7 +11664,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15F88C4E00000000000000000002E1840000000000000138BDA878*03
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11756,7 +11756,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE15F88C4E00000000000000000002E1840000000000000138BDA878*03
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11848,7 +11848,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15F88C4E00000000000000000002E184000000000000013FE92D8C*71
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -11940,7 +11940,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE15F88C4E00000000000000000002E184000000000000013FE92D8C*71
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12032,7 +12032,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE16188C5E00000000000000000002E184000000000000011EC2439C*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12125,7 +12125,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE16188C5E00000000000000000002E184000000000000011EC2439C*75
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12218,7 +12218,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE16388C5E00000000000000000002E18400000000000001313AEDB4*09
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12311,7 +12311,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE16388C5E00000000000000000002E18400000000000001313AEDB4*09
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12404,7 +12404,7 @@ EX1 - Target area (ja): 沖縄県那覇市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,C6B08408E0588979E00066AFFE8E6F70091200000000000000000101273EF14*77
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12516,7 +12516,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,C6B08408E0588979E00066AFFE8E6F70091200000000000000000101273EF14*77
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12628,7 +12628,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,53B08408E0588979E00066AFFE8E6F700912000000000000000001000A1B690*08
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12740,7 +12740,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,53B08408E0588979E00066AFFE8E6F700912000000000000000001000A1B690*08
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12852,7 +12852,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,9AB08408E0588979E00066AFFE8E6F7009120000000000000000010133E590C*70
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -12965,7 +12965,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,53,9AB08408E0588979E00066AFFE8E6F7009120000000000000000010133E590C*70
-QzssDcxOutsideJapan
+OutsideJapan
 ### DCX Message - Information from Organizations outside Japan ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13078,7 +13078,7 @@ C4 - Refined length of semi minor axis: 723.258
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE17A08CBE000BD36E47A359984BA011340000000000000104877D4C*70
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13196,7 +13196,7 @@ C4 - Refined length of semi minor axis: 6.768
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE17A08CBE000BD36E47A359984BA011340000000000000104877D4C*70
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13314,7 +13314,7 @@ C4 - Refined length of semi minor axis: 6.768
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE18208CDE000BD36E47A359984BA0113400000000000001313AE010*0C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13428,7 +13428,7 @@ C4 - Refined length of semi minor axis: 6.768
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE18208CDE000BD36E47A359984BA0113400000000000001313AE010*0C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13542,7 +13542,7 @@ C4 - Refined length of semi minor axis: 6.768
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE18408CEE000BD36E47A359984BA011340000000000000110F9AE4C*7C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13657,7 +13657,7 @@ C4 - Refined length of semi minor axis: 6.768
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE18408CEE000BD36E47A359984BA011340000000000000110F9AE4C*7C
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13772,7 +13772,7 @@ C4 - Refined length of semi minor axis: 6.768
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE10086CDA0000000000000000000226300000000000000102CFD2E4*70
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13864,7 +13864,7 @@ EX1 - Target area (ja): 山口県柳井市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE10086CDA0000000000000000000226300000000000000102CFD2E4*70
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -13956,7 +13956,7 @@ EX1 - Target area (ja): 山口県柳井市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE2BF88E9200000000000000000001FFFFFFFFFFFC00000110D0A1B8*71
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -14143,7 +14143,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE2BF88E9200000000000000000001FFFFFFFFFFFC00000110D0A1B8*71
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -14330,7 +14330,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE31188FC208600000000000000001FFFFFFFFFFFC00000120738628*00
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -14519,7 +14519,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE31188FC208600000000000000001FFFFFFFFFFFC00000120738628*00
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -14708,7 +14708,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E208FD208800000000000000001FFFFFFFFFFFC0000011BFAF780*79
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -14896,7 +14896,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E208FD208800000000000000001FFFFFFFFFFFC0000011BFAF780*79
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15084,7 +15084,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FD208800000000000000001FFFFFFFFFFFC0000011C33B074*09
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15272,7 +15272,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FD208800000000000000001FFFFFFFFFFFC0000011C33B074*09
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15460,7 +15460,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FD208800000000000000000000000000004000001319CC608*0F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15556,7 +15556,7 @@ EX9 - Target area list (ja): ['北海道']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FD208800000000000000000000000000004000001319CC608*0F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15652,7 +15652,7 @@ EX9 - Target area list (ja): ['北海道']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE10106E3A00000000000000000002263C000000000000010FECAFF0*09
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15744,7 +15744,7 @@ EX1 - Target area (ja): 山口県周南市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE10106E3A00000000000000000002263C000000000000010FECAFF0*09
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15836,7 +15836,7 @@ EX1 - Target area (ja): 山口県周南市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE10106E3A00000000000000000002263C00000000000001110C91AC*02
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -15928,7 +15928,7 @@ EX1 - Target area (ja): 山口県周南市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE10106E3A00000000000000000002263C00000000000001110C91AC*02
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16020,7 +16020,7 @@ EX1 - Target area (ja): 山口県周南市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FE2088000000000000000000000000001F800000116491AAC*08
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16116,7 +16116,7 @@ EX9 - Target area list (ja): ['青森県', '岩手県', '宮城県', '秋田県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FE2088000000000000000000000000001F800000116491AAC*08
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16212,7 +16212,7 @@ EX9 - Target area list (ja): ['青森県', '岩手県', '宮城県', '秋田県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E208FE2088000000000000000000000000001F80000011B36CB6C*7F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16308,7 +16308,7 @@ EX9 - Target area list (ja): ['青森県', '岩手県', '宮城県', '秋田県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E208FE2088000000000000000000000000001F80000011B36CB6C*7F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16404,7 +16404,7 @@ EX9 - Target area list (ja): ['青森県', '岩手県', '宮城県', '秋田県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FE20880000000000000000000000000FE0000000128E13EB0*76
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16500,7 +16500,7 @@ EX9 - Target area list (ja): ['茨城県', '栃木県', '群馬県', '埼玉県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FE20880000000000000000000000000FE0000000128E13EB0*76
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16596,7 +16596,7 @@ EX9 - Target area list (ja): ['茨城県', '栃木県', '群馬県', '埼玉県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E208FE20880000000000000000000000000FE000000012FB5BB44*02
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16692,7 +16692,7 @@ EX9 - Target area list (ja): ['茨城県', '栃木県', '群馬県', '埼玉県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E208FE20880000000000000000000000000FE000000012FB5BB44*02
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16788,7 +16788,7 @@ EX9 - Target area list (ja): ['茨城県', '栃木県', '群馬県', '埼玉県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E208FF2088000000000000000000000003F000000000109ED4150*0F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16884,7 +16884,7 @@ EX9 - Target area list (ja): ['新潟県', '富山県', '石川県', '福井県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E208FF2088000000000000000000000003F000000000109ED4150*0F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -16980,7 +16980,7 @@ EX9 - Target area list (ja): ['新潟県', '富山県', '石川県', '福井県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE10106E4A00000000000000000000758400000000000001223F24C8*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17072,7 +17072,7 @@ EX1 - Target area (ja): 福島県三春町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE10106E4A00000000000000000000758400000000000001223F24C8*72
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17164,7 +17164,7 @@ EX1 - Target area (ja): 福島県三春町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE10106E4A00000000000000000000758400000000000001256BA13C*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17256,7 +17256,7 @@ EX1 - Target area (ja): 福島県三春町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE10106E4A00000000000000000000758400000000000001256BA13C*04
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17348,7 +17348,7 @@ EX1 - Target area (ja): 福島県三春町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E208FF208800000000000000000000003C000000000012A31D0A4*72
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17444,7 +17444,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E208FF208800000000000000000000003C000000000012A31D0A4*72
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17540,7 +17540,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FF208800000000000000000000003C000000000012DF89750*7F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17636,7 +17636,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E208FF208800000000000000000000003C000000000012DF89750*7F
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17732,7 +17732,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E209002088000000000000000000000FC000000000001013BBA14*00
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17828,7 +17828,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E209002088000000000000000000000FC000000000001013BBA14*00
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -17924,7 +17924,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E209002088000000000000000000000FC00000000000106F2FDE0*0D
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18020,7 +18020,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E209002088000000000000000000000FC00000000000106F2FDE0*0D
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18116,7 +18116,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2090120880000000000000000001E0000000000000013B859264*73
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18212,7 +18212,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2090120880000000000000000001E0000000000000013B859264*73
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18308,7 +18308,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2090120880000000000000000001E0000000000000013C4CD590*07
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18404,7 +18404,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2090120880000000000000000001E0000000000000013C4CD590*07
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18500,7 +18500,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20901208800000000000000000FE000000000000000110EE900C*74
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18596,7 +18596,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20901208800000000000000000FE000000000000000110EE900C*74
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18692,7 +18692,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20901208800000000000000000FE00000000000000011CDCF7D4*7B
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18788,7 +18788,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20901208800000000000000000FE00000000000000011CDCF7D4*7B
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18884,7 +18884,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2090220880000000000000000100000000000000000137528628*09
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -18980,7 +18980,7 @@ EX9 - Target area list (ja): ['沖縄県']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2090220880000000000000000100000000000000000137528628*09
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -19076,7 +19076,7 @@ EX9 - Target area list (ja): ['沖縄県']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE2118908208000000000000000001FFFFFFFFFFFC00000103F66550*7D
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -19265,7 +19265,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE2118908208000000000000000001FFFFFFFFFFFC00000103F66550*7D
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -19454,7 +19454,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE2E2090C208800000000000000001FFFFFFFFFFFC00000126CA5870*77
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -19642,7 +19642,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE2E2090C208800000000000000001FFFFFFFFFFFC00000126CA5870*77
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -19830,7 +19830,7 @@ EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE2E2090D2088000000000000000000000000001F80000011FF1CD84*0C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -19926,7 +19926,7 @@ EX9 - Target area list (ja): ['青森県', '岩手県', '宮城県', '秋田県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE2E2090D2088000000000000000000000000001F80000011FF1CD84*0C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20022,7 +20022,7 @@ EX9 - Target area list (ja): ['青森県', '岩手県', '宮城県', '秋田県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091D2088000000000000000000000003F00000000011A0B9488*7C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20118,7 +20118,7 @@ EX9 - Target area list (ja): ['新潟県', '富山県', '石川県', '福井県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091D2088000000000000000000000003F00000000011A0B9488*7C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20214,7 +20214,7 @@ EX9 - Target area list (ja): ['新潟県', '富山県', '石川県', '福井県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091D2088000000000000000000000003F00000000011DC2D37C*0A
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20310,7 +20310,7 @@ EX9 - Target area list (ja): ['新潟県', '富山県', '石川県', '福井県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091D2088000000000000000000000003F00000000011DC2D37C*0A
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20406,7 +20406,7 @@ EX9 - Target area list (ja): ['新潟県', '富山県', '石川県', '福井県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE1010702A000000000000000000022AB80000000000000131F86B40*01
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20498,7 +20498,7 @@ EX1 - Target area (ja): 山口県阿武町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE1010702A000000000000000000022AB80000000000000131F86B40*01
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20590,7 +20590,7 @@ EX1 - Target area (ja): 山口県阿武町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE1010702A000000000000000000022AB80000000000000136ACEEB4*71
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20682,7 +20682,7 @@ EX1 - Target area (ja): 山口県阿武町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE1010702A000000000000000000022AB80000000000000136ACEEB4*71
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20774,7 +20774,7 @@ EX1 - Target area (ja): 山口県阿武町
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091D208800000000000000000000003C0000000000139D7057C*7E
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20870,7 +20870,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091D208800000000000000000000003C0000000000139D7057C*7E
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -20966,7 +20966,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091D208800000000000000000000003C000000000013E1E4288*0C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21062,7 +21062,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091D208800000000000000000000003C000000000013E1E4288*0C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21158,7 +21158,7 @@ EX9 - Target area list (ja): ['岐阜県', '静岡県', '愛知県', '三重県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091E2088000000000000000000000FC00000000000111DCEA7C*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21254,7 +21254,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091E2088000000000000000000000FC00000000000111DCEA7C*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21350,7 +21350,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091E2088000000000000000000000FC0000000000011615AD88*7A
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21446,7 +21446,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091E2088000000000000000000000FC0000000000011615AD88*7A
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21542,7 +21542,7 @@ EX9 - Target area list (ja): ['滋賀県', '京都府', '大阪府', '兵庫県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091E208800000000000000000001F00000000000001291B4AB4*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21638,7 +21638,7 @@ EX9 - Target area list (ja): ['鳥取県', '島根県', '岡山県', '広島県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091E208800000000000000000001F00000000000001291B4AB4*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21734,7 +21734,7 @@ EX9 - Target area list (ja): ['鳥取県', '島根県', '岡山県', '広島県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E2091E208800000000000000000001F000000000000012E4FCF40*07
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21830,7 +21830,7 @@ EX9 - Target area list (ja): ['鳥取県', '島根県', '岡山県', '広島県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E2091E208800000000000000000001F000000000000012E4FCF40*07
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -21926,7 +21926,7 @@ EX9 - Target area list (ja): ['鳥取県', '島根県', '岡山県', '広島県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091F20880000000000000000001E00000000000000109E4C6E8*00
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22022,7 +22022,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2091F20880000000000000000001E00000000000000109E4C6E8*00
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22118,7 +22118,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091F20880000000000000000001E0000000000000010E2D811C*76
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22214,7 +22214,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091F20880000000000000000001E0000000000000010E2D811C*76
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22310,7 +22310,7 @@ EX9 - Target area list (ja): ['徳島県', '香川県', '愛媛県', '高知県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091F208800000000000000000FE0000000000000001228FC480*78
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22406,7 +22406,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E2091F208800000000000000000FE0000000000000001228FC480*78
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22502,7 +22502,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E2091F208800000000000000000FE000000000000000125DB4174*73
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22598,7 +22598,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E2091F208800000000000000000FE000000000000000125DB4174*73
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22694,7 +22694,7 @@ EX9 - Target area list (ja): ['福岡県', '佐賀県', '長崎県', '熊本県'
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2092020880000000000000000100000000000000000101B23164*01
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22790,7 +22790,7 @@ EX9 - Target area list (ja): ['沖縄県']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E2092020880000000000000000100000000000000000101B23164*01
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22886,7 +22886,7 @@ EX9 - Target area list (ja): ['沖縄県']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20920208800000000000000001000000000000000001067B7690*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -22982,7 +22982,7 @@ EX9 - Target area list (ja): ['沖縄県']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20920208800000000000000001000000000000000001067B7690*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23078,7 +23078,7 @@ EX9 - Target area list (ja): ['沖縄県']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20920208800000000000000002089A0000000000000119E3B904*7C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23174,7 +23174,7 @@ EX9 - Target area list (ja): ['札幌市中央区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20920208800000000000000002089A0000000000000119E3B904*7C
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23270,7 +23270,7 @@ EX9 - Target area list (ja): ['札幌市中央区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E20920208800000000000000002089A000000000000011EB73CF0*77
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23366,7 +23366,7 @@ EX9 - Target area list (ja): ['札幌市中央区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E20920208800000000000000002089A000000000000011EB73CF0*77
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23462,7 +23462,7 @@ EX9 - Target area list (ja): ['札幌市中央区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E20921208800000000000000002089A665A000000000138EE8998*7D
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23558,7 +23558,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E20921208800000000000000002089A665A000000000138EE8998*7D
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23654,7 +23654,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20921208800000000000000002089A665A00000000013F27CE6C*0B
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23750,7 +23750,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20921208800000000000000002089A665A00000000013F27CE6C*0B
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23846,7 +23846,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区']
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20921208800000000000000002089A665AD3B800000112C7DF28*7A
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -23941,7 +23941,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20921208800000000000000002089A665AD3B800000112C7DF28*7A
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24036,7 +24036,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E20921208800000000000000002089A665AD3B800000115935ADC*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24131,7 +24131,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,C6B0840DE3E20921208800000000000000002089A665AD3B800000115935ADC*75
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24226,7 +24226,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E20922208800000000000000002089A665AD3B970C20130DFADC8*70
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24321,7 +24321,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,53B0840DE3E20922208800000000000000002089A665AD3B970C20130DFADC8*70
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24416,7 +24416,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20922208800000000000000002089A665AD3B970C2013716EA3C*06
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24511,7 +24511,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,55,9AB0840DE3E20922208800000000000000002089A665AD3B970C2013716EA3C*06
-QzssDcxJAlert
+JAlert
 ### DCX Message - J-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24606,7 +24606,7 @@ EX9 - Target area list (ja): ['札幌市中央区', '東京都千代田区', '�
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE100070DA000000000000000000022610000000000000010DBF4F2C*7A
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24698,7 +24698,7 @@ EX1 - Target area (ja): 山口県萩市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE100070DA000000000000000000022610000000000000010DBF4F2C*7A
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24790,7 +24790,7 @@ EX1 - Target area (ja): 山口県萩市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100070DA000000000000000000022610000000000000011212C768*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24882,7 +24882,7 @@ EX1 - Target area (ja): 山口県萩市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100070DA000000000000000000022610000000000000011212C768*0D
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -24974,7 +24974,7 @@ EX1 - Target area (ja): 山口県萩市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE100070DA00000000000000000002262000000000000001213C96D4*06
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -25066,7 +25066,7 @@ EX1 - Target area (ja): 山口県岩国市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,53B0840DE100070DA00000000000000000002262000000000000001213C96D4*06
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -25158,7 +25158,7 @@ EX1 - Target area (ja): 山口県岩国市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100070DA0000000000000000000226200000000000000126F5D120*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -25250,7 +25250,7 @@ EX1 - Target area (ja): 山口県岩国市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100070DA0000000000000000000226200000000000000126F5D120*74
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -25342,7 +25342,7 @@ EX1 - Target area (ja): 山口県岩国市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100070EA00000000000000000002260C0000000000000112B01250*73
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -25434,7 +25434,7 @@ EX1 - Target area (ja): 山口県山口市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,9AB0840DE100070EA00000000000000000002260C0000000000000112B01250*73
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -25526,7 +25526,7 @@ EX1 - Target area (ja): 山口県山口市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE100070EA00000000000000000002260C0000000000000115E497A4*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test
@@ -25618,7 +25618,7 @@ EX1 - Target area (ja): 山口県山口市
  'timestamp': datetime.datetime(2024, 6, 4, 3, 0, tzinfo=datetime.timezone.utc)}
 
 >>> $QZQSM,54,C6B0840DE100070EA00000000000000000002260C0000000000000115E497A4*07
-QzssDcxLAlert
+LAlert
 ### DCX Message - L-Alert ###
 *** This is a test message ***
 A1 - Message type: Test

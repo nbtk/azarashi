@@ -1,18 +1,17 @@
 from datetime import datetime
 
+from ..reports.base import DayHourMinute
+from ..reports import jma
 from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_tsunami_forecast_region
 from ..definitions import qzss_dcr_jma_tsunami_height
 from ..definitions import qzss_dcr_jma_tsunami_warning_code
-from ..reports import DayHourMinute
-from ..reports import QzssDcReportJmaBase
-from ..reports import QzssDcReportJmaTsunami
 
 
 class QzssDcrDecoderJmaTsunami(QzssDcrDecoderJmaCommon):
-    schema = QzssDcReportJmaBase
+    schema = jma.Base
 
-    def decode(self) -> QzssDcReportJmaTsunami:
+    def decode(self) -> jma.Tsunami:
         self.notifications_on_disaster_prevention, self.notifications_on_disaster_prevention_raw =\
             self.extract_notification_on_disaster_prevention_fields(53)
         dw = self.extract_field(80, 4)
@@ -44,4 +43,4 @@ class QzssDcrDecoderJmaTsunami(QzssDcrDecoderJmaCommon):
             self.tsunami_forecast_regions.append(qzss_dcr_jma_tsunami_forecast_region[pl])
             self.tsunami_forecast_regions_raw.append(pl)
 
-        return QzssDcReportJmaTsunami(**self.get_params())
+        return jma.Tsunami(**self.get_params())

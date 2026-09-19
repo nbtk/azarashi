@@ -3,6 +3,9 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import UTC
 
+from ..reports.base import DayHourMinute
+from ..reports.base import Coordinates
+from ..reports import jma
 from .base import QzssDcrDecoderBase
 from ..definitions import qzss_dcr_jma_days
 from ..definitions import qzss_dcr_jma_depth_of_hypocenter
@@ -19,9 +22,6 @@ from ..definitions import qzss_dcr_jma_longitude_degrees
 from ..definitions import qzss_dcr_jma_minutes
 from ..definitions import qzss_dcr_jma_notification_on_disaster_prevention
 from ..definitions.qzss_dcr_definition import QzssDcrDefinition
-from ..reports import Coordinates
-from ..reports import DayHourMinute
-from ..reports import QzssDcReportJmaBase
 
 
 class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
@@ -94,7 +94,7 @@ class QzssDcrDecoderJmaCommon(QzssDcrDecoderBase):
                 and coordinates['lon_d'] in qzss_dcr_jma_longitude_degrees
                 and coordinates['lon_m'] in qzss_dcr_jma_latitude_and_longitude_minutes
                 and coordinates['lon_s'] in qzss_dcr_jma_latitude_and_longitude_seconds):
-            return QzssDcReportJmaBase.convert_lat_lon_to_str(coordinates), coordinates
+            return jma.Base.convert_lat_lon_to_str(coordinates), coordinates
         # with one part outside its range, the other parts cannot be trusted as a position either
         return qzss_dcr_jma_latitude_and_longitude_undefined % self.extract_field(slider, 41), coordinates
 

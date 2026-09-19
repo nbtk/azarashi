@@ -12,7 +12,7 @@ from .decoders import NetQzssDcrDecoder
 from .decoders import NmeaQzssDcrDecoder
 from .decoders import UBloxQzssDcrDecoder
 from .exceptions import AzarashiInvalidMessageError
-from .reports import QzssDcReport
+from .reports import Report
 
 #: the forms a message can arrive in; 'spresense' is another name for 'nmea'
 MessageFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox', 'net']
@@ -38,20 +38,20 @@ class SupportsRead(Protocol):
 
 QzssDcrStream: TypeAlias = SupportsReadline | SupportsRead1 | SupportsRead  # what decode_stream() reads
 
-caches: StreamKeyedDict[list[QzssDcReport]] = StreamKeyedDict()  # stream -> recent reports, released with the stream
-deliveries: StreamKeyedDict[list[QzssDcReport]] = StreamKeyedDict()  # stream -> reports handed to a callback right now
+caches: StreamKeyedDict[list[Report]] = StreamKeyedDict()  # stream -> recent reports, released with the stream
+deliveries: StreamKeyedDict[list[Report]] = StreamKeyedDict()  # stream -> reports handed to a callback right now
 cache_size = 256
 
 
-def _cached(cache: list[QzssDcReport], report: QzssDcReport) -> list[QzssDcReport]:
+def _cached(cache: list[Report], report: Report) -> list[Report]:
     return ([r for r in cache if r != report] + [report])[-cache_size:]  # the newest copy, at the newest end
 
 
-def _dropped(reports: list[QzssDcReport], report: QzssDcReport) -> list[QzssDcReport]:
+def _dropped(reports: list[Report], report: Report) -> list[Report]:
     return [r for r in reports if r != report]
 
 
-def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: datetime | None = None) -> QzssDcReport:
+def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: datetime | None = None) -> Report:
     if not msg:
         raise EOFError('Encountered EOF')
 
@@ -75,7 +75,7 @@ def decode_stream(stream: QzssDcrStream,
                   unique: bool | float = False,
                   ignore_dcr: bool = False,
                   ignore_dcx: bool = True,
-                  timestamp: datetime | None = None) -> QzssDcReport:
+                  timestamp: datetime | None = None) -> Report:
     if callback_kwargs is None:
         callback_kwargs = {}
 

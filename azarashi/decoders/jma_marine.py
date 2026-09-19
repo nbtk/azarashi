@@ -1,14 +1,13 @@
+from ..reports import jma
 from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_marine_forecast_region
 from ..definitions import qzss_dcr_jma_marine_warning_code
-from ..reports import QzssDcReportJmaBase
-from ..reports import QzssDcReportJmaMarine
 
 
 class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
-    schema = QzssDcReportJmaBase
+    schema = jma.Base
 
-    def decode(self) -> QzssDcReportJmaMarine:
+    def decode(self) -> jma.Marine:
         self.marine_warning_codes: list[str] = []
         self.marine_warning_codes_raw: list[int] = []
         self.marine_forecast_regions: list[str] = []
@@ -26,4 +25,4 @@ class QzssDcrDecoderJmaMarine(QzssDcrDecoderJmaCommon):
             self.marine_forecast_regions.append(qzss_dcr_jma_marine_forecast_region[pl])
             self.marine_forecast_regions_raw.append(pl)
 
-        return QzssDcReportJmaMarine(**self.get_params())
+        return jma.Marine(**self.get_params())

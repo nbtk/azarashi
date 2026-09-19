@@ -2,21 +2,20 @@ from calendar import monthrange
 from datetime import datetime
 from datetime import UTC
 
+from ..reports.base import DayHourMinute
+from ..reports import jma
 from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_days
 from ..definitions import qzss_dcr_jma_hours
 from ..definitions import qzss_dcr_jma_minutes
 from ..definitions import qzss_dcr_jma_volcanic_warning_code
 from ..definitions import qzss_dcr_jma_volcano_name
-from ..reports import DayHourMinute
-from ..reports import QzssDcReportJmaBase
-from ..reports import QzssDcReportJmaVolcano
 
 
 class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
-    schema = QzssDcReportJmaBase
+    schema = jma.Base
 
-    def decode(self) -> QzssDcReportJmaVolcano:
+    def decode(self) -> jma.Volcano:
         self.ambiguity_of_activity_time_no = self.extract_field(50, 3)
         self.activity_time_raw = self.extract_day_hour_min_raw(53)
         self.activity_time = self.extract_activity_time(self.activity_time_raw, self.ambiguity_of_activity_time_no)
@@ -39,7 +38,7 @@ class QzssDcrDecoderJmaVolcano(QzssDcrDecoderJmaCommon):
             self.local_governments.append(local_government)
             self.local_governments_raw.append(lg)
 
-        return QzssDcReportJmaVolcano(**self.get_params())
+        return jma.Volcano(**self.get_params())
 
     def extract_activity_time(self, raw: DayHourMinute, ambiguity: int) -> datetime | None:
         """Observed activity time (UTC) with the parts that the ambiguity marks as not valid set to 0.

@@ -1,21 +1,21 @@
 from datetime import datetime
 from typing import Any, ClassVar
 
+from ..reports import Report
+from ..reports import base
 from ..definitions import nmea_qzss_dcr_message_header
 from ..exceptions import AzarashiNotImplementedError
-from ..reports import QzssDcReport
-from ..reports import QzssDcReportBase
 
 
 class QzssDcrDecoderBase:
-    schema: ClassVar[type[QzssDcReportBase]]  # checks the parameters and sets them as attributes
+    schema: ClassVar[type[base.Base]]  # checks the parameters and sets them as attributes
     message: bytes
     timestamp: datetime
 
     def __init__(self, sentence: str | bytes, **kwargs: Any) -> None:
         self.set_params(sentence=sentence, **kwargs)
 
-    def decode(self) -> QzssDcReport:
+    def decode(self) -> Report:
         raise AzarashiNotImplementedError('Decoder Not Implemented')
 
     def message_to_nmea(self) -> str:

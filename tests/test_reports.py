@@ -1,7 +1,7 @@
 """Behaviour shared by every report: equality, hashing, parameters and the fallbacks of the base classes."""
 import azarashi
-from azarashi.reports import QzssDcReportBase
-from azarashi.reports import QzssDcReportMessagePartial
+from azarashi.reports.base import Base
+from azarashi.reports.base import MessagePartial
 from qzqsm import with_fields
 from samples import EEW
 from samples import L_ALERT
@@ -36,16 +36,16 @@ def test_get_params_is_a_copy():
 
 
 def test_base_report():
-    report = QzssDcReportBase('sentence', raw=b'raw')
+    report = Base('sentence', raw=b'raw')
     assert str(report) == str(report.__dict__)
     assert (report.sentence, report.raw) == ('sentence', b'raw')
     assert report.timestamp.utcoffset().total_seconds() == 0
-    assert QzssDcReportBase('sentence').raw == b''
+    assert Base('sentence').raw == b''
 
 
 def test_message_is_the_sentence_when_there_is_none():
     message = azarashi.decode(EEW).message
-    report = QzssDcReportMessagePartial(message=message, nmea=EEW)
+    report = MessagePartial(message=message, nmea=EEW)
     assert report.sentence is message
 
 
@@ -54,5 +54,5 @@ def test_dcx_camf_fields():
     assert report.camf.get_params() == report.camf.__dict__
     assert report.camf.get_params() is not report.camf.__dict__  # a copy, as a report's get_params() gives
     assert str(report.camf) == str(report.camf.__dict__)
-    assert repr(report.camf).startswith('QzssDcxCamf(sdmt=')  # an address would say nothing and never repeat
+    assert repr(report.camf).startswith('Camf(sdmt=')  # an address would say nothing and never repeat
     assert report.camf.a2 == 111

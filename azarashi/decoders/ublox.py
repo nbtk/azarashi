@@ -1,17 +1,17 @@
+from ..reports import Report
+from ..reports import base
 from ..decoders import QzssDcrDecoder
 from ..decoders import QzssDcrDecoderBase
 from ..definitions import ublox_qzss_dcr_message_header
 from ..definitions import ublox_qzss_svid_prn_map
 from ..exceptions import AzarashiInvalidMessageError
-from ..reports import QzssDcReport
-from ..reports import QzssDcReportBase
 
 
 class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
-    schema = QzssDcReportBase
+    schema = base.Base
     sentence: bytes
 
-    def decode(self) -> QzssDcReport:
+    def decode(self) -> Report:
         # extracts a message header, satellite id, and message
         self.message_header = self.sentence[:len(ublox_qzss_dcr_message_header)]
 

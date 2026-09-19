@@ -3,7 +3,7 @@ import threading
 from datetime import datetime, timedelta
 from typing import Any, ClassVar
 
-from .base import Coordinates, DayHourMinute, QzssDcReportMessageBase
+from .base import Coordinates, DayHourMinute, MessageBase
 from ..definitions import qzss_dcr_jma_activity_time_undefined
 from ..definitions import qzss_dcr_jma_occurrence_time_of_earthquake_undefined
 from ..definitions import qzss_dcr_jma_page_number_and_total_page_undefined
@@ -17,7 +17,7 @@ def _day_hour_minute_code(raw: DayHourMinute) -> int:
     return raw['day'] << 11 | raw['hour'] << 6 | raw['minute']
 
 
-class QzssDcReportJmaBase(QzssDcReportMessageBase):
+class Base(MessageBase):
     def __init__(self,
                  version: int,
                  report_classification: str,
@@ -114,7 +114,7 @@ class QzssDcReportJmaBase(QzssDcReportMessageBase):
             f'{coordinates["lon_s"]}秒'
 
 
-class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
+class EarthquakeEarlyWarning(Base):
     def __init__(self,
                  long_period_ground_motion_lower_limit: str | None,
                  long_period_ground_motion_lower_limit_raw: int,
@@ -189,7 +189,7 @@ class QzssDcReportJmaEarthquakeEarlyWarning(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
+class Hypocenter(Base):
     def __init__(self,
                  notifications_on_disaster_prevention: list[str],
                  notifications_on_disaster_prevention_raw: list[int],
@@ -235,7 +235,7 @@ class QzssDcReportJmaHypocenter(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
+class SeismicIntensity(Base):
     def __init__(self,
                  occurrence_time_of_earthquake: datetime | None,
                  occurrence_time_of_earthquake_raw: DayHourMinute,
@@ -271,9 +271,9 @@ class QzssDcReportJmaSeismicIntensity(QzssDcReportJmaBase):
 _assembly_lock = threading.Lock()
 
 
-class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
+class NankaiTroughEarthquake(Base):
     completed: ClassVar[bool] = False
-    reports: ClassVar[dict[int, 'QzssDcReportJmaNankaiTroughEarthquake']] = {}  # page number -> page of the announcement being assembled
+    reports: ClassVar[dict[int, 'NankaiTroughEarthquake']] = {}  # page number -> page of the announcement being assembled
     announcement: ClassVar[tuple[datetime, int, int, int, int] | None] = None  # identifies the announcement being assembled
 
     def __init__(self,
@@ -350,7 +350,7 @@ class QzssDcReportJmaNankaiTroughEarthquake(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
+class Tsunami(Base):
     def __init__(self,
                  notifications_on_disaster_prevention: list[str],
                  notifications_on_disaster_prevention_raw: list[int],
@@ -397,7 +397,7 @@ class QzssDcReportJmaTsunami(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
+class NorthwestPacificTsunami(Base):
     def __init__(self,
                  tsunamigenic_potential_en: str,
                  tsunamigenic_potential_raw: int,
@@ -437,7 +437,7 @@ class QzssDcReportJmaNorthwestPacificTsunami(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
+class Volcano(Base):
     def __init__(self,
                  ambiguity_of_activity_time_no: int,
                  activity_time: datetime | None,
@@ -478,7 +478,7 @@ class QzssDcReportJmaVolcano(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
+class AshFall(Base):
     def __init__(self,
                  activity_time: datetime | None,
                  activity_time_raw: DayHourMinute,
@@ -525,7 +525,7 @@ class QzssDcReportJmaAshFall(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaWeather(QzssDcReportJmaBase):
+class Weather(Base):
     def __init__(self,
                  weather_warning_state: str,
                  weather_warning_state_raw: int,
@@ -554,7 +554,7 @@ class QzssDcReportJmaWeather(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaFlood(QzssDcReportJmaBase):
+class Flood(Base):
     def __init__(self,
                  flood_warning_levels: list[str],
                  flood_warning_levels_raw: list[int],
@@ -578,7 +578,7 @@ class QzssDcReportJmaFlood(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaMarine(QzssDcReportJmaBase):
+class Marine(Base):
     def __init__(self,
                  marine_warning_codes: list[str],
                  marine_warning_codes_raw: list[int],
@@ -602,7 +602,7 @@ class QzssDcReportJmaMarine(QzssDcReportJmaBase):
         return report
 
 
-class QzssDcReportJmaTyphoon(QzssDcReportJmaBase):
+class Typhoon(Base):
     def __init__(self,
                  reference_time: datetime | None,
                  reference_time_raw: DayHourMinute,

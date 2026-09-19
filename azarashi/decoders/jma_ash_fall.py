@@ -1,16 +1,15 @@
+from ..reports import jma
 from .jma_common import QzssDcrDecoderJmaCommon
 from ..definitions import qzss_dcr_jma_ash_fall_warning_code
 from ..definitions import qzss_dcr_jma_ash_fall_warning_type
 from ..definitions import qzss_dcr_jma_expected_ash_fall_time
 from ..definitions import qzss_dcr_jma_volcano_name
-from ..reports import QzssDcReportJmaAshFall
-from ..reports import QzssDcReportJmaBase
 
 
 class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
-    schema = QzssDcReportJmaBase
+    schema = jma.Base
 
-    def decode(self) -> QzssDcReportJmaAshFall:
+    def decode(self) -> jma.AshFall:
         self.activity_time, self.activity_time_raw = self.extract_day_hour_min_field(53)
 
         dw1 = self.extract_field(69, 2)
@@ -44,4 +43,4 @@ class QzssDcrDecoderJmaAshFall(QzssDcrDecoderJmaCommon):
             self.local_governments.append(local_government)
             self.local_governments_raw.append(lg)
 
-        return QzssDcReportJmaAshFall(**self.get_params())
+        return jma.AshFall(**self.get_params())
