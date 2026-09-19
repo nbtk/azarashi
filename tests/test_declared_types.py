@@ -206,7 +206,9 @@ def test_the_documented_types_are_the_declared_ones():
                 hints = typing.get_type_hints(cls)
                 for field in getattr(cls, '__annotations__', {}):
                     declared.setdefault(field, _rendered(hints[field]))
-    rows = re.findall(r'^\| `(\w+)` \| `([^`]+)` \|', (ROOT / 'docs' / 'reports.md').read_text(encoding='utf-8'), re.M)
+    text = ''.join((ROOT / 'docs' / name).read_text(encoding='utf-8')
+                   for name in ('reports.md', 'dcr.md', 'dcx.md'))
+    rows = re.findall(r'^\| `(\w+)` \| `([^`]+)` \|', text, re.M)
     checked = [(field, shown.replace('\\|', '|')) for field, shown in rows if field in declared]
     assert len(checked) > 80  # a parser that matches nothing would agree with anything
     assert [f'{field}: {shown} is not {declared[field]}' for field, shown in checked

@@ -16,7 +16,7 @@ import re
 import pytest
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-DOCUMENTS = ['README.md', 'docs/api.md', 'docs/reports.md']
+DOCUMENTS = ['README.md', 'docs/api.md', 'docs/dcr.md', 'docs/dcx.md']
 UNREPEATABLE = [(re.compile(r'datetime\.datetime\([^)]*\)'), 'a decoded time'),  # and the times taken from it
                 (re.compile(r'object at 0x[0-9a-f]+'), 'an object address'),
                 (re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z'), 'a decoded time')]  # written out by a report
@@ -66,7 +66,7 @@ def test_the_examples_print_what_they_say(document):
 
 def test_every_example_is_covered_or_known_not_to_be():
     counted = {document: len(list(_examples(document))) for document in DOCUMENTS}
-    assert counted == {'README.md': 1, 'docs/api.md': 1, 'docs/reports.md': 6}
+    assert counted == {'README.md': 1, 'docs/api.md': 1, 'docs/dcr.md': 4, 'docs/dcx.md': 2}
     skipped = [(document, i) for document in DOCUMENTS
                for i, (language, body) in enumerate(_blocks(document))
                if language == 'python' and '>>>' in body and NEEDS_A_DEVICE in body]
