@@ -38,7 +38,7 @@ def _day_hour_minute_code(raw: DayHourMinute) -> int:
 class QzssDcxCamf:
     """The fields of a DCX message as transmitted.
 
-    The C and D fields are set only for the specific settings (A17) that carry them.
+    The C and D fields are None unless the specific settings (A17) and the hazard (A4) carry them.
     """
     sdmt: int
     sdm: int
@@ -60,52 +60,52 @@ class QzssDcxCamf:
     a16: int
     a17: int
     a18: int
-    c1: int
-    c2: int
-    c3: int
-    c4: int
-    c5: int
-    c6: int
-    c7: int
-    c8: int
-    c9: int
-    c10: int
-    d1: int
-    d2: int
-    d3: int
-    d4: int
-    d5: int
-    d6: int
-    d7: int
-    d8: int
-    d9: int
-    d10: int
-    d11: int
-    d12: int
-    d13: int
-    d14: int
-    d15: int
-    d16: int
-    d17: int
-    d18: int
-    d19: int
-    d20: int
-    d21: int
-    d22: int
-    d23: int
-    d24: int
-    d25: int
-    d26: int
-    d27: int
-    d28: int
-    d29: int
-    d30: int
-    d31: int
-    d32: int
-    d33: int
-    d34: int
-    d35: int
-    d36: int
+    c1: int | None = None
+    c2: int | None = None
+    c3: int | None = None
+    c4: int | None = None
+    c5: int | None = None
+    c6: int | None = None
+    c7: int | None = None
+    c8: int | None = None
+    c9: int | None = None
+    c10: int | None = None
+    d1: int | None = None
+    d2: int | None = None
+    d3: int | None = None
+    d4: int | None = None
+    d5: int | None = None
+    d6: int | None = None
+    d7: int | None = None
+    d8: int | None = None
+    d9: int | None = None
+    d10: int | None = None
+    d11: int | None = None
+    d12: int | None = None
+    d13: int | None = None
+    d14: int | None = None
+    d15: int | None = None
+    d16: int | None = None
+    d17: int | None = None
+    d18: int | None = None
+    d19: int | None = None
+    d20: int | None = None
+    d21: int | None = None
+    d22: int | None = None
+    d23: int | None = None
+    d24: int | None = None
+    d25: int | None = None
+    d26: int | None = None
+    d27: int | None = None
+    d28: int | None = None
+    d29: int | None = None
+    d30: int | None = None
+    d31: int | None = None
+    d32: int | None = None
+    d33: int | None = None
+    d34: int | None = None
+    d35: int | None = None
+    d36: int | None = None
     ex1: int
     ex2: int
     ex3: int
@@ -954,42 +954,42 @@ class QzssDcxAlertBase(QzssDcXtendedMessageBase):
     ex9_target_area_list_ja: list[str] | None = None
 
     def get_hazard_onset_str(self) -> str | None:
-        onset = self.__dict__.get('a6a7_hazard_onset_datetime')
+        onset = self.a6a7_hazard_onset_datetime
         return None if onset is None else onset.isoformat().replace('+00:00', 'Z')
 
     def __str__(self) -> str:
-        header = f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###\n"
+        header = f"### DCX Message - {self.dcx_message_type} ###\n"
         if self.camf.a1 == 0:
                 header += "*** This is a test message ***\n"
 
         report = header + \
-                 f"A1 - Message type: {self.__dict__.get('a1_message_type')}\n" + \
-                 f"A2 - Country/region name: {self.__dict__.get('a2_country_region_name')}\n" + \
-                 f"A3 - Provider identifier: {self.__dict__.get('a3_provider_identifier')}\n" + \
-                 f"A4 - Hazard category and type: {self.__dict__.get('a4_hazard_category')} - " + \
-                 f"{self.__dict__.get('a4_hazard_type')}\n" + \
-                 f"A4 - Hazard definition: {self.__dict__.get('a4_hazard_definition')}\n" + \
-                 f"A5 - Severity: {self.__dict__.get('a5_severity')}\n" + \
+                 f"A1 - Message type: {self.a1_message_type}\n" + \
+                 f"A2 - Country/region name: {self.a2_country_region_name}\n" + \
+                 f"A3 - Provider identifier: {self.a3_provider_identifier}\n" + \
+                 f"A4 - Hazard category and type: {self.a4_hazard_category} - " + \
+                 f"{self.a4_hazard_type}\n" + \
+                 f"A4 - Hazard definition: {self.a4_hazard_definition}\n" + \
+                 f"A5 - Severity: {self.a5_severity}\n" + \
                  f"A6A7 - Hazard onset: {self.get_hazard_onset_str()}\n" + \
-                 f"A8 - Hazard duration: {self.__dict__.get('a8_hazard_duration')}\n"
+                 f"A8 - Hazard duration: {self.a8_hazard_duration}\n"
         if self.camf.a9 == 0: # international
-            report += f"A11 - Instruction code: {self.__dict__.get('a11_international_library_code')}\n"
+            report += f"A11 - Instruction code: {self.a11_international_library_code}\n"
             if self.camf.a11 != 0:
-                report += f"A11 - Instruction: {self.__dict__.get('a11_international_library')}\n"
+                report += f"A11 - Instruction: {self.a11_international_library}\n"
         elif self.camf.a9 == 1: # japanese
             if self.camf.a11 != 0:
-                report += f"A11 - Instruction: {self.__dict__.get('a11_japanese_library')}\n" + \
-                          f"A11 - Instruction (ja): {self.__dict__.get('a11_japanese_library_ja')}\n"
+                report += f"A11 - Instruction: {self.a11_japanese_library}\n" + \
+                          f"A11 - Instruction (ja): {self.a11_japanese_library_ja}\n"
 
         if self.ignore_a12_to_a16 is False:
-            report += f"A12 - Ellipse centre latitude: {self.__dict__.get('a12_ellipse_centre_latitude')}\n" + \
-                      f"A13 - Ellipse centre longitude: {self.__dict__.get('a13_ellipse_centre_longitude')}\n" + \
-                      f"A14 - Ellipse semi - major axis: {self.__dict__.get('a14_ellipse_semi_major_axis')}\n" + \
-                      f"A15 - Ellipse semi - minor axis: {self.__dict__.get('a15_ellipse_semi_minor_axis')}\n" + \
-                      f"A16 - Ellipse azimuth: {self.__dict__.get('a16_ellipse_azimuth')}\n"
+            report += f"A12 - Ellipse centre latitude: {self.a12_ellipse_centre_latitude}\n" + \
+                      f"A13 - Ellipse centre longitude: {self.a13_ellipse_centre_longitude}\n" + \
+                      f"A14 - Ellipse semi - major axis: {self.a14_ellipse_semi_major_axis}\n" + \
+                      f"A15 - Ellipse semi - minor axis: {self.a15_ellipse_semi_minor_axis}\n" + \
+                      f"A16 - Ellipse azimuth: {self.a16_ellipse_azimuth}\n"
 
         if self.ignore_a17_to_a18 is False:
-            a17 =  self.__dict__.get('a17_type_of_specific_settings')
+            a17 =  self.a17_type_of_specific_settings
             if a17 is not None:
                 report += f"A17 - Type of specific settings: {a17}\n"
                 keys = self.__dict__.keys()
@@ -1003,21 +1003,21 @@ class QzssDcxAlertBase(QzssDcXtendedMessageBase):
                             report += f"{headline}: {content}\n"
 
         if self.ignore_ex1 is False:
-            report += f"EX1 - Target area: {self.__dict__.get('ex1_target_area')}\n" + \
-                      f"EX1 - Target area (ja): {self.__dict__.get('ex1_target_area_ja')}\n"
+            report += f"EX1 - Target area: {self.ex1_target_area}\n" + \
+                      f"EX1 - Target area (ja): {self.ex1_target_area_ja}\n"
 
         if self.ignore_ex2_to_ex7 is False:
-            report += f"EX2 - Evacuate direction type: {self.__dict__.get('ex2_evacuate_direction_type')}\n" + \
-                      f"EX3 - Additional ellipse centre latitude: {self.__dict__.get('ex3_additional_ellipse_centre_latitude')}\n" + \
-                      f"EX4 - Additional ellipse centre longitude: {self.__dict__.get('ex4_additional_ellipse_centre_longitude')}\n" + \
-                      f"EX5 - Additional ellipse semi major axis: {self.__dict__.get('ex5_additional_ellipse_semi_major_axis')}\n" + \
-                      f"EX6 - Additional ellipse semi minor axis: {self.__dict__.get('ex6_additional_ellipse_semi_minor_axis')}\n" + \
-                      f"EX7 - Additional ellipse azimuth: {self.__dict__.get('ex7_additional_ellipse_azimuth')}\n"
+            report += f"EX2 - Evacuate direction type: {self.ex2_evacuate_direction_type}\n" + \
+                      f"EX3 - Additional ellipse centre latitude: {self.ex3_additional_ellipse_centre_latitude}\n" + \
+                      f"EX4 - Additional ellipse centre longitude: {self.ex4_additional_ellipse_centre_longitude}\n" + \
+                      f"EX5 - Additional ellipse semi major axis: {self.ex5_additional_ellipse_semi_major_axis}\n" + \
+                      f"EX6 - Additional ellipse semi minor axis: {self.ex6_additional_ellipse_semi_minor_axis}\n" + \
+                      f"EX7 - Additional ellipse azimuth: {self.ex7_additional_ellipse_azimuth}\n"
 
         if self.ignore_ex8_to_ex9 is False:
-            report += f"EX8 - Target area list type: {self.__dict__.get('ex8_target_area_list_type')}\n" + \
-                      f"EX9 - Target area list: {self.__dict__.get('ex9_target_area_list')}\n" + \
-                      f"EX9 - Target area list (ja): {self.__dict__.get('ex9_target_area_list_ja')}\n"
+            report += f"EX8 - Target area list type: {self.ex8_target_area_list_type}\n" + \
+                      f"EX9 - Target area list: {self.ex9_target_area_list}\n" + \
+                      f"EX9 - Target area list (ja): {self.ex9_target_area_list_ja}\n"
 
         if report.endswith('\n'):
             report = report[:-1]
@@ -1031,7 +1031,7 @@ class QzssDcxNullMsg(QzssDcXtendedMessageBase):
         super().__init__(**kwargs)
 
     def __str__(self) -> str:
-        return f"### DCX Message - {self.__dict__.get('dcx_message_type')} ###"
+        return f"### DCX Message - {self.dcx_message_type} ###"
 
 
 class QzssDcxOutsideJapan(QzssDcxAlertBase):

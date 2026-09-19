@@ -293,85 +293,85 @@ DCX メッセージのレポートです。`QzssDcXtendedMessageBase` を継承�
 | `a8_hazard_duration` | `str` |
 | `a9_type_of_library` | `str` |
 | `a10_library_version` | `str` |
-| `a11_international_library_code` | `str` |
-| `a11_international_library` | `str` |
-| `a11_japanese_library` | `str` |
-| `a11_japanese_library_ja` | `str` |
-| `a12_ellipse_centre_latitude` | `float` |
-| `a13_ellipse_centre_longitude` | `float` |
-| `a14_ellipse_semi_major_axis` | `float` |
-| `a15_ellipse_semi_minor_axis` | `float` |
-| `a16_ellipse_azimuth` | `float` |
-| `a17_type_of_specific_settings` | `str` |
+| `a11_international_library_code` | `str \| None` |
+| `a11_international_library` | `str \| None` |
+| `a11_japanese_library` | `str \| None` |
+| `a11_japanese_library_ja` | `str \| None` |
+| `a12_ellipse_centre_latitude` | `float \| None` |
+| `a13_ellipse_centre_longitude` | `float \| None` |
+| `a14_ellipse_semi_major_axis` | `float \| None` |
+| `a15_ellipse_semi_minor_axis` | `float \| None` |
+| `a16_ellipse_azimuth` | `float \| None` |
+| `a17_type_of_specific_settings` | `str \| None` |
 
 ### C フィールド
 | フィールド | 型 |
 |---|---|
-| `c1_refined_latitude_of_centre_of_main_ellipse` | `float` |
-| `c2_refined_longitude_of_centre_of_main_ellipse` | `float` |
-| `c3_refined_length_of_semi_major_axis` | `float` |
-| `c4_refined_length_of_semi_minor_axis` | `float` |
-| `c5_latitude_of_centre_of_hazard` | `float` |
-| `c6_longitude_of_centre_of_hazard` | `float` |
-| `c7_shift_of_second_ellipse_centre` | `int` |
-| `c8_homothetic_factor_of_second_ellipse` | `float` |
-| `c9_bearing_angle_of_second_ellipse` | `float` |
-| `c10_instruction_library_for_second_ellipse_code` | `str` |
-| `c10_instruction_library_for_second_ellipse` | `str` |
+| `c1_refined_latitude_of_centre_of_main_ellipse` | `float \| None` |
+| `c2_refined_longitude_of_centre_of_main_ellipse` | `float \| None` |
+| `c3_refined_length_of_semi_major_axis` | `float \| None` |
+| `c4_refined_length_of_semi_minor_axis` | `float \| None` |
+| `c5_latitude_of_centre_of_hazard` | `float \| None` |
+| `c6_longitude_of_centre_of_hazard` | `float \| None` |
+| `c7_shift_of_second_ellipse_centre` | `int \| None` |
+| `c8_homothetic_factor_of_second_ellipse` | `float \| None` |
+| `c9_bearing_angle_of_second_ellipse` | `float \| None` |
+| `c10_instruction_library_for_second_ellipse_code` | `str \| None` |
+| `c10_instruction_library_for_second_ellipse` | `str \| None` |
 
 ### D フィールド
 | フィールド | 型 |
 |---|---|
-| `d1_magnitude_on_richter_scale` | `str` |
-| `d2_seismic_coefficient` | `str` |
-| `d3_azimuth_from_centre_of_main_ellipse_to_epicentre` | `float` |
-| `d4_vector_length_between_centre_of_main_ellipse_and_epicentre` | `float` |
-| `d5_wave_height` | `str` |
-| `d6_temperature_range` | `str` |
-| `d7_hurricane_category` | `str` |
-| `d8_wind_speed` | `str` |
-| `d9_rainfall_amounts` | `str` |
-| `d10_damage_category` | `str` |
-| `d11_tornado_probability` | `str` |
-| `d12_hail_scale` | `str` |
-| `d13_visibility` | `str` |
-| `d14_snow_depth` | `str` |
-| `d15_flood_severity` | `str` |
-| `d16_lightning_intensity` | `str` |
-| `d17_fog_level` | `str` |
-| `d18_drought_level` | `str` |
-| `d19_avalanche_warning_level` | `str` |
-| `d20_ash_fall_amount_and_impact` | `str` |
-| `d21_geomagnetic_scale` | `str` |
-| `d22_terrorism_threat_level` | `str` |
-| `d23_fire_risk_level` | `str` |
-| `d24_water_quality` | `str` |
-| `d25_uv_index` | `str` |
-| `d26_number_of_cases_per_100000_inhabitants` | `str` |
-| `d27_noise_range` | `str` |
-| `d28_air_quality_index` | `str` |
-| `d29_outage_estimated_duration` | `str` |
-| `d30_nuclear_event_scale` | `str` |
-| `d31_chemical_hazard_type` | `str` |
-| `d32_biohazard_level` | `str` |
-| `d33_biohazard_type` | `str` |
-| `d34_explosive_hazard_type` | `str` |
-| `d35_infection_type` | `str` |
-| `d36_typhoon_category` | `str` |
+| `d1_magnitude_on_richter_scale` | `str \| None` |
+| `d2_seismic_coefficient` | `str \| None` |
+| `d3_azimuth_from_centre_of_main_ellipse_to_epicentre` | `float \| None` |
+| `d4_vector_length_between_centre_of_main_ellipse_and_epicentre` | `float \| None` |
+| `d5_wave_height` | `str \| None` |
+| `d6_temperature_range` | `str \| None` |
+| `d7_hurricane_category` | `str \| None` |
+| `d8_wind_speed` | `str \| None` |
+| `d9_rainfall_amounts` | `str \| None` |
+| `d10_damage_category` | `str \| None` |
+| `d11_tornado_probability` | `str \| None` |
+| `d12_hail_scale` | `str \| None` |
+| `d13_visibility` | `str \| None` |
+| `d14_snow_depth` | `str \| None` |
+| `d15_flood_severity` | `str \| None` |
+| `d16_lightning_intensity` | `str \| None` |
+| `d17_fog_level` | `str \| None` |
+| `d18_drought_level` | `str \| None` |
+| `d19_avalanche_warning_level` | `str \| None` |
+| `d20_ash_fall_amount_and_impact` | `str \| None` |
+| `d21_geomagnetic_scale` | `str \| None` |
+| `d22_terrorism_threat_level` | `str \| None` |
+| `d23_fire_risk_level` | `str \| None` |
+| `d24_water_quality` | `str \| None` |
+| `d25_uv_index` | `str \| None` |
+| `d26_number_of_cases_per_100000_inhabitants` | `str \| None` |
+| `d27_noise_range` | `str \| None` |
+| `d28_air_quality_index` | `str \| None` |
+| `d29_outage_estimated_duration` | `str \| None` |
+| `d30_nuclear_event_scale` | `str \| None` |
+| `d31_chemical_hazard_type` | `str \| None` |
+| `d32_biohazard_level` | `str \| None` |
+| `d33_biohazard_type` | `str \| None` |
+| `d34_explosive_hazard_type` | `str \| None` |
+| `d35_infection_type` | `str \| None` |
+| `d36_typhoon_category` | `str \| None` |
 
 ### EX フィールド
 | フィールド | 型 |
 |---|---|
-| `ex1_target_area` | `str` |
-| `ex1_target_area_ja` | `str` |
-| `ex2_evacuate_direction_type` | `str` |
-| `ex3_additional_ellipse_centre_latitude` | `float` |
-| `ex4_additional_ellipse_centre_longitude` | `float` |
-| `ex5_additional_ellipse_semi_major_axis` | `float` |
-| `ex6_additional_ellipse_semi_minor_axis` | `float` |
-| `ex7_additional_ellipse_azimuth` | `float` |
-| `ex8_target_area_list_type` | `str` |
-| `ex9_target_area_list` | `list[str]` |
-| `ex9_target_area_list_ja` | `list[str]` |
+| `ex1_target_area` | `str \| None` |
+| `ex1_target_area_ja` | `str \| None` |
+| `ex2_evacuate_direction_type` | `str \| None` |
+| `ex3_additional_ellipse_centre_latitude` | `float \| None` |
+| `ex4_additional_ellipse_centre_longitude` | `float \| None` |
+| `ex5_additional_ellipse_semi_major_axis` | `float \| None` |
+| `ex6_additional_ellipse_semi_minor_axis` | `float \| None` |
+| `ex7_additional_ellipse_azimuth` | `float \| None` |
+| `ex8_target_area_list_type` | `str \| None` |
+| `ex9_target_area_list` | `list[str] \| None` |
+| `ex9_target_area_list_ja` | `list[str] \| None` |
 
 ほかに、ビットフィールドのままの値を持つ `camf` と、どの範囲を読み飛ばしたかを示す `ignore_a12_to_a16`、`ignore_a17_to_a18`、`ignore_ex1`、`ignore_ex2_to_ex7`、`ignore_ex8_to_ex9` があります。
