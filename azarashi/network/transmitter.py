@@ -11,6 +11,7 @@ from .log import configure_logging
 from ..input_stream import RecordingStream
 from ..input_stream import open_input
 from ..qzss_dcr_lib.exception import AzarashiDecodeError
+from ..qzss_dcr_lib.interface import MessageFormat
 from ..qzss_dcr_lib.interface import QzssDcrStream
 from ..qzss_dcr_lib.interface import decode_stream
 from ..qzss_dcr_lib.report import QzssDcReport
@@ -32,9 +33,12 @@ class Transmitter:
             logger.info(report.nmea)
             sock.sendto(sat_id + report.message, self.addr_info[-1])
 
-    def start(self, stream: QzssDcrStream = sys.stdin, msg_type: str = 'ublox', unique: bool | float = False) -> None:
+    def start(self, stream: QzssDcrStream | None = None, msg_type: MessageFormat = 'ublox',
+              unique: bool | float = False) -> None:
+        # sys.stdin as it is now, not as it was when this module was read
+        source: QzssDcrStream = sys.stdin if stream is None else stream
         # relay every message; receivers choose what to use
-        decode_stream(stream, msg_type=msg_type, callback=self.handler, unique=unique,
+        decode_stream(source, msg_type=msg_type, callback=self.handler, unique=unique,
                       ignore_dcr=False, ignore_dcx=False)
 
 

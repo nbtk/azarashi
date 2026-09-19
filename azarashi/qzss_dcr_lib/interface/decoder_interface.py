@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Protocol, TypeAlias
+from typing import Any, Literal, Protocol, TypeAlias
 
 from .hex_interface import hex_qzss_dcr_message_extractor
 from .nmea_interface import nmea_qzss_dcr_message_extractor
@@ -13,6 +13,9 @@ from ..decoder import NmeaQzssDcrDecoder
 from ..decoder import UBloxQzssDcrDecoder
 from ..exception import AzarashiInvalidMessageError
 from ..report import QzssDcReport
+
+#: the forms a message can arrive in; 'spresense' is another name for 'nmea'
+MessageFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox', 'net']
 
 
 class SupportsReadline(Protocol):
@@ -48,7 +51,7 @@ def _dropped(reports: list[QzssDcReport], report: QzssDcReport) -> list[QzssDcRe
     return [r for r in reports if r != report]
 
 
-def decode(msg: str | bytes, msg_type: str = 'nmea', timestamp: datetime | None = None) -> QzssDcReport:
+def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: datetime | None = None) -> QzssDcReport:
     if not msg:
         raise EOFError('Encountered EOF')
 
@@ -65,7 +68,7 @@ def decode(msg: str | bytes, msg_type: str = 'nmea', timestamp: datetime | None 
 
 
 def decode_stream(stream: QzssDcrStream,
-                  msg_type: str = 'nmea',
+                  msg_type: MessageFormat = 'nmea',
                   callback: Callable[..., object] | None = None,
                   callback_args: tuple[Any, ...] = (),
                   callback_kwargs: dict[str, Any] | None = None,

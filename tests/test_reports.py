@@ -51,6 +51,8 @@ def test_message_is_the_sentence_when_there_is_none():
 
 def test_dcx_camf_fields():
     report = azarashi.decode(L_ALERT)
-    assert report.camf.get_params() is report.camf.__dict__
+    assert report.camf.get_params() == report.camf.__dict__
+    assert report.camf.get_params() is not report.camf.__dict__  # a copy, as a report's get_params() gives
     assert str(report.camf) == str(report.camf.__dict__)
+    assert repr(report.camf).startswith('QzssDcxCamf(sdmt=')  # an address would say nothing and never repeat
     assert report.camf.a2 == 111

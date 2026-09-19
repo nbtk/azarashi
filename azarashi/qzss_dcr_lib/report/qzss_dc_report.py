@@ -122,8 +122,11 @@ class QzssDcxCamf:
     def __str__(self) -> str:
         return str(self.__dict__)
 
+    def __repr__(self) -> str:  # a report holds one of these, and an address tells the reader nothing
+        return f'{type(self).__name__}({", ".join(f"{k}={v}" for k, v in self.__dict__.items())})'
+
     def get_params(self) -> dict[str, int]:
-        return self.__dict__
+        return dict(self.__dict__)  # a copy, as QzssDcReportBase.get_params() gives
 
 
 class QzssDcReportBase:
