@@ -70,7 +70,9 @@ class AzarashiReopenStream(AzarashiException, OSError):
     """The stream is unusable, and a new one is the way on: close it and open it again.
 
     Reading it again returns the error at once, so a caller that reads on spins. Reopening the
-    same object keeps the duplicate memory of unique=, which is per stream.
+    same weakly referenceable object (e.g. pySerial) keeps the duplicate memory of unique=,
+    which is per stream. For other objects, the state is discarded when a later lookup sees
+    them closed, so reopening does not guarantee that their duplicate memory remains.
 
     It is an OSError, which is what the streams themselves raise, serial.SerialException among
     them. It is neither an AzarashiReadOn nor an EOFError, so no clause order can take it for

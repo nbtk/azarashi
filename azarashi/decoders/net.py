@@ -38,4 +38,11 @@ class Decoder(Base):
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
-        return common.Decoder(**self.get_params()).decode()
+        return common.Decoder(
+            sentence=self.sentence,
+            message=self.message,
+            nmea=self.nmea,
+            timestamp=self.timestamp,
+            satellite_id=self.satellite_id,
+            satellite_prn=self.satellite_prn,
+        ).decode()

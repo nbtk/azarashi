@@ -15,10 +15,10 @@ import re
 import sys
 
 #: 二つの検査器は同じ誤りを違う名前で呼ぶ
-PYRIGHT = {'reportArgumentType': 'arg-type',
-           'reportCallIssue': 'arg-type',
-           'reportAssignmentType': 'assignment',
-           'reportAttributeAccessIssue': 'assignment'}
+PYRIGHT = {'reportArgumentType': {'arg-type'},
+           'reportCallIssue': {'arg-type', 'call-arg'},
+           'reportAssignmentType': {'assignment'},
+           'reportAttributeAccessIssue': {'assignment'}}
 
 generated, report = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
 text = report.read_text()
@@ -36,7 +36,7 @@ if text.lstrip().startswith('{'):
             continue
         code = PYRIGHT.get(d.get('rule', ''))
         if code:
-            got.setdefault(d['range']['start']['line'] + 1, set()).add(code)
+            got.setdefault(d['range']['start']['line'] + 1, set()).update(code)
 else:
     checker = 'mypy'
     for n_, code in re.findall(r'^[^:]+:(\d+): error:.*\[([a-z-]+)\]$', text, re.M):

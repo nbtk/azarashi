@@ -68,6 +68,13 @@ jobs:
           mypy --strict azarashi/
           pyright
 
+      - name: Check the internal decoder boundary rejects wrong uses
+        run: |
+          mypy --strict tests/typing/decoder_mistakes.py > "$RUNNER_TEMP/decoder.txt" 2>&1 || true
+          python tests/typing/check_all_reported.py tests/typing/decoder_mistakes.py "$RUNNER_TEMP/decoder.txt"
+          pyright --outputjson tests/typing/decoder_mistakes.py > "$RUNNER_TEMP/decoder.json" || true
+          python tests/typing/check_all_reported.py tests/typing/decoder_mistakes.py "$RUNNER_TEMP/decoder.json"
+
       - name: Copy the caller checks out of the checkout
         run: |
           mkdir -p "$RUNNER_TEMP/asacaller"

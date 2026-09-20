@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from ..reports import Report
 from ..reports import base
 from .base import Base
@@ -10,6 +12,14 @@ from ..exceptions import AzarashiInvalidMessageError
 
 class Decoder(Base):
     schema = base.MessagePartial
+
+    def __init__(self, sentence: str | bytes, *, message: bytes, nmea: str,
+                 timestamp: datetime, message_header: str | bytes | None = None,
+                 satellite_id: int | None = None, satellite_prn: int | None = None,
+                 satellite_svid: int | None = None) -> None:
+        super().__init__(sentence, message=message, nmea=nmea, timestamp=timestamp,
+                         message_header=message_header, satellite_id=satellite_id,
+                         satellite_prn=satellite_prn, satellite_svid=satellite_svid)
 
     def decode(self) -> Report:
         # extracts the preamble

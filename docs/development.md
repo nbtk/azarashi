@@ -16,6 +16,12 @@ GitHub Actions の typing ジョブは、ビルドした wheel をインスト�
 - `tests/typing/consumer_mistakes.py` の誤った使い方が、エラーとして検出されること
 - `tests/typing/generate_mistakes.py` が作る誤用が、すべて検出されること。誤用は、公開している関数とメソッドのすべての引数と戻り値について作ります
 
+内部のデコーダ間の受け渡しも検査します。`tests/typing/decoder_mistakes.py` は、
+共通デコーダへの必須値の欠落・型違い・引数名の誤記を含みます。
+CI は mypy と Pyright の両方で、各行が意図した種類のエラーになることを確認します。
+`common.Decoder` は内部実装であり、任意の `**kwargs` を受け取る以前の呼び出し方は維持しません。
+`sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
+
 また `tests/test_declared_types.py` は、実際にデコードしたレポートの値が、宣言した型に合っていることを確かめます。
 
 `tests/golden/` には、`tests/*.log` のサンプルログにある全メッセージのデコード結果を保存してあります。保存しているのは、`str()` の文章と全フィールドの値です。出力が変わるとテストが失敗します。意図して出力を変えたときは、`python tests/test_golden.py` で再生成し、差分を確認してからコミットしてください。
