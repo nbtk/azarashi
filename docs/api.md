@@ -59,6 +59,8 @@ azarashi が送出する例外は、すべてこのクラスを継承してい�
 | [AzarashiReopenStream](#azarashireopenstream) | ストリームを開き直す |
 | [AzarashiStopReading](#azarashistopreading) | 読み取りをやめる |
 
+ここで言うソケットは、`decode_stream()` に渡す TCP のストリームです。pySerial の `socket://` がその例です。[Network](network.md) の transmitter と receiver は UDP で、`decode_stream()` を通らないので、これらの例外とは関係ありません。
+
 この3つ自体は送出されません。送出されるのは、3つをそれぞれ継承した、何が起きたかを表すクラスです。つまりループで捕捉するのは3つのどれかで、ログに出るのは継承した側の名前です。
 
 ```
@@ -111,7 +113,7 @@ azarashi.decode_stream(port, 'ublox', print)
 
 このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。プログラムの例は [Timeout](#timeout) にあります。
 ## AzarashiReopenStream
-ストリームの読み取りそのものが失敗したことを表すクラスです。USB のシリアルデバイスを引き抜いたときや、ソケットが切れたときに送出されます。
+ストリームの読み取りそのものが失敗したことを表すクラスです。USB のシリアルデバイスを引き抜いたときや、TCP の接続が切れたときに送出されます。
 
 そのストリームはもう使えません。読み直しても同じエラーがすぐに返るので、読み直し続けると待ち時間のないループになり、CPU を使い切ります。閉じて開き直してください。
 
@@ -123,7 +125,7 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 
 何が起きたかは、これを継承した次の2つが表します。どちらも開き直せば済むので、ループで分ける必要はありません。ログや監視で区別したいときに使ってください。
 ### AzarashiDisconnectedError
-読み取り中にデバイスや相手が消えたときに送出されます。USB のシリアルデバイスの引き抜き、ソケットのリセット、そのほかストリームが `OSError` として報告した失敗です。現場では起こるものとして備えてください。
+読み取り中にデバイスや相手が消えたときに送出されます。USB のシリアルデバイスの引き抜き、TCP 接続のリセット、そのほかストリームが `OSError` として報告した失敗です。現場では起こるものとして備えてください。
 ### AzarashiStreamClosedError
 読み取り中にストリームが閉じられたときに送出されます。閉じた `io` オブジェクトは `OSError` ではなく `ValueError` を送出するので、azarashi がこのクラスに変換します。
 
@@ -133,7 +135,7 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 
 何が起きたかは、これを継承した次のクラスが表します。
 ### AzarashiNoMoreData
-ファイルが末尾に達したときや、ソケットを相手側が閉じたときに送出されます。
+ファイルが末尾に達したときや、TCP の接続を相手側が閉じたときに送出されます。
 
 壊れたものはないので、直すものもありません。ただ取るものがないだけです。デバイスを引き抜いたときは [AzarashiDisconnectedError](#azarashidisconnectederror) です。あちらは開き直せますが、こちらは開き直しても何も来ません。
 
