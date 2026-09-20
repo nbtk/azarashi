@@ -16,6 +16,7 @@ report: azarashi.Report = azarashi.decode('$QZQSM,55,C6AF89A82000032400005040054
 received: datetime.datetime = report.timestamp
 kind: str = report.message_type
 message: bytes = report.message
+network_report: azarashi.Report = azarashi.decode(bytes((55,)) + message, msg_type='net')
 
 if isinstance(report, reports.dcr.Tsunami):
     for arrival, raw, what in zip(report.expected_tsunami_arrival_times, report.expected_tsunami_arrival_times_raw,

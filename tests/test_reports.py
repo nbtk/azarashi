@@ -35,6 +35,15 @@ def test_get_params_is_a_copy():
     assert report.magnitude == '7.2' and 'どこか' not in report.eew_forecast_regions
 
 
+def test_get_params_leaves_out_absent_dcx_fields_and_copies_camf():
+    report = azarashi.decode(L_ALERT)
+    params = report.get_params()
+    assert report.a11_international_library is None
+    assert 'a11_international_library' not in params
+    params['camf'].a2 = 0
+    assert report.camf.a2 == 111
+
+
 def test_base_report():
     report = Base('sentence', raw=b'raw')
     assert str(report) == str(report.__dict__)

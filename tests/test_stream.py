@@ -37,6 +37,31 @@ class _UnhashableLineSource(io.StringIO):  # can be weakly referenced, but not h
     __hash__ = None
 
 
+class _EqualLineSource(io.StringIO):
+    def __eq__(self, other):
+        return isinstance(other, _EqualLineSource)
+
+    def __hash__(self):
+        return 1
+
+
+def test_equal_streams_do_not_share_pending_sentences():
+    first = _EqualLineSource(EEW + L_ALERT + '\n')
+    second = _EqualLineSource(EEW + '\n')
+    assert first == second and first is not second
+    assert azarashi.decode_stream(first, ignore_dcx=False).message_type == 'DCR'
+    assert azarashi.decode_stream(second, ignore_dcx=False).message_type == 'DCR'
+    assert second.tell() > 0
+    assert azarashi.decode_stream(first, ignore_dcx=False).message_type == 'DCX'
+
+
+def test_equal_streams_do_not_share_duplicate_history():
+    first = _EqualLineSource(EEW + '\n')
+    second = _EqualLineSource(EEW + '\n')
+    assert azarashi.decode_stream(first, unique=True) == azarashi.decode(EEW)
+    assert azarashi.decode_stream(second, unique=True) == azarashi.decode(EEW)
+
+
 def test_nmea_line_noise_does_not_stop_the_stream():
     # binary line sources such as pySerial's readline() may deliver non-UTF-8 noise
     stream = io.BytesIO(b'\xff\xfe\r\n' + EEW.encode() + b'\r\n')

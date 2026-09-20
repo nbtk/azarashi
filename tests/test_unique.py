@@ -7,6 +7,8 @@ unique=<sec> -> re-report a duplicate last seen more than <sec> seconds ago
 import datetime
 import io
 
+import pytest
+
 import azarashi
 from azarashi import api as DI
 
@@ -62,3 +64,23 @@ def test_unique_zero_and_negative_disable_dedup():
     assert _run(io.StringIO(MSG + MSG), 0) == 2
     DI.caches.clear()
     assert _run(io.StringIO(MSG + MSG), -5) == 2
+
+
+@pytest.mark.parametrize('offsets, delivered', [
+    ([0, 30, 60, 120, 181], [0, 181]),  # every suppressed copy refreshes the last reception
+    ([0, 0, 0], [0]),  # a fixed replay timestamp does not expire
+    ([0, -10, 20, 81], [0, 81]),  # reception time, even when the clock moves backwards
+])
+def test_unique_seconds_uses_the_last_reception_time(monkeypatch, offsets, delivered):
+    start = datetime.datetime(2026, 3, 10, tzinfo=datetime.UTC)
+    times = iter(start + datetime.timedelta(seconds=offset) for offset in offsets)
+    decode = DI.decode
+
+    def at_reception(msg, msg_type, timestamp):
+        return decode(msg, msg_type, timestamp=next(times))
+
+    monkeypatch.setattr(DI, 'decode', at_reception)
+    reports = []
+    with pytest.raises(azarashi.AzarashiStopReading):
+        azarashi.decode_stream(io.StringIO(MSG * len(offsets)), unique=60, callback=reports.append)
+    assert [(report.timestamp - start).total_seconds() for report in reports] == delivered

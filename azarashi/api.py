@@ -14,8 +14,9 @@ from .decoders import ublox as ublox_decoder
 from .exceptions import AzarashiInvalidMessageError
 from .reports import Report
 
-#: the forms a message can arrive in; 'spresense' is another name for 'nmea'
-MessageFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox', 'net']
+#: the forms a stream can carry; 'spresense' is another name for 'nmea'
+StreamFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox']
+MessageFormat: TypeAlias = StreamFormat | Literal['net']  # 'net' carries one datagram, not a stream
 
 
 class SupportsReadline(Protocol):
@@ -68,7 +69,7 @@ def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: dateti
 
 
 def decode_stream(stream: QzssDcrStream,
-                  msg_type: MessageFormat = 'nmea',
+                  msg_type: StreamFormat = 'nmea',
                   callback: Callable[..., object] | None = None,
                   callback_args: tuple[Any, ...] = (),
                   callback_kwargs: dict[str, Any] | None = None,

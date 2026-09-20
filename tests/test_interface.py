@@ -1,5 +1,7 @@
 """decode() and decode_stream(): message types, how streams are read, filtering, callbacks and per-stream state."""
+import gc
 import io
+import weakref
 
 import pytest
 
@@ -59,6 +61,13 @@ def test_decode_stream_unknown_message_type():
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode_stream(io.BytesIO(), 'rtcm')
     assert str(excinfo.value) == 'Unknown Message Type: rtcm'
+
+
+def test_net_is_not_a_stream_format_and_consumes_no_input():
+    stream = io.BytesIO(bytes((55,)) + azarashi.decode(EEW).message)
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
+        azarashi.decode_stream(stream, 'net')
+    assert stream.tell() == 0
 
 
 @pytest.mark.parametrize('msg_type, message', [
@@ -184,6 +193,25 @@ def test_stream_keyed_dict_clear():
     values[strong] = 2
     values.clear()
     assert (values.get(weak), values.get(strong)) == (None, None)
+
+
+def test_stream_state_is_released_with_its_owner():
+    values = StreamKeyedDict()
+    stream, state = io.StringIO(), _Nothing()
+    stream_ref, state_ref = weakref.ref(stream), weakref.ref(state)
+    values[stream] = state
+    del stream, state
+    gc.collect()
+    assert stream_ref() is None and state_ref() is None
+
+
+def test_closed_weakly_referenced_stream_keeps_its_state():
+    # Reopening the same serial object must retain its duplicate history.
+    values = StreamKeyedDict()
+    stream = io.StringIO()
+    values[stream] = 'history'
+    stream.close()
+    assert values.get(stream) == 'history'
 
 
 def test_reader_store_keeps_one_value_per_reader():

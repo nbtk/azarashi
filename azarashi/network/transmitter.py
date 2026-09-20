@@ -11,7 +11,7 @@ from ..input_stream import RecordingStream
 from ..input_stream import open_input
 from ..exceptions import AzarashiReadOn
 from ..exceptions import AzarashiReopenStream
-from ..api import MessageFormat
+from ..api import StreamFormat
 from ..api import QzssDcrStream
 from ..api import decode_stream
 
@@ -32,7 +32,7 @@ class Transmitter:
             logger.info(report.nmea)
             sock.sendto(sat_id + report.message, self.addr_info[-1])
 
-    def start(self, stream: QzssDcrStream | None = None, msg_type: MessageFormat = 'ublox',
+    def start(self, stream: QzssDcrStream | None = None, msg_type: StreamFormat = 'ublox',
               unique: bool | float = False) -> None:
         # sys.stdin as it is now, not as it was when this module was read
         source: QzssDcrStream = sys.stdin if stream is None else stream

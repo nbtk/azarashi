@@ -1,7 +1,7 @@
 import threading
 import weakref
 from collections.abc import Callable
-from typing import Any, Generic, TypeVar, cast
+from typing import Any, Generic, TypeVar
 
 from ..exceptions import AzarashiDisconnectedError
 from ..exceptions import AzarashiNoMoreData
@@ -15,42 +15,40 @@ _T = TypeVar('_T')
 class StreamKeyedDict(Generic[_T]):
     """Per-stream values that are released together with their stream objects.
 
-    Streams that can be weakly referenced but not hashed are keyed by identity and dropped when
-    they are collected. Streams that cannot be weakly referenced are kept until they report
-    themselves closed.
+    Streams are keyed by identity, regardless of their equality or hash. Weakly referenced
+    streams are dropped when collected; the others are kept until they report themselves closed.
     """
 
     def __init__(self) -> None:
-        self._weak: weakref.WeakKeyDictionary[object, _T] = weakref.WeakKeyDictionary()
-        self._by_id: dict[int, tuple[object, _T]] = {}  # id -> (a weak reference to the stream, or the stream; value)
+        self._weak: dict[int, tuple[weakref.ReferenceType[object], _T]] = {}
+        self._strong: dict[int, tuple[object, _T]] = {}
 
     def get(self, stream: object, default: _T | None = None) -> _T | None:
-        try:
-            return self._weak.get(stream, default)
-        except TypeError:  # not weakly referenceable, or unhashable
-            self._discard_closed()
-            entry = self._by_id.get(id(stream))
-            return entry[1] if entry is not None and _held(entry[0]) is stream else default
+        key = id(stream)
+        weak_entry = self._weak.get(key)
+        if weak_entry is not None:
+            return weak_entry[1] if weak_entry[0]() is stream else default
+        self._discard_closed()
+        entry = self._strong.get(key)
+        return entry[1] if entry is not None and entry[0] is stream else default
 
     def __setitem__(self, stream: object, value: _T) -> None:
+        key = id(stream)
         try:
-            self._weak[stream] = value
-        except TypeError:  # not weakly referenceable, or unhashable
-            key = id(stream)
-            try:
-                held: object = weakref.ref(stream, lambda _: self._by_id.pop(key, None))
-            except TypeError:  # not weakly referenceable: kept until closed
-                held = stream
-            self._by_id[key] = (held, value)
+            ref = weakref.ref(stream, lambda _: self._weak.pop(key, None))
+        except TypeError:  # not weakly referenceable: kept until closed
+            self._strong[key] = (stream, value)
+        else:
+            self._weak[key] = (ref, value)
 
     def clear(self) -> None:
         self._weak.clear()
-        self._by_id.clear()
+        self._strong.clear()
 
     def _discard_closed(self) -> None:
-        for key, (held, _) in list(self._by_id.items()):
-            if getattr(_held(held), 'closed', False):
-                del self._by_id[key]
+        for key, (stream, _) in list(self._strong.items()):
+            if getattr(stream, 'closed', False):
+                del self._strong[key]
 
 
 _locks: StreamKeyedDict['threading.RLock'] = StreamKeyedDict()  # one lock per stream, released with the stream
@@ -65,13 +63,6 @@ def stream_lock(stream: object) -> 'threading.RLock':
             lock = threading.RLock()
             _locks[stream] = lock
         return lock
-
-
-def _held(held: object) -> object:
-    """The stream that StreamKeyedDict holds, directly or through a weak reference."""
-    if isinstance(held, weakref.ref):
-        return cast('weakref.ref[object]', held)()
-    return held
 
 
 class ReaderStore(Generic[_T]):
