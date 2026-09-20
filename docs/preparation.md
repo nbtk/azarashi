@@ -3,7 +3,7 @@
 # Preparation
 デバイスに災危通報メッセージを出力させるための設定例です。
 ## u-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
-UARTを有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
+UART を有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
 ```shell
 $ sudo vi /boot/firmware/config.txt
 ```
@@ -74,8 +74,8 @@ u-center で QZSS の L1S シグナル受信機能を有効にしてください
 Open u-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
     Check All the "GPS" and "QZSS" boxes ->
-  　　  Check the "RAM" and "Flash" boxes in the "Write to layer" ->
- 　　　　   Send Configuration
+      Check the "RAM" and "Flash" boxes in the "Write to layer" ->
+        Send Configuration
 ```
 設定は永続化され、他の機器に接続し直しても災危通報メッセージを出力します。デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
 ## Sony Spresense

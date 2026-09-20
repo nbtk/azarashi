@@ -5,14 +5,14 @@
 # Azarashi
 A QZSS DCR Decoder.
 ## Description
-azarashi は、準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報は「災害・危機管理通報サービス」の略です。地震や津波などの災害情報や危機管理情報を、防災機関から受けてみちびき経由で送信するサービスです。
+azarashi は、準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報は「災害・危機管理通報サービス」の略で、防災機関が発表した地震や津波などの情報を、みちびきが送信します。
 
-IS-QZSS-DCR-017 と IS-QZSS-DCX-004 をサポートしています。DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。
+IS-QZSS-DCR-017 と IS-QZSS-DCX-004 に対応しています。DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。
 ## Installation
 ```shell
 $ pip install azarashi
 ```
-シリアルデバイスの読み込みに使う [pySerial](https://pyserial.readthedocs.io/en/latest/) も一緒にインストールされます。
+シリアルデバイスからの読み込みに使う [pySerial](https://pyserial.readthedocs.io/en/latest/) も一緒にインストールされます。
 
 Python 3.11 以降で動きます。
 ## Usage
@@ -41,7 +41,7 @@ GPS モジュールから直接読むときは、デバイスのパスとボー�
 ```shell
 $ azarashi ublox -f /dev/ttyS0 -b 9600
 ```
-プログラムから使うときは `decode()` にメッセージを渡します。レポートオブジェクトが返り、`print()` に渡すと上と同じ文章を表示します。災害の種類ごとのパラメータは、属性か `get_params()` で取り出せます。
+プログラムから使うときは `decode()` にメッセージを渡します。レポートオブジェクトが返り、`print()` に渡すと、さきほどのコマンドと同じ文章を表示します。災害の種類ごとのパラメータは、属性か `get_params()` で取り出せます。
 ```python
 >>> import azarashi
 >>> report = azarashi.decode('$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05')
@@ -65,13 +65,13 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
         except azarashi.AzarashiStopReading:
             break
 ```
-捕捉している3つのクラスが、そのまま何をすべきかを表します。
+捕捉している3つのクラスが、次に何をすべきかを表します。
 
-- `AzarashiReadOn`: 次のメッセージを読んでください。壊れたメッセージも、azarashi が対応していないメッセージも、この下にあります。どれも読み飛ばして次へ進めば済みます。
-- `AzarashiReopenStream`: ストリームを開き直してください。USB のデバイスを引き抜いたときです。ストリームはもう使えないので、止めるか開き直します。
-- `AzarashiStopReading`: 読み取りをやめてください。ストリームが終わったときです。
+- `AzarashiReadOn`: メッセージが手に入らなかったときに送出されます。たとえば電文が壊れていたときや、azarashi がまだ対応していない種類のメッセージだったときです。ストリームは無事なので、もう一度呼べば次のメッセージに進みます。
+- `AzarashiReopenStream`: ストリームの読み取りそのものが失敗したときに送出されます。たとえば USB のデバイスが抜けたときや、ソケットが切れたときです。そのストリームは二度と読めないので、閉じて開き直してください。
+- `AzarashiStopReading`: 読むものがなくなったときに送出されます。たとえばファイルを最後まで読んだときや、通信の相手側が接続を閉じたときです。続きは届きません。
 
-3つは互いに継承関係がないので、どの順番に書いても同じように動きます。送出されるのはこの3つの下にある「何が起きたか」を表すクラスなので、ログには `AzarashiDisconnectedError` のように具体的な名前が出ます。
+3つは互いに継承関係がないので、どの順番に書いても同じように動きます。実際に送出されるのは、この3つのいずれかを継承した、より細かいクラスです。何が起きたかを名前が表すので、ログには `AzarashiDisconnectedError` のような具体的な名前が出ます。
 
 仕様にないコード値を受け取っただけでは例外になりません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。例外の一覧は [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md) を見てください。
 ## Documentation

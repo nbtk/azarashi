@@ -1,7 +1,7 @@
 [azarashi](../README.md) / CLI
 
 # CLI
-azarashi コマンドをつかうとプログラミングすることなく災危通報メッセージをデコードできます。
+azarashi コマンドを使うと、プログラムを書かずに災危通報メッセージをデコードできます。
 ```shell
 $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05' | azarashi nmea
 ```
@@ -39,7 +39,7 @@ azarashi コマンドのメッセージタイプに `ublox` を指定します�
 ```shell
 $ azarashi ublox -f /dev/ttyS0 -b 9600
 ```
-デバイスファイルの読込権限が足りないときは、sudo を使わずに、[Preparation](preparation.md) のとおりユーザを `dialout` グループに追加してください。
+デバイスファイルの読み込み権限が足りないときは、sudo を使わずに、[Preparation](preparation.md) のとおりユーザを `dialout` グループに追加してください。
 ## Sony Spresense
 azarashi コマンドのメッセージタイプに `nmea` を指定します。ボーレートは、スケッチで設定した値に合わせてください。
 ```shell

@@ -27,10 +27,10 @@ class AzarashiException(Exception):
 
 
 class AzarashiReadOn(AzarashiException):
-    """This message is not to be had, and the next one is: read on.
+    """Reading again is the way on: the stream is well, and only this read brought no report.
 
-    Every failure of a message sits under here, and none of them says anything about the
-    stream, which is still good.
+    Every failure of a message sits under here. A message that cannot be read is behind you and
+    the next one follows it; a message that is not complete yet is resumed by the next read.
     """
 
 
