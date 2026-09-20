@@ -207,3 +207,25 @@ def test_extract_field_matches_the_bit_string():
         for pos in range(250):
             for size in range(1, min(64, 250 - pos) + 1):
                 assert decoder.extract_field(pos, size) == bits >> (250 - pos - size) & (1 << size) - 1, (pos, size)
+
+
+# The specifications are revised, and a revision adds codes. These guards catch a table that
+# gained a code the decoders were not taught, which is the shape such an update takes here. They
+# cannot fire while the tables and the decoders agree, so the tables are moved to make them.
+
+def test_a_message_type_the_table_knows_but_no_decoder_takes(monkeypatch):
+    from azarashi.definitions import qzss_dcr_message_type
+    monkeypatch.setitem(qzss_dcr_message_type, 45, 'DCZ')  # a message type of some later edition
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
+        azarashi.decode(with_fields(EEW, [(8, 6, 45)]))
+    assert excinfo.value.message == 'Unsupported Message Type: 45'
+
+
+def test_a_disaster_category_the_table_knows_but_no_decoder_takes(monkeypatch):
+    from azarashi.definitions import qzss_dcr_jma_disaster_category
+    from azarashi.definitions import qzss_dcr_jma_disaster_category_en
+    monkeypatch.setitem(qzss_dcr_jma_disaster_category, 7, '高潮')  # category 7 is not assigned yet
+    monkeypatch.setitem(qzss_dcr_jma_disaster_category_en, 7, 'Storm Surge')
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
+        azarashi.decode(with_fields(EEW, [(17, 4, 7)]))
+    assert excinfo.value.message == 'Unsupported Disaster Category: 高潮'

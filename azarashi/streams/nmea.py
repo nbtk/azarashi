@@ -9,16 +9,13 @@ _pending_sentences: ReaderStore[list[str]] = ReaderStore(list)  # the sentences 
 
 
 def nmea_qzss_dcr_message_extractor(reader: Callable[..., str | bytes],
-                                    reader_args: tuple[Any, ...] | None = None,
-                                    reader_kwargs: dict[str, Any] | None = None) -> str:
+                                    reader_args: tuple[Any, ...] | None = None) -> str:
     if reader_args is None:
         reader_args = ()
-    if reader_kwargs is None:
-        reader_kwargs = {}
     header = nmea_qzss_dcr_message_header
     pending = _pending_sentences.get(reader)
     while not pending:
-        msg = read_line(reader, reader_args, reader_kwargs)
+        msg = read_line(reader, reader_args)
         if isinstance(msg, (bytes, bytearray)):
             msg = msg.decode(errors='replace')  # line noise must not stop the stream; the checksum rejects it
         start = msg.find(header)  # the sentence may follow noise on the same line

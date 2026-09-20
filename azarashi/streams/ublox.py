@@ -20,11 +20,10 @@ INCOMPLETE = (AzarashiTimeoutError, AzarashiStopReading)
 def __pop(size: int,
           buf: bytearray,
           reader: Callable[..., bytes | None],
-          reader_args: tuple[Any, ...],
-          reader_kwargs: dict[str, Any]) -> bytes:
+          reader_args: tuple[Any, ...]) -> bytes:
     while size > len(buf):
         try:
-            data = read_stream(reader, reader_args, reader_kwargs)
+            data = read_stream(reader, reader_args)
         except AzarashiReopenStream:
             buf.clear()  # the rest of the frame can never arrive, and the bytes read are half of one
             raise
@@ -51,20 +50,17 @@ def _is_checksum_valid(message: bytes) -> bool:
 
 
 def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
-                                     reader_args: tuple[Any, ...] | None = None,
-                                     reader_kwargs: dict[str, Any] | None = None) -> bytes:
+                                     reader_args: tuple[Any, ...] | None = None) -> bytes:
     if reader_args is None:
         reader_args = ()
 
-    if reader_kwargs is None:
-        reader_kwargs = {}
 
     header = ublox_qzss_dcr_message_header
     buf = buffers.get(reader)
     match_count = 0
     while True:
         try:
-            byte = __pop(1, buf, reader, reader_args, reader_kwargs)[0]
+            byte = __pop(1, buf, reader, reader_args)[0]
         except INCOMPLETE:
             buf[:0] = header[:match_count]  # a later call resumes from the partial header
             raise
@@ -78,7 +74,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
         if match_count == len(header): # SFRBX message
             match_count = 0
             try:
-                message_length_bytes = __pop(2, buf, reader, reader_args, reader_kwargs)
+                message_length_bytes = __pop(2, buf, reader, reader_args)
             except INCOMPLETE:
                 buf[:0] = header
                 raise
@@ -89,7 +85,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
 
             try:
                 payload = __pop(message_length + 2,  # payload + CK_A + CK_B
-                                buf, reader, reader_args, reader_kwargs)
+                                buf, reader, reader_args)
             except INCOMPLETE:
                 if header in message_length_bytes + buf:  # another header follows: this one was a false header
                     buf[:0] = message_length_bytes

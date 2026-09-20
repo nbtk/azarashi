@@ -113,12 +113,10 @@ def empty_read_error(reader: Callable[..., Any]) -> AzarashiTimeoutError | Azara
     return AzarashiNoMoreData('Encountered EOF')
 
 
-def read_stream(reader: Callable[..., _T],
-                reader_args: tuple[Any, ...] = (),
-                reader_kwargs: dict[str, Any] | None = None) -> _T:
+def read_stream(reader: Callable[..., _T], reader_args: tuple[Any, ...] = ()) -> _T:
     """Read from a stream, reporting a stream that failed rather than one that ended."""
     try:
-        return reader(*reader_args, **(reader_kwargs or {}))
+        return reader(*reader_args)
     except OSError as e:  # e.g. serial.SerialException once the device is unplugged
         raise AzarashiDisconnectedError(f'{type(e).__name__}: {e}') from e
     except ValueError as e:
@@ -132,13 +130,11 @@ _partial_lines: ReaderStore[list[Any]] = ReaderStore(list)  # the parts of a lin
 max_partial_line = 1024  # the longest sentence a decoder takes is 76 characters, so this cannot cut a message
 
 
-def read_line(reader: Callable[..., str | bytes],
-              reader_args: tuple[Any, ...],
-              reader_kwargs: dict[str, Any]) -> str | bytes:
+def read_line(reader: Callable[..., str | bytes], reader_args: tuple[Any, ...]) -> str | bytes:
     """Read a line; a line cut off by a read timeout is kept and completed on the next call."""
     partial = _partial_lines.get(reader)
     try:
-        line = read_stream(reader, reader_args, reader_kwargs)
+        line = read_stream(reader, reader_args)
     except AzarashiReopenStream:
         partial.clear()  # the rest of the line can never arrive, and would corrupt the next one
         raise

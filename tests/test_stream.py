@@ -85,6 +85,16 @@ def test_sentences_left_on_a_line_do_not_keep_the_stream_alive():
     assert ref() is None
 
 
+def test_hex_from_a_text_stream():
+    # the documents recommend opening a file as bytes, but a text stream is what open() gives by
+    # default, and hex is the one format a caller is likely to have as text
+    stream = io.StringIO(f'{EEW_HEX}\n{EEW_HEX}\n')
+    assert azarashi.decode_stream(stream, 'hex') == azarashi.decode(EEW, 'nmea')
+    assert azarashi.decode_stream(stream, 'hex') == azarashi.decode(EEW, 'nmea')
+    with pytest.raises(azarashi.AzarashiNoMoreData):
+        azarashi.decode_stream(stream, 'hex')
+
+
 def test_hex_line_noise_is_a_decoder_error():
     stream = io.BytesIO(b'\xff\xfe\n' + EEW_HEX.encode() + b'\n')
     with pytest.raises(azarashi.AzarashiInvalidMessageError):

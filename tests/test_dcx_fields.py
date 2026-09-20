@@ -140,6 +140,17 @@ def test_japanese_library():
            'A11 - Instruction (ja): これは、DCX のテストです。\n' in str(report)
 
 
+def test_a_country_library_that_is_not_the_japanese_one():
+    # A9 says the provider used the library of its own country, and azarashi holds only Japan's.
+    # The message is still read; the instruction is the one field it cannot name.
+    report = _decode(dcx(a1=1, a2=10, a3=2, a9=1, a11=126))
+    assert report.a9_type_of_library == 'Country/region library'
+    assert report.a11_japanese_library is None and report.a11_japanese_library_ja is None
+    assert report.a11_international_library is None  # the international one was not selected
+    assert report.a2_country_region_name == 'Australia'  # everything else is decoded as usual
+    assert 'A11 - Instruction' not in str(report)
+
+
 def test_japanese_library_without_instruction():
     report = _decode(dcx(**JAPAN, a3=2, a9=1, a11=0))
     assert 'A11 - Instruction' not in str(report)

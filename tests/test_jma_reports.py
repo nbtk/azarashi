@@ -267,6 +267,39 @@ def test_earthquake_early_warning_without_long_period_ground_motion():
     assert str(report).endswith('震度(上限): 〜程度以上\n北海道道央、青森')
 
 
+@pytest.mark.parametrize('lower, upper, shown', [
+    (1, 1, ('長周期地震動階級1未満', '長周期地震動階級1未満')),
+    (3, 3, ('長周期地震動階級2', '長周期地震動階級2')),
+    (3, 5, ('長周期地震動階級2', '長周期地震動階級4')),
+])
+def test_earthquake_early_warning_long_period_ground_motion(lower, upper, shown):
+    report = _decode(jma(1, EEW + [(47, 3, lower), (50, 3, upper)]))
+    assert (report.long_period_ground_motion_lower_limit,
+            report.long_period_ground_motion_upper_limit) == shown
+    assert (report.long_period_ground_motion_lower_limit_raw,
+            report.long_period_ground_motion_upper_limit_raw) == (lower, upper)
+    assert f'長周期地震動階級(下限): {shown[0]}\n' in str(report)
+
+
+#: sentences that were really broadcast, kept because a crafted one only says what we expect
+RECEIVED_SENTENCES = [
+    # 緊急地震速報, long-period ground motion class 2 at both limits
+    ('$QZQSM,56,9AAF88A48000DB24000049000548C5E2C000000003DFF8001C000012101445C*7B',
+     {'long_period_ground_motion_lower_limit_raw': 3, 'long_period_ground_motion_upper_limit_raw': 3,
+      'long_period_ground_motion_lower_limit': '長周期地震動階級2'}),
+    # 震源, with the magnitude and the depth both unknown
+    ('$QZQSM,55,53AD160D2800039400001A28FFFFEE601800C8F00000000000000011BF8D908*01',
+     {'depth_of_hypocenter_raw': 511, 'depth_of_hypocenter': '不明',
+      'magnitude_raw': 127, 'magnitude': '不明'}),
+]
+
+
+@pytest.mark.parametrize('sentence, fields', RECEIVED_SENTENCES, ids=['long period', 'unknown magnitude'])
+def test_a_sentence_that_was_really_broadcast(sentence, fields):
+    report = _decode(sentence)
+    assert {name: getattr(report, name) for name in fields} == fields
+
+
 def test_earthquake_early_warning_every_forecast_region():
     report = _decode(jma(1, EEW + [(130 + i, 1, 1) for i in range(80)]))
     assert report.eew_forecast_regions_raw == list(range(1, 81))
@@ -399,6 +432,30 @@ Coastal Region: {report.coastal_regions_en[0]}'''
 
 
 VOLCANO = [(50, 3, 1), *_time(53, 7, 4, 58), (69, 7, 13), (76, 12, 506), (88, 23, 4620100), (111, 23, 4621400)]
+
+
+def test_tsunami_with_every_arrival_time_slot_filled():
+    # the message carries five slots of 26 bits from bit 84, and a zero slot ends the list:
+    # filling all five is the one case where the loop runs to its end instead of breaking
+    slots = []
+    for i, (day, hour, minute, region) in enumerate([(0, 5, 30, 100), (0, 6, 0, 101), (0, 7, 30, 102),
+                                                     (1, 0, 15, 201), (1, 2, 45, 202)]):
+        at = 84 + i * 26
+        slots += [(at, 1, day), (at + 1, 5, hour), (at + 6, 6, minute), (at + 12, 4, 3), (at + 16, 10, region)]
+    report = _decode(jma(5, [(53, 9, 109), (62, 9, 111), (80, 4, 3), *slots]))
+    assert len(report.expected_tsunami_arrival_times) == 5
+    assert len(report.tsunami_heights) == len(report.tsunami_forecast_regions) == 5
+    assert report.expected_tsunami_arrival_times[0] == datetime(2026, 3, 7, 5, 30, tzinfo=UTC)
+    assert report.expected_tsunami_arrival_times[-1] == datetime(2026, 3, 8, 2, 45, tzinfo=UTC)
+
+
+def test_volcano_with_every_local_government_slot_filled():
+    # five slots of 23 bits from bit 88, the same boundary as the tsunami arrival times
+    codes = [4620100, 4621400, 4620200, 4620300, 4620400]
+    slots = [(88 + i * 23, 23, code) for i, code in enumerate(codes)]
+    report = _decode(jma(8, [(50, 3, 1), *_time(53, 7, 4, 58), (69, 7, 13), (76, 12, 506), *slots]))
+    assert report.local_governments_raw == codes
+    assert len(report.local_governments) == 5
 
 
 def test_volcano():

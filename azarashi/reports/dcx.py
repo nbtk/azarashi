@@ -242,8 +242,8 @@ class AlertBase(Base):
             report += f"A11 - Instruction code: {self.a11_international_library_code}\n"
             if self.camf.a11 != 0:
                 report += f"A11 - Instruction: {self.a11_international_library}\n"
-        elif self.camf.a9 == 1: # japanese
-            if self.camf.a11 != 0:
+        elif self.camf.a9 == 1:  # the library of the provider's own country, of which azarashi has Japan's
+            if self.camf.a11 != 0 and self.a11_japanese_library is not None:
                 report += f"A11 - Instruction: {self.a11_japanese_library}\n" + \
                           f"A11 - Instruction (ja): {self.a11_japanese_library_ja}\n"
 
