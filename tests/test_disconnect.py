@@ -108,7 +108,7 @@ def test_no_clause_order_turns_a_failing_stream_into_something_else(msg_type):
 
 @pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
 def test_handling_written_for_pyserial_still_catches_a_failing_stream(msg_type):
-    # code written before AzarashiReopenStream existed caught OSError, which serial.SerialException is
+    # pySerial raises serial.SerialException, which is an OSError: handling written for that has to keep working
     with pytest.raises(OSError):
         azarashi.decode_stream(_Unplugged(serial.SerialException('device disconnected')), msg_type=msg_type)
 

@@ -17,9 +17,8 @@ GROUPING = ('AzarashiException', 'AzarashiReadOn', 'AzarashiDecodeError',
 #: the names that existed before the classes were renamed
 EARLIER = (azarashi.QzssDcrDecoderException,
            azarashi.QzssDcrDecoderNotImplementedError)
-#: the failures the earlier names never caught, because the released versions did not name them:
-#: a stream that failed raised its own error, and the end of the data and a read timeout were
-#: both a plain EOFError
+#: the failures that no earlier name catches: the released versions have no name of their own
+#: for a stream that failed, for the end of the data, or for a read timeout
 OUTSIDE_EARLIER = ('AzarashiDisconnectedError', 'AzarashiStreamClosedError', 'AzarashiNoMoreData',
                    'AzarashiTimeoutError')
 
@@ -148,14 +147,14 @@ def test_everything_raised_is_caught_by_the_earlier_names():
 
 
 def test_a_stream_failure_reaches_the_earlier_names_as_an_os_error():
-    # a stream that fails used to raise its own error, e.g. serial.SerialException, which is an OSError:
-    # staying an OSError is what keeps the handling written for that working
+    # the streams raise errors of their own, e.g. serial.SerialException, which are OSErrors:
+    # staying an OSError is what keeps the handling written for those working
     assert not issubclass(azarashi.AzarashiReopenStream, EARLIER)
     assert issubclass(azarashi.AzarashiReopenStream, OSError)
 
 
 def test_the_end_of_the_data_reaches_the_earlier_names_as_an_eof_error():
-    # it used to be a plain EOFError, and staying one is what keeps 'except EOFError' working
+    # staying an EOFError is what keeps 'except EOFError' working
     assert not issubclass(azarashi.AzarashiNoMoreData, EARLIER)
     assert issubclass(azarashi.AzarashiNoMoreData, EOFError)
 
