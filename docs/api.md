@@ -99,6 +99,14 @@ AzarashiException
 ## AzarashiTimeoutError
 pySerial などで `timeout` を指定して開いたストリームから、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。
 
+**ソケットを読むときは、`socket.makefile()` に `settimeout()` を組み合わせないでください。** この組み合わせは Python 自身が避けるよう述べているもので、一度タイムアウトするとそのファイルオブジェクトは二度と読めなくなります。待っていたデータが届いても読めません。azarashi はこれを [AzarashiReopenStream](#azarashireopenstream) として報告します。読み直しても同じなので、開き直すほかありません。
+
+タイムアウト付きでソケットを読むときは、pySerial の `socket://` を使ってください。こちらは読めた分を渡してくれるので、続きから読み込めます。
+```python
+port = serial.serial_for_url('socket://192.168.1.10:2000', timeout=1)
+azarashi.decode_stream(port, 'ublox', print)
+```
+
 **組み込みの例外を一つも継承していません。** `EOFError` にすると、データが終わったと読み違えられます。`EOFError` で止めるコードが、生きているストリームを打ち切ってしまいます。`TimeoutError` も使えません。あちらは `OSError` の一種で、[AzarashiReopenStream](#azarashireopenstream) と同じ網に入ります。`except OSError` で開き直すコードが、健全なデバイスを開き直すことになります。
 
 このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。プログラムの例は [Timeout](#timeout) にあります。

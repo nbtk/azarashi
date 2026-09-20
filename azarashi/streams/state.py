@@ -113,17 +113,13 @@ def empty_read_error(reader: Callable[..., Any]) -> AzarashiTimeoutError | Azara
     return AzarashiNoMoreData('Encountered EOF')
 
 
-#: what the standard library raises when a stream has no data right now. They are OSErrors, so
-#: they have to be told from the OSError of a stream that has failed: this one can be read again.
-NOT_YET = (TimeoutError, BlockingIOError, InterruptedError)
-
-
 def read_stream(reader: Callable[..., _T], reader_args: tuple[Any, ...] = ()) -> _T:
     """Read from a stream, reporting a stream that failed rather than one that ended."""
     try:
         return reader(*reader_args)
-    except NOT_YET as e:  # e.g. a socket with settimeout() that no data reached in time
-        raise AzarashiTimeoutError(f'{type(e).__name__}: {e}') from e
+    # a TimeoutError is here on purpose: a file over a socket with settimeout() raises it and is
+    # left unusable, so the way on is a new stream, not another read. pySerial hands over what it
+    # read instead of raising, and that is the read timeout AzarashiTimeoutError is for.
     except OSError as e:  # e.g. serial.SerialException once the device is unplugged
         raise AzarashiDisconnectedError(f'{type(e).__name__}: {e}') from e
     except ValueError as e:

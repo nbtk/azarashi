@@ -374,7 +374,7 @@ def idle_socket():
     thread.join(5)
     client.settimeout(0.2)
     try:
-        yield client
+        yield client, held[0][0]
     finally:
         client.close()
         for conn, _ in held:
@@ -384,21 +384,53 @@ def idle_socket():
 
 @pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
 @pytest.mark.parametrize('buffering', [-1, 0], ids=['buffered', 'unbuffered'])
-def test_a_stream_with_nothing_to_read_yet_is_not_a_stream_that_failed(idle_socket, msg_type, buffering):
-    # a socket keeps its own timeout, so the file over it has no timeout attribute to read, and
-    # the read raises TimeoutError, which is an OSError. Taking that for a failure would have a
-    # reconnect loop close a connection that is up and well.
-    stream = idle_socket.makefile('rb', buffering=buffering)
-    with pytest.raises(azarashi.AzarashiTimeoutError) as excinfo:
+def test_a_file_over_a_socket_that_timed_out_needs_a_new_stream(idle_socket, msg_type, buffering):
+    """A read timeout on socket.makefile() leaves the file unusable, so a new stream is the way on.
+
+    Python says as much of makefile() with a timeout, and it holds: the TimeoutError is followed by
+    OSError('cannot read from timed out object') however long the caller waits, even once the data
+    it was waiting for has arrived. Reporting it as a read to try again would be a promise azarashi
+    cannot keep.
+    """
+    client, conn = idle_socket
+    stream = client.makefile('rb', buffering=buffering)
+    with pytest.raises(azarashi.AzarashiReopenStream):
         azarashi.decode_stream(stream, msg_type=msg_type)
-    assert not isinstance(excinfo.value, azarashi.AzarashiReopenStream)
-    assert isinstance(excinfo.value.__cause__, TimeoutError)
+
+    conn.sendall(EEW.encode() + b'\r\n')  # the data it was waiting for, now that it is there
+    time.sleep(0.1)
+    with pytest.raises(azarashi.AzarashiReopenStream):
+        azarashi.decode_stream(stream, msg_type=msg_type)
 
 
-@pytest.mark.parametrize('error', [TimeoutError('timed out'), BlockingIOError(11, 'Resource temporarily unavailable'),
-                                   InterruptedError(4, 'Interrupted system call')],
-                         ids=['timeout', 'would block', 'interrupted'])
-def test_every_read_that_could_not_deliver_yet_says_to_read_again(error):
-    with pytest.raises(azarashi.AzarashiTimeoutError) as excinfo:
-        azarashi.decode_stream(_Unplugged(error), msg_type='nmea')
-    assert excinfo.value.__cause__ is error
+def test_a_socket_read_with_a_timeout_resumes_through_pyserial(idle_socket):
+    """The way to read a socket with a timeout, which does keep what it read.
+
+    pySerial's socket:// handler is a stream with a timeout attribute that hands over what it has
+    instead of raising, which is the read timeout AzarashiTimeoutError stands for.
+    """
+    _, conn = idle_socket
+    server = socket.socket()
+    server.bind(('127.0.0.1', 0))
+    server.listen(1)
+    accepted = []
+    thread = threading.Thread(target=lambda: accepted.append(server.accept()), daemon=True)
+    thread.start()
+    port = serial.serial_for_url(f'socket://{server.getsockname()[0]}:{server.getsockname()[1]}', timeout=0.4)
+    thread.join(5)
+    peer = accepted[0][0]
+    try:
+        sentence = EEW.encode() + b'\r\n'
+        peer.sendall(sentence[:30])
+        with pytest.raises(azarashi.AzarashiTimeoutError):
+            azarashi.decode_stream(port, msg_type='nmea')
+
+        peer.sendall(sentence[30:])
+        assert azarashi.decode_stream(port, msg_type='nmea').message_type == 'DCR'
+
+        with pytest.raises(azarashi.AzarashiTimeoutError):  # and it can be read again after that
+            azarashi.decode_stream(port, msg_type='nmea')
+    finally:
+        port.close()
+        peer.close()
+        server.close()
