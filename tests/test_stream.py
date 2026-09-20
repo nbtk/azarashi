@@ -296,3 +296,29 @@ def test_a_reader_that_is_not_a_bound_method_gets_its_own_state():
     assert azarashi.decode_stream(first, 'nmea') == azarashi.decode(EEW, 'nmea')  # its own chunks, not the other's
     with pytest.raises(EOFError):
         azarashi.decode_stream(first, 'nmea')
+
+
+def test_plain_function_reader_keeps_pending_sentences():
+    stream = _PlainFunctionReader([(EEW + L_ALERT + '\n').encode()])
+    assert azarashi.decode_stream(stream, ignore_dcx=False).message_type == 'DCR'
+    gc.collect()
+    assert azarashi.decode_stream(stream, ignore_dcx=False).message_type == 'DCX'
+    with pytest.raises(EOFError):
+        azarashi.decode_stream(stream, ignore_dcx=False)
+
+
+def test_plain_function_reader_releases_its_captured_stream():
+    class Source:
+        def __init__(self):
+            self.lines = io.StringIO(EEW + L_ALERT + '\n')
+            self.readline = lambda: self.lines.readline()
+
+    stream = Source()
+    assert azarashi.decode_stream(stream, ignore_dcx=False, unique=True).message_type == 'DCR'
+    stream_ref, reader_ref = weakref.ref(stream), weakref.ref(stream.readline)
+    lines_ref = weakref.ref(stream.lines)
+    del stream
+    gc.collect()
+    assert stream_ref() is None
+    assert reader_ref() is None
+    assert lines_ref() is None

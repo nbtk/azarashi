@@ -71,7 +71,7 @@ class ReaderStore(Generic[_T]):
     def __init__(self, factory: Callable[[], _T]) -> None:
         self._factory = factory
         self._by_stream: StreamKeyedDict[dict[str, _T]] = StreamKeyedDict()  # stream -> {reader name: value}
-        self._unowned: dict[Callable[..., Any], _T] = {}  # readers that are not bound methods
+        self._unowned: StreamKeyedDict[tuple[_T]] = StreamKeyedDict()  # callable identity; tuple permits None values
 
     def get(self, reader: Callable[..., Any]) -> _T:
         stream = getattr(reader, '__self__', None)
@@ -83,9 +83,11 @@ class ReaderStore(Generic[_T]):
             if reader.__name__ not in per_reader:
                 per_reader[reader.__name__] = self._factory()
             return per_reader[reader.__name__]
-        if reader not in self._unowned:
-            self._unowned[reader] = self._factory()
-        return self._unowned[reader]
+        entry = self._unowned.get(reader)
+        if entry is None:
+            entry = (self._factory(),)
+            self._unowned[reader] = entry
+        return entry[0]
 
     def clear(self) -> None:
         self._by_stream.clear()

@@ -223,3 +223,36 @@ def test_reader_store_keeps_one_value_per_reader():
     store.get(stream.read1).extend(b'left over')
     store.clear()
     assert store.get(stream.read1) == bytearray() and store.get(len) == bytearray()
+
+
+def test_reader_store_distinguishes_equal_unhashable_callables():
+    class Reader:
+        __hash__ = None
+
+        def __eq__(self, other):
+            return isinstance(other, Reader)
+
+        def __call__(self):
+            return b''
+
+    store = ReaderStore(list)
+    first, second = Reader(), Reader()
+    store.get(first).append('pending')
+    assert store.get(first) == ['pending']
+    assert store.get(second) == []
+
+
+def test_reader_store_keeps_none_factory_result():
+    calls = []
+
+    def factory():
+        calls.append(1)
+        return None
+
+    def reader():
+        return b''
+
+    store = ReaderStore(factory)
+    assert store.get(reader) is None
+    assert store.get(reader) is None
+    assert calls == [1]
