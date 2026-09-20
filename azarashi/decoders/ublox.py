@@ -58,8 +58,14 @@ class Decoder(Base):
                 self)
 
         # checks the data size
+        payload_length = len(self.sentence) - (len(ublox_qzss_dcr_message_header) + 2 + 2)  # SFRBX + Length + CHK
+        declared_length = int.from_bytes(self.sentence[4:6], 'little')
+        if declared_length != payload_length:
+            raise AzarashiInvalidMessageError(
+                f'Payload Length Mismatch: declared {declared_length}, but got {payload_length}',
+                self)
         num_data_word = self.sentence[10]
-        if (num_data_word * 4 + 8 != len(self.sentence) -(len(ublox_qzss_dcr_message_header) + 2 + 2) # SFRBX + Length + CHK
+        if (num_data_word * 4 + 8 != payload_length
                 or num_data_word < 8):  # the 250-bit message takes 8 data words
             raise AzarashiInvalidMessageError(
                 f'Invalid Message Length: {num_data_word}',

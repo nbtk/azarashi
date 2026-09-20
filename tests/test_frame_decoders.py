@@ -141,6 +141,20 @@ def test_ublox_checksum_mismatch_names_both_checksums():
                                       f'but got {broken[-2]:02X}{broken[-1]:02X}'
 
 
+@pytest.mark.parametrize('declared_length', [8, 39, 44, 296])
+def test_ublox_rejects_inconsistent_declared_length(declared_length):
+    frame = bytearray(sfrbx(EEW))
+    frame[4:6] = declared_length.to_bytes(2, 'little')
+    # Keep the checksum valid so that only the inconsistent length makes this invalid.
+    ck_a = ck_b = 0
+    for value in frame[2:-2]:
+        ck_a = (ck_a + value) & 0xff
+        ck_b = (ck_b + ck_a) & 0xff
+    frame[-2:] = bytes((ck_a, ck_b))
+    assert _error(bytes(frame), 'ublox') == \
+        f'Payload Length Mismatch: declared {declared_length}, but got 40'
+
+
 @pytest.mark.parametrize('sv, satellite_prn', [
     (1, 183), (2, 184), (3, 185), (4, 186), (7, 189),  # the PRN numbers of IS-QZSS-L1S-009
     (0, None), (5, None), (6, None), (8, None), (255, None),  # no PRN is assigned to these svIds
