@@ -6,7 +6,7 @@ import pytest
 
 import azarashi
 from azarashi import reports
-from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.decoders import nmea
 from azarashi.reports.dcr import NankaiTroughEarthquake as Nankai
 from qzqsm import jma
 
@@ -15,7 +15,7 @@ TRAINING = '*** これは訓練です ***'
 
 
 def _decode(sentence, timestamp=RECEIVED):
-    return NmeaQzssDcrDecoder(sentence, timestamp=timestamp).decode()
+    return nmea.Decoder(sentence, timestamp=timestamp).decode()
 
 
 def _error(sentence, timestamp=RECEIVED):

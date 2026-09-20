@@ -31,9 +31,13 @@ class _Nothing:
 # decode()
 
 @pytest.mark.parametrize('msg', ['', b'', None])
-def test_decode_nothing_is_eof(msg):
-    with pytest.raises(EOFError):
+def test_decode_nothing_is_an_invalid_message(msg):
+    # nothing was handed over, which is a message that cannot be read. No stream ended, so this
+    # must not be an EOFError: a reading loop would take that for the end of the data.
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode(msg)
+    assert str(excinfo.value) == 'Empty Message'
+    assert not isinstance(excinfo.value, EOFError)
 
 
 def test_decode_unknown_message_type():
@@ -42,11 +46,11 @@ def test_decode_unknown_message_type():
     assert str(excinfo.value) == 'Unknown Message Type: rtcm'
 
 
-@pytest.mark.parametrize('decoder', ['HexQzssDcrDecoder', 'NetQzssDcrDecoder', 'NmeaQzssDcrDecoder'])
-def test_decoders_take_nothing_as_eof(decoder):
+@pytest.mark.parametrize('fmt', ['hex', 'net', 'nmea'])
+def test_decoders_take_nothing_as_an_invalid_message(fmt):
     from azarashi import decoders
-    with pytest.raises(EOFError):
-        getattr(decoders, decoder)('').decode()
+    with pytest.raises(azarashi.AzarashiInvalidMessageError):
+        getattr(decoders, fmt).Decoder('').decode()
 
 
 # decode_stream(): how streams are read

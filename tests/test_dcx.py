@@ -11,7 +11,7 @@ import locale
 import pytest
 
 import azarashi
-from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.decoders import nmea
 from qzqsm import with_fields
 
 UTC = datetime.UTC
@@ -87,7 +87,7 @@ def test_str_does_not_crash():
 
 def _decode_at(sentence, timestamp):
     """Decode as if the sentence had been received at `timestamp`."""
-    return NmeaQzssDcrDecoder(sentence, timestamp=timestamp).decode()
+    return nmea.Decoder(sentence, timestamp=timestamp).decode()
 
 
 def _with_hazard_onset(sentence, week, time_of_week):

@@ -3,7 +3,7 @@ import datetime
 
 import pytest
 
-from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.decoders import nmea
 from azarashi.definitions import qzss_dcx_camf_b4_lower_level_fields_tables as b4
 from azarashi import reports
 from qzqsm import sentence
@@ -28,7 +28,7 @@ def dcx(fields=(), **camf):
 
 
 def _decode(msg):
-    return NmeaQzssDcrDecoder(msg, timestamp=RECEIVED).decode()
+    return nmea.Decoder(msg, timestamp=RECEIVED).decode()
 
 
 # message types

@@ -15,7 +15,7 @@ import typing
 import pytest
 
 import azarashi
-from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.decoders import nmea
 from azarashi import reports
 from qzqsm import jma
 from qzqsm import sfrbx
@@ -63,7 +63,7 @@ def _reports():
     try:
         for message in _messages():
             try:
-                decoded.append(NmeaQzssDcrDecoder(message, timestamp=RECEIVED).decode())
+                decoded.append(nmea.Decoder(message, timestamp=RECEIVED).decode())
             except azarashi.AzarashiInvalidMessageError:
                 continue
     finally:  # the pages are assembled in the class: leave it as the other tests expect to find it
@@ -124,7 +124,7 @@ def test_there_are_reports_of_every_kind():
     concrete = {cls for module in (reports.dcx, reports.dcr) for cls in vars(module).values()
                 if isinstance(cls, type) and cls.__module__.startswith(reports.__name__)
                 and cls.__name__.startswith(('QzssDcReportJma', 'QzssDcx')) and not cls.__name__.endswith('Base')
-                and cls is not reports.dcx.Camf}
+                and cls is not reports.dcx.CAMF}
     assert concrete - kinds == set()
     assert len(REPORTS) > 400
 
@@ -153,7 +153,7 @@ def test_a_null_message_declares_no_alert_field():
 
 
 def test_camf_fields_are_declared_ints():
-    declared = typing.get_type_hints(reports.dcx.Camf)
+    declared = typing.get_type_hints(reports.dcx.CAMF)
     seen = set()
     for report in REPORTS:
         camf = getattr(report, 'camf', None)
@@ -165,14 +165,14 @@ def test_camf_fields_are_declared_ints():
 
 def test_only_the_camf_c_and_d_fields_are_optional():
     # the message carries the rest whatever it says, so only these are read under a condition
-    declared = typing.get_type_hints(reports.dcx.Camf)
+    declared = typing.get_type_hints(reports.dcx.CAMF)
     optional = {name for name, ann in declared.items() if type(None) in typing.get_args(ann)}
     assert optional == {f'c{i}' for i in range(1, 11)} | {f'd{i}' for i in range(1, 37)}
 
 
 def test_every_declared_camf_field_can_be_read():
     camfs = [report.camf for report in REPORTS if hasattr(report, 'camf')]
-    declared = typing.get_type_hints(reports.dcx.Camf)
+    declared = typing.get_type_hints(reports.dcx.CAMF)
     assert camfs and [f'{name}' for camf in camfs for name in declared if not hasattr(camf, name)] == []
 
 

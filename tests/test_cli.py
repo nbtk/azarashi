@@ -158,7 +158,7 @@ def test_unexpected_errors_stop_with_status_1(monkeypatch, capsys):
     monkeypatch.setattr(cli, 'open_input', lambda path, baudrate=9600: stream)
     code, out, err = _run(monkeypatch, capsys, ['ublox', '-f', '/dev/ttyACM0'])
     assert code == 1
-    assert '# [OSError] device disconnected\n' in err
+    assert '# [AzarashiDisconnectedError] OSError: device disconnected\n' in err
     assert stream.closed
 
 

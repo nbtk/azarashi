@@ -54,5 +54,5 @@ def test_dcx_camf_fields():
     assert report.camf.get_params() == report.camf.__dict__
     assert report.camf.get_params() is not report.camf.__dict__  # a copy, as a report's get_params() gives
     assert str(report.camf) == str(report.camf.__dict__)
-    assert repr(report.camf).startswith('Camf(sdmt=')  # an address would say nothing and never repeat
+    assert repr(report.camf).startswith('CAMF(sdmt=')  # an address would say nothing and never repeat
     assert report.camf.a2 == 111

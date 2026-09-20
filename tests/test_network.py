@@ -158,7 +158,7 @@ def test_receiver_command_filter_options(monkeypatch, args, expected):
 
 @pytest.mark.parametrize('datagram, warning', [
     (b'hello', "[AzarashiInvalidMessageError] Too Short Sentence -> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
-    (b'', '[AzarashiInvalidMessageError] Too Short Sentence'),
+    (b'', '[AzarashiInvalidMessageError] Empty Message'),
     (bytes((55,)) + bytes(32), '[AzarashiInvalidMessageError] Undefined Message Type: 0 -> $QZQSM,55,' + '0' * 63 + '*74'),
 ])
 def test_receiver_skips_datagrams_that_are_not_messages(caplog, datagram, warning):
@@ -193,7 +193,7 @@ def test_receiver_command_keeps_receiving_after_an_empty_datagram(monkeypatch, c
         thread = threading.Thread(target=receiver.main, daemon=True)
         thread.start()
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sender:
-            warning = '[AzarashiInvalidMessageError] Too Short Sentence'
+            warning = '[AzarashiInvalidMessageError] Empty Message'
             deadline = time.monotonic() + 5  # until the socket is bound, datagrams are dropped
             while time.monotonic() < deadline:
                 messages = [r.getMessage() for r in caplog.records]

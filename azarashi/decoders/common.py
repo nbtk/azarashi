@@ -1,14 +1,14 @@
 from ..reports import Report
 from ..reports import base
-from .base import QzssDcrDecoderBase
-from .dcr import QzssDcrDecoderJma
-from .dcx import QzssDcxDecoder
+from .base import Base
+from . import dcr
+from . import dcx
 from ..definitions import qzss_dcr_message_type
 from ..definitions import qzss_dcr_preamble
 from ..exceptions import AzarashiInvalidMessageError
 
 
-class QzssDcrDecoder(QzssDcrDecoderBase):
+class Decoder(Base):
     schema = base.MessagePartial
 
     def decode(self) -> Report:
@@ -43,11 +43,11 @@ class QzssDcrDecoder(QzssDcrDecoderBase):
                 f'Undefined Message Type: {mt}',
                 self) from err
 
-        next_decoder: type[QzssDcrDecoderBase]
+        next_decoder: type[Base]
         if mt == 43:
-            next_decoder = QzssDcrDecoderJma
+            next_decoder = dcr.Decoder
         elif mt == 44:
-            next_decoder = QzssDcxDecoder
+            next_decoder = dcx.Decoder
         else:
             raise AzarashiInvalidMessageError(
                 f'Unsupported Message Type: {mt}',

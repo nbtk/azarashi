@@ -64,16 +64,22 @@ def test_line_split_by_a_timeout(msg_type, line):
         assert azarashi.decode_stream(stream, msg_type) == _expected(), split
 
 
-def test_timeout_is_an_eof_error():
-    with pytest.raises(EOFError):  # existing EOF handling keeps working
+def test_a_timeout_is_not_the_end_of_the_data():
+    # a stream that may still send more must not be taken for one that has run out: a handler
+    # that stops on EOFError would stop reading a device that is working
+    with pytest.raises(azarashi.AzarashiTimeoutError) as e:
         azarashi.decode_stream(_SerialLike(), 'nmea')
+    assert not isinstance(e.value, EOFError)
+    assert isinstance(e.value, azarashi.AzarashiReadOn)  # the way on is to read again
 
 
 @pytest.mark.parametrize('msg_type, data', [('ublox', FRAME[:10]), ('nmea', b'$GPGGA,,'), ('hex', b'')])
 def test_streams_without_a_timeout_still_end_with_eof(msg_type, data):
     with pytest.raises(EOFError) as e:
         azarashi.decode_stream(io.BytesIO(data), msg_type)
-    assert type(e.value) is EOFError
+    # the data ended, which is not the timeout of a stream that may still send more
+    assert isinstance(e.value, azarashi.AzarashiNoMoreData)
+    assert not isinstance(e.value, azarashi.AzarashiTimeoutError)
 
 
 @pytest.mark.skipif(not hasattr(os, 'openpty'), reason='needs a pseudo terminal')

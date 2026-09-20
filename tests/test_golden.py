@@ -11,7 +11,7 @@ from pprint import pformat
 import pytest
 
 import azarashi
-from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.decoders import nmea
 from azarashi.reports.dcr import NankaiTroughEarthquake as Nankai
 
 _CONTROLS = {c: f'\\x{c:02x}' for c in [*range(0x00, 0x09), *range(0x0b, 0x20), *range(0x7f, 0xa0)]}  # readable diffs
@@ -31,7 +31,7 @@ def render(log):
                 continue
             sentence = line.strip()
             try:
-                report = NmeaQzssDcrDecoder(sentence, timestamp=LOGS[log]).decode()
+                report = nmea.Decoder(sentence, timestamp=LOGS[log]).decode()
             except azarashi.AzarashiInvalidMessageError as e:
                 blocks.append(f'>>> {sentence}\n# [{type(e).__name__}] {e}\n')
                 continue

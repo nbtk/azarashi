@@ -57,15 +57,21 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
     while True:
         try:
             azarashi.decode_stream(ser, msg_type='ublox', callback=print)
-        except azarashi.AzarashiError as e:
+        except azarashi.AzarashiReadOn as e:
             print(f'# [{type(e).__name__}] {e}')
-        except EOFError:
+        except azarashi.AzarashiReopenStream as e:
+            print(f'# [{type(e).__name__}] {e}')
+            break
+        except azarashi.AzarashiStopReading:
             break
 ```
-捕捉しているのは次の2つです。
+捕捉している3つのクラスが、そのまま何をすべきかを表します。
 
-- `AzarashiError`: azarashi が定義する例外の親です。壊れたメッセージも、azarashi が対応していないメッセージも、この下にあります。どれも読み飛ばして次へ進めば済みます。
-- `EOFError`: ストリームが終わったときに送出されます。
+- `AzarashiReadOn`: 次のメッセージを読んでください。壊れたメッセージも、azarashi が対応していないメッセージも、この下にあります。どれも読み飛ばして次へ進めば済みます。
+- `AzarashiReopenStream`: ストリームを開き直してください。USB のデバイスを引き抜いたときです。ストリームはもう使えないので、止めるか開き直します。
+- `AzarashiStopReading`: 読み取りをやめてください。ストリームが終わったときです。
+
+3つは互いに継承関係がないので、どの順番に書いても同じように動きます。送出されるのはこの3つの下にある「何が起きたか」を表すクラスなので、ログには `AzarashiDisconnectedError` のように具体的な名前が出ます。
 
 仕様にないコード値を受け取っただけでは例外になりません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。例外の一覧は [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md) を見てください。
 ## Documentation

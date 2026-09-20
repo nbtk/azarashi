@@ -3,7 +3,7 @@ import datetime
 import sys
 from pprint import pformat
 
-from azarashi import AzarashiDecodeError
+from azarashi import AzarashiReadOn
 from azarashi import decode_stream
 from azarashi.input_stream import RecordingStream
 from azarashi.input_stream import open_input
@@ -56,7 +56,7 @@ def main() -> int:
                 print(f'# src: {src}\n# hex: {report.message.hex().upper()[:-1]}\n')
 
             sys.stdout.flush()
-        except AzarashiDecodeError as e:
+        except AzarashiReadOn as e:
             print(f'{now()} --------------------------------\n'
                   f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
         except EOFError as e:

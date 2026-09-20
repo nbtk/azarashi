@@ -11,7 +11,6 @@ from typing import Any
 from ..reports import Report
 from .log import configure_logging
 from ..exceptions import AzarashiDecodeError
-from ..exceptions import AzarashiInvalidMessageError
 from ..api import decode
 
 logger = logging.getLogger(__name__)
@@ -53,8 +52,6 @@ class Receiver:
                 data = sock.recvfrom(256)
                 payload = data[0]
                 try:
-                    if not payload:  # a datagram never ends a stream, so an empty one is only too short
-                        raise AzarashiInvalidMessageError('Too Short Sentence')
                     report = decode(payload, 'net')
                 except AzarashiDecodeError as e:
                     # a datagram that is not a message, e.g. from other software: leaving would drop what is queued

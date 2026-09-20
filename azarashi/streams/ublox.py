@@ -4,10 +4,17 @@ from typing import Any
 
 from .state import ReaderStore
 from .state import empty_read_error
+from .state import read_stream
+from ..exceptions import AzarashiReopenStream
+from ..exceptions import AzarashiStopReading
+from ..exceptions import AzarashiTimeoutError
 from ..definitions import qzss_dcr_message_type
 from ..definitions import ublox_qzss_dcr_message_header
 
 buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per reader, released with the stream
+#: a read that did not deliver: what was read is kept, so a later call resumes from it. A stream
+#: that failed is not here, because the bytes it gave are half of a frame that can never arrive.
+INCOMPLETE = (AzarashiTimeoutError, AzarashiStopReading)
 
 
 def __pop(size: int,
@@ -16,7 +23,11 @@ def __pop(size: int,
           reader_args: tuple[Any, ...],
           reader_kwargs: dict[str, Any]) -> bytes:
     while size > len(buf):
-        data = reader(*reader_args, **reader_kwargs)
+        try:
+            data = read_stream(reader, reader_args, reader_kwargs)
+        except AzarashiReopenStream:
+            buf.clear()  # the rest of the frame can never arrive, and the bytes read are half of one
+            raise
         if not data:
             raise empty_read_error(reader)
         buf += data
@@ -54,7 +65,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
     while True:
         try:
             byte = __pop(1, buf, reader, reader_args, reader_kwargs)[0]
-        except EOFError:
+        except INCOMPLETE:
             buf[:0] = header[:match_count]  # a later call resumes from the partial header
             raise
         if header[match_count] == byte:
@@ -68,7 +79,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
             match_count = 0
             try:
                 message_length_bytes = __pop(2, buf, reader, reader_args, reader_kwargs)
-            except EOFError:
+            except INCOMPLETE:
                 buf[:0] = header
                 raise
             message_length = struct.unpack('<H', message_length_bytes)[0]
@@ -79,7 +90,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
             try:
                 payload = __pop(message_length + 2,  # payload + CK_A + CK_B
                                 buf, reader, reader_args, reader_kwargs)
-            except EOFError:
+            except INCOMPLETE:
                 if header in message_length_bytes + buf:  # another header follows: this one was a false header
                     buf[:0] = message_length_bytes
                     continue

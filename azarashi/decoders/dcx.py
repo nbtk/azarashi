@@ -3,7 +3,7 @@ import math
 
 from ..reports import base
 from ..reports import dcx
-from .base import QzssDcrDecoderBase
+from .base import Base
 from ..definitions import qzss_dcx_camf_a10_library_version
 from ..definitions import qzss_dcx_camf_a11_international_library
 from ..definitions import qzss_dcx_camf_a11_international_library_code
@@ -92,11 +92,11 @@ _NULL_MSG_FIELDS = (
 )
 
 
-class QzssDcxDecoder(QzssDcrDecoderBase):
+class Decoder(Base):
     schema = base.MessageBase
 
     def decode(self) -> dcx.Base:
-        self.camf = camf = dcx.Camf()
+        self.camf = camf = dcx.CAMF()
         self._extract_camf_fields(camf)
         self._decode_satellite_designation(camf)
 
@@ -121,7 +121,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         self.dcx_version = camf.vn
         return self._build_report(dcx_message_type)
 
-    def _extract_camf_fields(self, camf: dcx.Camf) -> None:
+    def _extract_camf_fields(self, camf: dcx.CAMF) -> None:
         camf.sdmt = self.extract_field(14, 1)
         camf.sdm = self.extract_field(15, 9)
         camf.a1 = self.extract_field(24, 2)
@@ -154,7 +154,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         camf.ex10 = self.extract_field(211, 3)
         camf.vn = self.extract_field(214, 6)
 
-    def _decode_satellite_designation(self, camf: dcx.Camf) -> None:
+    def _decode_satellite_designation(self, camf: dcx.CAMF) -> None:
         if camf.sdmt == 0:
             self.satellite_designation_mask_type = 'MT44 is for Japan or for use outside Japan'
             sd_list = ['For Japan', 'For use outside Japan']
@@ -165,7 +165,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         # Bit1, the most significant bit, is for the first satellite (PRN183)
         self.satellite_designation_mask: list[str] = [sd_list[camf.sdm >> (8 - i) & 1] for i in range(9)]
 
-    def _detect_message_type(self, camf: dcx.Camf) -> DcxMessageType:
+    def _detect_message_type(self, camf: dcx.CAMF) -> DcxMessageType:
         if all(getattr(camf, field) == 0 for field in _NULL_MSG_FIELDS):
             return DcxMessageType.NULL_MSG
         elif camf.a2 == 111:  # japan
@@ -180,7 +180,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         else:  # outside japan
             return DcxMessageType.OUTSIDE_JAPAN
 
-    def _set_field_flags(self, dcx_message_type: DcxMessageType, camf: dcx.Camf) -> None:
+    def _set_field_flags(self, dcx_message_type: DcxMessageType, camf: dcx.CAMF) -> None:
         # setting flags to ignore fields
         self.ignore_a12_to_a16 = False
         self.ignore_a17_to_a18 = False
@@ -218,7 +218,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             self.ignore_ex2_to_ex7 = True
             self.ignore_ex8_to_ex9 = True
 
-    def _decode_a1_to_a11(self, camf: dcx.Camf) -> None:
+    def _decode_a1_to_a11(self, camf: dcx.CAMF) -> None:
         self.a1_message_type = qzss_dcx_camf_a1_message_type[camf.a1]
         self.a2_country_region_name = qzss_dcx_camf_a2_country_region_name[camf.a2]
         self.a3_provider_identifier = (
@@ -258,14 +258,14 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                     self.a11_japanese_library = qzss_dcx_camf_a11_japanese_library_en[camf.a11]
                     self.a11_japanese_library_ja = qzss_dcx_camf_a11_japanese_library_ja[camf.a11]
 
-    def _decode_a12_to_a16(self, camf: dcx.Camf) -> None:
+    def _decode_a12_to_a16(self, camf: dcx.CAMF) -> None:
         self.a12_ellipse_centre_latitude = round(_centre_latitude(camf.a12), 6)
         self.a13_ellipse_centre_longitude = round(_centre_longitude(camf.a13), 6)
         self.a14_ellipse_semi_major_axis = round(_get_axis(camf.a14), 3)
         self.a15_ellipse_semi_minor_axis = round(_get_axis(camf.a15), 3)
         self.a16_ellipse_azimuth = round(-90 + 180 / 0x40 * camf.a16, 5)
 
-    def _decode_a17_to_a18(self, camf: dcx.Camf) -> None:
+    def _decode_a17_to_a18(self, camf: dcx.CAMF) -> None:
         if camf.a17 == 0 and self.ignore_a12_to_a16 is False:  # B1 – improved resolution of main ellipse
             self.a17_type_of_specific_settings = \
                 qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
@@ -319,7 +319,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
                 qzss_dcx_camf_a17_type_of_specific_settings[camf.a17]
             self._decode_b4(camf)
 
-    def _decode_b4(self, camf: dcx.Camf) -> None:
+    def _decode_b4(self, camf: dcx.CAMF) -> None:
         if camf.a4 == 36:  # earthquake
             camf.d1 = self.extract_field(131, 4)
             camf.d2 = self.extract_field(135, 3)
@@ -469,11 +469,11 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
             camf.d34 = self.extract_field(131, 2)
             self.d34_explosive_hazard_type = qzss_dcx_camf_d34_explosive_hazard_type[camf.d34]
 
-    def _decode_ex1(self, camf: dcx.Camf) -> None:
+    def _decode_ex1(self, camf: dcx.CAMF) -> None:
         self.ex1_target_area = qzss_dcx_ex1_target_area_code_en[camf.ex1]
         self.ex1_target_area_ja = qzss_dcx_ex1_target_area_code_ja[camf.ex1]
 
-    def _decode_ex2_to_ex7(self, camf: dcx.Camf) -> None:
+    def _decode_ex2_to_ex7(self, camf: dcx.CAMF) -> None:
         if camf.ex2 == 0:
             self.ex2_evacuate_direction_type = "Leave the additional target area range."
         else:
@@ -484,7 +484,7 @@ class QzssDcxDecoder(QzssDcrDecoderBase):
         self.ex6_additional_ellipse_semi_minor_axis = round(_get_axis(camf.ex6), 3)
         self.ex7_additional_ellipse_azimuth = round(-90 + 180 / 0x80 * camf.ex7, 5)
 
-    def _decode_ex8_to_ex9(self, camf: dcx.Camf) -> None:
+    def _decode_ex8_to_ex9(self, camf: dcx.CAMF) -> None:
         if camf.ex8 == 0:
             self.ex8_target_area_list_type = 'Prefecture code'
         else:

@@ -5,7 +5,7 @@ from datetime import UTC
 import pytest
 
 import azarashi
-from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.decoders import nmea
 from qzqsm import with_fields
 
 # Earthquake Early Warning (training/test message)
@@ -150,7 +150,7 @@ def test_nonexistent_report_date_is_a_decoder_error(month, day):
     (datetime(2027, 12, 31, tzinfo=UTC), 2028),  # a leap year already
 ])
 def test_report_on_a_leap_day_takes_the_closest_leap_year(received, year):
-    report = NmeaQzssDcrDecoder(_with_report_date(EEW, 2, 29), timestamp=received).decode()
+    report = nmea.Decoder(_with_report_date(EEW, 2, 29), timestamp=received).decode()
     assert (report.report_time.year, report.report_time.month, report.report_time.day) == (year, 2, 29)
 
 
@@ -160,7 +160,7 @@ def test_report_on_a_leap_day_takes_the_closest_leap_year(received, year):
 ])
 def test_nonexistent_occurrence_date_is_a_code(received, day, code):
     sentence = with_fields(_with_report_date(EEW, received.month, received.day), [(80, 5, day)])  # occurrence day
-    report = NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
+    report = nmea.Decoder(sentence, timestamp=received).decode()
     assert report.occurrence_time_of_earthquake is None
     assert report.occurrence_time_of_earthquake_raw == {'day': day, 'hour': 1, 'minute': 0}
     assert f'地震発生時刻: 地震発生時刻(コード番号：{code})\n' in str(report)
@@ -169,7 +169,7 @@ def test_nonexistent_occurrence_date_is_a_code(received, day, code):
 def test_occurrence_on_a_leap_day():
     received = datetime(2028, 3, 5, tzinfo=UTC)
     sentence = with_fields(_with_report_date(EEW, 3, 5), [(80, 5, 29)])
-    report = NmeaQzssDcrDecoder(sentence, timestamp=received).decode()
+    report = nmea.Decoder(sentence, timestamp=received).decode()
     assert report.occurrence_time_of_earthquake.date() == datetime(2028, 2, 29).date()
 
 

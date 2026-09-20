@@ -7,7 +7,7 @@ from ..definitions import nmea_qzss_dcr_message_header
 from ..exceptions import AzarashiNotImplementedError
 
 
-class QzssDcrDecoderBase:
+class Base:
     schema: ClassVar[type[base.Base]]  # checks the parameters and sets them as attributes
     message: bytes
     timestamp: datetime

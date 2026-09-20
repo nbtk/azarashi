@@ -58,8 +58,6 @@ with open('frames.ubx', 'rb') as frames:
 with open('frames.ubx', 'rb') as frames:  # the same code written with the earlier names
     try:
         azarashi.decode_stream(frames, 'ublox', callback=handler, unique=60)
-    except azarashi.QzssDcrDecoderTimeoutError:
-        pass
     except EOFError:
         pass
     except azarashi.QzssDcrDecoderException as old:

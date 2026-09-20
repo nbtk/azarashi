@@ -177,7 +177,7 @@ C4 - Refined length of semi minor axis: 5.979
  'satellite_svid': None,
  'preamble': 'A',
  'message_type': 'DCX',
- 'camf': Camf(sdmt=0, sdm=96, a1=1, a2=111, a3=1, a4=74, a5=2, a6=0, a7=9421, a8=2, a9=1, a10=0, a11=773, a12=45761, a13=116395, a14=13, a15=11, a16=48, a17=0, a18=0, ex1=13104, ex2=0, ex3=0, ex4=0, ex5=0, ex6=0, ex7=0, ex8=0, ex9=7376896189632872448, ex10=0, vn=1, c1=0, c2=0, c3=0, c4=0),
+ 'camf': CAMF(sdmt=0, sdm=96, a1=1, a2=111, a3=1, a4=74, a5=2, a6=0, a7=9421, a8=2, a9=1, a10=0, a11=773, a12=45761, a13=116395, a14=13, a15=11, a16=48, a17=0, a18=0, ex1=13104, ex2=0, ex3=0, ex4=0, ex5=0, ex6=0, ex7=0, ex8=0, ex9=7376896189632872448, ex10=0, vn=1, c1=0, c2=0, c3=0, c4=0),
  'ignore_a12_to_a16': False,
  'ignore_a17_to_a18': False,
  'ignore_ex1': True,

@@ -4,7 +4,7 @@ import io
 import os
 
 import azarashi
-from azarashi.decoders import NmeaQzssDcrDecoder
+from azarashi.decoders import nmea
 from samples import EEW
 
 TESTS = os.path.dirname(os.path.realpath(__file__))
@@ -54,7 +54,7 @@ def test_a_replayed_message_is_dated_from_the_given_time():
 
 def test_given_timestamp_is_normalized_to_utc():
     naive = datetime.datetime(2026, 9, 13, 21, 0)  # taken as local time, like datetime.now()
-    assert NmeaQzssDcrDecoder(EEW, timestamp=naive).decode().timestamp == naive.astimezone(UTC)
+    assert nmea.Decoder(EEW, timestamp=naive).decode().timestamp == naive.astimezone(UTC)
     jst = datetime.datetime(2026, 9, 13, 21, 0, tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
-    report = NmeaQzssDcrDecoder(EEW, timestamp=jst).decode()
+    report = nmea.Decoder(EEW, timestamp=jst).decode()
     assert (report.timestamp, report.timestamp.tzinfo) == (datetime.datetime(2026, 9, 13, 12, 0, tzinfo=UTC), UTC)

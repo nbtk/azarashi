@@ -1,13 +1,13 @@
 from ..reports import Report
 from ..reports import base
-from ..decoders import QzssDcrDecoder
-from ..decoders import QzssDcrDecoderBase
+from . import common
+from .base import Base
 from ..definitions import ublox_qzss_dcr_message_header
 from ..definitions import ublox_qzss_svid_prn_map
 from ..exceptions import AzarashiInvalidMessageError
 
 
-class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
+class Decoder(Base):
     schema = base.Base
     sentence: bytes
 
@@ -79,4 +79,4 @@ class UBloxQzssDcrDecoder(QzssDcrDecoderBase):
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
-        return QzssDcrDecoder(**self.get_params()).decode()
+        return common.Decoder(**self.get_params()).decode()

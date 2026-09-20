@@ -3,9 +3,15 @@ from ._legacy import *  # every earlier name; delete with the module
 from .api import decode
 from .api import decode_stream
 from .exceptions import AzarashiDecodeError
-from .exceptions import AzarashiError
+from .exceptions import AzarashiDisconnectedError
+from .exceptions import AzarashiException
 from .exceptions import AzarashiInvalidMessageError
+from .exceptions import AzarashiNoMoreData
 from .exceptions import AzarashiNotImplementedError
+from .exceptions import AzarashiReadOn
+from .exceptions import AzarashiReopenStream
+from .exceptions import AzarashiStopReading
+from .exceptions import AzarashiStreamClosedError
 from .exceptions import AzarashiTimeoutError
 from .reports import Report
 
@@ -18,19 +24,24 @@ __all__ = [
     'reports',
     'Report',
 
-    # every exception azarashi defines
-    'AzarashiError',
+    # every exception azarashi defines, in the order of the hierarchy: the three that say what
+    # to do next, and under each the ones that say what happened
+    'AzarashiException',
+    'AzarashiReadOn',
     'AzarashiDecodeError',
     'AzarashiInvalidMessageError',
     'AzarashiNotImplementedError',
     'AzarashiTimeoutError',
+    'AzarashiReopenStream',
+    'AzarashiDisconnectedError',
+    'AzarashiStreamClosedError',
+    'AzarashiStopReading',
+    'AzarashiNoMoreData',
 
     # every earlier name; delete this block with _legacy.py
     'qzss_dc_report',
-    'QzssDcReport',
     'QzssDcrDecoderException',
     'QzssDcrDecoderNotImplementedError',
-    'QzssDcrDecoderTimeoutError',
     'QzssDcReportBase',
     'QzssDcReportJmaAshFall',
     'QzssDcReportJmaBase',
@@ -48,8 +59,6 @@ __all__ = [
     'QzssDcReportMessageBase',
     'QzssDcReportMessagePartial',
     'QzssDcXtendedMessageBase',
-    'QzssDcxAlertBase',
-    'QzssDcxCamf',
     'QzssDcxJAlert',
     'QzssDcxLAlert',
     'QzssDcxMTInfo',

@@ -5,7 +5,7 @@ from typing import Any
 from .base import MessageBase
 
 
-class Camf:
+class CAMF:
     """The fields of a DCX message as transmitted.
 
     The C and D fields are None unless the specific settings (A17) and the hazard (A4) carry them.
@@ -108,7 +108,7 @@ class Base(MessageBase):
     satellite_designation_mask: list[str]
 
     def __init__(self,
-                 camf: Camf,
+                 camf: CAMF,
                  ignore_a12_to_a16: bool,
                  ignore_a17_to_a18: bool,
                  ignore_ex1: bool,

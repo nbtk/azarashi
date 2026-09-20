@@ -5,13 +5,12 @@ import logging
 import socket
 import sys
 
-import serial
-
 from ..reports import Report
 from .log import configure_logging
 from ..input_stream import RecordingStream
 from ..input_stream import open_input
-from ..exceptions import AzarashiDecodeError
+from ..exceptions import AzarashiReadOn
+from ..exceptions import AzarashiReopenStream
 from ..api import MessageFormat
 from ..api import QzssDcrStream
 from ..api import decode_stream
@@ -63,12 +62,12 @@ def main() -> int:
     while True:
         try:
             xmitter.start(stream=stream, msg_type=args.msg_type, unique=args.unique)
-        except AzarashiDecodeError as e:
+        except AzarashiReadOn as e:
             logger.warning(f'[{type(e).__name__}] {e}')
         except EOFError as e:
             logger.info(f'{e}')
             break
-        except serial.SerialException as e:  # the serial device is gone (e.g. unplugged); retrying would spin
+        except AzarashiReopenStream as e:  # the device is gone (e.g. unplugged); retrying would spin
             logger.error(f'[{type(e).__name__}] {e}')
             stream.close()
             return 1

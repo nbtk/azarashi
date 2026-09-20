@@ -7,10 +7,10 @@ from .streams import nmea_qzss_dcr_message_extractor
 from .streams import StreamKeyedDict
 from .streams import stream_lock
 from .streams import ublox_qzss_dcr_message_extractor
-from .decoders import HexQzssDcrDecoder
-from .decoders import NetQzssDcrDecoder
-from .decoders import NmeaQzssDcrDecoder
-from .decoders import UBloxQzssDcrDecoder
+from .decoders import hex as hex_decoder
+from .decoders import net as net_decoder
+from .decoders import nmea as nmea_decoder
+from .decoders import ublox as ublox_decoder
 from .exceptions import AzarashiInvalidMessageError
 from .reports import Report
 
@@ -53,16 +53,16 @@ def _dropped(reports: list[Report], report: Report) -> list[Report]:
 
 def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: datetime | None = None) -> Report:
     if not msg:
-        raise EOFError('Encountered EOF')
+        raise AzarashiInvalidMessageError('Empty Message')
 
     if msg_type == 'hex':
-        return HexQzssDcrDecoder(msg, timestamp=timestamp).decode()
+        return hex_decoder.Decoder(msg, timestamp=timestamp).decode()
     elif msg_type == 'net':
-        return NetQzssDcrDecoder(msg, timestamp=timestamp).decode()
+        return net_decoder.Decoder(msg, timestamp=timestamp).decode()
     elif msg_type == 'nmea' or msg_type == 'spresense':
-        return NmeaQzssDcrDecoder(msg, timestamp=timestamp).decode()
+        return nmea_decoder.Decoder(msg, timestamp=timestamp).decode()
     elif msg_type == 'ublox':
-        return UBloxQzssDcrDecoder(msg, timestamp=timestamp).decode()
+        return ublox_decoder.Decoder(msg, timestamp=timestamp).decode()
     else:
         raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 

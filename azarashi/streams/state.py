@@ -3,6 +3,10 @@ import weakref
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar, cast
 
+from ..exceptions import AzarashiDisconnectedError
+from ..exceptions import AzarashiNoMoreData
+from ..exceptions import AzarashiReopenStream
+from ..exceptions import AzarashiStreamClosedError
 from ..exceptions import AzarashiTimeoutError
 
 _T = TypeVar('_T')
@@ -102,10 +106,26 @@ def has_read_timeout(reader: Callable[..., Any]) -> bool:
     return getattr(getattr(reader, '__self__', None), 'timeout', None) is not None
 
 
-def empty_read_error(reader: Callable[..., Any]) -> EOFError:
+def empty_read_error(reader: Callable[..., Any]) -> AzarashiTimeoutError | AzarashiNoMoreData:
+    """The error for a read that delivered nothing: not yet on a stream with a timeout, never otherwise."""
     if has_read_timeout(reader):
         return AzarashiTimeoutError('Timed Out')
-    return EOFError('Encountered EOF')
+    return AzarashiNoMoreData('Encountered EOF')
+
+
+def read_stream(reader: Callable[..., _T],
+                reader_args: tuple[Any, ...] = (),
+                reader_kwargs: dict[str, Any] | None = None) -> _T:
+    """Read from a stream, reporting a stream that failed rather than one that ended."""
+    try:
+        return reader(*reader_args, **(reader_kwargs or {}))
+    except OSError as e:  # e.g. serial.SerialException once the device is unplugged
+        raise AzarashiDisconnectedError(f'{type(e).__name__}: {e}') from e
+    except ValueError as e:
+        if not getattr(getattr(reader, '__self__', None), 'closed', False):
+            raise  # a ValueError from somewhere else is not the stream failing
+        # an io object that was closed, e.g. while another thread was reopening the device
+        raise AzarashiStreamClosedError(f'{type(e).__name__}: {e}') from e
 
 
 _partial_lines: ReaderStore[list[Any]] = ReaderStore(list)  # the parts of a line, str or bytes as read
@@ -117,7 +137,11 @@ def read_line(reader: Callable[..., str | bytes],
               reader_kwargs: dict[str, Any]) -> str | bytes:
     """Read a line; a line cut off by a read timeout is kept and completed on the next call."""
     partial = _partial_lines.get(reader)
-    line = reader(*reader_args, **reader_kwargs)
+    try:
+        line = read_stream(reader, reader_args, reader_kwargs)
+    except AzarashiReopenStream:
+        partial.clear()  # the rest of the line can never arrive, and would corrupt the next one
+        raise
     if has_read_timeout(reader):
         complete = line.endswith(b'\n') if isinstance(line, (bytes, bytearray)) else line.endswith('\n')
         if not line or not complete:
@@ -127,7 +151,7 @@ def read_line(reader: Callable[..., str | bytes],
                     partial.clear()  # a stream that never sends a newline must not fill the memory
             raise AzarashiTimeoutError('Timed Out')
     if not line:
-        raise EOFError('Encountered EOF')
+        raise AzarashiNoMoreData('Encountered EOF')
     if partial:
         line = line[:0].join(partial + [line])
         partial.clear()

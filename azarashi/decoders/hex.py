@@ -1,17 +1,17 @@
 from ..reports import Report
 from ..reports import base
-from .common import QzssDcrDecoder
-from .base import QzssDcrDecoderBase
+from . import common
+from .base import Base
 from ..exceptions import AzarashiInvalidMessageError
 
 
-class HexQzssDcrDecoder(QzssDcrDecoderBase):
+class Decoder(Base):
     schema = base.Base
     sentence: str | bytes
 
     def decode(self) -> Report:
         if not self.sentence:
-            raise EOFError('Encountered EOF')
+            raise AzarashiInvalidMessageError('Empty Message')
 
         sentence = self.sentence
         if isinstance(sentence, (bytes, bytearray)):  # a line read as bytes, as from pySerial
@@ -42,4 +42,4 @@ class HexQzssDcrDecoder(QzssDcrDecoderBase):
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
-        return QzssDcrDecoder(**self.get_params()).decode()
+        return common.Decoder(**self.get_params()).decode()
