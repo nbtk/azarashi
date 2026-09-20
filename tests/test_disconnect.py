@@ -3,7 +3,9 @@ import io
 import os
 import pathlib
 import re
+import socket
 import sys
+import threading
 import time
 import types
 
@@ -357,3 +359,46 @@ def test_the_two_reasons_to_reopen_are_told_apart_and_caught_together():
     closed.close()
     assert raised(gone) is azarashi.AzarashiDisconnectedError
     assert raised(closed) is azarashi.AzarashiStreamClosedError
+
+
+@pytest.fixture
+def idle_socket():
+    """A socket with a read timeout that no data ever reaches, and a peer that stays connected."""
+    server = socket.socket()
+    server.bind(('127.0.0.1', 0))
+    server.listen(1)
+    held = []
+    thread = threading.Thread(target=lambda: held.append(server.accept()), daemon=True)
+    thread.start()
+    client = socket.create_connection(server.getsockname())
+    thread.join(5)
+    client.settimeout(0.2)
+    try:
+        yield client
+    finally:
+        client.close()
+        for conn, _ in held:
+            conn.close()
+        server.close()
+
+
+@pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
+@pytest.mark.parametrize('buffering', [-1, 0], ids=['buffered', 'unbuffered'])
+def test_a_stream_with_nothing_to_read_yet_is_not_a_stream_that_failed(idle_socket, msg_type, buffering):
+    # a socket keeps its own timeout, so the file over it has no timeout attribute to read, and
+    # the read raises TimeoutError, which is an OSError. Taking that for a failure would have a
+    # reconnect loop close a connection that is up and well.
+    stream = idle_socket.makefile('rb', buffering=buffering)
+    with pytest.raises(azarashi.AzarashiTimeoutError) as excinfo:
+        azarashi.decode_stream(stream, msg_type=msg_type)
+    assert not isinstance(excinfo.value, azarashi.AzarashiReopenStream)
+    assert isinstance(excinfo.value.__cause__, TimeoutError)
+
+
+@pytest.mark.parametrize('error', [TimeoutError('timed out'), BlockingIOError(11, 'Resource temporarily unavailable'),
+                                   InterruptedError(4, 'Interrupted system call')],
+                         ids=['timeout', 'would block', 'interrupted'])
+def test_every_read_that_could_not_deliver_yet_says_to_read_again(error):
+    with pytest.raises(azarashi.AzarashiTimeoutError) as excinfo:
+        azarashi.decode_stream(_Unplugged(error), msg_type='nmea')
+    assert excinfo.value.__cause__ is error

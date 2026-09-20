@@ -140,6 +140,18 @@ def test_japanese_library():
            'A11 - Instruction (ja): これは、DCX のテストです。\n' in str(report)
 
 
+@pytest.mark.parametrize('camf', [
+    {'a9': 0, 'a10': 1, 'a11': 3},   # an international code from a library version azarashi has not got
+    {'a9': 1, 'a10': 1, 'a11': 126},  # the same for a country library
+], ids=['international', 'country'])
+def test_a_library_version_azarashi_has_not_got_names_no_instruction(camf):
+    # the version is reported, and the instruction it could not look up is left out rather than
+    # printed as None
+    report = _decode(dcx(**JAPAN, a3=2, **camf))
+    assert report.a10_library_version == 'Unsupported Library Version (Code: 1)'
+    assert 'A11' not in str(report)
+
+
 def test_a_country_library_that_is_not_the_japanese_one():
     # A9 says the provider used the library of its own country, and azarashi holds only Japan's.
     # The message is still read; the instruction is the one field it cannot name.

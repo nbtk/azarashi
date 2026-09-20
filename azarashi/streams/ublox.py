@@ -54,7 +54,6 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
     if reader_args is None:
         reader_args = ()
 
-
     header = ublox_qzss_dcr_message_header
     buf = buffers.get(reader)
     match_count = 0

@@ -238,14 +238,15 @@ class AlertBase(Base):
                  f"A5 - Severity: {self.a5_severity}\n" + \
                  f"A6A7 - Hazard onset: {self.get_hazard_onset_str()}\n" + \
                  f"A8 - Hazard duration: {self.a8_hazard_duration}\n"
-        if self.camf.a9 == 0: # international
+        # which library was read is already in the fields: a code or an instruction is there when
+        # azarashi could name one, and A9 and A10 say which library and version it came from
+        if self.a11_international_library_code:
             report += f"A11 - Instruction code: {self.a11_international_library_code}\n"
-            if self.camf.a11 != 0:
-                report += f"A11 - Instruction: {self.a11_international_library}\n"
-        elif self.camf.a9 == 1:  # the library of the provider's own country, of which azarashi has Japan's
-            if self.camf.a11 != 0 and self.a11_japanese_library is not None:
-                report += f"A11 - Instruction: {self.a11_japanese_library}\n" + \
-                          f"A11 - Instruction (ja): {self.a11_japanese_library_ja}\n"
+        if self.a11_international_library:
+            report += f"A11 - Instruction: {self.a11_international_library}\n"
+        if self.a11_japanese_library:
+            report += f"A11 - Instruction: {self.a11_japanese_library}\n" + \
+                      f"A11 - Instruction (ja): {self.a11_japanese_library_ja}\n"
 
         if self.ignore_a12_to_a16 is False:
             report += f"A12 - Ellipse centre latitude: {self.a12_ellipse_centre_latitude}\n" + \
