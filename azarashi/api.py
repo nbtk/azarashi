@@ -6,6 +6,7 @@ from .streams import hex_qzss_dcr_message_extractor
 from .streams import nmea_qzss_dcr_message_extractor
 from .streams import StreamKeyedDict
 from .streams import stream_lock
+from .streams.state import reader_lock as _reader_lock
 from .streams import ublox_qzss_dcr_message_extractor
 from .decoders import hex as hex_decoder
 from .decoders import net as net_decoder
@@ -116,9 +117,11 @@ def decode_stream(stream: QzssDcrStream,
         raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 
     lock = stream_lock(stream)
+    reading_lock = _reader_lock(reader)
     while True:
         with lock:  # the state of a stream belongs to one thread at a time, message by message
-            msg = extractor(reader, reader_args=reader_args)
+            with reading_lock:  # shared buffers must yield one complete frame at a time
+                msg = extractor(reader, reader_args=reader_args)
             report = decode(msg, msg_type, timestamp)
 
             if report.message_type == 'DCR':

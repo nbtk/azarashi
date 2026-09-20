@@ -322,3 +322,97 @@ def test_plain_function_reader_releases_its_captured_stream():
     assert stream_ref() is None
     assert reader_ref() is None
     assert lines_ref() is None
+
+
+class _BufferWrapper:
+    def __init__(self, buffer):
+        self.buffer = buffer
+
+
+@pytest.mark.parametrize('wrap_second', [True, False])
+def test_wrappers_sharing_a_buffer_do_not_split_a_frame(wrap_second):
+    partial_read, resume, second_started, second_done = (threading.Event() for _ in range(4))
+
+    class Buffer:
+        def __init__(self):
+            self.chunks = iter([FRAME[:2], FRAME[2:], FRAME])
+            self.calls = 0
+
+        def read1(self):
+            self.calls += 1
+            if self.calls == 2:
+                partial_read.set()  # the first extractor already consumed half the header
+                if not resume.wait(5):
+                    raise AssertionError('reader was not released')
+            return next(self.chunks, b'')
+
+    buffer = Buffer()
+    results, errors = [], []
+
+    def read(wrapper, second=False):
+        if second:
+            second_started.set()
+        try:
+            results.append(azarashi.decode_stream(wrapper, 'ublox'))
+        except BaseException as error:
+            errors.append(error)
+        finally:
+            if second:
+                second_done.set()
+
+    first = threading.Thread(target=read, args=(_BufferWrapper(buffer),))
+    second = threading.Thread(target=read, args=(_BufferWrapper(buffer) if wrap_second else buffer, True))
+    first.start()
+    try:
+        assert partial_read.wait(5)
+        second.start()
+        assert second_started.wait(5)
+        second_done.wait(0.2)  # an unprotected extractor consumes the first one's remaining bytes
+    finally:
+        resume.set()
+        first.join(5)
+        if second.ident is not None:
+            second.join(5)
+    assert not first.is_alive() and not second.is_alive()
+    assert errors == []
+    assert results == [azarashi.decode(EEW)] * 2
+
+
+def test_wrappers_sharing_a_buffer_keep_separate_duplicate_history():
+    buffer = io.BytesIO(FRAME * 3)
+    first, second = _BufferWrapper(buffer), _BufferWrapper(buffer)
+    assert azarashi.decode_stream(first, 'ublox', unique=True) == azarashi.decode(EEW)
+    assert azarashi.decode_stream(second, 'ublox', unique=True) == azarashi.decode(EEW)
+    with pytest.raises(EOFError):
+        azarashi.decode_stream(first, 'ublox', unique=True)
+
+
+def test_shared_buffer_is_unlocked_during_callback():
+    buffer = io.BytesIO(FRAME * 2)
+    first, second = _BufferWrapper(buffer), _BufferWrapper(buffer)
+    in_callback, second_done = threading.Event(), threading.Event()
+    errors, overlapped = [], []
+
+    def callback(report):
+        in_callback.set()
+        overlapped.append(second_done.wait(5))
+
+    def run_first():
+        try:
+            azarashi.decode_stream(first, 'ublox', callback=callback, unique=True)
+        except EOFError:
+            pass
+        except BaseException as error:
+            errors.append(error)
+
+    thread = threading.Thread(target=run_first)
+    thread.start()
+    try:
+        assert in_callback.wait(5)
+        assert azarashi.decode_stream(second, 'ublox', unique=True) == azarashi.decode(EEW)
+    finally:
+        second_done.set()
+        thread.join(5)
+    assert not thread.is_alive()
+    assert errors == []
+    assert overlapped == [True]

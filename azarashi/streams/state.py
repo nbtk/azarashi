@@ -51,18 +51,33 @@ class StreamKeyedDict(Generic[_T]):
                 del self._strong[key]
 
 
-_locks: StreamKeyedDict['threading.RLock'] = StreamKeyedDict()  # one lock per stream, released with the stream
+_locks: StreamKeyedDict['threading.RLock'] = StreamKeyedDict()
+_reader_locks: StreamKeyedDict['threading.RLock'] = StreamKeyedDict()
 _locks_guard = threading.Lock()
+
+
+def _lock_for(locks: StreamKeyedDict['threading.RLock'], owner: object) -> 'threading.RLock':
+    with _locks_guard:  # concurrent callers must get the same lock
+        lock = locks.get(owner)
+        if lock is None:
+            lock = threading.RLock()
+            locks[owner] = lock
+        return lock
 
 
 def stream_lock(stream: object) -> 'threading.RLock':
     """The lock that keeps the state of one stream to one thread at a time."""
-    with _locks_guard:  # two threads must not each make a lock of their own for the same stream
-        lock = _locks.get(stream)
-        if lock is None:
-            lock = threading.RLock()
-            _locks[stream] = lock
-        return lock
+    return _lock_for(_locks, stream)
+
+
+def reader_lock(reader: Callable[..., Any]) -> 'threading.RLock':
+    """Serialize extraction from a reader's owner, even through different wrappers.
+
+    Separate from stream locks: decode_stream acquires its stream lock first, then this
+    lock, and releases both before calling user callbacks. Locks do not retain owners.
+    """
+    owner = getattr(reader, '__self__', None)
+    return _lock_for(_reader_locks, reader if owner is None else owner)
 
 
 class ReaderStore(Generic[_T]):
