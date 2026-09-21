@@ -71,7 +71,7 @@ def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: dateti
         raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 
 
-def _select_reader(stream: QzssDcrStream, msg_type: StreamFormat) -> tuple[
+def _select_reader(stream: QzssDcrStream, msg_type: str) -> tuple[
         Callable[..., str | bytes], Callable[..., Any], tuple[Any, ...]]:
     extractor: Callable[..., str | bytes]
     reader: Callable[..., Any]
@@ -105,6 +105,9 @@ def _select_reader(stream: QzssDcrStream, msg_type: StreamFormat) -> tuple[
             reader_args = (1,)  # positional: raw streams (io.FileIO, SocketIO) reject read(size=1)
         else:
             raise AzarashiInvalidMessageError(f'Neither read() nor read1() exists: {type(stream)}')
+    elif msg_type == 'net':
+        raise AzarashiInvalidMessageError(
+            "Message Type net is not a stream format; use decode(data, 'net') for each datagram")
     else:
         raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 

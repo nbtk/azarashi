@@ -63,10 +63,12 @@ def test_decode_stream_unknown_message_type():
     assert str(excinfo.value) == 'Unknown Message Type: rtcm'
 
 
-def test_net_is_not_a_stream_format_and_consumes_no_input():
+@pytest.mark.parametrize('operation', [azarashi.decode_stream, azarashi.reset_reading_state])
+def test_net_is_not_a_stream_format_and_consumes_no_input(operation):
     stream = io.BytesIO(bytes((55,)) + azarashi.decode(EEW).message)
-    with pytest.raises(azarashi.AzarashiInvalidMessageError):
-        azarashi.decode_stream(stream, 'net')
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as error:
+        operation(stream, 'net')
+    assert str(error.value) == "Message Type net is not a stream format; use decode(data, 'net') for each datagram"
     assert stream.tell() == 0
 
 
@@ -256,3 +258,48 @@ def test_reader_store_keeps_none_factory_result():
     assert store.get(reader) is None
     assert store.get(reader) is None
     assert calls == [1]
+
+
+@pytest.mark.parametrize('failure_at', ['property', 'truth_value'])
+def test_closed_inspection_failure_keeps_state_and_does_not_poison_other_streams(failure_at):
+    class BadTruth:
+        def __bool__(self):
+            raise ValueError('cannot tell whether closed')
+
+    class Stream:
+        __slots__ = ('fail',)
+
+        def __init__(self):
+            self.fail = True
+
+        @property
+        def closed(self):
+            if self.fail:
+                if failure_at == 'property':
+                    raise RuntimeError('closed unavailable')
+                return BadTruth()
+            return True
+
+    store = StreamKeyedDict()
+    source, other = Stream(), _Closable()
+    store[source], store[other] = 'retained', 'other'
+    assert store.get(other) == 'other'
+    assert store.get(source) == 'retained'
+    source.fail = False
+    assert store.get(source) is None
+    assert store.get(other) == 'other'
+
+
+def test_closed_inspection_does_not_swallow_process_interrupts():
+    class Stream:
+        __slots__ = ()
+
+        @property
+        def closed(self):
+            raise KeyboardInterrupt
+
+    store = StreamKeyedDict()
+    source = Stream()
+    store[source] = 'retained'
+    with pytest.raises(KeyboardInterrupt):
+        store.get(source)

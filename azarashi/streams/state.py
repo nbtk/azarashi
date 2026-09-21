@@ -57,8 +57,14 @@ class StreamKeyedDict(Generic[_T]):
 
     def _discard_closed(self) -> None:
         for key, (stream, _) in list(self._strong.items()):
-            if getattr(stream, 'closed', False):
-                del self._strong[key]
+            try:
+                closed = bool(getattr(stream, 'closed', False))
+            except Exception:
+                # Cleanup is best-effort: an owner's property must not break other readers.
+                # Keep its state unless closure can be confirmed. BaseException still propagates.
+                continue
+            if closed:
+                self._strong.pop(key, None)
 
 
 _locks: StreamKeyedDict['threading.RLock'] = StreamKeyedDict()
