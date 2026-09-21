@@ -92,7 +92,7 @@ jobs:
         run: |
           mypy --strict consumer_mistakes.py > out.txt 2>&1 || true
           cat out.txt
-          grep -q 'Found 6 errors' out.txt
+          grep -q 'Found 7 errors' out.txt
           pyright --outputjson consumer_mistakes.py > mistakes.json || true
           python -c "import json,sys; sys.exit(0 if json.load(open('mistakes.json'))['summary']['errorCount'] else 'pyright saw nothing wrong')"
 

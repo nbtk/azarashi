@@ -1,4 +1,6 @@
 """Behaviour shared by every report: equality, hashing, parameters and the fallbacks of the base classes."""
+import pytest
+
 import azarashi
 from azarashi.reports.base import Base
 from azarashi.reports.base import MessagePartial
@@ -65,3 +67,60 @@ def test_dcx_camf_fields():
     assert str(report.camf) == str(report.camf.__dict__)
     assert repr(report.camf).startswith('CAMF(sdmt=')  # an address would say nothing and never repeat
     assert report.camf.a2 == 111
+
+
+# Public construction/mutation/subclassing contracts, independent of decoder internals.
+def _construction_samples():
+    from qzqsm import jma, sentence
+    return [jma(dc, []) for dc in (1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 14)] + [
+        sentence([(8, 6, 44)]), L_ALERT,
+    ]
+
+
+@pytest.mark.parametrize('sentence', _construction_samples())
+def test_reports_can_be_constructed_from_their_declared_fields(sentence, monkeypatch):
+    from datetime import UTC, datetime
+    from azarashi.reports.dcr import NankaiTroughEarthquake
+
+    monkeypatch.setattr(NankaiTroughEarthquake, 'reports', {})
+    monkeypatch.setattr(NankaiTroughEarthquake, 'announcement', None)
+    monkeypatch.setattr(NankaiTroughEarthquake, 'completed', False)
+    original = azarashi.decode(sentence, timestamp=datetime(2026, 9, 21, tzinfo=UTC))
+    supplied = original.get_params()
+    restored = type(original)(**supplied)
+    assert restored == original and hash(restored) == hash(original)
+    assert str(restored) == str(original)
+    left, right = original.get_params(), restored.get_params()
+    if 'camf' in left:
+        left['camf'], right['camf'] = vars(left['camf']), vars(right['camf'])
+    assert left == right
+
+
+def test_report_mutation_does_not_redecode_related_fields():
+    report = azarashi.decode(EEW)
+    raw, message, nmea, magnitude_code = report.raw, report.message, report.nmea, report.magnitude_raw
+    report.magnitude = '9.9'
+    report.eew_forecast_regions.append('利用者の追記')
+    report.application_note = {'tags': ['reviewed']}
+    snapshot = report.get_params()
+    assert snapshot['magnitude'] == '9.9'
+    assert snapshot['eew_forecast_regions'][-1] == '利用者の追記'
+    snapshot['application_note']['tags'].append('copied')
+    assert report.application_note == {'tags': ['reviewed']}
+    assert (report.raw, report.message, report.nmea, report.magnitude_raw) == (raw, message, nmea, magnitude_code)
+
+
+def test_report_subclasses_keep_methods_and_concrete_type_equality():
+    from azarashi.reports.dcr import EarthquakeEarlyWarning
+
+    class AnnotatedWarning(EarthquakeEarlyWarning):
+        def summary(self):
+            return f'M{self.magnitude}'
+
+    original = azarashi.decode(EEW)
+    first = AnnotatedWarning(**original.get_params())
+    second = AnnotatedWarning(**original.get_params())
+    assert first.summary() == 'M7.2'
+    assert str(first) == str(original)
+    assert first == second and hash(first) == hash(second)
+    assert first != original and original != first

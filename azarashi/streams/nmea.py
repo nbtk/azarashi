@@ -23,3 +23,7 @@ def nmea_qzss_dcr_message_extractor(reader: Callable[..., str | bytes],
             # a lost newline puts several sentences on one line: each is handed out, so a cut one loses no other
             pending.extend(header + part for part in msg[start + len(header):].split(header))
     return pending.pop(0)
+
+
+def reset_pending_sentences(reader: Callable[..., Any]) -> None:
+    _pending_sentences.discard(reader)

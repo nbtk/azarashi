@@ -1,14 +1,12 @@
 from ..reports import Report
-from ..reports import base
 from . import common
-from .base import Base
+from .base import InputDecoder
 from ..definitions import ublox_qzss_dcr_message_header
 from ..definitions import ublox_qzss_svid_prn_map
 from ..exceptions import AzarashiInvalidMessageError
 
 
-class Decoder(Base):
-    schema = base.Base
+class Decoder(InputDecoder):
     sentence: bytes
 
     def decode(self) -> Report:

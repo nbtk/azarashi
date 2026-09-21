@@ -1,9 +1,8 @@
 import datetime
 import math
 
-from ..reports import base
 from ..reports import dcx
-from .base import Base
+from .base import MessageDecoder
 from ..definitions import qzss_dcx_camf_a10_library_version
 from ..definitions import qzss_dcx_camf_a11_international_library
 from ..definitions import qzss_dcx_camf_a11_international_library_code
@@ -92,9 +91,7 @@ _NULL_MSG_FIELDS = (
 )
 
 
-class Decoder(Base):
-    schema = base.MessageBase
-
+class Decoder(MessageDecoder):
     def decode(self) -> dcx.Base:
         self.camf = camf = dcx.CAMF()
         self._extract_camf_fields(camf)

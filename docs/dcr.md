@@ -309,3 +309,33 @@ MT43 は災害種別ごとに電文の構造が違うので、クラスも災害
 ```
 True
 ```
+
+## Tsunami Forecast Records
+
+`Tsunami.forecasts` は `tuple[TsunamiForecast, ...]` を返します。
+地域・高さ・到達時刻を同じ添字で組み合わせる代わりに、地域ごとのレコードを参照できます。
+
+```python
+if isinstance(report, azarashi.reports.dcr.Tsunami):
+    for forecast in report.forecasts:
+        print(forecast.region, forecast.height,
+              forecast.arrival_time or forecast.arrival_time_type)
+```
+
+`TsunamiForecast` は `azarashi.reports.dcr` にあるデータクラスです。
+
+| フィールド | 型 | 内容 |
+|---|---|---|
+| `region` | `str` | 地域名 |
+| `region_code` | `int` | 受信した地域コード |
+| `height` | `str` | 未定義値・情報なし等も含む高さの表現 |
+| `height_code` | `int` | 受信した高さコード |
+| `arrival_time` | `datetime \| None` | 補完した到達時刻。到達済み・情報なし・未定義値では None |
+| `arrival_time_raw` | `DayHourMinute` | 受信した day/hour/minute の辞書 |
+| `arrival_time_type` | `str` | 到達予想・到達中・情報なし・未定義値の表現 |
+
+アクセスのたびに既存リストからスナップショットを作ります。レコードとその時刻辞書は編集できますが、
+元のレポートには反映されません。元のリストの変更は、次回アクセス時に反映されます。
+7本のリストの長さが揃っていなければ `ValueError` とし、短い方に合わせて情報を落としません。
+`forecasts` は保存属性ではないので、従来の `get_params()`・表示・比較の結果は変わりません。
+既存リスト、未定義コード、到達済みや情報なしの区別を維持します。

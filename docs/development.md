@@ -14,13 +14,20 @@ GitHub Actions の typing ジョブは、ビルドした wheel をインスト�
 
 - `tests/typing/consumer.py` の正しい使い方が、エラーなく通ること
 - `tests/typing/consumer_mistakes.py` の誤った使い方が、エラーとして検出されること
-- `tests/typing/generate_mistakes.py` が作る誤用が、すべて検出されること。誤用は、公開している関数とメソッドのすべての引数と戻り値について作ります
+- `tests/typing/generate_mistakes.py` が作る誤用が、すべて検出されること。誤用は、公開している関数とメソッドのすべての引数と戻り値、およびプロパティの戻り値について作ります
 
 内部のデコーダ間の受け渡しも検査します。`tests/typing/decoder_mistakes.py` は、
-共通デコーダへの必須値の欠落・型違い・引数名の誤記を含みます。
+共通デコーダへの必須値の欠落・型違い・引数名の誤記と、DCR/DCX 下流への誤った context の受け渡しを含みます。
 CI は mypy と Pyright の両方で、各行が意図した種類のエラーになることを確認します。
 `common.Decoder` は内部実装であり、任意の `**kwargs` を受け取る以前の呼び出し方は維持しません。
 `sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
+
+内部では `Frame` → `Message` → `Jma`（DCR）の順に型付き情報を渡し、最終レポートだけを生成します。
+[設計と互換範囲](design/decoder-flow.md) に判断を記録しています。
+
+公開レポートの直接生成・変更・継承は `tests/test_reports.py` で検証します。
+コンストラクタの継承先へ渡す `**kwargs` は `Any` を含むため、生成誤用テストは
+レポートコンストラクタ全体の型安全性を保証しません。直接生成のサポートとは区別します。
 
 また `tests/test_declared_types.py` は、実際にデコードしたレポートの値が、宣言した型に合っていることを確かめます。
 

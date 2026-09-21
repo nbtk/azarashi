@@ -2,6 +2,7 @@ from . import reports
 from ._legacy import *  # every earlier name; delete with the module
 from .api import decode
 from .api import decode_stream
+from .api import reset_reading_state
 from .exceptions import AzarashiDecodeError
 from .exceptions import AzarashiDisconnectedError
 from .exceptions import AzarashiException
@@ -16,9 +17,10 @@ from .exceptions import AzarashiTimeoutError
 from .reports import Report
 
 __all__ = [
-    # the two entry points
+    # the decoding and reading-state entry points
     'decode',
     'decode_stream',
+    'reset_reading_state',
 
     # the report classes, and the type of what the entry points return
     'reports',

@@ -95,6 +95,8 @@ def _fits(value, annotation):
         return isinstance(value, dict) and all(_fits(k, key) and _fits(v, val) for k, v in value.items())
     if origin is tuple:
         args = typing.get_args(annotation)
+        if len(args) == 2 and args[1] is Ellipsis:
+            return isinstance(value, tuple) and all(_fits(v, args[0]) for v in value)
         return isinstance(value, tuple) and len(value) == len(args) and all(map(_fits, value, args))
     if annotation is float:
         return isinstance(value, (int, float)) and not isinstance(value, bool)
@@ -135,6 +137,12 @@ def test_every_attribute_is_declared_and_fits(report):
     for name, value in vars(report).items():
         assert name in declared, f'{type(report).__name__}.{name} is not declared'
         assert _fits(value, declared[name]), f'{type(report).__name__}.{name} = {value!r} is not {declared[name]}'
+    for cls in type(report).__mro__:
+        for name, descriptor in vars(cls).items():
+            if isinstance(descriptor, property) and descriptor.fget is not None:
+                annotation = typing.get_type_hints(descriptor.fget)['return']
+                assert _fits(getattr(report, name), annotation), name
+
 
 
 def test_every_declared_attribute_can_be_read():

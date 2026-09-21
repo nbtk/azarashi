@@ -69,3 +69,24 @@ next_report: azarashi.Report = azarashi.decode_stream(lines, ignore_dcx=False)
 
 Transmitter('ff02::1', 2112).start(lines, 'nmea', unique=True)
 Receiver(bind_iface='eth0').start(callback=handler, ignore_dcx=False)
+
+
+class AnnotatedWarning(reports.dcr.EarthquakeEarlyWarning):
+    def summary(self) -> str:
+        return f'M{self.magnitude}'
+
+
+if isinstance(report, reports.dcr.EarthquakeEarlyWarning):
+    copied_warning = reports.dcr.EarthquakeEarlyWarning(**report.get_params())
+    copied_warning.magnitude = '9.9'
+    copied_warning.eew_forecast_regions.append('利用者の追記')
+    annotated_warning = AnnotatedWarning(**report.get_params())
+    warning_summary: str = annotated_warning.summary()
+
+azarashi.reset_reading_state(io.BytesIO(), 'ublox')
+if isinstance(report, reports.dcr.Tsunami):
+    for forecast in report.forecasts:
+        forecast_region: str = forecast.region
+        forecast_height_code: int = forecast.height_code
+        forecast_arrival: datetime.datetime | None = forecast.arrival_time
+        forecast_hour: int = forecast.arrival_time_raw['hour']

@@ -15,3 +15,5 @@ azarashi.decode_stream('$QZQSM,55,...')                      # a str is not a st
 seconds: int = report.timestamp                              # a datetime
 azarashi.decode_stream(io.BytesIO(), msg_type='net')          # net is a datagram, not a stream
 Transmitter().start(io.BytesIO(), msg_type='net')              # the transmitter reads a stream too
+
+azarashi.reset_reading_state(io.BytesIO(), msg_type='net')    # reset selects a stream reader

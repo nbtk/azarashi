@@ -62,16 +62,14 @@ from ..definitions import qzss_dcr_jma_weather_warning_state
 from ..definitions.qzss_dcr_definition import QzssDcrDefinition
 from ..exceptions import AzarashiInvalidMessageError
 from ..reports import Report
-from ..reports import base
 from ..reports import dcr
 from ..reports.base import Coordinates
 from ..reports.base import DayHourMinute
-from .base import Base
+from .base import ContextDecoder, MessageDecoder
+from .context import Jma
 
 
-class Decoder(Base):
-    schema = base.MessageBase
-
+class Decoder(MessageDecoder):
     def decode(self) -> Report:
         self.version = self.extract_field(214, 6)
         if self.version != 1:
@@ -143,7 +141,7 @@ class Decoder(Base):
         self.information_type_en = qzss_dcr_jma_information_type_en[it]
         self.information_type_no = it
 
-        next_decoder: type[Base]
+        next_decoder: type[Common]
         if dc == 1:
             next_decoder = EarthquakeEarlyWarning
         elif dc == 2:
@@ -173,11 +171,74 @@ class Decoder(Base):
                 f'Unsupported Disaster Category: {self.disaster_category}',
                 self)
 
-        return next_decoder(**self.get_params()).decode()
+        return next_decoder(Jma(
+            **self.context.params(),
+            version=self.version,
+            report_classification=self.report_classification,
+            report_classification_en=self.report_classification_en,
+            report_classification_no=self.report_classification_no,
+            disaster_category=self.disaster_category,
+            disaster_category_en=self.disaster_category_en,
+            disaster_category_no=self.disaster_category_no,
+            report_time=self.report_time,
+            information_type=self.information_type,
+            information_type_en=self.information_type_en,
+            information_type_no=self.information_type_no,
+        )).decode()
 
 
-class Common(Base):
-    report_time: datetime
+class Common(ContextDecoder[Jma]):
+    @property
+    def preamble(self) -> str:
+        return self.context.preamble
+
+    @property
+    def message_type(self) -> str:
+        return self.context.message_type
+
+    @property
+    def version(self) -> int:
+        return self.context.version
+
+    @property
+    def report_classification(self) -> str:
+        return self.context.report_classification
+
+    @property
+    def report_classification_en(self) -> str:
+        return self.context.report_classification_en
+
+    @property
+    def report_classification_no(self) -> int:
+        return self.context.report_classification_no
+
+    @property
+    def disaster_category(self) -> str:
+        return self.context.disaster_category
+
+    @property
+    def disaster_category_en(self) -> str:
+        return self.context.disaster_category_en
+
+    @property
+    def disaster_category_no(self) -> int:
+        return self.context.disaster_category_no
+
+    @property
+    def report_time(self) -> datetime:
+        return self.context.report_time
+
+    @property
+    def information_type(self) -> str:
+        return self.context.information_type
+
+    @property
+    def information_type_en(self) -> str:
+        return self.context.information_type_en
+
+    @property
+    def information_type_no(self) -> int:
+        return self.context.information_type_no
 
     def extract_day_hour_min_raw(self, slider: int) -> DayHourMinute:
         return {'day': self.extract_field(slider, 5),
@@ -306,8 +367,6 @@ class Common(Base):
 
 
 class EarthquakeEarlyWarning(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.EarthquakeEarlyWarning:
         lgll = self.extract_field(47, 3)
         self.long_period_ground_motion_lower_limit = qzss_dcr_jma_long_period_ground_motion_lower_limit[lgll]
@@ -344,12 +403,33 @@ class EarthquakeEarlyWarning(Common):
                 self.eew_forecast_regions.append(qzss_dcr_jma_eew_forecast_region[i + 1])
                 self.eew_forecast_regions_raw.append(i + 1)
 
-        return dcr.EarthquakeEarlyWarning(**self.get_params())
+        return dcr.EarthquakeEarlyWarning(
+            **self.context.params(),
+            long_period_ground_motion_lower_limit=self.long_period_ground_motion_lower_limit,
+            long_period_ground_motion_lower_limit_raw=self.long_period_ground_motion_lower_limit_raw,
+            long_period_ground_motion_upper_limit=self.long_period_ground_motion_upper_limit,
+            long_period_ground_motion_upper_limit_raw=self.long_period_ground_motion_upper_limit_raw,
+            notifications_on_disaster_prevention=self.notifications_on_disaster_prevention,
+            notifications_on_disaster_prevention_raw=self.notifications_on_disaster_prevention_raw,
+            occurrence_time_of_earthquake=self.occurrence_time_of_earthquake,
+            occurrence_time_of_earthquake_raw=self.occurrence_time_of_earthquake_raw,
+            depth_of_hypocenter=self.depth_of_hypocenter,
+            depth_of_hypocenter_raw=self.depth_of_hypocenter_raw,
+            magnitude=self.magnitude,
+            magnitude_raw=self.magnitude_raw,
+            assumptive=self.assumptive,
+            seismic_epicenter=self.seismic_epicenter,
+            seismic_epicenter_raw=self.seismic_epicenter_raw,
+            seismic_intensity_lower_limit=self.seismic_intensity_lower_limit,
+            seismic_intensity_lower_limit_raw=self.seismic_intensity_lower_limit_raw,
+            seismic_intensity_upper_limit=self.seismic_intensity_upper_limit,
+            seismic_intensity_upper_limit_raw=self.seismic_intensity_upper_limit_raw,
+            eew_forecast_regions=self.eew_forecast_regions,
+            eew_forecast_regions_raw=self.eew_forecast_regions_raw,
+        )
 
 
 class Hypocenter(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.Hypocenter:
         self.notifications_on_disaster_prevention, self.notifications_on_disaster_prevention_raw =\
             self.extract_notification_on_disaster_prevention_fields(53)
@@ -358,12 +438,24 @@ class Hypocenter(Common):
         self.magnitude, self.magnitude_raw = self.extract_magnitude_field(105, qzss_dcr_jma_hypocenter_magnitude)
         self.seismic_epicenter, self.seismic_epicenter_raw = self.extract_seismic_epicenter_field(112)
         self.coordinates_of_hypocenter, self.coordinates_of_hypocenter_raw = self.extract_lat_lon_field(122)
-        return dcr.Hypocenter(**self.get_params())
+        return dcr.Hypocenter(
+            **self.context.params(),
+            notifications_on_disaster_prevention=self.notifications_on_disaster_prevention,
+            notifications_on_disaster_prevention_raw=self.notifications_on_disaster_prevention_raw,
+            occurrence_time_of_earthquake=self.occurrence_time_of_earthquake,
+            occurrence_time_of_earthquake_raw=self.occurrence_time_of_earthquake_raw,
+            depth_of_hypocenter=self.depth_of_hypocenter,
+            depth_of_hypocenter_raw=self.depth_of_hypocenter_raw,
+            magnitude=self.magnitude,
+            magnitude_raw=self.magnitude_raw,
+            seismic_epicenter=self.seismic_epicenter,
+            seismic_epicenter_raw=self.seismic_epicenter_raw,
+            coordinates_of_hypocenter=self.coordinates_of_hypocenter,
+            coordinates_of_hypocenter_raw=self.coordinates_of_hypocenter_raw,
+        )
 
 
 class SeismicIntensity(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.SeismicIntensity:
         self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw = self.extract_day_hour_min_field(53)
         self.seismic_intensities: list[str] = []
@@ -383,12 +475,18 @@ class SeismicIntensity(Common):
             self.prefectures.append(qzss_dcr_jma_prefecture[pl])
             self.prefectures_raw.append(pl)
 
-        return dcr.SeismicIntensity(**self.get_params())
+        return dcr.SeismicIntensity(
+            **self.context.params(),
+            occurrence_time_of_earthquake=self.occurrence_time_of_earthquake,
+            occurrence_time_of_earthquake_raw=self.occurrence_time_of_earthquake_raw,
+            seismic_intensities=self.seismic_intensities,
+            seismic_intensities_raw=self.seismic_intensities_raw,
+            prefectures=self.prefectures,
+            prefectures_raw=self.prefectures_raw,
+        )
 
 
 class NankaiTroughEarthquake(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.NankaiTroughEarthquake:
         ie = self.extract_field(53, 4)
         self.information_serial_code = qzss_dcr_jma_information_serial_code[ie]
@@ -402,12 +500,17 @@ class NankaiTroughEarthquake(Common):
         self.page_number = self.extract_field(201, 6)
         self.total_page = self.extract_field(207, 6)
 
-        return dcr.NankaiTroughEarthquake(**self.get_params())
+        return dcr.NankaiTroughEarthquake(
+            **self.context.params(),
+            information_serial_code=self.information_serial_code,
+            information_serial_code_raw=self.information_serial_code_raw,
+            text_information=self.text_information,
+            page_number=self.page_number,
+            total_page=self.total_page,
+        )
 
 
 class Tsunami(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.Tsunami:
         self.notifications_on_disaster_prevention, self.notifications_on_disaster_prevention_raw =\
             self.extract_notification_on_disaster_prevention_fields(53)
@@ -440,12 +543,23 @@ class Tsunami(Common):
             self.tsunami_forecast_regions.append(qzss_dcr_jma_tsunami_forecast_region[pl])
             self.tsunami_forecast_regions_raw.append(pl)
 
-        return dcr.Tsunami(**self.get_params())
+        return dcr.Tsunami(
+            **self.context.params(),
+            notifications_on_disaster_prevention=self.notifications_on_disaster_prevention,
+            notifications_on_disaster_prevention_raw=self.notifications_on_disaster_prevention_raw,
+            tsunami_warning_code=self.tsunami_warning_code,
+            tsunami_warning_code_raw=self.tsunami_warning_code_raw,
+            expected_tsunami_arrival_times=self.expected_tsunami_arrival_times,
+            expected_tsunami_arrival_times_raw=self.expected_tsunami_arrival_times_raw,
+            expected_tsunami_arrival_time_types=self.expected_tsunami_arrival_time_types,
+            tsunami_heights=self.tsunami_heights,
+            tsunami_heights_raw=self.tsunami_heights_raw,
+            tsunami_forecast_regions=self.tsunami_forecast_regions,
+            tsunami_forecast_regions_raw=self.tsunami_forecast_regions_raw,
+        )
 
 
 class NorthwestPacificTsunami(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.NorthwestPacificTsunami:
         tp = self.extract_field(53, 3)
         self.tsunamigenic_potential_en = qzss_dcr_jma_tsunamigenic_potential_en[tp]
@@ -477,12 +591,21 @@ class NorthwestPacificTsunami(Common):
             self.coastal_regions_en.append(qzss_dcr_jma_coastal_region_en[pl])
             self.coastal_regions_raw.append(pl)
 
-        return dcr.NorthwestPacificTsunami(**self.get_params())
+        return dcr.NorthwestPacificTsunami(
+            **self.context.params(),
+            tsunamigenic_potential_en=self.tsunamigenic_potential_en,
+            tsunamigenic_potential_raw=self.tsunamigenic_potential_raw,
+            expected_tsunami_arrival_times=self.expected_tsunami_arrival_times,
+            expected_tsunami_arrival_times_raw=self.expected_tsunami_arrival_times_raw,
+            expected_tsunami_arrival_time_types_en=self.expected_tsunami_arrival_time_types_en,
+            tsunami_heights_en=self.tsunami_heights_en,
+            tsunami_heights_raw=self.tsunami_heights_raw,
+            coastal_regions_en=self.coastal_regions_en,
+            coastal_regions_raw=self.coastal_regions_raw,
+        )
 
 
 class Volcano(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.Volcano:
         self.ambiguity_of_activity_time_no = self.extract_field(50, 3)
         self.activity_time_raw = self.extract_day_hour_min_raw(53)
@@ -506,7 +629,18 @@ class Volcano(Common):
             self.local_governments.append(local_government)
             self.local_governments_raw.append(lg)
 
-        return dcr.Volcano(**self.get_params())
+        return dcr.Volcano(
+            **self.context.params(),
+            ambiguity_of_activity_time_no=self.ambiguity_of_activity_time_no,
+            activity_time=self.activity_time,
+            activity_time_raw=self.activity_time_raw,
+            volcanic_warning_code=self.volcanic_warning_code,
+            volcanic_warning_code_raw=self.volcanic_warning_code_raw,
+            volcano_name=self.volcano_name,
+            volcano_name_raw=self.volcano_name_raw,
+            local_governments=self.local_governments,
+            local_governments_raw=self.local_governments_raw,
+        )
 
     def extract_activity_time(self, raw: DayHourMinute, ambiguity: int) -> datetime | None:
         """Observed activity time (UTC) with the parts that the ambiguity marks as not valid set to 0.
@@ -532,8 +666,6 @@ class Volcano(Common):
 
 
 class AshFall(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.AshFall:
         self.activity_time, self.activity_time_raw = self.extract_day_hour_min_field(53)
 
@@ -568,12 +700,24 @@ class AshFall(Common):
             self.local_governments.append(local_government)
             self.local_governments_raw.append(lg)
 
-        return dcr.AshFall(**self.get_params())
+        return dcr.AshFall(
+            **self.context.params(),
+            activity_time=self.activity_time,
+            activity_time_raw=self.activity_time_raw,
+            ash_fall_warning_type=self.ash_fall_warning_type,
+            ash_fall_warning_type_raw=self.ash_fall_warning_type_raw,
+            volcano_name=self.volcano_name,
+            volcano_name_raw=self.volcano_name_raw,
+            expected_ash_fall_times=self.expected_ash_fall_times,
+            expected_ash_fall_times_raw=self.expected_ash_fall_times_raw,
+            ash_fall_warning_codes=self.ash_fall_warning_codes,
+            ash_fall_warning_codes_raw=self.ash_fall_warning_codes_raw,
+            local_governments=self.local_governments,
+            local_governments_raw=self.local_governments_raw,
+        )
 
 
 class Weather(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.Weather:
         ar = self.extract_field(53, 3)
         self.weather_warning_state = qzss_dcr_jma_weather_warning_state[ar]
@@ -598,12 +742,18 @@ class Weather(Common):
             self.weather_forecast_regions.append(qzss_dcr_jma_weather_forecast_region[pl])
             self.weather_forecast_regions_raw.append(pl)
 
-        return dcr.Weather(**self.get_params())
+        return dcr.Weather(
+            **self.context.params(),
+            weather_warning_state=self.weather_warning_state,
+            weather_warning_state_raw=self.weather_warning_state_raw,
+            weather_related_disaster_sub_categories=self.weather_related_disaster_sub_categories,
+            weather_related_disaster_sub_categories_raw=self.weather_related_disaster_sub_categories_raw,
+            weather_forecast_regions=self.weather_forecast_regions,
+            weather_forecast_regions_raw=self.weather_forecast_regions_raw,
+        )
 
 
 class Flood(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.Flood:
         self.flood_warning_levels: list[str] = []
         self.flood_warning_levels_raw: list[int] = []
@@ -623,12 +773,16 @@ class Flood(Common):
             self.flood_forecast_regions.append(qzss_dcr_jma_flood_forecast_region[pl])
             self.flood_forecast_regions_raw.append(pl)
 
-        return dcr.Flood(**self.get_params())
+        return dcr.Flood(
+            **self.context.params(),
+            flood_warning_levels=self.flood_warning_levels,
+            flood_warning_levels_raw=self.flood_warning_levels_raw,
+            flood_forecast_regions=self.flood_forecast_regions,
+            flood_forecast_regions_raw=self.flood_forecast_regions_raw,
+        )
 
 
 class Marine(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.Marine:
         self.marine_warning_codes: list[str] = []
         self.marine_warning_codes_raw: list[int] = []
@@ -647,12 +801,16 @@ class Marine(Common):
             self.marine_forecast_regions.append(qzss_dcr_jma_marine_forecast_region[pl])
             self.marine_forecast_regions_raw.append(pl)
 
-        return dcr.Marine(**self.get_params())
+        return dcr.Marine(
+            **self.context.params(),
+            marine_warning_codes=self.marine_warning_codes,
+            marine_warning_codes_raw=self.marine_warning_codes_raw,
+            marine_forecast_regions=self.marine_forecast_regions,
+            marine_forecast_regions_raw=self.marine_forecast_regions_raw,
+        )
 
 
 class Typhoon(Common):
-    schema = dcr.Base
-
     def decode(self) -> dcr.Typhoon:
         self.reference_time, self.reference_time_raw = self.extract_day_hour_min_field(53)
 
@@ -691,4 +849,26 @@ class Typhoon(Common):
         self.maximum_gust_wind_speed = qzss_dcr_jma_typhoon_maximum_gust_wind_speed[w2]
         self.maximum_gust_wind_speed_raw = w2
 
-        return dcr.Typhoon(**self.get_params())
+        return dcr.Typhoon(
+            **self.context.params(),
+            reference_time=self.reference_time,
+            reference_time_raw=self.reference_time_raw,
+            reference_time_type=self.reference_time_type,
+            reference_time_type_raw=self.reference_time_type_raw,
+            elapsed_time_from_reference_time=self.elapsed_time_from_reference_time,
+            elapsed_time_from_reference_time_raw=self.elapsed_time_from_reference_time_raw,
+            typhoon_number=self.typhoon_number,
+            typhoon_number_raw=self.typhoon_number_raw,
+            typhoon_scale_category=self.typhoon_scale_category,
+            typhoon_scale_category_raw=self.typhoon_scale_category_raw,
+            typhoon_intensity_category=self.typhoon_intensity_category,
+            typhoon_intensity_category_raw=self.typhoon_intensity_category_raw,
+            coordinates_of_typhoon=self.coordinates_of_typhoon,
+            coordinates_of_typhoon_raw=self.coordinates_of_typhoon_raw,
+            central_pressure=self.central_pressure,
+            central_pressure_raw=self.central_pressure_raw,
+            maximum_wind_speed=self.maximum_wind_speed,
+            maximum_wind_speed_raw=self.maximum_wind_speed_raw,
+            maximum_gust_wind_speed=self.maximum_gust_wind_speed,
+            maximum_gust_wind_speed_raw=self.maximum_gust_wind_speed_raw,
+        )

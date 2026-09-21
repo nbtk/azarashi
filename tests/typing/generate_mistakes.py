@@ -3,7 +3,7 @@
 Each line passes a wrong argument or assigns the return value to a wrong type, and ends with the
 error code it should cause; check_all_reported.py checks that the type checker reports every line
 with that code. The script fails for a function whose annotations accept anything, since no wrong
-use can be written for it. Wrong uses of report attributes are only in consumer_mistakes.py.
+use can be written for it. Property return types are checked here; other report attributes are checked in consumer_mistakes.py.
 
   python tests/typing/generate_mistakes.py out.py
   mypy --strict out.py > mypy.txt
@@ -124,16 +124,22 @@ out = ['"""Generated: every public function and method used wrongly, one line ea
 skipped: list[str] = []
 body: list[str] = []
 
-for function in (azarashi.decode, azarashi.decode_stream):
+for function in (azarashi.decode, azarashi.decode_stream, azarashi.reset_reading_state):
     body += emit(function.__name__, 'azarashi.%s' % function.__name__, inspect.signature(function), skipped)
 
 params = []
 for name, cls in report_classes():
     var = 'r_%s' % name.replace('.', '_')
     params.append('%s: reports.%s' % (var, name))
+    for attr, descriptor in vars(cls).items():
+        if isinstance(descriptor, property) and descriptor.fget is not None:
+            annotation = typing.get_type_hints(descriptor.fget)['return']
+            wrong = contradiction(annotation)
+            if wrong is not None:
+                body.append('_v%d: %s = %s.%s  # want: assignment' % (next(_numbers), wrong, var, attr))
     for method, sig in methods(cls):
         if method == '__init__':
-            continue                   # built by the decoders, not by a caller
+            continue                   # inherited **kwargs are covered by runtime construction tests
         body += emit('%s.%s' % (name, method), '%s.%s' % (var, method), sig, skipped)
 
 for cls, var in ((Transmitter, 'tx'), (Receiver, 'rx')):

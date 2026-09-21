@@ -41,6 +41,16 @@ class StreamKeyedDict(Generic[_T]):
         else:
             self._weak[key] = (ref, value)
 
+    def discard(self, stream: object) -> None:
+        """Remove only this identity, without inspecting other owners' closed properties."""
+        key = id(stream)
+        weak_entry = self._weak.get(key)
+        if weak_entry is not None and weak_entry[0]() is stream:
+            del self._weak[key]
+        strong_entry = self._strong.get(key)
+        if strong_entry is not None and strong_entry[0] is stream:
+            del self._strong[key]
+
     def clear(self) -> None:
         self._weak.clear()
         self._strong.clear()
@@ -104,6 +114,14 @@ class ReaderStore(Generic[_T]):
             self._unowned[reader] = entry
         return entry[0]
 
+    def discard(self, reader: Callable[..., Any]) -> None:
+        """Discard every method's state for this owner, or this unbound callable's state."""
+        owner = getattr(reader, '__self__', None)
+        if owner is None:
+            self._unowned.discard(reader)
+        else:
+            self._by_stream.discard(owner)
+
     def clear(self) -> None:
         self._by_stream.clear()
         self._unowned.clear()
@@ -163,3 +181,7 @@ def read_line(reader: Callable[..., str | bytes], reader_args: tuple[Any, ...]) 
         line = line[:0].join(partial + [line])
         partial.clear()
     return line
+
+
+def reset_partial_lines(reader: Callable[..., Any]) -> None:
+    _partial_lines.discard(reader)

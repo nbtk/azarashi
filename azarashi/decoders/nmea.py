@@ -1,13 +1,11 @@
 from ..reports import Report
-from ..reports import base
 from . import common
-from .base import Base
+from .base import InputDecoder
 from ..definitions import nmea_qzss_dcr_message_header
 from ..exceptions import AzarashiInvalidMessageError
 
 
-class Decoder(Base):
-    schema = base.Base
+class Decoder(InputDecoder):
     sentence: str | bytes
 
     def decode(self) -> Report:

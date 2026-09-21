@@ -6,7 +6,10 @@ from .streams import hex_qzss_dcr_message_extractor
 from .streams import nmea_qzss_dcr_message_extractor
 from .streams import StreamKeyedDict
 from .streams import stream_lock
-from .streams.state import reader_lock as _reader_lock
+from .streams import reader_lock as _reader_lock
+from .streams.state import reset_partial_lines
+from .streams.nmea import reset_pending_sentences
+from .streams.ublox import buffers as _ublox_buffers
 from .streams import ublox_qzss_dcr_message_extractor
 from .decoders import hex as hex_decoder
 from .decoders import net as net_decoder
@@ -40,17 +43,16 @@ class SupportsRead(Protocol):
 
 QzssDcrStream: TypeAlias = SupportsReadline | SupportsRead1 | SupportsRead  # what decode_stream() reads
 
-caches: StreamKeyedDict[list[Report]] = StreamKeyedDict()  # stream -> recent reports, released with the stream
-deliveries: StreamKeyedDict[list[Report]] = StreamKeyedDict()  # stream -> reports handed to a callback right now
+_ReportKey: TypeAlias = tuple[type[Report], bytes]
+caches: StreamKeyedDict[dict[_ReportKey, datetime]] = StreamKeyedDict()
+deliveries: StreamKeyedDict[set[_ReportKey]] = StreamKeyedDict()
 cache_size = 256
 
 
-def _cached(cache: list[Report], report: Report) -> list[Report]:
-    return ([r for r in cache if r != report] + [report])[-cache_size:]  # the newest copy, at the newest end
-
-
-def _dropped(reports: list[Report], report: Report) -> list[Report]:
-    return [r for r in reports if r != report]
+def _cached(cache: dict[_ReportKey, datetime], key: _ReportKey, received: datetime) -> dict[_ReportKey, datetime]:
+    updated = {k: stamp for k, stamp in cache.items() if k != key}
+    updated[key] = received
+    return dict(list(updated.items())[-cache_size:])
 
 
 def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: datetime | None = None) -> Report:
@@ -69,18 +71,8 @@ def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: dateti
         raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 
 
-def decode_stream(stream: QzssDcrStream,
-                  msg_type: StreamFormat = 'nmea',
-                  callback: Callable[..., object] | None = None,
-                  callback_args: tuple[Any, ...] = (),
-                  callback_kwargs: dict[str, Any] | None = None,
-                  unique: bool | float = False,
-                  ignore_dcr: bool = False,
-                  ignore_dcx: bool = True,
-                  timestamp: datetime | None = None) -> Report:
-    if callback_kwargs is None:
-        callback_kwargs = {}
-
+def _select_reader(stream: QzssDcrStream, msg_type: StreamFormat) -> tuple[
+        Callable[..., str | bytes], Callable[..., Any], tuple[Any, ...]]:
     extractor: Callable[..., str | bytes]
     reader: Callable[..., Any]
     reader_args: tuple[Any, ...]
@@ -116,6 +108,36 @@ def decode_stream(stream: QzssDcrStream,
     else:
         raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
 
+    return extractor, reader, reader_args
+
+
+def reset_reading_state(stream: QzssDcrStream, msg_type: StreamFormat = 'nmea') -> None:
+    """Discard this reader owner's partial and pending data, keeping duplicate history.
+
+    Stop all reads and callbacks sharing the owner before calling. This neither cancels
+    an active read nor changes the underlying I/O buffers, position or open/closed state.
+    """
+    _, reader, _ = _select_reader(stream, msg_type)
+    with stream_lock(stream), _reader_lock(reader):
+        reset_partial_lines(reader)
+        reset_pending_sentences(reader)
+        _ublox_buffers.discard(reader)
+
+
+def decode_stream(stream: QzssDcrStream,
+                  msg_type: StreamFormat = 'nmea',
+                  callback: Callable[..., object] | None = None,
+                  callback_args: tuple[Any, ...] = (),
+                  callback_kwargs: dict[str, Any] | None = None,
+                  unique: bool | float = False,
+                  ignore_dcr: bool = False,
+                  ignore_dcx: bool = True,
+                  timestamp: datetime | None = None) -> Report:
+    if callback_kwargs is None:
+        callback_kwargs = {}
+
+    extractor, reader, reader_args = _select_reader(stream, msg_type)
+
     lock = stream_lock(stream)
     reading_lock = _reader_lock(reader)
     while True:
@@ -133,25 +155,26 @@ def decode_stream(stream: QzssDcrStream,
             else:  # unknown message type
                 continue
 
+            key = (type(report), report.raw)
+            received = report.timestamp
             if unique:
-                cache = caches.get(stream) or []
-                if report in (deliveries.get(stream) or []):  # another thread is delivering this report now
+                cache = caches.get(stream) or {}
+                if key in (deliveries.get(stream) or set()):  # another thread is delivering this report now
                     continue
-                if report in cache:
+                if key in cache:
                     if unique is True:  # never expire: always suppress duplicates
                         fire = False
                     else:  # unique is a number of seconds: re-fire once the cached copy is stale
-                        cached = cache[cache.index(report)]
-                        freshness = (report.timestamp - cached.timestamp).total_seconds()
+                        freshness = (received - cache[key]).total_seconds()
                         fire = freshness > unique
                 else:
                     fire = True
 
                 if fire is False:
-                    caches[stream] = _cached(cache, report)
+                    caches[stream] = _cached(cache, key, received)
                     continue
 
-                deliveries[stream] = (deliveries.get(stream) or []) + [report]
+                deliveries[stream] = (deliveries.get(stream) or set()) | {key}
 
         try:  # the callback runs without the lock, so it cannot block or deadlock the other readers
             if callback is not None:
@@ -159,12 +182,12 @@ def decode_stream(stream: QzssDcrStream,
         except BaseException:
             if unique:  # only a delivered report counts as seen, so a failed callback gets the next copy
                 with lock:
-                    deliveries[stream] = _dropped(deliveries.get(stream) or [], report)
+                    deliveries[stream] = (deliveries.get(stream) or set()) - {key}
             raise
 
         if unique:
             with lock:
-                caches[stream] = _cached(caches.get(stream) or [], report)
-                deliveries[stream] = _dropped(deliveries.get(stream) or [], report)
+                caches[stream] = _cached(caches.get(stream) or {}, key, received)
+                deliveries[stream] = (deliveries.get(stream) or set()) - {key}
         if callback is None:
             return report

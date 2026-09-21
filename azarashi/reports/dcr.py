@@ -1,5 +1,6 @@
 """The reports of a JMA-DC Report message (MT43)."""
 import threading
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any, ClassVar
 
@@ -350,6 +351,19 @@ class NankaiTroughEarthquake(Base):
         return report
 
 
+@dataclass
+class TsunamiForecast:
+    """One region's forecast, copied from a Tsunami report at access time."""
+
+    region: str
+    region_code: int
+    height: str
+    height_code: int
+    arrival_time: datetime | None
+    arrival_time_raw: DayHourMinute
+    arrival_time_type: str
+
+
 class Tsunami(Base):
     def __init__(self,
                  notifications_on_disaster_prevention: list[str],
@@ -376,6 +390,18 @@ class Tsunami(Base):
         self.tsunami_heights_raw = tsunami_heights_raw
         self.tsunami_forecast_regions = tsunami_forecast_regions
         self.tsunami_forecast_regions_raw = tsunami_forecast_regions_raw
+
+    @property
+    def forecasts(self) -> tuple[TsunamiForecast, ...]:
+        """A detached snapshot; inconsistent source-list lengths raise ValueError."""
+        return tuple(
+            TsunamiForecast(region, region_code, height, height_code, arrival, raw.copy(), kind)
+            for region, region_code, height, height_code, arrival, raw, kind in zip(
+                self.tsunami_forecast_regions, self.tsunami_forecast_regions_raw,
+                self.tsunami_heights, self.tsunami_heights_raw,
+                self.expected_tsunami_arrival_times, self.expected_tsunami_arrival_times_raw,
+                self.expected_tsunami_arrival_time_types, strict=True)
+        )
 
     def __str__(self) -> str:
         report = f'{self.get_header()}\n' + \
