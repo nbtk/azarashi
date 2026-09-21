@@ -54,13 +54,13 @@ class AzarashiNotImplementedError(AzarashiDecodeError):
 
 
 class AzarashiTimeoutError(AzarashiReadOn):
-    """A stream with a read timeout (e.g. pySerial) had no complete message before the timeout expired.
+    """A read on a stream with a timeout (e.g. pySerial) returned no data or an incomplete line.
 
     Partially read data is kept, so calling decode_stream() again continues from it.
 
-    It carries no exception of the standard library. It is not an EOFError, because the data
-    has not ended, and not a TimeoutError, because that one is an OSError and would put it among
-    the failures of the stream itself.
+    It inherits Exception, but not EOFError, TimeoutError or OSError. The data has not ended,
+    so it is not an EOFError. TimeoutError is an OSError and would put it among the failures
+    of the stream itself.
 
     It stays outside AzarashiDecodeError because nothing failed to decode.
     """

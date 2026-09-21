@@ -118,7 +118,7 @@ AzarashiException
 
 何が起きたかを表すクラスは、仕様の改訂や対応形式の追加で増えることがあります。3つのほうを捕捉しておけば、増えても書き換えは要りません。
 
-失敗の理由は `.message` に入り、`.instance` には失敗したデコーダが入ります。`str()` は電文があればそれも付けます。
+失敗の理由は `.message` に入り、`.instance` には失敗したデコーダが入る場合があります。読み取り障害やタイムアウトなど、デコーダを伴わない例外では `None` です。`str()` は電文があればそれも付けます。
 ## AzarashiReadOn
 メッセージが手に入らなかったことを表すクラスです。読めないメッセージ、azarashi が扱えないメッセージ、読み終えていないメッセージが、すべてこのクラスの下にあります。
 
@@ -140,7 +140,7 @@ AzarashiException
 
 **`NotImplementedError` は継承していません。** あちらと、その親の `RuntimeError` は「書かれていないコードが呼ばれた」という意味です。衛星が実際に送ってきたメッセージを、上位のレイヤーが自分の不具合と取り違えてしまいます。azarashi がまだデコードできないメッセージは、不具合ではなく通常の通信です。
 ## AzarashiTimeoutError
-pySerial などで `timeout` を指定して開いたストリームから、タイムアウトまでにメッセージを読み終えられなかったときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。
+pySerial などで `timeout` を指定して開いたストリームの読み取りが、データを返さずに終わったときや、行の途中までを返したときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。
 
 **ソケットを読むときは、`socket.makefile()` に `settimeout()` を組み合わせないでください。** この組み合わせは Python 自身が避けるよう述べているもので、一度タイムアウトするとそのファイルオブジェクトは二度と読めなくなります。待っていたデータが届いても読めません。azarashi はこれを [AzarashiReopenStream](#azarashireopenstream) として報告します。読み直しても同じなので、開き直すほかありません。
 
@@ -150,7 +150,7 @@ port = serial.serial_for_url('socket://192.168.1.10:2000', timeout=1)
 azarashi.decode_stream(port, 'ublox', print)
 ```
 
-**組み込みの例外を一つも継承していません。** `EOFError` にすると、データが終わったと読み違えられます。`EOFError` で止めるコードが、生きているストリームを打ち切ってしまいます。`TimeoutError` も使えません。あちらは `OSError` の一種で、[AzarashiReopenStream](#azarashireopenstream) と同じ網に入ります。`except OSError` で開き直すコードが、健全なデバイスを開き直すことになります。
+**`Exception` は継承しますが、`TimeoutError`・`OSError`・`EOFError` は継承しません。** `EOFError` にすると、データが終わったと読み違えられます。`EOFError` で止めるコードが、生きているストリームを打ち切ってしまいます。`TimeoutError` も使えません。あちらは `OSError` の一種で、[AzarashiReopenStream](#azarashireopenstream) と同じ網に入ります。`except OSError` で開き直すコードが、健全なデバイスを開き直すことになります。
 
 このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。プログラムの例は [Timeout](#timeout) にあります。
 ## AzarashiReopenStream
@@ -346,7 +346,9 @@ def example():
 exit(example())
 ```
 ### Timeout
-シリアルポートを `timeout` 付きで開くと、`decode_stream()` はメッセージが届かないまま待ち続けることがなくなります。一定の時間で `AzarashiTimeoutError` を送出して戻るので、その合間に別の仕事ができます。終了の合図を確認する例です。
+シリアルポートを `timeout` 付きで開くと、読み取りがタイムアウトした際に `AzarashiTimeoutError` を捕捉して別の仕事ができます。以下は、その機会に終了の合図を確認する例です。
+
+`timeout` は下位ストリームの個々の読み取りに適用され、`decode_stream()` 全体の実行時間を制限しません。データが流れ続ける場合は、通知対象外の電文や重複も含めて読み続けるため、タイムアウトせず終了の合図を確認できないことがあります。この例は停止までの時間を保証しません。
 
 `AzarashiTimeoutError` は [AzarashiReadOn](#azarashireadon) の下にあります。タイムアウトの合間に別の仕事をしないのであれば、この節をやめて `AzarashiReadOn` にまとめても構いません。両方書くときは、`AzarashiTimeoutError` を先に書いてください。
 
@@ -373,7 +375,7 @@ def example():
             except azarashi.AzarashiTimeoutError:
                 if stopping:
                     return 0
-                continue  # 1秒のあいだにメッセージを読み終えられなかった。続きを読む
+                continue  # 読み取りがタイムアウトした。読みかけの続きを待つ
             except azarashi.AzarashiDecodeError as e:
                 print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except azarashi.AzarashiStopReading as e:
@@ -424,7 +426,7 @@ def deliver(report):
     try:
         print(report, flush=True)
     except Exception:
-        # 読み取りループに投げ返さない。投げるとデバイスの故障と見分けがつかなくなる
+        # 配信の失敗をログに残し、受信を続ける
         logger.exception('could not hand on the %s alert', report.message_type)
 
 
@@ -487,11 +489,11 @@ if __name__ == '__main__':
 
 **捕捉の順序には規則があります。** 同じ枝の中では葉を先に書いてください。`AzarashiTimeoutError` は `AzarashiReadOn` の下、`AzarashiStreamClosedError` は `AzarashiReopenStream` の下にあるので、先に書かないと、親の節が先に捕まえてしまいます。一方、枝どうしにあたる `AzarashiReadOn`、`AzarashiReopenStream`、`AzarashiStopReading` の3つは互いに継承関係がないので、**どの順番でも構いません**。
 
-**コールバックは自分の失敗を自分で始末します。** ここが最も間違えやすいところです。送信が失敗したときの例外を `deliver()` から読み取りループへ投げ返すと、それが `OSError` だったときに「デバイスが消えた」と区別できなくなります。警報の配信が一度失敗しただけで、健全な GPS モジュールのポートを開き直す受信機になります。
+**この例では、配信に失敗しても受信を続けます。** コールバックの例外は `decode_stream()` からそのまま伝わります。通常の `OSError` は `AzarashiReopenStream` に変換されず、この読み取りループでは捕捉されません。`deliver()` は失敗をログに残して正常に戻るので、`unique` の履歴には通知済みとして記録されます。この例には配信を再試行する処理はありません。
 
 **開き直すのは同じオブジェクトです。** `unique` の重複の記憶はストリームごとなので、同じオブジェクトを `close()` して `open()` すれば、抜き差しをまたいでも既報の警報を通知しなおしません。`serial.Serial()` で作り直すと記憶が消えます。ポートを指定せずにオブジェクトを作っているのはこのためです。
 
-**`timeout=1` は停止のためです。** メッセージを待ったまま止まらないので、1秒ごとに `stopping` を確認できます。`SIGTERM` を受けてから1秒以内に終了します。
+**`timeout=1` は、入力が途絶えたときに停止の合図を確認するためです。** 読み取りがタイムアウトすると外側のループで `stopping` を確認します。ただし、データが流れ続ける間は `decode_stream()` が戻らないことがあります。ロック待ちやコールバックの実行時間も含め、`SIGTERM` を受けてから終了するまでの時間は保証しません。
 
 **待ち時間は刻みます。** `time.sleep(30)` のまま待つと、停止を頼まれてから終わるまでに30秒かかります。`wait()` は1秒ずつ区切って確認します。
 

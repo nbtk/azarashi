@@ -1,5 +1,5 @@
 from . import reports
-from ._legacy import *  # every earlier name; delete with the module
+from ._legacy import *  # compatibility aliases for earlier public names
 from .api import decode
 from .api import decode_stream
 from .api import reset_reading_state
@@ -40,7 +40,7 @@ __all__ = [
     'AzarashiStopReading',
     'AzarashiNoMoreData',
 
-    # every earlier name; delete this block with _legacy.py
+    # compatibility aliases defined in _legacy.py
     'qzss_dc_report',
     'QzssDcrDecoderException',
     'QzssDcrDecoderNotImplementedError',

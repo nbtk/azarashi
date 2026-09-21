@@ -38,8 +38,8 @@ def test_the_typing_marker_is_there_and_ships():
 
 
 def test_the_earlier_names_are_all_in_one_module():
-    # they are meant to be dropped one day: deleting _legacy.py, the line that star-imports it in
-    # __init__.py and the block it adds to __all__ has to take every one of them away
+    # Compatibility aliases belong in _legacy.py and the package exports only.
+    # Internal modules must use the current names.
     legacy = importlib.import_module('azarashi._legacy')
     assert set(legacy.__all__) <= set(azarashi.__all__)
     assert all(getattr(azarashi, name) is getattr(legacy, name) for name in legacy.__all__)

@@ -11,7 +11,7 @@ from ..exceptions import AzarashiTimeoutError
 from ..definitions import qzss_dcr_message_type
 from ..definitions import ublox_qzss_dcr_message_header
 
-buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per reader, released with the stream
+buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per reader; retention follows ReaderStore
 #: a read that did not deliver: what was read is kept, so a later call resumes from it. A stream
 #: that failed is not here, because the bytes it gave are half of a frame that can never arrive.
 INCOMPLETE = (AzarashiTimeoutError, AzarashiStopReading)

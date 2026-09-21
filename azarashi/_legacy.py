@@ -1,7 +1,6 @@
-"""The names azarashi went by before, kept so that code written against them still runs.
+"""Compatibility aliases for earlier public names.
 
-Nothing inside the package uses them. Deleting this module, the two lines that name it in
-__init__.py and the entries it adds to __all__ takes every one of them away at once.
+Aliases are defined here and re-exported by the package. Internal code uses the current names.
 """
 from . import reports as qzss_dc_report
 from .exceptions import AzarashiInvalidMessageError

@@ -13,10 +13,11 @@ _T = TypeVar('_T')
 
 
 class StreamKeyedDict(Generic[_T]):
-    """Per-stream values that are released together with their stream objects.
+    """Values keyed by stream identity, with weak references where supported.
 
     Streams are keyed by identity, regardless of their equality or hash. Weakly referenced
-    streams are dropped when collected; the others are kept until they report themselves closed.
+    streams are dropped when collected; the others are kept until a later lookup confirms
+    they are closed. If closure cannot be confirmed, their state and owners remain retained.
     """
 
     def __init__(self) -> None:
@@ -90,14 +91,14 @@ def reader_lock(reader: Callable[..., Any]) -> 'threading.RLock':
     """Serialize extraction from a reader's owner, even through different wrappers.
 
     Separate from stream locks: decode_stream acquires its stream lock first, then this
-    lock, and releases both before calling user callbacks. Locks do not retain owners.
+    lock, and releases both before calling user callbacks. Owner retention follows StreamKeyedDict.
     """
     owner = getattr(reader, '__self__', None)
     return _lock_for(_reader_locks, reader if owner is None else owner)
 
 
 class ReaderStore(Generic[_T]):
-    """A value per reader (e.g. stream.read1), kept with the reader's stream and released together with it."""
+    """Values per bound reader method or unbound callable, retained according to StreamKeyedDict."""
 
     def __init__(self, factory: Callable[[], _T]) -> None:
         self._factory = factory
