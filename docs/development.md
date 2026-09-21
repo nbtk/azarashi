@@ -23,6 +23,8 @@ CI は mypy と Pyright の両方で、各行が意図した種類のエラー�
 `sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
 
 内部では `Frame` → `Message` → `Jma`（DCR）の順に型付き情報を渡し、最終レポートだけを生成します。
+入力アダプターは `InputDecoder`、後続段階は `ContextDecoder` を使います。後続段階は
+受信時刻や発表時刻などを `self.context` から直接読み、デコーダー自身にはその段階で計算した値を保存します。
 DCX の最終生成では、未設定フィールドを辞書に含めない公開契約を保つため、キーワード引数への変換を残しています。
 公開レポートの互換範囲は [Reports](reports.md#construction-mutation-and-subclassing) を参照してください。
 

@@ -62,9 +62,9 @@ def test_decode_error_keeps_frame_diagnostics():
     decoder = error.value.instance
     assert decoder.sentence == message
     assert decoder.nmea == message
-    assert decoder.timestamp == stamp
-    assert decoder.message_type == 'DCR'
+    assert decoder.context.timestamp == stamp
+    assert decoder.context.message_type == 'DCR'
     assert decoder.version == 0
     assert decoder.raw == azarashi.reports.base.MessagePartial(
-        message=decoder.message, nmea=message).raw
+        message=decoder.context.message, nmea=message).raw
     assert str(error.value) == f'Unsupported JMA-DC Report Version: 0 -> {message}'

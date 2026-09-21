@@ -65,11 +65,11 @@ from ...reports import Report
 from ...reports import dcr
 from ...reports.base import Coordinates
 from ...reports.base import DayHourMinute
-from .base import ContextDecoder, MessageDecoder
-from .context import Jma
+from .base import ContextDecoder
+from .context import Jma, Message
 
 
-class Decoder(MessageDecoder):
+class Decoder(ContextDecoder[Message]):
     def decode(self) -> Report:
         self.version = self.extract_field(214, 6)
         if self.version != 1:
@@ -113,17 +113,17 @@ class Decoder(MessageDecoder):
                 f'Invalid Report Time: {at_mi} as minute',
                 self)
 
-        at_y = self.timestamp.year
-        if at_mo - self.timestamp.month > 6:
+        at_y = self.context.timestamp.year
+        if at_mo - self.context.timestamp.month > 6:
             at_y -= 1
-        elif self.timestamp.month - at_mo > 6:
+        elif self.context.timestamp.month - at_mo > 6:
             at_y += 1
 
         if at_mo == 2 and at_d == 29 and not isleap(at_y):  # take the leap day closest to the reception time
             earlier = next(y for y in range(at_y - 1, at_y - 9, -1) if isleap(y))
             later = next(y for y in range(at_y + 1, at_y + 9) if isleap(y))
             at_y = min(earlier, later,
-                       key=lambda y: abs(datetime(y, 2, 29, at_h, at_mi, tzinfo=UTC) - self.timestamp))
+                       key=lambda y: abs(datetime(y, 2, 29, at_h, at_mi, tzinfo=UTC) - self.context.timestamp))
         if at_d > monthrange(at_y, at_mo)[1]:
             raise AzarashiInvalidMessageError(
                 f'Invalid Report Time: {at_d} as day of month {at_mo}',
@@ -141,32 +141,8 @@ class Decoder(MessageDecoder):
         self.information_type_en = information_type_en[it]
         self.information_type_no = it
 
-        next_decoder: type[Common]
-        if dc == 1:
-            next_decoder = EarthquakeEarlyWarning
-        elif dc == 2:
-            next_decoder = Hypocenter
-        elif dc == 3:
-            next_decoder = SeismicIntensity
-        elif dc == 4:
-            next_decoder = NankaiTroughEarthquake
-        elif dc == 5:
-            next_decoder = Tsunami
-        elif dc == 6:
-            next_decoder = NorthwestPacificTsunami
-        elif dc == 8:
-            next_decoder = Volcano
-        elif dc == 9:
-            next_decoder = AshFall
-        elif dc == 10:
-            next_decoder = Weather
-        elif dc == 11:
-            next_decoder = Flood
-        elif dc == 12:
-            next_decoder = Typhoon
-        elif dc == 14:
-            next_decoder = Marine
-        else:
+        next_decoder = _DECODERS.get(dc)
+        if next_decoder is None:
             raise AzarashiInvalidMessageError(
                 f'Unsupported Disaster Category: {self.disaster_category}',
                 self)
@@ -188,58 +164,6 @@ class Decoder(MessageDecoder):
 
 
 class Common(ContextDecoder[Jma]):
-    @property
-    def preamble(self) -> str:
-        return self.context.preamble
-
-    @property
-    def message_type(self) -> str:
-        return self.context.message_type
-
-    @property
-    def version(self) -> int:
-        return self.context.version
-
-    @property
-    def report_classification(self) -> str:
-        return self.context.report_classification
-
-    @property
-    def report_classification_en(self) -> str:
-        return self.context.report_classification_en
-
-    @property
-    def report_classification_no(self) -> int:
-        return self.context.report_classification_no
-
-    @property
-    def disaster_category(self) -> str:
-        return self.context.disaster_category
-
-    @property
-    def disaster_category_en(self) -> str:
-        return self.context.disaster_category_en
-
-    @property
-    def disaster_category_no(self) -> int:
-        return self.context.disaster_category_no
-
-    @property
-    def report_time(self) -> datetime:
-        return self.context.report_time
-
-    @property
-    def information_type(self) -> str:
-        return self.context.information_type
-
-    @property
-    def information_type_en(self) -> str:
-        return self.context.information_type_en
-
-    @property
-    def information_type_no(self) -> int:
-        return self.context.information_type_no
-
     def extract_day_hour_min_raw(self, slider: int) -> DayHourMinute:
         return {'day': self.extract_field(slider, 5),
                 'hour': self.extract_field(slider + 5, 5),
@@ -251,15 +175,15 @@ class Common(ContextDecoder[Jma]):
         if dt_d not in days or dt_h not in hours or dt_mi not in minutes:
             return None, raw
 
-        dt_y = self.report_time.year
-        dt_mo = self.report_time.month
-        if dt_d - self.report_time.day > 15:
+        dt_y = self.context.report_time.year
+        dt_mo = self.context.report_time.month
+        if dt_d - self.context.report_time.day > 15:
             if dt_mo == 1:
                 dt_mo = 12
                 dt_y -= 1
             else:
                 dt_mo -= 1
-        elif self.report_time.day - dt_d > 15:
+        elif self.context.report_time.day - dt_d > 15:
             if dt_mo == 12:
                 dt_mo = 1
                 dt_y += 1
@@ -356,7 +280,7 @@ class Common(ContextDecoder[Jma]):
         if raw['hour'] not in hours or raw['minute'] not in minutes:
             return None
 
-        ta_dt = self.report_time + timedelta(raw['day'])
+        ta_dt = self.context.report_time + timedelta(raw['day'])
 
         return datetime(year=ta_dt.year,
                         month=ta_dt.month,
@@ -656,8 +580,8 @@ class Volcano(Common):
             return None
 
         # the activity was observed by the time of the report: take the latest such date with this day
-        year, month = self.report_time.year, self.report_time.month
-        if day > self.report_time.day:
+        year, month = self.context.report_time.year, self.context.report_time.month
+        if day > self.context.report_time.day:
             year, month = (year, month - 1) if month > 1 else (year - 1, 12)
         while day > monthrange(year, month)[1]:
             year, month = (year, month - 1) if month > 1 else (year - 1, 12)
@@ -872,3 +796,19 @@ class Typhoon(Common):
             maximum_gust_wind_speed=self.maximum_gust_wind_speed,
             maximum_gust_wind_speed_raw=self.maximum_gust_wind_speed_raw,
         )
+
+
+_DECODERS: dict[int, type[Common]] = {
+    1: EarthquakeEarlyWarning,
+    2: Hypocenter,
+    3: SeismicIntensity,
+    4: NankaiTroughEarthquake,
+    5: Tsunami,
+    6: NorthwestPacificTsunami,
+    8: Volcano,
+    9: AshFall,
+    10: Weather,
+    11: Flood,
+    12: Typhoon,
+    14: Marine,
+}

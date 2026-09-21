@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from ...reports import Report
-from .base import ContextDecoder, MessageDecoder
+from .base import ContextDecoder
 from .context import Frame, Message
 from . import dcr
 from . import dcx
@@ -26,7 +26,7 @@ class Decoder(ContextDecoder[Frame]):
         # checks the crc
         crc = 0
         crc_remaining_len = 226
-        data = self.message[:28] + bytes((self.message[28] & 0xC0,))  # clears the last 6 bits
+        data = self.context.message[:28] + bytes((self.context.message[28] & 0xC0,))  # clears the last 6 bits
         for byte in data:
             crc ^= (byte << 16)
             for _ in range(8):
@@ -51,7 +51,7 @@ class Decoder(ContextDecoder[Frame]):
                 f'Undefined Message Type: {mt}',
                 self) from err
 
-        next_decoder: type[MessageDecoder]
+        next_decoder: type[ContextDecoder[Message]]
         if mt == 43:
             next_decoder = dcr.Decoder
         elif mt == 44:

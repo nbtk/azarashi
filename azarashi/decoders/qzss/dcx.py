@@ -1,7 +1,8 @@
 import datetime
 
 from ...reports import dcx
-from .base import MessageDecoder
+from .base import ContextDecoder
+from .context import Message
 from ..camf.geometry import semi_axis, centre_latitude, centre_longitude
 from ...definitions.qzss.dcx.a10_library_version import a10_library_version
 from ...definitions.qzss.dcx.a11_international_library import a11_international_library
@@ -77,7 +78,7 @@ _NULL_MSG_FIELDS = (
 )
 
 
-class Decoder(MessageDecoder):
+class Decoder(ContextDecoder[Message]):
     def decode(self) -> dcx.Base:
         self.camf = camf = dcx.CAMF()
         self._extract_camf_fields(camf)
@@ -214,7 +215,7 @@ class Decoder(MessageDecoder):
         self.a5_severity = a5_severity[camf.a5]
         self.a6_hazard_onset_week = a6_hazard_onset_week[camf.a6]
         # the week (Monday 00:00 to Sunday 23:59 UTC) is the one in which the message was received
-        today = self.timestamp.astimezone(datetime.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
+        today = self.context.timestamp.astimezone(datetime.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
         hazard_onset = today + datetime.timedelta(weeks=camf.a6, days=-today.weekday(), minutes=camf.a7 - 1)
         if 1 <= camf.a7 <= 10080:
             # hours are written 00-11 with AM/PM as in the spec, and in English whatever the locale

@@ -1,11 +1,12 @@
 """Frame decoder tests: NMEA, hex, net and u-blox framing, and the checks shared by every message."""
 import random
+from datetime import UTC, datetime
 
 import pytest
 
 import azarashi
 from azarashi.decoders.qzss import base
-from azarashi.reports.base import Base
+from azarashi.decoders.qzss.context import Frame
 from qzqsm import nmea_checksum
 from qzqsm import sentence
 from qzqsm import sfrbx
@@ -200,24 +201,19 @@ def test_preamble(preamble, name):
 
 
 def test_decoder_base_is_abstract():
-    class Decoder(base.Base):
-        schema = Base
-
+    context = Frame(sentence=EEW, message=b'', nmea=EEW, timestamp=datetime.now(UTC))
     with pytest.raises(azarashi.AzarashiNotImplementedError) as excinfo:
-        Decoder(EEW).decode()
+        base.ContextDecoder(context).decode()
     assert str(excinfo.value) == 'Decoder Not Implemented'
 
 
 def test_extract_field_matches_the_bit_string():
     rng = random.Random(250)
 
-    class Decoder(base.Base):
-        schema = Base
-
     for _ in range(20):
         bits = rng.getrandbits(250)
-        decoder = Decoder('')
-        decoder.message = (bits << 6).to_bytes(32, 'big')
+        decoder = base.ContextDecoder(Frame(
+            sentence='', message=(bits << 6).to_bytes(32, 'big'), nmea='', timestamp=datetime.now(UTC)))
         for pos in range(250):
             for size in range(1, min(64, 250 - pos) + 1):
                 assert decoder.extract_field(pos, size) == bits >> (250 - pos - size) & (1 << size) - 1, (pos, size)

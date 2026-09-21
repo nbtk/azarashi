@@ -76,20 +76,12 @@ def _select_reader(stream: QzssDcrStream, msg_type: str) -> tuple[
     extractor: Callable[..., str | bytes]
     reader: Callable[..., Any]
     reader_args: tuple[Any, ...]
-    if msg_type == 'hex':
-        if callable(readline := getattr(stream, 'readline', None)):
-            extractor = hex_qzss_dcr_message_extractor
-            reader = readline
-            reader_args = ()
-        else:
+    if msg_type in ('hex', 'nmea', 'spresense'):
+        if not callable(readline := getattr(stream, 'readline', None)):
             raise AzarashiInvalidMessageError(f'readline() does not exist: {type(stream)}')
-    elif msg_type == 'nmea' or msg_type == 'spresense':
-        if callable(readline := getattr(stream, 'readline', None)):
-            extractor = nmea_qzss_dcr_message_extractor
-            reader = readline
-            reader_args = ()
-        else:
-            raise AzarashiInvalidMessageError(f'readline() does not exist: {type(stream)}')
+        extractor = hex_qzss_dcr_message_extractor if msg_type == 'hex' else nmea_qzss_dcr_message_extractor
+        reader = readline
+        reader_args = ()
     elif msg_type == 'ublox':
         if callable(read1 := getattr(stream, 'read1', None)):
             extractor = ublox_qzss_dcr_message_extractor
