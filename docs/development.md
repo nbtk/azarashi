@@ -23,7 +23,8 @@ CI は mypy と Pyright の両方で、各行が意図した種類のエラー�
 `sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
 
 内部では `Frame` → `Message` → `Jma`（DCR）の順に型付き情報を渡し、最終レポートだけを生成します。
-[設計と互換範囲](design/decoder-flow.md) に判断を記録しています。
+DCX の最終生成では、未設定フィールドを辞書に含めない公開契約を保つため、キーワード引数への変換を残しています。
+公開レポートの互換範囲は [Reports](reports.md#construction-mutation-and-subclassing) を参照してください。
 
 公開レポートの直接生成・変更・継承は `tests/test_reports.py` で検証します。
 コンストラクタの継承先へ渡す `**kwargs` は `Any` を含むため、生成誤用テストは
