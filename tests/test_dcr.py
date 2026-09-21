@@ -226,8 +226,8 @@ def test_every_defined_disaster_category_has_a_decoder():
     # the decoder's last else raises Unsupported Disaster Category; it is there so that a category
     # added to the table without a decoder fails cleanly, and this keeps it unreachable
     from qzqsm import jma
-    from azarashi.definitions import qzss_dcr_jma_disaster_category
-    decoded = {dc: type(azarashi.decode(jma(dc, []))) for dc in qzss_dcr_jma_disaster_category}
+    from azarashi.definitions.qzss.dcr.disaster_category import disaster_category
+    decoded = {dc: type(azarashi.decode(jma(dc, []))) for dc in disaster_category}
     assert len(decoded) == 12
     assert all(cls.__module__.endswith('reports.dcr') for cls in decoded.values())
     assert len(set(decoded.values())) == len(decoded)  # one class each
@@ -237,7 +237,7 @@ def test_every_defined_message_type_has_a_decoder():
     # same idea for Unsupported Message Type, which the two decoders below keep out of reach
     from qzqsm import jma
     from test_dcx_fields import dcx
-    from azarashi.definitions import qzss_dcr_message_type
-    assert set(qzss_dcr_message_type) == {43, 44}
-    assert azarashi.decode(jma(1, [])).message_type == qzss_dcr_message_type[43]
-    assert azarashi.decode(dcx(a1=1, a2=111, a3=2)).message_type == qzss_dcr_message_type[44]
+    from azarashi.definitions.qzss.l1s import message_types
+    assert set(message_types) == {43, 44}
+    assert azarashi.decode(jma(1, [])).message_type == message_types[43]
+    assert azarashi.decode(dcx(a1=1, a2=111, a3=2)).message_type == message_types[44]

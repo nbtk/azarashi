@@ -4,7 +4,7 @@ import random
 import pytest
 
 import azarashi
-from azarashi.decoders import base
+from azarashi.decoders.qzss import base
 from azarashi.reports.base import Base
 from qzqsm import nmea_checksum
 from qzqsm import sentence
@@ -228,18 +228,18 @@ def test_extract_field_matches_the_bit_string():
 # cannot fire while the tables and the decoders agree, so the tables are moved to make them.
 
 def test_a_message_type_the_table_knows_but_no_decoder_takes(monkeypatch):
-    from azarashi.definitions import qzss_dcr_message_type
-    monkeypatch.setitem(qzss_dcr_message_type, 45, 'DCZ')  # a message type of some later edition
+    from azarashi.definitions.qzss.l1s import message_types
+    monkeypatch.setitem(message_types, 45, 'DCZ')  # a message type of some later edition
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode(with_fields(EEW, [(8, 6, 45)]))
     assert excinfo.value.message == 'Unsupported Message Type: 45'
 
 
 def test_a_disaster_category_the_table_knows_but_no_decoder_takes(monkeypatch):
-    from azarashi.definitions import qzss_dcr_jma_disaster_category
-    from azarashi.definitions import qzss_dcr_jma_disaster_category_en
-    monkeypatch.setitem(qzss_dcr_jma_disaster_category, 7, '高潮')  # category 7 is not assigned yet
-    monkeypatch.setitem(qzss_dcr_jma_disaster_category_en, 7, 'Storm Surge')
+    from azarashi.definitions.qzss.dcr.disaster_category import disaster_category
+    from azarashi.definitions.qzss.dcr.disaster_category import disaster_category_en
+    monkeypatch.setitem(disaster_category, 7, '高潮')  # category 7 is not assigned yet
+    monkeypatch.setitem(disaster_category_en, 7, 'Storm Surge')
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode(with_fields(EEW, [(17, 4, 7)]))
     assert excinfo.value.message == 'Unsupported Disaster Category: 高潮'

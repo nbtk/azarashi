@@ -1,7 +1,7 @@
 from ..reports import Report
-from . import common
-from .base import InputDecoder
-from ..definitions import nmea_qzss_dcr_message_header
+from .qzss import l1s
+from .qzss.base import InputDecoder
+from ..definitions.nmea import QZQSM_HEADER
 from ..exceptions import AzarashiInvalidMessageError
 
 
@@ -65,7 +65,7 @@ class Decoder(InputDecoder):
                 self) from err
 
         # checks the message header
-        if self.message_header != nmea_qzss_dcr_message_header:
+        if self.message_header != QZQSM_HEADER:
             raise AzarashiInvalidMessageError(
                 f'Unknown Message Header: {self.message_header}',
                 self)
@@ -90,7 +90,7 @@ class Decoder(InputDecoder):
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
-        return common.Decoder(
+        return l1s.Decoder(
             sentence=self.sentence,
             message=self.message,
             nmea=self.nmea,

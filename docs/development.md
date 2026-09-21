@@ -17,9 +17,9 @@ GitHub Actions の typing ジョブは、ビルドした wheel をインスト�
 - `tests/typing/generate_mistakes.py` が作る誤用が、すべて検出されること。誤用は、公開している関数とメソッドのすべての引数と戻り値、およびプロパティの戻り値について作ります
 
 内部のデコーダ間の受け渡しも検査します。`tests/typing/decoder_mistakes.py` は、
-共通デコーダへの必須値の欠落・型違い・引数名の誤記と、DCR/DCX 下流への誤った context の受け渡しを含みます。
+QZSS L1S デコーダへの必須値の欠落・型違い・引数名の誤記と、DCR/DCX 下流への誤った context の受け渡しを含みます。
 CI は mypy と Pyright の両方で、各行が意図した種類のエラーになることを確認します。
-`common.Decoder` は内部実装であり、任意の `**kwargs` を受け取る以前の呼び出し方は維持しません。
+`decoders.qzss.l1s.Decoder` には、
 `sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
 
 内部では `Frame` → `Message` → `Jma`（DCR）の順に型付き情報を渡し、最終レポートだけを生成します。
@@ -40,3 +40,32 @@ from qzqsm import jma, sfrbx
 sentence = jma(11, [(53, 4, 2), (57, 40, 830303020300)])  # 洪水: 鬼怒川の氾濫警戒情報
 frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 ```
+
+## Source Layout
+
+`definitions` と `decoders` は、受信形式・衛星システム・共通警報形式の境界を揃えています。
+
+| 所属 | 定義 | デコード処理 |
+|---|---|---|
+| NMEA / UBX | `definitions/nmea.py`, `ubx.py` | `decoders/nmea.py`, `ubx.py` |
+| QZSS L1S | `definitions/qzss/l1s.py` | `decoders/qzss/l1s.py` |
+| 気象庁 DCR | `definitions/qzss/dcr/` | `decoders/qzss/dcr.py` |
+| DCX | `definitions/qzss/dcx/` | `decoders/qzss/dcx.py` |
+| CAMF 共通部分 | `definitions/camf/` | `decoders/camf/` |
+
+`definitions/code_table.py` の `CodeTable` は、未定義コードの扱いを備えた辞書です。
+QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。
+入力アダプターは現在 QZSS に対応し、QZSS 固有の context と補助処理は `decoders/qzss/` に置きます。
+公開 API の形式名は `ublox` です。
+
+CAMF の共通定義は A1・A5・A6・A9・A17 の表、共通処理は A12〜A15 の座標・半軸長の変換です。
+コードの意味と変換は [CAMF Issue 1.1](https://www.gsc-europa.eu/sites/default/files/sites/all/files/EWSS-CAMF_v1.1.pdf)
+の 3.1.1、3.2.2、3.3.1、3.5.1、3.6、3.7 節と照合しています。
+表示文言と未定義値の扱いはライブラリ側のものです。
+その他の表は、国別の定義、対応ライブラリの版、共通仕様との照合範囲を区別するため DCX 側に置いています。
+Galileo EWSS を追加する際も、伝送やビット位置の処理を各システムに置き、共通仕様と一致する部分を CAMF 側で共有します。
+
+`definitions` と `decoders` のモジュール経路・クラス名は内部実装です。
+公開の入口には `decode()` / `decode_stream()` を使い、レポートは `azarashi.reports` から参照してください。
+`tests/test_definition_values.py` は、コード表の値と未定義値の文言を参照スナップショットと比較します。
+表を更新する際は `tests/definition_values.json` の該当する期待値も、変更内容と照合して更新してください。

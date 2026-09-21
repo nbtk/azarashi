@@ -1,6 +1,6 @@
 from ..reports import Report
-from . import common
-from .base import InputDecoder
+from .qzss import l1s
+from .qzss.base import InputDecoder
 from ..exceptions import AzarashiInvalidMessageError
 
 
@@ -36,7 +36,7 @@ class Decoder(InputDecoder):
         self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
-        return common.Decoder(
+        return l1s.Decoder(
             sentence=self.sentence,
             message=self.message,
             nmea=self.nmea,

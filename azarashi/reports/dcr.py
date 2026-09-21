@@ -5,12 +5,12 @@ from datetime import datetime, timedelta
 from typing import Any, ClassVar
 
 from .base import Coordinates, DayHourMinute, MessageBase
-from ..definitions import qzss_dcr_jma_activity_time_undefined
-from ..definitions import qzss_dcr_jma_occurrence_time_of_earthquake_undefined
-from ..definitions import qzss_dcr_jma_page_number_and_total_page_undefined
-from ..definitions import qzss_dcr_jma_page_numbers
-from ..definitions import qzss_dcr_jma_total_pages
-from ..definitions import qzss_dcr_jma_typhoon_reference_time_undefined
+from ..definitions.qzss.dcr.day_hour_minute import activity_time_undefined
+from ..definitions.qzss.dcr.day_hour_minute import occurrence_time_of_earthquake_undefined
+from ..definitions.qzss.dcr.page_number_and_total_page import page_number_and_total_page_undefined
+from ..definitions.qzss.dcr.page_number_and_total_page import page_numbers
+from ..definitions.qzss.dcr.page_number_and_total_page import total_pages
+from ..definitions.qzss.dcr.day_hour_minute import typhoon_reference_time_undefined
 from ..exceptions import AzarashiInvalidMessageError
 
 def _day_hour_minute_code(raw: DayHourMinute) -> int:
@@ -164,7 +164,7 @@ class EarthquakeEarlyWarning(Base):
 
     def __str__(self) -> str:
         occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
-                                             qzss_dcr_jma_occurrence_time_of_earthquake_undefined)
+                                             occurrence_time_of_earthquake_undefined)
         report = f'{self.get_header()}\n' + \
                  '緊急地震速報\n'
 
@@ -221,7 +221,7 @@ class Hypocenter(Base):
 
     def __str__(self) -> str:
         occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
-                                             qzss_dcr_jma_occurrence_time_of_earthquake_undefined)
+                                             occurrence_time_of_earthquake_undefined)
         report = f'{self.get_header()}\n' + \
                  f'{occurred}' + \
                  'ころ、地震がありました。\n'
@@ -255,7 +255,7 @@ class SeismicIntensity(Base):
 
     def __str__(self) -> str:
         occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
-                                             qzss_dcr_jma_occurrence_time_of_earthquake_undefined)
+                                             occurrence_time_of_earthquake_undefined)
         report = f'{self.get_header()}\n' + \
                  f'{occurred}' + \
                  'ころ、地震による強い揺れを感じました。\n\n' + \
@@ -316,7 +316,7 @@ class NankaiTroughEarthquake(Base):
 
     def _has_page_position(self) -> bool:
         """Whether the page number and the total page place this page in the text."""
-        return (self.page_number in qzss_dcr_jma_page_numbers and self.total_page in qzss_dcr_jma_total_pages
+        return (self.page_number in page_numbers and self.total_page in total_pages
                 and self.page_number <= self.total_page)
 
     def _get_announcement(self) -> tuple[datetime, int, int, int, int]:
@@ -329,7 +329,7 @@ class NankaiTroughEarthquake(Base):
     def extract_text_information(self) -> str:
         cls = self.__class__
         if not self._has_page_position():
-            return qzss_dcr_jma_page_number_and_total_page_undefined % (self.page_number << 6 | self.total_page)
+            return page_number_and_total_page_undefined % (self.page_number << 6 | self.total_page)
         with _assembly_lock:  # a page of a newer announcement must not empty the pages while they are read
             if self._get_announcement() != cls.announcement:
                 return f'受信中 ({self.page_number}) [-/{self.total_page}]'
@@ -496,7 +496,7 @@ class Volcano(Base):
             if self.activity_time is not None:
                 activity_time = self.convert_dt_to_ambiguous_time_str(self.activity_time, du)
             else:
-                activity_time = qzss_dcr_jma_activity_time_undefined % _day_hour_minute_code(self.activity_time_raw)
+                activity_time = activity_time_undefined % _day_hour_minute_code(self.activity_time_raw)
             report += f'日時: {activity_time}\n'
         report += f'現象: {self.volcanic_warning_code}\n\n'
 
@@ -535,7 +535,7 @@ class AshFall(Base):
 
     def __str__(self) -> str:
         activity_time = self._convert_time_to_str(self.activity_time, self.activity_time_raw,
-                                                  qzss_dcr_jma_activity_time_undefined)
+                                                  activity_time_undefined)
         report = f'{self.get_header()}\n' + \
                  '降灰に関連する情報をお知らせします。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \
@@ -676,7 +676,7 @@ class Typhoon(Base):
 
     def __str__(self) -> str:
         reference_time = self._convert_time_to_str(self.reference_time, self.reference_time_raw,
-                                                   qzss_dcr_jma_typhoon_reference_time_undefined)
+                                                   typhoon_reference_time_undefined)
         report = f'{self.get_header()}\n' + \
                  '台風解析・予報情報が発表されました。\n\n' + \
                  f'発表時刻: {self.get_report_time_str()}\n\n' + \

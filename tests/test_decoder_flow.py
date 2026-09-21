@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 import pytest
 
 import azarashi
-from azarashi.decoders import base as decoder_base
+from azarashi.decoders.qzss import base as decoder_base
 from azarashi.reports import base as report_base
 from qzqsm import hex_message, jma, sentence, sfrbx
 from samples import EEW, L_ALERT

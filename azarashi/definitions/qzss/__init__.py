@@ -1,0 +1,1 @@
+"""QZSS-specific protocol definitions."""

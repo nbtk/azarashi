@@ -4,7 +4,7 @@ import datetime
 import pytest
 
 from azarashi.decoders import nmea
-from azarashi.definitions import qzss_dcx_camf_b4_lower_level_fields_tables as b4
+from azarashi.definitions.qzss.dcx import d_fields as b4
 from azarashi import reports
 from qzqsm import sentence
 
@@ -259,65 +259,65 @@ def test_b1_and_b2_need_the_main_ellipse(a17):
 
 
 B4_FIELDS = [  # hazard types (A4) and their lower level fields: (attribute, position, size, table)
-    ([36], [('d1_magnitude_on_richter_scale', 131, 4, b4.qzss_dcx_camf_d1_magnitude_on_richter_scale),
-            ('d2_seismic_coefficient', 135, 3, b4.qzss_dcx_camf_d2_seismic_coefficient),
+    ([36], [('d1_magnitude_on_richter_scale', 131, 4, b4.d1_magnitude_on_richter_scale),
+            ('d2_seismic_coefficient', 135, 3, b4.d2_seismic_coefficient),
             ('d3_azimuth_from_centre_of_main_ellipse_to_epicentre', 138, 4,
-             b4.qzss_dcx_camf_d3_azimuth_from_centre_of_main_ellipse_to_epicentre),
+             b4.d3_azimuth_from_centre_of_main_ellipse_to_epicentre),
             ('d4_vector_length_between_centre_of_main_ellipse_and_epicentre', 142, 4,
-             b4.qzss_dcx_camf_d4_vector_length_between_centre_of_main_ellipse_and_epicentre)]),
-    ([43, 44], [('d5_wave_height', 131, 3, b4.qzss_dcx_camf_d5_wave_height)]),
-    ([63, 71], [('d6_temperature_range', 131, 4, b4.qzss_dcx_camf_d6_temperature_range)]),
-    ([80], [('d7_hurricane_category', 131, 3, b4.qzss_dcx_camf_d7_hurricane_category),
-            ('d8_wind_speed', 134, 4, b4.qzss_dcx_camf_d8_wind_speed),
-            ('d9_rainfall_amounts', 138, 3, b4.qzss_dcx_camf_d9_rainfall_amounts)]),
-    ([82], [('d36_typhoon_category', 131, 3, b4.qzss_dcx_camf_d36_typhoon_category),
-            ('d8_wind_speed', 134, 4, b4.qzss_dcx_camf_d8_wind_speed),
-            ('d9_rainfall_amounts', 138, 3, b4.qzss_dcx_camf_d9_rainfall_amounts)]),
-    ([79], [('d8_wind_speed', 131, 4, b4.qzss_dcx_camf_d8_wind_speed),
-            ('d9_rainfall_amounts', 135, 3, b4.qzss_dcx_camf_d9_rainfall_amounts),
-            ('d11_tornado_probability', 138, 3, b4.qzss_dcx_camf_d11_tornado_probability)]),
-    ([77], [('d8_wind_speed', 131, 4, b4.qzss_dcx_camf_d8_wind_speed),
-            ('d9_rainfall_amounts', 135, 3, b4.qzss_dcx_camf_d9_rainfall_amounts),
-            ('d10_damage_category', 138, 3, b4.qzss_dcx_camf_d10_damage_category),
-            ('d16_lightning_intensity', 141, 3, b4.qzss_dcx_camf_d16_lightning_intensity)]),
-    ([70], [('d12_hail_scale', 131, 4, b4.qzss_dcx_camf_d12_hail_scale)]),
-    ([74], [('d9_rainfall_amounts', 131, 3, b4.qzss_dcx_camf_d9_rainfall_amounts),
-            ('d13_visibility', 134, 4, b4.qzss_dcx_camf_d13_visibility)]),
-    ([76], [('d14_snow_depth', 131, 5, b4.qzss_dcx_camf_d14_snow_depth),
-            ('d13_visibility', 136, 4, b4.qzss_dcx_camf_d13_visibility)]),
-    ([68], [('d15_flood_severity', 131, 2, b4.qzss_dcx_camf_d15_flood_severity)]),
-    ([72], [('d16_lightning_intensity', 131, 3, b4.qzss_dcx_camf_d16_lightning_intensity)]),
-    ([81], [('d8_wind_speed', 131, 4, b4.qzss_dcx_camf_d8_wind_speed),
-            ('d6_temperature_range', 135, 4, b4.qzss_dcx_camf_d6_temperature_range)]),
-    ([64], [('d8_wind_speed', 131, 4, b4.qzss_dcx_camf_d8_wind_speed),
-            ('d9_rainfall_amounts', 135, 3, b4.qzss_dcx_camf_d9_rainfall_amounts),
-            ('d16_lightning_intensity', 138, 3, b4.qzss_dcx_camf_d16_lightning_intensity),
-            ('d11_tornado_probability', 141, 3, b4.qzss_dcx_camf_d11_tornado_probability)]),
-    ([69], [('d17_fog_level', 131, 3, b4.qzss_dcx_camf_d17_fog_level),
-            ('d13_visibility', 134, 4, b4.qzss_dcx_camf_d13_visibility)]),
-    ([75], [('d13_visibility', 131, 4, b4.qzss_dcx_camf_d13_visibility),
-            ('d8_wind_speed', 135, 4, b4.qzss_dcx_camf_d8_wind_speed)]),
-    ([65], [('d18_drought_level', 131, 2, b4.qzss_dcx_camf_d18_drought_level)]),
-    ([33], [('d19_avalanche_warning_level', 131, 3, b4.qzss_dcx_camf_d19_avalanche_warning_level)]),
-    ([32], [('d20_ash_fall_amount_and_impact', 131, 3, b4.qzss_dcx_camf_d20_ash_fall_amount_and_impact)]),
-    ([47], [('d8_wind_speed', 131, 4, b4.qzss_dcx_camf_d8_wind_speed),
-            ('d5_wave_height', 135, 3, b4.qzss_dcx_camf_d5_wave_height)]),
-    ([37], [('d21_geomagnetic_scale', 131, 3, b4.qzss_dcx_camf_d21_geomagnetic_scale)]),
-    ([103], [('d22_terrorism_threat_level', 131, 3, b4.qzss_dcx_camf_d22_terrorism_threat_level)]),
-    ([27, 30], [('d23_fire_risk_level', 131, 3, b4.qzss_dcx_camf_d23_fire_risk_level)]),
-    ([16, 18, 21], [('d24_water_quality', 131, 3, b4.qzss_dcx_camf_d24_water_quality)]),
-    ([23], [('d25_uv_index', 131, 4, b4.qzss_dcx_camf_d25_uv_index)]),
+             b4.d4_vector_length_between_centre_of_main_ellipse_and_epicentre)]),
+    ([43, 44], [('d5_wave_height', 131, 3, b4.d5_wave_height)]),
+    ([63, 71], [('d6_temperature_range', 131, 4, b4.d6_temperature_range)]),
+    ([80], [('d7_hurricane_category', 131, 3, b4.d7_hurricane_category),
+            ('d8_wind_speed', 134, 4, b4.d8_wind_speed),
+            ('d9_rainfall_amounts', 138, 3, b4.d9_rainfall_amounts)]),
+    ([82], [('d36_typhoon_category', 131, 3, b4.d36_typhoon_category),
+            ('d8_wind_speed', 134, 4, b4.d8_wind_speed),
+            ('d9_rainfall_amounts', 138, 3, b4.d9_rainfall_amounts)]),
+    ([79], [('d8_wind_speed', 131, 4, b4.d8_wind_speed),
+            ('d9_rainfall_amounts', 135, 3, b4.d9_rainfall_amounts),
+            ('d11_tornado_probability', 138, 3, b4.d11_tornado_probability)]),
+    ([77], [('d8_wind_speed', 131, 4, b4.d8_wind_speed),
+            ('d9_rainfall_amounts', 135, 3, b4.d9_rainfall_amounts),
+            ('d10_damage_category', 138, 3, b4.d10_damage_category),
+            ('d16_lightning_intensity', 141, 3, b4.d16_lightning_intensity)]),
+    ([70], [('d12_hail_scale', 131, 4, b4.d12_hail_scale)]),
+    ([74], [('d9_rainfall_amounts', 131, 3, b4.d9_rainfall_amounts),
+            ('d13_visibility', 134, 4, b4.d13_visibility)]),
+    ([76], [('d14_snow_depth', 131, 5, b4.d14_snow_depth),
+            ('d13_visibility', 136, 4, b4.d13_visibility)]),
+    ([68], [('d15_flood_severity', 131, 2, b4.d15_flood_severity)]),
+    ([72], [('d16_lightning_intensity', 131, 3, b4.d16_lightning_intensity)]),
+    ([81], [('d8_wind_speed', 131, 4, b4.d8_wind_speed),
+            ('d6_temperature_range', 135, 4, b4.d6_temperature_range)]),
+    ([64], [('d8_wind_speed', 131, 4, b4.d8_wind_speed),
+            ('d9_rainfall_amounts', 135, 3, b4.d9_rainfall_amounts),
+            ('d16_lightning_intensity', 138, 3, b4.d16_lightning_intensity),
+            ('d11_tornado_probability', 141, 3, b4.d11_tornado_probability)]),
+    ([69], [('d17_fog_level', 131, 3, b4.d17_fog_level),
+            ('d13_visibility', 134, 4, b4.d13_visibility)]),
+    ([75], [('d13_visibility', 131, 4, b4.d13_visibility),
+            ('d8_wind_speed', 135, 4, b4.d8_wind_speed)]),
+    ([65], [('d18_drought_level', 131, 2, b4.d18_drought_level)]),
+    ([33], [('d19_avalanche_warning_level', 131, 3, b4.d19_avalanche_warning_level)]),
+    ([32], [('d20_ash_fall_amount_and_impact', 131, 3, b4.d20_ash_fall_amount_and_impact)]),
+    ([47], [('d8_wind_speed', 131, 4, b4.d8_wind_speed),
+            ('d5_wave_height', 135, 3, b4.d5_wave_height)]),
+    ([37], [('d21_geomagnetic_scale', 131, 3, b4.d21_geomagnetic_scale)]),
+    ([103], [('d22_terrorism_threat_level', 131, 3, b4.d22_terrorism_threat_level)]),
+    ([27, 30], [('d23_fire_risk_level', 131, 3, b4.d23_fire_risk_level)]),
+    ([16, 18, 21], [('d24_water_quality', 131, 3, b4.d24_water_quality)]),
+    ([23], [('d25_uv_index', 131, 4, b4.d25_uv_index)]),
     ([51, 53], [('d26_number_of_cases_per_100000_inhabitants', 131, 5,
-                 b4.qzss_dcx_camf_d26_number_of_cases_per_100000_inhabitants),
-                ('d35_infection_type', 136, 6, b4.qzss_dcx_camf_d35_infection_type)]),
-    ([19], [('d27_noise_range', 131, 4, b4.qzss_dcx_camf_d27_noise_range)]),
-    ([15], [('d28_air_quality_index', 131, 3, b4.qzss_dcx_camf_d28_air_quality_index)]),
-    ([55, 56, 57, 58, 60], [('d29_outage_estimated_duration', 131, 5, b4.qzss_dcx_camf_d29_outage_estimated_duration)]),
-    ([5], [('d31_chemical_hazard_type', 131, 4, b4.qzss_dcx_camf_d31_chemical_hazard_type)]),
-    ([9, 10, 11], [('d30_nuclear_event_scale', 131, 4, b4.qzss_dcx_camf_d30_nuclear_event_scale)]),
-    ([4], [('d32_biohazard_level', 131, 2, b4.qzss_dcx_camf_d32_biohazard_level),
-           ('d33_biohazard_type', 133, 2, b4.qzss_dcx_camf_d33_biohazard_type)]),
-    ([6], [('d34_explosive_hazard_type', 131, 2, b4.qzss_dcx_camf_d34_explosive_hazard_type)]),
+                 b4.d26_number_of_cases_per_100000_inhabitants),
+                ('d35_infection_type', 136, 6, b4.d35_infection_type)]),
+    ([19], [('d27_noise_range', 131, 4, b4.d27_noise_range)]),
+    ([15], [('d28_air_quality_index', 131, 3, b4.d28_air_quality_index)]),
+    ([55, 56, 57, 58, 60], [('d29_outage_estimated_duration', 131, 5, b4.d29_outage_estimated_duration)]),
+    ([5], [('d31_chemical_hazard_type', 131, 4, b4.d31_chemical_hazard_type)]),
+    ([9, 10, 11], [('d30_nuclear_event_scale', 131, 4, b4.d30_nuclear_event_scale)]),
+    ([4], [('d32_biohazard_level', 131, 2, b4.d32_biohazard_level),
+           ('d33_biohazard_type', 133, 2, b4.d33_biohazard_type)]),
+    ([6], [('d34_explosive_hazard_type', 131, 2, b4.d34_explosive_hazard_type)]),
 ]
 
 
@@ -342,8 +342,8 @@ def test_b4_lower_level_fields_follow_each_other(hazards, fields):
 
 
 @pytest.mark.parametrize('table, codes', [
-    (b4.qzss_dcx_camf_d25_uv_index, 10),  # 4 bits: the indexes 10/11 and 11/11 as well
-    (b4.qzss_dcx_camf_d8_wind_speed, 13),
+    (b4.d25_uv_index, 10),  # 4 bits: the indexes 10/11 and 11/11 as well
+    (b4.d8_wind_speed, 13),
 ])
 def test_b4_tables_fit_their_fields(table, codes):
     assert sorted(table) == list(range(codes))
@@ -358,8 +358,8 @@ def test_b4_every_hazard_type_is_listed():
 
 
 @pytest.mark.parametrize('table, name', [
-    (b4.qzss_dcx_camf_d12_hail_scale, 'hail scale'),
-    (b4.qzss_dcx_camf_d22_terrorism_threat_level, 'terrorism threat level'),
+    (b4.d12_hail_scale, 'hail scale'),
+    (b4.d22_terrorism_threat_level, 'terrorism threat level'),
 ])
 def test_b4_undefined_codes_name_their_field(table, name):
     assert table[15] == f'Undefined {name} (Code: 15)'

@@ -3,7 +3,7 @@ from typing import Any
 
 from .state import ReaderStore
 from .state import read_line
-from ..definitions import nmea_qzss_dcr_message_header
+from ..definitions.nmea import QZQSM_HEADER
 
 _pending_sentences: ReaderStore[list[str]] = ReaderStore(list)  # the sentences of a line not handed out yet
 
@@ -12,7 +12,7 @@ def nmea_qzss_dcr_message_extractor(reader: Callable[..., str | bytes],
                                     reader_args: tuple[Any, ...] | None = None) -> str:
     if reader_args is None:
         reader_args = ()
-    header = nmea_qzss_dcr_message_header
+    header = QZQSM_HEADER
     pending = _pending_sentences.get(reader)
     while not pending:
         msg = read_line(reader, reader_args)

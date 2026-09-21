@@ -1,0 +1,10 @@
+from ...code_table import CodeTable
+
+eew_magnitude = CodeTable(
+    {
+        **{ma: f"{ma / 10}" for ma in range(1, 101)},  # the code is the magnitude in steps of 0.1
+        101: "10.0より大きい",
+        127: "不明",
+    },
+    undefined="マグニチュード(コード番号：%d)"
+)

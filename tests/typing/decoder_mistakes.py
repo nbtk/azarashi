@@ -1,9 +1,9 @@
 """Static checks of the internal decoding boundaries; do not execute this file."""
 from datetime import UTC, datetime
 
-from azarashi.decoders.common import Decoder
-from azarashi.decoders.context import Frame, Message, Jma
-from azarashi.decoders import dcr, dcx
+from azarashi.decoders.qzss.l1s import Decoder
+from azarashi.decoders.qzss.context import Frame, Message, Jma
+from azarashi.decoders.qzss import dcr, dcx
 
 stamp = datetime.now(UTC)
 Decoder('', nmea='', timestamp=stamp)  # want: call-arg

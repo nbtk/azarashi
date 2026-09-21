@@ -14,7 +14,7 @@ from .streams import ublox_qzss_dcr_message_extractor
 from .decoders import hex as hex_decoder
 from .decoders import net as net_decoder
 from .decoders import nmea as nmea_decoder
-from .decoders import ublox as ublox_decoder
+from .decoders import ubx as ublox_decoder
 from .exceptions import AzarashiInvalidMessageError
 from .reports import Report
 

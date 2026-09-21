@@ -1,0 +1,1 @@
+QZQSM_HEADER: str = '$QZQSM'

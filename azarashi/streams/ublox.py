@@ -8,8 +8,8 @@ from .state import read_stream
 from ..exceptions import AzarashiReopenStream
 from ..exceptions import AzarashiStopReading
 from ..exceptions import AzarashiTimeoutError
-from ..definitions import qzss_dcr_message_type
-from ..definitions import ublox_qzss_dcr_message_header
+from ..definitions.qzss.l1s import message_types
+from ..definitions.ubx import RXM_SFRBX_HEADER
 
 buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per reader; retention follows ReaderStore
 #: a read that did not deliver: what was read is kept, so a later call resumes from it. A stream
@@ -54,7 +54,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
     if reader_args is None:
         reader_args = ()
 
-    header = ublox_qzss_dcr_message_header
+    header = RXM_SFRBX_HEADER
     buf = buffers.get(reader)
     match_count = 0
     while True:
@@ -107,7 +107,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
             if message[8] != 1:  # not a L1S signal
                 continue
 
-            if message[16] >> 2 not in qzss_dcr_message_type.keys():
+            if message[16] >> 2 not in message_types.keys():
                 continue
 
             return message

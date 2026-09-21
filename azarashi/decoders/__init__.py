@@ -1,17 +1,9 @@
-"""The decoders that turn what a stream delivers into the reports of azarashi.reports.
+"""Input adapters and satellite-system decoders.
 
-Each module decodes one thing and calls the next, and Decoder is the way into each: the four
-input formats hand over a message, common reads what every message carries and passes it to the
-message type, and dcr and dcx read the rest. dcr holds one class per disaster category, because
-the message differs by category, and each makes the report class of the same name in reports.dcr.
+NMEA, UBX, hex and network inputs currently feed QZSS L1S decoding. QZSS stages
+validate the L1S message and dispatch to DCR or DCX. CAMF field interpretation
+is independent of satellite-system framing.
 """
-from . import base
-from . import common
-from . import dcr
-from . import dcx
-from . import hex
-from . import net
-from . import nmea
-from . import ublox
+from . import camf, hex, net, nmea, qzss, ubx
 
-__all__ = ['base', 'common', 'dcr', 'dcx', 'hex', 'net', 'nmea', 'ublox']
+__all__ = ['camf', 'hex', 'net', 'nmea', 'qzss', 'ubx']
