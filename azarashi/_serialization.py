@@ -391,7 +391,7 @@ def xcode(table: str, n: int) -> dict[str, Any]:
     """A table CAMF defines, under the scheme of the service that carried the message."""
     module = "a4_hazard_category_and_type" if table == "a4_hazard_type" else table
     definitions = importlib.import_module(f".definitions.camf.{module}", __package__)
-    return coded("qzss.dcx." + table, n, en=getattr(definitions, table))
+    return coded("camf." + table, n, en=getattr(definitions, table))
 
 
 def region_code(n: int) -> dict[str, Any]:
@@ -405,6 +405,13 @@ def prefecture_bit(bit: int) -> dict[str, Any]:
         return {bit: table[mask]} if mask in table else {}  # an unnamed bit keeps its position only
 
     return coded("qzss.dcx.prefecture_bit", bit, named(ex9_target_area_code_ja), named(ex9_target_area_code_en))
+
+
+def instruction_scheme(camf: Any) -> str:
+    """The library A11 indexes: CAMF's own for A9=0, and a country's own otherwise."""
+    if camf.a9 == 0:  # the international library is the same table for every country
+        return f"camf.instruction.library_{camf.a9}.version_{camf.a10}"
+    return f"qzss.dcx.instruction.country_{camf.a2}.library_{camf.a9}.version_{camf.a10}"
 
 
 def dcx_model(name: str, report: Any) -> dict[str, Any]:
@@ -433,7 +440,7 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
         "country_code": str(c.a2),
         "library": xcode("a9_type_of_library", c.a9),
         "version": xcode("a10_library_version", c.a10),
-        "content": coded(f"qzss.dcx.instruction.country_{c.a2}.library_{c.a9}.version_{c.a10}", c.a11, ja, en),
+        "content": coded(instruction_scheme(c), c.a11, ja, en),
         "identifier": identifier,
     }
     if not report.ignore_a12_to_a16:
@@ -470,7 +477,7 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
                 raw = getattr(c, field.split("_", 1)[0])
                 if raw is None:
                     continue
-                item = coded("qzss.dcx." + field, raw, en=table)
+                item = coded("camf." + field, raw, en=table)
                 if field.startswith(("d3_", "d4_")):
                     item = {
                         "code": item,

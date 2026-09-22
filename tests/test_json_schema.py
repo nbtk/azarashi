@@ -178,3 +178,63 @@ def test_every_kind_of_specific_settings_is_accepted_under_every_type(name, kind
     row = record(name)
     row['data']['specific_settings'] = settings
     VALIDATOR.validate(row)
+
+
+def _codes(node):
+    """Every code object in a record."""
+    if isinstance(node, dict):
+        if {'scheme', 'code', 'recognized', 'labels'} <= set(node):
+            yield node
+        for value in node.values():
+            yield from _codes(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _codes(value)
+
+
+def test_a_scheme_names_the_specification_that_defines_its_table():
+    # camf for what CAMF defines, the service's own name for what the service assigns itself
+    import importlib
+    import pkgutil
+
+    def tables(package):
+        """Every code table the package holds, by the name the scheme uses for it."""
+        root = importlib.import_module(package)
+        found = set()
+        for module in pkgutil.iter_modules(root.__path__):
+            for name, value in vars(importlib.import_module(f'{package}.{module.name}')).items():
+                if isinstance(value, dict) and not name.startswith('_'):
+                    found.add(name)
+        return found
+
+    owner = {'camf': tables('azarashi.definitions.camf'),
+             'qzss.dcx': tables('azarashi.definitions.qzss.dcx'),
+             'qzss.dcr': tables('azarashi.definitions.qzss.dcr')}
+    schemes = {code['scheme'] for report in REPORTS for code in _codes(example_record(report))}
+    assert schemes, 'no code objects to check'
+    checked = 0
+    for scheme in schemes:
+        root, table = scheme.rsplit('.', 1)
+        holders = [name for name, names in owner.items() if table in names]
+        if not holders:
+            continue  # provider, instruction and the bit or area codes carry transmitted values
+        assert holders == [root], f'{scheme}: {table} is defined by {holders}'
+        checked += 1
+    assert checked > 40, checked
+
+
+def test_the_international_library_has_one_scheme_for_every_country():
+    international = {code['scheme'] for report in REPORTS for code in _codes(example_record(report))
+                     if '.instruction.' in code['scheme'] and '.library_0.' in code['scheme']}
+    assert international == {'camf.instruction.library_0.version_0'}
+
+
+def test_the_envelope_is_defined_once_and_every_type_requires_its_nmea():
+    assert len([b for b in SCHEMA['oneOf'] if {'$ref': '#/$defs/envelope'} in b['allOf']]) == len(SCHEMA['oneOf'])
+    row = record('Tsunami')
+    del row['nmea']
+    assert not VALIDATOR.is_valid(row)  # every type of this version has a QZQSM sentence
+    envelope = Draft202012Validator({**SCHEMA, 'oneOf': [{'$ref': '#/$defs/envelope'}]},
+                                    format_checker=FormatChecker())
+    assert envelope.is_valid(row)  # but the shared envelope leaves room for a carrier without one
+    assert not envelope.is_valid({**row, 'unknown': 1})

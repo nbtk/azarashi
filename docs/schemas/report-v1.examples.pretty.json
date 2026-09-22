@@ -1520,7 +1520,7 @@
     "data": {
       "version": 16,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -1528,7 +1528,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "71",
         "recognized": true,
         "labels": {
@@ -1536,7 +1536,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "3",
         "recognized": true,
         "labels": {
@@ -1544,7 +1544,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "3",
         "recognized": true,
         "labels": {
@@ -1559,7 +1559,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "44",
           "recognized": true,
           "labels": {
@@ -1577,7 +1577,7 @@
       "instruction": {
         "country_code": "71",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "1",
           "recognized": true,
           "labels": {
@@ -1585,7 +1585,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -1650,7 +1650,7 @@
     "data": {
       "version": 1,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -1658,7 +1658,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -1666,7 +1666,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -1674,7 +1674,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -1691,7 +1691,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -1707,7 +1707,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "1",
           "recognized": true,
           "labels": {
@@ -1715,7 +1715,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -1756,7 +1756,7 @@
     "data": {
       "version": 1,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -1764,7 +1764,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -1772,7 +1772,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "3",
         "recognized": true,
         "labels": {
@@ -1780,7 +1780,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -1797,7 +1797,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "95",
           "recognized": true,
           "labels": {
@@ -1815,7 +1815,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "1",
           "recognized": true,
           "labels": {
@@ -1823,7 +1823,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2278,7 +2278,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -2286,7 +2286,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -2294,7 +2294,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2302,7 +2302,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2319,7 +2319,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -2335,7 +2335,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "1",
           "recognized": true,
           "labels": {
@@ -2343,7 +2343,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2441,7 +2441,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -2449,7 +2449,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -2457,7 +2457,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2465,7 +2465,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2480,7 +2480,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -2496,7 +2496,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2504,7 +2504,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2512,7 +2512,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -2569,7 +2569,7 @@
     "data": {
       "version": 1,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2577,7 +2577,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -2585,7 +2585,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -2593,7 +2593,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -2610,7 +2610,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -2626,7 +2626,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "1",
           "recognized": true,
           "labels": {
@@ -2634,7 +2634,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2675,7 +2675,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -2683,7 +2683,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -2691,7 +2691,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2699,7 +2699,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2716,7 +2716,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -2732,7 +2732,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2740,7 +2740,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2748,7 +2748,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "3",
           "recognized": true,
           "labels": {
@@ -2799,7 +2799,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -2807,7 +2807,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -2815,7 +2815,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2823,7 +2823,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2840,7 +2840,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -2856,7 +2856,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2864,7 +2864,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2872,7 +2872,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "3",
           "recognized": true,
           "labels": {
@@ -2903,7 +2903,7 @@
           "scale_factor": 0.25,
           "bearing_deg": 0.0,
           "instruction": {
-            "scheme": "qzss.dcx.c10_instruction_library_for_second_ellipse",
+            "scheme": "camf.c10_instruction_library_for_second_ellipse",
             "code": "0",
             "recognized": true,
             "labels": {}
@@ -2930,7 +2930,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -2938,7 +2938,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -2946,7 +2946,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2954,7 +2954,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -2971,7 +2971,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -2987,7 +2987,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -2995,7 +2995,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3003,7 +3003,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "3",
           "recognized": true,
           "labels": {
@@ -3047,7 +3047,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3055,7 +3055,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -3063,7 +3063,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3071,7 +3071,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3088,7 +3088,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "36",
           "recognized": true,
           "labels": {
@@ -3106,7 +3106,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3114,7 +3114,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3122,7 +3122,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -3149,7 +3149,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "magnitude_on_richter_scale": {
-            "scheme": "qzss.dcx.d1_magnitude_on_richter_scale",
+            "scheme": "camf.d1_magnitude_on_richter_scale",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3157,7 +3157,7 @@
             }
           },
           "seismic_coefficient": {
-            "scheme": "qzss.dcx.d2_seismic_coefficient",
+            "scheme": "camf.d2_seismic_coefficient",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3166,7 +3166,7 @@
           },
           "azimuth_from_centre_of_main_ellipse_to_epicentre": {
             "code": {
-              "scheme": "qzss.dcx.d3_azimuth_from_centre_of_main_ellipse_to_epicentre",
+              "scheme": "camf.d3_azimuth_from_centre_of_main_ellipse_to_epicentre",
               "code": "0",
               "recognized": true,
               "labels": {}
@@ -3176,7 +3176,7 @@
           },
           "vector_length_between_centre_of_main_ellipse_and_epicentre": {
             "code": {
-              "scheme": "qzss.dcx.d4_vector_length_between_centre_of_main_ellipse_and_epicentre",
+              "scheme": "camf.d4_vector_length_between_centre_of_main_ellipse_and_epicentre",
               "code": "0",
               "recognized": true,
               "labels": {}
@@ -3201,7 +3201,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3209,7 +3209,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -3217,7 +3217,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3225,7 +3225,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3242,7 +3242,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "43",
           "recognized": true,
           "labels": {
@@ -3260,7 +3260,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3268,7 +3268,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3276,7 +3276,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -3303,7 +3303,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wave_height": {
-            "scheme": "qzss.dcx.d5_wave_height",
+            "scheme": "camf.d5_wave_height",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3327,7 +3327,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3335,7 +3335,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -3343,7 +3343,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3351,7 +3351,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3368,7 +3368,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "44",
           "recognized": true,
           "labels": {
@@ -3386,7 +3386,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3394,7 +3394,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3402,7 +3402,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -3429,7 +3429,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wave_height": {
-            "scheme": "qzss.dcx.d5_wave_height",
+            "scheme": "camf.d5_wave_height",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3453,7 +3453,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3461,7 +3461,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -3469,7 +3469,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3477,7 +3477,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3494,7 +3494,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "63",
           "recognized": true,
           "labels": {
@@ -3512,7 +3512,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3520,7 +3520,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3528,7 +3528,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -3555,7 +3555,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "temperature_range": {
-            "scheme": "qzss.dcx.d6_temperature_range",
+            "scheme": "camf.d6_temperature_range",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3579,7 +3579,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3587,7 +3587,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -3595,7 +3595,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3603,7 +3603,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3620,7 +3620,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "71",
           "recognized": true,
           "labels": {
@@ -3638,7 +3638,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3646,7 +3646,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3654,7 +3654,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -3681,7 +3681,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "temperature_range": {
-            "scheme": "qzss.dcx.d6_temperature_range",
+            "scheme": "camf.d6_temperature_range",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3705,7 +3705,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3713,7 +3713,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -3721,7 +3721,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3729,7 +3729,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3746,7 +3746,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "80",
           "recognized": true,
           "labels": {
@@ -3764,7 +3764,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3772,7 +3772,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3780,7 +3780,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -3807,7 +3807,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "hurricane_category": {
-            "scheme": "qzss.dcx.d7_hurricane_category",
+            "scheme": "camf.d7_hurricane_category",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3815,7 +3815,7 @@
             }
           },
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3823,7 +3823,7 @@
             }
           },
           "rainfall_amounts": {
-            "scheme": "qzss.dcx.d9_rainfall_amounts",
+            "scheme": "camf.d9_rainfall_amounts",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3847,7 +3847,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3855,7 +3855,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -3863,7 +3863,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3871,7 +3871,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -3888,7 +3888,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "82",
           "recognized": true,
           "labels": {
@@ -3906,7 +3906,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3914,7 +3914,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -3922,7 +3922,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -3949,7 +3949,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3957,7 +3957,7 @@
             }
           },
           "rainfall_amounts": {
-            "scheme": "qzss.dcx.d9_rainfall_amounts",
+            "scheme": "camf.d9_rainfall_amounts",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3965,7 +3965,7 @@
             }
           },
           "typhoon_category": {
-            "scheme": "qzss.dcx.d36_typhoon_category",
+            "scheme": "camf.d36_typhoon_category",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -3989,7 +3989,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -3997,7 +3997,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4005,7 +4005,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4013,7 +4013,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4030,7 +4030,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "79",
           "recognized": true,
           "labels": {
@@ -4048,7 +4048,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4056,7 +4056,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4064,7 +4064,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -4091,7 +4091,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4099,7 +4099,7 @@
             }
           },
           "rainfall_amounts": {
-            "scheme": "qzss.dcx.d9_rainfall_amounts",
+            "scheme": "camf.d9_rainfall_amounts",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4107,7 +4107,7 @@
             }
           },
           "tornado_probability": {
-            "scheme": "qzss.dcx.d11_tornado_probability",
+            "scheme": "camf.d11_tornado_probability",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4131,7 +4131,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -4139,7 +4139,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4147,7 +4147,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4155,7 +4155,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4172,7 +4172,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "77",
           "recognized": true,
           "labels": {
@@ -4190,7 +4190,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4198,7 +4198,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4206,7 +4206,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -4233,7 +4233,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4241,7 +4241,7 @@
             }
           },
           "rainfall_amounts": {
-            "scheme": "qzss.dcx.d9_rainfall_amounts",
+            "scheme": "camf.d9_rainfall_amounts",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4249,7 +4249,7 @@
             }
           },
           "damage_category": {
-            "scheme": "qzss.dcx.d10_damage_category",
+            "scheme": "camf.d10_damage_category",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4257,7 +4257,7 @@
             }
           },
           "lightning_intensity": {
-            "scheme": "qzss.dcx.d16_lightning_intensity",
+            "scheme": "camf.d16_lightning_intensity",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4281,7 +4281,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -4289,7 +4289,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4297,7 +4297,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4305,7 +4305,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4322,7 +4322,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "70",
           "recognized": true,
           "labels": {
@@ -4340,7 +4340,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4348,7 +4348,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4356,7 +4356,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -4383,7 +4383,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "hail_scale": {
-            "scheme": "qzss.dcx.d12_hail_scale",
+            "scheme": "camf.d12_hail_scale",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4407,7 +4407,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -4415,7 +4415,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4423,7 +4423,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4431,7 +4431,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4448,7 +4448,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "74",
           "recognized": true,
           "labels": {
@@ -4466,7 +4466,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4474,7 +4474,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4482,7 +4482,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -4509,7 +4509,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "rainfall_amounts": {
-            "scheme": "qzss.dcx.d9_rainfall_amounts",
+            "scheme": "camf.d9_rainfall_amounts",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4517,7 +4517,7 @@
             }
           },
           "visibility": {
-            "scheme": "qzss.dcx.d13_visibility",
+            "scheme": "camf.d13_visibility",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4541,7 +4541,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -4549,7 +4549,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4557,7 +4557,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4565,7 +4565,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4582,7 +4582,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "76",
           "recognized": true,
           "labels": {
@@ -4600,7 +4600,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4608,7 +4608,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4616,7 +4616,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -4643,7 +4643,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "visibility": {
-            "scheme": "qzss.dcx.d13_visibility",
+            "scheme": "camf.d13_visibility",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4651,7 +4651,7 @@
             }
           },
           "snow_depth": {
-            "scheme": "qzss.dcx.d14_snow_depth",
+            "scheme": "camf.d14_snow_depth",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4675,7 +4675,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -4683,7 +4683,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4691,7 +4691,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4699,7 +4699,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4716,7 +4716,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "68",
           "recognized": true,
           "labels": {
@@ -4734,7 +4734,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4742,7 +4742,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4750,7 +4750,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -4777,7 +4777,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "flood_severity": {
-            "scheme": "qzss.dcx.d15_flood_severity",
+            "scheme": "camf.d15_flood_severity",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4801,7 +4801,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -4809,7 +4809,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4817,7 +4817,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4825,7 +4825,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4842,7 +4842,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "72",
           "recognized": true,
           "labels": {
@@ -4860,7 +4860,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4868,7 +4868,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4876,7 +4876,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -4903,7 +4903,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "lightning_intensity": {
-            "scheme": "qzss.dcx.d16_lightning_intensity",
+            "scheme": "camf.d16_lightning_intensity",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -4927,7 +4927,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -4935,7 +4935,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -4943,7 +4943,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4951,7 +4951,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -4968,7 +4968,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "81",
           "recognized": true,
           "labels": {
@@ -4986,7 +4986,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -4994,7 +4994,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5002,7 +5002,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5029,7 +5029,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "temperature_range": {
-            "scheme": "qzss.dcx.d6_temperature_range",
+            "scheme": "camf.d6_temperature_range",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5037,7 +5037,7 @@
             }
           },
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5061,7 +5061,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5069,7 +5069,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -5077,7 +5077,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5085,7 +5085,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5102,7 +5102,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "64",
           "recognized": true,
           "labels": {
@@ -5120,7 +5120,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5128,7 +5128,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5136,7 +5136,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5163,7 +5163,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5171,7 +5171,7 @@
             }
           },
           "rainfall_amounts": {
-            "scheme": "qzss.dcx.d9_rainfall_amounts",
+            "scheme": "camf.d9_rainfall_amounts",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5179,7 +5179,7 @@
             }
           },
           "tornado_probability": {
-            "scheme": "qzss.dcx.d11_tornado_probability",
+            "scheme": "camf.d11_tornado_probability",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5187,7 +5187,7 @@
             }
           },
           "lightning_intensity": {
-            "scheme": "qzss.dcx.d16_lightning_intensity",
+            "scheme": "camf.d16_lightning_intensity",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5211,7 +5211,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5219,7 +5219,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -5227,7 +5227,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5235,7 +5235,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5252,7 +5252,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "69",
           "recognized": true,
           "labels": {
@@ -5270,7 +5270,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5278,7 +5278,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5286,7 +5286,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5313,7 +5313,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "visibility": {
-            "scheme": "qzss.dcx.d13_visibility",
+            "scheme": "camf.d13_visibility",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5321,7 +5321,7 @@
             }
           },
           "fog_level": {
-            "scheme": "qzss.dcx.d17_fog_level",
+            "scheme": "camf.d17_fog_level",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5345,7 +5345,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5353,7 +5353,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -5361,7 +5361,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5369,7 +5369,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5386,7 +5386,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "75",
           "recognized": true,
           "labels": {
@@ -5404,7 +5404,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5412,7 +5412,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5420,7 +5420,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5447,7 +5447,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5455,7 +5455,7 @@
             }
           },
           "visibility": {
-            "scheme": "qzss.dcx.d13_visibility",
+            "scheme": "camf.d13_visibility",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5479,7 +5479,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5487,7 +5487,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -5495,7 +5495,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5503,7 +5503,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5520,7 +5520,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "65",
           "recognized": true,
           "labels": {
@@ -5538,7 +5538,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5546,7 +5546,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5554,7 +5554,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5581,7 +5581,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "drought_level": {
-            "scheme": "qzss.dcx.d18_drought_level",
+            "scheme": "camf.d18_drought_level",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5605,7 +5605,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5613,7 +5613,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -5621,7 +5621,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5629,7 +5629,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5646,7 +5646,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "33",
           "recognized": true,
           "labels": {
@@ -5664,7 +5664,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5672,7 +5672,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5680,7 +5680,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5707,7 +5707,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "avalanche_warning_level": {
-            "scheme": "qzss.dcx.d19_avalanche_warning_level",
+            "scheme": "camf.d19_avalanche_warning_level",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5731,7 +5731,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5739,7 +5739,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -5747,7 +5747,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5755,7 +5755,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5772,7 +5772,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "32",
           "recognized": true,
           "labels": {
@@ -5790,7 +5790,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5798,7 +5798,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5806,7 +5806,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5833,7 +5833,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "ash_fall_amount_and_impact": {
-            "scheme": "qzss.dcx.d20_ash_fall_amount_and_impact",
+            "scheme": "camf.d20_ash_fall_amount_and_impact",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5857,7 +5857,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5865,7 +5865,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -5873,7 +5873,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5881,7 +5881,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -5898,7 +5898,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "47",
           "recognized": true,
           "labels": {
@@ -5916,7 +5916,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5924,7 +5924,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -5932,7 +5932,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -5959,7 +5959,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wave_height": {
-            "scheme": "qzss.dcx.d5_wave_height",
+            "scheme": "camf.d5_wave_height",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5967,7 +5967,7 @@
             }
           },
           "wind_speed": {
-            "scheme": "qzss.dcx.d8_wind_speed",
+            "scheme": "camf.d8_wind_speed",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -5991,7 +5991,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -5999,7 +5999,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6007,7 +6007,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6015,7 +6015,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6032,7 +6032,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "37",
           "recognized": true,
           "labels": {
@@ -6050,7 +6050,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6058,7 +6058,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6066,7 +6066,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6093,7 +6093,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "geomagnetic_scale": {
-            "scheme": "qzss.dcx.d21_geomagnetic_scale",
+            "scheme": "camf.d21_geomagnetic_scale",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6117,7 +6117,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -6125,7 +6125,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6133,7 +6133,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6141,7 +6141,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6158,7 +6158,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "103",
           "recognized": true,
           "labels": {
@@ -6176,7 +6176,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6184,7 +6184,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6192,7 +6192,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6219,7 +6219,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "terrorism_threat_level": {
-            "scheme": "qzss.dcx.d22_terrorism_threat_level",
+            "scheme": "camf.d22_terrorism_threat_level",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6243,7 +6243,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -6251,7 +6251,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6259,7 +6259,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6267,7 +6267,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6284,7 +6284,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "27",
           "recognized": true,
           "labels": {
@@ -6302,7 +6302,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6310,7 +6310,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6318,7 +6318,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6345,7 +6345,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "fire_risk_level": {
-            "scheme": "qzss.dcx.d23_fire_risk_level",
+            "scheme": "camf.d23_fire_risk_level",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6369,7 +6369,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -6377,7 +6377,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6385,7 +6385,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6393,7 +6393,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6410,7 +6410,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "30",
           "recognized": true,
           "labels": {
@@ -6428,7 +6428,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6436,7 +6436,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6444,7 +6444,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6471,7 +6471,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "fire_risk_level": {
-            "scheme": "qzss.dcx.d23_fire_risk_level",
+            "scheme": "camf.d23_fire_risk_level",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6495,7 +6495,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -6503,7 +6503,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6511,7 +6511,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6519,7 +6519,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6536,7 +6536,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "16",
           "recognized": true,
           "labels": {
@@ -6554,7 +6554,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6562,7 +6562,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6570,7 +6570,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6597,7 +6597,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "water_quality": {
-            "scheme": "qzss.dcx.d24_water_quality",
+            "scheme": "camf.d24_water_quality",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6621,7 +6621,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -6629,7 +6629,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6637,7 +6637,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6645,7 +6645,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6662,7 +6662,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "18",
           "recognized": true,
           "labels": {
@@ -6680,7 +6680,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6688,7 +6688,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6696,7 +6696,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6723,7 +6723,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "water_quality": {
-            "scheme": "qzss.dcx.d24_water_quality",
+            "scheme": "camf.d24_water_quality",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6747,7 +6747,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -6755,7 +6755,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6763,7 +6763,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6771,7 +6771,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6788,7 +6788,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "21",
           "recognized": true,
           "labels": {
@@ -6806,7 +6806,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6814,7 +6814,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6822,7 +6822,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6849,7 +6849,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "water_quality": {
-            "scheme": "qzss.dcx.d24_water_quality",
+            "scheme": "camf.d24_water_quality",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6873,7 +6873,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -6881,7 +6881,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -6889,7 +6889,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6897,7 +6897,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -6914,7 +6914,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "23",
           "recognized": true,
           "labels": {
@@ -6932,7 +6932,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6940,7 +6940,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -6948,7 +6948,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -6975,7 +6975,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "uv_index": {
-            "scheme": "qzss.dcx.d25_uv_index",
+            "scheme": "camf.d25_uv_index",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -6999,7 +6999,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7007,7 +7007,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7015,7 +7015,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7023,7 +7023,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7040,7 +7040,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "51",
           "recognized": true,
           "labels": {
@@ -7058,7 +7058,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7066,7 +7066,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7074,7 +7074,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7101,7 +7101,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "number_of_cases_per_100000_inhabitants": {
-            "scheme": "qzss.dcx.d26_number_of_cases_per_100000_inhabitants",
+            "scheme": "camf.d26_number_of_cases_per_100000_inhabitants",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7109,7 +7109,7 @@
             }
           },
           "infection_type": {
-            "scheme": "qzss.dcx.d35_infection_type",
+            "scheme": "camf.d35_infection_type",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7133,7 +7133,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7141,7 +7141,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7149,7 +7149,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7157,7 +7157,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7174,7 +7174,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "53",
           "recognized": true,
           "labels": {
@@ -7192,7 +7192,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7200,7 +7200,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7208,7 +7208,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7235,7 +7235,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "number_of_cases_per_100000_inhabitants": {
-            "scheme": "qzss.dcx.d26_number_of_cases_per_100000_inhabitants",
+            "scheme": "camf.d26_number_of_cases_per_100000_inhabitants",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7243,7 +7243,7 @@
             }
           },
           "infection_type": {
-            "scheme": "qzss.dcx.d35_infection_type",
+            "scheme": "camf.d35_infection_type",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7267,7 +7267,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7275,7 +7275,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7283,7 +7283,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7291,7 +7291,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7308,7 +7308,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "19",
           "recognized": true,
           "labels": {
@@ -7326,7 +7326,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7334,7 +7334,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7342,7 +7342,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7369,7 +7369,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "noise_range": {
-            "scheme": "qzss.dcx.d27_noise_range",
+            "scheme": "camf.d27_noise_range",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7393,7 +7393,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7401,7 +7401,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7409,7 +7409,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7417,7 +7417,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7434,7 +7434,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "15",
           "recognized": true,
           "labels": {
@@ -7452,7 +7452,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7460,7 +7460,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7468,7 +7468,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7495,7 +7495,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "air_quality_index": {
-            "scheme": "qzss.dcx.d28_air_quality_index",
+            "scheme": "camf.d28_air_quality_index",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7519,7 +7519,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7527,7 +7527,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7535,7 +7535,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7543,7 +7543,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7560,7 +7560,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "55",
           "recognized": true,
           "labels": {
@@ -7578,7 +7578,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7586,7 +7586,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7594,7 +7594,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7621,7 +7621,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "qzss.dcx.d29_outage_estimated_duration",
+            "scheme": "camf.d29_outage_estimated_duration",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7645,7 +7645,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7653,7 +7653,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7661,7 +7661,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7669,7 +7669,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7686,7 +7686,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "56",
           "recognized": true,
           "labels": {
@@ -7704,7 +7704,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7712,7 +7712,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7720,7 +7720,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7747,7 +7747,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "qzss.dcx.d29_outage_estimated_duration",
+            "scheme": "camf.d29_outage_estimated_duration",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7771,7 +7771,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7779,7 +7779,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7787,7 +7787,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7795,7 +7795,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7812,7 +7812,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "57",
           "recognized": true,
           "labels": {
@@ -7830,7 +7830,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7838,7 +7838,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7846,7 +7846,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7873,7 +7873,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "qzss.dcx.d29_outage_estimated_duration",
+            "scheme": "camf.d29_outage_estimated_duration",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -7897,7 +7897,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -7905,7 +7905,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -7913,7 +7913,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7921,7 +7921,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -7938,7 +7938,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "58",
           "recognized": true,
           "labels": {
@@ -7956,7 +7956,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7964,7 +7964,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -7972,7 +7972,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -7999,7 +7999,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "qzss.dcx.d29_outage_estimated_duration",
+            "scheme": "camf.d29_outage_estimated_duration",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8023,7 +8023,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -8031,7 +8031,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -8039,7 +8039,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8047,7 +8047,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8064,7 +8064,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "60",
           "recognized": true,
           "labels": {
@@ -8082,7 +8082,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8090,7 +8090,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8098,7 +8098,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -8125,7 +8125,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "qzss.dcx.d29_outage_estimated_duration",
+            "scheme": "camf.d29_outage_estimated_duration",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8149,7 +8149,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -8157,7 +8157,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -8165,7 +8165,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8173,7 +8173,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8190,7 +8190,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "5",
           "recognized": true,
           "labels": {
@@ -8208,7 +8208,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8216,7 +8216,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8224,7 +8224,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -8251,7 +8251,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "chemical_hazard_type": {
-            "scheme": "qzss.dcx.d31_chemical_hazard_type",
+            "scheme": "camf.d31_chemical_hazard_type",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8275,7 +8275,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -8283,7 +8283,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -8291,7 +8291,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8299,7 +8299,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8316,7 +8316,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "9",
           "recognized": true,
           "labels": {
@@ -8334,7 +8334,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8342,7 +8342,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8350,7 +8350,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -8377,7 +8377,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "nuclear_event_scale": {
-            "scheme": "qzss.dcx.d30_nuclear_event_scale",
+            "scheme": "camf.d30_nuclear_event_scale",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8401,7 +8401,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -8409,7 +8409,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -8417,7 +8417,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8425,7 +8425,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8442,7 +8442,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "10",
           "recognized": true,
           "labels": {
@@ -8460,7 +8460,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8468,7 +8468,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8476,7 +8476,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -8503,7 +8503,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "nuclear_event_scale": {
-            "scheme": "qzss.dcx.d30_nuclear_event_scale",
+            "scheme": "camf.d30_nuclear_event_scale",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8527,7 +8527,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -8535,7 +8535,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -8543,7 +8543,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8551,7 +8551,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8568,7 +8568,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "11",
           "recognized": true,
           "labels": {
@@ -8586,7 +8586,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8594,7 +8594,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8602,7 +8602,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -8629,7 +8629,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "nuclear_event_scale": {
-            "scheme": "qzss.dcx.d30_nuclear_event_scale",
+            "scheme": "camf.d30_nuclear_event_scale",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8653,7 +8653,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -8661,7 +8661,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -8669,7 +8669,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8677,7 +8677,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8694,7 +8694,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "4",
           "recognized": true,
           "labels": {
@@ -8712,7 +8712,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8720,7 +8720,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8728,7 +8728,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -8755,7 +8755,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "biohazard_level": {
-            "scheme": "qzss.dcx.d32_biohazard_level",
+            "scheme": "camf.d32_biohazard_level",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8763,7 +8763,7 @@
             }
           },
           "biohazard_type": {
-            "scheme": "qzss.dcx.d33_biohazard_type",
+            "scheme": "camf.d33_biohazard_type",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -8787,7 +8787,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -8795,7 +8795,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "10",
         "recognized": true,
         "labels": {
@@ -8803,7 +8803,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8811,7 +8811,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -8828,7 +8828,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "6",
           "recognized": true,
           "labels": {
@@ -8846,7 +8846,7 @@
       "instruction": {
         "country_code": "10",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8854,7 +8854,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -8862,7 +8862,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -8889,7 +8889,7 @@
         "kind": "hazard_details",
         "hazard_details": {
           "explosive_hazard_type": {
-            "scheme": "qzss.dcx.d34_explosive_hazard_type",
+            "scheme": "camf.d34_explosive_hazard_type",
             "code": "0",
             "recognized": true,
             "labels": {
@@ -9703,7 +9703,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -9711,7 +9711,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -9719,7 +9719,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -9727,7 +9727,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -9744,7 +9744,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -9760,7 +9760,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -9768,7 +9768,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -9776,7 +9776,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -9818,7 +9818,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -9826,7 +9826,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -9834,7 +9834,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -9842,7 +9842,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -9859,7 +9859,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -9875,7 +9875,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -9883,7 +9883,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -9891,7 +9891,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -9933,7 +9933,7 @@
     "data": {
       "version": 0,
       "message_type": {
-        "scheme": "qzss.dcx.a1_message_type",
+        "scheme": "camf.a1_message_type",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -9941,7 +9941,7 @@
         }
       },
       "country": {
-        "scheme": "qzss.dcx.a2_country_region_name",
+        "scheme": "camf.a2_country_region_name",
         "code": "111",
         "recognized": true,
         "labels": {
@@ -9949,7 +9949,7 @@
         }
       },
       "severity": {
-        "scheme": "qzss.dcx.a5_severity",
+        "scheme": "camf.a5_severity",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -9957,7 +9957,7 @@
         }
       },
       "duration": {
-        "scheme": "qzss.dcx.a8_hazard_duration",
+        "scheme": "camf.a8_hazard_duration",
         "code": "0",
         "recognized": true,
         "labels": {
@@ -9974,7 +9974,7 @@
       },
       "hazard": {
         "code": {
-          "scheme": "qzss.dcx.a4_hazard_type",
+          "scheme": "camf.a4_hazard_type",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -9990,7 +9990,7 @@
       "instruction": {
         "country_code": "111",
         "library": {
-          "scheme": "qzss.dcx.a9_type_of_library",
+          "scheme": "camf.a9_type_of_library",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -9998,7 +9998,7 @@
           }
         },
         "version": {
-          "scheme": "qzss.dcx.a10_library_version",
+          "scheme": "camf.a10_library_version",
           "code": "0",
           "recognized": true,
           "labels": {
@@ -10006,7 +10006,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
+          "scheme": "camf.instruction.library_0.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
