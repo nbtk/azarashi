@@ -170,3 +170,45 @@ def test_run_as_a_module(tmp_path):
     assert result.returncode == 0, result.stderr
     assert '\n緊急地震速報\n' in result.stdout
     assert result.stderr == 'Encountered EOF\n\n'
+
+
+def test_json_output_contains_only_complete_records(monkeypatch, capsys):
+    import json
+    data = NOISE + EEW.encode() + b'\n' + L_ALERT.encode() + b'\n'
+    code, out, err = _run(monkeypatch, capsys, ['nmea', '--json', '--time', '2026-03-07T06:00:00Z'], data)
+    assert code == 0
+    rows = [json.loads(line) for line in out.splitlines()]
+    assert len(rows) == 2
+    assert rows[0]['type'] == 'qzss.dcr.earthquake_early_warning'
+    assert rows[1]['type'] == 'qzss.dcx.l_alert'
+    assert rows[0]['received_at'] == '2026-03-07T06:00:00Z'
+    assert rows[0]['text'].startswith('防災気象情報')
+    assert err  # noise and EOF diagnostics stay off stdout
+
+
+def test_json_filters_and_unique_work(monkeypatch, capsys):
+    import json
+    data = (EEW + '\n' + EEW + '\n' + L_ALERT + '\n').encode()
+    code, out, _ = _run(monkeypatch, capsys, ['nmea', '--json', '--unique', '--ignore-dcx'], data)
+    assert code == 0
+    assert len(out.splitlines()) == 1
+    assert json.loads(out)['type'] == 'qzss.dcr.earthquake_early_warning'
+
+
+def test_json_rejects_conflicting_display_flags_before_opening(monkeypatch, capsys):
+    import pytest
+    for flag in ('--source', '--verbose'):
+        with pytest.raises(SystemExit) as exc:
+            _run(monkeypatch, capsys, ['nmea', '--json', flag, '--input', '/nonexistent/input'])
+        assert exc.value.code == 2
+        assert '--json cannot be combined' in capsys.readouterr().err
+
+
+def test_json_binary_and_hex_inputs_keep_recording(monkeypatch, capsys, tmp_path):
+    import json
+    for kind, data in (('ublox', FRAME), ('hex', (EEW_HEX + '\n').encode())):
+        recording = tmp_path / kind
+        code, out, _ = _run(monkeypatch, capsys, [kind, '--json', '--record', str(recording)], data)
+        assert code == 0
+        assert json.loads(out)['type'] == 'qzss.dcr.earthquake_early_warning'
+        assert recording.read_bytes() == data

@@ -87,6 +87,11 @@ I/O の開閉、read、seek、OS やデバイス側の受信バッファの消�
 `decode_stream()` とリセットのロック待機時間は、下位ストリームの読み取りタイムアウトに
 含まれません。共有元の別の read がブロックしていれば、その timeout 設定を超えて待つ場合があります。
 
+## JSON Output
+
+`to_json_dict(report)` は JSON 用の辞書、`to_ndjson(report)` は改行付きの1件分の文字列を返します。
+`json_schema()` は配布スキーマの辞書を返します。詳しくは [JSON Output](json.md) を参照してください。
+
 ## AzarashiException
 azarashi が送出する例外は、すべてこのクラスを継承しています。azarashi が報告する失敗を一箇所で受けたいとき、たとえばまとめてログに記録するときに捕捉してください。
 

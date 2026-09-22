@@ -23,7 +23,7 @@ setuptools.setup(
         'Typing :: Typed',
     ],
     packages=setuptools.find_packages(),
-    package_data={'azarashi': ['py.typed']},
+    package_data={'azarashi': ['py.typed', 'schemas/*.json']},
     install_requires=['pyserial>=3.5'],
     python_requires='>=3.11',
     entry_points={

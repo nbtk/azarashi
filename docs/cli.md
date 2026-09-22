@@ -60,3 +60,12 @@ $ azarashi ublox -f qzss.ubx
 ```shell
 $ azarashi ublox -f qzss.ubx --time 2026-09-01T12:00:00Z
 ```
+
+## JSON Output
+
+`--json` で標準出力を NDJSON に切り替えます。診断は標準エラーに出力します。
+`--verbose`・`--source` との併用はできません。出力の定義は [JSON Output](json.md) を参照してください。
+
+```shell
+azarashi nmea --input messages.log --json > reports.ndjson
+```

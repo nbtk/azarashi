@@ -124,7 +124,7 @@ out = ['"""Generated: every public function and method used wrongly, one line ea
 skipped: list[str] = []
 body: list[str] = []
 
-for function in (azarashi.decode, azarashi.decode_stream, azarashi.reset_reading_state):
+for function in (azarashi.decode, azarashi.decode_stream, azarashi.reset_reading_state, azarashi.to_json_dict, azarashi.to_ndjson, azarashi.json_schema):
     body += emit(function.__name__, 'azarashi.%s' % function.__name__, inspect.signature(function), skipped)
 
 params = []

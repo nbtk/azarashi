@@ -15,12 +15,19 @@ from .exceptions import AzarashiStopReading
 from .exceptions import AzarashiStreamClosedError
 from .exceptions import AzarashiTimeoutError
 from .reports import Report
+from .json import JsonValue, json_schema, to_json_dict, to_ndjson
 
 __all__ = [
     # the decoding and reading-state entry points
     'decode',
     'decode_stream',
     'reset_reading_state',
+
+    # JSON output and its schema
+    'to_json_dict',
+    'to_ndjson',
+    'json_schema',
+    'JsonValue',
 
     # the report classes, and the type of what the entry points return
     'reports',

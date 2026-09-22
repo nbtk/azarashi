@@ -4,7 +4,7 @@ import sys
 from pprint import pformat
 
 from azarashi import AzarashiReadOn
-from azarashi import decode_stream
+from azarashi import decode_stream, to_ndjson
 from azarashi.input_stream import RecordingStream
 from azarashi.input_stream import open_input
 
@@ -26,7 +26,10 @@ def main() -> int:
     parser.add_argument('-r', '--ignore-dcr', help='ignore dcr messages', action='store_true')
     parser.add_argument('-x', '--ignore-dcx', help='ignore dcx messages', action='store_true')
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
+    parser.add_argument('--json', help='output one JSON record per line (NDJSON)', action='store_true')
     args = parser.parse_args()
+    if args.json and (args.verbose or args.source):
+        parser.error('--json cannot be combined with --verbose or --source')
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
     source = open_input(args.input, args.baudrate)
     stream = source if args.record is None else RecordingStream(source, open(args.record, mode='ab'))
@@ -41,6 +44,10 @@ def main() -> int:
                                    ignore_dcr=args.ignore_dcr,
                                    ignore_dcx=args.ignore_dcx,
                                    timestamp=args.time)
+            if args.json:
+                sys.stdout.write(to_ndjson(report))
+                sys.stdout.flush()
+                continue
             received = _utc(report.timestamp)  # decode_stream() waits for a message: this is when it arrived
             if args.verbose is True:
                 print(f'{received} --------------------------------\n{pformat(report.get_params())}\n')
