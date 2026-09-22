@@ -397,6 +397,22 @@ def test_ex8_ex9_prefectures():
     assert (report.ex9_target_area_list, report.ex9_target_area_list_ja) == (['Hokkaido', 'Okinawa'], ['北海道', '沖縄県'])
 
 
+def test_ex8_ex9_prefectures_follow_the_bits_not_the_code_table(monkeypatch):
+    from azarashi.decoders.qzss import dcx as decoder
+    from azarashi.definitions.code_table import CodeTable
+
+    bits = (1 << 12) | (1 << 13)  # Tokyo, then Kanagawa
+    assert _decode(dcx(**JAPAN, a3=2, ex8=0, ex9=bits << 17)).ex9_target_area_list_ja == ['東京都', '神奈川県']
+    for attr in ('ex9_target_area_code_ja', 'ex9_target_area_code_en'):
+        full = getattr(decoder, attr)  # substitutes, so that the shared tables keep their own order
+        short = {code: name for code, name in full.items() if code != 1 << 12}
+        monkeypatch.setattr(decoder, attr, CodeTable(short, undefined=full.undefined))
+    # the order is the field's, so a prefecture with no name keeps its place instead of vanishing
+    unnamed = _decode(dcx(**JAPAN, a3=2, ex8=0, ex9=bits << 17))
+    assert len(unnamed.ex9_target_area_list_ja) == 2
+    assert unnamed.ex9_target_area_list_ja[1] == '神奈川県'
+
+
 def test_ex8_ex9_cities():
     codes = [(147, 16, 1100), (163, 16, 0), (179, 16, 1101), (195, 16, 0)]
     report = _decode(dcx(codes, **JAPAN, a3=2, ex8=1))

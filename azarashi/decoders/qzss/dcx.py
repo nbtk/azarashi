@@ -61,6 +61,7 @@ from ...definitions.qzss.dcx.d_fields import d35_infection_type
 from ...definitions.qzss.dcx.d_fields import d36_typhoon_category
 from ...definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_en
 from ...definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_ja
+from ...definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
 from ...definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_en
 from ...definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja
 from ...definitions.qzss.dcx.message_type import MessageType
@@ -476,7 +477,8 @@ class Decoder(ContextDecoder[Message]):
         self.ex9_target_area_list: list[str] = []
         self.ex9_target_area_list_ja: list[str] = []
         if camf.ex8 == 0:  # prefecture code
-            for key in ex9_target_area_code_en.keys():
+            for bit in range(EX9_PREFECTURE_BITS):  # the bits' own order, not the order of the table
+                key = 1 << bit
                 if key & camf.ex9 >> 17:
                     self.ex9_target_area_list.append(ex9_target_area_code_en[key])
                     self.ex9_target_area_list_ja.append(ex9_target_area_code_ja[key])

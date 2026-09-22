@@ -1,5 +1,7 @@
 from ...code_table import CodeTable
 
+#: the bits EX9 gives the prefectures; the field's width, not the number of names below
+EX9_PREFECTURE_BITS: int = 47
 
 ex9_target_area_code_en = CodeTable(
     {
