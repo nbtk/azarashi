@@ -8,7 +8,7 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 オプションは下記のとおりです。
 ```shell
 usage: azarashi [-h] [-f INPUT] [-b BAUDRATE] [--record RECORD] [--time TIME]
-                [-s] [-u] [-r] [-x] [-v]
+                [-s] [-u] [-r] [-x] [-v] [--json]
                 {hex,nmea,ublox}
 
 azarashi CLI
@@ -30,6 +30,7 @@ options:
   -r, --ignore-dcr      ignore dcr messages (default: False)
   -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
+  --json                output one JSON record per line (NDJSON) (default: False)
 ```
 `-f` には、シリアルデバイスかファイルを指定します。`/dev/ttyS0` や `COM3` のようなシリアルデバイスを指定するときは、ボーレートを `-b` で指定してください。ファイルを指定したときは、その中身をそのまま読み込みます。
 
@@ -63,7 +64,7 @@ $ azarashi ublox -f qzss.ubx --time 2026-09-01T12:00:00Z
 
 ## JSON Output
 
-`--json` で標準出力を NDJSON に切り替えます。診断は標準エラーに出力します。
+`--json` を指定すると、標準出力に1行1件の JSON（NDJSON）を出力します。エラーや入力の終わりを知らせるメッセージは標準エラー出力に書き込みます。
 `--verbose`・`--source` との併用はできません。出力の定義は [JSON Output](json.md) を参照してください。
 
 ```shell

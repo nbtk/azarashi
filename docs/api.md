@@ -69,19 +69,19 @@ azarashi.reset_reading_state(stream, msg_type='nmea')
 破棄します。重複履歴は残します。戻り値は `None` です。
 
 `stream` と `msg_type` は `decode_stream()` と同じ選び方で読み取り元を指定します。
-その所有者の部分行・抽出済み NMEA 文・UBX バッファを、形式やメソッドをまたいで捨てます。
+その読み取り元に保存された行の途中のデータ・抽出済み NMEA 文・UBX バッファを、形式や読み取りメソッドにかかわらず破棄します。
 `.buffer` を共有するラッパーでは、他のラッパーから読める未配信データにも影響します。
-独立した所有者と、各ラッパーの重複履歴には影響しません。
+読み取り元が異なるストリームや、各ラッパーの重複履歴には影響しません。
 
 **共有元を使う読み取りとコールバックが全て終了してから呼んでください。**
 読み取りを中断する機能や、実行中の通知を取り消す機能ではありません。
-停止・通知の完了待ち → 旧経路を指定してリセット → close/open → 読み取り再開、の順で使います。
+読み取りと通知の終了を待ち、開き直す前のストリームを指定してリセットします。その後、`close()` と `open()` を行い、読み取りを再開してください。
 通常の受信タイムアウトではリセットせず、次の読み取りで続きを受信してください。
 
 I/O の開閉、read、seek、OS やデバイス側の受信バッファの消去は行いません。
 未使用の対象や繰り返しの呼び出しでも抽出データを新たに作りませんが、排他用のロックは保持します。
 弱参照できない対象の保持制約は変わらず、全管理情報を解放する操作ではありません。
-メソッドや `.buffer` を差し替える場合は旧経路を先に処理し、新経路にも過去の状態があればリセットします。
+読み取りメソッドや `.buffer` を差し替える場合は、差し替え前にリセットしてください。差し替え先にも以前の読み取り状態が残っている場合は、そちらもリセットします。
 未対応形式やメソッド不足は、消去前に `decode_stream()` と同じ例外で報告します。
 
 `decode_stream()` とリセットのロック待機時間は、下位ストリームの読み取りタイムアウトに
@@ -135,7 +135,7 @@ AzarashiException
 ## AzarashiDecodeError
 メッセージをレポートにできなかったことを表すクラスです。次の二つの親にあたります。デコードの失敗をまとめて捕捉したいときは、これを捕捉してください。
 
-`ValueError` を継承しています。標準ライブラリでも `json.JSONDecodeError` と `UnicodeDecodeError` が `ValueError` なので、azarashi を知らないレイヤーまで上がっても「入力データが不正」と正しく読まれます。
+`ValueError` を継承しています。標準ライブラリの `json.JSONDecodeError` や `UnicodeDecodeError` と同じく、azarashi 固有の例外を扱わないコードでも、入力データのエラーとして捕捉できます。
 ## AzarashiInvalidMessageError
 デコードに失敗したときに送出される例外クラスです。エラーメッセージに失敗の理由が書かれているので、表示すると原因を調べる手がかりになります。
 
@@ -155,7 +155,7 @@ port = serial.serial_for_url('socket://192.168.1.10:2000', timeout=1)
 azarashi.decode_stream(port, 'ublox', print)
 ```
 
-**`Exception` は継承しますが、`TimeoutError`・`OSError`・`EOFError` は継承しません。** `EOFError` にすると、データが終わったと読み違えられます。`EOFError` で止めるコードが、生きているストリームを打ち切ってしまいます。`TimeoutError` も使えません。あちらは `OSError` の一種で、[AzarashiReopenStream](#azarashireopenstream) と同じ網に入ります。`except OSError` で開き直すコードが、健全なデバイスを開き直すことになります。
+**`Exception` は継承しますが、`TimeoutError`・`OSError`・`EOFError` は継承しません。** 読み取りタイムアウトは、入力の終了やデバイスの故障とは別に扱います。`TimeoutError` は `OSError` の一種なので、これを継承すると、`except OSError` で再接続するコードが正常なデバイスまで開き直してしまいます。
 
 このクラスは `AzarashiDecodeError` を継承していません。デコードに失敗したわけではないからです。プログラムの例は [Timeout](#timeout) にあります。
 ## AzarashiReopenStream
