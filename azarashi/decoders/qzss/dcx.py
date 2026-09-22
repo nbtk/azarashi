@@ -7,13 +7,13 @@ from ..camf.geometry import semi_axis, centre_latitude, centre_longitude
 from ...definitions.camf.a10_library_version import a10_library_version
 from ...definitions.camf.a11_international_library import a11_international_library
 from ...definitions.camf.a11_international_library import a11_international_library_code
-from ...definitions.qzss.dcx.a11_japanese_library import a11_japanese_library_en
-from ...definitions.qzss.dcx.a11_japanese_library import a11_japanese_library_ja
+from ...definitions.camf.a11_japanese_library import a11_japanese_library_en
+from ...definitions.camf.a11_japanese_library import a11_japanese_library_ja
 from ...definitions.camf.a17_type_of_specific_settings import a17_type_of_specific_settings
 from ...definitions.camf.a1_message_type import a1_message_type
 from ...definitions.camf.a2_country_region_name import a2_country_region_name
-from ...definitions.qzss.dcx.a3_provider_identifier import a3_provider_identifier_map
-from ...definitions.qzss.dcx.a3_provider_identifier import a3_provider_identifier_undefined
+from ...definitions.camf.a3_provider_identifier import a3_provider_identifier_map
+from ...definitions.camf.a3_provider_identifier import a3_provider_identifier_undefined
 from ...definitions.camf.a4_hazard_category_and_type import a4_hazard_category
 from ...definitions.camf.a4_hazard_category_and_type import a4_hazard_definition
 from ...definitions.camf.a4_hazard_category_and_type import a4_hazard_type

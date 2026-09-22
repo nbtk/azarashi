@@ -1,1 +1,1 @@
-"""What DCX adds to CAMF: the Japanese library, the provider and area codes, its message types."""
+"""The fields DCX adds to CAMF: its extension area, EX1 and EX9, and its own message types."""

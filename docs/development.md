@@ -56,10 +56,16 @@ frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 | DCX | `definitions/qzss/dcx/` | `decoders/qzss/dcx.py` |
 | CAMF 共通部分 | `definitions/camf/` | `decoders/camf/` |
 
-コード表を置く場所は、その表を定めている仕様で決めます。CAMF が定める表は `definitions/camf/`
-に置き、サービスが自分で割り当てるものは、そのサービスの下に置きます。DCX の場合、日本語の
-指示ライブラリ、提供者コード、対象地域コード、DCX のメッセージ種別が後者です。
-CAMF の改訂で触るのは前者、DCX の改訂で触るのは後者になります。
+コード表を置く場所は、**どのフィールドがその表を索くか**で決めます。CAMF のフィールドが索く表は
+`definitions/camf/` に置きます。値を誰が決めるかは問いません。A3 の提供者は各国が割り当て、
+A11 の国別ライブラリの文言はその国のものですが、CAMF 電文を運ぶどのサービスも同じ表を読むので
+ここに置きます。新しいサービスが加わっても、表が増えるのではなく項目が増えます。
+
+サービスが CAMF に足したフィールドの表は、そのサービスの下に置きます。DCX の場合は拡張領域の
+EX1・EX9 と、DCX 自身のメッセージ種別の3つです。
+
+`a3_provider_identifier_map` は A2 の国コードをキーにします。国名を識別子にしません。電文が
+運ぶのはコードで、国名は改称される一方コードは変わらないからです。
 
 `definitions/code_table.py` の `CodeTable` は、未定義コードの扱いを備えた辞書です。
 QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。

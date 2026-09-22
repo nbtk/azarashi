@@ -7,9 +7,9 @@ from datetime import UTC, datetime
 from typing import Any, TypeAlias, cast
 from . import reports
 from .definitions.camf import d_fields as B4_MODULE
-from .definitions.qzss.dcx.a11_japanese_library import a11_japanese_library_ja, a11_japanese_library_en
+from .definitions.camf.a11_japanese_library import a11_japanese_library_ja, a11_japanese_library_en
 from .definitions.camf.a11_international_library import a11_international_library, a11_international_library_code
-from .definitions.qzss.dcx.a3_provider_identifier import a3_provider_identifier_map
+from .definitions.camf.a3_provider_identifier import a3_provider_identifier_map
 from .definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
 from .definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja, ex9_target_area_code_en
 from .definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_ja, ex1_target_area_code_en

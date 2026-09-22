@@ -1,6 +1,9 @@
-"""The code tables CAMF defines, shared by every service that carries a CAMF message.
+"""The code tables the fields of a CAMF message index, whoever assigns the values.
 
-What a service assigns for itself, such as its own guidance library or area codes, belongs
-to that service instead. A CAMF edition changes the tables here; a service specification
-changes its own.
+CAMF defines most of them. Some it leaves to others: each country names its own providers for
+A3, and a country's guidance library gives the sentences A11 indexes. They belong here all the
+same, because any service carrying a CAMF message reads the same table, and a new service adds
+entries rather than a table of its own.
+
+What a service adds to CAMF, its own fields and their tables, belongs under that service.
 """
