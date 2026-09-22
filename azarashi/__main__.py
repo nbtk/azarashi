@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import os
 import sys
 from pprint import pformat
 
@@ -45,7 +46,13 @@ def main() -> int:
                                    ignore_dcx=args.ignore_dcx,
                                    timestamp=args.time)
             if args.json:
-                sys.stdout.write(to_ndjson(report))
+                try:
+                    record = to_ndjson(report)  # built before it is written: stdout gets whole records only
+                except Exception as e:  # a report that cannot be converted must not end the stream
+                    print(f'{now()} --------------------------------\n'
+                          f'# [{type(e).__name__}] {e}\n', file=sys.stderr)
+                    continue
+                sys.stdout.write(record)
                 sys.stdout.flush()
                 continue
             received = _utc(report.timestamp)  # decode_stream() waits for a message: this is when it arrived
@@ -70,6 +77,11 @@ def main() -> int:
             print(f'{e}\n', file=sys.stderr)
             stream.close()
             return 0
+        except BrokenPipeError:  # whoever read the output has gone, as `| head` does
+            # Python flushes the standard streams while it exits, which would raise this again
+            os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
+            stream.close()
+            return 1
         except Exception as e:
             print(f'{now()} --------------------------------\n'
                   f'# [{type(e).__name__}] {e}\n', file=sys.stderr)

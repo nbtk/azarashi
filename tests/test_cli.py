@@ -6,6 +6,8 @@ import subprocess
 import sys
 import time
 
+import pytest
+
 import azarashi
 from azarashi import __main__ as cli
 from samples import EEW
@@ -212,3 +214,40 @@ def test_json_binary_and_hex_inputs_keep_recording(monkeypatch, capsys, tmp_path
         assert code == 0
         assert json.loads(out)['type'] == 'qzss.dcr.earthquake_early_warning'
         assert recording.read_bytes() == data
+
+
+def test_json_skips_a_report_it_cannot_convert(monkeypatch, capsys):
+    import json
+
+    convert = cli.to_ndjson
+    failed = []
+
+    def to_ndjson(report):
+        if not failed:
+            failed.append(report)
+            raise ValueError('JSON numbers must be finite')
+        return convert(report)
+
+    monkeypatch.setattr(cli, 'to_ndjson', to_ndjson)
+    data = (EEW + '\n' + L_ALERT + '\n').encode()
+    code, out, err = _run(monkeypatch, capsys, ['nmea', '--json'], data)
+    assert code == 0  # the unconvertible report is reported and the stream goes on
+    assert '# [ValueError] JSON numbers must be finite\n' in err
+    rows = [json.loads(line) for line in out.splitlines()]
+    assert [row['type'] for row in rows] == ['qzss.dcx.l_alert']
+
+
+@pytest.mark.parametrize('args', [['nmea', '--json'], ['nmea']])
+def test_a_closed_pipe_ends_quietly(args, tmp_path):
+    path = tmp_path / 'many.nmea'
+    path.write_bytes(((EEW + '\n') * 200).encode())
+    reader = subprocess.Popen(['head', '-1'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    assert reader.stdin is not None and reader.stdout is not None
+    writer = subprocess.Popen([sys.executable, '-m', 'azarashi', *args, '-f', str(path)],
+                              stdout=reader.stdin, stderr=subprocess.PIPE)
+    reader.stdin.close()
+    first, err = reader.stdout.read(), writer.stderr.read() if writer.stderr else b''
+    reader.wait(timeout=60)
+    writer.wait(timeout=60)
+    assert first.count(b'\n') == 1  # head took its line
+    assert b'BrokenPipeError' not in err and b'Exception ignored' not in err
