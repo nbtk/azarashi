@@ -1,4 +1,4 @@
-from ...code_table import CodeTable
+from ..code_table import CodeTable
 
 d1_magnitude_on_richter_scale = CodeTable(
     {

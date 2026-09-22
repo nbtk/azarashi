@@ -1,4 +1,4 @@
-from ...code_table import CodeTable
+from ..code_table import CodeTable
 
 a10_library_version = CodeTable(
     {

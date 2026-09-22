@@ -4,7 +4,7 @@ import datetime
 import pytest
 
 from azarashi.decoders import nmea
-from azarashi.definitions.qzss.dcx import d_fields as b4
+from azarashi.definitions.camf import d_fields as b4
 from azarashi import reports
 from qzqsm import sentence
 

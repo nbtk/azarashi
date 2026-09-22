@@ -56,6 +56,11 @@ frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 | DCX | `definitions/qzss/dcx/` | `decoders/qzss/dcx.py` |
 | CAMF 共通部分 | `definitions/camf/` | `decoders/camf/` |
 
+コード表を置く場所は、その表を定めている仕様で決めます。CAMF が定める表は `definitions/camf/`
+に置き、サービスが自分で割り当てるものは、そのサービスの下に置きます。DCX の場合、日本語の
+指示ライブラリ、提供者コード、対象地域コード、DCX のメッセージ種別が後者です。
+CAMF の改訂で触るのは前者、DCX の改訂で触るのは後者になります。
+
 `definitions/code_table.py` の `CodeTable` は、未定義コードの扱いを備えた辞書です。
 QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。
 入力アダプターは現在 QZSS に対応し、QZSS 固有の context と補助処理は `decoders/qzss/` に置きます。

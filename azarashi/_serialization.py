@@ -6,9 +6,9 @@ import re
 from datetime import UTC, datetime
 from typing import Any, TypeAlias, cast
 from . import reports
-from .definitions.qzss.dcx import d_fields as B4_MODULE
+from .definitions.camf import d_fields as B4_MODULE
 from .definitions.qzss.dcx.a11_japanese_library import a11_japanese_library_ja, a11_japanese_library_en
-from .definitions.qzss.dcx.a11_international_library import a11_international_library, a11_international_library_code
+from .definitions.camf.a11_international_library import a11_international_library, a11_international_library_code
 from .definitions.qzss.dcx.a3_provider_identifier import a3_provider_identifier_map
 from .definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
 from .definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja, ex9_target_area_code_en
@@ -388,10 +388,9 @@ B4_TABLES: dict[str, Any] = {k: v for k, v in vars(B4_MODULE).items() if re.matc
 
 
 def xcode(table: str, n: int) -> dict[str, Any]:
-    shared = table in {"a1_message_type", "a5_severity", "a9_type_of_library"}
+    """A table CAMF defines, under the scheme of the service that carried the message."""
     module = "a4_hazard_category_and_type" if table == "a4_hazard_type" else table
-    namespace = "camf" if shared else "qzss.dcx"
-    definitions = importlib.import_module(f".definitions.{namespace}.{module}", __package__)
+    definitions = importlib.import_module(f".definitions.camf.{module}", __package__)
     return coded("qzss.dcx." + table, n, en=getattr(definitions, table))
 
 

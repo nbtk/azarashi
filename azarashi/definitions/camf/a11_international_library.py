@@ -1,4 +1,4 @@
-from ...code_table import CodeTable
+from ..code_table import CodeTable
 
 
 a11_international_library_code = CodeTable(

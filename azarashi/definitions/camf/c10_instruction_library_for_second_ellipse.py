@@ -1,4 +1,4 @@
-from ...code_table import CodeTable
+from ..code_table import CodeTable
 
 c10_instruction_library_for_second_ellipse_code = CodeTable(
     {
