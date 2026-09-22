@@ -4,12 +4,15 @@ import json
 from pathlib import Path
 
 import pytest
-from jsonschema import Draft202012Validator, FormatChecker
 
 from azarashi import json_schema, to_json_dict as example_record
 from azarashi._serialization import TYPE_NAMES, dcr_value
 from schema.generate import fixtures
 from test_declared_types import REPORTS
+
+# skip this file alone, rather than stopping the whole suite at collection
+jsonschema = pytest.importorskip('jsonschema', reason="pip install 'jsonschema[format]'")
+Draft202012Validator, FormatChecker = jsonschema.Draft202012Validator, jsonschema.FormatChecker
 
 FOLDER = Path(__file__).resolve().parent.parent / 'docs/schemas'
 SCHEMA = json_schema()
@@ -137,3 +140,41 @@ def test_every_dcr_source_field_has_a_mapping_or_explicit_omission():
             stem = field.removesuffix('_raw').removesuffix('_no')
             used.update([stem, stem + '_en'])
         assert set(_declared(type(r))) <= used | common | envelope, name
+
+
+def test_every_ellipse_keeps_the_codes_it_was_built_from():
+    report = next(r for r in REPORTS if type(r).__name__ == 'OutsideJapan')
+    camf, groups = report.camf, {'main_ellipse': ('a12', 'a13', 'a14', 'a15', 'a16')}
+    settings = example_record(report)['data']['specific_settings']
+    assert settings['kind'] == 'refined_ellipse'
+    groups['refined_ellipse'] = ('c1', 'c2', 'c3', 'c4', 'a16')
+    keys = ('centre_latitude', 'centre_longitude', 'semi_major_axis', 'semi_minor_axis', 'azimuth')
+    for where, fields in groups.items():
+        source = (example_record(report)['data'] if where == 'main_ellipse' else settings)[where]['source']
+        assert source == {key: getattr(camf, field) for key, field in zip(keys, fields, strict=True)}, where
+
+
+@pytest.mark.parametrize('key', ['centre_latitude', 'semi_major_axis', 'azimuth'])
+def test_an_ellipse_may_not_drop_a_transmitted_code(key):
+    row = record('OutsideJapan')
+    del row['data']['main_ellipse']['source'][key]
+    assert not VALIDATOR.is_valid(row)
+
+
+SETTINGS_TYPES = ['OutsideJapan', 'LAlert', 'MTInfo', 'Unknown']
+
+
+@pytest.mark.parametrize('name', SETTINGS_TYPES)
+def test_specific_settings_is_defined_once_for_every_type_that_carries_it(name):
+    # one definition, so that a change cannot reach some report types and miss others
+    assert SCHEMA['$defs'][name]['properties']['specific_settings'] == {'$ref': '#/$defs/specific_settings'}
+
+
+@pytest.mark.parametrize('name', SETTINGS_TYPES)
+@pytest.mark.parametrize('kind', ['hazard_centre', 'second_ellipse'])
+def test_every_kind_of_specific_settings_is_accepted_under_every_type(name, kind):
+    settings = next(s for r in REPORTS if hasattr(r, 'camf')
+                    if (s := example_record(r)['data'].get('specific_settings')) and s['kind'] == kind)
+    row = record(name)
+    row['data']['specific_settings'] = settings
+    VALIDATOR.validate(row)

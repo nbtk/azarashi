@@ -1583,16 +1583,45 @@
         },
         "azimuth_deg": {
           "type": "number"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "centre_latitude": {
+              "type": "integer"
+            },
+            "centre_longitude": {
+              "type": "integer"
+            },
+            "semi_major_axis": {
+              "type": "integer"
+            },
+            "semi_minor_axis": {
+              "type": "integer"
+            },
+            "azimuth": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "centre_latitude",
+            "centre_longitude",
+            "semi_major_axis",
+            "semi_minor_axis",
+            "azimuth"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
         "centre",
         "semi_major_axis_km",
         "semi_minor_axis_km",
-        "azimuth_deg"
+        "azimuth_deg",
+        "source"
       ],
       "additionalProperties": false,
-      "description": "WGS84 centre; azimuth measured from east toward north, not a navigation bearing."
+      "description": "WGS84 centre; azimuth measured from east toward north, not a navigation bearing. source holds the transmitted codes of the group this ellipse comes from."
     },
     "hazard_details": {
       "type": "object",
@@ -2138,6 +2167,222 @@
       },
       "required": [],
       "additionalProperties": false
+    },
+    "specific_settings": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "refined_ellipse",
+            "hazard_centre",
+            "second_ellipse",
+            "hazard_details"
+          ]
+        },
+        "refined_ellipse": {
+          "$ref": "#/$defs/ellipse"
+        },
+        "hazard_centre": {
+          "type": "object",
+          "properties": {
+            "latitude_deg": {
+              "type": "number"
+            },
+            "longitude_deg": {
+              "type": "number"
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "latitude": {
+                  "type": "integer"
+                },
+                "longitude": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "latitude",
+                "longitude"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "latitude_deg",
+            "longitude_deg",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        "second_ellipse": {
+          "type": "object",
+          "properties": {
+            "scale_factor": {
+              "type": "number"
+            },
+            "bearing_deg": {
+              "type": "number"
+            },
+            "instruction": {
+              "$ref": "#/$defs/code"
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "shift": {
+                  "type": "integer"
+                },
+                "scale_factor": {
+                  "type": "integer"
+                },
+                "bearing": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "shift",
+                "scale_factor",
+                "bearing"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "scale_factor",
+            "bearing_deg",
+            "instruction",
+            "source"
+          ],
+          "additionalProperties": false,
+          "description": "CAMF B3 relative ellipse parameters; bearing convention is defined by CAMF C9."
+        },
+        "hazard_details": {
+          "$ref": "#/$defs/hazard_details"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "kind": {
+              "const": "refined_ellipse"
+            }
+          },
+          "required": [
+            "refined_ellipse"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "hazard_centre"
+                ]
+              },
+              {
+                "required": [
+                  "second_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_details"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "hazard_centre"
+            }
+          },
+          "required": [
+            "hazard_centre"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "refined_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "second_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_details"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "second_ellipse"
+            }
+          },
+          "required": [
+            "second_ellipse"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "refined_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_centre"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_details"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "hazard_details"
+            }
+          },
+          "required": [
+            "hazard_details"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "refined_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_centre"
+                ]
+              },
+              {
+                "required": [
+                  "second_ellipse"
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     "EarthquakeEarlyWarning": {
       "type": "object",
@@ -3837,186 +4082,7 @@
           "$ref": "#/$defs/ellipse"
         },
         "specific_settings": {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "refined_ellipse",
-                "hazard_centre",
-                "second_ellipse",
-                "hazard_details"
-              ]
-            },
-            "refined_ellipse": {
-              "$ref": "#/$defs/ellipse"
-            },
-            "hazard_centre": {
-              "type": "object",
-              "properties": {
-                "latitude_deg": {
-                  "type": "number"
-                },
-                "longitude_deg": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "latitude_deg",
-                "longitude_deg"
-              ],
-              "additionalProperties": false
-            },
-            "second_ellipse": {
-              "type": "object",
-              "properties": {
-                "shift_code": {
-                  "type": "integer"
-                },
-                "scale_factor": {
-                  "type": "number"
-                },
-                "bearing_deg": {
-                  "type": "number"
-                },
-                "instruction": {
-                  "$ref": "#/$defs/code"
-                }
-              },
-              "required": [
-                "shift_code",
-                "scale_factor",
-                "bearing_deg",
-                "instruction"
-              ],
-              "additionalProperties": false,
-              "description": "CAMF B3 relative ellipse parameters; bearing convention is defined by CAMF C9."
-            },
-            "hazard_details": {
-              "$ref": "#/$defs/hazard_details"
-            }
-          },
-          "required": [
-            "kind"
-          ],
-          "additionalProperties": false,
-          "oneOf": [
-            {
-              "properties": {
-                "kind": {
-                  "const": "refined_ellipse"
-                }
-              },
-              "required": [
-                "refined_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_centre"
-                }
-              },
-              "required": [
-                "hazard_centre"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "second_ellipse"
-                }
-              },
-              "required": [
-                "second_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_details"
-                }
-              },
-              "required": [
-                "hazard_details"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
+          "$ref": "#/$defs/specific_settings"
         }
       },
       "required": [
@@ -4160,186 +4226,7 @@
           "$ref": "#/$defs/ellipse"
         },
         "specific_settings": {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "refined_ellipse",
-                "hazard_centre",
-                "second_ellipse",
-                "hazard_details"
-              ]
-            },
-            "refined_ellipse": {
-              "$ref": "#/$defs/ellipse"
-            },
-            "hazard_centre": {
-              "type": "object",
-              "properties": {
-                "latitude_deg": {
-                  "type": "number"
-                },
-                "longitude_deg": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "latitude_deg",
-                "longitude_deg"
-              ],
-              "additionalProperties": false
-            },
-            "second_ellipse": {
-              "type": "object",
-              "properties": {
-                "shift_code": {
-                  "type": "integer"
-                },
-                "scale_factor": {
-                  "type": "number"
-                },
-                "bearing_deg": {
-                  "type": "number"
-                },
-                "instruction": {
-                  "$ref": "#/$defs/code"
-                }
-              },
-              "required": [
-                "shift_code",
-                "scale_factor",
-                "bearing_deg",
-                "instruction"
-              ],
-              "additionalProperties": false,
-              "description": "CAMF B3 relative ellipse parameters; bearing convention is defined by CAMF C9."
-            },
-            "hazard_details": {
-              "$ref": "#/$defs/hazard_details"
-            }
-          },
-          "required": [
-            "kind"
-          ],
-          "additionalProperties": false,
-          "oneOf": [
-            {
-              "properties": {
-                "kind": {
-                  "const": "refined_ellipse"
-                }
-              },
-              "required": [
-                "refined_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_centre"
-                }
-              },
-              "required": [
-                "hazard_centre"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "second_ellipse"
-                }
-              },
-              "required": [
-                "second_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_details"
-                }
-              },
-              "required": [
-                "hazard_details"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
+          "$ref": "#/$defs/specific_settings"
         },
         "target_regions": {
           "type": "array",
@@ -4654,186 +4541,7 @@
           "$ref": "#/$defs/ellipse"
         },
         "specific_settings": {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "refined_ellipse",
-                "hazard_centre",
-                "second_ellipse",
-                "hazard_details"
-              ]
-            },
-            "refined_ellipse": {
-              "$ref": "#/$defs/ellipse"
-            },
-            "hazard_centre": {
-              "type": "object",
-              "properties": {
-                "latitude_deg": {
-                  "type": "number"
-                },
-                "longitude_deg": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "latitude_deg",
-                "longitude_deg"
-              ],
-              "additionalProperties": false
-            },
-            "second_ellipse": {
-              "type": "object",
-              "properties": {
-                "shift_code": {
-                  "type": "integer"
-                },
-                "scale_factor": {
-                  "type": "number"
-                },
-                "bearing_deg": {
-                  "type": "number"
-                },
-                "instruction": {
-                  "$ref": "#/$defs/code"
-                }
-              },
-              "required": [
-                "shift_code",
-                "scale_factor",
-                "bearing_deg",
-                "instruction"
-              ],
-              "additionalProperties": false,
-              "description": "CAMF B3 relative ellipse parameters; bearing convention is defined by CAMF C9."
-            },
-            "hazard_details": {
-              "$ref": "#/$defs/hazard_details"
-            }
-          },
-          "required": [
-            "kind"
-          ],
-          "additionalProperties": false,
-          "oneOf": [
-            {
-              "properties": {
-                "kind": {
-                  "const": "refined_ellipse"
-                }
-              },
-              "required": [
-                "refined_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_centre"
-                }
-              },
-              "required": [
-                "hazard_centre"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "second_ellipse"
-                }
-              },
-              "required": [
-                "second_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_details"
-                }
-              },
-              "required": [
-                "hazard_details"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
+          "$ref": "#/$defs/specific_settings"
         },
         "target_regions": {
           "type": "array",
@@ -5003,186 +4711,7 @@
           "$ref": "#/$defs/ellipse"
         },
         "specific_settings": {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "refined_ellipse",
-                "hazard_centre",
-                "second_ellipse",
-                "hazard_details"
-              ]
-            },
-            "refined_ellipse": {
-              "$ref": "#/$defs/ellipse"
-            },
-            "hazard_centre": {
-              "type": "object",
-              "properties": {
-                "latitude_deg": {
-                  "type": "number"
-                },
-                "longitude_deg": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "latitude_deg",
-                "longitude_deg"
-              ],
-              "additionalProperties": false
-            },
-            "second_ellipse": {
-              "type": "object",
-              "properties": {
-                "shift_code": {
-                  "type": "integer"
-                },
-                "scale_factor": {
-                  "type": "number"
-                },
-                "bearing_deg": {
-                  "type": "number"
-                },
-                "instruction": {
-                  "$ref": "#/$defs/code"
-                }
-              },
-              "required": [
-                "shift_code",
-                "scale_factor",
-                "bearing_deg",
-                "instruction"
-              ],
-              "additionalProperties": false,
-              "description": "CAMF B3 relative ellipse parameters; bearing convention is defined by CAMF C9."
-            },
-            "hazard_details": {
-              "$ref": "#/$defs/hazard_details"
-            }
-          },
-          "required": [
-            "kind"
-          ],
-          "additionalProperties": false,
-          "oneOf": [
-            {
-              "properties": {
-                "kind": {
-                  "const": "refined_ellipse"
-                }
-              },
-              "required": [
-                "refined_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_centre"
-                }
-              },
-              "required": [
-                "hazard_centre"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "second_ellipse"
-                }
-              },
-              "required": [
-                "second_ellipse"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_details"
-                    ]
-                  }
-                ]
-              }
-            },
-            {
-              "properties": {
-                "kind": {
-                  "const": "hazard_details"
-                }
-              },
-              "required": [
-                "hazard_details"
-              ],
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "refined_ellipse"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "hazard_centre"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "second_ellipse"
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
+          "$ref": "#/$defs/specific_settings"
         }
       },
       "required": [

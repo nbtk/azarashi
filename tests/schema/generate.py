@@ -45,4 +45,4 @@ if __name__ == '__main__':
         for r in records), encoding='utf-8')
     (folder / 'report-v1.examples.pretty.json').write_text(
         json.dumps(records, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
-    print(f'Wrote 18 report variants and {len(chosen)} complete examples.')
+    print(f'Wrote {len(TYPE_NAMES)} report variants and {len(chosen)} complete examples.')

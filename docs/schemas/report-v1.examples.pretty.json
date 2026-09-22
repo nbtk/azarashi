@@ -1607,7 +1607,14 @@
         },
         "semi_major_axis_km": 747.603,
         "semi_minor_axis_km": 747.603,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 26287,
+          "centre_longitude": 130332,
+          "semi_major_axis": 27,
+          "semi_minor_axis": 27,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "refined_ellipse",
@@ -1618,7 +1625,14 @@
           },
           "semi_major_axis_km": 723.258,
           "semi_minor_axis_km": 723.258,
-          "azimuth_deg": 0.0
+          "azimuth_deg": 0.0,
+          "source": {
+            "centre_latitude": 2,
+            "centre_longitude": 2,
+            "semi_major_axis": 1,
+            "semi_minor_axis": 1,
+            "azimuth": 32
+          }
         }
       }
     }
@@ -1712,10 +1726,7 @@
           "scheme": "qzss.dcx.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "ja": "",
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": null
       },
@@ -1823,10 +1834,7 @@
           "scheme": "qzss.dcx.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "ja": "",
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": null
       },
@@ -2360,7 +2368,14 @@
         },
         "semi_major_axis_km": 0.216,
         "semi_minor_axis_km": 0.216,
-        "azimuth_deg": -90.0
+        "azimuth_deg": -90.0,
+        "source": {
+          "centre_latitude": 0,
+          "centre_longitude": 0,
+          "semi_major_axis": 0,
+          "semi_minor_axis": 0,
+          "azimuth": 0
+        }
       },
       "target_regions": [
         {
@@ -2382,7 +2397,14 @@
           },
           "semi_major_axis_km": 0.535,
           "semi_minor_axis_km": 0.723,
-          "azimuth_deg": -82.96875
+          "azimuth_deg": -82.96875,
+          "source": {
+            "centre_latitude": 1,
+            "centre_longitude": 2,
+            "semi_major_axis": 3,
+            "semi_minor_axis": 4,
+            "azimuth": 5
+          }
         }
       },
       "specific_settings": {
@@ -2394,7 +2416,14 @@
           },
           "semi_major_axis_km": 0.216,
           "semi_minor_axis_km": 0.216,
-          "azimuth_deg": -90.0
+          "azimuth_deg": -90.0,
+          "source": {
+            "centre_latitude": 0,
+            "centre_longitude": 0,
+            "semi_major_axis": 0,
+            "semi_minor_axis": 0,
+            "azimuth": 0
+          }
         }
       }
     }
@@ -2486,9 +2515,7 @@
           "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -2499,7 +2526,14 @@
         },
         "semi_major_axis_km": 0.216,
         "semi_minor_axis_km": 0.216,
-        "azimuth_deg": -90.0
+        "azimuth_deg": -90.0,
+        "source": {
+          "centre_latitude": 0,
+          "centre_longitude": 0,
+          "semi_major_axis": 0,
+          "semi_minor_axis": 0,
+          "azimuth": 0
+        }
       },
       "specific_settings": {
         "kind": "refined_ellipse",
@@ -2510,7 +2544,14 @@
           },
           "semi_major_axis_km": 0.216,
           "semi_minor_axis_km": 0.216,
-          "azimuth_deg": -90.0
+          "azimuth_deg": -90.0,
+          "source": {
+            "centre_latitude": 0,
+            "centre_longitude": 0,
+            "semi_major_axis": 0,
+            "semi_minor_axis": 0,
+            "azimuth": 0
+          }
         }
       }
     }
@@ -2604,10 +2645,7 @@
           "scheme": "qzss.dcx.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "ja": "",
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": null
       },
@@ -2726,13 +2764,24 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_centre",
         "hazard_centre": {
           "latitude_deg": -9.998627,
-          "longitude_deg": -9.998627
+          "longitude_deg": -9.998627,
+          "source": {
+            "latitude": 0,
+            "longitude": 0
+          }
         }
       }
     }
@@ -2839,21 +2888,30 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "second_ellipse",
         "second_ellipse": {
-          "shift_code": 0,
           "scale_factor": 0.25,
           "bearing_deg": 0.0,
           "instruction": {
             "scheme": "qzss.dcx.c10_instruction_library_for_second_ellipse",
             "code": "0",
             "recognized": true,
-            "labels": {
-              "en": ""
-            }
+            "labels": {}
+          },
+          "source": {
+            "shift": 0,
+            "scale_factor": 0,
+            "bearing": 0
           }
         }
       }
@@ -2961,7 +3019,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3060,9 +3125,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3073,7 +3136,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3209,9 +3279,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3222,7 +3290,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3330,9 +3405,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3343,7 +3416,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3451,9 +3531,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3464,7 +3542,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3572,9 +3657,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3585,7 +3668,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3693,9 +3783,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3706,7 +3794,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3830,9 +3925,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3843,7 +3936,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -3967,9 +4067,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -3980,7 +4078,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4104,9 +4209,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -4117,7 +4220,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4249,9 +4359,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -4262,7 +4370,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4370,9 +4485,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -4383,7 +4496,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4499,9 +4619,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -4512,7 +4630,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4628,9 +4753,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -4641,7 +4764,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4749,9 +4879,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -4762,7 +4890,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4870,9 +5005,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -4883,7 +5016,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -4999,9 +5139,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5012,7 +5150,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -5144,9 +5289,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5157,7 +5300,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -5273,9 +5423,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5286,7 +5434,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -5402,9 +5557,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5415,7 +5568,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -5523,9 +5683,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5536,7 +5694,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -5644,9 +5809,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5657,7 +5820,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -5765,9 +5935,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5778,7 +5946,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -5894,9 +6069,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -5907,7 +6080,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6015,9 +6195,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6028,7 +6206,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6136,9 +6321,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6149,7 +6332,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6257,9 +6447,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6270,7 +6458,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6378,9 +6573,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6391,7 +6584,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6499,9 +6699,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6512,7 +6710,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6620,9 +6825,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6633,7 +6836,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6741,9 +6951,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6754,7 +6962,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6862,9 +7077,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -6875,7 +7088,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -6991,9 +7211,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7004,7 +7222,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7120,9 +7345,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7133,7 +7356,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7241,9 +7471,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7254,7 +7482,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7362,9 +7597,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7375,7 +7608,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7483,9 +7723,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7496,7 +7734,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7604,9 +7849,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7617,7 +7860,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7725,9 +7975,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7738,7 +7986,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7846,9 +8101,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7859,7 +8112,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -7967,9 +8227,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -7980,7 +8238,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -8088,9 +8353,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -8101,7 +8364,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -8209,9 +8479,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -8222,7 +8490,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -8330,9 +8605,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -8343,7 +8616,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -8451,9 +8731,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -8464,7 +8742,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -8580,9 +8865,7 @@
           "scheme": "qzss.dcx.instruction.country_10.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -8593,7 +8876,14 @@
         },
         "semi_major_axis_km": 4.421,
         "semi_minor_axis_km": 0.978,
-        "azimuth_deg": 0.0
+        "azimuth_deg": 0.0,
+        "source": {
+          "centre_latitude": 32768,
+          "centre_longitude": 65536,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 5,
+          "azimuth": 32
+        }
       },
       "specific_settings": {
         "kind": "hazard_details",
@@ -9489,9 +9779,7 @@
           "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -9606,9 +9894,7 @@
           "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },
@@ -9723,9 +10009,7 @@
           "scheme": "qzss.dcx.instruction.country_111.library_0.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {
-            "en": ""
-          }
+          "labels": {}
         },
         "identifier": "IC-A-01"
       },

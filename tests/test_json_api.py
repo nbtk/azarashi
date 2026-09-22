@@ -73,3 +73,45 @@ def test_parallel_lists_are_not_silently_truncated():
     report.tsunami_heights_raw.pop()
     with pytest.raises(ValueError):
         azarashi.to_json_dict(report)
+
+
+def test_quantity_profiles_agree_with_the_code_tables():
+    """The numeric profiles live beside the code tables they interpret, so tie them together."""
+    import importlib
+    import re
+
+    from azarashi._serialization import PROFILES
+
+    for table_name, (scalar, bounds, _missing, _unit) in PROFILES.items():
+        module = importlib.import_module(f'azarashi.definitions.qzss.dcr.{table_name}')
+        table = getattr(module, table_name, None) or getattr(module, table_name + '_en')
+        for group in (scalar, bounds, _missing):
+            undefined = [code for code in group if code not in table]
+            assert undefined == [], f'{table_name}: {undefined} carry a meaning no code table defines'
+        for code, number in scalar.items():
+            shown = re.match(r'(\d+(?:\.\d+)?)', table[code])
+            assert shown is not None, f'{table_name}[{code}]: {table[code]!r} names no number'
+            assert float(shown.group(1)) == float(number), f'{table_name}[{code}]: {table[code]!r} is not {number}'
+        for code, (lower, upper) in bounds.items():
+            if not isinstance(table[code], str):  # a defined code may carry no display string
+                continue
+            edges = [edge['value'] for edge in (lower, upper) if edge is not None]
+            assert any(re.search(rf'(?<![\d.]){edge:g}(?![\d])', table[code]) for edge in edges), \
+                f'{table_name}[{code}]: {table[code]!r} names none of {edges}'
+
+
+def test_a_code_defined_without_a_name_carries_no_label():
+    from azarashi._serialization import coded
+
+    assert coded('x', 0, {0: ''}) == {'scheme': 'x', 'code': '0', 'recognized': True, 'labels': {}}
+
+
+def test_an_unnamed_prefecture_bit_keeps_its_position(monkeypatch):
+    from azarashi import _serialization
+
+    assert _serialization.prefecture_bit(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo'}
+    # substitutes, because the decoder lists the prefectures in the real tables' own order
+    monkeypatch.setattr(_serialization, 'ex9_target_area_code_ja', {})
+    monkeypatch.setattr(_serialization, 'ex9_target_area_code_en', {})
+    unnamed = _serialization.prefecture_bit(12)
+    assert unnamed == {'scheme': 'qzss.dcx.prefecture_bit', 'code': '12', 'recognized': False, 'labels': {}}

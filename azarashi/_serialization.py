@@ -10,6 +10,7 @@ from .definitions.qzss.dcx import d_fields as B4_MODULE
 from .definitions.qzss.dcx.a11_japanese_library import a11_japanese_library_ja, a11_japanese_library_en
 from .definitions.qzss.dcx.a11_international_library import a11_international_library, a11_international_library_code
 from .definitions.qzss.dcx.a3_provider_identifier import a3_provider_identifier_map
+from .definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
 from .definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja, ex9_target_area_code_en
 from .definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_ja, ex1_target_area_code_en
 
@@ -27,7 +28,7 @@ def coded(scheme: str, value: int, ja: Any = None, en: Any = None) -> dict[str, 
     labels = {
         lang: table[value]
         for lang, table in [("ja", ja), ("en", en)]
-        if table is not None and value in table and isinstance(table[value], str)
+        if table is not None and value in table and isinstance(table[value], str) and table[value]
     }
     return {"scheme": scheme, "code": str(value), "recognized": known, "labels": labels}
 
@@ -363,12 +364,16 @@ def ellipse(report: Any, prefix: str) -> dict[str, Any]:
             "ex7_additional_ellipse_azimuth",
         ),
     }
-    lat, lon, major, minor, angle = [getattr(report, n) for n in names[prefix]]
+    keys = ("centre_latitude", "centre_longitude", "semi_major_axis", "semi_minor_axis", "azimuth")
+    fields = names[prefix]
+    lat, lon, major, minor, angle = [getattr(report, n) for n in fields]
     return {
         "centre": {"latitude_deg": lat, "longitude_deg": lon},
         "semi_major_axis_km": major,
         "semi_minor_axis_km": minor,
         "azimuth_deg": angle,
+        # the transmitted codes, so that the conversions above never have to be inverted
+        "source": {key: getattr(report.camf, field.split("_", 1)[0]) for key, field in zip(keys, fields, strict=True)},
     }
 
 
@@ -392,6 +397,15 @@ def xcode(table: str, n: int) -> dict[str, Any]:
 
 def region_code(n: int) -> dict[str, Any]:
     return coded("qzss.dcx.area_code", n, ex1_target_area_code_ja, ex1_target_area_code_en)
+
+
+def prefecture_bit(bit: int) -> dict[str, Any]:
+    """The prefecture EX9 sets at this bit, keyed by the bit position rather than the mask."""
+    def named(table: Any) -> dict[int, Any]:
+        mask = 1 << bit
+        return {bit: table[mask]} if mask in table else {}  # an unnamed bit keeps its position only
+
+    return coded("qzss.dcx.prefecture_bit", bit, named(ex9_target_area_code_ja), named(ex9_target_area_code_en))
 
 
 def dcx_model(name: str, report: Any) -> dict[str, Any]:
@@ -429,16 +443,7 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
         data["target_regions"] = [region_code(c.ex1)]
     if not report.ignore_ex8_to_ex9:
         if c.ex8 == 0:
-            data["target_regions"] = [
-                coded(
-                    "qzss.dcx.prefecture_bit",
-                    bit,
-                    {bit: ex9_target_area_code_ja[1 << bit]},
-                    {bit: ex9_target_area_code_en[1 << bit]},
-                )
-                for bit in range(47)
-                if c.ex9 & 1 << bit + 17
-            ]
+            data["target_regions"] = [prefecture_bit(bit) for bit in range(EX9_PREFECTURE_BITS) if c.ex9 & 1 << bit + 17]
         else:
             data["target_regions"] = [region_code(n) for shift in (48, 32, 16, 0) if (n := (c.ex9 >> shift & 65535))]
     if not report.ignore_ex2_to_ex7:
@@ -451,13 +456,14 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
             value = {
                 "latitude_deg": report.c5_latitude_of_centre_of_hazard,
                 "longitude_deg": report.c6_longitude_of_centre_of_hazard,
+                "source": {"latitude": c.c5, "longitude": c.c6},  # offsets from the main ellipse centre
             }
         elif c.a17 == 2:
             value = {
-                "shift_code": report.c7_shift_of_second_ellipse_centre,
                 "scale_factor": report.c8_homothetic_factor_of_second_ellipse,
                 "bearing_deg": report.c9_bearing_angle_of_second_ellipse,
                 "instruction": xcode("c10_instruction_library_for_second_ellipse", c.c10),
+                "source": {"shift": c.c7, "scale_factor": c.c8, "bearing": c.c9},
             }
         else:
             value = {}
