@@ -9692,6 +9692,136 @@
   },
   {
     "schema_version": 1,
+    "type": "qzss.dcx.l_alert",
+    "received_at": "2026-03-07T06:00:00Z",
+    "satellite": {
+      "system": "qzss",
+      "prn": 183
+    },
+    "nmea": "$QZQSM,55,9AB0004DE100000000000000000004000000000000000000000000002B879CC*08",
+    "text": "### DCX Message - L-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nA12 - Ellipse centre latitude: -90.0\nA13 - Ellipse centre longitude: -180.0\nA14 - Ellipse semi - major axis: 0.292\nA15 - Ellipse semi - minor axis: 0.216\nA16 - Ellipse azimuth: -90.0\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: -90.0\nC2 - Refined longitude of centre of main ellipse: -180.0\nC3 - Refined length of semi major axis: 0.292\nC4 - Refined length of semi minor axis: 0.216",
+    "data": {
+      "version": 0,
+      "message_type": {
+        "scheme": "camf.a1_message_type",
+        "code": "1",
+        "recognized": true,
+        "labels": {
+          "en": "Alert"
+        }
+      },
+      "country": {
+        "scheme": "camf.a2_country_region_name",
+        "code": "111",
+        "recognized": true,
+        "labels": {
+          "en": "Japan"
+        }
+      },
+      "severity": {
+        "scheme": "camf.a5_severity",
+        "code": "0",
+        "recognized": true,
+        "labels": {
+          "en": "Unknown"
+        }
+      },
+      "duration": {
+        "scheme": "camf.a8_hazard_duration",
+        "code": "0",
+        "recognized": true,
+        "labels": {
+          "en": "Unknown"
+        }
+      },
+      "provider": {
+        "scheme": "qzss.dcx.provider.country_111",
+        "code": "1",
+        "recognized": true,
+        "labels": {
+          "en": "Foundation for MultiMedia Communications"
+        }
+      },
+      "hazard": {
+        "code": {
+          "scheme": "camf.a4_hazard_type",
+          "code": "0",
+          "recognized": false,
+          "labels": {}
+        },
+        "category": "UNDEFINED (Code: 0)",
+        "definition": "Undefined hazard definition. (Code: 0)"
+      },
+      "onset": {
+        "status": "not_used",
+        "value": null,
+        "basis": null
+      },
+      "instruction": {
+        "country_code": "111",
+        "library": {
+          "scheme": "camf.a9_type_of_library",
+          "code": "0",
+          "recognized": true,
+          "labels": {
+            "en": "International library"
+          }
+        },
+        "version": {
+          "scheme": "camf.a10_library_version",
+          "code": "0",
+          "recognized": true,
+          "labels": {
+            "en": "#1"
+          }
+        },
+        "content": {
+          "scheme": "camf.instruction.library_0.version_0",
+          "code": "0",
+          "recognized": true,
+          "labels": {}
+        },
+        "identifier": "IC-A-01"
+      },
+      "main_ellipse": {
+        "centre": {
+          "latitude_deg": -90.0,
+          "longitude_deg": -180.0
+        },
+        "semi_major_axis_km": 0.292,
+        "semi_minor_axis_km": 0.216,
+        "azimuth_deg": -90.0,
+        "source": {
+          "centre_latitude": 0,
+          "centre_longitude": 0,
+          "semi_major_axis": 1,
+          "semi_minor_axis": 0,
+          "azimuth": 0
+        }
+      },
+      "specific_settings": {
+        "kind": "refined_ellipse",
+        "refined_ellipse": {
+          "centre": {
+            "latitude_deg": -90.0,
+            "longitude_deg": -180.0
+          },
+          "semi_major_axis_km": 0.292,
+          "semi_minor_axis_km": 0.216,
+          "azimuth_deg": -90.0,
+          "source": {
+            "centre_latitude": 0,
+            "centre_longitude": 0,
+            "semi_major_axis": 0,
+            "semi_minor_axis": 0,
+            "azimuth": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "schema_version": 1,
     "type": "qzss.dcx.j_alert",
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {

@@ -230,11 +230,12 @@ def test_the_international_library_has_one_scheme_for_every_country():
 
 
 def test_the_envelope_is_defined_once_and_every_type_requires_its_nmea():
-    assert len([b for b in SCHEMA['oneOf'] if {'$ref': '#/$defs/envelope'} in b['allOf']]) == len(SCHEMA['oneOf'])
+    assert SCHEMA['$ref'] == '#/$defs/envelope' and SCHEMA['required'] == ['nmea']
+    assert len(SCHEMA['allOf']) == len(TYPE_NAMES)  # one data definition chosen per report type
     row = record('Tsunami')
     del row['nmea']
     assert not VALIDATOR.is_valid(row)  # every type of this version has a QZQSM sentence
-    envelope = Draft202012Validator({**SCHEMA, 'oneOf': [{'$ref': '#/$defs/envelope'}]},
+    envelope = Draft202012Validator({'$ref': '#/$defs/envelope', '$defs': SCHEMA['$defs']},
                                     format_checker=FormatChecker())
     assert envelope.is_valid(row)  # but the shared envelope leaves room for a carrier without one
     assert not envelope.is_valid({**row, 'unknown': 1})
@@ -277,3 +278,86 @@ def test_an_arrival_refuses_the_other_sea_area_state(name, other):
     row = record(name)
     row['data']['forecasts'][0]['arrival'] = {'status': other, 'value': None, 'basis': None}
     assert not VALIDATOR.is_valid(row)
+
+
+def test_a_wrong_report_type_points_at_the_field_that_is_wrong():
+    row = record('Tsunami')
+    row['type'] = 'qzss.dcr.hypocenter'  # the data belongs to another type
+    errors = list(VALIDATOR.iter_errors(row))
+    assert errors and all(list(e.absolute_path) == ['data'] for e in errors)
+    assert any('depth' in e.message for e in errors)
+
+
+DCX_SHARED = ['version', 'message_type', 'country', 'provider', 'hazard', 'severity', 'duration', 'instruction']
+
+
+@pytest.mark.parametrize('name', ['OutsideJapan', 'LAlert', 'JAlert', 'MTInfo', 'Unknown'])
+def test_the_dcx_alert_fields_are_defined_once(name):
+    # one definition per field, so a constraint cannot reach some report types and miss others
+    for field in DCX_SHARED:
+        assert SCHEMA['$defs'][name]['properties'][field] == {'$ref': f'#/$defs/dcx_{field}'}, field
+
+
+@pytest.mark.parametrize('name,path,value', [
+    ('JAlert', ('target_regions', 0, 'scheme'), 'anything'),
+    ('LAlert', ('provider', 'scheme'), 'qzss.dcr.tsunami_height'),
+    ('LAlert', ('hazard', 'code', 'scheme'), 'qzss.dcr.tsunami_height'),
+    ('LAlert', ('instruction', 'library', 'scheme'), 'camf.a5_severity'),
+    ('LAlert', ('instruction', 'content', 'scheme'), 'qzss.dcx.instruction.oops'),
+    ('LAlert', ('instruction', 'country_code'), 'abc'),
+    ('LAlert', ('version',), -5),
+    ('LAlert', ('version',), 64),
+])
+def test_a_dcx_field_is_as_tightly_bound_as_a_dcr_one(name, path, value):
+    row = record(name)
+    node = row['data']
+    for step in path[:-1]:
+        node = node[step]
+    node[path[-1]] = value
+    assert not VALIDATOR.is_valid(row)
+
+
+@pytest.mark.parametrize('path,value', [
+    (('main_ellipse', 'centre', 'latitude_deg'), 500),
+    (('main_ellipse', 'centre', 'longitude_deg'), 200),
+    (('main_ellipse', 'semi_major_axis_km'), -1),
+    (('main_ellipse', 'semi_minor_axis_km'), 0),
+    (('main_ellipse', 'azimuth_deg'), 200),
+])
+def test_an_ellipse_number_stays_in_range(path, value):
+    row = record('OutsideJapan')
+    node = row['data']
+    for step in path[:-1]:
+        node = node[step]
+    node[path[-1]] = value
+    assert not VALIDATOR.is_valid(row)
+
+
+def test_an_ellipse_keeps_the_range_of_its_own_group():
+    # a refinement can pass the pole, and the evacuation ellipse counts longitude from 45 east
+    refined = SCHEMA['$defs']['specific_settings']['properties']['refined_ellipse']['allOf'][1]
+    assert refined['properties']['centre']['properties']['latitude_deg']['maximum'] > 90
+    evacuation = SCHEMA['$defs']['MTInfo']['properties']['evacuation']['properties']['ellipse']['allOf'][1]
+    assert evacuation['properties']['centre']['properties']['longitude_deg'] == {'minimum': 45, 'maximum': 225}
+    centre = SCHEMA['$defs']['specific_settings']['properties']['hazard_centre']['properties']
+    assert centre['latitude_deg']['maximum'] == 100  # C5 offsets the main centre by up to ten degrees
+
+
+@pytest.mark.parametrize('page', [{'number': 64}, {'number': -1}, {'total': 64}])
+def test_a_nankai_page_number_is_a_six_bit_field(page):
+    row = record('NankaiTroughEarthquake')
+    row['data']['page'].update(page)
+    assert not VALIDATOR.is_valid(row)
+
+
+def test_a_quantity_takes_only_the_kinds_its_own_field_can_produce():
+    row = record('Tsunami')
+    height = row['data']['forecasts'][0]['height']
+    row['data']['forecasts'][0]['height'] = {'kind': 'scalar', 'value': 3, 'unit': 'm', 'code': height['code']}
+    assert not VALIDATOR.is_valid(row)  # a tsunami height is a range, a category or missing
+    row = record('Tsunami')
+    row['data']['forecasts'][0]['height']['qualifier'] = 'unknown_value'
+    assert not VALIDATOR.is_valid(row)  # only a magnitude says its bounds stand for an unknown value
+    row = record('Hypocenter')
+    row['data']['depth'] = {'kind': 'missing', 'reason': 'no_information', 'code': row['data']['depth']['code']}
+    assert not VALIDATOR.is_valid(row)  # a depth is unknown or unrecognized, never absent

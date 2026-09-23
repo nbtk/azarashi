@@ -3,366 +3,353 @@
   "$id": "urn:azarashi:report:1",
   "title": "Azarashi report JSON v1",
   "description": "One decoded report. The contract is specified in docs/json.md; serialization API is separate.",
-  "oneOf": [
+  "$comment": "Patterns end with $(?![\\s\\S]) rather than $, because in some regular expression engines, Python's among them, $ also matches before a trailing newline. Constraints a schema cannot express, a lower bound below its upper one, a semi-minor axis below its semi-major, a page number within its total, are checked by the conversion tests instead.",
+  "$ref": "#/$defs/envelope",
+  "required": [
+    "nmea"
+  ],
+  "allOf": [
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.earthquake_early_warning"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.earthquake_early_warning"
-            },
-            "data": {
-              "$ref": "#/$defs/EarthquakeEarlyWarning"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/EarthquakeEarlyWarning"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.hypocenter"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.hypocenter"
-            },
-            "data": {
-              "$ref": "#/$defs/Hypocenter"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Hypocenter"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.seismic_intensity"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.seismic_intensity"
-            },
-            "data": {
-              "$ref": "#/$defs/SeismicIntensity"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/SeismicIntensity"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.nankai_trough_earthquake"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.nankai_trough_earthquake"
-            },
-            "data": {
-              "$ref": "#/$defs/NankaiTroughEarthquake"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/NankaiTroughEarthquake"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.tsunami"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.tsunami"
-            },
-            "data": {
-              "$ref": "#/$defs/Tsunami"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Tsunami"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.northwest_pacific_tsunami"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.northwest_pacific_tsunami"
-            },
-            "data": {
-              "$ref": "#/$defs/NorthwestPacificTsunami"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/NorthwestPacificTsunami"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.volcano"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.volcano"
-            },
-            "data": {
-              "$ref": "#/$defs/Volcano"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Volcano"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.ash_fall"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.ash_fall"
-            },
-            "data": {
-              "$ref": "#/$defs/AshFall"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/AshFall"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.weather"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.weather"
-            },
-            "data": {
-              "$ref": "#/$defs/Weather"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Weather"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.flood"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.flood"
-            },
-            "data": {
-              "$ref": "#/$defs/Flood"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Flood"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.typhoon"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.typhoon"
-            },
-            "data": {
-              "$ref": "#/$defs/Typhoon"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Typhoon"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.marine"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcr.marine"
-            },
-            "data": {
-              "$ref": "#/$defs/Marine"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Marine"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.null"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcx.null"
-            },
-            "data": {
-              "$ref": "#/$defs/NullMsg"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/NullMsg"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.outside_japan"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcx.outside_japan"
-            },
-            "data": {
-              "$ref": "#/$defs/OutsideJapan"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/OutsideJapan"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.l_alert"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcx.l_alert"
-            },
-            "data": {
-              "$ref": "#/$defs/LAlert"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/LAlert"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.j_alert"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcx.j_alert"
-            },
-            "data": {
-              "$ref": "#/$defs/JAlert"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/JAlert"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.mt_info"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcx.mt_info"
-            },
-            "data": {
-              "$ref": "#/$defs/MTInfo"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/MTInfo"
+          }
         }
-      ]
+      }
     },
     {
-      "allOf": [
-        {
-          "$ref": "#/$defs/envelope"
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.unknown"
+          }
         },
-        {
-          "properties": {
-            "type": {
-              "const": "qzss.dcx.unknown"
-            },
-            "data": {
-              "$ref": "#/$defs/Unknown"
-            }
-          },
-          "required": [
-            "nmea"
-          ]
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Unknown"
+          }
         }
-      ]
+      }
     }
   ],
   "$defs": {
@@ -373,7 +360,26 @@
           "const": 1
         },
         "type": {
-          "type": "string"
+          "enum": [
+            "qzss.dcr.earthquake_early_warning",
+            "qzss.dcr.hypocenter",
+            "qzss.dcr.seismic_intensity",
+            "qzss.dcr.nankai_trough_earthquake",
+            "qzss.dcr.tsunami",
+            "qzss.dcr.northwest_pacific_tsunami",
+            "qzss.dcr.volcano",
+            "qzss.dcr.ash_fall",
+            "qzss.dcr.weather",
+            "qzss.dcr.flood",
+            "qzss.dcr.typhoon",
+            "qzss.dcr.marine",
+            "qzss.dcx.null",
+            "qzss.dcx.outside_japan",
+            "qzss.dcx.l_alert",
+            "qzss.dcx.j_alert",
+            "qzss.dcx.mt_info",
+            "qzss.dcx.unknown"
+          ]
         },
         "received_at": {
           "type": "string",
@@ -393,7 +399,8 @@
                 "prn": {
                   "type": "integer",
                   "minimum": 1,
-                  "maximum": 255
+                  "maximum": 255,
+                  "$comment": "the PRN number as transmitted, whose width leaves room for numbers QZSS has not assigned"
                 }
               },
               "required": [
@@ -1043,31 +1050,41 @@
           "additionalProperties": false
         },
         "semi_major_axis_km": {
-          "type": "number"
+          "type": "number",
+          "exclusiveMinimum": 0
         },
         "semi_minor_axis_km": {
-          "type": "number"
+          "type": "number",
+          "exclusiveMinimum": 0
         },
         "azimuth_deg": {
-          "type": "number"
+          "type": "number",
+          "minimum": -90,
+          "exclusiveMaximum": 90,
+          "$comment": "A16 and EX7 count from -90 degrees; the centre bounds differ per group and are set there"
         },
         "source": {
           "type": "object",
           "properties": {
             "centre_latitude": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "centre_longitude": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "semi_major_axis": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "semi_minor_axis": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "azimuth": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             }
           },
           "required": [
@@ -1647,25 +1664,52 @@
           ]
         },
         "refined_ellipse": {
-          "$ref": "#/$defs/ellipse"
+          "allOf": [
+            {
+              "$ref": "#/$defs/ellipse"
+            },
+            {
+              "properties": {
+                "centre": {
+                  "properties": {
+                    "latitude_deg": {
+                      "minimum": -90,
+                      "maximum": 90.01
+                    },
+                    "longitude_deg": {
+                      "minimum": -180,
+                      "maximum": 180.01
+                    }
+                  }
+                }
+              },
+              "$comment": "C1 to C4 add up to seven eighths of an A12 or A13 step, which can pass the pole or the meridian"
+            }
+          ]
         },
         "hazard_centre": {
           "type": "object",
           "properties": {
             "latitude_deg": {
-              "type": "number"
+              "type": "number",
+              "minimum": -100,
+              "maximum": 100
             },
             "longitude_deg": {
-              "type": "number"
+              "type": "number",
+              "minimum": -190,
+              "maximum": 190
             },
             "source": {
               "type": "object",
               "properties": {
                 "latitude": {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 0
                 },
                 "longitude": {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 0
                 }
               },
               "required": [
@@ -1680,16 +1724,20 @@
             "longitude_deg",
             "source"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "$comment": "C5 and C6 offset the main centre by up to ten degrees either way"
         },
         "second_ellipse": {
           "type": "object",
           "properties": {
             "scale_factor": {
-              "type": "number"
+              "type": "number",
+              "exclusiveMinimum": 0
             },
             "bearing_deg": {
-              "type": "number"
+              "type": "number",
+              "minimum": 0,
+              "exclusiveMaximum": 360
             },
             "instruction": {
               "$ref": "#/$defs/code"
@@ -1698,13 +1746,16 @@
               "type": "object",
               "properties": {
                 "shift": {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 0
                 },
                 "scale_factor": {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 0
                 },
                 "bearing": {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 0
                 }
               },
               "required": [
@@ -1911,7 +1962,21 @@
                 },
                 "unit": {
                   "const": "km"
-                }
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unknown",
+                    "unrecognized_code"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -1939,7 +2004,21 @@
                 },
                 "unit": {
                   "const": null
-                }
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unknown",
+                    "unrecognized_code"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -2132,7 +2211,21 @@
                 },
                 "unit": {
                   "const": "km"
-                }
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unknown",
+                    "unrecognized_code"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -2160,6 +2253,19 @@
                 },
                 "unit": {
                   "const": null
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unknown",
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
@@ -2364,10 +2470,14 @@
           "type": "object",
           "properties": {
             "number": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 63
             },
             "total": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 63
             },
             "content_hex": {
               "type": "string",
@@ -2379,7 +2489,8 @@
             "total",
             "content_hex"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "$comment": "both are six-bit fields as transmitted; a page number of zero is one the specification leaves undefined"
         }
       },
       "required": [
@@ -2502,7 +2613,22 @@
                       },
                       "unit": {
                         "const": "m"
-                      }
+                      },
+                      "kind": {
+                        "enum": [
+                          "bounds",
+                          "category",
+                          "missing"
+                        ]
+                      },
+                      "reason": {
+                        "enum": [
+                          "no_information",
+                          "unknown",
+                          "unrecognized_code"
+                        ]
+                      },
+                      "qualifier": false
                     }
                   }
                 ]
@@ -2624,7 +2750,21 @@
                       },
                       "unit": {
                         "const": "m"
-                      }
+                      },
+                      "kind": {
+                        "enum": [
+                          "bounds",
+                          "category",
+                          "missing"
+                        ]
+                      },
+                      "reason": {
+                        "enum": [
+                          "unknown",
+                          "unrecognized_code"
+                        ]
+                      },
+                      "qualifier": false
                     }
                   }
                 ]
@@ -2866,7 +3006,19 @@
                       },
                       "unit": {
                         "const": "h"
-                      }
+                      },
+                      "kind": {
+                        "enum": [
+                          "missing",
+                          "scalar"
+                        ]
+                      },
+                      "reason": {
+                        "enum": [
+                          "unrecognized_code"
+                        ]
+                      },
+                      "qualifier": false
                     }
                   }
                 ]
@@ -3200,7 +3352,19 @@
                 },
                 "unit": {
                   "const": "hPa"
-                }
+                },
+                "kind": {
+                  "enum": [
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -3228,7 +3392,20 @@
                 },
                 "unit": {
                   "const": "m/s"
-                }
+                },
+                "kind": {
+                  "enum": [
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unknown",
+                    "unrecognized_code"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -3256,7 +3433,20 @@
                 },
                 "unit": {
                   "const": "m/s"
-                }
+                },
+                "kind": {
+                  "enum": [
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unknown",
+                    "unrecognized_code"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -3298,7 +3488,19 @@
                 },
                 "unit": {
                   "const": "h"
-                }
+                },
+                "kind": {
+                  "enum": [
+                    "missing",
+                    "scalar"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -3416,6 +3618,225 @@
       ],
       "additionalProperties": false
     },
+    "dcx_version": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 63
+    },
+    "dcx_message_type": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "scheme": {
+              "const": "camf.a1_message_type"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_country": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "scheme": {
+              "const": "camf.a2_country_region_name"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_severity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "scheme": {
+              "const": "camf.a5_severity"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_duration": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "scheme": {
+              "const": "camf.a8_hazard_duration"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_provider": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "scheme": {
+              "pattern": "^qzss\\.dcx\\.provider\\.country_(0|[1-9][0-9]*)$(?![\\s\\S])"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_hazard": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "scheme": {
+                  "const": "camf.a4_hazard_type"
+                }
+              }
+            }
+          ]
+        },
+        "category": {
+          "type": "string"
+        },
+        "definition": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "category",
+        "definition"
+      ],
+      "additionalProperties": false
+    },
+    "dcx_instruction": {
+      "type": "object",
+      "properties": {
+        "country_code": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$(?![\\s\\S])"
+        },
+        "library": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "scheme": {
+                  "const": "camf.a9_type_of_library"
+                }
+              }
+            }
+          ]
+        },
+        "version": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "scheme": {
+                  "const": "camf.a10_library_version"
+                }
+              }
+            }
+          ]
+        },
+        "content": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "scheme": {
+                  "pattern": "^(camf\\.instruction\\.library_[0-9]+\\.version_[0-9]+|qzss\\.dcx\\.instruction\\.country_(0|[1-9][0-9]*)\\.library_[0-9]+\\.version_[0-9]+)$(?![\\s\\S])"
+                }
+              }
+            }
+          ]
+        },
+        "identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "country_code",
+        "library",
+        "version",
+        "content",
+        "identifier"
+      ],
+      "additionalProperties": false
+    },
+    "dcx_target_regions": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/code"
+          },
+          {
+            "properties": {
+              "scheme": {
+                "enum": [
+                  "qzss.dcx.prefecture_bit",
+                  "qzss.dcx.area_code"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "dcx_main_ellipse": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/ellipse"
+        },
+        {
+          "properties": {
+            "centre": {
+              "properties": {
+                "latitude_deg": {
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "longitude_deg": {
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              }
+            }
+          },
+          "$comment": "A12 spans the poles and A13 the meridians"
+        }
+      ]
+    },
     "NullMsg": {
       "type": "object",
       "properties": {},
@@ -3426,127 +3847,34 @@
       "type": "object",
       "properties": {
         "version": {
-          "type": "integer"
+          "$ref": "#/$defs/dcx_version"
         },
         "message_type": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a1_message_type"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_message_type"
         },
         "country": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a2_country_region_name"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_country"
         },
         "severity": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a5_severity"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_severity"
         },
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a8_hazard_duration"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_duration"
         },
         "provider": {
-          "$ref": "#/$defs/code"
+          "$ref": "#/$defs/dcx_provider"
         },
         "hazard": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "$ref": "#/$defs/code"
-            },
-            "category": {
-              "type": "string"
-            },
-            "definition": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "code",
-            "category",
-            "definition"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_hazard"
         },
         "onset": {
           "$ref": "#/$defs/time_onset"
         },
         "instruction": {
-          "type": "object",
-          "properties": {
-            "country_code": {
-              "type": "string"
-            },
-            "library": {
-              "$ref": "#/$defs/code"
-            },
-            "version": {
-              "$ref": "#/$defs/code"
-            },
-            "content": {
-              "$ref": "#/$defs/code"
-            },
-            "identifier": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "required": [
-            "country_code",
-            "library",
-            "version",
-            "content",
-            "identifier"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_instruction"
         },
         "main_ellipse": {
-          "$ref": "#/$defs/ellipse"
+          "$ref": "#/$defs/dcx_main_ellipse"
         },
         "specific_settings": {
           "$ref": "#/$defs/specific_settings"
@@ -3570,136 +3898,40 @@
       "type": "object",
       "properties": {
         "version": {
-          "type": "integer"
+          "$ref": "#/$defs/dcx_version"
         },
         "message_type": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a1_message_type"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_message_type"
         },
         "country": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a2_country_region_name"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_country"
         },
         "severity": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a5_severity"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_severity"
         },
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a8_hazard_duration"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_duration"
         },
         "provider": {
-          "$ref": "#/$defs/code"
+          "$ref": "#/$defs/dcx_provider"
         },
         "hazard": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "$ref": "#/$defs/code"
-            },
-            "category": {
-              "type": "string"
-            },
-            "definition": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "code",
-            "category",
-            "definition"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_hazard"
         },
         "onset": {
           "$ref": "#/$defs/time_onset"
         },
         "instruction": {
-          "type": "object",
-          "properties": {
-            "country_code": {
-              "type": "string"
-            },
-            "library": {
-              "$ref": "#/$defs/code"
-            },
-            "version": {
-              "$ref": "#/$defs/code"
-            },
-            "content": {
-              "$ref": "#/$defs/code"
-            },
-            "identifier": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "required": [
-            "country_code",
-            "library",
-            "version",
-            "content",
-            "identifier"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_instruction"
         },
         "main_ellipse": {
-          "$ref": "#/$defs/ellipse"
+          "$ref": "#/$defs/dcx_main_ellipse"
         },
         "specific_settings": {
           "$ref": "#/$defs/specific_settings"
         },
         "target_regions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/code"
-          }
+          "$ref": "#/$defs/dcx_target_regions"
         }
       },
       "required": [
@@ -3741,130 +3973,34 @@
       "type": "object",
       "properties": {
         "version": {
-          "type": "integer"
+          "$ref": "#/$defs/dcx_version"
         },
         "message_type": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a1_message_type"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_message_type"
         },
         "country": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a2_country_region_name"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_country"
         },
         "severity": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a5_severity"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_severity"
         },
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a8_hazard_duration"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_duration"
         },
         "provider": {
-          "$ref": "#/$defs/code"
+          "$ref": "#/$defs/dcx_provider"
         },
         "hazard": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "$ref": "#/$defs/code"
-            },
-            "category": {
-              "type": "string"
-            },
-            "definition": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "code",
-            "category",
-            "definition"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_hazard"
         },
         "onset": {
           "$ref": "#/$defs/time_onset"
         },
         "instruction": {
-          "type": "object",
-          "properties": {
-            "country_code": {
-              "type": "string"
-            },
-            "library": {
-              "$ref": "#/$defs/code"
-            },
-            "version": {
-              "$ref": "#/$defs/code"
-            },
-            "content": {
-              "$ref": "#/$defs/code"
-            },
-            "identifier": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "required": [
-            "country_code",
-            "library",
-            "version",
-            "content",
-            "identifier"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_instruction"
         },
         "target_regions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/code"
-          }
+          "$ref": "#/$defs/dcx_target_regions"
         }
       },
       "required": [
@@ -3885,136 +4021,40 @@
       "type": "object",
       "properties": {
         "version": {
-          "type": "integer"
+          "$ref": "#/$defs/dcx_version"
         },
         "message_type": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a1_message_type"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_message_type"
         },
         "country": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a2_country_region_name"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_country"
         },
         "severity": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a5_severity"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_severity"
         },
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a8_hazard_duration"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_duration"
         },
         "provider": {
-          "$ref": "#/$defs/code"
+          "$ref": "#/$defs/dcx_provider"
         },
         "hazard": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "$ref": "#/$defs/code"
-            },
-            "category": {
-              "type": "string"
-            },
-            "definition": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "code",
-            "category",
-            "definition"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_hazard"
         },
         "onset": {
           "$ref": "#/$defs/time_onset"
         },
         "instruction": {
-          "type": "object",
-          "properties": {
-            "country_code": {
-              "type": "string"
-            },
-            "library": {
-              "$ref": "#/$defs/code"
-            },
-            "version": {
-              "$ref": "#/$defs/code"
-            },
-            "content": {
-              "$ref": "#/$defs/code"
-            },
-            "identifier": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "required": [
-            "country_code",
-            "library",
-            "version",
-            "content",
-            "identifier"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_instruction"
         },
         "main_ellipse": {
-          "$ref": "#/$defs/ellipse"
+          "$ref": "#/$defs/dcx_main_ellipse"
         },
         "specific_settings": {
           "$ref": "#/$defs/specific_settings"
         },
         "target_regions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/code"
-          }
+          "$ref": "#/$defs/dcx_target_regions"
         },
         "evacuation": {
           "type": "object",
@@ -4026,7 +4066,28 @@
               ]
             },
             "ellipse": {
-              "$ref": "#/$defs/ellipse"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/ellipse"
+                },
+                {
+                  "properties": {
+                    "centre": {
+                      "properties": {
+                        "latitude_deg": {
+                          "minimum": -90,
+                          "maximum": 90
+                        },
+                        "longitude_deg": {
+                          "minimum": 45,
+                          "maximum": 225
+                        }
+                      }
+                    }
+                  },
+                  "$comment": "EX4 counts from 45 degrees east, so it passes 180"
+                }
+              ]
             }
           },
           "required": [
@@ -4055,127 +4116,34 @@
       "type": "object",
       "properties": {
         "version": {
-          "type": "integer"
+          "$ref": "#/$defs/dcx_version"
         },
         "message_type": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a1_message_type"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_message_type"
         },
         "country": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a2_country_region_name"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_country"
         },
         "severity": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a5_severity"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_severity"
         },
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/code"
-            },
-            {
-              "properties": {
-                "scheme": {
-                  "const": "camf.a8_hazard_duration"
-                }
-              }
-            }
-          ]
+          "$ref": "#/$defs/dcx_duration"
         },
         "provider": {
-          "$ref": "#/$defs/code"
+          "$ref": "#/$defs/dcx_provider"
         },
         "hazard": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "$ref": "#/$defs/code"
-            },
-            "category": {
-              "type": "string"
-            },
-            "definition": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "code",
-            "category",
-            "definition"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_hazard"
         },
         "onset": {
           "$ref": "#/$defs/time_onset"
         },
         "instruction": {
-          "type": "object",
-          "properties": {
-            "country_code": {
-              "type": "string"
-            },
-            "library": {
-              "$ref": "#/$defs/code"
-            },
-            "version": {
-              "$ref": "#/$defs/code"
-            },
-            "content": {
-              "$ref": "#/$defs/code"
-            },
-            "identifier": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "required": [
-            "country_code",
-            "library",
-            "version",
-            "content",
-            "identifier"
-          ],
-          "additionalProperties": false
+          "$ref": "#/$defs/dcx_instruction"
         },
         "main_ellipse": {
-          "$ref": "#/$defs/ellipse"
+          "$ref": "#/$defs/dcx_main_ellipse"
         },
         "specific_settings": {
           "$ref": "#/$defs/specific_settings"

@@ -24,6 +24,7 @@ def fixtures():
     sentences = [jma(2, HYPOCENTER + [(96, 9, n)]) for n in (10, 501, 511, 502)]
     sentences += [jma(5, TSUNAMI + [(84, 1, 0), (85, 5, hour), (90, 6, minute)])
                   for hour, minute in [(31, 63), (30, 62), (25, 0)]]
+    sentences.append(dcx(**JAPAN, a3=1, a14=1))  # an L-Alert with an ellipse, as the README shows
     sentences += [dcx(**JAPAN, a3=2, ex8=0, ex9=((1 << 12) | (1 << 13)) << 17),
                   dcx(**JAPAN, a3=2, ex8=1, ex9=(1100 << 48) | (1101 << 32)),
                   dcx(**JAPAN, a3=2, ex8=1, ex9=65535 << 48)]
