@@ -407,10 +407,10 @@ def prefecture_bit(bit: int) -> dict[str, Any]:
 
 
 def instruction_scheme(camf: Any) -> str:
-    """The library A11 indexes: CAMF's own for A9=0, and a country's own otherwise."""
+    """The library A11 indexes: the international one for A9=0, the national one of A2 otherwise."""
     if camf.a9 == 0:  # the international library is the same table for every country
         return f"camf.instruction.library_{camf.a9}.version_{camf.a10}"
-    return f"qzss.dcx.instruction.country_{camf.a2}.library_{camf.a9}.version_{camf.a10}"
+    return f"camf.instruction.country_{camf.a2}.library_{camf.a9}.version_{camf.a10}"
 
 
 def dcx_model(name: str, report: Any) -> dict[str, Any]:
@@ -419,7 +419,7 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
     c = report.camf
     data = {"version": report.dcx_version, **{out: xcode(table, getattr(c, field)) for out, field, table in XCODES}}
     provider_table: Any = a3_provider_identifier_map.get(c.a2)
-    data["provider"] = coded(f"qzss.dcx.provider.country_{c.a2}", c.a3, en=provider_table)
+    data["provider"] = coded(f"camf.provider.country_{c.a2}", c.a3, en=provider_table)
     data["hazard"] = {
         "code": xcode("a4_hazard_type", c.a4),
         "category": report.a4_hazard_category,

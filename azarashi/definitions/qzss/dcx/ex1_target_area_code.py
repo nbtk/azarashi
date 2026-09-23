@@ -1,3 +1,5 @@
+"""Municipality codes EX1 carries. They have the shape of Japan's JIS X 0402 codes; that the two
+agree entry for entry is not verified."""
 from ...code_table import CodeTable
 
 

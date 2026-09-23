@@ -1,3 +1,4 @@
+"""The prefecture DCX assigns to each EX9 bit. The names are Japan's; the bit layout is DCX's."""
 from ...code_table import CodeTable
 
 #: the bits EX9 gives the prefectures; the field's width, not the number of names below

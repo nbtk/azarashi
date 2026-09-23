@@ -361,3 +361,24 @@ def test_a_quantity_takes_only_the_kinds_its_own_field_can_produce():
     row = record('Hypocenter')
     row['data']['depth'] = {'kind': 'missing', 'reason': 'no_information', 'code': row['data']['depth']['code']}
     assert not VALIDATOR.is_valid(row)  # a depth is unknown or unrecognized, never absent
+
+
+def test_what_a_country_assigns_under_camf_is_named_camf():
+    # CAMF defines A3 and the national library per country, so no carrier appears in their names
+    schemes = {code['scheme'] for report in REPORTS for code in _codes(example_record(report))}
+    assert {s for s in schemes if s.startswith('qzss.dcx.')} == {'qzss.dcx.area_code', 'qzss.dcx.prefecture_bit'}
+    assert {s for s in schemes if '.provider.' in s} <= {f'camf.provider.country_{n}' for n in range(512)}
+
+
+@pytest.mark.parametrize('field,scheme', [
+    ('provider', 'qzss.dcx.provider.country_111'),              # the carrier is not part of the code system
+    ('provider', 'camf.provider.111'),
+    ('content', 'camf.instruction.library_1.version_0'),       # a national library belongs to a country
+    ('content', 'camf.instruction.country_111.library_0.version_0'),  # the international one to none
+    ('content', 'qzss.dcx.instruction.country_111.library_1.version_0'),
+])
+def test_a_country_scoped_scheme_keeps_its_shape(field, scheme):
+    row = record('LAlert')
+    target = row['data']['provider'] if field == 'provider' else row['data']['instruction']['content']
+    target['scheme'] = scheme
+    assert not VALIDATOR.is_valid(row)

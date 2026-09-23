@@ -1,3 +1,4 @@
+"""The DCX message types, L-Alert, J-Alert and the rest: DCX's own classification of a Japanese alert."""
 from ...code_table import CodeTable
 import enum
 

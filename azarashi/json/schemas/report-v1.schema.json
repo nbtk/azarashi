@@ -3687,7 +3687,7 @@
         {
           "properties": {
             "scheme": {
-              "pattern": "^qzss\\.dcx\\.provider\\.country_(0|[1-9][0-9]*)$(?![\\s\\S])"
+              "pattern": "^camf\\.provider\\.country_(0|[1-9][0-9]*)$(?![\\s\\S])"
             }
           }
         }
@@ -3767,7 +3767,7 @@
             {
               "properties": {
                 "scheme": {
-                  "pattern": "^(camf\\.instruction\\.library_[0-9]+\\.version_[0-9]+|qzss\\.dcx\\.instruction\\.country_(0|[1-9][0-9]*)\\.library_[0-9]+\\.version_[0-9]+)$(?![\\s\\S])"
+                  "pattern": "^camf\\.instruction\\.(library_0|country_(0|[1-9][0-9]*)\\.library_1)\\.version_[0-9]+$(?![\\s\\S])"
                 }
               }
             }

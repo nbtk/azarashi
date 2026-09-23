@@ -1552,7 +1552,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_71",
+        "scheme": "camf.provider.country_71",
         "code": "0",
         "recognized": false,
         "labels": {}
@@ -1593,7 +1593,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_71.library_1.version_0",
+          "scheme": "camf.instruction.country_71.library_1.version_0",
           "code": "0",
           "recognized": false,
           "labels": {}
@@ -1682,7 +1682,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -1723,7 +1723,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_1.version_0",
+          "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -1788,7 +1788,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -1831,7 +1831,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_1.version_0",
+          "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -2310,7 +2310,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "4",
         "recognized": true,
         "labels": {
@@ -2351,7 +2351,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_1.version_0",
+          "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "126",
           "recognized": true,
           "labels": {
@@ -2473,7 +2473,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "5",
         "recognized": false,
         "labels": {}
@@ -2601,7 +2601,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -2642,7 +2642,7 @@
           }
         },
         "content": {
-          "scheme": "qzss.dcx.instruction.country_111.library_1.version_0",
+          "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
           "labels": {}
@@ -2707,7 +2707,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -2831,7 +2831,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -2962,7 +2962,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -3079,7 +3079,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -3233,7 +3233,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -3359,7 +3359,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -3485,7 +3485,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -3611,7 +3611,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -3737,7 +3737,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -3879,7 +3879,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4021,7 +4021,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4163,7 +4163,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4313,7 +4313,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4439,7 +4439,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4573,7 +4573,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4707,7 +4707,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4833,7 +4833,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -4959,7 +4959,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -5093,7 +5093,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -5243,7 +5243,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -5377,7 +5377,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -5511,7 +5511,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -5637,7 +5637,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -5763,7 +5763,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -5889,7 +5889,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6023,7 +6023,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6149,7 +6149,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6275,7 +6275,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6401,7 +6401,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6527,7 +6527,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6653,7 +6653,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6779,7 +6779,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -6905,7 +6905,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7031,7 +7031,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7165,7 +7165,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7299,7 +7299,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7425,7 +7425,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7551,7 +7551,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7677,7 +7677,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7803,7 +7803,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -7929,7 +7929,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -8055,7 +8055,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -8181,7 +8181,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -8307,7 +8307,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -8433,7 +8433,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -8559,7 +8559,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -8685,7 +8685,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -8819,7 +8819,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_10",
+        "scheme": "camf.provider.country_10",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -9735,7 +9735,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "1",
         "recognized": true,
         "labels": {
@@ -9865,7 +9865,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -9980,7 +9980,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "2",
         "recognized": true,
         "labels": {
@@ -10095,7 +10095,7 @@
         }
       },
       "provider": {
-        "scheme": "qzss.dcx.provider.country_111",
+        "scheme": "camf.provider.country_111",
         "code": "2",
         "recognized": true,
         "labels": {
