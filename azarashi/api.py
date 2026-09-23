@@ -187,10 +187,10 @@ def decode_stream(stream: QzssDcrStream,
             report = decode(msg, msg_type, timestamp)
 
             if report.message_type == 'DCR':
-                if ignore_dcr is True:
+                if ignore_dcr:
                     continue
             elif report.message_type == 'DCX':
-                if ignore_dcx is True:
+                if ignore_dcx:
                     continue
             else:  # unknown message type
                 continue

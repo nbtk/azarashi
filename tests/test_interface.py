@@ -303,3 +303,15 @@ def test_closed_inspection_does_not_swallow_process_interrupts():
     store[source] = 'retained'
     with pytest.raises(KeyboardInterrupt):
         store.get(source)
+
+
+@pytest.mark.parametrize('ignore, kept', [
+    ({'ignore_dcx': 1}, ['DCR']),       # 1 is as true as True
+    ({'ignore_dcx': 0}, ['DCR', 'DCX']),
+    ({'ignore_dcr': 1, 'ignore_dcx': False}, ['DCX']),
+])
+def test_ignore_flags_take_any_truth_value(ignore, kept):
+    reports = []
+    with pytest.raises(azarashi.AzarashiNoMoreData):
+        azarashi.decode_stream(io.StringIO(EEW + '\n' + L_ALERT + '\n'), callback=reports.append, **ignore)
+    assert [report.message_type for report in reports] == kept
