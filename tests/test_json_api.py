@@ -115,3 +115,50 @@ def test_an_unnamed_prefecture_bit_keeps_its_position(monkeypatch):
     monkeypatch.setattr(model, 'ex9_target_area_code_en', {})
     unnamed = model.prefecture_bit(12)
     assert unnamed == {'scheme': 'qzss.dcx.prefecture_bit', 'code': '12', 'recognized': False, 'labels': {}}
+
+
+def _printed_numbers(field, label):
+    """The numbers a CAMF B4 label prints, in the unit its JSON profile uses."""
+    import re
+
+    if field.startswith('d13_'):  # metres and kilometres, reported in metres
+        return {float(n) * (1000 if unit == 'km' else 1) for n, unit in re.findall(r'(\d+)\s*(km|m)\b', label)}
+    if field.startswith('d29_'):  # minutes, hours and days, reported in minutes
+        found = {float(int(h) * 60 + int(m)) for h, m in re.findall(r'(\d+)\s*h\s+(\d+)\s*min', label)}
+        rest = re.sub(r'(\d+)\s*h\s+(\d+)\s*min', '', label)
+        found |= {float(int(n) * 60) for n in re.findall(r'(\d+)\s*h\b', rest)}
+        found |= {float(n) for n in re.findall(r'(\d+)\s*min', rest)}
+        found |= {float(int(n) * 1440) for n in re.findall(r'(\d+)\s*days?', rest)}
+        if re.search(r'(?<![\d.])0\s*<', label):
+            found.add(0.0)
+        return found
+    return {float(n) for n in re.findall(r'-?\d+(?:\.\d+)?', label)}
+
+
+def test_camf_profiles_are_transcribed_from_their_tables():
+    """The ranges are written out by hand from the specification; the printed labels check the copy."""
+    from itertools import pairwise
+
+    from azarashi.definitions.camf import d_fields
+    from azarashi.json.model import CAMF_PROFILES
+
+    for field, (scalar, bounds, _missing, _unit) in CAMF_PROFILES.items():
+        table = getattr(d_fields, field)
+        assert set(scalar) | set(bounds) == set(table), f'{field}: not one row per defined code'
+        for code, number in scalar.items():
+            assert number == table[code], f'{field}[{code}]: {number} is not {table[code]}'
+        rows = [bounds[code] for code in sorted(bounds)]
+        for code, (lower, upper) in zip(sorted(bounds), rows, strict=True):
+            edge = (lower or upper)['value']
+            assert float(edge) in _printed_numbers(field, table[code]), f'{field}[{code}]: {edge} not in {table[code]!r}'
+        for (_, upper), (lower, _) in pairwise(rows):
+            assert upper['value'] == lower['value'], f'{field}: a gap or an overlap at {upper} / {lower}'
+            assert upper['inclusive'] != lower['inclusive'], f'{field}: {upper["value"]} is in both ranges or neither'
+
+
+def test_an_edge_the_table_leaves_open_goes_with_the_lower_range():
+    # D8 and D13 write both sides of an edge with <, and the other tables mostly give it to the lower range
+    from azarashi.json.model import CAMF_PROFILES
+
+    assert CAMF_PROFILES['d8_wind_speed'][1][1][1] == {'value': 6, 'inclusive': True}  # 5.9 and 6 are Beaufort 1
+    assert CAMF_PROFILES['d13_visibility'][1][1][1] == {'value': 200, 'inclusive': True}

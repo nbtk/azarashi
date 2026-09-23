@@ -3,6 +3,7 @@
 import importlib
 import math
 import re
+from itertools import pairwise
 from datetime import UTC, datetime
 from typing import Any, TypeAlias, cast
 from .. import reports
@@ -36,7 +37,7 @@ def quantity(code: dict[str, Any], profile: str) -> dict[str, Any]:
     n = int(code["code"])
     if not code["recognized"]:
         return {"kind": "missing", "reason": "unrecognized_code", "code": code}
-    scalar, bounds, missing, unit = PROFILES[profile]
+    scalar, bounds, missing, unit = PROFILES[profile] if profile in PROFILES else CAMF_PROFILES[profile]
     if n in scalar:
         return {"kind": "scalar", "value": scalar[n], "unit": unit, "code": code}
     if n in bounds:
@@ -82,6 +83,76 @@ PROFILES: dict[str, Any] = {
     "typhoon_maximum_gust_wind_speed": ({i: i for i in range(15, 106)}, {}, {0: "unknown"}, "m/s"),
     "expected_ash_fall_time": ({i: i for i in range(1, 7)}, {}, {}, "h"),
     "typhoon_elapsed_time_from_reference_time": ({i: i for i in range(128)}, {}, {}, "h"),
+}
+
+
+Range: TypeAlias = tuple[dict[str, Any] | None, dict[str, Any] | None]  # (lower, upper), None where it is open
+
+
+def up_to(*edges: float, floor: float | None = None) -> dict[int, Range]:
+    """Contiguous ranges that leave out their lower edge and hold their upper one: (a, b].
+
+    The first range reaches down without limit unless a floor is given, which it then leaves out;
+    the last reaches up without limit.
+    """
+    rows: list[Range] = [(None if floor is None else bound(floor, False), bound(edges[0], True))]
+    rows += [(bound(a, False), bound(b, True)) for a, b in pairwise(edges)]
+    rows.append((bound(edges[-1], False), None))
+    return dict(enumerate(rows))
+
+
+def from_(*edges: float, floor: float | None = None) -> dict[int, Range]:
+    """Contiguous ranges that hold their lower edge and leave out their upper one: [a, b).
+
+    A floor adds a first range above it, leaving both the floor and the first edge out; the last
+    range reaches up without limit.
+    """
+    rows: list[Range] = [] if floor is None else [(bound(floor, False), bound(edges[0], False))]
+    rows += [(bound(a, True), bound(b, False)) for a, b in pairwise(edges)]
+    rows.append((bound(edges[-1], True), None))
+    return dict(enumerate(rows))
+
+
+D26_FROM = (0, 10, 21, 51, 71, 101, 126, 151, 176, 201, 251, 301, 351, 401, 451, 501, 751)
+
+#: CAMF Issue 1.2, 18.4.35: the B4 details that are numbers or numeric ranges. The edges are the
+#: numbers the tables print. Where a table writes both sides of an edge with <, the edge goes with
+#: the lower range, as the tables that do say where it goes mostly have it.
+CAMF_PROFILES: dict[str, Any] = {
+    "d1_magnitude_on_richter_scale": ({}, from_(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), {}, None),
+    "d3_azimuth_from_centre_of_main_ellipse_to_epicentre": ({i: i * 22.5 for i in range(16)}, {}, {}, "deg"),
+    "d4_vector_length_between_centre_of_main_ellipse_and_epicentre": (
+        dict(enumerate([0.25, 0.5, 0.75, 1, 2, 3, 5, 10, 20, 30, 40, 50, 70, 100, 150, 200])),
+        {},
+        {},
+        "semi_major_axis",
+    ),
+    "d5_wave_height": ({}, up_to(0.5, 1.0, 1.5, 2.0, 3.0, 5.0, 10.0), {}, "m"),
+    "d6_temperature_range": ({}, up_to(*range(-30, 36, 5), 45), {}, "degC"),
+    "d8_wind_speed": ({}, up_to(1, 6, 12, 20, 31, 40, 51, 62, 75, 89, 103, 118, floor=0), {}, "km/h"),
+    "d9_rainfall_amounts": ({}, up_to(2.5, 7.5, 10, 20, 30, 50, 80), {}, "mm/h"),
+    "d13_visibility": ({}, up_to(20, 200, 500, 1000, 2000, 4000, 10000, 20000, 50000), {}, "m"),
+    "d14_snow_depth": ({}, up_to(*range(20, 601, 20), floor=0), {}, "cm"),
+    "d26_number_of_cases_per_100000_inhabitants": (
+        {},
+        {
+            **{i: (bound(a, True), bound(b, False)) for i, (a, b) in enumerate(pairwise(D26_FROM))},
+            16: (bound(751, True), bound(1000, True)),
+            17: (bound(1000, False), bound(2000, True)),
+            18: (bound(2000, False), bound(3000, True)),
+            19: (bound(3000, False), bound(5000, True)),
+            20: (bound(5000, False), None),
+        },
+        {},
+        None,
+    ),
+    "d27_noise_range": ({}, up_to(45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, floor=40), {}, "dB"),
+    "d29_outage_estimated_duration": (
+        {},
+        from_(30, 45, 60, 90, 120, 180, 240, 300, 600, 1440, 2880, 10080, floor=0),
+        {},
+        "min",
+    ),
 }
 
 
@@ -472,13 +543,7 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
                 if raw is None:
                     continue
                 item = coded("camf." + field, raw, en=table)
-                if field.startswith(("d3_", "d4_")):
-                    item = {
-                        "code": item,
-                        "value": getattr(report, field),
-                        "unit": "deg" if field.startswith("d3_") else "semi_major_axis",
-                    }
-                value[field.split("_", 1)[1]] = item
+                value[field.split("_", 1)[1]] = quantity(item, field) if field in CAMF_PROFILES else item
         data["specific_settings"] = {"kind": kind, kind: value}
     return data
 

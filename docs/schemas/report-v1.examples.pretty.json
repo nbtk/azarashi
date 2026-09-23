@@ -3149,11 +3149,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "magnitude_on_richter_scale": {
-            "scheme": "camf.d1_magnitude_on_richter_scale",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "1.0-1.9 - Micro"
+            "kind": "bounds",
+            "lower": {
+              "value": 1.0,
+              "inclusive": true
+            },
+            "upper": {
+              "value": 2.0,
+              "inclusive": false
+            },
+            "unit": null,
+            "code": {
+              "scheme": "camf.d1_magnitude_on_richter_scale",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "1.0-1.9 - Micro"
+              }
             }
           },
           "seismic_coefficient": {
@@ -3165,24 +3177,26 @@
             }
           },
           "azimuth_from_centre_of_main_ellipse_to_epicentre": {
+            "kind": "scalar",
+            "value": 0.0,
+            "unit": "deg",
             "code": {
               "scheme": "camf.d3_azimuth_from_centre_of_main_ellipse_to_epicentre",
               "code": "0",
               "recognized": true,
               "labels": {}
-            },
-            "value": 0.0,
-            "unit": "deg"
+            }
           },
           "vector_length_between_centre_of_main_ellipse_and_epicentre": {
+            "kind": "scalar",
+            "value": 0.25,
+            "unit": "semi_major_axis",
             "code": {
               "scheme": "camf.d4_vector_length_between_centre_of_main_ellipse_and_epicentre",
               "code": "0",
               "recognized": true,
               "labels": {}
-            },
-            "value": 0.25,
-            "unit": "semi_major_axis"
+            }
           }
         }
       }
@@ -3303,11 +3317,20 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wave_height": {
-            "scheme": "camf.d5_wave_height",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "H ≤ 0.5m"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 0.5,
+              "inclusive": true
+            },
+            "unit": "m",
+            "code": {
+              "scheme": "camf.d5_wave_height",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "H ≤ 0.5m"
+              }
             }
           }
         }
@@ -3429,11 +3452,20 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wave_height": {
-            "scheme": "camf.d5_wave_height",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "H ≤ 0.5m"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 0.5,
+              "inclusive": true
+            },
+            "unit": "m",
+            "code": {
+              "scheme": "camf.d5_wave_height",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "H ≤ 0.5m"
+              }
             }
           }
         }
@@ -3555,11 +3587,20 @@
         "kind": "hazard_details",
         "hazard_details": {
           "temperature_range": {
-            "scheme": "camf.d6_temperature_range",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "T ≤ -30°C"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": -30,
+              "inclusive": true
+            },
+            "unit": "degC",
+            "code": {
+              "scheme": "camf.d6_temperature_range",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "T ≤ -30°C"
+              }
             }
           }
         }
@@ -3681,11 +3722,20 @@
         "kind": "hazard_details",
         "hazard_details": {
           "temperature_range": {
-            "scheme": "camf.d6_temperature_range",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "T ≤ -30°C"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": -30,
+              "inclusive": true
+            },
+            "unit": "degC",
+            "code": {
+              "scheme": "camf.d6_temperature_range",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "T ≤ -30°C"
+              }
             }
           }
         }
@@ -3815,19 +3865,40 @@
             }
           },
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           },
           "rainfall_amounts": {
-            "scheme": "camf.d9_rainfall_amounts",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "p ≤ 2.5mm/h"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 2.5,
+              "inclusive": true
+            },
+            "unit": "mm/h",
+            "code": {
+              "scheme": "camf.d9_rainfall_amounts",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "p ≤ 2.5mm/h"
+              }
             }
           }
         }
@@ -3949,19 +4020,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           },
           "rainfall_amounts": {
-            "scheme": "camf.d9_rainfall_amounts",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "p ≤ 2.5mm/h"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 2.5,
+              "inclusive": true
+            },
+            "unit": "mm/h",
+            "code": {
+              "scheme": "camf.d9_rainfall_amounts",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "p ≤ 2.5mm/h"
+              }
             }
           },
           "typhoon_category": {
@@ -4091,19 +4183,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           },
           "rainfall_amounts": {
-            "scheme": "camf.d9_rainfall_amounts",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "p ≤ 2.5mm/h"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 2.5,
+              "inclusive": true
+            },
+            "unit": "mm/h",
+            "code": {
+              "scheme": "camf.d9_rainfall_amounts",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "p ≤ 2.5mm/h"
+              }
             }
           },
           "tornado_probability": {
@@ -4233,19 +4346,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           },
           "rainfall_amounts": {
-            "scheme": "camf.d9_rainfall_amounts",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "p ≤ 2.5mm/h"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 2.5,
+              "inclusive": true
+            },
+            "unit": "mm/h",
+            "code": {
+              "scheme": "camf.d9_rainfall_amounts",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "p ≤ 2.5mm/h"
+              }
             }
           },
           "damage_category": {
@@ -4509,19 +4643,37 @@
         "kind": "hazard_details",
         "hazard_details": {
           "rainfall_amounts": {
-            "scheme": "camf.d9_rainfall_amounts",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "p ≤ 2.5mm/h"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 2.5,
+              "inclusive": true
+            },
+            "unit": "mm/h",
+            "code": {
+              "scheme": "camf.d9_rainfall_amounts",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "p ≤ 2.5mm/h"
+              }
             }
           },
           "visibility": {
-            "scheme": "camf.d13_visibility",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Dense fog: visibility < 20m"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 20,
+              "inclusive": true
+            },
+            "unit": "m",
+            "code": {
+              "scheme": "camf.d13_visibility",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Dense fog: visibility < 20m"
+              }
             }
           }
         }
@@ -4643,19 +4795,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "visibility": {
-            "scheme": "camf.d13_visibility",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Dense fog: visibility < 20m"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 20,
+              "inclusive": true
+            },
+            "unit": "m",
+            "code": {
+              "scheme": "camf.d13_visibility",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Dense fog: visibility < 20m"
+              }
             }
           },
           "snow_depth": {
-            "scheme": "camf.d14_snow_depth",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0cm < daily snow depth ≤ 20cm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 20,
+              "inclusive": true
+            },
+            "unit": "cm",
+            "code": {
+              "scheme": "camf.d14_snow_depth",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0cm < daily snow depth ≤ 20cm"
+              }
             }
           }
         }
@@ -5029,19 +5202,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "temperature_range": {
-            "scheme": "camf.d6_temperature_range",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "T ≤ -30°C"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": -30,
+              "inclusive": true
+            },
+            "unit": "degC",
+            "code": {
+              "scheme": "camf.d6_temperature_range",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "T ≤ -30°C"
+              }
             }
           },
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           }
         }
@@ -5163,19 +5357,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           },
           "rainfall_amounts": {
-            "scheme": "camf.d9_rainfall_amounts",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "p ≤ 2.5mm/h"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 2.5,
+              "inclusive": true
+            },
+            "unit": "mm/h",
+            "code": {
+              "scheme": "camf.d9_rainfall_amounts",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "p ≤ 2.5mm/h"
+              }
             }
           },
           "tornado_probability": {
@@ -5313,11 +5528,20 @@
         "kind": "hazard_details",
         "hazard_details": {
           "visibility": {
-            "scheme": "camf.d13_visibility",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Dense fog: visibility < 20m"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 20,
+              "inclusive": true
+            },
+            "unit": "m",
+            "code": {
+              "scheme": "camf.d13_visibility",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Dense fog: visibility < 20m"
+              }
             }
           },
           "fog_level": {
@@ -5447,19 +5671,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           },
           "visibility": {
-            "scheme": "camf.d13_visibility",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Dense fog: visibility < 20m"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 20,
+              "inclusive": true
+            },
+            "unit": "m",
+            "code": {
+              "scheme": "camf.d13_visibility",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Dense fog: visibility < 20m"
+              }
             }
           }
         }
@@ -5959,19 +6204,40 @@
         "kind": "hazard_details",
         "hazard_details": {
           "wave_height": {
-            "scheme": "camf.d5_wave_height",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "H ≤ 0.5m"
+            "kind": "bounds",
+            "lower": null,
+            "upper": {
+              "value": 0.5,
+              "inclusive": true
+            },
+            "unit": "m",
+            "code": {
+              "scheme": "camf.d5_wave_height",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "H ≤ 0.5m"
+              }
             }
           },
           "wind_speed": {
-            "scheme": "camf.d8_wind_speed",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 1,
+              "inclusive": true
+            },
+            "unit": "km/h",
+            "code": {
+              "scheme": "camf.d8_wind_speed",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "Beaufort 0 - 0km/h < v < 1km/h - Calm"
+              }
             }
           }
         }
@@ -7101,11 +7367,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "number_of_cases_per_100000_inhabitants": {
-            "scheme": "camf.d26_number_of_cases_per_100000_inhabitants",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0 - 9"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": true
+            },
+            "upper": {
+              "value": 10,
+              "inclusive": false
+            },
+            "unit": null,
+            "code": {
+              "scheme": "camf.d26_number_of_cases_per_100000_inhabitants",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0 - 9"
+              }
             }
           },
           "infection_type": {
@@ -7235,11 +7513,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "number_of_cases_per_100000_inhabitants": {
-            "scheme": "camf.d26_number_of_cases_per_100000_inhabitants",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0 - 9"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": true
+            },
+            "upper": {
+              "value": 10,
+              "inclusive": false
+            },
+            "unit": null,
+            "code": {
+              "scheme": "camf.d26_number_of_cases_per_100000_inhabitants",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0 - 9"
+              }
             }
           },
           "infection_type": {
@@ -7369,11 +7659,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "noise_range": {
-            "scheme": "camf.d27_noise_range",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "40 < dB ≤ 45"
+            "kind": "bounds",
+            "lower": {
+              "value": 40,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 45,
+              "inclusive": true
+            },
+            "unit": "dB",
+            "code": {
+              "scheme": "camf.d27_noise_range",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "40 < dB ≤ 45"
+              }
             }
           }
         }
@@ -7621,11 +7923,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "camf.d29_outage_estimated_duration",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0 < duration < 30 min"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 30,
+              "inclusive": false
+            },
+            "unit": "min",
+            "code": {
+              "scheme": "camf.d29_outage_estimated_duration",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0 < duration < 30 min"
+              }
             }
           }
         }
@@ -7747,11 +8061,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "camf.d29_outage_estimated_duration",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0 < duration < 30 min"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 30,
+              "inclusive": false
+            },
+            "unit": "min",
+            "code": {
+              "scheme": "camf.d29_outage_estimated_duration",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0 < duration < 30 min"
+              }
             }
           }
         }
@@ -7873,11 +8199,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "camf.d29_outage_estimated_duration",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0 < duration < 30 min"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 30,
+              "inclusive": false
+            },
+            "unit": "min",
+            "code": {
+              "scheme": "camf.d29_outage_estimated_duration",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0 < duration < 30 min"
+              }
             }
           }
         }
@@ -7999,11 +8337,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "camf.d29_outage_estimated_duration",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0 < duration < 30 min"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 30,
+              "inclusive": false
+            },
+            "unit": "min",
+            "code": {
+              "scheme": "camf.d29_outage_estimated_duration",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0 < duration < 30 min"
+              }
             }
           }
         }
@@ -8125,11 +8475,23 @@
         "kind": "hazard_details",
         "hazard_details": {
           "outage_estimated_duration": {
-            "scheme": "camf.d29_outage_estimated_duration",
-            "code": "0",
-            "recognized": true,
-            "labels": {
-              "en": "0 < duration < 30 min"
+            "kind": "bounds",
+            "lower": {
+              "value": 0,
+              "inclusive": false
+            },
+            "upper": {
+              "value": 30,
+              "inclusive": false
+            },
+            "unit": "min",
+            "code": {
+              "scheme": "camf.d29_outage_estimated_duration",
+              "code": "0",
+              "recognized": true,
+              "labels": {
+                "en": "0 < duration < 30 min"
+              }
             }
           }
         }

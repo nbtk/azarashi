@@ -382,3 +382,23 @@ def test_a_country_scoped_scheme_keeps_its_shape(field, scheme):
     target = row['data']['provider'] if field == 'provider' else row['data']['instruction']['content']
     target['scheme'] = scheme
     assert not VALIDATOR.is_valid(row)
+
+
+def test_every_code_a_numeric_b4_field_can_carry_converts_to_a_valid_record():
+    # decode each field at every value its width allows, defined or not, and validate the JSON
+    from azarashi.json.model import CAMF_PROFILES
+    from test_dcx_fields import B4_FIELDS, ELLIPSE, _decode, dcx
+
+    checked = set()
+    for hazards, fields in B4_FIELDS:
+        for name, position, size, _table in fields:
+            if name not in CAMF_PROFILES or name in checked:
+                continue
+            checked.add(name)
+            for code in range(1 << size):
+                others = [(p, s, 0) for n, p, s, _ in fields if n != name]
+                row = example_record(_decode(dcx([(position, size, code), *others], **ELLIPSE, a4=hazards[0], a17=3)))
+                details = row['data']['specific_settings']['hazard_details']
+                assert details[name.split('_', 1)[1]]['code']['code'] == str(code)
+                VALIDATOR.validate(row)
+    assert checked == set(CAMF_PROFILES)

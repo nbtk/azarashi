@@ -1113,12 +1113,38 @@
         "magnitude_on_richter_scale": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d1_magnitude_on_richter_scale"
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d1_magnitude_on_richter_scale"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": null
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing"
+                  ]
+                },
+                "qualifier": false,
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
@@ -1139,77 +1165,103 @@
           ]
         },
         "azimuth_from_centre_of_main_ellipse_to_epicentre": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/code"
-                },
-                {
-                  "properties": {
-                    "scheme": {
-                      "const": "camf.d3_azimuth_from_centre_of_main_ellipse_to_epicentre"
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d3_azimuth_from_centre_of_main_ellipse_to_epicentre"
+                        }
+                      }
                     }
-                  }
-                }
-              ]
-            },
-            "value": {
-              "type": "number"
-            },
-            "unit": {
-              "const": "deg"
+                  ]
+                },
+                "unit": {
+                  "const": "deg"
+                },
+                "kind": {
+                  "enum": [
+                    "scalar"
+                  ]
+                },
+                "qualifier": false
+              }
             }
-          },
-          "required": [
-            "code",
-            "value",
-            "unit"
-          ],
-          "additionalProperties": false
+          ]
         },
         "vector_length_between_centre_of_main_ellipse_and_epicentre": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/code"
-                },
-                {
-                  "properties": {
-                    "scheme": {
-                      "const": "camf.d4_vector_length_between_centre_of_main_ellipse_and_epicentre"
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d4_vector_length_between_centre_of_main_ellipse_and_epicentre"
+                        }
+                      }
                     }
-                  }
-                }
-              ]
-            },
-            "value": {
-              "type": "number"
-            },
-            "unit": {
-              "const": "semi_major_axis"
+                  ]
+                },
+                "unit": {
+                  "const": "semi_major_axis"
+                },
+                "kind": {
+                  "enum": [
+                    "scalar"
+                  ]
+                },
+                "qualifier": false
+              }
             }
-          },
-          "required": [
-            "code",
-            "value",
-            "unit"
-          ],
-          "additionalProperties": false
+          ]
         },
         "wave_height": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d5_wave_height"
-                }
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d5_wave_height"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "m"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -1217,13 +1269,33 @@
         "temperature_range": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d6_temperature_range"
-                }
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d6_temperature_range"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "degC"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -1245,12 +1317,38 @@
         "wind_speed": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d8_wind_speed"
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d8_wind_speed"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "km/h"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing"
+                  ]
+                },
+                "qualifier": false,
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
@@ -1259,13 +1357,33 @@
         "rainfall_amounts": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d9_rainfall_amounts"
-                }
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d9_rainfall_amounts"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "mm/h"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds"
+                  ]
+                },
+                "qualifier": false
               }
             }
           ]
@@ -1315,12 +1433,38 @@
         "visibility": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d13_visibility"
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d13_visibility"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "m"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing"
+                  ]
+                },
+                "qualifier": false,
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
@@ -1329,12 +1473,38 @@
         "snow_depth": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d14_snow_depth"
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d14_snow_depth"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "cm"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing"
+                  ]
+                },
+                "qualifier": false,
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
@@ -1497,12 +1667,38 @@
         "number_of_cases_per_100000_inhabitants": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d26_number_of_cases_per_100000_inhabitants"
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d26_number_of_cases_per_100000_inhabitants"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": null
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing"
+                  ]
+                },
+                "qualifier": false,
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
@@ -1511,12 +1707,38 @@
         "noise_range": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d27_noise_range"
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d27_noise_range"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "dB"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing"
+                  ]
+                },
+                "qualifier": false,
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
@@ -1539,12 +1761,38 @@
         "outage_estimated_duration": {
           "allOf": [
             {
-              "$ref": "#/$defs/code"
+              "$ref": "#/$defs/quantity"
             },
             {
               "properties": {
-                "scheme": {
-                  "const": "camf.d29_outage_estimated_duration"
+                "code": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/code"
+                    },
+                    {
+                      "properties": {
+                        "scheme": {
+                          "const": "camf.d29_outage_estimated_duration"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "min"
+                },
+                "kind": {
+                  "enum": [
+                    "bounds",
+                    "missing"
+                  ]
+                },
+                "qualifier": false,
+                "reason": {
+                  "enum": [
+                    "unrecognized_code"
+                  ]
                 }
               }
             }
