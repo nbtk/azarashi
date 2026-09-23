@@ -135,3 +135,6 @@ dmypy.json
 specs/
 *.pdf
 
+
+# Local working notes
+/TODO.md
