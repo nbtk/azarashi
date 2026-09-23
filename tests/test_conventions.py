@@ -33,7 +33,7 @@ def test_every_exception_is_exported():
 def test_the_typing_marker_is_there_and_ships():
     assert (ROOT / 'azarashi' / 'py.typed').is_file()
     setup = (ROOT / 'setup.py').read_text(encoding='utf-8')
-    assert "package_data={'azarashi': ['py.typed', 'schemas/*.json']}" in setup
+    assert "package_data={'azarashi': ['py.typed'], 'azarashi.json': ['schemas/*.json']}" in setup
     assert "'Typing :: Typed'" in setup
 
 

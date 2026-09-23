@@ -5,7 +5,7 @@
 `to_json_dict()` と `to_ndjson()`、CLI の `--json` が出力する JSON の形式と、各項目の意味を説明します。
 既存の Python API やレポートの動作は変わりません。
 
-- [JSON Schema](../azarashi/schemas/report-v1.schema.json)：Draft 2020-12、全18種類
+- [JSON Schema](../azarashi/json/schemas/report-v1.schema.json)：Draft 2020-12、全18種類
 - [整形した完全な出力例](schemas/report-v1.examples.pretty.json)
 - [同じ内容の NDJSON](schemas/report-v1.examples.ndjson)
 
@@ -324,7 +324,9 @@ v1 の構造は固定し、未定義の項目は拒否します。フィール�
 
 ## Examples and Tests
 
-スキーマは配布パッケージの `azarashi/schemas/report-v1.schema.json` に含まれ、`json_schema()` で取得できます。
+スキーマは配布パッケージの `azarashi/json/schemas/report-v1.schema.json` に含まれ、
+`json_schema()` で取得できます。公開する名前は `azarashi` から取れる4つだけで、
+`azarashi.json.model` の内部名は互換性の対象ではありません。
 例の再生成コードは `tests/schema/` にあります。
 例の生成にコード表を使い、既存の全レポート型・C/D分岐・特殊値を検証します。
 コード表の仕様適合性を JSON テストだけで証明するものではありません。

@@ -51,6 +51,7 @@
 
 この文書にある公開レポートの属性・メソッド・生成方法と、既存の旧名は互換性の対象です。
 一方、`azarashi.definitions` のモジュール経路・内部の定義名、および `azarashi.decoders` の段階構成・context・内部コンストラクタは互換性の対象に含めません。
+`azarashi.json.model` の内部名も同様です。
 電文から生成する入口には公開の `decode()` / `decode_stream()` を使ってください。
 
 ## Common Fields

@@ -3,7 +3,7 @@ from azarashi import decode
 import json
 from pathlib import Path
 from azarashi import json_schema, to_json_dict
-from azarashi._serialization import TYPE_NAMES
+from azarashi.json.model import TYPE_NAMES
 from test_declared_types import REPORTS, RECEIVED
 from test_dcx_fields import dcx, JAPAN
 from test_jma_reports import HYPOCENTER, TSUNAMI

@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from azarashi import json_schema, to_json_dict as example_record
-from azarashi._serialization import TYPE_NAMES, dcr_value
+from azarashi.json.model import TYPE_NAMES, dcr_value
 from schema.generate import fixtures
 from test_declared_types import REPORTS
 
@@ -118,7 +118,7 @@ def test_no_input_report_is_mutated():
 
 
 def test_every_dcr_source_field_has_a_mapping_or_explicit_omission():
-    from azarashi._serialization import COMMON, DCR_TYPES, LISTS, SINGLES, TIMES
+    from azarashi.json.model import COMMON, DCR_TYPES, LISTS, SINGLES, TIMES
     from test_declared_types import _declared
     envelope = {'sentence', 'raw', 'timestamp', 'message', 'nmea', 'message_header', 'satellite_id',
                 'satellite_prn', 'satellite_svid', 'preamble', 'message_type'}

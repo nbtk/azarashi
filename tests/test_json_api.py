@@ -80,7 +80,7 @@ def test_quantity_profiles_agree_with_the_code_tables():
     import importlib
     import re
 
-    from azarashi._serialization import PROFILES
+    from azarashi.json.model import PROFILES
 
     for table_name, (scalar, bounds, _missing, _unit) in PROFILES.items():
         module = importlib.import_module(f'azarashi.definitions.qzss.dcr.{table_name}')
@@ -101,17 +101,17 @@ def test_quantity_profiles_agree_with_the_code_tables():
 
 
 def test_a_code_defined_without_a_name_carries_no_label():
-    from azarashi._serialization import coded
+    from azarashi.json.model import coded
 
     assert coded('x', 0, {0: ''}) == {'scheme': 'x', 'code': '0', 'recognized': True, 'labels': {}}
 
 
 def test_an_unnamed_prefecture_bit_keeps_its_position(monkeypatch):
-    from azarashi import _serialization
+    from azarashi.json import model
 
-    assert _serialization.prefecture_bit(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo'}
+    assert model.prefecture_bit(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo'}
     # substitutes, because the decoder lists the prefectures in the real tables' own order
-    monkeypatch.setattr(_serialization, 'ex9_target_area_code_ja', {})
-    monkeypatch.setattr(_serialization, 'ex9_target_area_code_en', {})
-    unnamed = _serialization.prefecture_bit(12)
+    monkeypatch.setattr(model, 'ex9_target_area_code_ja', {})
+    monkeypatch.setattr(model, 'ex9_target_area_code_en', {})
+    unnamed = model.prefecture_bit(12)
     assert unnamed == {'scheme': 'qzss.dcx.prefecture_bit', 'code': '12', 'recognized': False, 'labels': {}}

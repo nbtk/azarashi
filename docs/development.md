@@ -67,17 +67,22 @@ EX1・EX9 と、DCX 自身のメッセージ種別の3つです。
 `a3_provider_identifier_map` は A2 の国コードをキーにします。国名を識別子にしません。電文が
 運ぶのはコードで、国名は改称される一方コードは変わらないからです。
 
+JSON 出力は `azarashi/json/` にまとめます。`__init__.py` が公開する4つの入口、`model.py` が
+レポートから JSON への対応、`schemas/` が同梱するスキーマです。スキーマは配布物に含めるので、
+`setup.py` の `package_data` に `azarashi.json` として登録しています。
+
 `definitions/code_table.py` の `CodeTable` は、未定義コードの扱いを備えた辞書です。
 QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。
 入力アダプターは現在 QZSS に対応し、QZSS 固有の context と補助処理は `decoders/qzss/` に置きます。
 公開 API の形式名は `ublox` です。
 
-CAMF の共通定義は A1・A5・A6・A9・A17 の表、共通処理は A12〜A15 の座標・半軸長の変換です。
-コードの意味と変換は [CAMF Issue 1.1](https://www.gsc-europa.eu/sites/default/files/sites/all/files/EWSS-CAMF_v1.1.pdf)
-の 3.1.1、3.2.2、3.3.1、3.5.1、3.6、3.7 節と照合しています。
-表示文言と未定義値の扱いはライブラリ側のものです。
-その他の表は、国別の定義、対応ライブラリの版、共通仕様との照合範囲を区別するため DCX 側に置いています。
-Galileo EWSS を追加する際も、伝送やビット位置の処理を各システムに置き、共通仕様と一致する部分を CAMF 側で共有します。
+`definitions/camf/` には A1〜A11、A17、C10、D1〜D36 の表を置きます。共通処理は A12〜A15 の座標・
+半軸長の変換で、`decoders/camf/geometry.py` にあります。コードの意味と変換は CAMF Issue 1.2
+（2026年3月、現行版）の 3.1、3.2、3.3、3.5、3.6、3.7 節と照合しています。
+公開されている [Issue 1.1](https://www.gsc-europa.eu/sites/default/files/sites/all/files/EWSS-CAMF_v1.1.pdf)
+は前の版です。表示文言と未定義値の扱いはライブラリ側のものです。
+Galileo EWSS を追加する際も、伝送やビット位置の処理を各システムに置き、CAMF のフィールドの表は
+そのまま共有します。
 
 `definitions` と `decoders` のモジュール経路・クラス名は内部実装です。
 公開の入口には `decode()` / `decode_stream()` を使い、レポートは `azarashi.reports` から参照してください。

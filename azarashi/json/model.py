@@ -5,13 +5,13 @@ import math
 import re
 from datetime import UTC, datetime
 from typing import Any, TypeAlias, cast
-from . import reports
-from .definitions.camf import d_fields as B4_MODULE
-from .definitions.camf.a11_library import a11_library
-from .definitions.camf.a3_provider_identifier import a3_provider_identifier_map
-from .definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
-from .definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja, ex9_target_area_code_en
-from .definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_ja, ex1_target_area_code_en
+from .. import reports
+from ..definitions.camf import d_fields as B4_MODULE
+from ..definitions.camf.a11_library import a11_library
+from ..definitions.camf.a3_provider_identifier import a3_provider_identifier_map
+from ..definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
+from ..definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja, ex9_target_area_code_en
+from ..definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_ja, ex1_target_area_code_en
 
 JsonValue: TypeAlias = str | int | float | bool | None | list["JsonValue"] | dict[str, "JsonValue"]
 
@@ -273,7 +273,7 @@ TYPE_NAMES = dict(
 
 
 def dcr_code(table: str, value: int) -> dict[str, Any]:
-    tables = importlib.import_module(f".definitions.qzss.dcr.{table}", __package__)
+    tables = importlib.import_module(f"..definitions.qzss.dcr.{table}", __package__)
     ja = getattr(tables, table, None)
     en = getattr(tables, table + "_en", None)
     return coded("qzss.dcr." + table, value, ja, en)
@@ -389,7 +389,7 @@ B4_TABLES: dict[str, Any] = {k: v for k, v in vars(B4_MODULE).items() if re.matc
 def xcode(table: str, n: int) -> dict[str, Any]:
     """A table CAMF defines, under the scheme of the service that carried the message."""
     module = "a4_hazard_category_and_type" if table == "a4_hazard_type" else table
-    definitions = importlib.import_module(f".definitions.camf.{module}", __package__)
+    definitions = importlib.import_module(f"..definitions.camf.{module}", __package__)
     return coded("camf." + table, n, en=getattr(definitions, table))
 
 

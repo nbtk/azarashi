@@ -3,9 +3,9 @@
 import json
 from importlib.resources import files
 
-from ._serialization import JsonValue as JsonValue
-from ._serialization import TYPE_NAMES, copy_json, dcr_model, dcx_model, report_name, DCR_TYPES, utc
-from .reports import Report
+from .model import JsonValue as JsonValue
+from .model import TYPE_NAMES, copy_json, dcr_model, dcx_model, report_name, DCR_TYPES, utc
+from ..reports import Report
 
 
 def to_json_dict(report: Report) -> dict[str, JsonValue]:
@@ -34,7 +34,7 @@ def to_ndjson(report: Report) -> str:
 
 def json_schema() -> dict[str, JsonValue]:
     """Return an independent copy of the bundled JSON v1 schema."""
-    resource = files("azarashi").joinpath("schemas/report-v1.schema.json")
+    resource = files("azarashi.json").joinpath("schemas/report-v1.schema.json")
     result = copy_json(json.loads(resource.read_text(encoding="utf-8")))
     assert isinstance(result, dict)
     return result
