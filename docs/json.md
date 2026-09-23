@@ -100,6 +100,7 @@ JIS などの外部のコード体系と同じであることを確認してい�
 未定義コードも code を保持し、labels は空オブジェクトにします。
 未定義コードの代わりに表示する「コード番号：…」は名称ではないため含めません。
 定義済みでも表示文字列がない場合は、`labels` は空オブジェクトになります。
+`labels` の値が空文字列になることはありません。スキーマも空文字列を拒否します。
 日本語・英語がある場合だけ `ja`・`en` を出し、翻訳を追加しません。
 
 提供者の scheme は `qzss.dcx.provider.country_N` とし、国が違えば別体系になります。
@@ -174,7 +175,19 @@ missing や category も含め、判断不能を false と同一視しないで�
 火山の日時には `activity_time_ambiguity_code` を必須で併記します。
 日時の精度・概数の解釈にはこのコードを使い、補完された日時を正確な観測日時だとみなしません。
 台風の基点分類も `reference_type`、経過時間も `elapsed_time` として保持します。
-時刻オブジェクト単体の型検証は、それが置かれたフィールドでの状態の意味までは保証しません。
+状態はフィールドごとに絞ってあります。どのフィールドがどの状態を取り得るかはスキーマで検証するので、
+利用者は「この組み合わせはありえない」を機械的に判断できます。
+
+| フィールド | 取り得る status | `basis` | `source` |
+|---|---|---|---|
+| `report_time` | `time` のみ | `received_at` | なし |
+| `occurrence_time_of_earthquake`、`activity_time`、`reference_time` | `time`、`unrecognized_code` | `report_time` | 日・時・分 |
+| 国内津波の `arrival` | 上記＋`arrival_estimated`、`no_information` | `report_time` | 日・時・分 |
+| 北西太平洋津波の `arrival` | `time`、`arrived_or_unknown`、`unrecognized_code` | `report_time` | 日・時・分 |
+| DCX の `onset` | `time`、`not_used`、`unrecognized_code` | `received_at` | 週・週内分 |
+
+`report_time` は DCR の電文が必ず発表時刻を持つため `time` だけです。自分自身を基準にすることも
+ありません。国内津波と北西太平洋津波は、相手側の状態を受け付けません。
 
 ## Regions, Forecasts and Positions
 

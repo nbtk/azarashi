@@ -238,3 +238,42 @@ def test_the_envelope_is_defined_once_and_every_type_requires_its_nmea():
                                     format_checker=FormatChecker())
     assert envelope.is_valid(row)  # but the shared envelope leaves room for a carrier without one
     assert not envelope.is_valid({**row, 'unknown': 1})
+
+
+def test_a_label_is_never_an_empty_string():
+    row = record('LAlert')
+    row['data']['severity']['labels']['en'] = ''
+    assert not VALIDATOR.is_valid(row)  # a defined code with no name carries no label at all
+
+
+@pytest.mark.parametrize('name,field,state', [
+    # each time field takes only the states its own decoding can reach
+    ('Hypocenter', 'report_time', {'status': 'not_used', 'value': None, 'basis': None}),
+    ('Hypocenter', 'report_time', {'status': 'unrecognized_code', 'value': None, 'basis': None,
+                                   'source': {'day': 1, 'hour': 1, 'minute': 1}}),
+    ('LAlert', 'onset', {'status': 'no_information', 'value': None, 'basis': None}),
+    ('LAlert', 'onset', {'status': 'unrecognized_code', 'value': None, 'basis': None,
+                         'source': {'day': 1, 'hour': 1, 'minute': 1}}),
+    ('Hypocenter', 'occurrence_time_of_earthquake', {'status': 'not_used', 'value': None, 'basis': None}),
+    ('Hypocenter', 'occurrence_time_of_earthquake', {'status': 'unrecognized_code', 'value': None,
+                                                     'basis': None, 'source': {'week': 0, 'minute_of_week': 0}}),
+])
+def test_a_time_field_refuses_a_state_it_cannot_reach(name, field, state):
+    row = record(name)
+    row['data'][field] = state
+    assert not VALIDATOR.is_valid(row)
+
+
+def test_report_time_is_always_read_against_the_reception_time():
+    row = record('Hypocenter')
+    assert row['data']['report_time']['basis'] == 'received_at'
+    row['data']['report_time']['basis'] = 'report_time'
+    assert not VALIDATOR.is_valid(row)  # nothing is completed from itself
+
+
+@pytest.mark.parametrize('name,other', [('Tsunami', 'arrived_or_unknown'),
+                                        ('NorthwestPacificTsunami', 'arrival_estimated')])
+def test_an_arrival_refuses_the_other_sea_area_state(name, other):
+    row = record(name)
+    row['data']['forecasts'][0]['arrival'] = {'status': other, 'value': None, 'basis': None}
+    assert not VALIDATOR.is_valid(row)
