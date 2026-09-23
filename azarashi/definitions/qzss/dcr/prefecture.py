@@ -1,3 +1,11 @@
+"""Prefectures, IS-QZSS-DCR-017 Table 4.1.2-16.
+
+The English names are JMA's, from its multilingual dictionary of weather information terms
+(気象情報等に関する多言語辞書, updated 2026-03-26), matched by the code of the JMA XML code table
+AreaInformationPrefectureEarthquake, where the Japanese name is the same. Doubled or invisible
+spaces and full-width brackets are tidied; the words are the dictionary's. A name the dictionary
+does not have has no English here.
+"""
 from ...code_table import CodeTable
 
 prefecture = CodeTable(
@@ -51,4 +59,58 @@ prefecture = CodeTable(
         47: "沖縄県",
     },
     undefined="都道府県(コード番号：%d)"
+)
+
+
+prefecture_en = CodeTable(
+    {
+        1: "Hokkaido Prefecture",
+        2: "Aomori Prefecture",
+        3: "Iwate Prefecture",
+        4: "Miyagi Prefecture",
+        5: "Akita Prefecture",
+        6: "Yamagata Prefecture",
+        7: "Fukushima Prefecture",
+        8: "Ibaraki Prefecture",
+        9: "Tochigi Prefecture",
+        10: "Gunma Prefecture",
+        11: "Saitama Prefecture",
+        12: "Chiba Prefecture",
+        13: "Tokyo Metropolis",
+        14: "Kanagawa Prefecture",
+        15: "Niigata Prefecture",
+        16: "Toyama Prefecture",
+        17: "Ishikawa Prefecture",
+        18: "Fukui Prefecture",
+        19: "Yamanashi Prefecture",
+        20: "Nagano Prefecture",
+        21: "Gifu Prefecture",
+        22: "Shizuoka Prefecture",
+        23: "Aichi Prefecture",
+        24: "Mie Prefecture",
+        25: "Shiga Prefecture",
+        26: "Kyoto Prefecture",
+        27: "Osaka Prefecture",
+        28: "Hyogo Prefecture",
+        29: "Nara Prefecture",
+        30: "Wakayama Prefecture",
+        31: "Tottori Prefecture",
+        32: "Shimane Prefecture",
+        33: "Okayama Prefecture",
+        34: "Hiroshima Prefecture",
+        35: "Yamaguchi Prefecture",
+        36: "Tokushima Prefecture",
+        37: "Kagawa Prefecture",
+        38: "Ehime Prefecture",
+        39: "Kochi Prefecture",
+        40: "Fukuoka Prefecture",
+        41: "Saga Prefecture",
+        42: "Nagasaki Prefecture",
+        43: "Kumamoto Prefecture",
+        44: "Oita Prefecture",
+        45: "Miyazaki Prefecture",
+        46: "Kagoshima Prefecture",
+        47: "Okinawa Prefecture",
+    },
+    undefined="Undefined Prefecture (Code: %d)"
 )

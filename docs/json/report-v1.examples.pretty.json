@@ -43,7 +43,8 @@
           "code": "10",
           "recognized": true,
           "labels": {
-            "ja": "10km"
+            "ja": "10km",
+            "en": "10 km"
           }
         }
       },
@@ -56,7 +57,8 @@
           "code": "72",
           "recognized": true,
           "labels": {
-            "ja": "7.2"
+            "ja": "7.2",
+            "en": "7.2"
           }
         }
       },
@@ -65,7 +67,8 @@
         "code": "791",
         "recognized": true,
         "labels": {
-          "ja": "日向灘"
+          "ja": "日向灘",
+          "en": "Hyuganada Sea"
         }
       },
       "intensity_lower": {
@@ -73,7 +76,8 @@
         "code": "8",
         "recognized": true,
         "labels": {
-          "ja": "震度6弱"
+          "ja": "震度6弱",
+          "en": "Seismic intensity of 6-lower"
         }
       },
       "intensity_upper": {
@@ -81,7 +85,8 @@
         "code": "11",
         "recognized": true,
         "labels": {
-          "ja": "〜程度以上"
+          "ja": "〜程度以上",
+          "en": "or greater"
         }
       },
       "occurrence_time": {
@@ -95,7 +100,8 @@
           "code": "201",
           "recognized": true,
           "labels": {
-            "ja": "強い揺れに警戒してください。"
+            "ja": "強い揺れに警戒してください。",
+            "en": "Watch out for strong tremors."
           }
         }
       ],
@@ -105,7 +111,8 @@
           "code": "37",
           "recognized": true,
           "labels": {
-            "ja": "島根"
+            "ja": "島根",
+            "en": "Shimane"
           }
         },
         {
@@ -113,7 +120,8 @@
           "code": "38",
           "recognized": true,
           "labels": {
-            "ja": "岡山"
+            "ja": "岡山",
+            "en": "Okayama"
           }
         },
         {
@@ -121,7 +129,8 @@
           "code": "39",
           "recognized": true,
           "labels": {
-            "ja": "広島"
+            "ja": "広島",
+            "en": "Hiroshima"
           }
         },
         {
@@ -129,7 +138,8 @@
           "code": "40",
           "recognized": true,
           "labels": {
-            "ja": "山口"
+            "ja": "山口",
+            "en": "Yamaguchi"
           }
         },
         {
@@ -137,7 +147,8 @@
           "code": "42",
           "recognized": true,
           "labels": {
-            "ja": "香川"
+            "ja": "香川",
+            "en": "Kagawa"
           }
         },
         {
@@ -145,7 +156,8 @@
           "code": "43",
           "recognized": true,
           "labels": {
-            "ja": "愛媛"
+            "ja": "愛媛",
+            "en": "Ehime"
           }
         },
         {
@@ -153,7 +165,8 @@
           "code": "44",
           "recognized": true,
           "labels": {
-            "ja": "高知"
+            "ja": "高知",
+            "en": "Kochi"
           }
         },
         {
@@ -161,7 +174,8 @@
           "code": "45",
           "recognized": true,
           "labels": {
-            "ja": "福岡"
+            "ja": "福岡",
+            "en": "Fukuoka"
           }
         },
         {
@@ -169,7 +183,8 @@
           "code": "46",
           "recognized": true,
           "labels": {
-            "ja": "佐賀"
+            "ja": "佐賀",
+            "en": "Saga"
           }
         },
         {
@@ -177,7 +192,8 @@
           "code": "47",
           "recognized": true,
           "labels": {
-            "ja": "長崎"
+            "ja": "長崎",
+            "en": "Nagasaki"
           }
         },
         {
@@ -185,7 +201,8 @@
           "code": "48",
           "recognized": true,
           "labels": {
-            "ja": "熊本"
+            "ja": "熊本",
+            "en": "Kumamoto"
           }
         },
         {
@@ -193,7 +210,8 @@
           "code": "49",
           "recognized": true,
           "labels": {
-            "ja": "大分"
+            "ja": "大分",
+            "en": "Oita"
           }
         },
         {
@@ -201,7 +219,8 @@
           "code": "50",
           "recognized": true,
           "labels": {
-            "ja": "宮崎"
+            "ja": "宮崎",
+            "en": "Miyazaki"
           }
         },
         {
@@ -209,7 +228,8 @@
           "code": "51",
           "recognized": true,
           "labels": {
-            "ja": "鹿児島"
+            "ja": "鹿児島",
+            "en": "Kagoshima"
           }
         },
         {
@@ -217,7 +237,8 @@
           "code": "66",
           "recognized": true,
           "labels": {
-            "ja": "中国"
+            "ja": "中国",
+            "en": "Chugoku"
           }
         },
         {
@@ -225,7 +246,8 @@
           "code": "67",
           "recognized": true,
           "labels": {
-            "ja": "四国"
+            "ja": "四国",
+            "en": "Shikoku"
           }
         },
         {
@@ -233,7 +255,8 @@
           "code": "68",
           "recognized": true,
           "labels": {
-            "ja": "九州"
+            "ja": "九州",
+            "en": "Kyushu"
           }
         }
       ],
@@ -284,7 +307,8 @@
           "code": "40",
           "recognized": true,
           "labels": {
-            "ja": "40km"
+            "ja": "40km",
+            "en": "40 km"
           }
         }
       },
@@ -297,7 +321,8 @@
           "code": "64",
           "recognized": true,
           "labels": {
-            "ja": "6.4"
+            "ja": "6.4",
+            "en": "6.4"
           }
         }
       },
@@ -306,7 +331,8 @@
         "code": "791",
         "recognized": true,
         "labels": {
-          "ja": "日向灘"
+          "ja": "日向灘",
+          "en": "Hyuganada Sea"
         }
       },
       "occurrence_time": {
@@ -320,7 +346,8 @@
           "code": "226",
           "recognized": true,
           "labels": {
-            "ja": "震源の近傍で津波発生の可能性があります。"
+            "ja": "震源の近傍で津波発生の可能性があります。",
+            "en": "There is a possibility of a destructive local tsunami near the epicenter."
           }
         }
       ],
@@ -388,7 +415,8 @@
             "code": "44",
             "recognized": true,
             "labels": {
-              "ja": "大分県"
+              "ja": "大分県",
+              "en": "Oita Prefecture"
             }
           },
           "intensity": {
@@ -396,7 +424,8 @@
             "code": "4",
             "recognized": true,
             "labels": {
-              "ja": "5強"
+              "ja": "5強",
+              "en": "5-upper"
             }
           }
         },
@@ -406,7 +435,8 @@
             "code": "45",
             "recognized": true,
             "labels": {
-              "ja": "宮崎県"
+              "ja": "宮崎県",
+              "en": "Miyazaki Prefecture"
             }
           },
           "intensity": {
@@ -414,7 +444,8 @@
             "code": "4",
             "recognized": true,
             "labels": {
-              "ja": "5強"
+              "ja": "5強",
+              "en": "5-upper"
             }
           }
         },
@@ -424,7 +455,8 @@
             "code": "39",
             "recognized": true,
             "labels": {
-              "ja": "高知県"
+              "ja": "高知県",
+              "en": "Kochi Prefecture"
             }
           },
           "intensity": {
@@ -432,7 +464,8 @@
             "code": "3",
             "recognized": true,
             "labels": {
-              "ja": "5弱"
+              "ja": "5弱",
+              "en": "5-lower"
             }
           }
         },
@@ -442,7 +475,8 @@
             "code": "43",
             "recognized": true,
             "labels": {
-              "ja": "熊本県"
+              "ja": "熊本県",
+              "en": "Kumamoto Prefecture"
             }
           },
           "intensity": {
@@ -450,7 +484,8 @@
             "code": "3",
             "recognized": true,
             "labels": {
-              "ja": "5弱"
+              "ja": "5弱",
+              "en": "5-lower"
             }
           }
         },
@@ -460,7 +495,8 @@
             "code": "35",
             "recognized": true,
             "labels": {
-              "ja": "山口県"
+              "ja": "山口県",
+              "en": "Yamaguchi Prefecture"
             }
           },
           "intensity": {
@@ -468,7 +504,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "4"
+              "ja": "4",
+              "en": "4"
             }
           }
         },
@@ -478,7 +515,8 @@
             "code": "38",
             "recognized": true,
             "labels": {
-              "ja": "愛媛県"
+              "ja": "愛媛県",
+              "en": "Ehime Prefecture"
             }
           },
           "intensity": {
@@ -486,7 +524,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "4"
+              "ja": "4",
+              "en": "4"
             }
           }
         },
@@ -496,7 +535,8 @@
             "code": "40",
             "recognized": true,
             "labels": {
-              "ja": "福岡県"
+              "ja": "福岡県",
+              "en": "Fukuoka Prefecture"
             }
           },
           "intensity": {
@@ -504,7 +544,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "4"
+              "ja": "4",
+              "en": "4"
             }
           }
         },
@@ -514,7 +555,8 @@
             "code": "41",
             "recognized": true,
             "labels": {
-              "ja": "佐賀県"
+              "ja": "佐賀県",
+              "en": "Saga Prefecture"
             }
           },
           "intensity": {
@@ -522,7 +564,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "4"
+              "ja": "4",
+              "en": "4"
             }
           }
         },
@@ -532,7 +575,8 @@
             "code": "46",
             "recognized": true,
             "labels": {
-              "ja": "鹿児島県"
+              "ja": "鹿児島県",
+              "en": "Kagoshima Prefecture"
             }
           },
           "intensity": {
@@ -540,7 +584,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "4"
+              "ja": "4",
+              "en": "4"
             }
           }
         }
@@ -587,7 +632,8 @@
         "code": "5",
         "recognized": true,
         "labels": {
-          "ja": "巨大地震注意"
+          "ja": "巨大地震注意",
+          "en": "Megathrust Earthquake Attention"
         }
       },
       "page": {
@@ -637,7 +683,8 @@
         "code": "3",
         "recognized": true,
         "labels": {
-          "ja": "津波警報"
+          "ja": "津波警報",
+          "en": "Tsunami Warning"
         }
       },
       "notifications": [
@@ -646,7 +693,8 @@
           "code": "122",
           "recognized": true,
           "labels": {
-            "ja": "＜津波警報＞\n津波による被害が発生します。\n沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。"
+            "ja": "＜津波警報＞\n津波による被害が発生します。\n沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。",
+            "en": "<Tsunami Warning>\nDamage due to tsunami waves is expected.\nEvacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.\nTsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted."
           }
         },
         {
@@ -654,7 +702,8 @@
           "code": "123",
           "recognized": true,
           "labels": {
-            "ja": "＜津波注意報＞\n海の中や海岸付近は危険です。\n海の中にいる人はただちに海から上がって、海岸から離れてください。\n潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。"
+            "ja": "＜津波注意報＞\n海の中や海岸付近は危険です。\n海の中にいる人はただちに海から上がって、海岸から離れてください。\n潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。",
+            "en": "<Tsunami Advisory>\nA marine threat is present.\nGet out of the water and leave coastal regions immediately.\nDue to the risk of ongoing strong currents, do not enter the sea or approach coastal regions until the advisory is lifted."
           }
         },
         {
@@ -662,7 +711,8 @@
           "code": "124",
           "recognized": true,
           "labels": {
-            "ja": "＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。"
+            "ja": "＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。",
+            "en": "<Tsunami Forecast (Slight sea-level change)>\nSlight sea-level changes may be observed in coastal regions, but no tsunami damage is expected."
           }
         }
       ],
@@ -673,7 +723,8 @@
             "code": "600",
             "recognized": true,
             "labels": {
-              "ja": "愛媛県宇和海沿岸"
+              "ja": "愛媛県宇和海沿岸",
+              "en": "Bungo Strait Coast of Ehime Prefecture"
             }
           },
           "height": {
@@ -692,7 +743,8 @@
               "code": "3",
               "recognized": true,
               "labels": {
-                "ja": "3m"
+                "ja": "3m",
+                "en": "3 m"
               }
             }
           },
@@ -708,7 +760,8 @@
             "code": "610",
             "recognized": true,
             "labels": {
-              "ja": "高知県"
+              "ja": "高知県",
+              "en": "Kochi Prefecture"
             }
           },
           "height": {
@@ -727,7 +780,8 @@
               "code": "3",
               "recognized": true,
               "labels": {
-                "ja": "3m"
+                "ja": "3m",
+                "en": "3 m"
               }
             }
           },
@@ -743,7 +797,8 @@
             "code": "760",
             "recognized": true,
             "labels": {
-              "ja": "宮崎県"
+              "ja": "宮崎県",
+              "en": "Miyazaki Prefecture"
             }
           },
           "height": {
@@ -762,7 +817,8 @@
               "code": "3",
               "recognized": true,
               "labels": {
-                "ja": "3m"
+                "ja": "3m",
+                "en": "3 m"
               }
             }
           },
@@ -888,7 +944,8 @@
         "code": "503",
         "recognized": true,
         "labels": {
-          "ja": "阿蘇山"
+          "ja": "阿蘇山",
+          "en": "Asosan"
         }
       },
       "warning": {
@@ -896,7 +953,8 @@
         "code": "52",
         "recognized": true,
         "labels": {
-          "ja": "噴火"
+          "ja": "噴火",
+          "en": "Volcanic eruptions"
         }
       },
       "activity_time": {
@@ -910,7 +968,8 @@
           "code": "4321400",
           "recognized": true,
           "labels": {
-            "ja": "熊本県阿蘇市"
+            "ja": "熊本県阿蘇市",
+            "en": "Aso City, Kumamoto Prefecture"
           }
         },
         {
@@ -918,7 +977,8 @@
           "code": "4342800",
           "recognized": true,
           "labels": {
-            "ja": "熊本県高森町"
+            "ja": "熊本県高森町",
+            "en": "Takamori Town, Kumamoto Prefecture"
           }
         },
         {
@@ -926,7 +986,8 @@
           "code": "4343300",
           "recognized": true,
           "labels": {
-            "ja": "熊本県南阿蘇村"
+            "ja": "熊本県南阿蘇村",
+            "en": "Minamiaso Village, Kumamoto Prefecture"
           }
         }
       ],
@@ -973,7 +1034,8 @@
         "code": "503",
         "recognized": true,
         "labels": {
-          "ja": "阿蘇山"
+          "ja": "阿蘇山",
+          "en": "Asosan"
         }
       },
       "warning_type": {
@@ -981,7 +1043,8 @@
         "code": "1",
         "recognized": true,
         "labels": {
-          "ja": "速報"
+          "ja": "速報",
+          "en": "Preliminary"
         }
       },
       "activity_time": {
@@ -996,7 +1059,8 @@
             "code": "4321400",
             "recognized": true,
             "labels": {
-              "ja": "熊本県阿蘇市"
+              "ja": "熊本県阿蘇市",
+              "en": "Aso City, Kumamoto Prefecture"
             }
           },
           "elapsed_time": {
@@ -1008,7 +1072,8 @@
               "code": "1",
               "recognized": true,
               "labels": {
-                "ja": "1時間"
+                "ja": "1時間",
+                "en": "1 hour"
               }
             }
           },
@@ -1017,7 +1082,8 @@
             "code": "1",
             "recognized": true,
             "labels": {
-              "ja": "少量の降灰"
+              "ja": "少量の降灰",
+              "en": "Low ash fall"
             }
           }
         },
@@ -1027,7 +1093,8 @@
             "code": "4342800",
             "recognized": true,
             "labels": {
-              "ja": "熊本県高森町"
+              "ja": "熊本県高森町",
+              "en": "Takamori Town, Kumamoto Prefecture"
             }
           },
           "elapsed_time": {
@@ -1039,7 +1106,8 @@
               "code": "1",
               "recognized": true,
               "labels": {
-                "ja": "1時間"
+                "ja": "1時間",
+                "en": "1 hour"
               }
             }
           },
@@ -1048,7 +1116,8 @@
             "code": "1",
             "recognized": true,
             "labels": {
-              "ja": "少量の降灰"
+              "ja": "少量の降灰",
+              "en": "Low ash fall"
             }
           }
         },
@@ -1058,7 +1127,8 @@
             "code": "4343300",
             "recognized": true,
             "labels": {
-              "ja": "熊本県南阿蘇村"
+              "ja": "熊本県南阿蘇村",
+              "en": "Minamiaso Village, Kumamoto Prefecture"
             }
           },
           "elapsed_time": {
@@ -1070,7 +1140,8 @@
               "code": "1",
               "recognized": true,
               "labels": {
-                "ja": "1時間"
+                "ja": "1時間",
+                "en": "1 hour"
               }
             }
           },
@@ -1079,7 +1150,8 @@
             "code": "1",
             "recognized": true,
             "labels": {
-              "ja": "少量の降灰"
+              "ja": "少量の降灰",
+              "en": "Low ash fall"
             }
           }
         }
@@ -1126,7 +1198,8 @@
         "code": "1",
         "recognized": true,
         "labels": {
-          "ja": "発表"
+          "ja": "発表",
+          "en": "Announcement"
         }
       },
       "warnings": [
@@ -1136,7 +1209,8 @@
             "code": "80000",
             "recognized": true,
             "labels": {
-              "ja": "茨城県"
+              "ja": "茨城県",
+              "en": "Ibaraki Prefecture"
             }
           },
           "warning": {
@@ -1144,7 +1218,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "大雨特別警報"
+              "ja": "大雨特別警報",
+              "en": "Heavy Rain Emergency Warning"
             }
           }
         },
@@ -1154,7 +1229,8 @@
             "code": "90000",
             "recognized": true,
             "labels": {
-              "ja": "栃木県"
+              "ja": "栃木県",
+              "en": "Tochigi Prefecture"
             }
           },
           "warning": {
@@ -1162,7 +1238,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "大雨特別警報"
+              "ja": "大雨特別警報",
+              "en": "Heavy Rain Emergency Warning"
             }
           }
         },
@@ -1172,7 +1249,8 @@
             "code": "100000",
             "recognized": true,
             "labels": {
-              "ja": "群馬県"
+              "ja": "群馬県",
+              "en": "Gunma Prefecture"
             }
           },
           "warning": {
@@ -1180,7 +1258,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "大雨特別警報"
+              "ja": "大雨特別警報",
+              "en": "Heavy Rain Emergency Warning"
             }
           }
         },
@@ -1190,7 +1269,8 @@
             "code": "110000",
             "recognized": true,
             "labels": {
-              "ja": "埼玉県"
+              "ja": "埼玉県",
+              "en": "Saitama Prefecture"
             }
           },
           "warning": {
@@ -1198,7 +1278,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "大雨特別警報"
+              "ja": "大雨特別警報",
+              "en": "Heavy Rain Emergency Warning"
             }
           }
         },
@@ -1208,7 +1289,8 @@
             "code": "120000",
             "recognized": true,
             "labels": {
-              "ja": "千葉県"
+              "ja": "千葉県",
+              "en": "Chiba Prefecture"
             }
           },
           "warning": {
@@ -1216,7 +1298,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "大雨特別警報"
+              "ja": "大雨特別警報",
+              "en": "Heavy Rain Emergency Warning"
             }
           }
         },
@@ -1226,7 +1309,8 @@
             "code": "130000",
             "recognized": true,
             "labels": {
-              "ja": "東京都"
+              "ja": "東京都",
+              "en": "Tokyo"
             }
           },
           "warning": {
@@ -1234,7 +1318,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "大雨特別警報"
+              "ja": "大雨特別警報",
+              "en": "Heavy Rain Emergency Warning"
             }
           }
         }
@@ -1283,7 +1368,8 @@
             "code": "830303020300",
             "recognized": true,
             "labels": {
-              "ja": "鬼怒川(栃木県・茨城県)"
+              "ja": "鬼怒川(栃木県・茨城県)",
+              "en": "Kinugawa River"
             }
           },
           "level": {
@@ -1291,7 +1377,8 @@
             "code": "2",
             "recognized": true,
             "labels": {
-              "ja": "氾濫警戒情報"
+              "ja": "氾濫警戒情報",
+              "en": "Information to provide a warning on flooding"
             }
           }
         }
@@ -1338,7 +1425,8 @@
         "code": "5",
         "recognized": true,
         "labels": {
-          "ja": "5号"
+          "ja": "5号",
+          "en": "No. 5"
         }
       },
       "scale_category": {
@@ -1346,7 +1434,8 @@
         "code": "1",
         "recognized": true,
         "labels": {
-          "ja": "大型"
+          "ja": "大型",
+          "en": "Large"
         }
       },
       "intensity_category": {
@@ -1354,7 +1443,8 @@
         "code": "2",
         "recognized": true,
         "labels": {
-          "ja": "非常に強い"
+          "ja": "非常に強い",
+          "en": "Very Strong"
         }
       },
       "central_pressure": {
@@ -1366,7 +1456,8 @@
           "code": "950",
           "recognized": true,
           "labels": {
-            "ja": "950hPa"
+            "ja": "950hPa",
+            "en": "950 hPa"
           }
         }
       },
@@ -1379,7 +1470,8 @@
           "code": "45",
           "recognized": true,
           "labels": {
-            "ja": "45m/s"
+            "ja": "45m/s",
+            "en": "45 m/s"
           }
         }
       },
@@ -1391,7 +1483,8 @@
           "code": "0",
           "recognized": true,
           "labels": {
-            "ja": "不明"
+            "ja": "不明",
+            "en": "Unknown"
           }
         }
       },
@@ -1400,7 +1493,8 @@
         "code": "1",
         "recognized": true,
         "labels": {
-          "ja": "実況"
+          "ja": "実況",
+          "en": "Analysis"
         }
       },
       "elapsed_time": {
@@ -1412,7 +1506,8 @@
           "code": "24",
           "recognized": true,
           "labels": {
-            "ja": "24時間後"
+            "ja": "24時間後",
+            "en": "24 hours ahead"
           }
         }
       },
@@ -1480,7 +1575,8 @@
             "code": "1030",
             "recognized": true,
             "labels": {
-              "ja": "網走沖"
+              "ja": "網走沖",
+              "en": "SEA OFF ABASHIRI"
             }
           },
           "warning": {
@@ -1488,7 +1584,8 @@
             "code": "22",
             "recognized": true,
             "labels": {
-              "ja": "海上暴風警報"
+              "ja": "海上暴風警報",
+              "en": "Marine Storm Warning"
             }
           }
         }
@@ -9980,7 +10077,8 @@
           "code": "10",
           "recognized": true,
           "labels": {
-            "ja": "10km"
+            "ja": "10km",
+            "en": "10 km"
           }
         }
       },
@@ -9993,7 +10091,8 @@
           "code": "65",
           "recognized": true,
           "labels": {
-            "ja": "6.5"
+            "ja": "6.5",
+            "en": "6.5"
           }
         }
       },
@@ -10002,7 +10101,8 @@
         "code": "341",
         "recognized": true,
         "labels": {
-          "ja": "千葉県北西部"
+          "ja": "千葉県北西部",
+          "en": "Northwestern Chiba Prefecture"
         }
       },
       "occurrence_time": {
@@ -10016,7 +10116,8 @@
           "code": "201",
           "recognized": true,
           "labels": {
-            "ja": "強い揺れに警戒してください。"
+            "ja": "強い揺れに警戒してください。",
+            "en": "Watch out for strong tremors."
           }
         }
       ],
@@ -10085,7 +10186,8 @@
           "code": "501",
           "recognized": true,
           "labels": {
-            "ja": "500kmより深い"
+            "ja": "500kmより深い",
+            "en": "Deeper than 500 km"
           }
         }
       },
@@ -10098,7 +10200,8 @@
           "code": "65",
           "recognized": true,
           "labels": {
-            "ja": "6.5"
+            "ja": "6.5",
+            "en": "6.5"
           }
         }
       },
@@ -10107,7 +10210,8 @@
         "code": "341",
         "recognized": true,
         "labels": {
-          "ja": "千葉県北西部"
+          "ja": "千葉県北西部",
+          "en": "Northwestern Chiba Prefecture"
         }
       },
       "occurrence_time": {
@@ -10121,7 +10225,8 @@
           "code": "201",
           "recognized": true,
           "labels": {
-            "ja": "強い揺れに警戒してください。"
+            "ja": "強い揺れに警戒してください。",
+            "en": "Watch out for strong tremors."
           }
         }
       ],
@@ -10185,7 +10290,8 @@
           "code": "511",
           "recognized": true,
           "labels": {
-            "ja": "不明"
+            "ja": "不明",
+            "en": "Unknown"
           }
         }
       },
@@ -10198,7 +10304,8 @@
           "code": "65",
           "recognized": true,
           "labels": {
-            "ja": "6.5"
+            "ja": "6.5",
+            "en": "6.5"
           }
         }
       },
@@ -10207,7 +10314,8 @@
         "code": "341",
         "recognized": true,
         "labels": {
-          "ja": "千葉県北西部"
+          "ja": "千葉県北西部",
+          "en": "Northwestern Chiba Prefecture"
         }
       },
       "occurrence_time": {
@@ -10221,7 +10329,8 @@
           "code": "201",
           "recognized": true,
           "labels": {
-            "ja": "強い揺れに警戒してください。"
+            "ja": "強い揺れに警戒してください。",
+            "en": "Watch out for strong tremors."
           }
         }
       ],
@@ -10296,7 +10405,8 @@
           "code": "65",
           "recognized": true,
           "labels": {
-            "ja": "6.5"
+            "ja": "6.5",
+            "en": "6.5"
           }
         }
       },
@@ -10305,7 +10415,8 @@
         "code": "341",
         "recognized": true,
         "labels": {
-          "ja": "千葉県北西部"
+          "ja": "千葉県北西部",
+          "en": "Northwestern Chiba Prefecture"
         }
       },
       "occurrence_time": {
@@ -10319,7 +10430,8 @@
           "code": "201",
           "recognized": true,
           "labels": {
-            "ja": "強い揺れに警戒してください。"
+            "ja": "強い揺れに警戒してください。",
+            "en": "Watch out for strong tremors."
           }
         }
       ],
@@ -10380,7 +10492,8 @@
         "code": "3",
         "recognized": true,
         "labels": {
-          "ja": "津波警報"
+          "ja": "津波警報",
+          "en": "Tsunami Warning"
         }
       },
       "notifications": [
@@ -10389,7 +10502,8 @@
           "code": "109",
           "recognized": true,
           "labels": {
-            "ja": "津波と満潮が重なると、津波はより高くなりますので一層厳重な警戒が必要です。"
+            "ja": "津波と満潮が重なると、津波はより高くなりますので一層厳重な警戒が必要です。",
+            "en": "Exercise extreme caution if a tsunami arrives at high tide, as this boosts the height of waves."
           }
         },
         {
@@ -10397,7 +10511,8 @@
           "code": "111",
           "recognized": true,
           "labels": {
-            "ja": "場所によっては、観測した津波の高さよりさらに大きな津波が到達しているおそれがあります。"
+            "ja": "場所によっては、観測した津波の高さよりさらに大きな津波が到達しているおそれがあります。",
+            "en": "In some coastal regions, tsunami waves higher than those recorded may have arrived."
           }
         }
       ],
@@ -10408,7 +10523,8 @@
             "code": "100",
             "recognized": true,
             "labels": {
-              "ja": "北海道太平洋沿岸東部"
+              "ja": "北海道太平洋沿岸東部",
+              "en": "Eastern part of Pacific Coast of Hokkaido"
             }
           },
           "height": {
@@ -10427,7 +10543,8 @@
               "code": "3",
               "recognized": true,
               "labels": {
-                "ja": "3m"
+                "ja": "3m",
+                "en": "3 m"
               }
             }
           },
@@ -10443,7 +10560,8 @@
             "code": "201",
             "recognized": true,
             "labels": {
-              "ja": "青森県太平洋沿岸"
+              "ja": "青森県太平洋沿岸",
+              "en": "Pacific Coast of Aomori Prefecture"
             }
           },
           "height": {
@@ -10454,7 +10572,8 @@
               "code": "14",
               "recognized": true,
               "labels": {
-                "ja": "不明"
+                "ja": "不明",
+                "en": "Unknown"
               }
             }
           },
@@ -10507,7 +10626,8 @@
         "code": "3",
         "recognized": true,
         "labels": {
-          "ja": "津波警報"
+          "ja": "津波警報",
+          "en": "Tsunami Warning"
         }
       },
       "notifications": [
@@ -10516,7 +10636,8 @@
           "code": "109",
           "recognized": true,
           "labels": {
-            "ja": "津波と満潮が重なると、津波はより高くなりますので一層厳重な警戒が必要です。"
+            "ja": "津波と満潮が重なると、津波はより高くなりますので一層厳重な警戒が必要です。",
+            "en": "Exercise extreme caution if a tsunami arrives at high tide, as this boosts the height of waves."
           }
         },
         {
@@ -10524,7 +10645,8 @@
           "code": "111",
           "recognized": true,
           "labels": {
-            "ja": "場所によっては、観測した津波の高さよりさらに大きな津波が到達しているおそれがあります。"
+            "ja": "場所によっては、観測した津波の高さよりさらに大きな津波が到達しているおそれがあります。",
+            "en": "In some coastal regions, tsunami waves higher than those recorded may have arrived."
           }
         }
       ],
@@ -10535,7 +10657,8 @@
             "code": "100",
             "recognized": true,
             "labels": {
-              "ja": "北海道太平洋沿岸東部"
+              "ja": "北海道太平洋沿岸東部",
+              "en": "Eastern part of Pacific Coast of Hokkaido"
             }
           },
           "height": {
@@ -10554,7 +10677,8 @@
               "code": "3",
               "recognized": true,
               "labels": {
-                "ja": "3m"
+                "ja": "3m",
+                "en": "3 m"
               }
             }
           },
@@ -10570,7 +10694,8 @@
             "code": "201",
             "recognized": true,
             "labels": {
-              "ja": "青森県太平洋沿岸"
+              "ja": "青森県太平洋沿岸",
+              "en": "Pacific Coast of Aomori Prefecture"
             }
           },
           "height": {
@@ -10581,7 +10706,8 @@
               "code": "14",
               "recognized": true,
               "labels": {
-                "ja": "不明"
+                "ja": "不明",
+                "en": "Unknown"
               }
             }
           },
@@ -10634,7 +10760,8 @@
         "code": "3",
         "recognized": true,
         "labels": {
-          "ja": "津波警報"
+          "ja": "津波警報",
+          "en": "Tsunami Warning"
         }
       },
       "notifications": [
@@ -10643,7 +10770,8 @@
           "code": "109",
           "recognized": true,
           "labels": {
-            "ja": "津波と満潮が重なると、津波はより高くなりますので一層厳重な警戒が必要です。"
+            "ja": "津波と満潮が重なると、津波はより高くなりますので一層厳重な警戒が必要です。",
+            "en": "Exercise extreme caution if a tsunami arrives at high tide, as this boosts the height of waves."
           }
         },
         {
@@ -10651,7 +10779,8 @@
           "code": "111",
           "recognized": true,
           "labels": {
-            "ja": "場所によっては、観測した津波の高さよりさらに大きな津波が到達しているおそれがあります。"
+            "ja": "場所によっては、観測した津波の高さよりさらに大きな津波が到達しているおそれがあります。",
+            "en": "In some coastal regions, tsunami waves higher than those recorded may have arrived."
           }
         }
       ],
@@ -10662,7 +10791,8 @@
             "code": "100",
             "recognized": true,
             "labels": {
-              "ja": "北海道太平洋沿岸東部"
+              "ja": "北海道太平洋沿岸東部",
+              "en": "Eastern part of Pacific Coast of Hokkaido"
             }
           },
           "height": {
@@ -10681,7 +10811,8 @@
               "code": "3",
               "recognized": true,
               "labels": {
-                "ja": "3m"
+                "ja": "3m",
+                "en": "3 m"
               }
             }
           },
@@ -10702,7 +10833,8 @@
             "code": "201",
             "recognized": true,
             "labels": {
-              "ja": "青森県太平洋沿岸"
+              "ja": "青森県太平洋沿岸",
+              "en": "Pacific Coast of Aomori Prefecture"
             }
           },
           "height": {
@@ -10713,7 +10845,8 @@
               "code": "14",
               "recognized": true,
               "labels": {
-                "ja": "不明"
+                "ja": "不明",
+                "en": "Unknown"
               }
             }
           },
@@ -11266,7 +11399,8 @@
           "code": "10",
           "recognized": true,
           "labels": {
-            "ja": "10km"
+            "ja": "10km",
+            "en": "10 km"
           }
         }
       },
@@ -11279,7 +11413,8 @@
           "code": "72",
           "recognized": true,
           "labels": {
-            "ja": "7.2"
+            "ja": "7.2",
+            "en": "7.2"
           }
         }
       },
@@ -11288,7 +11423,8 @@
         "code": "791",
         "recognized": true,
         "labels": {
-          "ja": "日向灘"
+          "ja": "日向灘",
+          "en": "Hyuganada Sea"
         }
       },
       "intensity_lower": {
@@ -11296,7 +11432,8 @@
         "code": "8",
         "recognized": true,
         "labels": {
-          "ja": "震度6弱"
+          "ja": "震度6弱",
+          "en": "Seismic intensity of 6-lower"
         }
       },
       "intensity_upper": {
@@ -11304,7 +11441,8 @@
         "code": "11",
         "recognized": true,
         "labels": {
-          "ja": "〜程度以上"
+          "ja": "〜程度以上",
+          "en": "or greater"
         }
       },
       "occurrence_time": {
@@ -11318,7 +11456,8 @@
           "code": "201",
           "recognized": true,
           "labels": {
-            "ja": "強い揺れに警戒してください。"
+            "ja": "強い揺れに警戒してください。",
+            "en": "Watch out for strong tremors."
           }
         }
       ],
@@ -11328,7 +11467,8 @@
           "code": "37",
           "recognized": true,
           "labels": {
-            "ja": "島根"
+            "ja": "島根",
+            "en": "Shimane"
           }
         },
         {
@@ -11336,7 +11476,8 @@
           "code": "38",
           "recognized": true,
           "labels": {
-            "ja": "岡山"
+            "ja": "岡山",
+            "en": "Okayama"
           }
         },
         {
@@ -11344,7 +11485,8 @@
           "code": "39",
           "recognized": true,
           "labels": {
-            "ja": "広島"
+            "ja": "広島",
+            "en": "Hiroshima"
           }
         },
         {
@@ -11352,7 +11494,8 @@
           "code": "40",
           "recognized": true,
           "labels": {
-            "ja": "山口"
+            "ja": "山口",
+            "en": "Yamaguchi"
           }
         },
         {
@@ -11360,7 +11503,8 @@
           "code": "42",
           "recognized": true,
           "labels": {
-            "ja": "香川"
+            "ja": "香川",
+            "en": "Kagawa"
           }
         },
         {
@@ -11368,7 +11512,8 @@
           "code": "43",
           "recognized": true,
           "labels": {
-            "ja": "愛媛"
+            "ja": "愛媛",
+            "en": "Ehime"
           }
         },
         {
@@ -11376,7 +11521,8 @@
           "code": "44",
           "recognized": true,
           "labels": {
-            "ja": "高知"
+            "ja": "高知",
+            "en": "Kochi"
           }
         },
         {
@@ -11384,7 +11530,8 @@
           "code": "45",
           "recognized": true,
           "labels": {
-            "ja": "福岡"
+            "ja": "福岡",
+            "en": "Fukuoka"
           }
         },
         {
@@ -11392,7 +11539,8 @@
           "code": "46",
           "recognized": true,
           "labels": {
-            "ja": "佐賀"
+            "ja": "佐賀",
+            "en": "Saga"
           }
         },
         {
@@ -11400,7 +11548,8 @@
           "code": "47",
           "recognized": true,
           "labels": {
-            "ja": "長崎"
+            "ja": "長崎",
+            "en": "Nagasaki"
           }
         },
         {
@@ -11408,7 +11557,8 @@
           "code": "48",
           "recognized": true,
           "labels": {
-            "ja": "熊本"
+            "ja": "熊本",
+            "en": "Kumamoto"
           }
         },
         {
@@ -11416,7 +11566,8 @@
           "code": "49",
           "recognized": true,
           "labels": {
-            "ja": "大分"
+            "ja": "大分",
+            "en": "Oita"
           }
         },
         {
@@ -11424,7 +11575,8 @@
           "code": "50",
           "recognized": true,
           "labels": {
-            "ja": "宮崎"
+            "ja": "宮崎",
+            "en": "Miyazaki"
           }
         },
         {
@@ -11432,7 +11584,8 @@
           "code": "51",
           "recognized": true,
           "labels": {
-            "ja": "鹿児島"
+            "ja": "鹿児島",
+            "en": "Kagoshima"
           }
         },
         {
@@ -11440,7 +11593,8 @@
           "code": "66",
           "recognized": true,
           "labels": {
-            "ja": "中国"
+            "ja": "中国",
+            "en": "Chugoku"
           }
         },
         {
@@ -11448,7 +11602,8 @@
           "code": "67",
           "recognized": true,
           "labels": {
-            "ja": "四国"
+            "ja": "四国",
+            "en": "Shikoku"
           }
         },
         {
@@ -11456,7 +11611,8 @@
           "code": "68",
           "recognized": true,
           "labels": {
-            "ja": "九州"
+            "ja": "九州",
+            "en": "Kyushu"
           }
         }
       ],

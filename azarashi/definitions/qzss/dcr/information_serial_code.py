@@ -1,3 +1,9 @@
+"""Information serial codes of the JMA-DC Report (Nankai Trough Earthquake), IS-QZSS-DCR-017.
+
+The English is JMA's, from its multilingual dictionary of weather information terms
+(気象情報等に関する多言語辞書, updated 2026-03-26), where the Japanese is the same. A name with no source has no
+English here.
+"""
 from ...code_table import CodeTable
 
 information_serial_code = CodeTable(
@@ -11,4 +17,14 @@ information_serial_code = CodeTable(
         15: "その他の情報",
     },
     undefined="地震関連情報(コード番号：%d)"
+)
+
+
+information_serial_code_en = CodeTable(
+    {
+        4: "Megathrust Earthquake Alert",
+        5: "Megathrust Earthquake Attention",
+        6: "Analysis Complete",
+    },
+    undefined="Undefined Information Serial Code (Code: %d)"
 )

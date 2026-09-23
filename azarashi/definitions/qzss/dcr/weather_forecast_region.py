@@ -1,3 +1,11 @@
+"""Prefectural forecast regions, IS-QZSS-DCR-017 Table 4.1.2-41.
+
+The English names are JMA's, from its multilingual dictionary of weather information terms
+(気象情報等に関する多言語辞書, updated 2026-03-26), matched by the code of the JMA XML code table
+AreaForecastLocalM, where the Japanese name is the same. Doubled or invisible spaces and full-width
+brackets are tidied; the words are the dictionary's. The dictionary has 460000 only as a
+prefecture, and its name there is used. The English for the DCR's own name, 500000, is azarashi's.
+"""
 from ...code_table import CodeTable
 
 weather_forecast_region = CodeTable(
@@ -80,4 +88,86 @@ weather_forecast_region = CodeTable(
         # NNNNNN*: "府県予報区(コード番号：nnnnnn)",
     },
     undefined="府県予報区(コード番号：%d)"
+)
+
+
+weather_forecast_region_en = CodeTable(
+    {
+        11000: "Soya Region",
+        12000: "Kamikawa and Rumoi Region",
+        12010: "Kamikawa Region",
+        12020: "Rumoi Region",
+        13000: "Abashiri · Kitami · Mombetsu Region",
+        14010: "Nemuro Region",
+        14020: "Kushiro Region",
+        14030: "Tokachi Region",
+        14100: "Kushiro and Nemuro Region",
+        15000: "Iburi and Hidaka Region",
+        15010: "Iburi Region",
+        15020: "Hidaka Region",
+        16000: "Region of Ishikari/Sorachi/Shiribeshi",
+        16010: "Ishikari Region",
+        16020: "Sorachi Region",
+        16030: "Shiribeshi Region",
+        16100: "Region of Ishikari and Sorachi",
+        17000: "Region of Oshima and Hiyama",
+        17010: "Oshima Region",
+        17020: "Hiyama Region",
+        20000: "Aomori Prefecture",
+        30000: "Iwate Prefecture",
+        40000: "Miyagi Prefecture",
+        50000: "Akita Prefecture",
+        60000: "Yamagata Prefecture",
+        70000: "Fukushima Prefecture",
+        80000: "Ibaraki Prefecture",
+        90000: "Tochigi Prefecture",
+        100000: "Gunma Prefecture",
+        110000: "Saitama Prefecture",
+        120000: "Chiba Prefecture",
+        130000: "Tokyo",
+        130010: "Tokyo Region",
+        130020: "Northern Izu Islands",
+        130030: "Southern Izu Islands",
+        140000: "Kanagawa Prefecture",
+        150000: "Niigata Prefecture",
+        160000: "Toyama Prefecture",
+        170000: "Ishikawa Prefecture",
+        180000: "Fukui Prefecture",
+        190000: "Yamanashi Prefecture",
+        200000: "Nagano Prefecture",
+        210000: "Gifu Prefecture",
+        220000: "Shizuoka Prefecture",
+        230000: "Aichi Prefecture",
+        240000: "Mie Prefecture",
+        250000: "Shiga Prefecture",
+        260000: "Kyoto Prefecture",
+        270000: "Osaka Prefecture",
+        280000: "Hyogo Prefecture",
+        290000: "Nara Prefecture",
+        300000: "Wakayama Prefecture",
+        310000: "Tottori Prefecture",
+        320000: "Shimane Prefecture",
+        330000: "Okayama Prefecture",
+        340000: "Hiroshima Prefecture",
+        350000: "Yamaguchi Prefecture",
+        360000: "Tokushima Prefecture",
+        370000: "Kagawa Prefecture",
+        380000: "Ehime Prefecture",
+        390000: "Kochi Prefecture",
+        400000: "Fukuoka Prefecture",
+        410000: "Saga Prefecture",
+        420000: "Nagasaki Prefecture",
+        430000: "Kumamoto Prefecture",
+        440000: "Oita Prefecture",
+        450000: "Miyazaki Prefecture",
+        460000: "Kagoshima Prefecture",
+        460040: "Amami Region",
+        460100: "Kagoshima Prefecture (excluding Amami Region)",
+        471000: "Okinawa Main Island Region",
+        472000: "Daitojima Region",
+        473000: "Miyakojima Region",
+        474000: "Yaeyama Region",
+        500000: "Other Prefectural Forecast Region",
+    },
+    undefined="Undefined Prefectural Forecast Region (Code: %d)"
 )

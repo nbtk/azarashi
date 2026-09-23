@@ -1,3 +1,16 @@
+"""Notifications on disaster prevention, IS-QZSS-DCR-017 Table 4.1.2-6.
+
+The English is JMA's, from its multilingual dictionary of weather information terms
+(気象情報等に関する多言語辞書, updated 2026-03-26), where the Japanese is the same. Where the dictionary has the
+notification's sentences, not the notification as a whole, the English is put together from them:
+107, 109, 121 to 124, 131, 132 and 141. 111 is the dictionary's English for the same sentence with
+検潮所で, which its English leaves out.
+
+JMA gives no English for 0, 101, 102, 110, 112 to 115, 216 and 500. So that a warning still reaches
+a reader of English, the English for them is azarashi's own until JMA gives its own. It is made of
+JMA's wording where JMA has one, and it says no less than the Japanese does. The Japanese is the
+notification.
+"""
 from ...code_table import CodeTable
 
 notification_on_disaster_prevention = CodeTable(
@@ -72,4 +85,66 @@ notification_on_disaster_prevention = CodeTable(
         # "NNN*": "防災上の留意事項(コード番号：NNN)",
     },
     undefined="防災上の留意事項(コード番号：%d)"
+)
+
+
+notification_on_disaster_prevention_en = CodeTable(
+    {
+        0: "None",
+        101: "There may be slight sea-level changes from now on.",
+        102: "There may be slight sea-level changes from now on, but no damage is expected.",
+        103: "Sea-level changes may be observed.",
+        104: "Pay attention when fishing, swimming or engaging in other marine activities, as there may still be slight sea-level changes.",
+        105: "Pay attention when fishing or engaging in other marine activities, as there may still be slight sea-level changes.",
+        107: "No Major Tsunami Warnings, Tsunami Warnings or Advisories are currently in effect.",
+        109: "Exercise extreme caution if a tsunami arrives at high tide, as this boosts the height of waves.",
+        110: "Pay full attention if a tsunami arrives at high tide, as this boosts the height of waves.",
+        111: "In some coastal regions, tsunami waves higher than those recorded may have arrived.",
+        112: "Tsunami heights may become even higher from now on.",
+        113: "Along the coasts where the tsunami is estimated from offshore observations, it is estimated to have already arrived at the earliest places.",
+        114: "The maximum wave may be observed a few hours or more after a tsunami-driven change in sea level is first observed.",
+        115: "These values were observed offshore. The tsunami will be higher on the coast.",
+        121: "<Major Tsunami Warning>\nA huge tsunami is expected to hit and cause serious damage.\nEvacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.\nTsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.",
+        122: "<Tsunami Warning>\nDamage due to tsunami waves is expected.\nEvacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.\nTsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.",
+        123: "<Tsunami Advisory>\nA marine threat is present.\nGet out of the water and leave coastal regions immediately.\nDue to the risk of ongoing strong currents, do not enter the sea or approach coastal regions until the advisory is lifted.",
+        124: "<Tsunami Forecast (Slight sea-level change)>\nSlight sea-level changes may be observed in coastal regions, but no tsunami damage is expected.",
+        131: "Evacuate immediately from coastal regions and riverside areas where the warning is issued to a safer place such as high ground or an evacuation building.\nEstimated tsunami arrival times show the earliest expected strikes for each tsunami forecast region. In some coastal regions, tsunami waves may hit after this time.\nAs tsunami waves may reach their maximum height a few hours or more after the estimated arrival time, do not leave safe ground until the warning is lifted regardless of recorded tsunami heights.",
+        132: "Actual tsunami heights may exceed estimations in some coastal regions.",
+        141: "A gigantic tsunami is expected to hit.",
+        142: "Upgrade to Major Tsunami Warnings/Tsunami Warnings implemented in response to high tsunami waves observed offshore",
+        143: "Major Tsunami Warnings/Tsunami Warnings updated, in response to high tsunami waves offshore",
+        144: "Upgrade to Major Tsunami Warnings implemented in response to high tsunami waves observed offshore",
+        145: "Major Tsunami Warnings updated, in response to high tsunami waves offshore",
+        146: "Upgrade to Tsunami Warnings implemented high tsunami waves observed offshore",
+        147: "Tsunami Warnings updated, in response to high tsunami waves offshore",
+        148: "Estimated tsunami heights updated in response to high tsunami waves offshore",
+        149: "Evacuate immediately",
+        150: "Nankai Trough Earthquake Extra Information is in effect.",
+        201: "Watch out for strong tremors.",
+        211: "Tsunami warnings or advisories are currently in effect.",
+        212: "Although there may be slight sea-level changes in coastal regions/ this earthquake has caused no damage to Japan.",
+        213: "Pay attention when fishing, swimming or engaging in other marine activities, as there may still be slight sea-level changes.",
+        214: "Pay attention when fishing or engaging in other marine activities, as there may still be slight sea-level changes.",
+        215: "This earthquake poses no tsunami risk.",
+        216: "If the hypocenter is beneath the sea floor, a tsunami may be generated.",
+        217: "Check the information which will be issued from now on.",
+        221: "There is a possiblity of a destructive ocean-wide tsunami in the Pacific Ocean.",
+        222: "There is a possiblity of a destructive regional tsunami in the Pacific Ocean.",
+        223: "There is a possiblity of a destructive regional tsunami in the Northwest Pacific Ocean.",
+        224: "There is a possiblity of a destructive ocean-wide tsunami in the Indian Ocean.",
+        225: "There is a possiblity of a destructive regional tsunami in the Indian Ocean.",
+        226: "There is a possibility of a destructive local tsunami near the epicenter.",
+        227: "Minor local tsunami may occur near the epicenter, but no tsunami damage is expected.",
+        228: "A shallow earthquake with the same magnitude in a sea area may generate a tsunami.",
+        229: "The possibility of tsunami generation toward Japan in currently under evaluation.",
+        230: "This earthquake poses no tsunami risk to Japan.",
+        241: "Earthquake Early Warning is in effect for this earthquake.",
+        242: "Earthquake Early Warning is in effect for this earthquake. Its maximum seismic intensity was 2.",
+        243: "Earthquake Early Warning is in effect for this earthquake. Its maximum seismic intensity was 1.",
+        244: "Earthquake Early Warning is in effect for this earthquake. There was no observation of seismic intensity 1 or above.",
+        245: "Earthquake Early Warning was issued for this earthquake, however no strong tremors were observed.",
+        256: "Information related to the hypocenter has been corrected.",
+        500: "Other Notes on Disaster Prevention",
+    },
+    undefined="Undefined Notification on Disaster Prevention (Code: %d)"
 )

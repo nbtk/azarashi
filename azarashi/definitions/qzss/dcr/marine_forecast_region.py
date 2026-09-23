@@ -1,3 +1,14 @@
+"""Marine forecast regions of the JMA-DC Report (Marine), IS-QZSS-DCR-017 Table 4.1.2-53.
+
+The English names are JMA's own, as its English sea warning page gives them
+(https://www.jma.go.jp/bosai/seawarning/#lang=en, retrieved 2026-09-24). That page names the
+regions that are not divided further. The regions that group them have no English name there, but
+JMA's English marine warnings name such a region when none of it is under a warning, as in NO
+WARNING FOR SEA OFF KANTO (https://www.jma.go.jp/bosai/seawarning/data/warning_en/, retrieved
+2026-09-24). They give 3000, 3200, 4000, 5100, 5200 and 6000. The English for 1000, 1100, 2000,
+3100 and 4100 is azarashi's, made the way JMA names the others, and so is the English for the DCR's
+own name, 10000.
+"""
 from ...code_table import CodeTable
 
 marine_forecast_region = CodeTable(
@@ -54,4 +65,60 @@ marine_forecast_region = CodeTable(
         # "NNNN*": "地方海上予報区(コード番号：NNNN)",
     },
     undefined="地方海上予報区(コード番号：%d)"
+)
+
+
+marine_forecast_region_en = CodeTable(
+    {
+        1000: "NORTHERN PART OF JAPAN SEA AND SOUTHERN PART OF OKHOTSK SEA",
+        1010: "SEA EAST OF SAKHALIN",
+        1020: "SEA WEST OF SAKHALIN",
+        1030: "SEA OFF ABASHIRI",
+        1040: "SOYA KAIKYO",
+        1050: "SEA WEST OF HOKKAIDO",
+        1100: "SEA SOUTH AND EAST OF HOKKAIDO",
+        1110: "SEA EAST OF HOKKAIDO",
+        1120: "SEA OFF KUSHIRO",
+        1130: "SEA OFF HIDAKA",
+        1140: "TSUGARU KAIKYO",
+        1150: "SEA OFF HIYAMA AND TSUGARU",
+        2000: "SEA OFF SANRIKU",
+        2010: "EASTERN SEA OFF SANRIKU",
+        2020: "WESTERN SEA OFF SANRIKU",
+        3000: "SEA OFF KANTO",
+        3010: "NORTHERN SEA OFF KANTO",
+        3020: "SOUTHERN SEA OFF KANTO",
+        3100: "CENTRAL PART OF JAPAN SEA",
+        3110: "SEA OFF SOUTHERN COAST OF MARITIME PROVINCE",
+        3120: "SEA OFF AKITA",
+        3130: "SEA OFF SADO",
+        3140: "SEA OFF NOTO",
+        3200: "SEA OFF TOKAI",
+        3210: "EASTERN SEA OFF TOKAI",
+        3220: "WESTERN SEA OFF TOKAI",
+        3230: "SOUTHERN SEA OFF TOKAI",
+        4000: "SEA OFF SHIKOKU AND SETONAIKAI",
+        4010: "SETONAIKAI",
+        4020: "NORTHERN SEA OFF SHIKOKU",
+        4030: "SOUTHERN SEA OFF SHIKOKU",
+        4100: "WESTERN PART OF JAPAN SEA",
+        4110: "NORTHWESTERN PART OF JAPAN SEA",
+        4120: "SEA EAST OF OKI SYOTO AND AROUND WAKASA WAN",
+        4130: "SEA WEST OF OKI SYOTO",
+        5000: "TSUSHIMA KAIKYO",
+        5100: "SEA WEST OF KYUSHU",
+        5110: "SEA WEST OF CHEJU ISLAND",
+        5120: "SEA WEST OF NAGASAKI",
+        5130: "SEA SOUTHWEST OF MESHIMA",
+        5200: "SEA SOUTH OF KYUSHU AND HYUGA NADA",
+        5210: "HYUGA NADA",
+        5220: "SEA OFF KAGOSHIMA",
+        5230: "SEA AROUND AMAMI",
+        6000: "SEA AROUND OKINAWA",
+        6010: "SOUTHERN PART OF EAST CHINA SEA",
+        6020: "SEA EAST OF OKINAWA",
+        6030: "SEA SOUTH OF OKINAWA",
+        10000: "OTHER MARINE FORECAST REGION",
+    },
+    undefined="Undefined Marine Forecast Region (Code: %d)"
 )

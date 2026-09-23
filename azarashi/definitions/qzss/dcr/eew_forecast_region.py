@@ -1,3 +1,11 @@
+"""Forecast regions of the Earthquake Early Warning, IS-QZSS-DCR-017 Table 4.1.2-10.
+
+The English names are JMA's, from its multilingual dictionary of weather information terms
+(気象情報等に関する多言語辞書, updated 2026-03-26), matched by the Japanese name in the JMA XML code tables
+AreaForecastLocalEEW and AreaForecastEEW, since the DCR numbers these regions its own way. Doubled
+or invisible spaces and full-width brackets are tidied; the words are the dictionary's. The English
+for the DCR's own name, 80, is azarashi's.
+"""
 from ...code_table import CodeTable
 
 eew_forecast_region = CodeTable(
@@ -76,4 +84,82 @@ eew_forecast_region = CodeTable(
         # "NN*": "府県予報区および地方予報区_緊急地震速報(警報)(地点：NN)",
     },
     undefined="府県予報区および地方予報区_緊急地震速報(警報)(地点：%d)"
+)
+
+
+eew_forecast_region_en = CodeTable(
+    {
+        1: "Central Area of Hokkaido (Do'o)",
+        2: "Southern Area of Hokkaido (Donan)",
+        3: "Northern Area of Hokkaido (Dohoku)",
+        4: "Eastern Area of Hokkaido (Doto)",
+        5: "Aomori",
+        6: "Iwate",
+        7: "Miyagi",
+        8: "Akita",
+        9: "Yamagata",
+        10: "Fukushima",
+        11: "Ibaraki",
+        12: "Tochigi",
+        13: "Gunma",
+        14: "Saitama",
+        15: "Chiba",
+        16: "Tokyo",
+        17: "Izu Islands",
+        18: "Ogasawara",
+        19: "Kanagawa",
+        20: "Niigata",
+        21: "Toyama",
+        22: "Ishikawa",
+        23: "Fukui",
+        24: "Yamanashi",
+        25: "Nagano",
+        26: "Gifu",
+        27: "Shizuoka",
+        28: "Aichi",
+        29: "Mie",
+        30: "Shiga",
+        31: "Kyoto",
+        32: "Osaka",
+        33: "Hyogo",
+        34: "Nara",
+        35: "Wakayama",
+        36: "Tottori",
+        37: "Shimane",
+        38: "Okayama",
+        39: "Hiroshima",
+        40: "Yamaguchi",
+        41: "Tokushima",
+        42: "Kagawa",
+        43: "Ehime",
+        44: "Kochi",
+        45: "Fukuoka",
+        46: "Saga",
+        47: "Nagasaki",
+        48: "Kumamoto",
+        49: "Oita",
+        50: "Miyazaki",
+        51: "Kagoshima",
+        52: "Amami (Islands)",
+        53: "Okinawa Main Island",
+        54: "Daitojima Island",
+        55: "Miyakojima Island",
+        56: "Yaeyama",
+        57: "Hokkaido",
+        58: "Tohoku",
+        59: "Kanto",
+        60: "Izu Islands",
+        61: "Ogasawara",
+        62: "Hokuriku",
+        63: "Koshin",
+        64: "Tokai",
+        65: "Kinki",
+        66: "Chugoku",
+        67: "Shikoku",
+        68: "Kyushu",
+        69: "Amami (Islands)",
+        70: "Okinawa",
+        80: "Other Forecast Region (Earthquake Early Warning)",
+    },
+    undefined="Undefined EEW Forecast Region (Code: %d)"
 )
