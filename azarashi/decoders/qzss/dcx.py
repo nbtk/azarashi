@@ -5,10 +5,7 @@ from .base import ContextDecoder
 from .context import Message
 from ..camf.geometry import semi_axis, centre_latitude, centre_longitude
 from ...definitions.camf.a10_library_version import a10_library_version
-from ...definitions.camf.a11_international_library import a11_international_library
-from ...definitions.camf.a11_international_library import a11_international_library_code
-from ...definitions.camf.a11_japanese_library import a11_japanese_library_en
-from ...definitions.camf.a11_japanese_library import a11_japanese_library_ja
+from ...definitions.camf.a11_library import a11_library
 from ...definitions.camf.a17_type_of_specific_settings import a17_type_of_specific_settings
 from ...definitions.camf.a1_message_type import a1_message_type
 from ...definitions.camf.a2_country_region_name import a2_country_region_name
@@ -234,14 +231,13 @@ class Decoder(ContextDecoder[Message]):
         self.a8_hazard_duration = a8_hazard_duration[camf.a8]
         self.a9_type_of_library = a9_type_of_library[camf.a9]
         self.a10_library_version = a10_library_version[camf.a10]
-        if camf.a10 == 0:  # library version #1 is only supported for now.
-            if camf.a9 == 0:  # international library
-                self.a11_international_library_code = a11_international_library_code[camf.a11]
-                self.a11_international_library = a11_international_library[camf.a11]
-            elif camf.a9 == 1:  # country/region library
-                if camf.a2 == 111:  # japanese library
-                    self.a11_japanese_library = a11_japanese_library_en[camf.a11]
-                    self.a11_japanese_library_ja = a11_japanese_library_ja[camf.a11]
+        library = a11_library(camf.a9, camf.a2, camf.a10)
+        if library.name == 'international' and library.en is not None and library.identifier is not None:
+            self.a11_international_library_code = library.identifier[camf.a11]
+            self.a11_international_library = library.en[camf.a11]
+        elif library.name == 'japanese' and library.en is not None and library.ja is not None:
+            self.a11_japanese_library = library.en[camf.a11]
+            self.a11_japanese_library_ja = library.ja[camf.a11]
 
     def _decode_a12_to_a16(self, camf: dcx.CAMF) -> None:
         self.a12_ellipse_centre_latitude = round(centre_latitude(camf.a12), 6)

@@ -7,8 +7,7 @@ from datetime import UTC, datetime
 from typing import Any, TypeAlias, cast
 from . import reports
 from .definitions.camf import d_fields as B4_MODULE
-from .definitions.camf.a11_japanese_library import a11_japanese_library_ja, a11_japanese_library_en
-from .definitions.camf.a11_international_library import a11_international_library, a11_international_library_code
+from .definitions.camf.a11_library import a11_library
 from .definitions.camf.a3_provider_identifier import a3_provider_identifier_map
 from .definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
 from .definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja, ex9_target_area_code_en
@@ -429,18 +428,13 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
     data["onset"] = time_value(
         report.a6a7_hazard_onset_datetime, {"week": c.a6, "minute_of_week": c.a7}, basis="received_at"
     )
-    ja, en, identifier = (None, None, None)
-    if c.a10 == 0:
-        if c.a9 == 0:
-            en = a11_international_library
-            identifier = a11_international_library_code.get(c.a11)
-        elif c.a2 == 111:
-            ja, en = (a11_japanese_library_ja, a11_japanese_library_en)
+    library = a11_library(c.a9, c.a2, c.a10)
+    identifier = None if library.identifier is None else library.identifier.get(c.a11)
     data["instruction"] = {
         "country_code": str(c.a2),
         "library": xcode("a9_type_of_library", c.a9),
         "version": xcode("a10_library_version", c.a10),
-        "content": coded(instruction_scheme(c), c.a11, ja, en),
+        "content": coded(instruction_scheme(c), c.a11, library.ja, library.en),
         "identifier": identifier,
     }
     if not report.ignore_a12_to_a16:
