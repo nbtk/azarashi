@@ -76,6 +76,25 @@ JSON にできないレポートがあっても読み取りは止めません。
 元のメッセージは必須項目の `nmea` で確認できます。入力フレームをそのまま保存するには記録機能を、
 レポートの属性を調べるには Python API を使ってください。情報の識別に必要なコードは JSON に含めます。
 
+## Key Names
+
+`data` のキーは JSON のための名前です。Python の属性名とは別に決めています。
+どの属性がどのキーになるかは、下の「Report Types and Field Mapping」の表にまとめています。
+名前は次の規則で付けます。
+
+- 種別から明らかな語は省きます。例：緊急地震速報の `depth` は震源の深さです。
+- 意味を持つ語は省きません。例：台風の `maximum_wind_speed` は最大風速です。
+- 同じキーは、どの種別でも同じ意味です。例：対象地域の一覧は、DCR でも DCX でも `target_regions` です。
+- つづりは、その名前の元の仕様に従います。キーのほか、type の名前と status などの列挙値も同じです。
+  DCR から来た名前は米国式です。例：`epicenter`、`qzss.dcr.hypocenter`。
+  CAMF から来た名前は英国式です。例：`centre`、`hazard_centre`。
+  どちらにも共通の名前は米国式です。例：`recognized`、`unrecognized_code`。
+- ただの数値は、単位をキーの末尾に付けます。例：`semi_major_axis_km`、`latitude_deg`。
+  数量オブジェクトは、単位を `unit` に入れます。
+- `code` は、コードオブジェクトとその中のコード値にだけ使います。
+
+scheme はコード表の名前をそのまま使います。
+
 ## Codes and Labels
 
 ```json
@@ -114,7 +133,7 @@ CAMF Issue 1.2 の 3.1.3 は、提供者の識別子を「その国の中で一�
 `camf.instruction.library_0.version_V` です。国に依存しない1つの表なので、国は含めません。
 国別ライブラリ（A9=1）は `camf.instruction.country_N.library_1.version_V` です。
 3.5.1 が国別ライブラリを「その国のもの」と定めているので、伝送路の名前は含めません。
-N・L・V は伝送されたコード値で、指示オブジェクトにも国・ライブラリ・版を保持します。
+N・L・V は伝送されたコード値です。指示オブジェクトにはライブラリと版を保持します。国は `country` です。
 未知のライブラリ版でも指示コードを落としません。
 
 ## Quantities
@@ -205,16 +224,16 @@ missing や category も含め、判断不能を false と同一視しないで�
 | `not_used` | DCX の時刻フィールドが未使用 |
 | `unrecognized_code` | 日時に変換できないコード。source に元の時刻成分を保持 |
 
-火山の日時には `activity_time_ambiguity_code` を必須で併記します。
+火山の日時には `activity_time_ambiguity` を必須で併記します。電文の日時の曖昧さのコード値で、整数です。
 日時の精度・概数の解釈にはこのコードを使い、補完された日時を正確な観測日時だとみなしません。
-台風の基点分類も `reference_type`、経過時間も `elapsed_time` として保持します。
+台風の基点分類も `reference_time_type`、経過時間も `elapsed_time` として保持します。
 状態はフィールドごとに絞ってあります。どのフィールドがどの状態を取り得るかはスキーマで検証するので、
 利用者は「この組み合わせはありえない」を機械的に判断できます。
 
 | フィールド | 取り得る status | `basis` | `source` |
 |---|---|---|---|
 | `report_time` | `time` のみ | `received_at` | なし |
-| `occurrence_time_of_earthquake`、`activity_time`、`reference_time` | `time`、`unrecognized_code` | `report_time` | 日・時・分 |
+| `occurrence_time`、`activity_time`、`reference_time` | `time`、`unrecognized_code` | `report_time` | 日・時・分 |
 | 国内津波の `arrival` | 上記＋`arrival_estimated`、`no_information` | `report_time` | 日・時・分 |
 | 北西太平洋津波の `arrival` | `time`、`arrived_or_unknown`、`unrecognized_code` | `report_time` | 日・時・分 |
 | DCX の `onset` | `time`、`not_used`、`unrecognized_code` | `received_at` | 週・週内分 |
@@ -272,24 +291,25 @@ report_classification / information_type。災害分類の名前・コードは 
 
 | Pythonクラス / typeの末尾 | JSON data の固有項目（元の内容） |
 |---|---|
-| EarthquakeEarlyWarning / earthquake_early_warning | occurrence_time_of_earthquake、depth、magnitude、epicenter、intensity_lower/upper、long_period_lower/upper、assumptive、regions、notifications |
-| Hypocenter / hypocenter | occurrence_time_of_earthquake、depth、magnitude、epicenter、position、notifications |
-| SeismicIntensity / seismic_intensity | occurrence_time_of_earthquake、observations[{region,intensity}] |
+| EarthquakeEarlyWarning / earthquake_early_warning | occurrence_time、depth、magnitude、epicenter、intensity_lower/upper、long_period_ground_motion_lower/upper、assumptive、target_regions、notifications |
+| Hypocenter / hypocenter | occurrence_time、depth、magnitude、epicenter、position、notifications |
+| SeismicIntensity / seismic_intensity | occurrence_time、observations[{region,intensity}] |
 | NankaiTroughEarthquake / nankai_trough_earthquake | information_serial、page{number,total,content_hex} |
 | Tsunami / tsunami | warning、notifications、forecasts[{region,height,arrival}] |
-| NorthwestPacificTsunami / northwest_pacific_tsunami | potential、forecasts[{region,height,arrival}] |
-| Volcano / volcano | volcano、warning、activity_time、activity_time_ambiguity_code、regions |
+| NorthwestPacificTsunami / northwest_pacific_tsunami | tsunamigenic_potential、forecasts[{region,height,arrival}] |
+| Volcano / volcano | volcano、warning、activity_time、activity_time_ambiguity、target_regions |
 | AshFall / ash_fall | volcano、warning_type、activity_time、forecasts[{region,elapsed_time,warning}] |
 | Weather / weather | warning_state、warnings[{region,warning}] |
 | Flood / flood | warnings[{region,level}] |
-| Typhoon / typhoon | reference_time、reference_type、elapsed_time、number、scale、intensity、position、pressure、wind_speed、gust_speed |
+| Typhoon / typhoon | reference_time、reference_time_type、elapsed_time、number、scale_category、intensity_category、position、central_pressure、maximum_wind_speed、maximum_gust_wind_speed |
 | Marine / marine | warnings[{region,warning}] |
 
 これらの type は `qzss.dcr.` で始まります。
 
 DCX 警報共通：vn → version、A1 → message_type、A2 → country、A3 → provider、A4 → hazard、
 A5 → severity、A6/A7 → onset、A8 → duration、A9/A10/A11 → instruction。
-A4 の区分名・説明も hazard に保持します。
+A4 は hazard の `type`・`category`・`definition` の3つのコードオブジェクトにします。
+1つの A4 のコードを、種類・区分・説明の3つの表で引いたものです。code はどれも同じです。
 
 | Pythonクラス / typeの末尾 | 警報共通項目以外の項目 |
 |---|---|

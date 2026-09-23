@@ -1,6 +1,7 @@
 """Validate JSON output and saved examples against the bundled wire contract."""
 import copy
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -129,7 +130,7 @@ def test_every_dcr_source_field_has_a_mapping_or_explicit_omission():
         if name in LISTS:
             used.update(src for _, src, _ in LISTS[name][1])
         if name in TIMES:
-            used.update([TIMES[name], TIMES[name] + '_raw'])
+            used.update([TIMES[name][1], TIMES[name][1] + '_raw'])
         used.update({'notifications_on_disaster_prevention_raw', 'eew_forecast_regions_raw', 'local_governments_raw',
                      'coordinates_of_hypocenter_raw', 'coordinates_of_typhoon_raw', 'expected_tsunami_arrival_times',
                      'expected_tsunami_arrival_times_raw', 'expected_tsunami_arrival_time_types',
@@ -255,12 +256,13 @@ def test_a_label_is_never_an_empty_string():
     ('LAlert', 'onset', {'status': 'no_information', 'value': None, 'basis': None}),
     ('LAlert', 'onset', {'status': 'unrecognized_code', 'value': None, 'basis': None,
                          'source': {'day': 1, 'hour': 1, 'minute': 1}}),
-    ('Hypocenter', 'occurrence_time_of_earthquake', {'status': 'not_used', 'value': None, 'basis': None}),
-    ('Hypocenter', 'occurrence_time_of_earthquake', {'status': 'unrecognized_code', 'value': None,
-                                                     'basis': None, 'source': {'week': 0, 'minute_of_week': 0}}),
+    ('Hypocenter', 'occurrence_time', {'status': 'not_used', 'value': None, 'basis': None}),
+    ('Hypocenter', 'occurrence_time', {'status': 'unrecognized_code', 'value': None,
+                                       'basis': None, 'source': {'week': 0, 'minute_of_week': 0}}),
 ])
 def test_a_time_field_refuses_a_state_it_cannot_reach(name, field, state):
     row = record(name)
+    assert field in row['data']  # a key the record has, or the test proves nothing
     row['data'][field] = state
     assert not VALIDATOR.is_valid(row)
 
@@ -301,10 +303,12 @@ def test_the_dcx_alert_fields_are_defined_once(name):
 @pytest.mark.parametrize('name,path,value', [
     ('JAlert', ('target_regions', 0, 'scheme'), 'anything'),
     ('LAlert', ('provider', 'scheme'), 'qzss.dcr.tsunami_height'),
-    ('LAlert', ('hazard', 'code', 'scheme'), 'qzss.dcr.tsunami_height'),
+    ('LAlert', ('hazard', 'type', 'scheme'), 'qzss.dcr.tsunami_height'),
+    ('LAlert', ('hazard', 'category', 'scheme'), 'camf.a4_hazard_type'),
+    ('LAlert', ('hazard', 'definition', 'labels'), {'en': ''}),
     ('LAlert', ('instruction', 'library', 'scheme'), 'camf.a5_severity'),
     ('LAlert', ('instruction', 'content', 'scheme'), 'qzss.dcx.instruction.oops'),
-    ('LAlert', ('instruction', 'country_code'), 'abc'),
+    ('LAlert', ('instruction', 'identifier'), 5),
     ('LAlert', ('version',), -5),
     ('LAlert', ('version',), 64),
 ])
@@ -313,6 +317,7 @@ def test_a_dcx_field_is_as_tightly_bound_as_a_dcr_one(name, path, value):
     node = row['data']
     for step in path[:-1]:
         node = node[step]
+    assert path[-1] in node  # a key the record has, or the test proves nothing
     node[path[-1]] = value
     assert not VALIDATOR.is_valid(row)
 
@@ -329,6 +334,7 @@ def test_an_ellipse_number_stays_in_range(path, value):
     node = row['data']
     for step in path[:-1]:
         node = node[step]
+    assert path[-1] in node  # a key the record has, or the test proves nothing
     node[path[-1]] = value
     assert not VALIDATOR.is_valid(row)
 
@@ -402,3 +408,48 @@ def test_every_code_a_numeric_b4_field_can_carry_converts_to_a_valid_record():
                 assert details[name.split('_', 1)[1]]['code']['code'] == str(code)
                 VALIDATOR.validate(row)
     assert checked == set(CAMF_PROFILES)
+
+
+@pytest.mark.parametrize('a4, known', [(0, False), (44, True), (127, False)])
+def test_the_hazard_is_three_codes_of_one_value(a4, known):
+    # type, category and definition are three tables of A4, and an undefined code has no text in any
+    from test_dcx_fields import JAPAN, _decode, dcx
+    hazard = example_record(_decode(dcx(**JAPAN, a3=1, a4=a4, a14=1)))['data']['hazard']
+    assert list(hazard) == ['type', 'category', 'definition']
+    for part, code in hazard.items():
+        assert code['scheme'] == 'camf.a4_hazard_' + part and code['code'] == str(a4)
+        assert code['recognized'] is known and bool(code['labels']) is known
+
+
+AMERICAN = re.compile(r'center|[a-z]{3}iz(e|es|ed|ing|ation)(\b|_)|yze|meter|liter|color|behavior|gray|catalog|defense')
+BRITISH = re.compile(r'centre|[a-z]{3}is(e|es|ed|ing|ation)(\b|_)|yse|metre|litre|colour|behaviour|grey|catalogue|defence')
+CHOSEN = ('type', 'status', 'kind', 'reason', 'basis', 'direction', 'unit', 'qualifier')  # values azarashi names
+
+
+def _record_words(node):
+    """The keys of a record and the values azarashi names; not the text of a code table or a scheme."""
+    if isinstance(node, dict):
+        for key, value in node.items():
+            yield key
+            if key in CHOSEN and isinstance(value, str):
+                yield value
+            elif key != 'labels':
+                yield from _record_words(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _record_words(value)
+
+
+def test_a_name_is_spelled_as_its_specification_spells_it():
+    # the JMA reports write American English and CAMF British; the names both share keep one spelling
+    rows = [example_record(r) for r in fixtures()]
+    rows += [{'type': 'qzss.dcx.unknown', 'data': {'specific_settings': {
+        'hazard_details': dict.fromkeys(SCHEMA['$defs']['hazard_details']['properties'])}}}]  # every B4 detail
+    words = {service: {w for row in rows if row['type'].startswith(f'qzss.{service}.')
+                       for w in _record_words({'type': row['type'], 'data': row['data']})}
+             for service in ('dcr', 'dcx')}
+    jma, camf = words['dcr'] - words['dcx'], words['dcx'] - words['dcr']
+    assert {'epicenter', 'qzss.dcr.hypocenter'} <= jma and {'centre', 'hazard_centre'} <= camf
+    assert 'recognized' in words['dcr'] & words['dcx']
+    assert not sorted(w for w in jma if BRITISH.search(w))
+    assert not sorted(w for w in camf if AMERICAN.search(w))

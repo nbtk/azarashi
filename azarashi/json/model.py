@@ -210,8 +210,16 @@ SINGLES = {
         ("epicenter", "seismic_epicenter_raw", "epicenter_and_hypocenter"),
         ("intensity_lower", "seismic_intensity_lower_limit_raw", "seismic_intensity_lower_limit"),
         ("intensity_upper", "seismic_intensity_upper_limit_raw", "seismic_intensity_upper_limit"),
-        ("long_period_lower", "long_period_ground_motion_lower_limit_raw", "long_period_ground_motion_lower_limit"),
-        ("long_period_upper", "long_period_ground_motion_upper_limit_raw", "long_period_ground_motion_upper_limit"),
+        (
+            "long_period_ground_motion_lower",
+            "long_period_ground_motion_lower_limit_raw",
+            "long_period_ground_motion_lower_limit",
+        ),
+        (
+            "long_period_ground_motion_upper",
+            "long_period_ground_motion_upper_limit_raw",
+            "long_period_ground_motion_upper_limit",
+        ),
     ],
     "Hypocenter": [
         ("depth", "depth_of_hypocenter_raw", "depth_of_hypocenter"),
@@ -220,7 +228,7 @@ SINGLES = {
     ],
     "NankaiTroughEarthquake": [("information_serial", "information_serial_code_raw", "information_serial_code")],
     "Tsunami": [("warning", "tsunami_warning_code_raw", "tsunami_warning_code")],
-    "NorthwestPacificTsunami": [("potential", "tsunamigenic_potential_raw", "tsunamigenic_potential")],
+    "NorthwestPacificTsunami": [("tsunamigenic_potential", "tsunamigenic_potential_raw", "tsunamigenic_potential")],
     "Volcano": [
         ("volcano", "volcano_name_raw", "volcano_name"),
         ("warning", "volcanic_warning_code_raw", "volcanic_warning_code"),
@@ -234,12 +242,12 @@ SINGLES = {
         (out, src + "_raw", table)
         for out, src, table in [
             ("number", "typhoon_number", "typhoon_number"),
-            ("scale", "typhoon_scale_category", "typhoon_scale_category"),
-            ("intensity", "typhoon_intensity_category", "typhoon_intensity_category"),
-            ("pressure", "central_pressure", "typhoon_central_pressure"),
-            ("wind_speed", "maximum_wind_speed", "typhoon_maximum_wind_speed"),
-            ("gust_speed", "maximum_gust_wind_speed", "typhoon_maximum_gust_wind_speed"),
-            ("reference_type", "reference_time_type", "typhoon_reference_time_type"),
+            ("scale_category", "typhoon_scale_category", "typhoon_scale_category"),
+            ("intensity_category", "typhoon_intensity_category", "typhoon_intensity_category"),
+            ("central_pressure", "central_pressure", "typhoon_central_pressure"),
+            ("maximum_wind_speed", "maximum_wind_speed", "typhoon_maximum_wind_speed"),
+            ("maximum_gust_wind_speed", "maximum_gust_wind_speed", "typhoon_maximum_gust_wind_speed"),
+            ("reference_time_type", "reference_time_type", "typhoon_reference_time_type"),
             ("elapsed_time", "elapsed_time_from_reference_time", "typhoon_elapsed_time_from_reference_time"),
         ]
     ],
@@ -293,13 +301,13 @@ LISTS = {
         ],
     ),
 }
-TIMES = {
-    "EarthquakeEarlyWarning": "occurrence_time_of_earthquake",
-    "Hypocenter": "occurrence_time_of_earthquake",
-    "SeismicIntensity": "occurrence_time_of_earthquake",
-    "Volcano": "activity_time",
-    "AshFall": "activity_time",
-    "Typhoon": "reference_time",
+TIMES = {  # the key in data, and the time the report holds
+    "EarthquakeEarlyWarning": ("occurrence_time", "occurrence_time_of_earthquake"),
+    "Hypocenter": ("occurrence_time", "occurrence_time_of_earthquake"),
+    "SeismicIntensity": ("occurrence_time", "occurrence_time_of_earthquake"),
+    "Volcano": ("activity_time", "activity_time"),
+    "AshFall": ("activity_time", "activity_time"),
+    "Typhoon": ("reference_time", "reference_time"),
 }
 DCR_TYPES = [
     "EarthquakeEarlyWarning",
@@ -364,8 +372,8 @@ def dcr_model(name: str, report: Any) -> dict[str, Any]:
     for out, src, table in COMMON + SINGLES.get(name, []):
         data[out] = dcr_value(table, getattr(report, src))
     if name in TIMES:
-        src = TIMES[name]
-        data[src] = time_value(getattr(report, src), getattr(report, src + "_raw"))
+        out, src = TIMES[name]
+        data[out] = time_value(getattr(report, src), getattr(report, src + "_raw"))
     if name in ("EarthquakeEarlyWarning", "Hypocenter", "Tsunami"):
         data["notifications"] = [
             dcr_value("notification_on_disaster_prevention", n) for n in report.notifications_on_disaster_prevention_raw
@@ -387,7 +395,7 @@ def dcr_model(name: str, report: Any) -> dict[str, Any]:
         ("Volcano", "local_governments_raw", "local_government"),
     ]:
         if name == cls:
-            data["regions"] = [dcr_value(table, n) for n in getattr(report, source)]
+            data["target_regions"] = [dcr_value(table, n) for n in getattr(report, source)]
     if name in ("Hypocenter", "Typhoon"):
         data["position"] = position(
             getattr(report, "coordinates_of_" + ("hypocenter" if name == "Hypocenter" else "typhoon") + "_raw")
@@ -395,7 +403,7 @@ def dcr_model(name: str, report: Any) -> dict[str, Any]:
     if name == "EarthquakeEarlyWarning":
         data["assumptive"] = report.assumptive
     if name == "Volcano":
-        data["activity_time_ambiguity_code"] = report.ambiguity_of_activity_time_no
+        data["activity_time_ambiguity"] = report.ambiguity_of_activity_time_no
     if name == "NankaiTroughEarthquake":
         data["page"] = {
             "number": report.page_number,
@@ -404,7 +412,7 @@ def dcr_model(name: str, report: Any) -> dict[str, Any]:
         }
     optional = []
     if name == "EarthquakeEarlyWarning":
-        optional = ["long_period_lower", "long_period_upper"]
+        optional = ["long_period_ground_motion_lower", "long_period_ground_motion_upper"]
         for key in optional:
             if key in data and data[key]["code"] == "0":
                 del data[key]
@@ -459,8 +467,8 @@ B4_TABLES: dict[str, Any] = {k: v for k, v in vars(B4_MODULE).items() if re.matc
 
 
 def xcode(table: str, n: int) -> dict[str, Any]:
-    """A table CAMF defines, under the scheme of the service that carried the message."""
-    module = "a4_hazard_category_and_type" if table == "a4_hazard_type" else table
+    """A table CAMF defines, under the camf. scheme of that table."""
+    module = "a4_hazard_category_and_type" if table.startswith("a4_") else table
     definitions = importlib.import_module(f"..definitions.camf.{module}", __package__)
     return coded("camf." + table, n, en=getattr(definitions, table))
 
@@ -492,18 +500,13 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
     data = {"version": report.dcx_version, **{out: xcode(table, getattr(c, field)) for out, field, table in XCODES}}
     provider_table: Any = a3_provider_identifier_map.get(c.a2)
     data["provider"] = coded(f"camf.provider.country_{c.a2}", c.a3, en=provider_table)
-    data["hazard"] = {
-        "code": xcode("a4_hazard_type", c.a4),
-        "category": report.a4_hazard_category,
-        "definition": report.a4_hazard_definition,
-    }
+    data["hazard"] = {part: xcode("a4_hazard_" + part, c.a4) for part in ("type", "category", "definition")}
     data["onset"] = time_value(
         report.a6a7_hazard_onset_datetime, {"week": c.a6, "minute_of_week": c.a7}, basis="received_at"
     )
     library = a11_library(c.a9, c.a2, c.a10)
     identifier = None if library.identifier is None else library.identifier.get(c.a11)
     data["instruction"] = {
-        "country_code": str(c.a2),
         "library": xcode("a9_type_of_library", c.a9),
         "version": xcode("a10_library_version", c.a10),
         "content": coded(instruction_scheme(c), c.a11, library.ja, library.en),

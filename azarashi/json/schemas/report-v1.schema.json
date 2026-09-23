@@ -2313,7 +2313,7 @@
             }
           ]
         },
-        "long_period_lower": {
+        "long_period_ground_motion_lower": {
           "allOf": [
             {
               "$ref": "#/$defs/code"
@@ -2327,7 +2327,7 @@
             }
           ]
         },
-        "long_period_upper": {
+        "long_period_ground_motion_upper": {
           "allOf": [
             {
               "$ref": "#/$defs/code"
@@ -2341,7 +2341,7 @@
             }
           ]
         },
-        "occurrence_time_of_earthquake": {
+        "occurrence_time": {
           "$ref": "#/$defs/time_event"
         },
         "notifications": {
@@ -2361,7 +2361,7 @@
             ]
           }
         },
-        "regions": {
+        "target_regions": {
           "type": "array",
           "items": {
             "allOf": [
@@ -2392,9 +2392,9 @@
         "epicenter",
         "intensity_lower",
         "intensity_upper",
-        "occurrence_time_of_earthquake",
+        "occurrence_time",
         "notifications",
-        "regions",
+        "target_regions",
         "assumptive"
       ],
       "additionalProperties": false
@@ -2533,7 +2533,7 @@
             }
           ]
         },
-        "occurrence_time_of_earthquake": {
+        "occurrence_time": {
           "$ref": "#/$defs/time_event"
         },
         "notifications": {
@@ -2565,7 +2565,7 @@
         "depth",
         "magnitude",
         "epicenter",
-        "occurrence_time_of_earthquake",
+        "occurrence_time",
         "notifications",
         "position"
       ],
@@ -2608,7 +2608,7 @@
             }
           ]
         },
-        "occurrence_time_of_earthquake": {
+        "occurrence_time": {
           "$ref": "#/$defs/time_event"
         },
         "observations": {
@@ -2658,7 +2658,7 @@
         "report_time",
         "report_classification",
         "information_type",
-        "occurrence_time_of_earthquake",
+        "occurrence_time",
         "observations"
       ],
       "additionalProperties": false
@@ -2942,7 +2942,7 @@
             }
           ]
         },
-        "potential": {
+        "tsunamigenic_potential": {
           "allOf": [
             {
               "$ref": "#/$defs/code"
@@ -3035,7 +3035,7 @@
         "report_time",
         "report_classification",
         "information_type",
-        "potential",
+        "tsunamigenic_potential",
         "forecasts"
       ],
       "additionalProperties": false
@@ -3108,7 +3108,7 @@
         "activity_time": {
           "$ref": "#/$defs/time_event"
         },
-        "regions": {
+        "target_regions": {
           "type": "array",
           "items": {
             "allOf": [
@@ -3125,7 +3125,7 @@
             ]
           }
         },
-        "activity_time_ambiguity_code": {
+        "activity_time_ambiguity": {
           "type": "integer",
           "minimum": 0,
           "maximum": 7
@@ -3139,8 +3139,8 @@
         "volcano",
         "warning",
         "activity_time",
-        "regions",
-        "activity_time_ambiguity_code"
+        "target_regions",
+        "activity_time_ambiguity"
       ],
       "additionalProperties": false
     },
@@ -3549,7 +3549,7 @@
             }
           ]
         },
-        "scale": {
+        "scale_category": {
           "allOf": [
             {
               "$ref": "#/$defs/code"
@@ -3563,7 +3563,7 @@
             }
           ]
         },
-        "intensity": {
+        "intensity_category": {
           "allOf": [
             {
               "$ref": "#/$defs/code"
@@ -3577,7 +3577,7 @@
             }
           ]
         },
-        "pressure": {
+        "central_pressure": {
           "allOf": [
             {
               "$ref": "#/$defs/quantity"
@@ -3617,7 +3617,7 @@
             }
           ]
         },
-        "wind_speed": {
+        "maximum_wind_speed": {
           "allOf": [
             {
               "$ref": "#/$defs/quantity"
@@ -3658,7 +3658,7 @@
             }
           ]
         },
-        "gust_speed": {
+        "maximum_gust_wind_speed": {
           "allOf": [
             {
               "$ref": "#/$defs/quantity"
@@ -3699,7 +3699,7 @@
             }
           ]
         },
-        "reference_type": {
+        "reference_time_type": {
           "allOf": [
             {
               "$ref": "#/$defs/code"
@@ -3766,12 +3766,12 @@
         "report_classification",
         "information_type",
         "number",
-        "scale",
-        "intensity",
-        "pressure",
-        "wind_speed",
-        "gust_speed",
-        "reference_type",
+        "scale_category",
+        "intensity_category",
+        "central_pressure",
+        "maximum_wind_speed",
+        "maximum_gust_wind_speed",
+        "reference_time_type",
         "elapsed_time",
         "reference_time",
         "position"
@@ -3944,7 +3944,7 @@
     "dcx_hazard": {
       "type": "object",
       "properties": {
-        "code": {
+        "type": {
           "allOf": [
             {
               "$ref": "#/$defs/code"
@@ -3959,14 +3959,36 @@
           ]
         },
         "category": {
-          "type": "string"
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "scheme": {
+                  "const": "camf.a4_hazard_category"
+                }
+              }
+            }
+          ]
         },
         "definition": {
-          "type": "string"
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "scheme": {
+                  "const": "camf.a4_hazard_definition"
+                }
+              }
+            }
+          ]
         }
       },
       "required": [
-        "code",
+        "type",
         "category",
         "definition"
       ],
@@ -3975,10 +3997,6 @@
     "dcx_instruction": {
       "type": "object",
       "properties": {
-        "country_code": {
-          "type": "string",
-          "pattern": "^(0|[1-9][0-9]*)$(?![\\s\\S])"
-        },
         "library": {
           "allOf": [
             {
@@ -4033,7 +4051,6 @@
         }
       },
       "required": [
-        "country_code",
         "library",
         "version",
         "content",
