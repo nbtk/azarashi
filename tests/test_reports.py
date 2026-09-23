@@ -1,12 +1,16 @@
 """Behaviour shared by every report: equality, hashing, parameters and the fallbacks of the base classes."""
+import datetime
+
 import pytest
 
 import azarashi
+from azarashi import reports
 from azarashi.reports.base import Base
 from azarashi.reports.base import MessagePartial
 from qzqsm import with_fields
 from samples import EEW
 from samples import L_ALERT
+from test_declared_types import REPORTS
 
 
 def test_reports_of_the_same_message_are_equal():
@@ -124,3 +128,54 @@ def test_report_subclasses_keep_methods_and_concrete_type_equality():
     assert str(first) == str(original)
     assert first == second and hash(first) == hash(second)
     assert first != original and original != first
+
+
+@pytest.fixture
+def local_time_is_tokyo(monkeypatch):
+    """Pin the local time zone, which a time without one is read in."""
+    import time
+    monkeypatch.setenv('TZ', 'Asia/Tokyo')
+    time.tzset()
+    yield
+    monkeypatch.undo()
+    time.tzset()
+
+
+TIMES = [  # every time a report takes, and the report type that takes it
+    ('EarthquakeEarlyWarning', 'timestamp'),
+    ('EarthquakeEarlyWarning', 'report_time'),
+    ('EarthquakeEarlyWarning', 'occurrence_time_of_earthquake'),
+    ('Hypocenter', 'occurrence_time_of_earthquake'),
+    ('SeismicIntensity', 'occurrence_time_of_earthquake'),
+    ('Volcano', 'activity_time'),
+    ('AshFall', 'activity_time'),
+    ('Typhoon', 'reference_time'),
+    ('Tsunami', 'expected_tsunami_arrival_times'),
+    ('NorthwestPacificTsunami', 'expected_tsunami_arrival_times'),
+    ('LAlert', 'a6a7_hazard_onset_datetime'),
+]
+
+
+@pytest.mark.parametrize('name, field', TIMES)
+def test_a_time_without_a_time_zone_is_local_time_kept_in_utc(local_time_is_tokyo, name, field):
+    # the rule timestamp has always had, so that every time a report holds is in UTC
+    params = next(r for r in REPORTS if type(r).__name__ == name).get_params()
+    nine_in_tokyo = datetime.datetime(2026, 3, 1, 9, 0)
+    listed = field.endswith('_times')  # a list running beside the regions: change its first time only
+    params[field] = [nine_in_tokyo, *params[field][1:]] if listed else nine_in_tokyo
+    report = getattr(reports.dcr if hasattr(reports.dcr, name) else reports.dcx, name)(**params)
+    kept = getattr(report, field)[0] if listed else getattr(report, field)
+    assert kept == datetime.datetime(2026, 3, 1, 0, 0, tzinfo=datetime.UTC) and kept.tzinfo is datetime.UTC
+    assert azarashi.to_json_dict(report)  # the time the JSON conversion refused before
+
+
+def test_a_time_left_out_stays_left_out():
+    from azarashi.reports.base import as_utc
+    assert as_utc(None) is None
+
+
+def test_a_time_in_another_zone_is_kept_in_utc():
+    params = next(r for r in REPORTS if type(r).__name__ == 'Volcano').get_params()
+    params['activity_time'] = datetime.datetime(2026, 3, 1, 9, 0, tzinfo=datetime.timezone(datetime.timedelta(hours=9)))
+    kept = reports.dcr.Volcano(**params).activity_time
+    assert kept == datetime.datetime(2026, 3, 1, 0, 0, tzinfo=datetime.UTC) and kept.tzinfo is datetime.UTC

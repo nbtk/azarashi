@@ -1,7 +1,16 @@
 """What every report carries, whatever the message said."""
 from copy import deepcopy
 from datetime import datetime, UTC
-from typing import Any, TypedDict
+from typing import Any, TypedDict, overload
+
+
+@overload
+def as_utc(value: datetime) -> datetime: ...
+@overload
+def as_utc(value: None) -> None: ...
+def as_utc(value: datetime | None) -> datetime | None:
+    """A time as a report keeps it: in UTC, and one without a time zone taken as local time."""
+    return None if value is None else value.astimezone(UTC)
 
 
 class Coordinates(TypedDict):
@@ -36,7 +45,7 @@ class Base:
         self.raw = raw
         if timestamp is None:
             timestamp = datetime.now(UTC)
-        self.timestamp = timestamp.astimezone(UTC)  # a naive timestamp is taken as local time
+        self.timestamp = as_utc(timestamp)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Base) or type(self) is not type(other):

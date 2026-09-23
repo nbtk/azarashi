@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any, ClassVar
 
-from .base import Coordinates, DayHourMinute, MessageBase
+from .base import Coordinates, DayHourMinute, MessageBase, as_utc
 from ..definitions.qzss.dcr.day_hour_minute import activity_time_undefined
 from ..definitions.qzss.dcr.day_hour_minute import occurrence_time_of_earthquake_undefined
 from ..definitions.qzss.dcr.page_number_and_total_page import page_number_and_total_page_undefined
@@ -40,7 +40,7 @@ class Base(MessageBase):
         self.disaster_category = disaster_category
         self.disaster_category_en = disaster_category_en
         self.disaster_category_no = disaster_category_no
-        self.report_time = report_time
+        self.report_time = as_utc(report_time)
         self.information_type = information_type
         self.information_type_en = information_type_en
         self.information_type_no = information_type_no
@@ -146,7 +146,7 @@ class EarthquakeEarlyWarning(Base):
         self.long_period_ground_motion_upper_limit_raw = long_period_ground_motion_upper_limit_raw
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
-        self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
+        self.occurrence_time_of_earthquake = as_utc(occurrence_time_of_earthquake)
         self.occurrence_time_of_earthquake_raw = occurrence_time_of_earthquake_raw
         self.depth_of_hypocenter = depth_of_hypocenter
         self.depth_of_hypocenter_raw = depth_of_hypocenter_raw
@@ -208,7 +208,7 @@ class Hypocenter(Base):
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
-        self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
+        self.occurrence_time_of_earthquake = as_utc(occurrence_time_of_earthquake)
         self.occurrence_time_of_earthquake_raw = occurrence_time_of_earthquake_raw
         self.depth_of_hypocenter = depth_of_hypocenter
         self.depth_of_hypocenter_raw = depth_of_hypocenter_raw
@@ -246,7 +246,7 @@ class SeismicIntensity(Base):
                  prefectures_raw: list[int],
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
-        self.occurrence_time_of_earthquake = occurrence_time_of_earthquake
+        self.occurrence_time_of_earthquake = as_utc(occurrence_time_of_earthquake)
         self.occurrence_time_of_earthquake_raw = occurrence_time_of_earthquake_raw
         self.seismic_intensities = seismic_intensities
         self.seismic_intensities_raw = seismic_intensities_raw
@@ -383,7 +383,7 @@ class Tsunami(Base):
         self.notifications_on_disaster_prevention_raw = notifications_on_disaster_prevention_raw
         self.tsunami_warning_code = tsunami_warning_code
         self.tsunami_warning_code_raw = tsunami_warning_code_raw
-        self.expected_tsunami_arrival_times = expected_tsunami_arrival_times
+        self.expected_tsunami_arrival_times = [as_utc(t) for t in expected_tsunami_arrival_times]
         self.expected_tsunami_arrival_times_raw = expected_tsunami_arrival_times_raw
         self.expected_tsunami_arrival_time_types = expected_tsunami_arrival_time_types
         self.tsunami_heights = tsunami_heights
@@ -438,7 +438,7 @@ class NorthwestPacificTsunami(Base):
         super().__init__(**kwargs)
         self.tsunamigenic_potential_en = tsunamigenic_potential_en
         self.tsunamigenic_potential_raw = tsunamigenic_potential_raw
-        self.expected_tsunami_arrival_times = expected_tsunami_arrival_times
+        self.expected_tsunami_arrival_times = [as_utc(t) for t in expected_tsunami_arrival_times]
         self.expected_tsunami_arrival_times_raw = expected_tsunami_arrival_times_raw
         self.expected_tsunami_arrival_time_types_en = expected_tsunami_arrival_time_types_en
         self.tsunami_heights_en = tsunami_heights_en
@@ -477,7 +477,7 @@ class Volcano(Base):
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.ambiguity_of_activity_time_no = ambiguity_of_activity_time_no
-        self.activity_time = activity_time
+        self.activity_time = as_utc(activity_time)
         self.activity_time_raw = activity_time_raw
         self.volcanic_warning_code = volcanic_warning_code
         self.volcanic_warning_code_raw = volcanic_warning_code_raw
@@ -520,7 +520,7 @@ class AshFall(Base):
                  local_governments_raw: list[int],
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
-        self.activity_time = activity_time
+        self.activity_time = as_utc(activity_time)
         self.activity_time_raw = activity_time_raw
         self.ash_fall_warning_type = ash_fall_warning_type
         self.ash_fall_warning_type_raw = ash_fall_warning_type_raw
@@ -652,7 +652,7 @@ class Typhoon(Base):
                  maximum_gust_wind_speed_raw: int,
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
-        self.reference_time = reference_time
+        self.reference_time = as_utc(reference_time)
         self.reference_time_raw = reference_time_raw
         self.reference_time_type = reference_time_type
         self.reference_time_type_raw = reference_time_type_raw

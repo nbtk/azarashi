@@ -2,7 +2,7 @@
 from datetime import datetime
 from typing import Any
 
-from .base import MessageBase
+from .base import MessageBase, as_utc
 
 
 class CAMF:
@@ -125,7 +125,7 @@ class Base(MessageBase):
 
         for key, value in kwargs.items():
             if key not in self.__dict__:
-                self.__dict__[key] = value
+                self.__dict__[key] = as_utc(value) if isinstance(value, datetime) else value
 
 
 
