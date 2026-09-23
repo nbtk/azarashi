@@ -3,6 +3,7 @@ import weakref
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar
 
+from ..exceptions import AzarashiArgumentTypeError
 from ..exceptions import AzarashiDisconnectedError
 from ..exceptions import AzarashiNoMoreData
 from ..exceptions import AzarashiReopenStream
@@ -146,6 +147,12 @@ def empty_read_error(reader: Callable[..., Any]) -> AzarashiTimeoutError | Azara
     return AzarashiNoMoreData('Encountered EOF')
 
 
+def check_read_kind(data: object, kinds: tuple[type, ...], expected: str) -> None:
+    """Refuse what a stream gave when its format cannot read that kind; None is a read that brought nothing."""
+    if data is not None and not isinstance(data, kinds):
+        raise AzarashiArgumentTypeError(f'the stream gave {type(data).__name__}, but {expected}')
+
+
 def read_stream(reader: Callable[..., _T], reader_args: tuple[Any, ...] = ()) -> _T:
     """Read from a stream, reporting a stream that failed rather than one that ended."""
     try:
@@ -174,6 +181,7 @@ def read_line(reader: Callable[..., str | bytes], reader_args: tuple[Any, ...]) 
     except AzarashiReopenStream:
         partial.clear()  # the rest of the line can never arrive, and would corrupt the next one
         raise
+    check_read_kind(line, (str, bytes, bytearray), 'a line is read as str or bytes')
     if has_read_timeout(reader):
         complete = line.endswith(b'\n') if isinstance(line, (bytes, bytearray)) else line.endswith('\n')
         if not line or not complete:

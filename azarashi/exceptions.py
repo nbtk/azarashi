@@ -1,8 +1,9 @@
 class AzarashiException(Exception):
     """Everything azarashi raises. Catch this to report any of them in one place.
 
-    It says nothing about what to do next. AzarashiReadOn, AzarashiReopenStream and
-    AzarashiStopReading say that, and a reading loop catches those three. Neither they nor this
+    It says nothing about what to do next. AzarashiReadOn, AzarashiReopenStream,
+    AzarashiStopReading and AzarashiFixTheCall say that. A reading loop catches the first three
+    and lets the fourth through, since no read can put a wrong call right. Neither they nor this
     class are ever raised: what is raised is one of the classes under them, which say what
     happened. The message is in .message and the object it came from in .instance.
     """
@@ -112,4 +113,37 @@ class AzarashiNoMoreData(AzarashiStopReading):
     device that was pulled out is AzarashiDisconnectedError instead, because that stream can be
     opened again and this one has run out. Whether running out is the end of a recorded file or
     the loss of a live feed is for the caller to tell.
+    """
+
+
+class AzarashiFixTheCall(AzarashiException):
+    """The call itself is wrong, and no read will put it right: fix the code that makes it.
+
+    The arguments alone decide it, so calling again the same way fails the same way. It is found
+    before anything is read, except that whether a stream gives text or bytes shows at its first
+    read. What a message holds is never a mistake in the call: a message that cannot be read is
+    AzarashiInvalidMessageError, and reading on is the way past it.
+
+    It is outside AzarashiReadOn, AzarashiReopenStream and AzarashiStopReading, so a reading loop
+    that catches those three lets it through and the program stops with the reason, instead of
+    retrying a call that cannot succeed or ending as if the data had run out.
+    """
+
+
+class AzarashiUnsupportedFormatError(AzarashiFixTheCall, ValueError):
+    """The format asked for is not one azarashi reads, or not one this call reads.
+
+    A msg_type outside nmea, spresense, hex, ublox and net, or net given to a call that reads a
+    stream. It is a ValueError: the argument is a string, and one azarashi does not take.
+    """
+
+
+class AzarashiArgumentTypeError(AzarashiFixTheCall, TypeError):
+    """An argument is not the kind of object the call needs.
+
+    A message that is neither text nor bytes, a timestamp that is not a datetime, a stream without
+    the method its format reads with or one that gives text where bytes are read, a callback that
+    cannot be called, callback arguments that are not a sequence or a mapping of names, a unique=
+    that is neither a truth value nor a number, or something given to the JSON conversion that is
+    not a report. It is a TypeError, as Python's own calls report an argument of the wrong kind.
     """

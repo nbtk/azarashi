@@ -106,7 +106,7 @@ def test_reset_unbound_function_drops_its_pending_sentences():
 def test_invalid_reset_does_not_discard_pending_input(fmt):
     stream = io.StringIO(EEW + L_ALERT + '\n')
     azarashi.decode_stream(stream, ignore_dcx=False)
-    with pytest.raises(azarashi.AzarashiInvalidMessageError):
+    with pytest.raises(azarashi.AzarashiUnsupportedFormatError):
         azarashi.reset_reading_state(stream, fmt)
     assert azarashi.decode_stream(stream, ignore_dcx=False).message_type == 'DCX'
 

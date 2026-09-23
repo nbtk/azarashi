@@ -3,9 +3,11 @@ from ._legacy import *  # compatibility aliases for earlier public names
 from .api import decode
 from .api import decode_stream
 from .api import reset_reading_state
+from .exceptions import AzarashiArgumentTypeError
 from .exceptions import AzarashiDecodeError
 from .exceptions import AzarashiDisconnectedError
 from .exceptions import AzarashiException
+from .exceptions import AzarashiFixTheCall
 from .exceptions import AzarashiInvalidMessageError
 from .exceptions import AzarashiNoMoreData
 from .exceptions import AzarashiNotImplementedError
@@ -14,6 +16,7 @@ from .exceptions import AzarashiReopenStream
 from .exceptions import AzarashiStopReading
 from .exceptions import AzarashiStreamClosedError
 from .exceptions import AzarashiTimeoutError
+from .exceptions import AzarashiUnsupportedFormatError
 from .reports import Report
 from .json import JsonValue, json_schema, to_json_dict, to_ndjson
 
@@ -33,7 +36,7 @@ __all__ = [
     'reports',
     'Report',
 
-    # every exception azarashi defines, in the order of the hierarchy: the three that say what
+    # every exception azarashi defines, in the order of the hierarchy: the four that say what
     # to do next, and under each the ones that say what happened
     'AzarashiException',
     'AzarashiReadOn',
@@ -46,6 +49,9 @@ __all__ = [
     'AzarashiStreamClosedError',
     'AzarashiStopReading',
     'AzarashiNoMoreData',
+    'AzarashiFixTheCall',
+    'AzarashiUnsupportedFormatError',
+    'AzarashiArgumentTypeError',
 
     # compatibility aliases defined in _legacy.py
     'qzss_dc_report',

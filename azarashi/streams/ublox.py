@@ -3,6 +3,7 @@ from collections.abc import Callable
 from typing import Any
 
 from .state import ReaderStore
+from .state import check_read_kind
 from .state import empty_read_error
 from .state import read_stream
 from ..exceptions import AzarashiReopenStream
@@ -27,6 +28,7 @@ def __pop(size: int,
         except AzarashiReopenStream:
             buf.clear()  # the rest of the frame can never arrive, and the bytes read are half of one
             raise
+        check_read_kind(data, (bytes, bytearray, memoryview), 'ublox reads bytes: open the stream in binary mode')
         if not data:
             raise empty_read_error(reader)
         buf += data

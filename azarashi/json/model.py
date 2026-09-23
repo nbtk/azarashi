@@ -7,6 +7,7 @@ from itertools import pairwise
 from datetime import UTC, datetime
 from typing import Any, TypeAlias, cast
 from .. import reports
+from ..exceptions import AzarashiArgumentTypeError
 from ..definitions.camf import d_fields as B4_MODULE
 from ..definitions.camf.a11_library import a11_library
 from ..definitions.camf.a3_provider_identifier import a3_provider_identifier_map
@@ -576,4 +577,4 @@ def report_name(report: reports.Report) -> str:
     for cls in type(report).__mro__:
         if cls in supported:
             return supported[cls]
-    raise TypeError(f"Unsupported report type: {type(report).__name__}")
+    raise AzarashiArgumentTypeError(f"Unsupported report type: {type(report).__name__}")

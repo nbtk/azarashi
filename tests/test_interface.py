@@ -32,10 +32,10 @@ class _Nothing:
 
 # decode()
 
-@pytest.mark.parametrize('msg', ['', b'', None])
+@pytest.mark.parametrize('msg', ['', b''])
 def test_decode_nothing_is_an_invalid_message(msg):
-    # nothing was handed over, which is a message that cannot be read. No stream ended, so this
-    # must not be an EOFError: a reading loop would take that for the end of the data.
+    # an empty message is a message that cannot be read. No stream ended, so this must not be an
+    # EOFError: a reading loop would take that for the end of the data.
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode(msg)
     assert str(excinfo.value) == 'Empty Message'
@@ -43,7 +43,7 @@ def test_decode_nothing_is_an_invalid_message(msg):
 
 
 def test_decode_unknown_message_type():
-    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
+    with pytest.raises(azarashi.AzarashiUnsupportedFormatError) as excinfo:
         azarashi.decode(EEW, 'rtcm')
     assert str(excinfo.value) == 'Unknown Message Type: rtcm'
 
@@ -58,7 +58,7 @@ def test_decoders_take_nothing_as_an_invalid_message(fmt):
 # decode_stream(): how streams are read
 
 def test_decode_stream_unknown_message_type():
-    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
+    with pytest.raises(azarashi.AzarashiUnsupportedFormatError) as excinfo:
         azarashi.decode_stream(io.BytesIO(), 'rtcm')
     assert str(excinfo.value) == 'Unknown Message Type: rtcm'
 
@@ -66,7 +66,7 @@ def test_decode_stream_unknown_message_type():
 @pytest.mark.parametrize('operation', [azarashi.decode_stream, azarashi.reset_reading_state])
 def test_net_is_not_a_stream_format_and_consumes_no_input(operation):
     stream = io.BytesIO(bytes((55,)) + azarashi.decode(EEW).message)
-    with pytest.raises(azarashi.AzarashiInvalidMessageError) as error:
+    with pytest.raises(azarashi.AzarashiUnsupportedFormatError) as error:
         operation(stream, 'net')
     assert str(error.value) == "Message Type net is not a stream format; use decode(data, 'net') for each datagram"
     assert stream.tell() == 0
@@ -79,7 +79,7 @@ def test_net_is_not_a_stream_format_and_consumes_no_input(operation):
     ('ublox', "Neither read() nor read1() exists: <class 'test_interface._Nothing'>"),
 ])
 def test_decode_stream_needs_a_reader(msg_type, message):
-    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
+    with pytest.raises(azarashi.AzarashiArgumentTypeError) as excinfo:
         azarashi.decode_stream(_Nothing(), msg_type)
     assert str(excinfo.value) == message
 

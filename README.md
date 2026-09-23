@@ -73,6 +73,8 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 
 3つは互いに継承関係がないので、どの順番に書いても同じように動きます。実際に送出されるのは、この3つのいずれかを継承した、より細かいクラスです。何が起きたかを名前が表すので、ログには `AzarashiDisconnectedError` のような具体的な名前が出ます。
 
+呼び出し方を間違えたときは、この3つのどれでもない `AzarashiFixTheCall` の仲間が送出されます。たとえば対応していない形式を指定したときです。ループでは捕捉されず、理由を示して止まります。コードを直してください。
+
 仕様にないコード値を受け取っただけでは例外になりません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。例外の一覧は [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md) を見てください。
 ## Documentation
 - [Preparation](https://github.com/nbtk/azarashi/blob/main/docs/preparation.md): u-blox や Sony Spresense に災危通報を出力させる設定

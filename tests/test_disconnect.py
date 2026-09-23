@@ -437,13 +437,13 @@ def test_a_socket_read_with_a_timeout_resumes_through_pyserial(idle_socket):
 
 
 @pytest.mark.parametrize('mistake', ['unknown_format', 'net', 'missing_reader'])
-def test_minimal_loop_configuration_errors_retry_without_reading(mistake, monkeypatch, capsys):
-    # Compatibility limitation: these errors are ReadOn. Count API calls, since
-    # the existing device-read guard cannot observe a failure before the first read.
+def test_minimal_loop_stops_at_once_on_a_mistake_in_the_call(mistake, monkeypatch, capsys):
+    # the documented loop catches the three classes that say how to go on, so a wrong call gets
+    # through on the first try instead of being retried; counting calls catches a relapse into that
     section = (ROOT / 'docs/api.md').read_text().split('### Minimal Loop\n', 1)[1]
     body = re.search(r'```python\n(.*?)```', section, re.S).group(1)
     decode_stream = azarashi.decode_stream
-    calls, errors, devices = [], [], []
+    calls, devices = [], []
 
     def guarded(stream, *args, **kwargs):
         if len(calls) == 5:
@@ -451,15 +451,10 @@ def test_minimal_loop_configuration_errors_retry_without_reading(mistake, monkey
         calls.append(1)
         devices.append(stream)
         fmt = {'unknown_format': 'invalid', 'net': 'net', 'missing_reader': 'nmea'}[mistake]
-        try:
-            return decode_stream(stream, fmt, *args[1:], **kwargs)
-        except azarashi.AzarashiInvalidMessageError as error:
-            errors.append(error.message)
-            raise
+        return decode_stream(stream, fmt, *args[1:], **kwargs)
 
     monkeypatch.setattr(azarashi, 'decode_stream', guarded)
-    with pytest.raises(_Spun, match='configuration retried'):
+    with pytest.raises(azarashi.AzarashiFixTheCall):
         _run_example('Minimal Loop with configuration error', body, monkeypatch)
-    assert len(calls) == len(errors) == 5
-    assert len(set(errors)) == 1
+    assert len(calls) == 1
     assert all(device.reads == 0 and device.reopens == 0 for device in devices)

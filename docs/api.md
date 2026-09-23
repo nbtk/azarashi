@@ -50,7 +50,7 @@ callback(report, *callback_args, **callback_kwargs)
 
 秒数での重複判定にも、レポートの `timestamp` を使います。固定の `timestamp` で再生すると、記憶しているコピーとの時刻差は進みません。時計が巻き戻った場合も、前の受信時刻との差が指定秒数を超えるまで抑制します。
 
-`msg_type` の指定が非対応の場合や、その形式を読むメソッドが `stream` にない場合は、入力を読む前に `AzarashiInvalidMessageError` を送出します。この分類は以前の呼び出し側との互換性のために維持しています。これらは設定を修正する必要があり、同じ引数で再試行しても先へ進みません。`AzarashiReadOn` を捕捉して読み続けるループには、対応する形式とストリームを渡してください。
+引数が間違っているときは、何も読まないうちに [AzarashiFixTheCall](#azarashifixthecall) の下の例外を送出します。対応していない `msg_type`、その形式を読むメソッドのない `stream`、呼び出せない `callback` などです。同じ呼び方では何度やっても成功しないので、呼び出しを直してください。ストリームに届いていたメッセージは失われません。
 ### Example
 シリアルデバイスを pySerial で開いて読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
 ```python
@@ -95,17 +95,18 @@ I/O の開閉、read、seek、OS やデバイス側の受信バッファの消�
 ## AzarashiException
 azarashi が送出する例外は、すべてこのクラスを継承しています。azarashi が報告する失敗を一箇所で受けたいとき、たとえばまとめてログに記録するときに捕捉してください。
 
-このクラス自身は、次に何をすべきかを表しません。それを表すのは次の3つです。読み取りのループで捕捉するのは、この3つです。
+このクラス自身は、次に何をすべきかを表しません。それを表すのは次の4つです。読み取りのループで捕捉するのは、はじめの3つです。4つ目は読み取りでは直らないので、捕捉せずに外へ出します。
 
 | 捕捉するクラス | 何をすべきか |
 | --- | --- |
 | [AzarashiReadOn](#azarashireadon) | 次のメッセージを読む |
 | [AzarashiReopenStream](#azarashireopenstream) | ストリームを開き直す |
 | [AzarashiStopReading](#azarashistopreading) | 読み取りをやめる |
+| [AzarashiFixTheCall](#azarashifixthecall) | 呼び出しを直す。ループでは捕捉しない |
 
 ここで言うソケットは、`decode_stream()` に渡す TCP のストリームです。pySerial の `socket://` がその例です。[Network](network.md) の transmitter と receiver は UDP で、`decode_stream()` を通らないので、これらの例外とは関係ありません。
 
-この3つ自体は送出されません。送出されるのは、3つをそれぞれ継承した、何が起きたかを表すクラスです。つまりループで捕捉するのは3つのどれかで、ログに出るのは継承した側の名前です。
+この4つ自体は送出されません。送出されるのは、4つをそれぞれ継承した、何が起きたかを表すクラスです。つまりループで捕捉するのははじめの3つのどれかで、ログに出るのは継承した側の名前です。
 
 ```
 AzarashiException
@@ -117,19 +118,20 @@ AzarashiException
 ├── AzarashiReopenStream            ストリームを開き直す
 │   ├── AzarashiDisconnectedError
 │   └── AzarashiStreamClosedError
-└── AzarashiStopReading             読み取りをやめる
-    └── AzarashiNoMoreData
+├── AzarashiStopReading             読み取りをやめる
+│   └── AzarashiNoMoreData
+└── AzarashiFixTheCall              呼び出しを直す
+    ├── AzarashiUnsupportedFormatError
+    └── AzarashiArgumentTypeError
 ```
 
-何が起きたかを表すクラスは、仕様の改訂や対応形式の追加で増えることがあります。3つのほうを捕捉しておけば、増えても書き換えは要りません。
+何が起きたかを表すクラスは、仕様の改訂や対応形式の追加で増えることがあります。4つのほうを捕捉しておけば、増えても書き換えは要りません。
 
 失敗の理由は `.message` に入り、`.instance` には失敗したデコーダが入る場合があります。読み取り障害やタイムアウトなど、デコーダを伴わない例外では `None` です。`str()` は電文があればそれも付けます。
 ## AzarashiReadOn
 メッセージが手に入らなかったことを表すクラスです。読めないメッセージ、azarashi が扱えないメッセージ、読み終えていないメッセージが、すべてこのクラスの下にあります。
 
 ストリームは無事です。捕捉したら `decode_stream()` をもう一度呼んでください。読めないメッセージはそのまま失われますが、次のメッセージから読み込みが続きます。読み終えていないメッセージは、次の呼び出しで続きから読み込みます。
-
-ただし、[decode_stream()](#decode_stream) の引数の設定ミスも、互換性のためこのグループに含まれます。その場合は引数を修正してください。
 
 例は [Minimal Loop](#minimal-loop) にあります。
 ## AzarashiDecodeError
@@ -190,6 +192,33 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 壊れたものはないので、直すものもありません。ただ取るものがないだけです。デバイスを引き抜いたときは [AzarashiDisconnectedError](#azarashidisconnectederror) です。あちらは開き直せますが、こちらは開き直しても何も来ません。
 
 **尽きたことが重大かどうかは、azarashi からは分かりません。** 記録ファイルを最後まで読んだのなら正常終了で、`azarashi` コマンドは終了コード 0 を返します。生きたフィードが途切れたのなら、その配信は戻りません。このクラスは事実だけを伝えるので、重大さの判断は呼び出し側に残ります。
+## AzarashiFixTheCall
+呼び出し方が間違っていることを表すクラスです。読み直しても、開き直しても直りません。呼び出しているコードを直してください。
+
+間違いは引数だけで決まるので、同じ呼び方では何度やっても同じように失敗します。何も読まないうちに確かめるので、ストリームに届いていたメッセージは失われず、正しく呼び直せばそのまま読めます。ただ1つ、ストリームが文字列とバイト列のどちらを返すかだけは、最初の1回を読んで確かめます。
+
+届いたメッセージの中身の誤りは、これに入りません。空のメッセージや壊れたメッセージは [AzarashiInvalidMessageError](#azarashiinvalidmessageerror) で、次を読めば先へ進めます。
+
+`AzarashiReadOn`、`AzarashiReopenStream`、`AzarashiStopReading` のどれも継承していません。そのため、この3つを捕捉する読み取りのループを通り抜け、理由を示してプログラムを止めます。読み直しを延々と繰り返すことも、データが尽きたかのように黙って終わることもありません。
+
+何が起きたかは、これを継承した次のクラスが表します。
+### AzarashiUnsupportedFormatError
+`msg_type` に、azarashi が読まない形式を渡したときに送出されます。`decode()` が読むのは nmea・spresense・hex・ublox・net の5つです。`decode_stream()` と `reset_reading_state()` は net を除く4つを読みます。net はストリームではないので、データグラムを1つずつ `decode()` に渡してください。
+
+`ValueError` を継承しています。値の種類は合っているが、受け付けない値だという意味です。
+### AzarashiArgumentTypeError
+引数が、その呼び出しに必要な種類のものでないときに送出されます。
+
+- `decode()` の `msg` が、文字列でもバイト列でもない
+- `timestamp` が `datetime` でない
+- `stream` に、その形式を読むメソッドがない。nmea・spresense・hex は `readline()`、ublox は `read1()` か `read()` を使います
+- `stream` が、その形式では読めないものを返す。ublox は文字列を読めないので、ファイルはバイナリモードで開いてください
+- `callback` が呼び出せない。`callback_args` が並びでない。`callback_kwargs` が名前と値の対応でない
+- `unique` が、真偽値でも数値でもない
+- `to_json_dict()` や `to_ndjson()` に、レポートでないものを渡した
+
+`TypeError` を継承しています。Python 自身の関数が、種類の違う引数に対して送出するのと同じです。
+
 レポートの直接生成・属性変更・継承のサポート範囲は [Reports](reports.md#construction-mutation-and-subclassing) を参照してください。
 
 ## Earlier Names
@@ -218,6 +247,8 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 名前を変えたのは、azarashi が DCR 以外も扱うようになったからです。DCX のメッセージが読めなかったときも、同じ例外を送出します。今後ほかの測位衛星システムに対応しても同じです。そのとき `reports.ewss` のように仲間が増えても、クラス名はぶつかりません。
 
 ログやエラー出力に出るクラス名は、今の名前に変わります。以前の名前で出力を検索しているときは、書き換えてください。
+
+呼び出し方の誤りだけは、以前の名前では捕捉できなくなりました。以前は `QzssDcrDecoderException` として報告していましたが、今は [AzarashiFixTheCall](#azarashifixthecall) です。読み取りのループがこれを捕捉すると、直らない誤りを延々と繰り返すからです。
 ## Type Hints
 azarashi は型ヒント付きで配布しています。mypy や pyright を使うと、関数の引数と戻り値や、レポートのフィールドの型を検査できます。
 
@@ -244,7 +275,6 @@ DCX のレポートには、メッセージの種類や内容によって設定�
 警報を持たない `dcx.NullMsg` は、これらのフィールドを一つも持ちません。そのため警報のフィールドを読むときは `dcx.AlertBase` で絞ってください。`dcx.Base` で絞ると `dcx.NullMsg` も通ってしまいます。
 ## Examples
 ### Minimal Loop
-形式や読み取りメソッドの設定ミスは、入力を消費せず同じ例外を繰り返すため、このループでは解消しません。設定を修正してください。
 ストリームから読み続けるときの、いちばん短い形です。捕捉する3つのクラスが、そのまま何をすべきかを表します。
 ```python
 import azarashi
@@ -265,7 +295,7 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 ```
 読めないメッセージと、azarashi が扱えないメッセージは、ここで読み飛ばされます。何を飛ばしたかを気にしないなら、`AzarashiReadOn` の節は `pass` だけでも構いません。
 
-3つは互いに継承関係がないので、**どの順番に書いても同じように動きます**。デバイスを差し直して読み続けたいときは、`break` の代わりにポートを開き直してください。[Reconnect](#reconnect) にその例があります。
+3つは互いに継承関係がないので、**どの順番に書いても同じように動きます**。呼び出し方の誤りを表す [AzarashiFixTheCall](#azarashifixthecall) はどれにも捕まらず、理由を示して止まります。デバイスを差し直して読み続けたいときは、`break` の代わりにポートを開き直してください。[Reconnect](#reconnect) にその例があります。
 
 `timeout` を付けて開いたストリームでも、この形のまま動きます。タイムアウトも `AzarashiReadOn` の下にあるからです。タイムアウトの合間に別の仕事をしたいときだけ、[Timeout](#timeout) のように節を分けてください。
 ### I/O Stream

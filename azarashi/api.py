@@ -1,6 +1,8 @@
-from collections.abc import Callable
+import numbers
+from collections.abc import Callable, Iterable
+from decimal import Decimal
 from datetime import datetime
-from typing import Any, Literal, Protocol, TypeAlias
+from typing import Any, Literal, Protocol, TypeAlias, cast
 
 from .streams import hex_qzss_dcr_message_extractor
 from .streams import nmea_qzss_dcr_message_extractor
@@ -15,7 +17,9 @@ from .decoders import hex as hex_decoder
 from .decoders import net as net_decoder
 from .decoders import nmea as nmea_decoder
 from .decoders import ubx as ublox_decoder
+from .exceptions import AzarashiArgumentTypeError
 from .exceptions import AzarashiInvalidMessageError
+from .exceptions import AzarashiUnsupportedFormatError
 from .reports import Report
 
 #: the forms a stream can carry; 'spresense' is another name for 'nmea'
@@ -55,20 +59,59 @@ def _cached(cache: dict[_ReportKey, datetime], key: _ReportKey, received: dateti
     return dict(list(updated.items())[-cache_size:])
 
 
+def _check_format(msg_type: object, formats: tuple[str, ...]) -> None:
+    if not isinstance(msg_type, str):
+        raise AzarashiArgumentTypeError(f'msg_type must be a str, not {type(msg_type).__name__}')
+    if msg_type not in formats:
+        raise AzarashiUnsupportedFormatError(f'Unknown Message Type: {msg_type}')
+
+
+def _check_message(msg: object) -> None:
+    if not isinstance(msg, (str, bytes, bytearray)):
+        raise AzarashiArgumentTypeError(f'msg must be str or bytes, not {type(msg).__name__}')
+
+
+def _check_timestamp(timestamp: object) -> None:
+    if timestamp is not None and not isinstance(timestamp, datetime):
+        raise AzarashiArgumentTypeError(f'timestamp must be a datetime, not {type(timestamp).__name__}')
+
+
+def _check_callback(callback: object, callback_args: object, callback_kwargs: object) -> None:
+    if callback is not None and not callable(callback):
+        raise AzarashiArgumentTypeError(f'callback must be callable, not {type(callback).__name__}')
+    try:
+        iter(cast(Iterable[Any], callback_args))  # without taking anything from it
+    except TypeError:
+        raise AzarashiArgumentTypeError(
+            f'callback_args must be a sequence, not {type(callback_args).__name__}') from None
+    if callback_kwargs is None:
+        return
+    keys = getattr(callback_kwargs, 'keys', None)  # what ** takes a mapping by
+    if not callable(keys) or not all(isinstance(key, str) for key in cast(Iterable[object], keys())):
+        raise AzarashiArgumentTypeError(
+            f'callback_kwargs must map names to values, not {type(callback_kwargs).__name__}')
+
+
+def _check_unique(unique: object) -> None:
+    if unique is not None and not isinstance(unique, (numbers.Real, Decimal)):  # a bool is a number too
+        raise AzarashiArgumentTypeError(
+            f'unique must be a truth value or a number of seconds, not {type(unique).__name__}')
+
+
 def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: datetime | None = None) -> Report:
+    _check_message(msg)
+    _check_format(msg_type, ('nmea', 'spresense', 'hex', 'ublox', 'net'))
+    _check_timestamp(timestamp)
     if not msg:
         raise AzarashiInvalidMessageError('Empty Message')
 
     if msg_type == 'hex':
         return hex_decoder.Decoder(msg, timestamp=timestamp).decode()
-    elif msg_type == 'net':
+    if msg_type == 'net':
         return net_decoder.Decoder(msg, timestamp=timestamp).decode()
-    elif msg_type == 'nmea' or msg_type == 'spresense':
+    if msg_type == 'nmea' or msg_type == 'spresense':
         return nmea_decoder.Decoder(msg, timestamp=timestamp).decode()
-    elif msg_type == 'ublox':
-        return ublox_decoder.Decoder(msg, timestamp=timestamp).decode()
-    else:
-        raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
+    return ublox_decoder.Decoder(msg, timestamp=timestamp).decode()
 
 
 def _select_reader(stream: QzssDcrStream, msg_type: str) -> tuple[
@@ -76,13 +119,17 @@ def _select_reader(stream: QzssDcrStream, msg_type: str) -> tuple[
     extractor: Callable[..., str | bytes]
     reader: Callable[..., Any]
     reader_args: tuple[Any, ...]
+    if msg_type == 'net':
+        raise AzarashiUnsupportedFormatError(
+            "Message Type net is not a stream format; use decode(data, 'net') for each datagram")
+    _check_format(msg_type, ('nmea', 'spresense', 'hex', 'ublox'))
     if msg_type in ('hex', 'nmea', 'spresense'):
         if not callable(readline := getattr(stream, 'readline', None)):
-            raise AzarashiInvalidMessageError(f'readline() does not exist: {type(stream)}')
+            raise AzarashiArgumentTypeError(f'readline() does not exist: {type(stream)}')
         extractor = hex_qzss_dcr_message_extractor if msg_type == 'hex' else nmea_qzss_dcr_message_extractor
         reader = readline
         reader_args = ()
-    elif msg_type == 'ublox':
+    else:  # ublox
         if callable(read1 := getattr(stream, 'read1', None)):
             extractor = ublox_qzss_dcr_message_extractor
             reader = read1
@@ -96,12 +143,7 @@ def _select_reader(stream: QzssDcrStream, msg_type: str) -> tuple[
             reader = read
             reader_args = (1,)  # positional: raw streams (io.FileIO, SocketIO) reject read(size=1)
         else:
-            raise AzarashiInvalidMessageError(f'Neither read() nor read1() exists: {type(stream)}')
-    elif msg_type == 'net':
-        raise AzarashiInvalidMessageError(
-            "Message Type net is not a stream format; use decode(data, 'net') for each datagram")
-    else:
-        raise AzarashiInvalidMessageError(f'Unknown Message Type: {msg_type}')
+            raise AzarashiArgumentTypeError(f'Neither read() nor read1() exists: {type(stream)}')
 
     return extractor, reader, reader_args
 
@@ -128,10 +170,13 @@ def decode_stream(stream: QzssDcrStream,
                   ignore_dcr: bool = False,
                   ignore_dcx: bool = True,
                   timestamp: datetime | None = None) -> Report:
+    # the call is checked in full before anything is read
+    extractor, reader, reader_args = _select_reader(stream, msg_type)
+    _check_callback(callback, callback_args, callback_kwargs)
+    _check_unique(unique)
+    _check_timestamp(timestamp)
     if callback_kwargs is None:
         callback_kwargs = {}
-
-    extractor, reader, reader_args = _select_reader(stream, msg_type)
 
     lock = stream_lock(stream)
     reading_lock = _reader_lock(reader)

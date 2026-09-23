@@ -13,14 +13,15 @@ from samples import EEW
 PACKAGE = pathlib.Path(azarashi.__file__).parent
 #: the classes that exist to be caught, not to be raised
 GROUPING = ('AzarashiException', 'AzarashiReadOn', 'AzarashiDecodeError',
-            'AzarashiReopenStream', 'AzarashiStopReading')
+            'AzarashiReopenStream', 'AzarashiStopReading', 'AzarashiFixTheCall')
 #: the names that existed before the classes were renamed
 EARLIER = (azarashi.QzssDcrDecoderException,
            azarashi.QzssDcrDecoderNotImplementedError)
-#: the failures that no earlier name catches: the released versions have no name of their own
-#: for a stream that failed, for the end of the data, or for a read timeout
+#: the failures that no earlier name catches. The released versions have no name of their own
+#: for a stream that failed, for the end of the data, or for a read timeout. A mistake in the call
+#: they did name as a decoder failure, and that is what a reading loop retried without end.
 OUTSIDE_EARLIER = ('AzarashiDisconnectedError', 'AzarashiStreamClosedError', 'AzarashiNoMoreData',
-                   'AzarashiTimeoutError')
+                   'AzarashiTimeoutError', 'AzarashiUnsupportedFormatError', 'AzarashiArgumentTypeError')
 
 
 def _built():
@@ -75,8 +76,16 @@ STANDARD_BASES = {
     'AzarashiStreamClosedError': {OSError},
     'AzarashiStopReading': {EOFError},
     'AzarashiNoMoreData': {EOFError},
+    # nothing of its own: its two kinds of mistake are each the one Python names for them
+    'AzarashiFixTheCall': set(),
+    # a value the call does not take, as int('x') raises
+    'AzarashiUnsupportedFormatError': {ValueError},
+    # an argument of the wrong kind, as Python's own calls raise; not a ValueError, which a layer
+    # that knows nothing of azarashi would take for bad data to skip
+    'AzarashiArgumentTypeError': {TypeError},
 }
-CANDIDATES = (OSError, EOFError, ValueError, RuntimeError, NotImplementedError, TimeoutError, ArithmeticError)
+CANDIDATES = (OSError, EOFError, ValueError, TypeError, RuntimeError, NotImplementedError, TimeoutError,
+              ArithmeticError)
 
 
 def test_hierarchy():
@@ -129,6 +138,16 @@ def test_a_broken_stream_is_outside_the_classes_that_mean_read_on_and_stop():
     for cls in (azarashi.AzarashiReadOn, EOFError):
         assert not issubclass(azarashi.AzarashiReopenStream, cls)
     assert issubclass(azarashi.AzarashiReopenStream, OSError)  # what the streams themselves raise
+
+
+def test_a_mistake_in_the_call_gets_past_every_reading_loop():
+    # a reading loop catches what says how to go on; a wrong call has no way on, so nothing it
+    # catches may take it, whatever the order of the clauses and whichever earlier name they use
+    for cls in (azarashi.AzarashiReadOn, azarashi.AzarashiReopenStream, azarashi.AzarashiStopReading,
+                EOFError, OSError, *EARLIER):
+        assert not issubclass(azarashi.AzarashiFixTheCall, cls), cls
+    for cls in (azarashi.AzarashiUnsupportedFormatError, azarashi.AzarashiArgumentTypeError):
+        assert issubclass(cls, azarashi.AzarashiFixTheCall)
 
 
 def test_the_package_builds_its_exceptions_somewhere():
