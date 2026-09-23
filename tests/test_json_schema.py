@@ -8,14 +8,14 @@ import pytest
 
 from azarashi import json_schema, to_json_dict as example_record
 from azarashi.json.model import TYPE_NAMES, dcr_value
-from schema.generate import fixtures
+from examples.generate import fixtures
 from test_declared_types import REPORTS
 
 # skip this file alone, rather than stopping the whole suite at collection
 jsonschema = pytest.importorskip('jsonschema', reason="pip install 'jsonschema[format]'")
 Draft202012Validator, FormatChecker = jsonschema.Draft202012Validator, jsonschema.FormatChecker
 
-FOLDER = Path(__file__).resolve().parent.parent / 'docs/schemas'
+FOLDER = Path(__file__).resolve().parent.parent / 'docs/json'
 SCHEMA = json_schema()
 VALIDATOR = Draft202012Validator(SCHEMA, format_checker=FormatChecker())
 

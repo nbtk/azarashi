@@ -1,4 +1,4 @@
-"""Regenerate deterministic examples: PYTHONPATH=.:tests python -m schema.generate."""
+"""Regenerate deterministic examples: PYTHONPATH=.:tests python -m examples.generate."""
 from azarashi import decode
 import json
 from pathlib import Path
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     chosen = fixtures()
     for r in chosen:
         validator.validate(to_json_dict(r))
-    folder = Path(__file__).resolve().parents[2] / 'docs/schemas'
+    folder = Path(__file__).resolve().parents[2] / 'docs/json'
     records = [to_json_dict(r) for r in chosen]
     (folder / 'report-v1.examples.ndjson').write_text(''.join(
         json.dumps(r, ensure_ascii=False, allow_nan=False, separators=(',', ':')) + '\n'

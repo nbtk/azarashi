@@ -6,8 +6,8 @@
 既存の Python API やレポートの動作は変わりません。
 
 - [JSON Schema](../azarashi/json/schemas/report-v1.schema.json)：Draft 2020-12、全18種類
-- [整形した完全な出力例](schemas/report-v1.examples.pretty.json)
-- [同じ内容の NDJSON](schemas/report-v1.examples.ndjson)
+- [整形した完全な出力例](json/report-v1.examples.pretty.json)
+- [同じ内容の NDJSON](json/report-v1.examples.ndjson)
 
 例は既存のログと合成したテストメッセージをデコードしたものです。受信日時は検証用の固定値です。
 スキーマは JSON の構造を定義します。各項目の意味は、Azarashi が対応する DCR/DCX の仕様とコード表に従います。
@@ -376,13 +376,13 @@ v1 の構造は固定し、未定義の項目は拒否します。フィール�
 スキーマは配布パッケージの `azarashi/json/schemas/report-v1.schema.json` に含まれ、
 `json_schema()` で取得できます。公開する名前は `azarashi` から取れる4つだけで、
 `azarashi.json.model` の内部名は互換性の対象ではありません。
-例の再生成コードは `tests/schema/` にあります。
+例の再生成コードは `tests/examples/` にあります。
 例の生成にコード表を使い、既存の全レポート型・C/D分岐・特殊値を検証します。
 コード表の仕様適合性を JSON テストだけで証明するものではありません。
 
 ```shell
 pip install -e . pytest 'jsonschema[format]'
-PYTHONPATH=.:tests python -m schema.generate
+PYTHONPATH=.:tests python -m examples.generate
 python -m pytest tests/test_json_schema.py
 ```
 
