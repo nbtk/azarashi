@@ -37,7 +37,7 @@
   ["camf.a10_library_version", "a10_library_version", "056873d4b5a1e4d908d2cf3cb9757d082bf70db2f27b785a6c9f6e326559acbc"],
   ["qzss.dcr.marine_warning_code", "marine_warning_code", "545ce22fbd8c1f55b721ec64f8d11d965fd93eab311fcc48345591e657f2b390"],
   ["qzss.dcr.marine_warning_code", "marine_warning_code_en", "b95ee115a72e279155457ec61eef816ed3201cb4cdff79dbcc00ebaab17a9755"],
-  ["qzss.dcx.ex1_target_area_code", "ex1_target_area_code_en", "0ffe85585e04b23477d38c36549b6888abb96a5e620e080fa917d8732cc87be9"],
+  ["qzss.dcx.ex1_target_area_code", "ex1_target_area_code_en", "679c0e53de6cb30d9633601c477a048c0fbbf3a430a9c100ec3643b56ad1fcdc"],
   ["qzss.dcx.ex1_target_area_code", "ex1_target_area_code_ja", "81bf2ec099d14c1b08a1a814a0792825ba23c695bc34c570e0401ec2afc82f7b"],
   ["qzss.dcr.typhoon_maximum_wind_speed", "typhoon_maximum_wind_speed", "7d4397b4daaf2ebeccbd8c819df7eca94a86532662fc3dcc5fb5af240784d3d8"],
   ["qzss.dcr.typhoon_maximum_wind_speed", "typhoon_maximum_wind_speed_en", "b0750311cc891b8b6b7bbe1a73dbcbb933bb8b36985959dae69d7c748a1ba15d"],
