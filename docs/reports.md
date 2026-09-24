@@ -26,12 +26,16 @@
 
 文章の中の時刻は、報によって JST か UTC かが違います。
 
-| 報 | `str(report)` | `report.get_text_en()` |
-|---|---|---|
-| DCR（下の2つを除く） | JST。例：8月21日9時4分 | JST。例：09:04 JST, 21 Aug. |
-| DCR の南海トラフ地震に関連する情報 | JST。例：8月21日9時4分 | なし（`None`） |
-| DCR の北西太平洋津波情報 | UTC。例：--08-21T00:04Z | `str(report)` と同じ |
-| DCX | UTC。例：2026-09-17T01:00:00Z | `str(report)` と同じ |
+| 報 | 出力 | タイムゾーン | 形式の例 |
+|---|---|---|---|
+| DCR（南海トラフ地震に関連する情報と北西太平洋津波情報を除く） | `str(report)` | JST | 8月21日9時4分 |
+| DCR（南海トラフ地震に関連する情報と北西太平洋津波情報を除く） | `report.get_text_en()` | JST | 09:04 JST, 21 Aug. |
+| DCR の南海トラフ地震に関連する情報 | `str(report)` | JST | 8月21日9時4分 |
+| DCR の南海トラフ地震に関連する情報 | `report.get_text_en()` | なし（`None` を返します） | |
+| DCR の北西太平洋津波情報 | `str(report)` | UTC | --08-21T00:04Z |
+| DCR の北西太平洋津波情報 | `report.get_text_en()` | UTC | --08-21T00:04Z |
+| DCX | `str(report)` | UTC | 2026-09-17T01:00:00Z |
+| DCX | `report.get_text_en()` | UTC | 2026-09-17T01:00:00Z |
 
 DCR の火山の活動時刻は、日付だけが有効なとき（Du=5）に限り、UTC の日付をそのまま表示します。
 
