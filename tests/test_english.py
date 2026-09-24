@@ -69,7 +69,7 @@ def test_the_hypocenter_in_english():
     lines = azarashi.decode(HYPOCENTER).get_text_en().splitlines()
     assert lines[0] == 'JMA-DC Report (Hypocenter) (Issue) (Training/Test)'
     assert lines[2] == 'Occurred at 13:05 JST, 7 Mar.'
-    assert 'Latitude and longitude: N 32°42´0˝, E 132°6´0˝' in lines
+    assert 'Latitude and longitude: N 32°42´00˝, E 132°06´00˝' in lines
 
 
 def test_coordinates_out_of_range_are_named_by_the_same_code_as_in_japanese():

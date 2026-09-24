@@ -18,7 +18,7 @@ This earthquake poses no tsunami risk.
 Report time: 09:04 JST, 21 Aug.
 
 Place name of epicenter: Adjacent Sea of Okinawa Main Island
-Latitude and longitude: N 26°36´0˝, E 127°36´0˝
+Latitude and longitude: N 26°36´00˝, E 127°36´00˝
 Depth: 40 km
 Magnitude: 4.2
 {'coordinates_of_hypocenter': '北緯26度36分0秒 東経127度36分0秒',
@@ -182,7 +182,7 @@ There is a possibility of a destructive local tsunami near the epicenter.
 Report time: 10:05 JST, 21 Aug.
 
 Place name of epicenter: Hyuganada Sea
-Latitude and longitude: N 32°42´0˝, E 132°6´0˝
+Latitude and longitude: N 32°42´00˝, E 132°06´00˝
 Depth: 40 km
 Magnitude: 6.4
 {'coordinates_of_hypocenter': '北緯32度42分0秒 東経132度6分0秒',
@@ -2703,7 +2703,7 @@ This earthquake poses no tsunami risk.
 Report time: 21:04 JST, 21 Aug.
 
 Place name of epicenter: Off the east Coast of Hachijojima Island
-Latitude and longitude: N 33°42´0˝, E 140°30´0˝
+Latitude and longitude: N 33°42´00˝, E 140°30´00˝
 Depth: 60 km
 Magnitude: 5.5
 {'coordinates_of_hypocenter': '北緯33度42分0秒 東経140度30分0秒',

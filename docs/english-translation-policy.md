@@ -429,9 +429,9 @@ for a warning lifted or for no tsunami. The notifications are the tables' Englis
 A time is in JST, as JMA's English writes it: 09:04 JST, 21 Aug. The year is left out, as in the
 Japanese text, since the DCR does not carry the year. An approximate time takes around, as the
 dictionary's at around XX:XX; an activity time known only to the day stays a UTC day, as in the
-Japanese text. A position is written as the dictionary's N XX°YY´, E XX°YY´, with the seconds the
-DCR gives: N 26°36´0˝, E 127°36´0˝. A time or position that is out of range is named as the
-tables name an undefined code, such as Undefined Activity Time (Code: 1600).
+Japanese text. A position is written as the dictionary's N XX°YY´, E XX°YY´, with the minutes in two
+digits and the seconds the DCR gives: N 26°36´00˝, E 127°36´00˝. A time or position that is out of
+range is named as the tables name an undefined code, such as Undefined Activity Time (Code: 1600).
 
 ## No English
 

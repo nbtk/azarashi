@@ -292,7 +292,7 @@
     },
     "nmea": "$QZQSM,56,53AD14540200035C0000A801142AD486A400FF200000000000000012FECDDD4*03",
     "text": "防災気象情報(震源)(発表)(優先)\n21日9時1分ころ、地震がありました。\nこの地震による津波の心配はありません。\n\n発表時刻: 8月21日9時4分\n\n震央地名: 沖縄本島近海\n緯度・経度: 北緯26度36分0秒 東経127度36分0秒\n深さ: 40km\nマグニチュード: 4.2",
-    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Priority)\nOccurred at 09:01 JST, 21 Aug.\nThis earthquake poses no tsunami risk.\n\nReport time: 09:04 JST, 21 Aug.\n\nPlace name of epicenter: Adjacent Sea of Okinawa Main Island\nLatitude and longitude: N 26°36´0˝, E 127°36´0˝\nDepth: 40 km\nMagnitude: 4.2",
+    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Priority)\nOccurred at 09:01 JST, 21 Aug.\nThis earthquake poses no tsunami risk.\n\nReport time: 09:04 JST, 21 Aug.\n\nPlace name of epicenter: Adjacent Sea of Okinawa Main Island\nLatitude and longitude: N 26°36´00˝, E 127°36´00˝\nDepth: 40 km\nMagnitude: 4.2",
     "data": {
       "version": 1,
       "report_time": {
@@ -1422,7 +1422,7 @@
     },
     "nmea": "$QZQSM,57,9AADE4E019000600010000680049E010C280FA8A1E00000000000010A945BFC*0B",
     "text": "防災気象情報(台風)(発表)(通常)\n台風解析・予報情報が発表されました。\n\n発表時刻: 9月24日9時50分\n\n台風番号: 26号\n基点時刻: 24日9時0分\n基点時刻分類: 実況\n情報の基点時刻(実況)からの経過時間: 0時間後\n大きさ: なし\n強さ: なし\n緯度・経度: 北緯18度30分0秒 東経134度5分0秒\n中心気圧: 1002hPa\n最大風速: 20m/s\n最大瞬間風速: 30m/s",
-    "text_en": "JMA-DC Report (Typhoon) (Issue) (Regular)\n\nReport time: 09:50 JST, 24 Sep.\n\nTyphoon number: No. 26\nReference time: 09:00 JST, 24 Sep.\nType of reference time: Analysis\nElapsed time: 0 hours ahead\nScale: None\nIntensity: None\nLatitude and longitude: N 18°30´0˝, E 134°5´0˝\nCentral pressure: 1002 hPa\nMaximum wind speed: 20 m/s\nMaximum wind gust speed: 30 m/s",
+    "text_en": "JMA-DC Report (Typhoon) (Issue) (Regular)\n\nReport time: 09:50 JST, 24 Sep.\n\nTyphoon number: No. 26\nReference time: 09:00 JST, 24 Sep.\nType of reference time: Analysis\nElapsed time: 0 hours ahead\nScale: None\nIntensity: None\nLatitude and longitude: N 18°30´00˝, E 134°05´00˝\nCentral pressure: 1002 hPa\nMaximum wind speed: 20 m/s\nMaximum wind gust speed: 30 m/s",
     "data": {
       "version": 1,
       "report_time": {
@@ -10223,7 +10223,7 @@
     },
     "nmea": "$QZQSM,55,53AF919CA50003240000394205415548E901176BC00000000000001004825A0*71",
     "text": "防災気象情報(震源)(発表)(訓練/試験)\n*** これは訓練です ***\n7日14時2分ころ、地震がありました。\n強い揺れに警戒してください。\n\n発表時刻: 3月7日14時10分\n\n震央地名: 千葉県北西部\n緯度・経度: 北緯35度41分0秒 東経139度45分30秒\n深さ: 10km\nマグニチュード: 6.5",
-    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´0˝, E 139°45´30˝\nDepth: 10 km\nMagnitude: 6.5",
+    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´00˝, E 139°45´30˝\nDepth: 10 km\nMagnitude: 6.5",
     "data": {
       "version": 1,
       "report_time": {
@@ -10329,7 +10329,7 @@
     },
     "nmea": "$QZQSM,55,53AF919CA500032400003942FAC15548E901176BC00000000000001016AAD14*08",
     "text": "防災気象情報(震源)(発表)(訓練/試験)\n*** これは訓練です ***\n7日14時2分ころ、地震がありました。\n強い揺れに警戒してください。\n\n発表時刻: 3月7日14時10分\n\n震央地名: 千葉県北西部\n緯度・経度: 北緯35度41分0秒 東経139度45分30秒\n深さ: 500kmより深い\nマグニチュード: 6.5",
-    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´0˝, E 139°45´30˝\nDepth: Deeper than 500 km\nMagnitude: 6.5",
+    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´00˝, E 139°45´30˝\nDepth: Deeper than 500 km\nMagnitude: 6.5",
     "data": {
       "version": 1,
       "report_time": {
@@ -10439,7 +10439,7 @@
     },
     "nmea": "$QZQSM,55,53AF919CA500032400003942FFC15548E901176BC0000000000000101DDD240*0A",
     "text": "防災気象情報(震源)(発表)(訓練/試験)\n*** これは訓練です ***\n7日14時2分ころ、地震がありました。\n強い揺れに警戒してください。\n\n発表時刻: 3月7日14時10分\n\n震央地名: 千葉県北西部\n緯度・経度: 北緯35度41分0秒 東経139度45分30秒\n深さ: 不明\nマグニチュード: 6.5",
-    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´0˝, E 139°45´30˝\nDepth: Unknown\nMagnitude: 6.5",
+    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´00˝, E 139°45´30˝\nDepth: Unknown\nMagnitude: 6.5",
     "data": {
       "version": 1,
       "report_time": {
@@ -10544,7 +10544,7 @@
     },
     "nmea": "$QZQSM,55,53AF919CA500032400003942FB415548E901176BC000000000000010250A184*71",
     "text": "防災気象情報(震源)(発表)(訓練/試験)\n*** これは訓練です ***\n7日14時2分ころ、地震がありました。\n強い揺れに警戒してください。\n\n発表時刻: 3月7日14時10分\n\n震央地名: 千葉県北西部\n緯度・経度: 北緯35度41分0秒 東経139度45分30秒\n深さ: 深さ(コード番号：502)\nマグニチュード: 6.5",
-    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´0˝, E 139°45´30˝\nDepth: Undefined Depth (Code: 502)\nMagnitude: 6.5",
+    "text_en": "JMA-DC Report (Hypocenter) (Issue) (Training/Test)\n*** TRAINING/TEST ***\nOccurred at 14:02 JST, 7 Mar.\nWatch out for strong tremors.\n\nReport time: 14:10 JST, 7 Mar.\n\nPlace name of epicenter: Northwestern Chiba Prefecture\nLatitude and longitude: N 35°41´00˝, E 139°45´30˝\nDepth: Undefined Depth (Code: 502)\nMagnitude: 6.5",
     "data": {
       "version": 1,
       "report_time": {

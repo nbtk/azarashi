@@ -141,7 +141,7 @@ Type of reference time: Analysis
 Elapsed time: 0 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 18°30´0˝, E 134°5´0˝
+Latitude and longitude: N 18°30´00˝, E 134°05´00˝
 Central pressure: 1002 hPa
 Maximum wind speed: 20 m/s
 Maximum wind gust speed: 30 m/s
@@ -224,7 +224,7 @@ Type of reference time: Forecast
 Elapsed time: 12 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 18°40´0˝, E 132°10´0˝
+Latitude and longitude: N 18°40´00˝, E 132°10´00˝
 Central pressure: 998 hPa
 Maximum wind speed: 23 m/s
 Maximum wind gust speed: 35 m/s
@@ -307,7 +307,7 @@ Type of reference time: Forecast
 Elapsed time: 24 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 19°20´0˝, E 130°5´0˝
+Latitude and longitude: N 19°20´00˝, E 130°05´00˝
 Central pressure: 994 hPa
 Maximum wind speed: 23 m/s
 Maximum wind gust speed: 35 m/s
@@ -389,7 +389,7 @@ Type of reference time: Forecast
 Elapsed time: 48 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 21°5´0˝, E 127°10´0˝
+Latitude and longitude: N 21°05´00˝, E 127°10´00˝
 Central pressure: 985 hPa
 Maximum wind speed: 30 m/s
 Maximum wind gust speed: 40 m/s
@@ -472,7 +472,7 @@ Type of reference time: Forecast
 Elapsed time: 72 hours ahead
 Scale: None
 Intensity: Strong
-Latitude and longitude: N 22°50´0˝, E 126°35´0˝
+Latitude and longitude: N 22°50´00˝, E 126°35´00˝
 Central pressure: 975 hPa
 Maximum wind speed: 35 m/s
 Maximum wind gust speed: 50 m/s
@@ -555,7 +555,7 @@ Type of reference time: Forecast
 Elapsed time: 96 hours ahead
 Scale: None
 Intensity: Strong
-Latitude and longitude: N 24°30´0˝, E 127°20´0˝
+Latitude and longitude: N 24°30´00˝, E 127°20´00˝
 Central pressure: 965 hPa
 Maximum wind speed: 40 m/s
 Maximum wind gust speed: 55 m/s
@@ -638,7 +638,7 @@ Type of reference time: Forecast
 Elapsed time: 120 hours ahead
 Scale: None
 Intensity: Strong
-Latitude and longitude: N 25°50´0˝, E 127°55´0˝
+Latitude and longitude: N 25°50´00˝, E 127°55´00˝
 Central pressure: 965 hPa
 Maximum wind speed: 40 m/s
 Maximum wind gust speed: 55 m/s
@@ -963,7 +963,7 @@ There is a possibility of a destructive local tsunami near the epicenter.
 Report time: 10:05 JST, 24 Sep.
 
 Place name of epicenter: Hyuganada Sea
-Latitude and longitude: N 32°42´0˝, E 132°6´0˝
+Latitude and longitude: N 32°42´00˝, E 132°06´00˝
 Depth: 40 km
 Magnitude: 6.4
 {'coordinates_of_hypocenter': '北緯32度42分0秒 東経132度6分0秒',
@@ -3740,7 +3740,7 @@ Type of reference time: Analysis
 Elapsed time: 0 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 18°30´0˝, E 133°30´0˝
+Latitude and longitude: N 18°30´00˝, E 133°30´00˝
 Central pressure: 1000 hPa
 Maximum wind speed: 20 m/s
 Maximum wind gust speed: 30 m/s
@@ -3823,7 +3823,7 @@ Type of reference time: Forecast
 Elapsed time: 12 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 19°0´0˝, E 131°30´0˝
+Latitude and longitude: N 19°00´00˝, E 131°30´00˝
 Central pressure: 998 hPa
 Maximum wind speed: 23 m/s
 Maximum wind gust speed: 35 m/s
@@ -3906,7 +3906,7 @@ Type of reference time: Forecast
 Elapsed time: 24 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 19°50´0˝, E 129°30´0˝
+Latitude and longitude: N 19°50´00˝, E 129°30´00˝
 Central pressure: 994 hPa
 Maximum wind speed: 23 m/s
 Maximum wind gust speed: 35 m/s
@@ -3989,7 +3989,7 @@ Type of reference time: Forecast
 Elapsed time: 45 hours ahead
 Scale: None
 Intensity: None
-Latitude and longitude: N 21°5´0˝, E 127°10´0˝
+Latitude and longitude: N 21°05´00˝, E 127°10´00˝
 Central pressure: 985 hPa
 Maximum wind speed: 30 m/s
 Maximum wind gust speed: 40 m/s
@@ -4071,7 +4071,7 @@ Type of reference time: Forecast
 Elapsed time: 69 hours ahead
 Scale: None
 Intensity: Strong
-Latitude and longitude: N 22°50´0˝, E 126°35´0˝
+Latitude and longitude: N 22°50´00˝, E 126°35´00˝
 Central pressure: 975 hPa
 Maximum wind speed: 35 m/s
 Maximum wind gust speed: 50 m/s
@@ -4154,7 +4154,7 @@ Type of reference time: Forecast
 Elapsed time: 93 hours ahead
 Scale: None
 Intensity: Strong
-Latitude and longitude: N 24°30´0˝, E 127°20´0˝
+Latitude and longitude: N 24°30´00˝, E 127°20´00˝
 Central pressure: 965 hPa
 Maximum wind speed: 40 m/s
 Maximum wind gust speed: 55 m/s
@@ -4237,7 +4237,7 @@ Type of reference time: Forecast
 Elapsed time: 117 hours ahead
 Scale: None
 Intensity: Strong
-Latitude and longitude: N 25°50´0˝, E 127°55´0˝
+Latitude and longitude: N 25°50´00˝, E 127°55´00˝
 Central pressure: 965 hPa
 Maximum wind speed: 40 m/s
 Maximum wind gust speed: 55 m/s

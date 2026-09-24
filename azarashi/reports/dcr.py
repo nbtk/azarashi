@@ -157,13 +157,13 @@ class Base(MessageBase):
 
     @staticmethod
     def convert_lat_lon_to_str_en(coordinates: Coordinates) -> str:
-        """The position as JMA's English writes it: N 26°36´0˝, E 127°36´0˝."""
+        """The position as JMA's English writes it: N 26°36´00˝, E 127°36´00˝."""
         if not is_position(coordinates):
             return latitude_and_longitude_undefined_en % latitude_and_longitude_code(coordinates)
         return f'{"N" if coordinates["lat_ns"] == 0 else "S"} ' + \
-            f'{coordinates["lat_d"]}°{coordinates["lat_m"]}´{coordinates["lat_s"]}˝, ' + \
+            f'{coordinates["lat_d"]}°{coordinates["lat_m"]:02d}´{coordinates["lat_s"]:02d}˝, ' + \
             f'{"E" if coordinates["lon_ew"] == 0 else "W"} ' + \
-            f'{coordinates["lon_d"]}°{coordinates["lon_m"]}´{coordinates["lon_s"]}˝'
+            f'{coordinates["lon_d"]}°{coordinates["lon_m"]:02d}´{coordinates["lon_s"]:02d}˝'
 
     @staticmethod
     def convert_lat_lon_to_str(coordinates: Coordinates) -> str:
