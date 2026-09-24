@@ -231,7 +231,6 @@ l1s に `timestamp` を渡したときにも送出されます。L1S アーカ�
 
 | 以前の名前 | 今の名前 |
 | --- | --- |
-| `azarashi.qzss_dc_report` | `azarashi.reports` |
 | `QzssDcrDecoderException` | `AzarashiInvalidMessageError` |
 | `QzssDcrDecoderNotImplementedError` | `AzarashiNotImplementedError` |
 
@@ -242,6 +241,9 @@ l1s に `timestamp` を渡したときにも送出されます。L1S アーカ�
 | `QzssDcReportJmaTsunami` | `reports.dcr.Tsunami` |
 | `QzssDcxJAlert` | `reports.dcx.JAlert` |
 | `QzssDcReportBase` | `reports.base.Base` |
+
+以前のクラス名は、以前と同じ `azarashi.qzss_dc_report.QzssDcxJAlert` でも、`azarashi.QzssDcxJAlert` でも使えます。
+`azarashi.qzss_dc_report` からは、今のモジュールの `base`・`dcr`・`dcx` も使えます。
 
 分け方はメッセージ形式です。`reports.dcr` が MT43、`reports.dcx` が MT44、両方に共通するものが `reports.base` です。仕様書が2冊に分かれている境界と同じところで割っています。
 

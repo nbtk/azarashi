@@ -53,7 +53,7 @@ __all__ = [
     'AzarashiUnsupportedFormatError',
     'AzarashiArgumentTypeError',
 
-    # compatibility aliases defined in _legacy.py
+    # the names of earlier versions, defined in _legacy/
     'qzss_dc_report',
     'QzssDcrDecoderException',
     'QzssDcrDecoderNotImplementedError',

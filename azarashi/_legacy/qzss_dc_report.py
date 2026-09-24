@@ -1,16 +1,12 @@
-"""Compatibility aliases for earlier public names.
+"""azarashi.qzss_dc_report, the report module of earlier versions, kept for code written for them.
 
-Aliases are defined here and re-exported by the package. Internal code uses the current names.
+It gives the earlier names of the report classes where they were, and the modules of the reports
+today. New code uses azarashi.reports and the current class names.
 """
-from . import reports as qzss_dc_report
-from .exceptions import AzarashiInvalidMessageError
-from .exceptions import AzarashiNotImplementedError
-from .reports import base
-from .reports import dcx
-from .reports import dcr
-
-QzssDcrDecoderException = AzarashiInvalidMessageError
-QzssDcrDecoderNotImplementedError = AzarashiNotImplementedError
+from ..reports import Report
+from ..reports import base
+from ..reports import dcr
+from ..reports import dcx
 
 QzssDcReportBase = base.Base
 QzssDcReportJmaAshFall = dcr.AshFall
@@ -37,9 +33,10 @@ QzssDcxOutsideJapan = dcx.OutsideJapan
 QzssDcxUnknown = dcx.Unknown
 
 __all__ = [
-    'qzss_dc_report',
-    'QzssDcrDecoderException',
-    'QzssDcrDecoderNotImplementedError',
+    'Report',
+    'base',
+    'dcr',
+    'dcx',
     'QzssDcReportBase',
     'QzssDcReportJmaAshFall',
     'QzssDcReportJmaBase',

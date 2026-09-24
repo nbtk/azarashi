@@ -40,6 +40,8 @@ elif isinstance(report, reports.dcx.AlertBase):
     latitude: float | None = report.a12_ellipse_centre_latitude
 elif isinstance(report, qzss_dc_report.dcx.NullMsg):  # the earlier module name; an alert field here is a type error
     null_kind: str = report.dcx_message_type
+elif isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):  # an earlier class name, where v0.16.4 had it
+    tsunami_warning: str = report.tsunami_warning_code
 
 
 def handler(report: azarashi.Report) -> None:
