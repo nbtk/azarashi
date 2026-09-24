@@ -80,7 +80,7 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 - [Preparation](https://github.com/nbtk/azarashi/blob/main/docs/preparation.md): u-blox や Sony Spresense に災危通報を出力させる設定
 - [CLI](https://github.com/nbtk/azarashi/blob/main/docs/cli.md): azarashi コマンドのオプション、受信データの記録と再生
 - [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md): `decode()`、`decode_stream()`、例外、型ヒント、プログラムの例
-- [JSON](docs/json.md): JSON API、NDJSON 出力、JSON Schema
+- [JSON](https://github.com/nbtk/azarashi/blob/main/docs/json.md): JSON API、NDJSON 出力、JSON Schema
 - [English Translation Policy](https://github.com/nbtk/azarashi/blob/main/docs/english-translation-policy.md): DCR の英語の方針と出典、azarashi が訳した英語の一覧
 - [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): レポートオブジェクトの共通フィールドと、形式ごとの一覧
   - [DCR](https://github.com/nbtk/azarashi/blob/main/docs/dcr.md): MT43 のクラスとフィールド、デコード例
