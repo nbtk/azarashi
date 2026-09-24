@@ -2,6 +2,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.earthquake_early_warning",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -285,6 +286,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.hypocenter",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -391,6 +393,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.seismic_intensity",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -616,6 +619,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.nankai_trough_earthquake",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -667,6 +671,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.tsunami",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -856,6 +861,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.northwest_pacific_tsunami",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -930,6 +936,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.volcano",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1015,12 +1022,20 @@
           }
         }
       ],
-      "activity_time_ambiguity": 0
+      "activity_time_ambiguity": {
+        "scheme": "qzss.dcr.ambiguity_of_activity_time",
+        "code": "0",
+        "recognized": true,
+        "labels": {
+          "en": "No ambiguity"
+        }
+      }
     }
   },
   {
     "schema_version": 1,
     "type": "qzss.dcr.ash_fall",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1186,6 +1201,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.weather",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1355,6 +1371,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.flood",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1415,6 +1432,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.typhoon",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1565,6 +1583,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.marine",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1705,6 +1724,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.null",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1718,6 +1738,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -1862,14 +1883,15 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.l_alert",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
       "prn": 185
     },
     "nmea": "$QZQSM,57,C6B084CDE14816C7200000000000000000002A33400000000000001112B9590*70",
-    "text": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nEX1 - Target area: Uki-shi, Kumamoto\nEX1 - Target area (ja): 熊本県宇城市",
-    "text_en": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nEX1 - Target area: Uki-shi, Kumamoto\nEX1 - Target area (ja): 熊本県宇城市",
+    "text": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nA11 - Instruction: No instruction\nEX1 - Target area: Uki City, Kumamoto Prefecture\nEX1 - Target area (ja): 熊本県宇城市",
+    "text_en": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nA11 - Instruction: No instruction\nEX1 - Target area: Uki City, Kumamoto Prefecture\nEX1 - Target area (ja): 熊本県宇城市",
     "data": {
       "version": 1,
       "message_type": {
@@ -1964,7 +1986,9 @@
           "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {}
+          "labels": {
+            "en": "No instruction"
+          }
         },
         "identifier": null
       },
@@ -1975,7 +1999,7 @@
           "recognized": true,
           "labels": {
             "ja": "熊本県宇城市",
-            "en": "Uki-shi, Kumamoto"
+            "en": "Uki City, Kumamoto Prefecture"
           }
         }
       ]
@@ -1984,14 +2008,15 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.j_alert",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
       "prn": 185
     },
     "nmea": "$QZQSM,57,C6B0840DE2BF9159200000000000000000001FFFFFFFFFFFC00000023563FB0*7D",
-    "text": "### DCX Message - J-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: SAFETY - Safety warning\nA4 - Hazard definition: Announcement of a potentially dangerous situation or event to the public impacting their safety.\nA5 - Severity: Extreme - Extraordinary threat to life or property\nA6A7 - Hazard onset: 2026-03-05T02:00:00Z\nA8 - Hazard duration: Unknown\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa']\nEX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']",
-    "text_en": "### DCX Message - J-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: SAFETY - Safety warning\nA4 - Hazard definition: Announcement of a potentially dangerous situation or event to the public impacting their safety.\nA5 - Severity: Extreme - Extraordinary threat to life or property\nA6A7 - Hazard onset: 2026-03-05T02:00:00Z\nA8 - Hazard duration: Unknown\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa']\nEX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']",
+    "text": "### DCX Message - J-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: SAFETY - Safety warning\nA4 - Hazard definition: Announcement of a potentially dangerous situation or event to the public impacting their safety.\nA5 - Severity: Extreme - Extraordinary threat to life or property\nA6A7 - Hazard onset: 2026-03-05T02:00:00Z\nA8 - Hazard duration: Unknown\nA11 - Instruction: No instruction\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Hokkaido Prefecture', 'Aomori Prefecture', 'Iwate Prefecture', 'Miyagi Prefecture', 'Akita Prefecture', 'Yamagata Prefecture', 'Fukushima Prefecture', 'Ibaraki Prefecture', 'Tochigi Prefecture', 'Gunma Prefecture', 'Saitama Prefecture', 'Chiba Prefecture', 'Tokyo Metropolis', 'Kanagawa Prefecture', 'Niigata Prefecture', 'Toyama Prefecture', 'Ishikawa Prefecture', 'Fukui Prefecture', 'Yamanashi Prefecture', 'Nagano Prefecture', 'Gifu Prefecture', 'Shizuoka Prefecture', 'Aichi Prefecture', 'Mie Prefecture', 'Shiga Prefecture', 'Kyoto Prefecture', 'Osaka Prefecture', 'Hyogo Prefecture', 'Nara Prefecture', 'Wakayama Prefecture', 'Tottori Prefecture', 'Shimane Prefecture', 'Okayama Prefecture', 'Hiroshima Prefecture', 'Yamaguchi Prefecture', 'Tokushima Prefecture', 'Kagawa Prefecture', 'Ehime Prefecture', 'Kochi Prefecture', 'Fukuoka Prefecture', 'Saga Prefecture', 'Nagasaki Prefecture', 'Kumamoto Prefecture', 'Oita Prefecture', 'Miyazaki Prefecture', 'Kagoshima Prefecture', 'Okinawa Prefecture']\nEX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']",
+    "text_en": "### DCX Message - J-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: SAFETY - Safety warning\nA4 - Hazard definition: Announcement of a potentially dangerous situation or event to the public impacting their safety.\nA5 - Severity: Extreme - Extraordinary threat to life or property\nA6A7 - Hazard onset: 2026-03-05T02:00:00Z\nA8 - Hazard duration: Unknown\nA11 - Instruction: No instruction\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Hokkaido Prefecture', 'Aomori Prefecture', 'Iwate Prefecture', 'Miyagi Prefecture', 'Akita Prefecture', 'Yamagata Prefecture', 'Fukushima Prefecture', 'Ibaraki Prefecture', 'Tochigi Prefecture', 'Gunma Prefecture', 'Saitama Prefecture', 'Chiba Prefecture', 'Tokyo Metropolis', 'Kanagawa Prefecture', 'Niigata Prefecture', 'Toyama Prefecture', 'Ishikawa Prefecture', 'Fukui Prefecture', 'Yamanashi Prefecture', 'Nagano Prefecture', 'Gifu Prefecture', 'Shizuoka Prefecture', 'Aichi Prefecture', 'Mie Prefecture', 'Shiga Prefecture', 'Kyoto Prefecture', 'Osaka Prefecture', 'Hyogo Prefecture', 'Nara Prefecture', 'Wakayama Prefecture', 'Tottori Prefecture', 'Shimane Prefecture', 'Okayama Prefecture', 'Hiroshima Prefecture', 'Yamaguchi Prefecture', 'Tokushima Prefecture', 'Kagawa Prefecture', 'Ehime Prefecture', 'Kochi Prefecture', 'Fukuoka Prefecture', 'Saga Prefecture', 'Nagasaki Prefecture', 'Kumamoto Prefecture', 'Oita Prefecture', 'Miyazaki Prefecture', 'Kagoshima Prefecture', 'Okinawa Prefecture']\nEX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']",
     "data": {
       "version": 0,
       "message_type": {
@@ -2086,7 +2111,9 @@
           "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {}
+          "labels": {
+            "en": "No instruction"
+          }
         },
         "identifier": null
       },
@@ -2097,7 +2124,7 @@
           "recognized": true,
           "labels": {
             "ja": "北海道",
-            "en": "Hokkaido"
+            "en": "Hokkaido Prefecture"
           }
         },
         {
@@ -2106,7 +2133,7 @@
           "recognized": true,
           "labels": {
             "ja": "青森県",
-            "en": "Aomori"
+            "en": "Aomori Prefecture"
           }
         },
         {
@@ -2115,7 +2142,7 @@
           "recognized": true,
           "labels": {
             "ja": "岩手県",
-            "en": "Iwate"
+            "en": "Iwate Prefecture"
           }
         },
         {
@@ -2124,7 +2151,7 @@
           "recognized": true,
           "labels": {
             "ja": "宮城県",
-            "en": "Miyagi"
+            "en": "Miyagi Prefecture"
           }
         },
         {
@@ -2133,7 +2160,7 @@
           "recognized": true,
           "labels": {
             "ja": "秋田県",
-            "en": "Akita"
+            "en": "Akita Prefecture"
           }
         },
         {
@@ -2142,7 +2169,7 @@
           "recognized": true,
           "labels": {
             "ja": "山形県",
-            "en": "Yamagata"
+            "en": "Yamagata Prefecture"
           }
         },
         {
@@ -2151,7 +2178,7 @@
           "recognized": true,
           "labels": {
             "ja": "福島県",
-            "en": "Fukushima"
+            "en": "Fukushima Prefecture"
           }
         },
         {
@@ -2160,7 +2187,7 @@
           "recognized": true,
           "labels": {
             "ja": "茨城県",
-            "en": "Ibaraki"
+            "en": "Ibaraki Prefecture"
           }
         },
         {
@@ -2169,7 +2196,7 @@
           "recognized": true,
           "labels": {
             "ja": "栃木県",
-            "en": "Tochigi"
+            "en": "Tochigi Prefecture"
           }
         },
         {
@@ -2178,7 +2205,7 @@
           "recognized": true,
           "labels": {
             "ja": "群馬県",
-            "en": "Gunma"
+            "en": "Gunma Prefecture"
           }
         },
         {
@@ -2187,7 +2214,7 @@
           "recognized": true,
           "labels": {
             "ja": "埼玉県",
-            "en": "Saitama"
+            "en": "Saitama Prefecture"
           }
         },
         {
@@ -2196,7 +2223,7 @@
           "recognized": true,
           "labels": {
             "ja": "千葉県",
-            "en": "Chiba"
+            "en": "Chiba Prefecture"
           }
         },
         {
@@ -2205,7 +2232,7 @@
           "recognized": true,
           "labels": {
             "ja": "東京都",
-            "en": "Tokyo"
+            "en": "Tokyo Metropolis"
           }
         },
         {
@@ -2214,7 +2241,7 @@
           "recognized": true,
           "labels": {
             "ja": "神奈川県",
-            "en": "Kanagawa"
+            "en": "Kanagawa Prefecture"
           }
         },
         {
@@ -2223,7 +2250,7 @@
           "recognized": true,
           "labels": {
             "ja": "新潟県",
-            "en": "Niigata"
+            "en": "Niigata Prefecture"
           }
         },
         {
@@ -2232,7 +2259,7 @@
           "recognized": true,
           "labels": {
             "ja": "富山県",
-            "en": "Toyama"
+            "en": "Toyama Prefecture"
           }
         },
         {
@@ -2241,7 +2268,7 @@
           "recognized": true,
           "labels": {
             "ja": "石川県",
-            "en": "Ishikawa"
+            "en": "Ishikawa Prefecture"
           }
         },
         {
@@ -2250,7 +2277,7 @@
           "recognized": true,
           "labels": {
             "ja": "福井県",
-            "en": "Fukui"
+            "en": "Fukui Prefecture"
           }
         },
         {
@@ -2259,7 +2286,7 @@
           "recognized": true,
           "labels": {
             "ja": "山梨県",
-            "en": "Yamanashi"
+            "en": "Yamanashi Prefecture"
           }
         },
         {
@@ -2268,7 +2295,7 @@
           "recognized": true,
           "labels": {
             "ja": "長野県",
-            "en": "Nagano"
+            "en": "Nagano Prefecture"
           }
         },
         {
@@ -2277,7 +2304,7 @@
           "recognized": true,
           "labels": {
             "ja": "岐阜県",
-            "en": "Gifu"
+            "en": "Gifu Prefecture"
           }
         },
         {
@@ -2286,7 +2313,7 @@
           "recognized": true,
           "labels": {
             "ja": "静岡県",
-            "en": "Shizuoka"
+            "en": "Shizuoka Prefecture"
           }
         },
         {
@@ -2295,7 +2322,7 @@
           "recognized": true,
           "labels": {
             "ja": "愛知県",
-            "en": "Aichi"
+            "en": "Aichi Prefecture"
           }
         },
         {
@@ -2304,7 +2331,7 @@
           "recognized": true,
           "labels": {
             "ja": "三重県",
-            "en": "Mie"
+            "en": "Mie Prefecture"
           }
         },
         {
@@ -2313,7 +2340,7 @@
           "recognized": true,
           "labels": {
             "ja": "滋賀県",
-            "en": "Shiga"
+            "en": "Shiga Prefecture"
           }
         },
         {
@@ -2322,7 +2349,7 @@
           "recognized": true,
           "labels": {
             "ja": "京都府",
-            "en": "Kyoto"
+            "en": "Kyoto Prefecture"
           }
         },
         {
@@ -2331,7 +2358,7 @@
           "recognized": true,
           "labels": {
             "ja": "大阪府",
-            "en": "Osaka"
+            "en": "Osaka Prefecture"
           }
         },
         {
@@ -2340,7 +2367,7 @@
           "recognized": true,
           "labels": {
             "ja": "兵庫県",
-            "en": "Hyogo"
+            "en": "Hyogo Prefecture"
           }
         },
         {
@@ -2349,7 +2376,7 @@
           "recognized": true,
           "labels": {
             "ja": "奈良県",
-            "en": "Nara"
+            "en": "Nara Prefecture"
           }
         },
         {
@@ -2358,7 +2385,7 @@
           "recognized": true,
           "labels": {
             "ja": "和歌山県",
-            "en": "Wakayama"
+            "en": "Wakayama Prefecture"
           }
         },
         {
@@ -2367,7 +2394,7 @@
           "recognized": true,
           "labels": {
             "ja": "鳥取県",
-            "en": "Tottori"
+            "en": "Tottori Prefecture"
           }
         },
         {
@@ -2376,7 +2403,7 @@
           "recognized": true,
           "labels": {
             "ja": "島根県",
-            "en": "Shimane"
+            "en": "Shimane Prefecture"
           }
         },
         {
@@ -2385,7 +2412,7 @@
           "recognized": true,
           "labels": {
             "ja": "岡山県",
-            "en": "Okayama"
+            "en": "Okayama Prefecture"
           }
         },
         {
@@ -2394,7 +2421,7 @@
           "recognized": true,
           "labels": {
             "ja": "広島県",
-            "en": "Hiroshima"
+            "en": "Hiroshima Prefecture"
           }
         },
         {
@@ -2403,7 +2430,7 @@
           "recognized": true,
           "labels": {
             "ja": "山口県",
-            "en": "Yamaguchi"
+            "en": "Yamaguchi Prefecture"
           }
         },
         {
@@ -2412,7 +2439,7 @@
           "recognized": true,
           "labels": {
             "ja": "徳島県",
-            "en": "Tokushima"
+            "en": "Tokushima Prefecture"
           }
         },
         {
@@ -2421,7 +2448,7 @@
           "recognized": true,
           "labels": {
             "ja": "香川県",
-            "en": "Kagawa"
+            "en": "Kagawa Prefecture"
           }
         },
         {
@@ -2430,7 +2457,7 @@
           "recognized": true,
           "labels": {
             "ja": "愛媛県",
-            "en": "Ehime"
+            "en": "Ehime Prefecture"
           }
         },
         {
@@ -2439,7 +2466,7 @@
           "recognized": true,
           "labels": {
             "ja": "高知県",
-            "en": "Kochi"
+            "en": "Kochi Prefecture"
           }
         },
         {
@@ -2448,7 +2475,7 @@
           "recognized": true,
           "labels": {
             "ja": "福岡県",
-            "en": "Fukuoka"
+            "en": "Fukuoka Prefecture"
           }
         },
         {
@@ -2457,7 +2484,7 @@
           "recognized": true,
           "labels": {
             "ja": "佐賀県",
-            "en": "Saga"
+            "en": "Saga Prefecture"
           }
         },
         {
@@ -2466,7 +2493,7 @@
           "recognized": true,
           "labels": {
             "ja": "長崎県",
-            "en": "Nagasaki"
+            "en": "Nagasaki Prefecture"
           }
         },
         {
@@ -2475,7 +2502,7 @@
           "recognized": true,
           "labels": {
             "ja": "熊本県",
-            "en": "Kumamoto"
+            "en": "Kumamoto Prefecture"
           }
         },
         {
@@ -2484,7 +2511,7 @@
           "recognized": true,
           "labels": {
             "ja": "大分県",
-            "en": "Oita"
+            "en": "Oita Prefecture"
           }
         },
         {
@@ -2493,7 +2520,7 @@
           "recognized": true,
           "labels": {
             "ja": "宮崎県",
-            "en": "Miyazaki"
+            "en": "Miyazaki Prefecture"
           }
         },
         {
@@ -2502,7 +2529,7 @@
           "recognized": true,
           "labels": {
             "ja": "鹿児島県",
-            "en": "Kagoshima"
+            "en": "Kagoshima Prefecture"
           }
         },
         {
@@ -2511,7 +2538,7 @@
           "recognized": true,
           "labels": {
             "ja": "沖縄県",
-            "en": "Okinawa"
+            "en": "Okinawa Prefecture"
           }
         }
       ]
@@ -2520,14 +2547,15 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.mt_info",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
       "prn": 186
     },
     "nmea": "$QZQSM,58,C6B0C00DE4881177E000BB65E4102937177E012C976C6881B8C694033D57010*0C",
-    "text": "### DCX Message - Information from Local Government ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Local Government\nA4 - Hazard category and type: MET - Flood\nA4 - Hazard definition: A general term for the overflow of water from a stream channel onto normally dry land in the floodplain (riverine flooding), higher-than normal levels along the coast and in lakes or reservoirs (coastal flooding) as well as ponding of water at or near the point where the rain fell (flash floods).\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-05T02:30:00Z\nA8 - Hazard duration: 12H <= Duration < 24H\nA12 - Ellipse centre latitude: 41.76379\nA13 - Ellipse centre longitude: 140.715337\nA14 - Ellipse semi - major axis: 4.421\nA15 - Ellipse semi - minor axis: 3.269\nA16 - Ellipse azimuth: 39.375\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: 41.765507\nC2 - Refined longitude of centre of main ellipse: 140.717397\nC3 - Refined length of semi major axis: 3.413\nC4 - Refined length of semi minor axis: 2.524\nEX1 - Target area: Hakodate-shi, Hokkaido\nEX1 - Target area (ja): 北海道函館市\nEX2 - Evacuate direction type: Leave the additional target area range.\nEX3 - Additional ellipse centre latitude: 41.757292\nEX4 - Additional ellipse centre longitude: 140.701261\nEX5 - Additional ellipse semi major axis: 0.535\nEX6 - Additional ellipse semi minor axis: 0.535\nEX7 - Additional ellipse azimuth: -37.96875",
-    "text_en": "### DCX Message - Information from Local Government ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Local Government\nA4 - Hazard category and type: MET - Flood\nA4 - Hazard definition: A general term for the overflow of water from a stream channel onto normally dry land in the floodplain (riverine flooding), higher-than normal levels along the coast and in lakes or reservoirs (coastal flooding) as well as ponding of water at or near the point where the rain fell (flash floods).\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-05T02:30:00Z\nA8 - Hazard duration: 12H <= Duration < 24H\nA12 - Ellipse centre latitude: 41.76379\nA13 - Ellipse centre longitude: 140.715337\nA14 - Ellipse semi - major axis: 4.421\nA15 - Ellipse semi - minor axis: 3.269\nA16 - Ellipse azimuth: 39.375\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: 41.765507\nC2 - Refined longitude of centre of main ellipse: 140.717397\nC3 - Refined length of semi major axis: 3.413\nC4 - Refined length of semi minor axis: 2.524\nEX1 - Target area: Hakodate-shi, Hokkaido\nEX1 - Target area (ja): 北海道函館市\nEX2 - Evacuate direction type: Leave the additional target area range.\nEX3 - Additional ellipse centre latitude: 41.757292\nEX4 - Additional ellipse centre longitude: 140.701261\nEX5 - Additional ellipse semi major axis: 0.535\nEX6 - Additional ellipse semi minor axis: 0.535\nEX7 - Additional ellipse azimuth: -37.96875",
+    "text": "### DCX Message - Information from Local Government ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Local Government\nA4 - Hazard category and type: MET - Flood\nA4 - Hazard definition: A general term for the overflow of water from a stream channel onto normally dry land in the floodplain (riverine flooding), higher-than normal levels along the coast and in lakes or reservoirs (coastal flooding) as well as ponding of water at or near the point where the rain fell (flash floods).\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-05T02:30:00Z\nA8 - Hazard duration: 12H <= Duration < 24H\nA11 - Instruction: No instruction\nA12 - Ellipse centre latitude: 41.76379\nA13 - Ellipse centre longitude: 140.715337\nA14 - Ellipse semi - major axis: 4.421\nA15 - Ellipse semi - minor axis: 3.269\nA16 - Ellipse azimuth: 39.375\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: 41.765507\nC2 - Refined longitude of centre of main ellipse: 140.717397\nC3 - Refined length of semi major axis: 3.413\nC4 - Refined length of semi minor axis: 2.524\nEX1 - Target area: Hakodate City, Hokkaido Prefecture\nEX1 - Target area (ja): 北海道函館市\nEX2 - Evacuate direction type: Leave the additional target area range.\nEX3 - Additional ellipse centre latitude: 41.757292\nEX4 - Additional ellipse centre longitude: 140.701261\nEX5 - Additional ellipse semi major axis: 0.535\nEX6 - Additional ellipse semi minor axis: 0.535\nEX7 - Additional ellipse azimuth: -37.96875",
+    "text_en": "### DCX Message - Information from Local Government ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Local Government\nA4 - Hazard category and type: MET - Flood\nA4 - Hazard definition: A general term for the overflow of water from a stream channel onto normally dry land in the floodplain (riverine flooding), higher-than normal levels along the coast and in lakes or reservoirs (coastal flooding) as well as ponding of water at or near the point where the rain fell (flash floods).\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-05T02:30:00Z\nA8 - Hazard duration: 12H <= Duration < 24H\nA11 - Instruction: No instruction\nA12 - Ellipse centre latitude: 41.76379\nA13 - Ellipse centre longitude: 140.715337\nA14 - Ellipse semi - major axis: 4.421\nA15 - Ellipse semi - minor axis: 3.269\nA16 - Ellipse azimuth: 39.375\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: 41.765507\nC2 - Refined longitude of centre of main ellipse: 140.717397\nC3 - Refined length of semi major axis: 3.413\nC4 - Refined length of semi minor axis: 2.524\nEX1 - Target area: Hakodate City, Hokkaido Prefecture\nEX1 - Target area (ja): 北海道函館市\nEX2 - Evacuate direction type: Leave the additional target area range.\nEX3 - Additional ellipse centre latitude: 41.757292\nEX4 - Additional ellipse centre longitude: 140.701261\nEX5 - Additional ellipse semi major axis: 0.535\nEX6 - Additional ellipse semi minor axis: 0.535\nEX7 - Additional ellipse azimuth: -37.96875",
     "data": {
       "version": 0,
       "message_type": {
@@ -2622,7 +2650,9 @@
           "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {}
+          "labels": {
+            "en": "No instruction"
+          }
         },
         "identifier": null
       },
@@ -2649,7 +2679,7 @@
           "recognized": true,
           "labels": {
             "ja": "北海道函館市",
-            "en": "Hakodate-shi, Hokkaido"
+            "en": "Hakodate City, Hokkaido Prefecture"
           }
         }
       ],
@@ -2696,6 +2726,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.unknown",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -2834,14 +2865,15 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.l_alert",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
       "prn": 185
     },
     "nmea": "$QZQSM,57,C6B084CDE14816C7200000000000000000002A33400000000000001112B9590*70",
-    "text": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nEX1 - Target area: Uki-shi, Kumamoto\nEX1 - Target area (ja): 熊本県宇城市",
-    "text_en": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nEX1 - Target area: Uki-shi, Kumamoto\nEX1 - Target area (ja): 熊本県宇城市",
+    "text": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nA11 - Instruction: No instruction\nEX1 - Target area: Uki City, Kumamoto Prefecture\nEX1 - Target area (ja): 熊本県宇城市",
+    "text_en": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nA11 - Instruction: No instruction\nEX1 - Target area: Uki City, Kumamoto Prefecture\nEX1 - Target area (ja): 熊本県宇城市",
     "data": {
       "version": 1,
       "message_type": {
@@ -2936,7 +2968,9 @@
           "scheme": "camf.instruction.country_111.library_1.version_0",
           "code": "0",
           "recognized": true,
-          "labels": {}
+          "labels": {
+            "en": "No instruction"
+          }
         },
         "identifier": null
       },
@@ -2947,7 +2981,7 @@
           "recognized": true,
           "labels": {
             "ja": "熊本県宇城市",
-            "en": "Uki-shi, Kumamoto"
+            "en": "Uki City, Kumamoto Prefecture"
           }
         }
       ]
@@ -2956,6 +2990,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -3090,6 +3125,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -3231,6 +3267,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -3358,6 +3395,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -3540,6 +3578,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -3689,6 +3728,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -3838,6 +3878,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -3987,6 +4028,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -4136,6 +4178,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -4313,6 +4356,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -4490,6 +4534,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -4667,6 +4712,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -4852,6 +4898,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -4992,6 +5039,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -5158,6 +5206,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -5327,6 +5376,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -5467,6 +5517,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -5607,6 +5658,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -5776,6 +5828,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -5961,6 +6014,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -6118,6 +6172,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -6287,6 +6342,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -6427,6 +6483,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -6567,6 +6624,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -6707,6 +6765,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -6876,6 +6935,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7016,6 +7076,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7156,6 +7217,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7296,6 +7358,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7436,6 +7499,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7576,6 +7640,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7716,6 +7781,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7856,6 +7922,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -7996,6 +8063,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -8156,6 +8224,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -8316,6 +8385,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -8468,6 +8538,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -8608,6 +8679,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -8760,6 +8832,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -8912,6 +8985,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -9064,6 +9138,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -9216,6 +9291,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -9368,6 +9444,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -9508,6 +9585,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -9648,6 +9726,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -9788,6 +9867,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -9928,6 +10008,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10076,6 +10157,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.outside_japan",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10216,6 +10298,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.hypocenter",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10322,6 +10405,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.hypocenter",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10432,6 +10516,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.hypocenter",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10537,6 +10622,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.hypocenter",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10639,6 +10725,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.tsunami",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10774,6 +10861,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.tsunami",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -10909,6 +10997,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.tsunami",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -11049,6 +11138,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.l_alert",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -11189,14 +11279,15 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.j_alert",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
       "prn": 183
     },
     "nmea": "$QZQSM,55,9AB0004DE200000000000000000000000000000000000C0000000000193854C*7B",
-    "text": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Tokyo', 'Kanagawa']\nEX9 - Target area list (ja): ['東京都', '神奈川県']",
-    "text_en": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Tokyo', 'Kanagawa']\nEX9 - Target area list (ja): ['東京都', '神奈川県']",
+    "text": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Tokyo Metropolis', 'Kanagawa Prefecture']\nEX9 - Target area list (ja): ['東京都', '神奈川県']",
+    "text_en": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Tokyo Metropolis', 'Kanagawa Prefecture']\nEX9 - Target area list (ja): ['東京都', '神奈川県']",
     "data": {
       "version": 0,
       "message_type": {
@@ -11296,7 +11387,7 @@
           "recognized": true,
           "labels": {
             "ja": "東京都",
-            "en": "Tokyo"
+            "en": "Tokyo Metropolis"
           }
         },
         {
@@ -11305,7 +11396,7 @@
           "recognized": true,
           "labels": {
             "ja": "神奈川県",
-            "en": "Kanagawa"
+            "en": "Kanagawa Prefecture"
           }
         }
       ]
@@ -11314,14 +11405,15 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.j_alert",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
       "prn": 183
     },
     "nmea": "$QZQSM,55,9AB0004DE20000000000000000000000000020898089A000000000002F23594*7F",
-    "text": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Cities, towns and villages code\nEX9 - Target area list: ['Sapporo-shi, Hokkaido', 'Chuo-ku, Sapporo-shi']\nEX9 - Target area list (ja): ['北海道札幌市', '札幌市中央区']",
-    "text_en": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Cities, towns and villages code\nEX9 - Target area list: ['Sapporo-shi, Hokkaido', 'Chuo-ku, Sapporo-shi']\nEX9 - Target area list (ja): ['北海道札幌市', '札幌市中央区']",
+    "text": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Cities, towns and villages code\nEX9 - Target area list: ['Sapporo City, Hokkaido Prefecture', 'Chuo Ward, Sapporo City']\nEX9 - Target area list (ja): ['北海道札幌市', '札幌市中央区']",
+    "text_en": "### DCX Message - J-Alert ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-01\nEX8 - Target area list type: Cities, towns and villages code\nEX9 - Target area list: ['Sapporo City, Hokkaido Prefecture', 'Chuo Ward, Sapporo City']\nEX9 - Target area list (ja): ['北海道札幌市', '札幌市中央区']",
     "data": {
       "version": 0,
       "message_type": {
@@ -11421,7 +11513,7 @@
           "recognized": true,
           "labels": {
             "ja": "北海道札幌市",
-            "en": "Sapporo-shi, Hokkaido"
+            "en": "Sapporo City, Hokkaido Prefecture"
           }
         },
         {
@@ -11430,7 +11522,7 @@
           "recognized": true,
           "labels": {
             "ja": "札幌市中央区",
-            "en": "Chuo-ku, Sapporo-shi"
+            "en": "Chuo Ward, Sapporo City"
           }
         }
       ]
@@ -11439,6 +11531,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcx.j_alert",
+    "test": false,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
@@ -11552,6 +11645,7 @@
   {
     "schema_version": 1,
     "type": "qzss.dcr.earthquake_early_warning",
+    "test": true,
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": null,
     "nmea": "$QZQSM,55,C6AF8C542000DB240000A8400548C5E2C000000003DFF8001C000010ADDB5D8*0E",

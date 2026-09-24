@@ -77,7 +77,8 @@ def test_jalert_ex9_prefecture_list():
     assert p['ex9_target_area_list_ja'] == [
         '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県']
     assert p['ex9_target_area_list'] == [
-        'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima']
+        'Fukuoka Prefecture', 'Saga Prefecture', 'Nagasaki Prefecture', 'Kumamoto Prefecture', 'Oita Prefecture',
+        'Miyazaki Prefecture', 'Kagoshima Prefecture']
 
 
 def test_str_does_not_crash():

@@ -3,6 +3,7 @@ import datetime
 
 import pytest
 
+import azarashi
 from azarashi.decoders import nmea
 from azarashi.definitions.camf import d_fields as b4
 from azarashi import reports
@@ -164,8 +165,12 @@ def test_a_country_library_that_is_not_the_japanese_one():
 
 
 def test_japanese_library_without_instruction():
-    report = _decode(dcx(**JAPAN, a3=2, a9=1, a11=0))
-    assert 'A11 - Instruction' not in str(report)
+    report = _decode(dcx(**JAPAN, a3=2, a9=1, a11=0))  # all bits 0: no instruction (IS-QZSS-DCX-004)
+    assert report.a11_japanese_library == 'No instruction'
+    assert 'A11 - Instruction: No instruction\n' in str(report)
+    assert 'A11 - Instruction (ja)' not in str(report)  # the Japanese library has no Japanese for it
+    content = azarashi.to_json_dict(report)['data']['instruction']['content']
+    assert (content['code'], content['recognized'], content['labels']) == ('0', True, {'en': 'No instruction'})
 
 
 def test_country_library_of_another_country_is_not_decoded():
@@ -369,8 +374,8 @@ def test_b4_undefined_codes_name_their_field(table, name):
 
 def test_ex1_target_area():
     report = _decode(dcx(**JAPAN, a3=1, ex1=1100))
-    assert (report.ex1_target_area, report.ex1_target_area_ja) == ('Sapporo-shi, Hokkaido', '北海道札幌市')
-    assert str(report).endswith('EX1 - Target area: Sapporo-shi, Hokkaido\nEX1 - Target area (ja): 北海道札幌市')
+    assert (report.ex1_target_area, report.ex1_target_area_ja) == ('Sapporo City, Hokkaido Prefecture', '北海道札幌市')
+    assert str(report).endswith('EX1 - Target area: Sapporo City, Hokkaido Prefecture\nEX1 - Target area (ja): 北海道札幌市')
 
 
 @pytest.mark.parametrize('ex2, direction', [
@@ -394,7 +399,7 @@ def test_ex2_to_ex7_additional_ellipse(ex2, direction):
 def test_ex8_ex9_prefectures():
     report = _decode(dcx(**JAPAN, a3=2, ex8=0, ex9=(1 << 46 | 1) << 17))  # the first and last prefectures
     assert report.ex8_target_area_list_type == 'Prefecture code'
-    assert (report.ex9_target_area_list, report.ex9_target_area_list_ja) == (['Hokkaido', 'Okinawa'], ['北海道', '沖縄県'])
+    assert (report.ex9_target_area_list, report.ex9_target_area_list_ja) == (['Hokkaido Prefecture', 'Okinawa Prefecture'], ['北海道', '沖縄県'])
 
 
 def test_ex8_ex9_prefectures_follow_the_bits_not_the_code_table(monkeypatch):
@@ -417,10 +422,10 @@ def test_ex8_ex9_cities():
     codes = [(147, 16, 1100), (163, 16, 0), (179, 16, 1101), (195, 16, 0)]
     report = _decode(dcx(codes, **JAPAN, a3=2, ex8=1))
     assert report.ex8_target_area_list_type == 'Cities, towns and villages code'
-    assert report.ex9_target_area_list == ['Sapporo-shi, Hokkaido', 'Chuo-ku, Sapporo-shi']
+    assert report.ex9_target_area_list == ['Sapporo City, Hokkaido Prefecture', 'Chuo Ward, Sapporo City']
     assert report.ex9_target_area_list_ja == ['北海道札幌市', '札幌市中央区']
     assert str(report).endswith("EX8 - Target area list type: Cities, towns and villages code\n"
-                                "EX9 - Target area list: ['Sapporo-shi, Hokkaido', 'Chuo-ku, Sapporo-shi']\n"
+                                "EX9 - Target area list: ['Sapporo City, Hokkaido Prefecture', 'Chuo Ward, Sapporo City']\n"
                                 "EX9 - Target area list (ja): ['北海道札幌市', '札幌市中央区']")
 
 

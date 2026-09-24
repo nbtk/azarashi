@@ -248,8 +248,9 @@ class AlertBase(Base):
         if self.a11_international_library:
             report += f"A11 - Instruction: {self.a11_international_library}\n"
         if self.a11_japanese_library:
-            report += f"A11 - Instruction: {self.a11_japanese_library}\n" + \
-                      f"A11 - Instruction (ja): {self.a11_japanese_library_ja}\n"
+            report += f"A11 - Instruction: {self.a11_japanese_library}\n"
+        if self.a11_japanese_library_ja:
+            report += f"A11 - Instruction (ja): {self.a11_japanese_library_ja}\n"
 
         if self.ignore_a12_to_a16 is False:
             report += f"A12 - Ellipse centre latitude: {self.a12_ellipse_centre_latitude}\n" + \

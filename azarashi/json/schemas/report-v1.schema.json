@@ -250,6 +250,9 @@
       },
       "then": {
         "properties": {
+          "test": {
+            "const": false
+          },
           "data": {
             "$ref": "#/$defs/NullMsg"
           }
@@ -360,26 +363,12 @@
           "const": 1
         },
         "type": {
-          "enum": [
-            "qzss.dcr.earthquake_early_warning",
-            "qzss.dcr.hypocenter",
-            "qzss.dcr.seismic_intensity",
-            "qzss.dcr.nankai_trough_earthquake",
-            "qzss.dcr.tsunami",
-            "qzss.dcr.northwest_pacific_tsunami",
-            "qzss.dcr.volcano",
-            "qzss.dcr.ash_fall",
-            "qzss.dcr.weather",
-            "qzss.dcr.flood",
-            "qzss.dcr.typhoon",
-            "qzss.dcr.marine",
-            "qzss.dcx.null",
-            "qzss.dcx.outside_japan",
-            "qzss.dcx.l_alert",
-            "qzss.dcx.j_alert",
-            "qzss.dcx.mt_info",
-            "qzss.dcx.unknown"
-          ]
+          "type": "string",
+          "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$",
+          "description": "A report type. This version defines those its allOf names; a later release may add types."
+        },
+        "test": {
+          "type": "boolean"
         },
         "received_at": {
           "type": "string",
@@ -406,8 +395,7 @@
               "required": [
                 "system",
                 "prn"
-              ],
-              "additionalProperties": false
+              ]
             },
             {
               "type": "null"
@@ -434,13 +422,13 @@
       "required": [
         "schema_version",
         "type",
+        "test",
         "received_at",
         "satellite",
         "text",
         "text_en",
         "data"
       ],
-      "additionalProperties": false,
       "description": "What every record carries. nmea is required by the report types that have a QZQSM sentence, which is every type of this version."
     },
     "code": {
@@ -469,8 +457,7 @@
               "minLength": 1
             }
           },
-          "required": [],
-          "additionalProperties": false
+          "required": []
         }
       },
       "required": [
@@ -479,7 +466,6 @@
         "recognized",
         "labels"
       ],
-      "additionalProperties": false,
       "allOf": [
         {
           "if": {
@@ -529,8 +515,7 @@
             "value",
             "unit",
             "code"
-          ],
-          "additionalProperties": false
+          ]
         },
         {
           "type": "object",
@@ -553,8 +538,7 @@
                   "required": [
                     "value",
                     "inclusive"
-                  ],
-                  "additionalProperties": false
+                  ]
                 },
                 {
                   "type": "null"
@@ -576,8 +560,7 @@
                   "required": [
                     "value",
                     "inclusive"
-                  ],
-                  "additionalProperties": false
+                  ]
                 },
                 {
                   "type": "null"
@@ -608,7 +591,6 @@
             "unit",
             "code"
           ],
-          "additionalProperties": false,
           "not": {
             "properties": {
               "lower": {
@@ -637,8 +619,7 @@
           "required": [
             "kind",
             "code"
-          ],
-          "additionalProperties": false
+          ]
         },
         {
           "type": "object",
@@ -661,8 +642,7 @@
             "kind",
             "reason",
             "code"
-          ],
-          "additionalProperties": false
+          ]
         }
       ]
     },
@@ -690,8 +670,7 @@
             "status",
             "value",
             "basis"
-          ],
-          "additionalProperties": false
+          ]
         },
         {
           "type": "object",
@@ -715,8 +694,7 @@
             "status",
             "value",
             "basis"
-          ],
-          "additionalProperties": false
+          ]
         },
         {
           "type": "object",
@@ -749,8 +727,7 @@
                     "day",
                     "hour",
                     "minute"
-                  ],
-                  "additionalProperties": false
+                  ]
                 },
                 {
                   "type": "object",
@@ -765,8 +742,7 @@
                   "required": [
                     "week",
                     "minute_of_week"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               ]
             }
@@ -776,8 +752,7 @@
             "value",
             "basis",
             "source"
-          ],
-          "additionalProperties": false
+          ]
         }
       ]
     },
@@ -958,8 +933,7 @@
         "lon_d",
         "lon_m",
         "lon_s"
-      ],
-      "additionalProperties": false
+      ]
     },
     "position": {
       "type": "object",
@@ -1000,7 +974,6 @@
         "longitude_deg",
         "source"
       ],
-      "additionalProperties": false,
       "allOf": [
         {
           "if": {
@@ -1053,8 +1026,7 @@
           "required": [
             "latitude_deg",
             "longitude_deg"
-          ],
-          "additionalProperties": false
+          ]
         },
         "semi_major_axis_km": {
           "type": "number",
@@ -1100,8 +1072,7 @@
             "semi_major_axis",
             "semi_minor_axis",
             "azimuth"
-          ],
-          "additionalProperties": false
+          ]
         }
       },
       "required": [
@@ -1111,7 +1082,6 @@
         "azimuth_deg",
         "source"
       ],
-      "additionalProperties": false,
       "description": "WGS84 centre; azimuth measured from east toward north, not a navigation bearing. source holds the transmitted codes of the group this ellipse comes from."
     },
     "hazard_details": {
@@ -1904,8 +1874,7 @@
           ]
         }
       },
-      "required": [],
-      "additionalProperties": false
+      "required": []
     },
     "specific_settings": {
       "type": "object",
@@ -1970,8 +1939,7 @@
               "required": [
                 "latitude",
                 "longitude"
-              ],
-              "additionalProperties": false
+              ]
             }
           },
           "required": [
@@ -1979,7 +1947,6 @@
             "longitude_deg",
             "source"
           ],
-          "additionalProperties": false,
           "$comment": "C5 and C6 offset the main centre by up to ten degrees either way"
         },
         "second_ellipse": {
@@ -2017,8 +1984,7 @@
                 "shift",
                 "scale_factor",
                 "bearing"
-              ],
-              "additionalProperties": false
+              ]
             }
           },
           "required": [
@@ -2027,7 +1993,6 @@
             "instruction",
             "source"
           ],
-          "additionalProperties": false,
           "description": "CAMF B3 relative ellipse parameters; bearing convention is defined by CAMF C9."
         },
         "hazard_details": {
@@ -2037,7 +2002,6 @@
       "required": [
         "kind"
       ],
-      "additionalProperties": false,
       "oneOf": [
         {
           "properties": {
@@ -2403,8 +2367,7 @@
         "notifications",
         "target_regions",
         "assumptive"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Hypocenter": {
       "type": "object",
@@ -2575,8 +2538,7 @@
         "occurrence_time",
         "notifications",
         "position"
-      ],
-      "additionalProperties": false
+      ]
     },
     "SeismicIntensity": {
       "type": "object",
@@ -2655,8 +2617,7 @@
             "required": [
               "region",
               "intensity"
-            ],
-            "additionalProperties": false
+            ]
           }
         }
       },
@@ -2667,8 +2628,7 @@
         "information_type",
         "occurrence_time",
         "observations"
-      ],
-      "additionalProperties": false
+      ]
     },
     "NankaiTroughEarthquake": {
       "type": "object",
@@ -2744,7 +2704,6 @@
             "total",
             "content_hex"
           ],
-          "additionalProperties": false,
           "$comment": "both are six-bit fields as transmitted; a page number of zero is one the specification leaves undefined"
         }
       },
@@ -2755,8 +2714,7 @@
         "information_type",
         "information_serial",
         "page"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Tsunami": {
       "type": "object",
@@ -2896,8 +2854,7 @@
               "region",
               "height",
               "arrival"
-            ],
-            "additionalProperties": false
+            ]
           }
         }
       },
@@ -2909,8 +2866,7 @@
         "warning",
         "notifications",
         "forecasts"
-      ],
-      "additionalProperties": false
+      ]
     },
     "NorthwestPacificTsunami": {
       "type": "object",
@@ -3032,8 +2988,7 @@
               "region",
               "height",
               "arrival"
-            ],
-            "additionalProperties": false
+            ]
           }
         }
       },
@@ -3044,8 +2999,7 @@
         "information_type",
         "tsunamigenic_potential",
         "forecasts"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Volcano": {
       "type": "object",
@@ -3133,9 +3087,18 @@
           }
         },
         "activity_time_ambiguity": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 7
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "scheme": {
+                  "const": "qzss.dcr.ambiguity_of_activity_time"
+                }
+              }
+            }
+          ]
         }
       },
       "required": [
@@ -3148,8 +3111,7 @@
         "activity_time",
         "target_regions",
         "activity_time_ambiguity"
-      ],
-      "additionalProperties": false
+      ]
     },
     "AshFall": {
       "type": "object",
@@ -3297,8 +3259,7 @@
               "region",
               "elapsed_time",
               "warning"
-            ],
-            "additionalProperties": false
+            ]
           }
         }
       },
@@ -3311,8 +3272,7 @@
         "warning_type",
         "activity_time",
         "forecasts"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Weather": {
       "type": "object",
@@ -3402,8 +3362,7 @@
             "required": [
               "region",
               "warning"
-            ],
-            "additionalProperties": false
+            ]
           }
         }
       },
@@ -3414,8 +3373,7 @@
         "information_type",
         "warning_state",
         "warnings"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Flood": {
       "type": "object",
@@ -3491,8 +3449,7 @@
             "required": [
               "region",
               "level"
-            ],
-            "additionalProperties": false
+            ]
           }
         }
       },
@@ -3502,8 +3459,7 @@
         "report_classification",
         "information_type",
         "warnings"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Typhoon": {
       "type": "object",
@@ -3782,8 +3738,7 @@
         "elapsed_time",
         "reference_time",
         "position"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Marine": {
       "type": "object",
@@ -3859,8 +3814,7 @@
             "required": [
               "region",
               "warning"
-            ],
-            "additionalProperties": false
+            ]
           }
         }
       },
@@ -3870,8 +3824,7 @@
         "report_classification",
         "information_type",
         "warnings"
-      ],
-      "additionalProperties": false
+      ]
     },
     "dcx_version": {
       "type": "integer",
@@ -3998,8 +3951,7 @@
         "type",
         "category",
         "definition"
-      ],
-      "additionalProperties": false
+      ]
     },
     "dcx_instruction": {
       "type": "object",
@@ -4062,8 +4014,7 @@
         "version",
         "content",
         "identifier"
-      ],
-      "additionalProperties": false
+      ]
     },
     "dcx_target_regions": {
       "type": "array",
@@ -4112,8 +4063,7 @@
     "NullMsg": {
       "type": "object",
       "properties": {},
-      "required": [],
-      "additionalProperties": false
+      "required": []
     },
     "OutsideJapan": {
       "type": "object",
@@ -4163,8 +4113,7 @@
         "onset",
         "instruction",
         "main_ellipse"
-      ],
-      "additionalProperties": false
+      ]
     },
     "LAlert": {
       "type": "object",
@@ -4217,7 +4166,6 @@
         "onset",
         "instruction"
       ],
-      "additionalProperties": false,
       "oneOf": [
         {
           "required": [
@@ -4286,8 +4234,7 @@
         "onset",
         "instruction",
         "target_regions"
-      ],
-      "additionalProperties": false
+      ]
     },
     "MTInfo": {
       "type": "object",
@@ -4365,8 +4312,7 @@
           "required": [
             "direction",
             "ellipse"
-          ],
-          "additionalProperties": false
+          ]
         }
       },
       "required": [
@@ -4381,8 +4327,7 @@
         "instruction",
         "main_ellipse",
         "target_regions"
-      ],
-      "additionalProperties": false
+      ]
     },
     "Unknown": {
       "type": "object",
@@ -4432,8 +4377,7 @@
         "onset",
         "instruction",
         "main_ellipse"
-      ],
-      "additionalProperties": false
+      ]
     }
   }
 }

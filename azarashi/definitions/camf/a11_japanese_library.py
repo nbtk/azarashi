@@ -2,7 +2,7 @@ from ..code_table import CodeTable
 
 a11_japanese_library_en = CodeTable(
     {
-        0: "",
+        0: "No instruction",  # all bits 0 (IS-QZSS-DCX-004, Referencing the Evacuation Action)
         1: "Take the best immediate action to save your life.",
         126: "This is a test message for DCX.",
         127: "Take the best immediate action to save your life.",

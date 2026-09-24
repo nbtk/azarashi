@@ -7,6 +7,8 @@ from itertools import pairwise
 from datetime import UTC, datetime
 from typing import Any, TypeAlias, cast
 from .. import reports
+from ..definitions.qzss.dcr.latitude_and_longitude import is_position
+from ..reports.base import Coordinates
 from ..exceptions import AzarashiArgumentTypeError
 from ..definitions.camf import d_fields as B4_MODULE
 from ..definitions.camf.a11_library import a11_library
@@ -175,26 +177,16 @@ def _time_value(
     return result
 
 
-def _position(raw: dict[str, int]) -> dict[str, Any]:
-    valid = (
-        raw["lat_ns"] in (0, 1)
-        and raw["lon_ew"] in (0, 1)
-        and (0 <= raw["lat_d"] < 90)
-        and (0 <= raw["lon_d"] < 180)
-        and all(0 <= raw[k] < 60 for k in ["lat_m", "lat_s", "lon_m", "lon_s"])
-    )
+def _position(raw: Coordinates) -> dict[str, Any]:
+    valid = is_position(raw)
 
-    def degree(p: str) -> float:
-        return round(
-            (raw[p + "_d"] + raw[p + "_m"] / 60 + raw[p + "_s"] / 3600)
-            * (-1 if raw[p + ("_ns" if p == "lat" else "_ew")] else 1),
-            9,
-        )
+    def degree(d: int, m: int, s: int, negative: int) -> float:
+        return round((d + m / 60 + s / 3600) * (-1 if negative else 1), 9)
 
     return {
         "status": "valid" if valid else "unrecognized_code",
-        "latitude_deg": degree("lat") if valid else None,
-        "longitude_deg": degree("lon") if valid else None,
+        "latitude_deg": degree(raw["lat_d"], raw["lat_m"], raw["lat_s"], raw["lat_ns"]) if valid else None,
+        "longitude_deg": degree(raw["lon_d"], raw["lon_m"], raw["lon_s"], raw["lon_ew"]) if valid else None,
         "source": raw,
     }
 
@@ -403,7 +395,7 @@ def dcr_model(name: str, report: Any) -> dict[str, Any]:
     if name == "EarthquakeEarlyWarning":
         data["assumptive"] = report.assumptive
     if name == "Volcano":
-        data["activity_time_ambiguity"] = report.ambiguity_of_activity_time_no
+        data["activity_time_ambiguity"] = _dcr_code("ambiguity_of_activity_time", report.ambiguity_of_activity_time_no)
     if name == "NankaiTroughEarthquake":
         data["page"] = {
             "number": report.page_number,
@@ -572,6 +564,15 @@ def copy_json(value: Any) -> JsonValue:
             result[key] = copy_json(v)
         return result
     raise TypeError(f"Cannot serialize {type(value).__name__} as JSON")
+
+
+def is_test(name: str, report: Any) -> bool:
+    """Whether the report is a training or test message: DCR report classification 7, CAMF A1 0."""
+    if name in DCR_TYPES:
+        return bool(report.report_classification_no == 7)
+    if name == "NullMsg":  # no alert, and so no A1
+        return False
+    return bool(report.camf.a1 == 0)
 
 
 def report_name(report: reports.Report) -> str:

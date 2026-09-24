@@ -7,9 +7,10 @@ AreaInformationPrefectureEarthquake, as the DCR names a municipality after its p
 the dictionary tells apart municipalities of the same name by a region, the region is kept before
 the prefecture, as in Date City, Iburi, Hokkaido Prefecture; where it does so by the prefecture,
 the prefecture's full name takes its place, as in Chiyoda City, Tokyo Metropolis. The English for
-the other municipalities of each prefecture is azarashi's. One slip in the dictionary is corrected:
-it calls 美咲町, 3366600, Misaki Ward, but it is a town, and the dictionary calls each of the other
-743 towns a Town.
+the other municipalities of each prefecture is azarashi's. Two slips in the dictionary are
+corrected: it calls 美咲町, 3366600, Misaki Ward, but it is a town, and the dictionary calls each of
+the other 743 towns a Town; and it calls 南伊豆町, 2230400, Miamiizu Town, a letter short of
+Minamiizu, the 南 (Minami) of its other names.
 """
 from ...code_table import CodeTable
 
@@ -2910,7 +2911,7 @@ local_government_en = CodeTable(
         2222600: "Makinohara City, Shizuoka Prefecture",
         2230100: "Higashiizu Town, Shizuoka Prefecture",
         2230200: "Kawazu Town, Shizuoka Prefecture",
-        2230400: "Miamiizu Town, Shizuoka Prefecture",
+        2230400: "Minamiizu Town, Shizuoka Prefecture",
         2230500: "Matsuzaki Town, Shizuoka Prefecture",
         2230600: "Nishiizu Town, Shizuoka Prefecture",
         2232500: "Kannami Town, Shizuoka Prefecture",

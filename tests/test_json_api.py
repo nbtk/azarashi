@@ -109,7 +109,7 @@ def test_a_code_defined_without_a_name_carries_no_label():
 def test_an_unnamed_prefecture_bit_keeps_its_position(monkeypatch):
     from azarashi.json import model
 
-    assert model._prefecture_bit(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo'}
+    assert model._prefecture_bit(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo Metropolis'}
     # substitutes, because the decoder lists the prefectures in the real tables' own order
     monkeypatch.setattr(model, 'ex9_target_area_code_ja', {})
     monkeypatch.setattr(model, 'ex9_target_area_code_en', {})

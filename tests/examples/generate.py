@@ -35,7 +35,8 @@ def fixtures():
 
 if __name__ == '__main__':
     from jsonschema import Draft202012Validator, FormatChecker
-    validator = Draft202012Validator(json_schema(), format_checker=FormatChecker())
+    from strict_schema import strict
+    validator = Draft202012Validator(strict(json_schema()), format_checker=FormatChecker())
     chosen = fixtures()
     for r in chosen:
         validator.validate(to_json_dict(r))

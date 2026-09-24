@@ -4,7 +4,7 @@ import json
 from importlib.resources import files
 
 from .model import JsonValue as JsonValue
-from .model import TYPE_NAMES, copy_json, dcr_model, dcx_model, report_name, DCR_TYPES, utc
+from .model import TYPE_NAMES, copy_json, dcr_model, dcx_model, is_test, report_name, DCR_TYPES, utc
 from ..reports import Report
 
 
@@ -16,6 +16,7 @@ def to_json_dict(report: Report) -> dict[str, JsonValue]:
         {
             "schema_version": 1,
             "type": TYPE_NAMES[name],
+            "test": is_test(name, report),
             "received_at": utc(report.timestamp),
             "satellite": None if report.satellite_prn is None else {"system": "qzss", "prn": report.satellite_prn},
             "nmea": report.nmea,

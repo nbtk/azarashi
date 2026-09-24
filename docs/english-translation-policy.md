@@ -139,9 +139,10 @@ table has no English.
   what it is only beside the other warnings on the chart. Alone it would drop the 風 of the
   Japanese, so the English is Wind Warning, with the dictionary's Wind, and is listed below as
   azarashi's.
-- **A slip corrected.** The dictionary calls 美咲町 (local government 3366600) Misaki Ward, but it is
+- **Slips corrected.** The dictionary calls 美咲町 (local government 3366600) Misaki Ward, but it is
   a town, and the dictionary calls each of its other 743 towns a Town. The English here is Misaki
-  Town, Okayama Prefecture.
+  Town, Okayama Prefecture. It also calls 南伊豆町 (2230400) Miamiizu Town, a letter short of the
+  Minami that 南 is in its other names; the English here is Minamiizu Town, Shizuoka Prefecture.
 
 ## azarashi's English
 
@@ -369,6 +370,22 @@ space, as Japanese text does. Unknown is the dictionary's word for 不明.
 | `typhoon_elapsed_time_from_reference_time` | 1 hour ahead, 3 hours ahead, as the dictionary's Forecast for X hours ahead |
 | `typhoon_number` | No. 1 |
 | `expected_ash_fall_time` | 1 hour, 3 hours |
+
+## DCX Areas
+
+The DCX names its target areas by Japan's codes: EX1 a municipality, EX9 a prefecture. Their English
+is written as the DCR tables write it, so that a place reads the same in a DCR and in a DCX report.
+
+- A municipality, a prefecture and a ward of Tokyo take the English of the DCR `local_government`
+  or `prefecture` entry of the same code or Japanese name: 1,742 municipalities and 47 prefectures.
+- A ward of a designated city takes the dictionary's names of the ward and its city, which the
+  dictionary lists together: Chuo Ward, Sapporo City, as the Japanese 札幌市中央区 writes it. 179
+  wards.
+- The five villages of Hokkaido that the DCR tables do not have take the dictionary's name and the
+  prefecture: Tomari Village, Hokkaido Prefecture.
+- Seven wards since abolished are no longer in the dictionary, and their English is azarashi's, the
+  reading the table had before in the same form: Higashi Ward, Minami Ward and Oyodo Ward of Osaka
+  City, Fukiai Ward and Ikuta Ward of Kobe City, and Kokura Ward and Yahata Ward of Kitakyushu City.
 
 ## The English Text
 

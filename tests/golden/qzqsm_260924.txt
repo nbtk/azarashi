@@ -3627,10 +3627,11 @@ A4 - Hazard definition: A tropical cyclone originates over tropical or subtropic
 A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-24T03:05:00Z
 A8 - Hazard duration: Unknown
-EX1 - Target area: Sakae-machi, Chiba
+A11 - Instruction: No instruction
+EX1 - Target area: Sakae Town, Chiba Prefecture
 EX1 - Target area (ja): 千葉県栄町
 {'a10_library_version': '#1',
- 'a11_japanese_library': '',
+ 'a11_japanese_library': 'No instruction',
  'a11_japanese_library_ja': '',
  'a1_message_type': 'All Clear',
  'a2_country_region_name': 'Japan',
@@ -3682,7 +3683,7 @@ EX1 - Target area (ja): 千葉県栄町
           'vn': 1},
  'dcx_message_type': 'L-Alert',
  'dcx_version': 1,
- 'ex1_target_area': 'Sakae-machi, Chiba',
+ 'ex1_target_area': 'Sakae Town, Chiba Prefecture',
  'ex1_target_area_ja': '千葉県栄町',
  'ignore_a12_to_a16': True,
  'ignore_a17_to_a18': False,

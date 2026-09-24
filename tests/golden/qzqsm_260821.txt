@@ -442,10 +442,11 @@ A4 - Hazard definition: Sudden movement of a block of the Earth’s crust along 
 A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-08-21T01:10:00Z
 A8 - Hazard duration: Unknown
-EX1 - Target area: Uki-shi, Kumamoto
+A11 - Instruction: No instruction
+EX1 - Target area: Uki City, Kumamoto Prefecture
 EX1 - Target area (ja): 熊本県宇城市
 {'a10_library_version': '#1',
- 'a11_japanese_library': '',
+ 'a11_japanese_library': 'No instruction',
  'a11_japanese_library_ja': '',
  'a1_message_type': 'All Clear',
  'a2_country_region_name': 'Japan',
@@ -493,7 +494,7 @@ EX1 - Target area (ja): 熊本県宇城市
           'vn': 1},
  'dcx_message_type': 'L-Alert',
  'dcx_version': 1,
- 'ex1_target_area': 'Uki-shi, Kumamoto',
+ 'ex1_target_area': 'Uki City, Kumamoto Prefecture',
  'ex1_target_area_ja': '熊本県宇城市',
  'ignore_a12_to_a16': True,
  'ignore_a17_to_a18': False,
@@ -2602,10 +2603,11 @@ A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours
 A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-08-21T09:35:00Z
 A8 - Hazard duration: Unknown
-EX1 - Target area: Chiba-shi, Chiba
+A11 - Instruction: No instruction
+EX1 - Target area: Chiba City, Chiba Prefecture
 EX1 - Target area (ja): 千葉県千葉市
 {'a10_library_version': '#1',
- 'a11_japanese_library': '',
+ 'a11_japanese_library': 'No instruction',
  'a11_japanese_library_ja': '',
  'a1_message_type': 'Alert',
  'a2_country_region_name': 'Japan',
@@ -2653,7 +2655,7 @@ EX1 - Target area (ja): 千葉県千葉市
           'vn': 1},
  'dcx_message_type': 'L-Alert',
  'dcx_version': 1,
- 'ex1_target_area': 'Chiba-shi, Chiba',
+ 'ex1_target_area': 'Chiba City, Chiba Prefecture',
  'ex1_target_area_ja': '千葉県千葉市',
  'ignore_a12_to_a16': True,
  'ignore_a17_to_a18': False,
@@ -2760,10 +2762,11 @@ A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours
 A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-08-21T12:07:00Z
 A8 - Hazard duration: Unknown
-EX1 - Target area: Chiba-shi, Chiba
+A11 - Instruction: No instruction
+EX1 - Target area: Chiba City, Chiba Prefecture
 EX1 - Target area (ja): 千葉県千葉市
 {'a10_library_version': '#1',
- 'a11_japanese_library': '',
+ 'a11_japanese_library': 'No instruction',
  'a11_japanese_library_ja': '',
  'a1_message_type': 'All Clear',
  'a2_country_region_name': 'Japan',
@@ -2811,7 +2814,7 @@ EX1 - Target area (ja): 千葉県千葉市
           'vn': 1},
  'dcx_message_type': 'L-Alert',
  'dcx_version': 1,
- 'ex1_target_area': 'Chiba-shi, Chiba',
+ 'ex1_target_area': 'Chiba City, Chiba Prefecture',
  'ex1_target_area_ja': '千葉県千葉市',
  'ignore_a12_to_a16': True,
  'ignore_a17_to_a18': False,

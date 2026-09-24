@@ -6,23 +6,47 @@ from pathlib import Path
 
 import pytest
 
+from azarashi.decoders import nmea
+
 from azarashi import json_schema, to_json_dict as example_record
 from azarashi.json.model import TYPE_NAMES, _dcr_value
 from examples.generate import fixtures
+from strict_schema import strict
 from test_declared_types import REPORTS
+from test_golden import LOGS, TESTS
 
 # skip this file alone, rather than stopping the whole suite at collection
 jsonschema = pytest.importorskip('jsonschema', reason="pip install 'jsonschema[format]'")
 Draft202012Validator, FormatChecker = jsonschema.Draft202012Validator, jsonschema.FormatChecker
 
 FOLDER = Path(__file__).resolve().parent.parent / 'docs/json'
-SCHEMA = json_schema()
+PUBLISHED = json_schema()
+SCHEMA = strict(PUBLISHED)  # azarashi's own output: nothing it has not defined
 VALIDATOR = Draft202012Validator(SCHEMA, format_checker=FormatChecker())
 
 
 def test_schema_is_valid_and_reproducible():
+    Draft202012Validator.check_schema(PUBLISHED)
     Draft202012Validator.check_schema(SCHEMA)
-    assert json_schema() == SCHEMA
+    assert json_schema() == PUBLISHED
+
+
+def test_the_published_schema_takes_keys_and_report_types_added_later():
+    published = Draft202012Validator(PUBLISHED, format_checker=FormatChecker())
+    row = record('Tsunami')
+    row['added_later'] = 1
+    row['data']['added_later'] = 1
+    row['data']['forecasts'][0]['region']['added_later'] = 1
+    assert published.is_valid(row)
+    assert not VALIDATOR.is_valid(row)
+    later = {**record('Tsunami'), 'type': 'galileo.ews.alert', 'data': {'anything': 1}}
+    assert published.is_valid(later)
+    assert not VALIDATOR.is_valid(later)
+    assert not published.is_valid({**later, 'type': 'Not A Type'})
+
+
+def test_the_published_schema_closes_no_object():
+    assert '"additionalProperties": false' not in json.dumps(PUBLISHED)
 
 
 @pytest.mark.parametrize('report', REPORTS)
@@ -43,7 +67,7 @@ def record(name):
     return example_record(next(r for r in REPORTS if type(r).__name__ == name))
 
 
-@pytest.mark.parametrize('field', ['schema_version', 'type', 'received_at', 'satellite', 'nmea', 'text', 'text_en', 'data'])
+@pytest.mark.parametrize('field', ['schema_version', 'type', 'test', 'received_at', 'satellite', 'nmea', 'text', 'text_en', 'data'])
 def test_envelope_fields_are_required(field):
     row = record('Tsunami')
     del row[field]
@@ -52,7 +76,7 @@ def test_envelope_fields_are_required(field):
 
 @pytest.mark.parametrize('field,value', [('schema_version', 2), ('nmea', ''), ('nmea', '$QZQSM,55,broken*00'),
     ('received_at', '2026-02-30T01:00:00Z'), ('received_at', '2026-03-01T01:00:00+09:00'),
-    ('satellite', {'system': 'qzss', 'prn': None}), ('text_en', 1), ('unknown', 1)])
+    ('satellite', {'system': 'qzss', 'prn': None}), ('text_en', 1), ('test', 'yes'), ('unknown', 1)])
 def test_invalid_envelope_rejected(field, value):
     row = record('Tsunami')
     row[field] = value
@@ -467,3 +491,23 @@ def test_the_sentences_azarashi_translated_say_so():
     assert noted == {('notification_on_disaster_prevention', c) for c in (101, 102, 110, 112, 113, 114, 115, 216)}
     labels = _dcr_value('notification_on_disaster_prevention', 115)['labels']
     assert labels['en'].endswith(note) and note not in labels['ja']
+
+
+def test_the_test_flag_of_every_logged_report():
+    seen = set()
+    for log, received in LOGS.items():
+        for line in open(f'{TESTS}/{log}', encoding='utf-8'):
+            if not line.startswith('$QZQSM'):
+                continue
+            report = nmea.Decoder(line.strip(), timestamp=received).decode()
+            record = example_record(report)
+            data = record['data']
+            if record['type'].startswith('qzss.dcr.'):
+                expected = data['report_classification']['code'] == '7'
+            elif record['type'] == 'qzss.dcx.null':
+                expected = False
+            else:
+                expected = data['message_type']['code'] == '0'
+            assert record['test'] is expected
+            seen.add((record['type'].split('.')[1], record['test']))
+    assert seen == {('dcr', True), ('dcr', False), ('dcx', True), ('dcx', False)}
