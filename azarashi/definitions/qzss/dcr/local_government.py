@@ -4,9 +4,10 @@ The English is JMA's, from its multilingual dictionary of weather information te
 (気象情報等に関する多言語辞書, updated 2026-03-26): the municipality's name in the JMA XML code table
 AreaInformationCity, matched by code, and then its prefecture's name in
 AreaInformationPrefectureEarthquake, as the DCR names a municipality after its prefecture. Where
-the dictionary tells apart municipalities of the same name by a region, as in Date City, Iburi, the
-prefecture takes the region's place. The English for the other municipalities of each prefecture is
-azarashi's.
+the dictionary tells apart municipalities of the same name by a region, the region is kept before
+the prefecture, as in Date City, Iburi, Hokkaido Prefecture; where it does so by the prefecture,
+the prefecture's full name takes its place, as in Chiyoda City, Tokyo Metropolis. The English for
+the other municipalities of each prefecture is azarashi's.
 """
 from ...code_table import CodeTable
 
@@ -1939,22 +1940,22 @@ local_government_en = CodeTable(
         122900: "Furano City, Hokkaido Prefecture",
         123000: "Noboribetsu City, Hokkaido Prefecture",
         123100: "Eniwa City, Hokkaido Prefecture",
-        123300: "Date City, Hokkaido Prefecture",
+        123300: "Date City, Iburi, Hokkaido Prefecture",
         123400: "Kitahiroshima City, Hokkaido Prefecture",
         123500: "Ishikari City, Hokkaido Prefecture",
-        123600: "Hokuto City, Hokkaido Prefecture",
+        123600: "Hokuto City, Oshima, Hokkaido Prefecture",
         130300: "Tobetsu Town, Hokkaido Prefecture",
         130400: "Shinshinotsu Village, Hokkaido Prefecture",
-        133100: "Matsumae Town, Hokkaido Prefecture",
+        133100: "Matsumae Town, Oshima, Hokkaido Prefecture",
         133200: "Fukushima Town, Hokkaido Prefecture",
         133300: "Shiriuchi Town, Hokkaido Prefecture",
         133400: "Kikonai Town, Hokkaido Prefecture",
         133700: "Nanae Town, Hokkaido Prefecture",
         134300: "Shikabe Town, Hokkaido Prefecture",
-        134500: "Mori Town, Hokkaido Prefecture",
+        134500: "Mori Town, Oshima, Hokkaido Prefecture",
         134600: "Yakumo Town, Hokkaido Prefecture",
         134700: "Oshamambe Town, Hokkaido Prefecture",
-        136100: "Esashi Town, Hokkaido Prefecture",
+        136100: "Esashi Town, Hiyama, Hokkaido Prefecture",
         136200: "Kaminokuni Town, Hokkaido Prefecture",
         136300: "Assabu Town, Hokkaido Prefecture",
         136400: "Otobe Town, Hokkaido Prefecture",
@@ -1999,7 +2000,7 @@ local_government_en = CodeTable(
         145400: "Toma Town, Hokkaido Prefecture",
         145500: "Pippu Town, Hokkaido Prefecture",
         145600: "Aibetsu Town, Hokkaido Prefecture",
-        145700: "Kamikawa Town, Hokkaido Prefecture",
+        145700: "Kamikawa Town, Kamikawa Region, Hokkaido Prefecture",
         145800: "Higashikawa Town, Hokkaido Prefecture",
         145900: "Biei Town, Hokkaido Prefecture",
         146000: "Kamifurano Town, Hokkaido Prefecture",
@@ -2011,7 +2012,7 @@ local_government_en = CodeTable(
         146800: "Shimokawa Town, Hokkaido Prefecture",
         146900: "Bifuka Town, Hokkaido Prefecture",
         147000: "Otoineppu Village, Hokkaido Prefecture",
-        147100: "Nakagawa Town, Hokkaido Prefecture",
+        147100: "Nakagawa Town, Kamikawa, Hokkaido Prefecture",
         147200: "Horokanai Town, Hokkaido Prefecture",
         148100: "Mashike Town, Hokkaido Prefecture",
         148200: "Obira Town, Hokkaido Prefecture",
@@ -2023,7 +2024,7 @@ local_government_en = CodeTable(
         151100: "Sarufutsu Village, Hokkaido Prefecture",
         151200: "Hamatombetsu Town, Hokkaido Prefecture",
         151300: "Nakatombetsu Town, Hokkaido Prefecture",
-        151400: "Esashi Town, Hokkaido Prefecture",
+        151400: "Esashi Town, Soya, Hokkaido Prefecture",
         151600: "Toyotomi Town, Hokkaido Prefecture",
         151700: "Rebun Town, Hokkaido Prefecture",
         151800: "Rishiri Town, Hokkaido Prefecture",
@@ -2051,7 +2052,7 @@ local_government_en = CodeTable(
         158400: "Toyako Town, Hokkaido Prefecture",
         158500: "Abira Town, Hokkaido Prefecture",
         158600: "Mukawa Town, Hokkaido Prefecture",
-        160100: "Hidaka Town, Hokkaido Prefecture",
+        160100: "Hidaka Town, Hidaka Region, Hokkaido Prefecture",
         160200: "Biratori Town, Hokkaido Prefecture",
         160400: "Niikappu Town, Hokkaido Prefecture",
         160700: "Urakawa Town, Hokkaido Prefecture",
@@ -2063,14 +2064,14 @@ local_government_en = CodeTable(
         163300: "Kamishihoro Town, Hokkaido Prefecture",
         163400: "Shikaoi Town, Hokkaido Prefecture",
         163500: "Shintoku Town, Hokkaido Prefecture",
-        163600: "Shimizu Town, Hokkaido Prefecture",
+        163600: "Shimizu Town, Tokachi, Hokkaido Prefecture",
         163700: "Memuro Town, Hokkaido Prefecture",
         163800: "Nakasatsunai Village, Hokkaido Prefecture",
         163900: "Sarabetsu Village, Hokkaido Prefecture",
-        164100: "Taiki Town, Hokkaido Prefecture",
+        164100: "Taiki Town, Tokachi, Hokkaido Prefecture",
         164200: "Hiroo Town, Hokkaido Prefecture",
         164300: "Makubetsu Town, Hokkaido Prefecture",
-        164400: "Ikeda Town, Hokkaido Prefecture",
+        164400: "Ikeda Town, Tokachi, Hokkaido Prefecture",
         164500: "Toyokoro Town, Hokkaido Prefecture",
         164600: "Hombetsu Town, Hokkaido Prefecture",
         164700: "Ashoro Town, Hokkaido Prefecture",

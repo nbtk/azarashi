@@ -10,6 +10,10 @@ JMA gives no English for 0, 101, 102, 110, 112 to 115, 216 and 500. So that a wa
 a reader of English, the English for them is azarashi's own until JMA gives its own. It is made of
 JMA's wording where JMA has one, and it says no less than the Japanese does. The Japanese is the
 notification.
+
+The sentences among them, 101, 102, 110, 112 to 115 and 216, end in (Translated by azarashi), so
+that the note goes wherever the sentence goes. It says who translated the sentence, not whether an
+unmarked one is JMA's; docs/english-translation-policy.md lists every English that is azarashi's.
 """
 from ...code_table import CodeTable
 
@@ -91,19 +95,19 @@ notification_on_disaster_prevention = CodeTable(
 notification_on_disaster_prevention_en = CodeTable(
     {
         0: "None",
-        101: "There may be slight sea-level changes from now on.",
-        102: "There may be slight sea-level changes from now on, but no damage is expected.",
+        101: "There may be slight sea-level changes from now on. (Translated by azarashi)",
+        102: "There may be slight sea-level changes from now on, but no damage is expected. (Translated by azarashi)",
         103: "Sea-level changes may be observed.",
         104: "Pay attention when fishing, swimming or engaging in other marine activities, as there may still be slight sea-level changes.",
         105: "Pay attention when fishing or engaging in other marine activities, as there may still be slight sea-level changes.",
         107: "No Major Tsunami Warnings, Tsunami Warnings or Advisories are currently in effect.",
         109: "Exercise extreme caution if a tsunami arrives at high tide, as this boosts the height of waves.",
-        110: "Pay full attention if a tsunami arrives at high tide, as this boosts the height of waves.",
+        110: "Pay full attention if a tsunami arrives at high tide, as this boosts the height of waves. (Translated by azarashi)",
         111: "In some coastal regions, tsunami waves higher than those recorded may have arrived.",
-        112: "Tsunami heights may become even higher from now on.",
-        113: "Along the coasts where the tsunami is estimated from offshore observations, it is estimated to have already arrived at the earliest places.",
-        114: "The maximum wave may be observed a few hours or more after a tsunami-driven change in sea level is first observed.",
-        115: "These values were observed offshore. The tsunami will be higher on the coast.",
+        112: "Tsunami heights may become even higher from now on. (Translated by azarashi)",
+        113: "Along the coasts where the tsunami is estimated from offshore observations, it is estimated to have already arrived at the earliest places. (Translated by azarashi)",
+        114: "The maximum wave may be observed a few hours or more after a tsunami-driven change in sea level is first observed. (Translated by azarashi)",
+        115: "These values were observed offshore. The tsunami will be higher on the coast. (Translated by azarashi)",
         121: "<Major Tsunami Warning>\nA huge tsunami is expected to hit and cause serious damage.\nEvacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.\nTsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.",
         122: "<Tsunami Warning>\nDamage due to tsunami waves is expected.\nEvacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.\nTsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.",
         123: "<Tsunami Advisory>\nA marine threat is present.\nGet out of the water and leave coastal regions immediately.\nDue to the risk of ongoing strong currents, do not enter the sea or approach coastal regions until the advisory is lifted.",
@@ -126,7 +130,7 @@ notification_on_disaster_prevention_en = CodeTable(
         213: "Pay attention when fishing, swimming or engaging in other marine activities, as there may still be slight sea-level changes.",
         214: "Pay attention when fishing or engaging in other marine activities, as there may still be slight sea-level changes.",
         215: "This earthquake poses no tsunami risk.",
-        216: "If the hypocenter is beneath the sea floor, a tsunami may be generated.",
+        216: "If the hypocenter is beneath the sea floor, a tsunami may be generated. (Translated by azarashi)",
         217: "Check the information which will be issued from now on.",
         221: "There is a possiblity of a destructive ocean-wide tsunami in the Pacific Ocean.",
         222: "There is a possiblity of a destructive regional tsunami in the Pacific Ocean.",

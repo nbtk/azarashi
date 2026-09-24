@@ -453,3 +453,17 @@ def test_a_name_is_spelled_as_its_specification_spells_it():
     assert 'recognized' in words['dcr'] & words['dcx']
     assert not sorted(w for w in jma if BRITISH.search(w))
     assert not sorted(w for w in camf if AMERICAN.search(w))
+
+
+def test_the_sentences_azarashi_translated_say_so():
+    # the note travels with the sentence; docs/english-translation-policy.md lists the rest of azarashi's English
+    import importlib
+    import pkgutil
+    from azarashi.definitions.qzss import dcr
+    note = ' (Translated by azarashi)'
+    noted = {(name.name, code) for name in pkgutil.iter_modules(dcr.__path__)
+             for code, text in getattr(importlib.import_module(f'{dcr.__name__}.{name.name}'),
+                                        name.name + '_en', {}).items() if note in text}
+    assert noted == {('notification_on_disaster_prevention', c) for c in (101, 102, 110, 112, 113, 114, 115, 216)}
+    labels = dcr_value('notification_on_disaster_prevention', 115)['labels']
+    assert labels['en'].endswith(note) and note not in labels['ja']

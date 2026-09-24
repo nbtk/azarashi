@@ -632,8 +632,7 @@
         "code": "5",
         "recognized": true,
         "labels": {
-          "ja": "巨大地震注意",
-          "en": "Megathrust Earthquake Attention"
+          "ja": "巨大地震注意"
         }
       },
       "page": {
@@ -1576,7 +1575,7 @@
             "recognized": true,
             "labels": {
               "ja": "網走沖",
-              "en": "SEA OFF ABASHIRI"
+              "en": "Sea off Abashiri"
             }
           },
           "warning": {

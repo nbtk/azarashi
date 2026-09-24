@@ -5,8 +5,18 @@ The English is JMA's, from its multilingual dictionary of weather information te
 AreaFloodForecast. The dictionary names a region by its river system, where the DCR adds the
 prefectural region in brackets; both name the same region. Where the dictionary sets a river system
 and its river apart with spaces, a comma sets them apart here. The English for the other rivers of
-each prefecture or region is azarashi's. A region the dictionary does not have has no English here,
-since the reading of a river's name cannot be told from its kanji.
+each prefecture or region is azarashi's.
+
+The dictionary does not have 19 of the regions. Their English is azarashi's, written the way the
+dictionary writes the others: X River for a river, X River System for its system, The upper, middle
+or lower Reaches of X River for a part of it, a hyphen between rivers, and (Section A to B) for a
+section. A river's name is taken from an English source where there is one, and otherwise from the
+reading of its kanji. The dictionary gives Toyohira, Iruma, Chikuma, Shinano, Yabe, Nakagawa,
+Ishikari, Tokachi and Hiji, and Memuro as a town; MLIT gives Ootoshi-Furutone, and Ishite and
+Kanogawa in the names of its dams; the Tokyo Metropolitan Government gives Shakujii and Zenpukuji;
+Saitama Prefecture gives もとあらかわ, にいがたがわ and ときがわ, and Ozu City すげた; and the Japanese Wikipedia,
+retrieved 2026-09-24, gives とべつがわ, びせいがわ, おっぺがわ, こまがわ and こあぜがわ. docs/english-translation-policy.md
+lists the 19 with their sources.
 """
 from ...code_table import CodeTable
 
@@ -574,6 +584,7 @@ flood_forecast_region_en = CodeTable(
         810103000101: "The upper Reaches of Ishikari River",
         810103000102: "The lower Reaches of Ishikari River",
         810103003100: "Toyohira River",
+        810103003101: "Ishikari River System, The upper Reaches of Toyohira River",
         810103008100: "Chitose River",
         810103011900: "Yubari River",
         810103018200: "Ikushunbetsu River",
@@ -589,8 +600,12 @@ flood_forecast_region_en = CodeTable(
         810107000100: "Saru River",
         810108000100: "Tokachi River",
         810108003400: "Toshibetsu River",
+        810108010400: "Tobetsu River",
+        810108010401: "Tokachi River System, The upper Reaches of Tobetsu River",
         810108011400: "Satsunai River",
         810108013900: "Otofuke River",
+        810108016600: "Tokachi River System, Bisei River",
+        810108017400: "Tokachi River System, Memuro River",
         810109000100: "Kushiro River-Shinkushiro River",
         810110000100: "Abashiri River",
         810110001000: "Bihoro River",
@@ -660,6 +675,10 @@ flood_forecast_region_en = CodeTable(
         830303021100: "Tagawa River",
         830303030400: "Edogawa River",
         830303033900: "Nakagawa River",
+        830303033903: "The middle Reaches of Nakagawa River",
+        830303036900: "Motoarakawa River",
+        830303039200: "Niigata River",
+        830303039800: "Ootoshi-Furutone River",
         830303043600: "Ayase River (Section Yakou)",
         830303043603: "The middle Reaches of Ayase River (Section Ichinohashi)",
         830303046101: "The upper Reaches of Watarase River",
@@ -676,8 +695,13 @@ flood_forecast_region_en = CodeTable(
         830304000100: "Arakawa River",
         830304000300: "Shibakawa River-Shinshiba River",
         830304001200: "Shingashi River",
+        830304003200: "Shakujii River",
         830304004400: "Kanda River",
         830304004700: "Myoshoji River",
+        830304004900: "Zenpukuji River",
+        830304006403: "The middle Reaches of Iruma River",
+        830304007000: "Oppe River-Toki River-Koma River",
+        830304007100: "Iruma River-Koaze River",
         830305000100: "Tama River",
         830305000500: "Nogawa River-Senkawa River",
         830305002000: "Asakawa River",
@@ -696,6 +720,8 @@ flood_forecast_region_en = CodeTable(
         840403000101: "Shinano River System, The upper Reaches of Chikuma River",
         840403000102: "The lower Reaches of Shinano River-Nakanokuchi River",
         840403000103: "The middle Reaches of Shinano River",
+        840403000104: "Shinano River System, The lower Reaches of Chikuma River",
+        840403000105: "The upper Reaches of Shinano River",
         840403023700: "Uono River",
         840403070500: "Saigawa River",
         840403070600: "Shinano River System, Susobana River",
@@ -810,7 +836,9 @@ flood_forecast_region_en = CodeTable(
         870713002800: "Kongo River",
         879999999999: "Other rivers in Chugoku Region",
         880801000100: "Shigenobu River",
+        880801000200: "Ishite River",
         880802000100: "Hiji River",
+        880802000103: "Hiji River System, Hiji River (Section Sugeta to Kanogawa)",
         880803000100: "Shimanto River",
         880804000100: "Niyodo River",
         880805000100: "Monobe River",
@@ -831,6 +859,7 @@ flood_forecast_region_en = CodeTable(
         890906000102: "The lower Reaches of Chikugo River",
         890906000104: "The upper and middle Reaches of Chikugo River",
         890907000100: "Yabe River",
+        890907000103: "The middle Reaches of Yabe River",
         890908000100: "Kikuchi River System",
         890909000100: "Shirakawa River",
         890910000100: "Midori River System",
