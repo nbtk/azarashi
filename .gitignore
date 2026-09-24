@@ -134,6 +134,7 @@ dmypy.json
 # Spec files
 specs/
 *.pdf
+*.xlsx
 
 
 # Local working notes
