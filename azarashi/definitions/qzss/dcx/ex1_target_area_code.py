@@ -1,5 +1,7 @@
-"""Municipality codes EX1 carries. They have the shape of Japan's JIS X 0402 codes; that the two
-agree entry for entry is not verified."""
+"""Municipality codes EX1 carries: Japan's local government codes (JIS X 0402) without their check
+digit. Every code in the Ministry of Internal Affairs and Communications list of 2024-01-01 is here
+under the same name, a ward without its prefecture. The 15 codes more are wards since abolished:
+seven of Hamamatsu (2024) and eight of Osaka, Kobe and Kitakyushu."""
 from ...code_table import CodeTable
 
 
