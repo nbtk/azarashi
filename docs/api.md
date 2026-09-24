@@ -224,7 +224,7 @@ l1s に `timestamp` を渡したときにも送出されます。L1S アーカ�
 
 `TypeError` を継承しています。Python 自身の関数が、種類の違う引数に対して送出するのと同じです。
 
-レポートの直接生成・属性変更・継承のサポート範囲は [Reports](reports.md#construction-mutation-and-subclassing) を参照してください。
+レポートの生成・属性変更・継承の扱いは [Reports](reports.md#construction-mutation-and-subclassing) を参照してください。
 
 ## Earlier Names
 次の名前も使えます。それぞれ右の名前と同じものです。以前から使っているコードは、書き換えなくてもそのまま動きます。
