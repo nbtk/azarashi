@@ -24,7 +24,7 @@ def _datetimes(value, path):
 
 def test_every_datetime_is_utc():
     fields = set()
-    for log in ('qzqsm_220307.log', 'qzqsm_dcx_240604.log'):
+    for log in ('qzqsm_260821.log', 'qzqsm_dcx_260917.log', 'qzqsm_260924.log'):
         with open(os.path.join(TESTS, log), encoding='utf-8') as f:
             for line in f:
                 if not line.startswith('$QZQSM'):

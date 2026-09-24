@@ -1,4 +1,5 @@
 """Page assembly of Nankai Trough earthquake information."""
+import gzip
 import os
 
 import pytest
@@ -8,7 +9,9 @@ from azarashi.reports import dcr
 from azarashi.reports.dcr import NankaiTroughEarthquake as Nankai
 from qzqsm import with_fields
 
-LOG = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'qzqsm_220307.log')
+TESTS = os.path.dirname(os.path.realpath(__file__))
+LOG = os.path.join(TESTS, 'qzqsm_260924.log')
+RECORDING = os.path.join(TESTS, 'ublox_260924.ubx.gz')  # the same announcement from two satellites
 REPORT_MINUTE = (35, 6)
 PAGE_NUMBER = (201, 6)
 TOTAL_PAGE = (207, 6)
@@ -28,7 +31,7 @@ def _field(sentence, pos, size):
 
 
 def _announcement_a():
-    """page number -> sentence of the 27-page announcement in the log (issued at 04:35 UTC)"""
+    """page number -> sentence of the 27-page announcement in the log (issued at 01:35 UTC)"""
     pages = {}
     with open(LOG, encoding='utf-8') as f:
         for line in f:
@@ -39,7 +42,7 @@ def _announcement_a():
 
 
 def _announcement_b():
-    """A later announcement (04:40 UTC) with the same layout and a text of 'B's."""
+    """A later announcement (01:40 UTC) with the same layout and a text of 'B's."""
     pages = {}
     for page, sentence in _announcement_a().items():
         text = [(pos, size, ord('B')) for pos, size in TEXT_BYTES]
@@ -58,10 +61,12 @@ def test_pages_are_assembled():
 
 
 def test_duplicate_pages_from_several_satellites():
-    with open(LOG, encoding='utf-8') as f:
-        reports = [azarashi.decode(line.strip()) for line in f if line.startswith('$QZQSM')]
+    reports = []
+    with gzip.open(RECORDING) as f, pytest.raises(azarashi.AzarashiNoMoreData):
+        azarashi.decode_stream(f, 'ublox', callback=reports.append)
     nankai = [r for r in reports if isinstance(r, Nankai)]
-    assert len(nankai) == 81 and nankai[-1].completed is True
+    assert len(nankai) == 386 and {r.satellite_prn for r in nankai} == {185, 189}
+    assert nankai[-1].completed is True
     assert nankai[-1].extract_text_information().startswith('南海トラフ沿いのプレート境界で')
 
 

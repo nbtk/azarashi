@@ -1,0 +1,3808 @@
+>>> $QZQSM,57,C6AD54E0170001B02EE0B03E800000000000000000000000000000101089374*08
+Weather
+防災気象情報(気象)(発表)(優先)
+気象に関連する情報をお知らせします。
+
+発表時刻: 9月24日9時46分
+
+警報等情報要素: 竜巻注意情報(発表)
+上川・留萌地方
+
+警報等情報要素: 竜巻注意情報(発表)
+石狩・空知・後志地方
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xadT\xe0\x17\x00\x01\xb0.\xe0\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10'
+            b'\x10\x897@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AD54E0170001B02EE0B03E800000000000000000000000000000101089374*08',
+ 'preamble': 'C',
+ 'raw': b'\xadT\xe0\x17\x00\x01\xb0.\xe0\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '優先',
+ 'report_classification_en': 'Priority',
+ 'report_classification_no': 2,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 46, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AD54E0170001B02EE0B03E800000000000000000000000000000101089374*08',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['上川・留萌地方', '石狩・空知・後志地方'],
+ 'weather_forecast_regions_raw': [12000, 16000],
+ 'weather_related_disaster_sub_categories': ['竜巻注意情報', '竜巻注意情報'],
+ 'weather_related_disaster_sub_categories_raw': [22, 22],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,57,9AB0840DE000000000000000000000000000000000000000000000014AC17A4*05
+NullMsg
+### DCX Message - Null Message ###
+{'camf': {'a1': 0,
+          'a10': 0,
+          'a11': 0,
+          'a12': 0,
+          'a13': 0,
+          'a14': 0,
+          'a15': 0,
+          'a16': 0,
+          'a17': 0,
+          'a18': 0,
+          'a2': 111,
+          'a3': 0,
+          'a4': 0,
+          'a5': 0,
+          'a6': 0,
+          'a7': 0,
+          'a8': 0,
+          'a9': 0,
+          'ex1': 0,
+          'ex10': 0,
+          'ex2': 0,
+          'ex3': 0,
+          'ex4': 0,
+          'ex5': 0,
+          'ex6': 0,
+          'ex7': 0,
+          'ex8': 0,
+          'ex9': 0,
+          'sdm': 132,
+          'sdmt': 0,
+          'vn': 0},
+ 'dcx_message_type': 'Null Message',
+ 'ignore_a12_to_a16': True,
+ 'ignore_a17_to_a18': True,
+ 'ignore_ex1': True,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'message': b'\x9a\xb0\x84\r\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            b'\x00\x00\x00\x01J\xc1z@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCX',
+ 'nmea': '$QZQSM,57,9AB0840DE000000000000000000000000000000000000000000000014AC17A4*05',
+ 'preamble': 'B',
+ 'raw': b'\r\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
+ 'satellite_designation_mask': ['For Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AB0840DE000000000000000000000000000000000000000000000014AC17A4*05',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc)}
+
+>>> $QZQSM,57,9AADE4E019000600010000680049E010C280FA8A1E00000000000010A945BFC*0B
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日9時50分
+
+台風番号: 26号
+基点時刻: 24日9時0分
+基点時刻分類: 実況
+情報の基点時刻(実況)からの経過時間: 0時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯18度30分0秒 東経134度5分0秒
+中心気圧: 1002hPa
+最大風速: 20m/s
+最大瞬間風速: 30m/s
+{'central_pressure': '1002hPa',
+ 'central_pressure_raw': 1002,
+ 'coordinates_of_typhoon': '北緯18度30分0秒 東経134度5分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 18,
+                                'lat_m': 30,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 134,
+                                'lon_ew': 0,
+                                'lon_m': 5,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '0時間後',
+ 'elapsed_time_from_reference_time_raw': 0,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '30m/s',
+ 'maximum_gust_wind_speed_raw': 30,
+ 'maximum_wind_speed': '20m/s',
+ 'maximum_wind_speed_raw': 20,
+ 'message': b'\x9a\xad\xe4\xe0\x19\x00\x06\x00\x01\x00\x00h\x00I\xe0\x10\xc2\x80\xfa\x8a\x1e\x00\x00\x00'
+            b'\x00\x00\x00\x10\xa9E\xbf\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AADE4E019000600010000680049E010C280FA8A1E00000000000010A945BFC*0B',
+ 'preamble': 'B',
+ 'raw': b'\xad\xe4\xe0\x19\x00\x06\x00\x01\x00\x00h\x00I\xe0\x10\xc2\x80\xfa\x8a\x1e\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 24, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 24, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '実況',
+ 'reference_time_type_raw': 1,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AADE4E019000600010000680049E010C280FA8A1E00000000000010A945BFC*0B',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,57,53ADE4E01900061803001868004A80108500F98BA300000000000011C2F87C4*0B
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日9時50分
+
+台風番号: 26号
+基点時刻: 24日21時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 12時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯18度40分0秒 東経132度10分0秒
+中心気圧: 998hPa
+最大風速: 23m/s
+最大瞬間風速: 35m/s
+{'central_pressure': '998hPa',
+ 'central_pressure_raw': 998,
+ 'coordinates_of_typhoon': '北緯18度40分0秒 東経132度10分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 18,
+                                'lat_m': 40,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 132,
+                                'lon_ew': 0,
+                                'lon_m': 10,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '12時間後',
+ 'elapsed_time_from_reference_time_raw': 12,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '35m/s',
+ 'maximum_gust_wind_speed_raw': 35,
+ 'maximum_wind_speed': '23m/s',
+ 'maximum_wind_speed_raw': 23,
+ 'message': b'S\xad\xe4\xe0\x19\x00\x06\x18\x03\x00\x18h\x00J\x80\x10\x85\x00\xf9\x8b\xa3\x00\x00\x00\x00\x00\x00\x11'
+            b'\xc2\xf8|@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53ADE4E01900061803001868004A80108500F98BA300000000000011C2F87C4*0B',
+ 'preamble': 'A',
+ 'raw': b'\xad\xe4\xe0\x19\x00\x06\x18\x03\x00\x18h\x00J\x80\x10\x85\x00\xf9\x8b\xa3\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 24, 12, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 24, 'hour': 12, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53ADE4E01900061803001868004A80108500F98BA300000000000011C2F87C4*0B',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,57,C6ADE4E01900064003003068004D40104280F88BA30000000000001323ED2E8*76
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日9時50分
+
+台風番号: 26号
+基点時刻: 25日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 24時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯19度20分0秒 東経130度5分0秒
+中心気圧: 994hPa
+最大風速: 23m/s
+最大瞬間風速: 35m/s
+{'central_pressure': '994hPa',
+ 'central_pressure_raw': 994,
+ 'coordinates_of_typhoon': '北緯19度20分0秒 東経130度5分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 19,
+                                'lat_m': 20,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 130,
+                                'lon_ew': 0,
+                                'lon_m': 5,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '24時間後',
+ 'elapsed_time_from_reference_time_raw': 24,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '35m/s',
+ 'maximum_gust_wind_speed_raw': 35,
+ 'maximum_wind_speed': '23m/s',
+ 'maximum_wind_speed_raw': 23,
+ 'message': b'\xc6\xad\xe4\xe0\x19\x00\x06@\x03\x000h\x00M@\x10B\x80\xf8\x8b\xa3\x00\x00\x00\x00\x00\x00\x13#\xed.\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6ADE4E01900064003003068004D40104280F88BA30000000000001323ED2E8*76',
+ 'preamble': 'C',
+ 'raw': b'\xad\xe4\xe0\x19\x00\x06@\x03\x000h\x00M@\x10B\x80\xf8\x8b\xa3\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 25, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 25, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6ADE4E01900064003003068004D40104280F88BA30000000000001323ED2E8*76',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,57,9AADE4E019000680030060680054500FE500F64F28000000000000107BEFDA8*72
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日9時50分
+
+台風番号: 26号
+基点時刻: 26日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 48時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯21度5分0秒 東経127度10分0秒
+中心気圧: 985hPa
+最大風速: 30m/s
+最大瞬間風速: 40m/s
+{'central_pressure': '985hPa',
+ 'central_pressure_raw': 985,
+ 'coordinates_of_typhoon': '北緯21度5分0秒 東経127度10分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 21,
+                                'lat_m': 5,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 127,
+                                'lon_ew': 0,
+                                'lon_m': 10,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '48時間後',
+ 'elapsed_time_from_reference_time_raw': 48,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '40m/s',
+ 'maximum_gust_wind_speed_raw': 40,
+ 'maximum_wind_speed': '30m/s',
+ 'maximum_wind_speed_raw': 30,
+ 'message': b'\x9a\xad\xe4\xe0\x19\x00\x06\x80\x03\x00`h\x00TP\x0f\xe5\x00\xf6O(\x00\x00\x00\x00\x00\x00\x10'
+            b'{\xef\xda\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AADE4E019000680030060680054500FE500F64F28000000000000107BEFDA8*72',
+ 'preamble': 'B',
+ 'raw': b'\xad\xe4\xe0\x19\x00\x06\x80\x03\x00`h\x00TP\x0f\xe5\x00\xf6O(\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 26, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 26, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AADE4E019000680030060680054500FE500F64F28000000000000107BEFDA8*72',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,57,53ADE4E0190006C003009068045B200FD180F3D1B200000000000011916C1CC*7E
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日9時50分
+
+台風番号: 26号
+基点時刻: 27日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 72時間後
+大きさ: なし
+強さ: 強い
+緯度・経度: 北緯22度50分0秒 東経126度35分0秒
+中心気圧: 975hPa
+最大風速: 35m/s
+最大瞬間風速: 50m/s
+{'central_pressure': '975hPa',
+ 'central_pressure_raw': 975,
+ 'coordinates_of_typhoon': '北緯22度50分0秒 東経126度35分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 22,
+                                'lat_m': 50,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 126,
+                                'lon_ew': 0,
+                                'lon_m': 35,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '72時間後',
+ 'elapsed_time_from_reference_time_raw': 72,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '50m/s',
+ 'maximum_gust_wind_speed_raw': 50,
+ 'maximum_wind_speed': '35m/s',
+ 'maximum_wind_speed_raw': 35,
+ 'message': b'S\xad\xe4\xe0\x19\x00\x06\xc0\x03\x00\x90h\x04[ \x0f\xd1\x80\xf3\xd1\xb2\x00\x00\x00\x00\x00\x00\x11'
+            b'\x91l\x1c\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53ADE4E0190006C003009068045B200FD180F3D1B200000000000011916C1CC*7E',
+ 'preamble': 'A',
+ 'raw': b'\xad\xe4\xe0\x19\x00\x06\xc0\x03\x00\x90h\x04[ \x0f\xd1\x80\xf3\xd1\xb2\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 27, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 27, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53ADE4E0190006C003009068045B200FD180F3D1B200000000000011916C1CC*7E',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': '強い',
+ 'typhoon_intensity_category_raw': 1,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,57,C6ADE4E0190007000300C0680461E00FEA00F1543700000000000012D23577C*05
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日9時50分
+
+台風番号: 26号
+基点時刻: 28日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 96時間後
+大きさ: なし
+強さ: 強い
+緯度・経度: 北緯24度30分0秒 東経127度20分0秒
+中心気圧: 965hPa
+最大風速: 40m/s
+最大瞬間風速: 55m/s
+{'central_pressure': '965hPa',
+ 'central_pressure_raw': 965,
+ 'coordinates_of_typhoon': '北緯24度30分0秒 東経127度20分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 24,
+                                'lat_m': 30,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 127,
+                                'lon_ew': 0,
+                                'lon_m': 20,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '96時間後',
+ 'elapsed_time_from_reference_time_raw': 96,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '55m/s',
+ 'maximum_gust_wind_speed_raw': 55,
+ 'maximum_wind_speed': '40m/s',
+ 'maximum_wind_speed_raw': 40,
+ 'message': b'\xc6\xad\xe4\xe0\x19\x00\x07\x00\x03\x00\xc0h\x04a\xe0\x0f\xea\x00\xf1T7\x00\x00\x00\x00\x00\x00\x12'
+            b'\xd25w\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6ADE4E0190007000300C0680461E00FEA00F1543700000000000012D23577C*05',
+ 'preamble': 'C',
+ 'raw': b'\xad\xe4\xe0\x19\x00\x07\x00\x03\x00\xc0h\x04a\xe0\x0f\xea\x00\xf1T7\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 28, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 28, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6ADE4E0190007000300C0680461E00FEA00F1543700000000000012D23577C*05',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': '強い',
+ 'typhoon_intensity_category_raw': 1,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,57,9AADE4E0190007400300F0680467200FFB80F15437000000000000103A7AA6C*71
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日9時50分
+
+台風番号: 26号
+基点時刻: 29日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 120時間後
+大きさ: なし
+強さ: 強い
+緯度・経度: 北緯25度50分0秒 東経127度55分0秒
+中心気圧: 965hPa
+最大風速: 40m/s
+最大瞬間風速: 55m/s
+{'central_pressure': '965hPa',
+ 'central_pressure_raw': 965,
+ 'coordinates_of_typhoon': '北緯25度50分0秒 東経127度55分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 25,
+                                'lat_m': 50,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 127,
+                                'lon_ew': 0,
+                                'lon_m': 55,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '120時間後',
+ 'elapsed_time_from_reference_time_raw': 120,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '55m/s',
+ 'maximum_gust_wind_speed_raw': 55,
+ 'maximum_wind_speed': '40m/s',
+ 'maximum_wind_speed_raw': 40,
+ 'message': b'\x9a\xad\xe4\xe0\x19\x00\x07@\x03\x00\xf0h\x04g \x0f\xfb\x80\xf1T7\x00\x00\x00\x00\x00\x00\x10:z\xa6\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AADE4E0190007400300F0680467200FFB80F15437000000000000103A7AA6C*71',
+ 'preamble': 'B',
+ 'raw': b'\xad\xe4\xe0\x19\x00\x07@\x03\x00\xf0h\x04g \x0f\xfb\x80\xf1T7\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 29, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 29, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 0, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AADE4E0190007400300F0680467200FFB80F15437000000000000103A7AA6C*71',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': '強い',
+ 'typhoon_intensity_category_raw': 1,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,57,53ADF4DE9180050406A08354115A8230507E400000000000000000117F20498*02
+Marine
+防災気象情報(海上)(発表)(通常)
+海上警報が発表されました。
+
+発表時刻: 9月24日5時35分
+
+警報等情報要素: 海上風警報
+網走沖
+
+警報等情報要素: 海上風警報
+北海道西方海上
+
+警報等情報要素: 海上風警報
+北海道東方海上
+
+警報等情報要素: 海上風警報
+釧路沖
+
+警報等情報要素: 海上風警報
+三陸沖西部
+{'disaster_category': '海上',
+ 'disaster_category_en': 'Marine',
+ 'disaster_category_no': 14,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'marine_forecast_regions': ['網走沖', '北海道西方海上', '北海道東方海上', '釧路沖', '三陸沖西部'],
+ 'marine_forecast_regions_raw': [1030, 1050, 1110, 1120, 2020],
+ 'marine_warning_codes': ['海上風警報', '海上風警報', '海上風警報', '海上風警報', '海上風警報'],
+ 'marine_warning_codes_raw': [20, 20, 20, 20, 20],
+ 'message': b'S\xad\xf4\xde\x91\x80\x05\x04\x06\xa0\x83T\x11Z\x820P~@\x00\x00\x00\x00\x00\x00\x00\x00\x11\x7f I\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53ADF4DE9180050406A08354115A8230507E400000000000000000117F20498*02',
+ 'preamble': 'A',
+ 'raw': b'\xad\xf4\xde\x91\x80\x05\x04\x06\xa0\x83T\x11Z\x820P~@\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 23, 20, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53ADF4DE9180050406A08354115A8230507E400000000000000000117F20498*02',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,C6ADF4DE918002C3F25880CB115962302CC265A01CB408A81F900012AC8EC0C*79
+Marine
+防災気象情報(海上)(発表)(通常)
+海上警報が発表されました。
+
+発表時刻: 9月24日5時35分
+
+警報等情報要素: 海上濃霧警報
+サハリン東方海上
+
+警報等情報要素: 海上濃霧警報
+網走沖
+
+警報等情報要素: 海上濃霧警報
+北海道東方海上
+
+警報等情報要素: 海上濃霧警報
+釧路沖
+
+警報等情報要素: 海上濃霧警報
+沿海州南部沖
+
+警報等情報要素: 海上濃霧警報
+日本海北西部
+
+警報等情報要素: 海上濃霧警報
+山陰沖西部
+
+警報等情報要素: 海上風警報
+サハリン東方海上
+{'disaster_category': '海上',
+ 'disaster_category_en': 'Marine',
+ 'disaster_category_no': 14,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'marine_forecast_regions': ['サハリン東方海上', '網走沖', '北海道東方海上', '釧路沖', '沿海州南部沖', '日本海北西部', '山陰沖西部', 'サハリン東方海上'],
+ 'marine_forecast_regions_raw': [1010, 1030, 1110, 1120, 3110, 4110, 4130, 1010],
+ 'marine_warning_codes': ['海上濃霧警報', '海上濃霧警報', '海上濃霧警報', '海上濃霧警報', '海上濃霧警報', '海上濃霧警報', '海上濃霧警報', '海上風警報'],
+ 'marine_warning_codes_raw': [11, 11, 11, 11, 11, 11, 11, 20],
+ 'message': b'\xc6\xad\xf4\xde\x91\x80\x02\xc3\xf2X\x80\xcb\x11Yb0,\xc2e\xa0\x1c\xb4\x08\xa8\x1f\x90\x00\x12'
+            b'\xac\x8e\xc0\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6ADF4DE918002C3F25880CB115962302CC265A01CB408A81F900012AC8EC0C*79',
+ 'preamble': 'C',
+ 'raw': b'\xad\xf4\xde\x91\x80\x02\xc3\xf2X\x80\xcb\x11Yb0,\xc2e\xa0\x1c\xb4\x08\xa8\x1f\x90\x00\x10',
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 23, 20, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6ADF4DE918002C3F25880CB115962302CC265A01CB408A81F900012AC8EC0C*79',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,C6AF8CE02000DB240000C0400548C5E2C000000003DFF8001C0000103A41D94*06
+EarthquakeEarlyWarning
+防災気象情報(緊急地震速報)(発表)(訓練/試験)
+*** これは訓練です ***
+緊急地震速報
+強い揺れに警戒してください。
+
+発表時刻: 9月24日10時0分
+
+震央地名: 日向灘
+地震発生時刻: 24日10時0分
+深さ: 10km
+マグニチュード: 7.2
+震度(下限): 震度6弱
+震度(上限): 〜程度以上
+長周期地震動階級(下限): 長周期地震動階級2
+長周期地震動階級(上限): 長周期地震動階級2
+島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
+{'assumptive': False,
+ 'depth_of_hypocenter': '10km',
+ 'depth_of_hypocenter_raw': 10,
+ 'disaster_category': '緊急地震速報',
+ 'disaster_category_en': 'Earthquake Early Warning',
+ 'disaster_category_no': 1,
+ 'eew_forecast_regions': ['島根',
+                          '岡山',
+                          '広島',
+                          '山口',
+                          '香川',
+                          '愛媛',
+                          '高知',
+                          '福岡',
+                          '佐賀',
+                          '長崎',
+                          '熊本',
+                          '大分',
+                          '宮崎',
+                          '鹿児島',
+                          '中国',
+                          '四国',
+                          '九州'],
+ 'eew_forecast_regions_raw': [37, 38, 39, 40, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 66, 67, 68],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'long_period_ground_motion_lower_limit': '長周期地震動階級2',
+ 'long_period_ground_motion_lower_limit_raw': 3,
+ 'long_period_ground_motion_upper_limit': '長周期地震動階級2',
+ 'long_period_ground_motion_upper_limit_raw': 3,
+ 'magnitude': '7.2',
+ 'magnitude_raw': 72,
+ 'message': b'\xc6\xaf\x8c\xe0 \x00\xdb$\x00\x00\xc0@\x05H\xc5\xe2\xc0\x00\x00\x00\x03\xdf\xf8\x00\x1c\x00\x00\x10'
+            b':A\xd9@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AF8CE02000DB240000C0400548C5E2C000000003DFF8001C0000103A41D94*06',
+ 'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
+ 'notifications_on_disaster_prevention_raw': [201],
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 9, 24, 1, 0, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 24, 'hour': 1, 'minute': 0},
+ 'preamble': 'C',
+ 'raw': b'\xaf\x8c\xe0 \x00\xdb$\x00\x00\xc0@\x05H\xc5\xe2\xc0\x00\x00\x00\x03\xdf\xf8\x00\x1c\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 0, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'seismic_epicenter': '日向灘',
+ 'seismic_epicenter_raw': 791,
+ 'seismic_intensity_lower_limit': '震度6弱',
+ 'seismic_intensity_lower_limit_raw': 8,
+ 'seismic_intensity_upper_limit': '〜程度以上',
+ 'seismic_intensity_upper_limit_raw': 11,
+ 'sentence': '$QZQSM,57,C6AF8CE02000DB240000C0400548C5E2C000000003DFF8001C0000103A41D94*06',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,9AAF94E0228003880000C0451440C5C82A010830000000000000001281C5430*06
+Hypocenter
+防災気象情報(震源)(発表)(訓練/試験)
+*** これは訓練です ***
+24日10時5分ころ、地震がありました。
+震源の近傍で津波発生の可能性があります。
+
+発表時刻: 9月24日10時5分
+
+震央地名: 日向灘
+緯度・経度: 北緯32度42分0秒 東経132度6分0秒
+深さ: 40km
+マグニチュード: 6.4
+{'coordinates_of_hypocenter': '北緯32度42分0秒 東経132度6分0秒',
+ 'coordinates_of_hypocenter_raw': {'lat_d': 32,
+                                   'lat_m': 42,
+                                   'lat_ns': 0,
+                                   'lat_s': 0,
+                                   'lon_d': 132,
+                                   'lon_ew': 0,
+                                   'lon_m': 6,
+                                   'lon_s': 0},
+ 'depth_of_hypocenter': '40km',
+ 'depth_of_hypocenter_raw': 40,
+ 'disaster_category': '震源',
+ 'disaster_category_en': 'Hypocenter',
+ 'disaster_category_no': 2,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'magnitude': '6.4',
+ 'magnitude_raw': 64,
+ 'message': b'\x9a\xaf\x94\xe0"\x80\x03\x88\x00\x00\xc0E\x14@\xc5\xc8*\x01\x080\x00\x00\x00\x00\x00\x00\x00\x12'
+            b'\x81\xc5C\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAF94E0228003880000C0451440C5C82A010830000000000000001281C5430*06',
+ 'notifications_on_disaster_prevention': ['震源の近傍で津波発生の可能性があります。'],
+ 'notifications_on_disaster_prevention_raw': [226],
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 24, 'hour': 1, 'minute': 5},
+ 'preamble': 'B',
+ 'raw': b'\xaf\x94\xe0"\x80\x03\x88\x00\x00\xc0E\x14@\xc5\xc8*\x01\x080\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'seismic_epicenter': '日向灘',
+ 'seismic_epicenter_raw': 791,
+ 'sentence': '$QZQSM,57,9AAF94E0228003880000C0451440C5C82A010830000000000000001281C5430*06',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,53AF9CE0228006022CB25AE775A8D4CA854AB8000000000000000013190A3B4*76
+SeismicIntensity
+防災気象情報(震度)(発表)(訓練/試験)
+*** これは訓練です ***
+24日10時5分ころ、地震による強い揺れを感じました。
+
+発表時刻: 9月24日10時5分
+
+震度: 5強
+大分県
+
+震度: 5強
+宮崎県
+
+震度: 5弱
+高知県
+
+震度: 5弱
+熊本県
+
+震度: 4
+山口県
+
+震度: 4
+愛媛県
+
+震度: 4
+福岡県
+
+震度: 4
+佐賀県
+
+震度: 4
+鹿児島県
+{'disaster_category': '震度',
+ 'disaster_category_en': 'Seismic Intensity',
+ 'disaster_category_no': 3,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\x9c\xe0"\x80\x06\x02,\xb2Z\xe7u\xa8\xd4\xca\x85J\xb8\x00\x00\x00\x00\x00\x00\x00\x00\x13\x19\n;@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AF9CE0228006022CB25AE775A8D4CA854AB8000000000000000013190A3B4*76',
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 24, 'hour': 1, 'minute': 5},
+ 'preamble': 'A',
+ 'prefectures': ['大分県', '宮崎県', '高知県', '熊本県', '山口県', '愛媛県', '福岡県', '佐賀県', '鹿児島県'],
+ 'prefectures_raw': [44, 45, 39, 43, 35, 38, 40, 41, 46],
+ 'raw': b'\xaf\x9c\xe0"\x80\x06\x02,\xb2Z\xe7u\xa8\xd4\xca\x85J\xb8\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'seismic_intensities': ['5強', '5強', '5弱', '5弱', '4', '4', '4', '4', '4'],
+ 'seismic_intensities_raw': [4, 4, 3, 3, 2, 2, 2, 2, 2],
+ 'sentence': '$QZQSM,57,53AF9CE0228006022CB25AE775A8D4CA854AB8000000000000000013190A3B4*76',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFACE0228001E8F67C30453960114E620453BE000000000000001380D14D4*76
+Tsunami
+防災気象情報(津波)(発表)(訓練/試験)
+*** これは訓練です ***
+津波警報を発表しました。
+＜津波警報＞
+津波による被害が発生します。
+沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。
+津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。
+＜津波注意報＞
+海の中や海岸付近は危険です。
+海の中にいる人はただちに海から上がって、海岸から離れてください。
+潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。
+＜津波予報(若干の海面変動)＞
+若干の海面変動が予想されますが、被害の心配はありません。
+
+発表時刻: 9月24日10時5分
+
+津波到達予想時刻: 24日10時5分
+津波の高さ: 3m
+愛媛県宇和海沿岸
+
+津波到達予想時刻: 24日10時5分
+津波の高さ: 3m
+高知県
+
+津波到達予想時刻: 24日10時5分
+津波の高さ: 3m
+宮崎県
+{'disaster_category': '津波',
+ 'disaster_category_en': 'Tsunami',
+ 'disaster_category_no': 5,
+ 'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_times': [datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc)],
+ 'expected_tsunami_arrival_times_raw': [{'day': 0, 'hour': 1, 'minute': 5},
+                                        {'day': 0, 'hour': 1, 'minute': 5},
+                                        {'day': 0, 'hour': 1, 'minute': 5}],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xac\xe0"\x80\x01\xe8\xf6|0E9`\x11Nb\x04S\xbe\x00\x00\x00\x00\x00\x00\x00\x13\x80\xd1M@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFACE0228001E8F67C30453960114E620453BE000000000000001380D14D4*76',
+ 'notifications_on_disaster_prevention': ['＜津波警報＞\n'
+                                          '津波による被害が発生します。\n'
+                                          '沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n'
+                                          '津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。',
+                                          '＜津波注意報＞\n'
+                                          '海の中や海岸付近は危険です。\n'
+                                          '海の中にいる人はただちに海から上がって、海岸から離れてください。\n'
+                                          '潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。',
+                                          '＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。'],
+ 'notifications_on_disaster_prevention_raw': [122, 123, 124],
+ 'preamble': 'C',
+ 'raw': b'\xaf\xac\xe0"\x80\x01\xe8\xf6|0E9`\x11Nb\x04S\xbe\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFACE0228001E8F67C30453960114E620453BE000000000000001380D14D4*76',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'tsunami_forecast_regions': ['愛媛県宇和海沿岸', '高知県', '宮崎県'],
+ 'tsunami_forecast_regions_raw': [600, 610, 760],
+ 'tsunami_heights': ['3m', '3m', '3m'],
+ 'tsunami_heights_raw': [3, 3, 3],
+ 'tsunami_warning_code': '津波警報',
+ 'tsunami_warning_code_raw': 3,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFACE02C8001E8F67C30593960164E620593BBC164EF8000000011F0306C8*7F
+Tsunami
+防災気象情報(津波)(発表)(訓練/試験)
+*** これは訓練です ***
+津波警報を発表しました。
+＜津波警報＞
+津波による被害が発生します。
+沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。
+津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。
+＜津波注意報＞
+海の中や海岸付近は危険です。
+海の中にいる人はただちに海から上がって、海岸から離れてください。
+潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。
+＜津波予報(若干の海面変動)＞
+若干の海面変動が予想されますが、被害の心配はありません。
+
+発表時刻: 9月24日10時25分
+
+津波到達予想時刻: 24日10時25分
+津波の高さ: 3m
+愛媛県宇和海沿岸
+
+津波到達予想時刻: 24日10時25分
+津波の高さ: 3m
+高知県
+
+津波到達予想時刻: 24日10時25分
+津波の高さ: 3m
+大分県豊後水道沿岸
+
+津波到達予想時刻: 24日10時25分
+津波の高さ: 3m
+宮崎県
+{'disaster_category': '津波',
+ 'disaster_category_en': 'Tsunami',
+ 'disaster_category_no': 5,
+ 'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_times': [datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc)],
+ 'expected_tsunami_arrival_times_raw': [{'day': 0, 'hour': 1, 'minute': 25},
+                                        {'day': 0, 'hour': 1, 'minute': 25},
+                                        {'day': 0, 'hour': 1, 'minute': 25},
+                                        {'day': 0, 'hour': 1, 'minute': 25}],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xac\xe0,\x80\x01\xe8\xf6|0Y9`\x16Nb\x05\x93\xbb\xc1d\xef\x80\x00\x00\x00\x11\xf00l\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFACE02C8001E8F67C30593960164E620593BBC164EF8000000011F0306C8*7F',
+ 'notifications_on_disaster_prevention': ['＜津波警報＞\n'
+                                          '津波による被害が発生します。\n'
+                                          '沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n'
+                                          '津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。',
+                                          '＜津波注意報＞\n'
+                                          '海の中や海岸付近は危険です。\n'
+                                          '海の中にいる人はただちに海から上がって、海岸から離れてください。\n'
+                                          '潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。',
+                                          '＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。'],
+ 'notifications_on_disaster_prevention_raw': [122, 123, 124],
+ 'preamble': 'C',
+ 'raw': b'\xaf\xac\xe0,\x80\x01\xe8\xf6|0Y9`\x16Nb\x05\x93\xbb\xc1d\xef\x80\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFACE02C8001E8F67C30593960164E620593BBC164EF8000000011F0306C8*7F',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'tsunami_forecast_regions': ['愛媛県宇和海沿岸', '高知県', '大分県豊後水道沿岸', '宮崎県'],
+ 'tsunami_forecast_regions_raw': [600, 610, 751, 760],
+ 'tsunami_heights': ['3m', '3m', '3m', '3m'],
+ 'tsunami_heights_raw': [3, 3, 3, 3],
+ 'tsunami_warning_code': '津波警報',
+ 'tsunami_warning_code_raw': 3,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAFA4E0318002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D8133729088*06
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (1) [1/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4\xe01\x80\x02\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4q\xc1\xd4\xf1\xc1\xca\xf3Y_\x82\xd8\x13'
+            b'7)\x08\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFA4E0318002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D8133729088*06',
+ 'page_number': 1,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4q\xc1\xd4\xf1\xc1\xca\xf3Y_\x82\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFA4E0318002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D8133729088*06',
+ 'text_information': b'\xe5\x8d\x97\xe6\xb5\xb7\xe3\x83\x88\xe3\x83\xa9\xe3\x83\x95\xe6\xb2\xbf',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,53AFA4E0318002F1C0D471C0D1F1C0D371C0C7F1C0D071C0CAB4D8138841A60*04
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (26) [2/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4\xe01\x80\x02\xf1\xc0\xd4q\xc0\xd1\xf1\xc0\xd3q\xc0\xc7\xf1\xc0\xd0q\xc0\xca\xb4\xd8\x13'
+            b'\x88A\xa6\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFA4E0318002F1C0D471C0D1F1C0D371C0C7F1C0D071C0CAB4D8138841A60*04',
+ 'page_number': 26,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xd4q\xc0\xd1\xf1\xc0\xd3q\xc0\xc7\xf1\xc0\xd0q\xc0\xca\xb4\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFA4E0318002F1C0D471C0D1F1C0D371C0C7F1C0D071C0CAB4D8138841A60*04',
+ 'text_information': b'\xe3\x81\xa8\xe3\x81\xa3\xe3\x81\xa6\xe3\x81\x8f\xe3\x81\xa0\xe3\x81\x95',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0CFF4CC5973C0DEF2D7DF72DFCE71C14932D81018C81F0*01
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (25) [3/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xcf\xf4\xccYs\xc0\xde\xf2\xd7\xdfr\xdf\xceq\xc1I2\xd8\x10'
+            b'\x18\xc8\x1f\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0CFF4CC5973C0DEF2D7DF72DFCE71C14932D81018C81F0*01',
+ 'page_number': 25,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xcf\xf4\xccYs\xc0\xde\xf2\xd7\xdfr\xdf\xceq\xc1I2\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0CFF4CC5973C0DEF2D7DF72DFCE71C14932D81018C81F0*01',
+ 'text_information': b'\xe3\x81\x9f\xe9\x98\xb2\xe7\x81\xbd\xe5\xaf\xbe\xe5\xbf\x9c\xe3\x82\x92',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0C5F1C0C8F3D6C4F1C0D5F2DFCE71C0CC30D810E7957F4*74
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (24) [4/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xc5\xf1\xc0\xc8\xf3\xd6\xc4\xf1\xc0\xd5\xf2\xdf\xceq\xc0\xcc0\xd8\x10'
+            b'\xe7\x95\x7f@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0C5F1C0C8F3D6C4F1C0D5F2DFCE71C0CC30D810E7957F4*74',
+ 'page_number': 24,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xc5\xf1\xc0\xc8\xf3\xd6\xc4\xf1\xc0\xd5\xf2\xdf\xceq\xc0\xcc0\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0C5F1C0C8F3D6C4F1C0D5F2DFCE71C0CC30D810E7957F4*74',
+ 'text_information': b'\xe3\x81\x8b\xe3\x81\x91\xe7\xad\x89\xe3\x81\xab\xe5\xbf\x9c\xe3\x81\x98',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAFA4E0318002F1C0D4F1C0C5F1C144F1C0D772C8DE71C0D9AED811784512C*04
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (23) [5/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4\xe01\x80\x02\xf1\xc0\xd4\xf1\xc0\xc5\xf1\xc1D\xf1\xc0\xd7r\xc8\xdeq\xc0\xd9\xae\xd8\x11'
+            b'xE\x12\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFA4E0318002F1C0D4F1C0C5F1C144F1C0D772C8DE71C0D9AED811784512C*04',
+ 'page_number': 23,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xd4\xf1\xc0\xc5\xf1\xc1D\xf1\xc0\xd7r\xc8\xdeq\xc0\xd9\xae\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFA4E0318002F1C0D4F1C0C5F1C144F1C0D772C8DE71C0D9AED811784512C*04',
+ 'text_information': b'\xe3\x81\xa9\xe3\x81\x8b\xe3\x82\x89\xe3\x81\xae\xe5\x91\xbc\xe3\x81\xb3',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,53AFA4E0318002F2DD4E71C1427443D573595DF25EC9F1C0D52CD811C9B9554*07
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (22) [6/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4\xe01\x80\x02\xf2\xddNq\xc1BtC\xd5sY]\xf2^\xc9\xf1\xc0\xd5,\xd8\x11\xc9\xb9U@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFA4E0318002F2DD4E71C1427443D573595DF25EC9F1C0D52CD811C9B9554*07',
+ 'page_number': 22,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf2\xddNq\xc1BtC\xd5sY]\xf2^\xc9\xf1\xc0\xd5,\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFA4E0318002F2DD4E71C1427443D573595DF25EC9F1C0D52CD811C9B9554*07',
+ 'text_information': b'\xe5\xba\x9c\xe3\x82\x84\xe8\x87\xaa\xe6\xb2\xbb\xe4\xbd\x93\xe3\x81\xaa',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0CCF1C041725DC572DF4671C0D7734A5FAAD8126B84C10*7F
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (21) [7/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xcc\xf1\xc0Ar]\xc5r\xdfFq\xc0\xd7sJ_\xaa\xd8\x12k\x84\xc1\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0CCF1C041725DC572DF4671C0D7734A5FAAD8126B84C10*7F',
+ 'page_number': 21,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xcc\xf1\xc0Ar]\xc5r\xdfFq\xc0\xd7sJ_\xaa\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0CCF1C041725DC572DF4671C0D7734A5FAAD8126B84C10*7F',
+ 'text_information': b'\xe3\x81\x99\xe3\x80\x82\xe4\xbb\x8a\xe5\xbe\x8c\xe3\x81\xae\xe6\x94\xbf',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0D4744041F1C0C471C144F1C14671C0DF28D813361DC64*78
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (20) [8/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xd4t@A\xf1\xc0\xc4q\xc1D\xf1\xc1Fq\xc0\xdf(\xd8\x136\x1d\xc6@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0D4744041F1C0C471C144F1C14671C0DF28D813361DC64*78',
+ 'page_number': 20,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xd4t@A\xf1\xc0\xc4q\xc1D\xf1\xc1Fq\xc0\xdf(\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0D4744041F1C0C471C144F1C14671C0DF28D813361DC64*78',
+ 'text_information': b'\xe3\x81\xa8\xe8\x80\x83\xe3\x81\x88\xe3\x82\x89\xe3\x82\x8c\xe3\x81\xbe',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAFA4E0318002F4D5CC71C0DF71C0D1F1C0D371C0C271C145A6D813BC368C0*01
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (19) [9/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4\xe01\x80\x02\xf4\xd5\xccq\xc0\xdfq\xc0\xd1\xf1\xc0\xd3q\xc0\xc2q\xc1E\xa6\xd8\x13'
+            b'\xbc6\x8c\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFA4E0318002F4D5CC71C0DF71C0D1F1C0D371C0C271C145A6D813BC368C0*01',
+ 'page_number': 19,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf4\xd5\xccq\xc0\xdfq\xc0\xd1\xf1\xc0\xd3q\xc0\xc2q\xc1E\xa6\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFA4E0318002F4D5CC71C0DF71C0D1F1C0D371C0C271C145A6D813BC368C0*01',
+ 'text_information': b'\xe9\xab\x98\xe3\x81\xbe\xe3\x81\xa3\xe3\x81\xa6\xe3\x81\x84\xe3\x82\x8b',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,53AFA4E0318002F1C0DCF1C0D373CDDC72D7DF73CD4271C0D5A4D81023E0324*07
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (18) [10/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4\xe01\x80\x02\xf1\xc0\xdc\xf1\xc0\xd3s\xcd\xdcr\xd7\xdfs\xcdBq\xc0\xd5\xa4\xd8\x10#\xe02@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFA4E0318002F1C0DCF1C0D373CDDC72D7DF73CD4271C0D5A4D81023E0324*07',
+ 'page_number': 18,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xdc\xf1\xc0\xd3s\xcd\xdcr\xd7\xdfs\xcdBq\xc0\xd5\xa4\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFA4E0318002F1C0DCF1C0D373CDDC72D7DF73CD4271C0D5A4D81023E0324*07',
+ 'text_information': b'\xe3\x81\xb9\xe3\x81\xa6\xe7\x9b\xb8\xe5\xaf\xbe\xe7\x9a\x84\xe3\x81\xab',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0C672DCD9F2DC5C734CC171C0D5F357CA22D810BF23074*0C
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (17) [11/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xc6r\xdc\xd9\xf2\xdc\\sL\xc1q\xc0\xd5\xf3W\xca"\xd8\x10\xbf#\x07@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0C672DCD9F2DC5C734CC171C0D5F357CA22D810BF23074*0C',
+ 'page_number': 17,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xc6r\xdc\xd9\xf2\xdc\\sL\xc1q\xc0\xd5\xf3W\xca"\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0C672DCD9F2DC5C734CC171C0D5F357CA22D810BF23074*0C',
+ 'text_information': b'\xe3\x81\x8c\xe5\xb9\xb3\xe5\xb8\xb8\xe6\x99\x82\xe3\x81\xab\xe6\xaf\x94',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0D773CCDD73CA4FF2C7D7F441DEF34053A0D8116F50604*03
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (16) [12/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xd7s\xcc\xdds\xcaO\xf2\xc7\xd7\xf4A\xde\xf3@S\xa0\xd8\x11oP`@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0D773CCDD73CA4FF2C7D7F441DEF34053A0D8116F50604*03',
+ 'page_number': 16,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xd7s\xcc\xdds\xcaO\xf2\xc7\xd7\xf4A\xde\xf3@S\xa0\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0D773CCDD73CA4FF2C7D7F441DEF34053A0D8116F50604*03',
+ 'text_information': b'\xe3\x81\xae\xe7\x99\xba\xe7\x94\x9f\xe5\x8f\xaf\xe8\x83\xbd\xe6\x80\xa7',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAFA4E0318002F1C040F2D253F45347F35450F2CE5874CE439ED811EA1AD40*7A
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (15) [13/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4\xe01\x80\x02\xf1\xc0@\xf2\xd2S\xf4SG\xf3TP\xf2\xceXt\xceC\x9e\xd8\x11\xea\x1a\xd4\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFA4E0318002F1C040F2D253F45347F35450F2CE5874CE439ED811EA1AD40*7A',
+ 'page_number': 15,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0@\xf2\xd2S\xf4SG\xf3TP\xf2\xceXt\xceC\x9e\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFA4E0318002F1C040F2D253F45347F35450F2CE5874CE439ED811EA1AD40*7A',
+ 'text_information': b'\xe3\x80\x81\xe5\xa4\xa7\xe8\xa6\x8f\xe6\xa8\xa1\xe5\x9c\xb0\xe9\x9c\x87',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,53AFA4E0318002F2D74D74CE43F35D4872CFCFF1C0D3F1C0D79CD8125BACCA8*79
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (14) [14/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4\xe01\x80\x02\xf2\xd7Mt\xceC\xf3]Hr\xcf\xcf\xf1\xc0\xd3\xf1\xc0\xd7\x9c\xd8\x12[\xac\xca\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFA4E0318002F2D74D74CE43F35D4872CFCFF1C0D3F1C0D79CD8125BACCA8*79',
+ 'page_number': 14,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf2\xd7Mt\xceC\xf3]Hr\xcf\xcf\xf1\xc0\xd3\xf1\xc0\xd7\x9c\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFA4E0318002F2D74D74CE43F35D4872CFCFF1C0D3F1C0D79CD8125BACCA8*79',
+ 'text_information': b'\xe5\xae\x9a\xe9\x9c\x87\xe6\xba\x90\xe5\x9f\x9f\xe3\x81\xa7\xe3\x81\xaf',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C1D4F1C1CAF2CE5874CE43F1C0D77341D99AD812DADB690*03
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (13) [15/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc1\xd4\xf1\xc1\xca\xf2\xceXt\xceC\xf1\xc0\xd7sA\xd9\x9a\xd8\x12'
+            b'\xda\xdbi\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C1D4F1C1CAF2CE5874CE43F1C0D77341D99AD812DADB690*03',
+ 'page_number': 13,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc1\xd4\xf1\xc1\xca\xf2\xceXt\xceC\xf1\xc0\xd7sA\xd9\x9a\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C1D4F1C1CAF2CE5874CE43F1C0D77341D99AD812DADB690*03',
+ 'text_information': b'\xe3\x83\xa9\xe3\x83\x95\xe5\x9c\xb0\xe9\x9c\x87\xe3\x81\xae\xe6\x83\xb3',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C14471C14571C040F2C6CBF35ADBF1C1C418D8139455F08*7C
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (12) [16/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc1Dq\xc1Eq\xc0@\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4\x18\xd8\x13\x94U\xf0\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C14471C14571C040F2C6CBF35ADBF1C1C418D8139455F08*7C',
+ 'page_number': 12,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc1Dq\xc1Eq\xc0@\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4\x18\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C14471C14571C040F2C6CBF35ADBF1C1C418D8139455F08*7C',
+ 'text_information': b'\xe3\x82\x88\xe3\x82\x8a\xe3\x80\x81\xe5\x8d\x97\xe6\xb5\xb7\xe3\x83\x88',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAFA4E0318002F1C0DCF1C14571C0D773CCDD73CA4FF1C0D596D8102A51584*09
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (11) [17/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4\xe01\x80\x02\xf1\xc0\xdc\xf1\xc1Eq\xc0\xd7s\xcc\xdds\xcaO\xf1\xc0\xd5\x96\xd8\x10*QX@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFA4E0318002F1C0DCF1C14571C0D773CCDD73CA4FF1C0D596D8102A51584*09',
+ 'page_number': 11,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xdc\xf1\xc1Eq\xc0\xd7s\xcc\xdds\xcaO\xf1\xc0\xd5\x96\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFA4E0318002F1C0DCF1C14571C0D773CCDD73CA4FF1C0D596D8102A51584*09',
+ 'text_information': b'\xe3\x81\xb9\xe3\x82\x8a\xe3\x81\xae\xe7\x99\xba\xe7\x94\x9f\xe3\x81\xab',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,53AFA4E0318002F1C145F1C14371C0D1F1C0C7F1C14571C0CC94D810991D648*77
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (10) [18/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4\xe01\x80\x02\xf1\xc1E\xf1\xc1Cq\xc0\xd1\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\x94\xd8\x10\x99\x1dd\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFA4E0318002F1C145F1C14371C0D1F1C0C7F1C14571C0CC94D810991D648*77',
+ 'page_number': 10,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc1E\xf1\xc1Cq\xc0\xd1\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\x94\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFA4E0318002F1C145F1C14371C0D1F1C0C7F1C14571C0CC94D810991D648*77',
+ 'text_information': b'\xe3\x82\x8b\xe3\x82\x86\xe3\x81\xa3\xe3\x81\x8f\xe3\x82\x8a\xe3\x81\x99',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F4C04D72DC5C71C0D471C0D7F3CAD871C0D512D8113B50398*0C
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (9) [19/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf4\xc0Mr\xdc\\q\xc0\xd4q\xc0\xd7\xf3\xca\xd8q\xc0\xd5\x12\xd8\x11;P9\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F4C04D72DC5C71C0D471C0D7F3CAD871C0D512D8113B50398*0C',
+ 'page_number': 9,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf4\xc0Mr\xdc\\q\xc0\xd4q\xc0\xd7\xf3\xca\xd8q\xc0\xd5\x12\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F4C04D72DC5C71C0D471C0D7F3CAD871C0D512D8113B50398*0C',
+ 'text_information': b'\xe9\x80\x9a\xe5\xb8\xb8\xe3\x81\xa8\xe3\x81\xaf\xe7\x95\xb0\xe3\x81\xaa',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C14671C0DF71C0CCF1C04171C0C9F1C0D710D811E1BC478*73
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (8) [20/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc1Fq\xc0\xdfq\xc0\xcc\xf1\xc0Aq\xc0\xc9\xf1\xc0\xd7\x10\xd8\x11'
+            b'\xe1\xbcG\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C14671C0DF71C0CCF1C04171C0C9F1C0D710D811E1BC478*73',
+ 'page_number': 8,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc1Fq\xc0\xdfq\xc0\xcc\xf1\xc0Aq\xc0\xc9\xf1\xc0\xd7\x10\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C14671C0DF71C0CCF1C04171C0C9F1C0D710D811E1BC478*73',
+ 'text_information': b'\xe3\x82\x8c\xe3\x81\xbe\xe3\x81\x99\xe3\x80\x82\xe3\x81\x93\xe3\x81\xae',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAFA4E0318002F1C0C9F1C0D471C0C673475472D74D71C0CA8ED81252D91FC*00
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (7) [21/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4\xe01\x80\x02\xf1\xc0\xc9\xf1\xc0\xd4q\xc0\xc6sGTr\xd7Mq\xc0\xca\x8e\xd8\x12R\xd9\x1f\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFA4E0318002F1C0C9F1C0D471C0C673475472D74D71C0CA8ED81252D91FC*00',
+ 'page_number': 7,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xc9\xf1\xc0\xd4q\xc0\xc6sGTr\xd7Mq\xc0\xca\x8e\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFA4E0318002F1C0C9F1C0D471C0C673475472D74D71C0CA8ED81252D91FC*00',
+ 'text_information': b'\xe3\x81\x93\xe3\x81\xa8\xe3\x81\x8c\xe6\x8e\xa8\xe5\xae\x9a\xe3\x81\x95',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,53AFA4E0318002F3CCDD73CA4FF1C0CBF1C0D371C0C271C1458CD812CFB4250*09
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (6) [22/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4\xe01\x80\x02\xf3\xcc\xdds\xcaO\xf1\xc0\xcb\xf1\xc0\xd3q\xc0\xc2q\xc1E\x8c\xd8\x12\xcf\xb4%\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFA4E0318002F3CCDD73CA4FF1C0CBF1C0D371C0C271C1458CD812CFB4250*09',
+ 'page_number': 6,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf3\xcc\xdds\xcaO\xf1\xc0\xcb\xf1\xc0\xd3q\xc0\xc2q\xc1E\x8c\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFA4E0318002F3CCDD73CA4FF1C0CBF1C0D371C0C271C1458CD812CFB4250*09',
+ 'text_information': b'\xe7\x99\xba\xe7\x94\x9f\xe3\x81\x97\xe3\x81\xa6\xe3\x81\x84\xe3\x82\x8b',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0C7F1C14571C0CCF1C0DCF1C14571C0C60AD8135D65CF4*76
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (5) [23/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\xf1\xc0\xdc\xf1\xc1Eq\xc0\xc6\n\xd8\x13]e\xcf@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0C7F1C14571C0CCF1C0DCF1C14571C0C60AD8135D65CF4*76',
+ 'page_number': 5,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\xf1\xc0\xdc\xf1\xc1Eq\xc0\xc6\n\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0C7F1C14571C0CCF1C0DCF1C14571C0C60AD8135D65CF4*76',
+ 'text_information': b'\xe3\x81\x8f\xe3\x82\x8a\xe3\x81\x99\xe3\x81\xb9\xe3\x82\x8a\xe3\x81\x8c',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0D7F3CAD871C0D571C145F1C14371C0D188D8100309E50*04
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (4) [24/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xd7\xf3\xca\xd8q\xc0\xd5q\xc1E\xf1\xc1Cq\xc0\xd1\x88\xd8\x10'
+            b'\x03\t\xe5\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0D7F3CAD871C0D571C145F1C14371C0D188D8100309E50*04',
+ 'page_number': 4,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xd7\xf3\xca\xd8q\xc0\xd5q\xc1E\xf1\xc1Cq\xc0\xd1\x88\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0D7F3CAD871C0D571C145F1C14371C0D188D8100309E50*04',
+ 'text_information': b'\xe3\x81\xaf\xe7\x95\xb0\xe3\x81\xaa\xe3\x82\x8b\xe3\x82\x86\xe3\x81\xa3',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAFA4E0318002F2D141F3CAC671C0D3F4C04D72DC5C71C0D406D81091549CC*7E
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (3) [25/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4\xe01\x80\x02\xf2\xd1A\xf3\xca\xc6q\xc0\xd3\xf4\xc0Mr\xdc\\q\xc0\xd4\x06\xd8\x10\x91T\x9c\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFA4E0318002F2D141F3CAC671C0D3F4C04D72DC5C71C0D406D81091549CC*7E',
+ 'page_number': 3,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf2\xd1A\xf3\xca\xc6q\xc0\xd3\xf4\xc0Mr\xdc\\q\xc0\xd4\x06\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFA4E0318002F2D141F3CAC671C0D3F4C04D72DC5C71C0D406D81091549CC*7E',
+ 'text_information': b'\xe5\xa2\x83\xe7\x95\x8c\xe3\x81\xa7\xe9\x80\x9a\xe5\xb8\xb8\xe3\x81\xa8',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,53AFA4E0318002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D811112A668*7B
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+受信中 (2) [26/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4\xe01\x80\x02\xf1\xc0\xc2q\xc0\xd7q\xc1\xcb\xf1\xc1\xd6q\xc1\xdeq\xc1\xc4\x04\xd8\x11\x11*f\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFA4E0318002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D811112A668*7B',
+ 'page_number': 2,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xc2q\xc0\xd7q\xc1\xcb\xf1\xc1\xd6q\xc1\xdeq\xc1\xc4\x04\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFA4E0318002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D811112A668*7B',
+ 'text_information': b'\xe3\x81\x84\xe3\x81\xae\xe3\x83\x97\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x88',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFA4E0318002F1C0C271C04100000000000000000000000036D81193B3A3C*0A
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 9月24日10時35分
+地震関連情報: 巨大地震注意
+南海トラフ沿いのプレート境界で通常とは異なるゆっくりすべりが発生していることが推定されます。この通常とは異なるゆっくりすべりの発生により、南海トラフ地震の想定震源域では、大規模地震の発生可能性が平常時に比べて相対的に高まっていると考えられます。今後の政府や自治体などからの呼びかけ等に応じた防災対応をとってください。
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4\xe01\x80\x02\xf1\xc0\xc2q\xc0A\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x006\xd8\x11'
+            b'\x93\xb3\xa3\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFA4E0318002F1C0C271C04100000000000000000000000036D81193B3A3C*0A',
+ 'page_number': 27,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4\xe01\x80\x02\xf1\xc0\xc2q\xc0A\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x006\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFA4E0318002F1C0C271C04100000000000000000000000036D81193B3A3C*0A',
+ 'text_information': b'\xe3\x81\x84\xe3\x80\x82\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,57,C6AFACE03180019C00002063396018CE620633BBC18CEF8000000012401910C*7B
+Tsunami
+防災気象情報(津波)(発表)(訓練/試験)
+*** これは訓練です ***
+警報解除を発表しました。
+今後もしばらく海面変動が続くと思われます。
+
+発表時刻: 9月24日10時35分
+
+津波到達予想時刻: 24日10時35分
+津波の高さ: 3m
+愛媛県宇和海沿岸
+
+津波到達予想時刻: 24日10時35分
+津波の高さ: 3m
+高知県
+
+津波到達予想時刻: 24日10時35分
+津波の高さ: 3m
+大分県豊後水道沿岸
+
+津波到達予想時刻: 24日10時35分
+津波の高さ: 3m
+宮崎県
+{'disaster_category': '津波',
+ 'disaster_category_en': 'Tsunami',
+ 'disaster_category_no': 5,
+ 'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_times': [datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc)],
+ 'expected_tsunami_arrival_times_raw': [{'day': 0, 'hour': 1, 'minute': 35},
+                                        {'day': 0, 'hour': 1, 'minute': 35},
+                                        {'day': 0, 'hour': 1, 'minute': 35},
+                                        {'day': 0, 'hour': 1, 'minute': 35}],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xac\xe01\x80\x01\x9c\x00\x00 c9`\x18\xceb\x063\xbb\xc1\x8c\xef\x80\x00\x00\x00\x12@\x19\x10\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFACE03180019C00002063396018CE620633BBC18CEF8000000012401910C*7B',
+ 'notifications_on_disaster_prevention': ['今後もしばらく海面変動が続くと思われます。'],
+ 'notifications_on_disaster_prevention_raw': [103],
+ 'preamble': 'C',
+ 'raw': b'\xaf\xac\xe01\x80\x01\x9c\x00\x00 c9`\x18\xceb\x063\xbb\xc1\x8c\xef\x80\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFACE03180019C00002063396018CE620633BBC18CEF8000000012401910C*7B',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'tsunami_forecast_regions': ['愛媛県宇和海沿岸', '高知県', '大分県豊後水道沿岸', '宮崎県'],
+ 'tsunami_forecast_regions_raw': [600, 610, 751, 760],
+ 'tsunami_heights': ['3m', '3m', '3m', '3m'],
+ 'tsunami_heights_raw': [3, 3, 3, 3],
+ 'tsunami_warning_code': '警報解除',
+ 'tsunami_warning_code_raw': 2,
+ 'version': 1}
+
+>>> $QZQSM,57,9AAD54E0358001B02EE0B03E80000000000000000000000000000011DF35B30*79
+Weather
+防災気象情報(気象)(発表)(優先)
+気象に関連する情報をお知らせします。
+
+発表時刻: 9月24日10時43分
+
+警報等情報要素: 竜巻注意情報(発表)
+上川・留萌地方
+
+警報等情報要素: 竜巻注意情報(発表)
+石狩・空知・後志地方
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xadT\xe05\x80\x01\xb0.\xe0\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'\xdf5\xb3\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAD54E0358001B02EE0B03E80000000000000000000000000000011DF35B30*79',
+ 'preamble': 'B',
+ 'raw': b'\xadT\xe05\x80\x01\xb0.\xe0\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '優先',
+ 'report_classification_en': 'Priority',
+ 'report_classification_no': 2,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 43, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAD54E0358001B02EE0B03E80000000000000000000000000000011DF35B30*79',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['上川・留萌地方', '石狩・空知・後志地方'],
+ 'weather_forecast_regions_raw': [12000, 16000],
+ 'weather_related_disaster_sub_categories': ['竜巻注意情報', '竜巻注意情報'],
+ 'weather_related_disaster_sub_categories_raw': [22, 22],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,57,C6AD54E0358001B03E8000000000000000000000000000000000001381BFCD8*71
+Weather
+防災気象情報(気象)(発表)(優先)
+気象に関連する情報をお知らせします。
+
+発表時刻: 9月24日10時43分
+
+警報等情報要素: 竜巻注意情報(発表)
+石狩・空知・後志地方
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xadT\xe05\x80\x01\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x13'
+            b'\x81\xbf\xcd\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AD54E0358001B03E8000000000000000000000000000000000001381BFCD8*71',
+ 'preamble': 'C',
+ 'raw': b'\xadT\xe05\x80\x01\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '優先',
+ 'report_classification_en': 'Priority',
+ 'report_classification_no': 2,
+ 'report_time': datetime.datetime(2026, 9, 24, 1, 43, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AD54E0358001B03E8000000000000000000000000000000000001381BFCD8*71',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['石狩・空知・後志地方'],
+ 'weather_forecast_regions_raw': [16000],
+ 'weather_related_disaster_sub_categories': ['竜巻注意情報'],
+ 'weather_related_disaster_sub_categories_raw': [22],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,57,C6AFC4E0450006045341F783E0F10910421230200000000000000012936873C*02
+Volcano
+防災気象情報(火山)(発表)(訓練/試験)
+*** これは訓練です ***
+火山に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時10分
+
+火山名: 阿蘇山
+日時: 9月24日11時10分
+現象: 噴火
+
+熊本県阿蘇市、熊本県高森町、熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 9, 24, 2, 10, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 10},
+ 'ambiguity_of_activity_time_no': 0,
+ 'disaster_category': '火山',
+ 'disaster_category_en': 'Volcano',
+ 'disaster_category_no': 8,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4321400, 4342800, 4343300],
+ 'message': b'\xc6\xaf\xc4\xe0E\x00\x06\x04SA\xf7\x83\xe0\xf1\t\x10B\x120 \x00\x00\x00\x00\x00\x00\x00\x12\x93hs\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFC4E0450006045341F783E0F10910421230200000000000000012936873C*02',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xc4\xe0E\x00\x06\x04SA\xf7\x83\xe0\xf1\t\x10B\x120 \x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 10, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFC4E0450006045341F783E0F10910421230200000000000000012936873C*02',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcanic_warning_code': '噴火',
+ 'volcanic_warning_code_raw': 52,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,57,9AAFCCE045000604523EE4C1F07826122081309181000000000000131021620*7E
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時10分
+
+速報
+火山名: 阿蘇山
+日時: 24日11時10分
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 9, 24, 2, 10, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 10},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1],
+ 'ash_fall_warning_type': '速報',
+ 'ash_fall_warning_type_raw': 1,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['1時間', '1時間', '1時間'],
+ 'expected_ash_fall_times_raw': [1, 1, 1],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4321400, 4342800, 4343300],
+ 'message': b'\x9a\xaf\xcc\xe0E\x00\x06\x04R>\xe4\xc1\xf0x&\x12 \x810\x91\x81\x00\x00\x00\x00\x00\x00\x13\x10!b\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFCCE045000604523EE4C1F07826122081309181000000000000131021620*7E',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xcc\xe0E\x00\x06\x04R>\xe4\xc1\xf0x&\x12 \x810\x91\x81\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 10, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFCCE045000604523EE4C1F07826122081309181000000000000131021620*7E',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,57,C6AFCCE04A000604A43EE541F0782A1220813091811183E0F00000100A5F5E4*0F
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 24日11時20分
+
+基点時刻からの時間: 1時間
+現象: やや多量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 1時間
+現象: やや多量の降灰
+熊本県高森町
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 2時間
+現象: 少量の降灰
+熊本県阿蘇市
+{'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['やや多量の降灰', 'やや多量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [2, 2, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['1時間', '1時間', '1時間', '2時間'],
+ 'expected_ash_fall_times_raw': [1, 1, 1, 2],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村', '熊本県阿蘇市'],
+ 'local_governments_raw': [4321400, 4342800, 4343300, 4321400],
+ 'message': b'\xc6\xaf\xcc\xe0J\x00\x06\x04\xa4>\xe5A\xf0x*\x12 \x810\x91\x81\x11\x83\xe0\xf0\x00\x00\x10\n_^@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFCCE04A000604A43EE541F0782A1220813091811183E0F00000100A5F5E4*0F',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xcc\xe0J\x00\x06\x04\xa4>\xe5A\xf0x*\x12 \x810\x91\x81\x11\x83\xe0\xf0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFCCE04A000604A43EE541F0782A1220813091811183E0F00000100A5F5E4*0F',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,57,C6AFCCE04A000604A43EE8C2441046123023307C1E19848820000010C11DD68*72
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 24日11時20分
+
+基点時刻からの時間: 2時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 2時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 3時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 3時間
+現象: 少量の降灰
+熊本県高森町
+{'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['2時間', '2時間', '3時間', '3時間'],
+ 'expected_ash_fall_times_raw': [2, 2, 3, 3],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県高森町', '熊本県南阿蘇村', '熊本県阿蘇市', '熊本県高森町'],
+ 'local_governments_raw': [4342800, 4343300, 4321400, 4342800],
+ 'message': b'\xc6\xaf\xcc\xe0J\x00\x06\x04\xa4>\xe8\xc2D\x10F\x120#0|\x1e\x19\x84\x88 \x00\x00\x10\xc1\x1d\xd6\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFCCE04A000604A43EE8C2441046123023307C1E19848820000010C11DD68*72',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xcc\xe0J\x00\x06\x04\xa4>\xe8\xc2D\x10F\x120#0|\x1e\x19\x84\x88 \x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFCCE04A000604A43EE8C2441046123023307C1E19848820000010C11DD68*72',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,57,9AAFCCE04A000604A43EECC24604860F83C430910421848C080000116908F94*72
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 24日11時20分
+
+基点時刻からの時間: 3時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 4時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 4時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 4時間
+現象: 少量の降灰
+熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['3時間', '4時間', '4時間', '4時間'],
+ 'expected_ash_fall_times_raw': [3, 4, 4, 4],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県南阿蘇村', '熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4343300, 4321400, 4342800, 4343300],
+ 'message': b'\x9a\xaf\xcc\xe0J\x00\x06\x04\xa4>\xec\xc2F\x04\x86\x0f\x83\xc40\x91\x04!\x84\x8c\x08\x00\x00\x11'
+            b'i\x08\xf9@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFCCE04A000604A43EECC24604860F83C430910421848C080000116908F94*72',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xcc\xe0J\x00\x06\x04\xa4>\xec\xc2F\x04\x86\x0f\x83\xc40\x91\x04!\x84\x8c\x08\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFCCE04A000604A43EECC24604860F83C430910421848C080000116908F94*72',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,57,53AFCCE04A000604A43EF4C1F078A61220853091813183E0F0000011C50247C*78
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 24日11時20分
+
+基点時刻からの時間: 5時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 5時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 5時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 6時間
+現象: 少量の降灰
+熊本県阿蘇市
+{'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['5時間', '5時間', '5時間', '6時間'],
+ 'expected_ash_fall_times_raw': [5, 5, 5, 6],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村', '熊本県阿蘇市'],
+ 'local_governments_raw': [4321400, 4342800, 4343300, 4321400],
+ 'message': b'S\xaf\xcc\xe0J\x00\x06\x04\xa4>\xf4\xc1\xf0x\xa6\x12 \x850\x91\x811\x83\xe0\xf0\x00\x00\x11\xc5\x02G\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFCCE04A000604A43EF4C1F078A61220853091813183E0F0000011C50247C*78',
+ 'preamble': 'A',
+ 'raw': b'\xaf\xcc\xe0J\x00\x06\x04\xa4>\xf4\xc1\xf0x\xa6\x12 \x850\x91\x811\x83\xe0\xf0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFCCE04A000604A43EF4C1F078A61220853091813183E0F0000011C50247C*78',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,57,C6AFCCE04A000604A43EF8C24410C6123020000000000000000000126BB86F0*01
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 24日11時20分
+
+基点時刻からの時間: 6時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 6時間
+現象: 少量の降灰
+熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['6時間', '6時間'],
+ 'expected_ash_fall_times_raw': [6, 6],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4342800, 4343300],
+ 'message': b'\xc6\xaf\xcc\xe0J\x00\x06\x04\xa4>\xf8\xc2D\x10\xc6\x120 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x12'
+            b'k\xb8o\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFCCE04A000604A43EF8C24410C6123020000000000000000000126BB86F0*01',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xcc\xe0J\x00\x06\x04\xa4>\xf8\xc2D\x10\xc6\x120 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFCCE04A000604A43EF8C24410C6123020000000000000000000126BB86F0*01',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,57,C6AFD4E0518001113880115F901186A011ADB011D4C011FBD0000010720359C*76
+Weather
+防災気象情報(気象)(発表)(訓練/試験)
+*** これは訓練です ***
+気象に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時35分
+
+警報等情報要素: 大雨特別警報(発表)
+茨城県
+
+警報等情報要素: 大雨特別警報(発表)
+栃木県
+
+警報等情報要素: 大雨特別警報(発表)
+群馬県
+
+警報等情報要素: 大雨特別警報(発表)
+埼玉県
+
+警報等情報要素: 大雨特別警報(発表)
+千葉県
+
+警報等情報要素: 大雨特別警報(発表)
+東京都
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xd4\xe0Q\x80\x01\x118\x80\x11_\x90\x11\x86\xa0\x11\xad\xb0\x11\xd4\xc0\x11\xfb\xd0\x00\x00\x10'
+            b'r\x03Y\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFD4E0518001113880115F901186A011ADB011D4C011FBD0000010720359C*76',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xd4\xe0Q\x80\x01\x118\x80\x11_\x90\x11\x86\xa0\x11\xad\xb0\x11\xd4\xc0\x11\xfb\xd0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFD4E0518001113880115F901186A011ADB011D4C011FBD0000010720359C*76',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都'],
+ 'weather_forecast_regions_raw': [80000, 90000, 100000, 110000, 120000, 130000],
+ 'weather_related_disaster_sub_categories': ['大雨特別警報', '大雨特別警報', '大雨特別警報', '大雨特別警報', '大雨特別警報', '大雨特別警報'],
+ 'weather_related_disaster_sub_categories_raw': [2, 2, 2, 2, 2, 2],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,57,9AAFD4E05180011222E0B93880B95F90B986A0B9ADB0B9D4C0000010FEDFD04*0E
+Weather
+防災気象情報(気象)(発表)(訓練/試験)
+*** これは訓練です ***
+気象に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時35分
+
+警報等情報要素: 大雨特別警報(発表)
+神奈川県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+茨城県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+栃木県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+群馬県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+埼玉県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+千葉県
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xd4\xe0Q\x80\x01\x12"\xe0\xb98\x80\xb9_\x90\xb9\x86\xa0\xb9\xad\xb0\xb9\xd4\xc0\x00\x00\x10'
+            b'\xfe\xdf\xd0@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAFD4E05180011222E0B93880B95F90B986A0B9ADB0B9D4C0000010FEDFD04*0E',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xd4\xe0Q\x80\x01\x12"\xe0\xb98\x80\xb9_\x90\xb9\x86\xa0\xb9\xad\xb0\xb9\xd4\xc0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAFD4E05180011222E0B93880B95F90B986A0B9ADB0B9D4C0000010FEDFD04*0E',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['神奈川県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県'],
+ 'weather_forecast_regions_raw': [140000, 80000, 90000, 100000, 110000, 120000],
+ 'weather_related_disaster_sub_categories': ['大雨特別警報', '土砂災害警戒情報', '土砂災害警戒情報', '土砂災害警戒情報', '土砂災害警戒情報', '土砂災害警戒情報'],
+ 'weather_related_disaster_sub_categories_raw': [2, 23, 23, 23, 23, 23],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,57,53AFD4E0518001B9FBD0BA22E00000000000000000000000000000117E6E36C*75
+Weather
+防災気象情報(気象)(発表)(訓練/試験)
+*** これは訓練です ***
+気象に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時35分
+
+警報等情報要素: 土砂災害警戒情報(発表)
+東京都
+
+警報等情報要素: 土砂災害警戒情報(発表)
+神奈川県
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xd4\xe0Q\x80\x01\xb9\xfb\xd0\xba"\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'~n6\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53AFD4E0518001B9FBD0BA22E00000000000000000000000000000117E6E36C*75',
+ 'preamble': 'A',
+ 'raw': b'\xaf\xd4\xe0Q\x80\x01\xb9\xfb\xd0\xba"\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53AFD4E0518001B9FBD0BA22E00000000000000000000000000000117E6E36C*75',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['東京都', '神奈川県'],
+ 'weather_forecast_regions_raw': [130000, 140000],
+ 'weather_related_disaster_sub_categories': ['土砂災害警戒情報', '土砂災害警戒情報'],
+ 'weather_related_disaster_sub_categories_raw': [23, 23],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,57,C6AFDCE051800160A8F5528600000000000000000000000000000011E1CB7B8*76
+Flood
+防災気象情報(洪水)(発表)(訓練/試験)
+*** これは訓練です ***
+河川の氾濫に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時35分
+
+警報レベル: 氾濫警戒情報
+鬼怒川(栃木県・茨城県)
+{'disaster_category': '洪水',
+ 'disaster_category_en': 'Flood',
+ 'disaster_category_no': 11,
+ 'flood_forecast_regions': ['鬼怒川(栃木県・茨城県)'],
+ 'flood_forecast_regions_raw': [830303020300],
+ 'flood_warning_levels': ['氾濫警戒情報'],
+ 'flood_warning_levels_raw': [2],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xdc\xe0Q\x80\x01`\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'\xe1\xcb{\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFDCE051800160A8F5528600000000000000000000000000000011E1CB7B8*76',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xdc\xe0Q\x80\x01`\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFDCE051800160A8F5528600000000000000000000000000000011E1CB7B8*76',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,53ADF4E0518002C3F2588ACB118282035041AA08AD4118283ED000120CF3134*04
+Marine
+防災気象情報(海上)(発表)(通常)
+海上警報が発表されました。
+
+発表時刻: 9月24日11時35分
+
+警報等情報要素: 海上濃霧警報
+サハリン東方海上
+
+警報等情報要素: 海上濃霧警報
+北海道東方海上
+
+警報等情報要素: 海上濃霧警報
+釧路沖
+
+警報等情報要素: 海上風警報
+網走沖
+
+警報等情報要素: 海上風警報
+北海道西方海上
+
+警報等情報要素: 海上風警報
+北海道東方海上
+
+警報等情報要素: 海上風警報
+釧路沖
+
+警報等情報要素: 海上風警報
+三陸沖東部
+{'disaster_category': '海上',
+ 'disaster_category_en': 'Marine',
+ 'disaster_category_no': 14,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'marine_forecast_regions': ['サハリン東方海上', '北海道東方海上', '釧路沖', '網走沖', '北海道西方海上', '北海道東方海上', '釧路沖', '三陸沖東部'],
+ 'marine_forecast_regions_raw': [1010, 1110, 1120, 1030, 1050, 1110, 1120, 2010],
+ 'marine_warning_codes': ['海上濃霧警報', '海上濃霧警報', '海上濃霧警報', '海上風警報', '海上風警報', '海上風警報', '海上風警報', '海上風警報'],
+ 'marine_warning_codes_raw': [11, 11, 11, 20, 20, 20, 20, 20],
+ 'message': b'S\xad\xf4\xe0Q\x80\x02\xc3\xf2X\x8a\xcb\x11\x82\x82\x03PA\xaa\x08\xadA\x18(>\xd0\x00\x12\x0c\xf3\x13@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53ADF4E0518002C3F2588ACB118282035041AA08AD4118283ED000120CF3134*04',
+ 'preamble': 'A',
+ 'raw': b'\xad\xf4\xe0Q\x80\x02\xc3\xf2X\x8a\xcb\x11\x82\x82\x03PA\xaa\x08\xadA\x18(>\xd0\x00\x10',
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53ADF4E0518002C3F2588ACB118282035041AA08AD4118283ED000120CF3134*04',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,53ADF4E05180000C1C020080000000000000000000000000000000105DEE4F4*73
+Marine
+防災気象情報(海上)(発表)(通常)
+海上警報が発表されました。
+
+発表時刻: 9月24日11時35分
+
+警報等情報要素: 海上警報解除
+日本海中部
+
+警報等情報要素: 海上警報解除
+日本海西部
+{'disaster_category': '海上',
+ 'disaster_category_en': 'Marine',
+ 'disaster_category_no': 14,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'marine_forecast_regions': ['日本海中部', '日本海西部'],
+ 'marine_forecast_regions_raw': [3100, 4100],
+ 'marine_warning_codes': ['海上警報解除', '海上警報解除'],
+ 'marine_warning_codes_raw': [0, 0],
+ 'message': b'S\xad\xf4\xe0Q\x80\x00\x0c\x1c\x02\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            b'\x00\x00\x00\x10]\xeeO@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53ADF4E05180000C1C020080000000000000000000000000000000105DEE4F4*73',
+ 'preamble': 'A',
+ 'raw': b'\xad\xf4\xe0Q\x80\x00\x0c\x1c\x02\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53ADF4E05180000C1C020080000000000000000000000000000000105DEE4F4*73',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,53ADF4E051800507E4A2F1C000000000000000000000000000000012BF63598*7C
+Marine
+防災気象情報(海上)(発表)(通常)
+海上警報が発表されました。
+
+発表時刻: 9月24日11時35分
+
+警報等情報要素: 海上風警報
+三陸沖西部
+
+警報等情報要素: 海上風警報
+沖縄南方海上
+{'disaster_category': '海上',
+ 'disaster_category_en': 'Marine',
+ 'disaster_category_no': 14,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'marine_forecast_regions': ['三陸沖西部', '沖縄南方海上'],
+ 'marine_forecast_regions_raw': [2020, 6030],
+ 'marine_warning_codes': ['海上風警報', '海上風警報'],
+ 'marine_warning_codes_raw': [20, 20],
+ 'message': b'S\xad\xf4\xe0Q\x80\x05\x07\xe4\xa2\xf1\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            b'\x00\x00\x00\x12\xbfcY\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,53ADF4E051800507E4A2F1C000000000000000000000000000000012BF63598*7C',
+ 'preamble': 'A',
+ 'raw': b'\xad\xf4\xe0Q\x80\x05\x07\xe4\xa2\xf1\xc0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,53ADF4E051800507E4A2F1C000000000000000000000000000000012BF63598*7C',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,57,9AAD54E0570001B03E8000000000000000000000000000000000001042243BC*73
+Weather
+防災気象情報(気象)(発表)(優先)
+気象に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時46分
+
+警報等情報要素: 竜巻注意情報(発表)
+石狩・空知・後志地方
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xadT\xe0W\x00\x01\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10'
+            b'B$;\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,9AAD54E0570001B03E8000000000000000000000000000000000001042243BC*73',
+ 'preamble': 'B',
+ 'raw': b'\xadT\xe0W\x00\x01\xb0>\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '優先',
+ 'report_classification_en': 'Priority',
+ 'report_classification_no': 2,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 46, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,9AAD54E0570001B03E8000000000000000000000000000000000001042243BC*73',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['石狩・空知・後志地方'],
+ 'weather_forecast_regions_raw': [16000],
+ 'weather_related_disaster_sub_categories': ['竜巻注意情報'],
+ 'weather_related_disaster_sub_categories_raw': [22],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,57,C6AFDCE0590000E0A8F55286000000000000000000000000000000108A30B38*0E
+Flood
+防災気象情報(洪水)(発表)(訓練/試験)
+*** これは訓練です ***
+河川の氾濫に関連する情報をお知らせします。
+
+発表時刻: 9月24日11時50分
+
+警報レベル: 警報解除
+鬼怒川(栃木県・茨城県)
+{'disaster_category': '洪水',
+ 'disaster_category_en': 'Flood',
+ 'disaster_category_no': 11,
+ 'flood_forecast_regions': ['鬼怒川(栃木県・茨城県)'],
+ 'flood_forecast_regions_raw': [830303020300],
+ 'flood_warning_levels': ['警報解除'],
+ 'flood_warning_levels_raw': [1],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xdc\xe0Y\x00\x00\xe0\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            b'\x00\x00\x00\x10\x8a0\xb3\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,57,C6AFDCE0590000E0A8F55286000000000000000000000000000000108A30B38*0E',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xdc\xe0Y\x00\x00\xe0\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 9, 24, 2, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6AFDCE0590000E0A8F55286000000000000000000000000000000108A30B38*0E',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,61,53B0C0CDE1A4119A200000000000000000000C0A4000000000000010941DBCC*05
+LAlert
+### DCX Message - L-Alert ###
+A1 - Message type: All Clear
+A2 - Country/region name: Japan
+A3 - Provider identifier: Foundation for MultiMedia Communications
+A4 - Hazard category and type: MET - Tropical cyclone (typhoon)
+A4 - Hazard definition: A tropical cyclone originates over tropical or subtropical waters. It is characterised by a warm-core, non-frontal synoptic-scale cyclone with a low-pressure centre, spiral rain bands and strong winds. Depending on their location, tropical cyclones are referred to as hurricanes (Atlantic, Northeast Pacific), typhoons (Northwest Pacific), or cyclones (South Pacific and Indian Ocean). With a minimum wind speed of 119 km/h (or 74 miles/h) a tropical storm in the Atlantic or Northeast Pacific is called a hurricane.
+A5 - Severity: Unknown
+A6A7 - Hazard onset: 2026-09-24T03:05:00Z
+A8 - Hazard duration: Unknown
+EX1 - Target area: Sakae-machi, Chiba
+EX1 - Target area (ja): 千葉県栄町
+{'a10_library_version': '#1',
+ 'a11_japanese_library': '',
+ 'a11_japanese_library_ja': '',
+ 'a1_message_type': 'All Clear',
+ 'a2_country_region_name': 'Japan',
+ 'a3_provider_identifier': 'Foundation for MultiMedia Communications',
+ 'a4_hazard_category': 'MET',
+ 'a4_hazard_definition': 'A tropical cyclone originates over tropical or subtropical waters. It is characterised by a '
+                         'warm-core, non-frontal synoptic-scale cyclone with a low-pressure centre, spiral rain bands '
+                         'and strong winds. Depending on their location, tropical cyclones are referred to as '
+                         'hurricanes (Atlantic, Northeast Pacific), typhoons (Northwest Pacific), or cyclones (South '
+                         'Pacific and Indian Ocean). With a minimum wind speed of 119 km/h (or 74 miles/h) a tropical '
+                         'storm in the Atlantic or Northeast Pacific is called a hurricane.',
+ 'a4_hazard_type': 'Tropical cyclone (typhoon)',
+ 'a5_severity': 'Unknown',
+ 'a6_hazard_onset_week': 'Current',
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2026, 9, 24, 3, 5, tzinfo=datetime.timezone.utc),
+ 'a7_hazard_onset_time_of_week': 'THURSDAY - 03:05 AM',
+ 'a8_hazard_duration': 'Unknown',
+ 'a9_type_of_library': 'Country/region library',
+ 'camf': {'a1': 3,
+          'a10': 0,
+          'a11': 0,
+          'a12': 0,
+          'a13': 0,
+          'a14': 0,
+          'a15': 0,
+          'a16': 0,
+          'a17': 0,
+          'a18': 0,
+          'a2': 111,
+          'a3': 1,
+          'a4': 82,
+          'a5': 0,
+          'a6': 0,
+          'a7': 4506,
+          'a8': 0,
+          'a9': 1,
+          'ex1': 12329,
+          'ex10': 0,
+          'ex2': 0,
+          'ex3': 0,
+          'ex4': 0,
+          'ex5': 0,
+          'ex6': 0,
+          'ex7': 0,
+          'ex8': 0,
+          'ex9': 6940609975731355648,
+          'sdm': 192,
+          'sdmt': 0,
+          'vn': 1},
+ 'dcx_message_type': 'L-Alert',
+ 'dcx_version': 1,
+ 'ex1_target_area': 'Sakae-machi, Chiba',
+ 'ex1_target_area_ja': '千葉県栄町',
+ 'ignore_a12_to_a16': True,
+ 'ignore_a17_to_a18': False,
+ 'ignore_ex1': False,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'message': b'S\xb0\xc0\xcd\xe1\xa4\x11\x9a \x00\x00\x00\x00\x00\x00\x00\x00\x00\x0c\n@\x00\x00\x00\x00\x00\x00\x10'
+            b'\x94\x1d\xbc\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCX',
+ 'nmea': '$QZQSM,61,53B0C0CDE1A4119A200000000000000000000C0A4000000000000010941DBCC*05',
+ 'preamble': 'A',
+ 'raw': b'\xcd\xe1\xa4\x11\x9a \x00\x00\x00\x00\x00\x00\x00\x00\x00\x0c\n@\x00\x00\x00\x00\x00\x00\x10',
+ 'satellite_designation_mask': ['For Japan',
+                                'For use outside Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,53B0C0CDE1A4119A200000000000000000000C0A4000000000000010941DBCC*05',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc)}
+
+>>> $QZQSM,61,53ADE4E076800606010000680049E010AF00FA0A1E00000000000012955C5F4*00
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日12時45分
+
+台風番号: 26号
+基点時刻: 24日12時0分
+基点時刻分類: 実況
+情報の基点時刻(実況)からの経過時間: 0時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯18度30分0秒 東経133度30分0秒
+中心気圧: 1000hPa
+最大風速: 20m/s
+最大瞬間風速: 30m/s
+{'central_pressure': '1000hPa',
+ 'central_pressure_raw': 1000,
+ 'coordinates_of_typhoon': '北緯18度30分0秒 東経133度30分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 18,
+                                'lat_m': 30,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 133,
+                                'lon_ew': 0,
+                                'lon_m': 30,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '0時間後',
+ 'elapsed_time_from_reference_time_raw': 0,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '30m/s',
+ 'maximum_gust_wind_speed_raw': 30,
+ 'maximum_wind_speed': '20m/s',
+ 'maximum_wind_speed_raw': 20,
+ 'message': b'S\xad\xe4\xe0v\x80\x06\x06\x01\x00\x00h\x00I\xe0\x10\xaf\x00\xfa\n\x1e\x00\x00\x00\x00\x00\x00\x12'
+            b'\x95\\_@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,61,53ADE4E076800606010000680049E010AF00FA0A1E00000000000012955C5F4*00',
+ 'preamble': 'A',
+ 'raw': b'\xad\xe4\xe0v\x80\x06\x06\x01\x00\x00h\x00I\xe0\x10\xaf\x00\xfa\n\x1e\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 24, 3, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 24, 'hour': 3, 'minute': 0},
+ 'reference_time_type': '実況',
+ 'reference_time_type_raw': 1,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 3, 45, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,53ADE4E076800606010000680049E010AF00FA0A1E00000000000012955C5F4*00',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,61,C6ADE4E07680061E03001868004C00106F00F98BA300000000000013C5D53F8*71
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日12時45分
+
+台風番号: 26号
+基点時刻: 25日0時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 12時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯19度0分0秒 東経131度30分0秒
+中心気圧: 998hPa
+最大風速: 23m/s
+最大瞬間風速: 35m/s
+{'central_pressure': '998hPa',
+ 'central_pressure_raw': 998,
+ 'coordinates_of_typhoon': '北緯19度0分0秒 東経131度30分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 19,
+                                'lat_m': 0,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 131,
+                                'lon_ew': 0,
+                                'lon_m': 30,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '12時間後',
+ 'elapsed_time_from_reference_time_raw': 12,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '35m/s',
+ 'maximum_gust_wind_speed_raw': 35,
+ 'maximum_wind_speed': '23m/s',
+ 'maximum_wind_speed_raw': 23,
+ 'message': b'\xc6\xad\xe4\xe0v\x80\x06\x1e\x03\x00\x18h\x00L\x00\x10o\x00\xf9\x8b\xa3\x00\x00\x00\x00\x00\x00\x13'
+            b'\xc5\xd5?\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,61,C6ADE4E07680061E03001868004C00106F00F98BA300000000000013C5D53F8*71',
+ 'preamble': 'C',
+ 'raw': b'\xad\xe4\xe0v\x80\x06\x1e\x03\x00\x18h\x00L\x00\x10o\x00\xf9\x8b\xa3\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 24, 15, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 24, 'hour': 15, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 3, 45, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,C6ADE4E07680061E03001868004C00106F00F98BA300000000000013C5D53F8*71',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,61,9AADE4E07680064603003068004F20102F00F88BA30000000000001110A088C*79
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日12時45分
+
+台風番号: 26号
+基点時刻: 25日12時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 24時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯19度50分0秒 東経129度30分0秒
+中心気圧: 994hPa
+最大風速: 23m/s
+最大瞬間風速: 35m/s
+{'central_pressure': '994hPa',
+ 'central_pressure_raw': 994,
+ 'coordinates_of_typhoon': '北緯19度50分0秒 東経129度30分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 19,
+                                'lat_m': 50,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 129,
+                                'lon_ew': 0,
+                                'lon_m': 30,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '24時間後',
+ 'elapsed_time_from_reference_time_raw': 24,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '35m/s',
+ 'maximum_gust_wind_speed_raw': 35,
+ 'maximum_wind_speed': '23m/s',
+ 'maximum_wind_speed_raw': 23,
+ 'message': b'\x9a\xad\xe4\xe0v\x80\x06F\x03\x000h\x00O \x10/\x00\xf8\x8b\xa3\x00\x00\x00\x00\x00\x00\x11'
+            b'\x10\xa0\x88\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,61,9AADE4E07680064603003068004F20102F00F88BA30000000000001110A088C*79',
+ 'preamble': 'B',
+ 'raw': b'\xad\xe4\xe0v\x80\x06F\x03\x000h\x00O \x10/\x00\xf8\x8b\xa3\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 25, 3, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 25, 'hour': 3, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 3, 45, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,9AADE4E07680064603003068004F20102F00F88BA30000000000001110A088C*79',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,61,53ADE4E07680068003005A680054500FE500F64F280000000000001272F398C*01
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日12時45分
+
+台風番号: 26号
+基点時刻: 26日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 45時間後
+大きさ: なし
+強さ: なし
+緯度・経度: 北緯21度5分0秒 東経127度10分0秒
+中心気圧: 985hPa
+最大風速: 30m/s
+最大瞬間風速: 40m/s
+{'central_pressure': '985hPa',
+ 'central_pressure_raw': 985,
+ 'coordinates_of_typhoon': '北緯21度5分0秒 東経127度10分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 21,
+                                'lat_m': 5,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 127,
+                                'lon_ew': 0,
+                                'lon_m': 10,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '45時間後',
+ 'elapsed_time_from_reference_time_raw': 45,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '40m/s',
+ 'maximum_gust_wind_speed_raw': 40,
+ 'maximum_wind_speed': '30m/s',
+ 'maximum_wind_speed_raw': 30,
+ 'message': b'S\xad\xe4\xe0v\x80\x06\x80\x03\x00Zh\x00TP\x0f\xe5\x00\xf6O(\x00\x00\x00\x00\x00\x00\x12r\xf3\x98\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,61,53ADE4E07680068003005A680054500FE500F64F280000000000001272F398C*01',
+ 'preamble': 'A',
+ 'raw': b'\xad\xe4\xe0v\x80\x06\x80\x03\x00Zh\x00TP\x0f\xe5\x00\xf6O(\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 26, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 26, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 3, 45, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,53ADE4E07680068003005A680054500FE500F64F280000000000001272F398C*01',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': 'なし',
+ 'typhoon_intensity_category_raw': 0,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,61,C6ADE4E0768006C003008A68045B200FD180F3D1B200000000000013A1A0674*03
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日12時45分
+
+台風番号: 26号
+基点時刻: 27日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 69時間後
+大きさ: なし
+強さ: 強い
+緯度・経度: 北緯22度50分0秒 東経126度35分0秒
+中心気圧: 975hPa
+最大風速: 35m/s
+最大瞬間風速: 50m/s
+{'central_pressure': '975hPa',
+ 'central_pressure_raw': 975,
+ 'coordinates_of_typhoon': '北緯22度50分0秒 東経126度35分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 22,
+                                'lat_m': 50,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 126,
+                                'lon_ew': 0,
+                                'lon_m': 35,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '69時間後',
+ 'elapsed_time_from_reference_time_raw': 69,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '50m/s',
+ 'maximum_gust_wind_speed_raw': 50,
+ 'maximum_wind_speed': '35m/s',
+ 'maximum_wind_speed_raw': 35,
+ 'message': b'\xc6\xad\xe4\xe0v\x80\x06\xc0\x03\x00\x8ah\x04[ \x0f\xd1\x80\xf3\xd1\xb2\x00\x00\x00\x00\x00\x00\x13'
+            b'\xa1\xa0g@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,61,C6ADE4E0768006C003008A68045B200FD180F3D1B200000000000013A1A0674*03',
+ 'preamble': 'C',
+ 'raw': b'\xad\xe4\xe0v\x80\x06\xc0\x03\x00\x8ah\x04[ \x0f\xd1\x80\xf3\xd1\xb2\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 27, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 27, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 3, 45, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,C6ADE4E0768006C003008A68045B200FD180F3D1B200000000000013A1A0674*03',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': '強い',
+ 'typhoon_intensity_category_raw': 1,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,61,9AADE4E0768007000300BA680461E00FEA00F1543700000000000010E9709BC*0E
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日12時45分
+
+台風番号: 26号
+基点時刻: 28日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 93時間後
+大きさ: なし
+強さ: 強い
+緯度・経度: 北緯24度30分0秒 東経127度20分0秒
+中心気圧: 965hPa
+最大風速: 40m/s
+最大瞬間風速: 55m/s
+{'central_pressure': '965hPa',
+ 'central_pressure_raw': 965,
+ 'coordinates_of_typhoon': '北緯24度30分0秒 東経127度20分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 24,
+                                'lat_m': 30,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 127,
+                                'lon_ew': 0,
+                                'lon_m': 20,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '93時間後',
+ 'elapsed_time_from_reference_time_raw': 93,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '55m/s',
+ 'maximum_gust_wind_speed_raw': 55,
+ 'maximum_wind_speed': '40m/s',
+ 'maximum_wind_speed_raw': 40,
+ 'message': b'\x9a\xad\xe4\xe0v\x80\x07\x00\x03\x00\xbah\x04a\xe0\x0f\xea\x00\xf1T7\x00\x00\x00\x00\x00\x00\x10'
+            b'\xe9p\x9b\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,61,9AADE4E0768007000300BA680461E00FEA00F1543700000000000010E9709BC*0E',
+ 'preamble': 'B',
+ 'raw': b'\xad\xe4\xe0v\x80\x07\x00\x03\x00\xbah\x04a\xe0\x0f\xea\x00\xf1T7\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 28, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 28, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 3, 45, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,9AADE4E0768007000300BA680461E00FEA00F1543700000000000010E9709BC*0E',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': '強い',
+ 'typhoon_intensity_category_raw': 1,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,61,53ADE4E0768007400300EA680467200FFB80F15437000000000000121E6DBCC*0F
+Typhoon
+防災気象情報(台風)(発表)(通常)
+台風解析・予報情報が発表されました。
+
+発表時刻: 9月24日12時45分
+
+台風番号: 26号
+基点時刻: 29日9時0分
+基点時刻分類: 予報
+情報の基点時刻(実況)からの経過時間: 117時間後
+大きさ: なし
+強さ: 強い
+緯度・経度: 北緯25度50分0秒 東経127度55分0秒
+中心気圧: 965hPa
+最大風速: 40m/s
+最大瞬間風速: 55m/s
+{'central_pressure': '965hPa',
+ 'central_pressure_raw': 965,
+ 'coordinates_of_typhoon': '北緯25度50分0秒 東経127度55分0秒',
+ 'coordinates_of_typhoon_raw': {'lat_d': 25,
+                                'lat_m': 50,
+                                'lat_ns': 0,
+                                'lat_s': 0,
+                                'lon_d': 127,
+                                'lon_ew': 0,
+                                'lon_m': 55,
+                                'lon_s': 0},
+ 'disaster_category': '台風',
+ 'disaster_category_en': 'Typhoon',
+ 'disaster_category_no': 12,
+ 'elapsed_time_from_reference_time': '117時間後',
+ 'elapsed_time_from_reference_time_raw': 117,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'maximum_gust_wind_speed': '55m/s',
+ 'maximum_gust_wind_speed_raw': 55,
+ 'maximum_wind_speed': '40m/s',
+ 'maximum_wind_speed_raw': 40,
+ 'message': b'S\xad\xe4\xe0v\x80\x07@\x03\x00\xeah\x04g \x0f\xfb\x80\xf1T7\x00\x00\x00\x00\x00\x00\x12\x1em\xbc\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,61,53ADE4E0768007400300EA680467200FFB80F15437000000000000121E6DBCC*0F',
+ 'preamble': 'A',
+ 'raw': b'\xad\xe4\xe0v\x80\x07@\x03\x00\xeah\x04g \x0f\xfb\x80\xf1T7\x00\x00\x00\x00\x00\x00\x10',
+ 'reference_time': datetime.datetime(2026, 9, 29, 0, 0, tzinfo=datetime.timezone.utc),
+ 'reference_time_raw': {'day': 29, 'hour': 0, 'minute': 0},
+ 'reference_time_type': '予報',
+ 'reference_time_type_raw': 3,
+ 'report_classification': '通常',
+ 'report_classification_en': 'Regular',
+ 'report_classification_no': 3,
+ 'report_time': datetime.datetime(2026, 9, 24, 3, 45, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 61,
+ 'satellite_prn': 189,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,61,53ADE4E0768007400300EA680467200FFB80F15437000000000000121E6DBCC*0F',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc),
+ 'typhoon_intensity_category': '強い',
+ 'typhoon_intensity_category_raw': 1,
+ 'typhoon_number': '26号',
+ 'typhoon_number_raw': 26,
+ 'typhoon_scale_category': 'なし',
+ 'typhoon_scale_category_raw': 0,
+ 'version': 1}
+
+>>> $QZQSM,56,C6B0C00CE05811E003A08745C41A5A88000000000000000000000002A0F268C*08
+OutsideJapan
+### DCX Message - Information from Organizations outside Japan ###
+*** This is a test message ***
+A1 - Message type: Test
+A2 - Country/region name: Indonesia
+A3 - Provider identifier: Undefined Provider Identifier (Code: 0)
+A4 - Hazard category and type: GEO - Tsunami
+A4 - Hazard definition: A series of waves (with long wavelengths when traveling across the deep ocean) that are generated by a displacement of massive amounts of water through underwater earthquakes, volcanic eruptions or landslides. Tsunami waves travel at very high speed across the ocean but as they begin to reach shallow water they slow down and the wave grows steeper.
+A5 - Severity: Unknown
+A6A7 - Hazard onset: 2026-09-24T04:15:00Z
+A8 - Hazard duration: Unknown
+A11 - Instruction code: IC-A-UNDEFINED (Code: 928)
+A11 - Instruction: Undefined instruction in the international library. (Code: 928)
+A12 - Ellipse centre latitude: 5.11284
+A13 - Ellipse centre longitude: 95.769926
+A14 - Ellipse semi - major axis: 165.324
+A15 - Ellipse semi - minor axis: 90.407
+A16 - Ellipse azimuth: -45.0
+A17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse
+C1 - Refined latitude of centre of main ellipse: 5.11284
+C2 - Refined longitude of centre of main ellipse: 95.769926
+C3 - Refined length of semi major axis: 165.324
+C4 - Refined length of semi minor axis: 90.407
+{'a10_library_version': '#1',
+ 'a11_international_library': 'Undefined instruction in the international library. (Code: 928)',
+ 'a11_international_library_code': 'IC-A-UNDEFINED (Code: 928)',
+ 'a12_ellipse_centre_latitude': 5.11284,
+ 'a13_ellipse_centre_longitude': 95.769926,
+ 'a14_ellipse_semi_major_axis': 165.324,
+ 'a15_ellipse_semi_minor_axis': 90.407,
+ 'a16_ellipse_azimuth': -45.0,
+ 'a17_type_of_specific_settings': 'B1 - Improved Resolution of Main Ellipse',
+ 'a1_message_type': 'Test',
+ 'a2_country_region_name': 'Indonesia',
+ 'a3_provider_identifier': 'Undefined Provider Identifier (Code: 0)',
+ 'a4_hazard_category': 'GEO',
+ 'a4_hazard_definition': 'A series of waves (with long wavelengths when traveling across the deep ocean) that are '
+                         'generated by a displacement of massive amounts of water through underwater earthquakes, '
+                         'volcanic eruptions or landslides. Tsunami waves travel at very high speed across the ocean '
+                         'but as they begin to reach shallow water they slow down and the wave grows steeper.',
+ 'a4_hazard_type': 'Tsunami',
+ 'a5_severity': 'Unknown',
+ 'a6_hazard_onset_week': 'Current',
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2026, 9, 24, 4, 15, tzinfo=datetime.timezone.utc),
+ 'a7_hazard_onset_time_of_week': 'THURSDAY - 04:15 AM',
+ 'a8_hazard_duration': 'Unknown',
+ 'a9_type_of_library': 'International library',
+ 'c1_refined_latitude_of_centre_of_main_ellipse': 5.11284,
+ 'c2_refined_longitude_of_centre_of_main_ellipse': 95.769926,
+ 'c3_refined_length_of_semi_major_axis': 165.324,
+ 'c4_refined_length_of_semi_minor_axis': 90.407,
+ 'camf': {'a1': 0,
+          'a10': 0,
+          'a11': 928,
+          'a12': 34629,
+          'a13': 100404,
+          'a14': 22,
+          'a15': 20,
+          'a16': 16,
+          'a17': 0,
+          'a18': 0,
+          'a2': 103,
+          'a3': 0,
+          'a4': 44,
+          'a5': 0,
+          'a6': 0,
+          'a7': 4576,
+          'a8': 0,
+          'a9': 0,
+          'c1': 0,
+          'c2': 0,
+          'c3': 0,
+          'c4': 0,
+          'ex1': 0,
+          'ex10': 0,
+          'ex2': 0,
+          'ex3': 0,
+          'ex4': 0,
+          'ex5': 0,
+          'ex6': 0,
+          'ex7': 0,
+          'ex8': 0,
+          'ex9': 0,
+          'sdm': 192,
+          'sdmt': 0,
+          'vn': 0},
+ 'dcx_message_type': 'Information from Organizations outside Japan',
+ 'dcx_version': 0,
+ 'ignore_a12_to_a16': False,
+ 'ignore_a17_to_a18': False,
+ 'ignore_ex1': True,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'message': b'\xc6\xb0\xc0\x0c\xe0X\x11\xe0\x03\xa0\x87E\xc4\x1aZ\x88\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02'
+            b'\xa0\xf2h\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCX',
+ 'nmea': '$QZQSM,56,C6B0C00CE05811E003A08745C41A5A88000000000000000000000002A0F268C*08',
+ 'preamble': 'C',
+ 'raw': b'\x0c\xe0X\x11\xe0\x03\xa0\x87E\xc4\x1aZ\x88\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
+ 'satellite_designation_mask': ['For Japan',
+                                'For use outside Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6B0C00CE05811E003A08745C41A5A88000000000000000000000002A0F268C*08',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc)}
+
+>>> $QZQSM,56,C6B0C00CE05811E503A08745C41A5A88000000000000000000000000162CCF8*0C
+OutsideJapan
+### DCX Message - Information from Organizations outside Japan ###
+*** This is a test message ***
+A1 - Message type: Test
+A2 - Country/region name: Indonesia
+A3 - Provider identifier: Undefined Provider Identifier (Code: 0)
+A4 - Hazard category and type: GEO - Tsunami
+A4 - Hazard definition: A series of waves (with long wavelengths when traveling across the deep ocean) that are generated by a displacement of massive amounts of water through underwater earthquakes, volcanic eruptions or landslides. Tsunami waves travel at very high speed across the ocean but as they begin to reach shallow water they slow down and the wave grows steeper.
+A5 - Severity: Unknown
+A6A7 - Hazard onset: 2026-09-24T04:20:00Z
+A8 - Hazard duration: Unknown
+A11 - Instruction code: IC-A-UNDEFINED (Code: 928)
+A11 - Instruction: Undefined instruction in the international library. (Code: 928)
+A12 - Ellipse centre latitude: 5.11284
+A13 - Ellipse centre longitude: 95.769926
+A14 - Ellipse semi - major axis: 165.324
+A15 - Ellipse semi - minor axis: 90.407
+A16 - Ellipse azimuth: -45.0
+A17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse
+C1 - Refined latitude of centre of main ellipse: 5.11284
+C2 - Refined longitude of centre of main ellipse: 95.769926
+C3 - Refined length of semi major axis: 165.324
+C4 - Refined length of semi minor axis: 90.407
+{'a10_library_version': '#1',
+ 'a11_international_library': 'Undefined instruction in the international library. (Code: 928)',
+ 'a11_international_library_code': 'IC-A-UNDEFINED (Code: 928)',
+ 'a12_ellipse_centre_latitude': 5.11284,
+ 'a13_ellipse_centre_longitude': 95.769926,
+ 'a14_ellipse_semi_major_axis': 165.324,
+ 'a15_ellipse_semi_minor_axis': 90.407,
+ 'a16_ellipse_azimuth': -45.0,
+ 'a17_type_of_specific_settings': 'B1 - Improved Resolution of Main Ellipse',
+ 'a1_message_type': 'Test',
+ 'a2_country_region_name': 'Indonesia',
+ 'a3_provider_identifier': 'Undefined Provider Identifier (Code: 0)',
+ 'a4_hazard_category': 'GEO',
+ 'a4_hazard_definition': 'A series of waves (with long wavelengths when traveling across the deep ocean) that are '
+                         'generated by a displacement of massive amounts of water through underwater earthquakes, '
+                         'volcanic eruptions or landslides. Tsunami waves travel at very high speed across the ocean '
+                         'but as they begin to reach shallow water they slow down and the wave grows steeper.',
+ 'a4_hazard_type': 'Tsunami',
+ 'a5_severity': 'Unknown',
+ 'a6_hazard_onset_week': 'Current',
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2026, 9, 24, 4, 20, tzinfo=datetime.timezone.utc),
+ 'a7_hazard_onset_time_of_week': 'THURSDAY - 04:20 AM',
+ 'a8_hazard_duration': 'Unknown',
+ 'a9_type_of_library': 'International library',
+ 'c1_refined_latitude_of_centre_of_main_ellipse': 5.11284,
+ 'c2_refined_longitude_of_centre_of_main_ellipse': 95.769926,
+ 'c3_refined_length_of_semi_major_axis': 165.324,
+ 'c4_refined_length_of_semi_minor_axis': 90.407,
+ 'camf': {'a1': 0,
+          'a10': 0,
+          'a11': 928,
+          'a12': 34629,
+          'a13': 100404,
+          'a14': 22,
+          'a15': 20,
+          'a16': 16,
+          'a17': 0,
+          'a18': 0,
+          'a2': 103,
+          'a3': 0,
+          'a4': 44,
+          'a5': 0,
+          'a6': 0,
+          'a7': 4581,
+          'a8': 0,
+          'a9': 0,
+          'c1': 0,
+          'c2': 0,
+          'c3': 0,
+          'c4': 0,
+          'ex1': 0,
+          'ex10': 0,
+          'ex2': 0,
+          'ex3': 0,
+          'ex4': 0,
+          'ex5': 0,
+          'ex6': 0,
+          'ex7': 0,
+          'ex8': 0,
+          'ex9': 0,
+          'sdm': 192,
+          'sdmt': 0,
+          'vn': 0},
+ 'dcx_message_type': 'Information from Organizations outside Japan',
+ 'dcx_version': 0,
+ 'ignore_a12_to_a16': False,
+ 'ignore_a17_to_a18': False,
+ 'ignore_ex1': True,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'message': b'\xc6\xb0\xc0\x0c\xe0X\x11\xe5\x03\xa0\x87E\xc4\x1aZ\x88\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            b'\x16,\xcf\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCX',
+ 'nmea': '$QZQSM,56,C6B0C00CE05811E503A08745C41A5A88000000000000000000000000162CCF8*0C',
+ 'preamble': 'C',
+ 'raw': b'\x0c\xe0X\x11\xe5\x03\xa0\x87E\xc4\x1aZ\x88\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
+ 'satellite_designation_mask': ['For Japan',
+                                'For use outside Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6B0C00CE05811E503A08745C41A5A88000000000000000000000000162CCF8*0C',
+ 'timestamp': datetime.datetime(2026, 9, 24, 5, 0, tzinfo=datetime.timezone.utc)}

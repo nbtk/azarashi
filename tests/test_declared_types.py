@@ -39,7 +39,7 @@ RECEIVED = datetime.datetime(2026, 3, 7, 6, 0, tzinfo=datetime.UTC)
 
 
 def _messages():
-    for log in ('qzqsm_220307.log', 'qzqsm_dcx_240604.log'):
+    for log in ('qzqsm_260821.log', 'qzqsm_dcx_260917.log', 'qzqsm_260924.log'):
         with open(os.path.join(TESTS, log), encoding='utf-8') as f:
             yield from (line.strip() for line in f if line.startswith('$QZQSM'))
     yield from (jma(1, EEW), jma(1, EEW + [(47, 3, 0), (50, 3, 0)]), jma(2, HYPOCENTER), jma(5, TSUNAMI),

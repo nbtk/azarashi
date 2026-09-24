@@ -5,15 +5,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,9AAF899C80000324000039000548C5E2C000000003DFF8001C000012FE4B0FC*7F",
-    "text": "防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月7日13時0分\n\n震央地名: 日向灘\n地震発生時刻: 7日13時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州",
+    "nmea": "$QZQSM,56,C6AF8C542000DB240000A8400548C5E2C000000003DFF8001C000010ADDB5D8*0D",
+    "text": "防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 8月21日10時0分\n\n震央地名: 日向灘\n地震発生時刻: 21日10時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n長周期地震動階級(下限): 長周期地震動階級2\n長周期地震動階級(上限): 長周期地震動階級2\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T04:00:00Z",
+        "value": "2026-08-21T01:00:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -89,9 +89,27 @@
           "en": "or greater"
         }
       },
+      "long_period_ground_motion_lower": {
+        "scheme": "qzss.dcr.long_period_ground_motion_lower_limit",
+        "code": "3",
+        "recognized": true,
+        "labels": {
+          "ja": "長周期地震動階級2",
+          "en": "Long-Period Ground Motion class of 2"
+        }
+      },
+      "long_period_ground_motion_upper": {
+        "scheme": "qzss.dcr.long_period_ground_motion_upper_limit",
+        "code": "3",
+        "recognized": true,
+        "labels": {
+          "ja": "長周期地震動階級2",
+          "en": "Long-Period Ground Motion class of 2"
+        }
+      },
       "occurrence_time": {
         "status": "time",
-        "value": "2026-03-07T04:00:00Z",
+        "value": "2026-08-21T01:00:00Z",
         "basis": "report_time"
       },
       "notifications": [
@@ -269,24 +287,24 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,9AAF919C82800388000039051440C5C82A0108300000000000000012497DA18*0A",
-    "text": "防災気象情報(震源)(発表)(訓練/試験)\n*** これは訓練です ***\n7日13時5分ころ、地震がありました。\n震源の近傍で津波発生の可能性があります。\n\n発表時刻: 3月7日13時5分\n\n震央地名: 日向灘\n緯度・経度: 北緯32度42分0秒 東経132度6分0秒\n深さ: 40km\nマグニチュード: 6.4",
+    "nmea": "$QZQSM,56,53AD14540200035C0000A801142AD486A400FF200000000000000012FECDDD4*03",
+    "text": "防災気象情報(震源)(発表)(優先)\n21日9時1分ころ、地震がありました。\nこの地震による津波の心配はありません。\n\n発表時刻: 8月21日9時4分\n\n震央地名: 沖縄本島近海\n緯度・経度: 北緯26度36分0秒 東経127度36分0秒\n深さ: 40km\nマグニチュード: 4.2",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T04:05:00Z",
+        "value": "2026-08-21T00:04:00Z",
         "basis": "received_at"
       },
       "report_classification": {
         "scheme": "qzss.dcr.report_classification",
-        "code": "7",
+        "code": "2",
         "recognized": true,
         "labels": {
-          "ja": "訓練/試験",
-          "en": "Training/Test"
+          "ja": "優先",
+          "en": "Priority"
         }
       },
       "information_type": {
@@ -314,55 +332,55 @@
       },
       "magnitude": {
         "kind": "scalar",
-        "value": 6.4,
+        "value": 4.2,
         "unit": null,
         "code": {
           "scheme": "qzss.dcr.hypocenter_magnitude",
-          "code": "64",
+          "code": "42",
           "recognized": true,
           "labels": {
-            "ja": "6.4",
-            "en": "6.4"
+            "ja": "4.2",
+            "en": "4.2"
           }
         }
       },
       "epicenter": {
         "scheme": "qzss.dcr.epicenter_and_hypocenter",
-        "code": "791",
+        "code": "850",
         "recognized": true,
         "labels": {
-          "ja": "日向灘",
-          "en": "Hyuganada Sea"
+          "ja": "沖縄本島近海",
+          "en": "Adjacent Sea of Okinawa Main Island"
         }
       },
       "occurrence_time": {
         "status": "time",
-        "value": "2026-03-07T04:05:00Z",
+        "value": "2026-08-21T00:01:00Z",
         "basis": "report_time"
       },
       "notifications": [
         {
           "scheme": "qzss.dcr.notification_on_disaster_prevention",
-          "code": "226",
+          "code": "215",
           "recognized": true,
           "labels": {
-            "ja": "震源の近傍で津波発生の可能性があります。",
-            "en": "There is a possibility of a destructive local tsunami near the epicenter."
+            "ja": "この地震による津波の心配はありません。",
+            "en": "This earthquake poses no tsunami risk."
           }
         }
       ],
       "position": {
         "status": "valid",
-        "latitude_deg": 32.7,
-        "longitude_deg": 132.1,
+        "latitude_deg": 26.6,
+        "longitude_deg": 127.6,
         "source": {
           "lat_ns": 0,
-          "lat_d": 32,
-          "lat_m": 42,
+          "lat_d": 26,
+          "lat_m": 36,
           "lat_s": 0,
           "lon_ew": 0,
-          "lon_d": 132,
-          "lon_m": 6,
+          "lon_d": 127,
+          "lon_m": 36,
           "lon_s": 0
         }
       }
@@ -374,15 +392,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,C6AF999C828001C82CB25AE775A8D4CA854AB8000000000000000011E027E5C*76",
-    "text": "防災気象情報(震度)(発表)(訓練/試験)\n*** これは訓練です ***\n7日13時5分ころ、地震による強い揺れを感じました。\n\n発表時刻: 3月7日13時5分\n\n震度: 5強\n大分県\n\n震度: 5強\n宮崎県\n\n震度: 5弱\n高知県\n\n震度: 5弱\n熊本県\n\n震度: 4\n山口県\n\n震度: 4\n愛媛県\n\n震度: 4\n福岡県\n\n震度: 4\n佐賀県\n\n震度: 4\n鹿児島県",
+    "nmea": "$QZQSM,56,53AF9C54228005422CB25AE775A8D4CA854AB8000000000000000013A6D9B5C*06",
+    "text": "防災気象情報(震度)(発表)(訓練/試験)\n*** これは訓練です ***\n21日10時5分ころ、地震による強い揺れを感じました。\n\n発表時刻: 8月21日10時5分\n\n震度: 5強\n大分県\n\n震度: 5強\n宮崎県\n\n震度: 5弱\n高知県\n\n震度: 5弱\n熊本県\n\n震度: 4\n山口県\n\n震度: 4\n愛媛県\n\n震度: 4\n福岡県\n\n震度: 4\n佐賀県\n\n震度: 4\n鹿児島県",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T04:05:00Z",
+        "value": "2026-08-21T01:05:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -405,7 +423,7 @@
       },
       "occurrence_time": {
         "status": "time",
-        "value": "2026-03-07T04:05:00Z",
+        "value": "2026-08-21T01:05:00Z",
         "basis": "report_time"
       },
       "observations": [
@@ -598,15 +616,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,C6AFA19C918002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81262EF438*02",
-    "text": "防災気象情報(南海トラフ地震)(発表)(訓練/試験)\n*** これは訓練です ***\n南海トラフ地震に関連する情報が発表されました。\n\n発表時刻: 3月7日13時35分\n地震関連情報: 巨大地震注意\n受信中 (1) [-/27]",
+    "nmea": "$QZQSM,56,9AAFA454318002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81395D2DC8*09",
+    "text": "防災気象情報(南海トラフ地震)(発表)(訓練/試験)\n*** これは訓練です ***\n南海トラフ地震に関連する情報が発表されました。\n\n発表時刻: 8月21日10時35分\n地震関連情報: 巨大地震注意\n受信中 (1) [-/27]",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T04:35:00Z",
+        "value": "2026-08-21T01:35:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -648,15 +666,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,9AAFA99C828001E8F67C31053960414E621053BE00000000000000132735038*0F",
-    "text": "防災気象情報(津波)(発表)(訓練/試験)\n*** これは訓練です ***\n津波警報を発表しました。\n＜津波警報＞\n津波による被害が発生します。\n沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。\n＜津波注意報＞\n海の中や海岸付近は危険です。\n海の中にいる人はただちに海から上がって、海岸から離れてください。\n潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。\n＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。\n\n発表時刻: 3月7日13時5分\n\n津波到達予想時刻: 7日13時5分\n津波の高さ: 3m\n愛媛県宇和海沿岸\n\n津波到達予想時刻: 7日13時5分\n津波の高さ: 3m\n高知県\n\n津波到達予想時刻: 7日13時5分\n津波の高さ: 3m\n宮崎県",
+    "nmea": "$QZQSM,56,C6AFAC54228001E8F67C30453960114E620453BE00000000000000102EB36F4*7B",
+    "text": "防災気象情報(津波)(発表)(訓練/試験)\n*** これは訓練です ***\n津波警報を発表しました。\n＜津波警報＞\n津波による被害が発生します。\n沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。\n＜津波注意報＞\n海の中や海岸付近は危険です。\n海の中にいる人はただちに海から上がって、海岸から離れてください。\n潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。\n＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。\n\n発表時刻: 8月21日10時5分\n\n津波到達予想時刻: 21日10時5分\n津波の高さ: 3m\n愛媛県宇和海沿岸\n\n津波到達予想時刻: 21日10時5分\n津波の高さ: 3m\n高知県\n\n津波到達予想時刻: 21日10時5分\n津波の高さ: 3m\n宮崎県",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T04:05:00Z",
+        "value": "2026-08-21T01:05:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -749,7 +767,7 @@
           },
           "arrival": {
             "status": "time",
-            "value": "2026-03-07T04:05:00Z",
+            "value": "2026-08-21T01:05:00Z",
             "basis": "report_time"
           }
         },
@@ -786,7 +804,7 @@
           },
           "arrival": {
             "status": "time",
-            "value": "2026-03-07T04:05:00Z",
+            "value": "2026-08-21T01:05:00Z",
             "basis": "report_time"
           }
         },
@@ -823,7 +841,7 @@
           },
           "arrival": {
             "status": "time",
-            "value": "2026-03-07T04:05:00Z",
+            "value": "2026-08-21T01:05:00Z",
             "basis": "report_time"
           }
         }
@@ -909,15 +927,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,C6AFC19CA50001CA5341F783E0F10910421230200000000000000011B086438*70",
-    "text": "防災気象情報(火山)(発表)(訓練/試験)\n*** これは訓練です ***\n火山に関連する情報をお知らせします。\n\n発表時刻: 3月7日14時10分\n\n火山名: 阿蘇山\n日時: 3月7日14時10分\n現象: 噴火\n\n熊本県阿蘇市、熊本県高森町、熊本県南阿蘇村",
+    "nmea": "$QZQSM,56,9AAFC454450005445341F783E0F10910421230200000000000000012FB46E14*78",
+    "text": "防災気象情報(火山)(発表)(訓練/試験)\n*** これは訓練です ***\n火山に関連する情報をお知らせします。\n\n発表時刻: 8月21日11時10分\n\n火山名: 阿蘇山\n日時: 8月21日11時10分\n現象: 噴火\n\n熊本県阿蘇市、熊本県高森町、熊本県南阿蘇村",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T05:10:00Z",
+        "value": "2026-08-21T02:10:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -958,7 +976,7 @@
       },
       "activity_time": {
         "status": "time",
-        "value": "2026-03-07T05:10:00Z",
+        "value": "2026-08-21T02:10:00Z",
         "basis": "report_time"
       },
       "target_regions": [
@@ -999,15 +1017,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,9AAFC99CA50001CA523EE4C1F07826122081309181000000000000121BAF1C0*71",
-    "text": "防災気象情報(降灰)(発表)(訓練/試験)\n*** これは訓練です ***\n降灰に関連する情報をお知らせします。\n\n発表時刻: 3月7日14時10分\n\n速報\n火山名: 阿蘇山\n日時: 7日14時10分\n\n基点時刻からの時間: 1時間\n現象: 少量の降灰\n熊本県阿蘇市\n\n基点時刻からの時間: 1時間\n現象: 少量の降灰\n熊本県高森町\n\n基点時刻からの時間: 1時間\n現象: 少量の降灰\n熊本県南阿蘇村",
+    "nmea": "$QZQSM,56,C6AFCC5445000544523EE4C1F0782612208130918100000000000013199CCE4*77",
+    "text": "防災気象情報(降灰)(発表)(訓練/試験)\n*** これは訓練です ***\n降灰に関連する情報をお知らせします。\n\n発表時刻: 8月21日11時10分\n\n速報\n火山名: 阿蘇山\n日時: 21日11時10分\n\n基点時刻からの時間: 1時間\n現象: 少量の降灰\n熊本県阿蘇市\n\n基点時刻からの時間: 1時間\n現象: 少量の降灰\n熊本県高森町\n\n基点時刻からの時間: 1時間\n現象: 少量の降灰\n熊本県南阿蘇村",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T05:10:00Z",
+        "value": "2026-08-21T02:10:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -1048,7 +1066,7 @@
       },
       "activity_time": {
         "status": "time",
-        "value": "2026-03-07T05:10:00Z",
+        "value": "2026-08-21T02:10:00Z",
         "basis": "report_time"
       },
       "forecasts": [
@@ -1163,15 +1181,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,C6AFD19CB18001113880115F901186A011ADB011D4C011FBD00000135EAA3F8*73",
-    "text": "防災気象情報(気象)(発表)(訓練/試験)\n*** これは訓練です ***\n気象に関連する情報をお知らせします。\n\n発表時刻: 3月7日14時35分\n\n警報等情報要素: 大雨特別警報(発表)\n茨城県\n\n警報等情報要素: 大雨特別警報(発表)\n栃木県\n\n警報等情報要素: 大雨特別警報(発表)\n群馬県\n\n警報等情報要素: 大雨特別警報(発表)\n埼玉県\n\n警報等情報要素: 大雨特別警報(発表)\n千葉県\n\n警報等情報要素: 大雨特別警報(発表)\n東京都",
+    "nmea": "$QZQSM,56,9AAFD454518001113880115F901186A011ADB011D4C011FBD0000010A5B0D28*0F",
+    "text": "防災気象情報(気象)(発表)(訓練/試験)\n*** これは訓練です ***\n気象に関連する情報をお知らせします。\n\n発表時刻: 8月21日11時35分\n\n警報等情報要素: 大雨特別警報(発表)\n茨城県\n\n警報等情報要素: 大雨特別警報(発表)\n栃木県\n\n警報等情報要素: 大雨特別警報(発表)\n群馬県\n\n警報等情報要素: 大雨特別警報(発表)\n埼玉県\n\n警報等情報要素: 大雨特別警報(発表)\n千葉県\n\n警報等情報要素: 大雨特別警報(発表)\n東京都",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T05:35:00Z",
+        "value": "2026-08-21T02:35:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -1331,15 +1349,15 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 186
+      "prn": 184
     },
-    "nmea": "$QZQSM,58,C6AFD99CB1800160A8F5528600000000000000000000000000000010E502538*0E",
-    "text": "防災気象情報(洪水)(発表)(訓練/試験)\n*** これは訓練です ***\n河川の氾濫に関連する情報をお知らせします。\n\n発表時刻: 3月7日14時35分\n\n警報レベル: 氾濫警戒情報\n鬼怒川(栃木県・茨城県)",
+    "nmea": "$QZQSM,56,9AAFDC5451800160A8F552860000000000000000000000000000001157EBCE0*05",
+    "text": "防災気象情報(洪水)(発表)(訓練/試験)\n*** これは訓練です ***\n河川の氾濫に関連する情報をお知らせします。\n\n発表時刻: 8月21日11時35分\n\n警報レベル: 氾濫警戒情報\n鬼怒川(栃木県・茨城県)",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T05:35:00Z",
+        "value": "2026-08-21T02:35:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -1390,24 +1408,24 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 183
+      "prn": 185
     },
-    "nmea": "$QZQSM,55,53AFE19CA50001C6010030144865E01047DAED9680000000000000101F6DA38*79",
-    "text": "防災気象情報(台風)(発表)(訓練/試験)\n*** これは訓練です ***\n台風解析・予報情報が発表されました。\n\n発表時刻: 3月7日14時10分\n\n台風番号: 5号\n基点時刻: 7日12時0分\n基点時刻分類: 実況\n情報の基点時刻(実況)からの経過時間: 24時間後\n大きさ: 大型\n強さ: 非常に強い\n緯度・経度: 北緯25度30分0秒 東経130度15分45秒\n中心気圧: 950hPa\n最大風速: 45m/s\n最大瞬間風速: 不明",
+    "nmea": "$QZQSM,57,9AADE4E019000600010000680049E010C280FA8A1E00000000000010A945BFC*0B",
+    "text": "防災気象情報(台風)(発表)(通常)\n台風解析・予報情報が発表されました。\n\n発表時刻: 9月24日9時50分\n\n台風番号: 26号\n基点時刻: 24日9時0分\n基点時刻分類: 実況\n情報の基点時刻(実況)からの経過時間: 0時間後\n大きさ: なし\n強さ: なし\n緯度・経度: 北緯18度30分0秒 東経134度5分0秒\n中心気圧: 1002hPa\n最大風速: 20m/s\n最大瞬間風速: 30m/s",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T05:10:00Z",
+        "value": "2026-09-24T00:50:00Z",
         "basis": "received_at"
       },
       "report_classification": {
         "scheme": "qzss.dcr.report_classification",
-        "code": "7",
+        "code": "3",
         "recognized": true,
         "labels": {
-          "ja": "訓練/試験",
-          "en": "Training/Test"
+          "ja": "通常",
+          "en": "Regular"
         }
       },
       "information_type": {
@@ -1421,69 +1439,70 @@
       },
       "number": {
         "scheme": "qzss.dcr.typhoon_number",
-        "code": "5",
+        "code": "26",
         "recognized": true,
         "labels": {
-          "ja": "5号",
-          "en": "No. 5"
+          "ja": "26号",
+          "en": "No. 26"
         }
       },
       "scale_category": {
         "scheme": "qzss.dcr.typhoon_scale_category",
-        "code": "1",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "ja": "大型",
-          "en": "Large"
+          "ja": "なし",
+          "en": "None"
         }
       },
       "intensity_category": {
         "scheme": "qzss.dcr.typhoon_intensity_category",
-        "code": "2",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "ja": "非常に強い",
-          "en": "Very Strong"
+          "ja": "なし",
+          "en": "None"
         }
       },
       "central_pressure": {
         "kind": "scalar",
-        "value": 950,
+        "value": 1002,
         "unit": "hPa",
         "code": {
           "scheme": "qzss.dcr.typhoon_central_pressure",
-          "code": "950",
+          "code": "1002",
           "recognized": true,
           "labels": {
-            "ja": "950hPa",
-            "en": "950 hPa"
+            "ja": "1002hPa",
+            "en": "1002 hPa"
           }
         }
       },
       "maximum_wind_speed": {
         "kind": "scalar",
-        "value": 45,
+        "value": 20,
         "unit": "m/s",
         "code": {
           "scheme": "qzss.dcr.typhoon_maximum_wind_speed",
-          "code": "45",
+          "code": "20",
           "recognized": true,
           "labels": {
-            "ja": "45m/s",
-            "en": "45 m/s"
+            "ja": "20m/s",
+            "en": "20 m/s"
           }
         }
       },
       "maximum_gust_wind_speed": {
-        "kind": "missing",
-        "reason": "unknown",
+        "kind": "scalar",
+        "value": 30,
+        "unit": "m/s",
         "code": {
           "scheme": "qzss.dcr.typhoon_maximum_gust_wind_speed",
-          "code": "0",
+          "code": "30",
           "recognized": true,
           "labels": {
-            "ja": "不明",
-            "en": "Unknown"
+            "ja": "30m/s",
+            "en": "30 m/s"
           }
         }
       },
@@ -1498,36 +1517,36 @@
       },
       "elapsed_time": {
         "kind": "scalar",
-        "value": 24,
+        "value": 0,
         "unit": "h",
         "code": {
           "scheme": "qzss.dcr.typhoon_elapsed_time_from_reference_time",
-          "code": "24",
+          "code": "0",
           "recognized": true,
           "labels": {
-            "ja": "24時間後",
-            "en": "24 hours ahead"
+            "ja": "0時間後",
+            "en": "0 hours ahead"
           }
         }
       },
       "reference_time": {
         "status": "time",
-        "value": "2026-03-07T03:00:00Z",
+        "value": "2026-09-24T00:00:00Z",
         "basis": "report_time"
       },
       "position": {
         "status": "valid",
-        "latitude_deg": 25.5,
-        "longitude_deg": 130.2625,
+        "latitude_deg": 18.5,
+        "longitude_deg": 134.083333333,
         "source": {
           "lat_ns": 0,
-          "lat_d": 25,
+          "lat_d": 18,
           "lat_m": 30,
           "lat_s": 0,
           "lon_ew": 0,
-          "lon_d": 130,
-          "lon_m": 15,
-          "lon_s": 45
+          "lon_d": 134,
+          "lon_m": 5,
+          "lon_s": 0
         }
       }
     }
@@ -1538,24 +1557,24 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 183
+      "prn": 185
     },
-    "nmea": "$QZQSM,55,53AFF19CA5000584060000000000000000000000000000000000001017E0EAC*06",
-    "text": "防災気象情報(海上)(発表)(訓練/試験)\n*** これは訓練です ***\n海上警報が発表されました。\n\n発表時刻: 3月7日14時10分\n\n警報等情報要素: 海上暴風警報\n網走沖",
+    "nmea": "$QZQSM,57,53ADF4DE9180050406A08354115A8230507E400000000000000000117F20498*02",
+    "text": "防災気象情報(海上)(発表)(通常)\n海上警報が発表されました。\n\n発表時刻: 9月24日5時35分\n\n警報等情報要素: 海上風警報\n網走沖\n\n警報等情報要素: 海上風警報\n北海道西方海上\n\n警報等情報要素: 海上風警報\n北海道東方海上\n\n警報等情報要素: 海上風警報\n釧路沖\n\n警報等情報要素: 海上風警報\n三陸沖西部",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T05:10:00Z",
+        "value": "2026-09-23T20:35:00Z",
         "basis": "received_at"
       },
       "report_classification": {
         "scheme": "qzss.dcr.report_classification",
-        "code": "7",
+        "code": "3",
         "recognized": true,
         "labels": {
-          "ja": "訓練/試験",
-          "en": "Training/Test"
+          "ja": "通常",
+          "en": "Regular"
         }
       },
       "information_type": {
@@ -1580,11 +1599,91 @@
           },
           "warning": {
             "scheme": "qzss.dcr.marine_warning_code",
-            "code": "22",
+            "code": "20",
             "recognized": true,
             "labels": {
-              "ja": "海上暴風警報",
-              "en": "Storm Warning"
+              "ja": "海上風警報",
+              "en": "Wind Warning"
+            }
+          }
+        },
+        {
+          "region": {
+            "scheme": "qzss.dcr.marine_forecast_region",
+            "code": "1050",
+            "recognized": true,
+            "labels": {
+              "ja": "北海道西方海上",
+              "en": "Sea West of Hokkaido"
+            }
+          },
+          "warning": {
+            "scheme": "qzss.dcr.marine_warning_code",
+            "code": "20",
+            "recognized": true,
+            "labels": {
+              "ja": "海上風警報",
+              "en": "Wind Warning"
+            }
+          }
+        },
+        {
+          "region": {
+            "scheme": "qzss.dcr.marine_forecast_region",
+            "code": "1110",
+            "recognized": true,
+            "labels": {
+              "ja": "北海道東方海上",
+              "en": "Sea East of Hokkaido"
+            }
+          },
+          "warning": {
+            "scheme": "qzss.dcr.marine_warning_code",
+            "code": "20",
+            "recognized": true,
+            "labels": {
+              "ja": "海上風警報",
+              "en": "Wind Warning"
+            }
+          }
+        },
+        {
+          "region": {
+            "scheme": "qzss.dcr.marine_forecast_region",
+            "code": "1120",
+            "recognized": true,
+            "labels": {
+              "ja": "釧路沖",
+              "en": "Sea off Kushiro"
+            }
+          },
+          "warning": {
+            "scheme": "qzss.dcr.marine_warning_code",
+            "code": "20",
+            "recognized": true,
+            "labels": {
+              "ja": "海上風警報",
+              "en": "Wind Warning"
+            }
+          }
+        },
+        {
+          "region": {
+            "scheme": "qzss.dcr.marine_forecast_region",
+            "code": "2020",
+            "recognized": true,
+            "labels": {
+              "ja": "三陸沖西部",
+              "en": "Western Sea off Sanriku"
+            }
+          },
+          "warning": {
+            "scheme": "qzss.dcr.marine_warning_code",
+            "code": "20",
+            "recognized": true,
+            "labels": {
+              "ja": "海上風警報",
+              "en": "Wind Warning"
             }
           }
         }
@@ -1597,9 +1696,9 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 182
+      "prn": 185
     },
-    "nmea": "$QZQSM,54,53B0840DE0000000000000000000000000000000000000000000000012ACBD4*0F",
+    "nmea": "$QZQSM,57,9AB0840DE000000000000000000000000000000000000000000000014AC17A4*05",
     "text": "### DCX Message - Null Message ###",
     "data": {}
   },
@@ -1609,12 +1708,12 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 181
+      "prn": 184
     },
-    "nmea": "$QZQSM,53,9AB08408E0598969E00066AFFE8E6F70091200000000000000000100CD1A410*09",
-    "text": "### DCX Message - Information from Organizations outside Japan ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Fiji\nA3 - Provider identifier: Undefined Provider Identifier of Fiji (Code: 0)\nA4 - Hazard category and type: GEO - Tsunami\nA4 - Hazard definition: A series of waves (with long wavelengths when traveling across the deep ocean) that are generated by a displacement of massive amounts of water through underwater earthquakes, volcanic eruptions or landslides. Tsunami waves travel at very high speed across the ocean but as they begin to reach shallow water they slow down and the wave grows steeper.\nA5 - Severity: Extreme - Extraordinary threat to life or property\nA6A7 - Hazard onset: 2026-03-03T16:08:00Z\nA8 - Hazard duration: 12H <= Duration < 24H\nA12 - Ellipse centre latitude: -17.799496\nA13 - Ellipse centre longitude: 177.97026\nA14 - Ellipse semi - major axis: 747.603\nA15 - Ellipse semi - minor axis: 747.603\nA16 - Ellipse azimuth: 0.0\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: -17.79881\nC2 - Refined longitude of centre of main ellipse: 177.970947\nC3 - Refined length of semi major axis: 723.258\nC4 - Refined length of semi minor axis: 723.258",
+    "nmea": "$QZQSM,56,C6B0C00CE05811E003A08745C41A5A88000000000000000000000002A0F268C*08",
+    "text": "### DCX Message - Information from Organizations outside Japan ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Indonesia\nA3 - Provider identifier: Undefined Provider Identifier (Code: 0)\nA4 - Hazard category and type: GEO - Tsunami\nA4 - Hazard definition: A series of waves (with long wavelengths when traveling across the deep ocean) that are generated by a displacement of massive amounts of water through underwater earthquakes, volcanic eruptions or landslides. Tsunami waves travel at very high speed across the ocean but as they begin to reach shallow water they slow down and the wave grows steeper.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-05T04:15:00Z\nA8 - Hazard duration: Unknown\nA11 - Instruction code: IC-A-UNDEFINED (Code: 928)\nA11 - Instruction: Undefined instruction in the international library. (Code: 928)\nA12 - Ellipse centre latitude: 5.11284\nA13 - Ellipse centre longitude: 95.769926\nA14 - Ellipse semi - major axis: 165.324\nA15 - Ellipse semi - minor axis: 90.407\nA16 - Ellipse azimuth: -45.0\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: 5.11284\nC2 - Refined longitude of centre of main ellipse: 95.769926\nC3 - Refined length of semi major axis: 165.324\nC4 - Refined length of semi minor axis: 90.407",
     "data": {
-      "version": 16,
+      "version": 0,
       "message_type": {
         "scheme": "camf.a1_message_type",
         "code": "0",
@@ -1625,30 +1724,30 @@
       },
       "country": {
         "scheme": "camf.a2_country_region_name",
-        "code": "71",
+        "code": "103",
         "recognized": true,
         "labels": {
-          "en": "Fiji"
+          "en": "Indonesia"
         }
       },
       "severity": {
         "scheme": "camf.a5_severity",
-        "code": "3",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "en": "Extreme - Extraordinary threat to life or property"
+          "en": "Unknown"
         }
       },
       "duration": {
         "scheme": "camf.a8_hazard_duration",
-        "code": "3",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "en": "12H <= Duration < 24H"
+          "en": "Unknown"
         }
       },
       "provider": {
-        "scheme": "camf.provider.country_71",
+        "scheme": "camf.provider.country_103",
         "code": "0",
         "recognized": false,
         "labels": {}
@@ -1681,16 +1780,16 @@
       },
       "onset": {
         "status": "time",
-        "value": "2026-03-03T16:08:00Z",
+        "value": "2026-03-05T04:15:00Z",
         "basis": "received_at"
       },
       "instruction": {
         "library": {
           "scheme": "camf.a9_type_of_library",
-          "code": "1",
+          "code": "0",
           "recognized": true,
           "labels": {
-            "en": "Country/region library"
+            "en": "International library"
           }
         },
         "version": {
@@ -1702,8 +1801,8 @@
           }
         },
         "content": {
-          "scheme": "camf.instruction.country_71.library_1.version_0",
-          "code": "0",
+          "scheme": "camf.instruction.library_0.version_0",
+          "code": "928",
           "recognized": false,
           "labels": {}
         },
@@ -1711,36 +1810,36 @@
       },
       "main_ellipse": {
         "centre": {
-          "latitude_deg": -17.799496,
-          "longitude_deg": 177.97026
+          "latitude_deg": 5.11284,
+          "longitude_deg": 95.769926
         },
-        "semi_major_axis_km": 747.603,
-        "semi_minor_axis_km": 747.603,
-        "azimuth_deg": 0.0,
+        "semi_major_axis_km": 165.324,
+        "semi_minor_axis_km": 90.407,
+        "azimuth_deg": -45.0,
         "source": {
-          "centre_latitude": 26287,
-          "centre_longitude": 130332,
-          "semi_major_axis": 27,
-          "semi_minor_axis": 27,
-          "azimuth": 32
+          "centre_latitude": 34629,
+          "centre_longitude": 100404,
+          "semi_major_axis": 22,
+          "semi_minor_axis": 20,
+          "azimuth": 16
         }
       },
       "specific_settings": {
         "kind": "refined_ellipse",
         "refined_ellipse": {
           "centre": {
-            "latitude_deg": -17.79881,
-            "longitude_deg": 177.970947
+            "latitude_deg": 5.11284,
+            "longitude_deg": 95.769926
           },
-          "semi_major_axis_km": 723.258,
-          "semi_minor_axis_km": 723.258,
-          "azimuth_deg": 0.0,
+          "semi_major_axis_km": 165.324,
+          "semi_minor_axis_km": 90.407,
+          "azimuth_deg": -45.0,
           "source": {
-            "centre_latitude": 2,
-            "centre_longitude": 2,
-            "semi_major_axis": 1,
-            "semi_minor_axis": 1,
-            "azimuth": 32
+            "centre_latitude": 0,
+            "centre_longitude": 0,
+            "semi_major_axis": 0,
+            "semi_minor_axis": 0,
+            "azimuth": 16
           }
         }
       }
@@ -1752,18 +1851,18 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 182
+      "prn": 185
     },
-    "nmea": "$QZQSM,54,53B0840DE100868FA0000000000000000000041B40000000000000124402A20*0D",
-    "text": "### DCX Message - L-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Moderate - Possible threat to life or property\nA6A7 - Hazard onset: 2026-03-03T03:58:00Z\nA8 - Hazard duration: 6H <= Duration < 12H\nEX1 - Target area: Kesennuma-shi, Miyagi\nEX1 - Target area (ja): 宮城県気仙沼市",
+    "nmea": "$QZQSM,57,C6B084CDE14816C7200000000000000000002A33400000000000001112B9590*70",
+    "text": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nEX1 - Target area: Uki-shi, Kumamoto\nEX1 - Target area (ja): 熊本県宇城市",
     "data": {
       "version": 1,
       "message_type": {
         "scheme": "camf.a1_message_type",
-        "code": "0",
+        "code": "3",
         "recognized": true,
         "labels": {
-          "en": "Test"
+          "en": "All Clear"
         }
       },
       "country": {
@@ -1776,18 +1875,18 @@
       },
       "severity": {
         "scheme": "camf.a5_severity",
-        "code": "1",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "en": "Moderate - Possible threat to life or property"
+          "en": "Unknown"
         }
       },
       "duration": {
         "scheme": "camf.a8_hazard_duration",
-        "code": "2",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "en": "6H <= Duration < 12H"
+          "en": "Unknown"
         }
       },
       "provider": {
@@ -1801,26 +1900,32 @@
       "hazard": {
         "type": {
           "scheme": "camf.a4_hazard_type",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "36",
+          "recognized": true,
+          "labels": {
+            "en": "Earthquake"
+          }
         },
         "category": {
           "scheme": "camf.a4_hazard_category",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "36",
+          "recognized": true,
+          "labels": {
+            "en": "GEO"
+          }
         },
         "definition": {
           "scheme": "camf.a4_hazard_definition",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "36",
+          "recognized": true,
+          "labels": {
+            "en": "Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking."
+          }
         }
       },
       "onset": {
         "status": "time",
-        "value": "2026-03-03T03:58:00Z",
+        "value": "2026-03-06T01:10:00Z",
         "basis": "received_at"
       },
       "instruction": {
@@ -1851,11 +1956,11 @@
       "target_regions": [
         {
           "scheme": "qzss.dcx.area_code",
-          "code": "4205",
+          "code": "43213",
           "recognized": true,
           "labels": {
-            "ja": "宮城県気仙沼市",
-            "en": "Kesennuma-shi, Miyagi"
+            "ja": "熊本県宇城市",
+            "en": "Uki-shi, Kumamoto"
           }
         }
       ]
@@ -1867,12 +1972,12 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 183
+      "prn": 185
     },
-    "nmea": "$QZQSM,55,9AB0840DE2BF88E9200000000000000000001FFFFFFFFFFFC00000110D0A1B8*71",
-    "text": "### DCX Message - J-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: SAFETY - Safety warning\nA4 - Hazard definition: Announcement of a potentially dangerous situation or event to the public impacting their safety.\nA5 - Severity: Extreme - Extraordinary threat to life or property\nA6A7 - Hazard onset: 2026-03-03T14:00:00Z\nA8 - Hazard duration: Unknown\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa']\nEX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']",
+    "nmea": "$QZQSM,57,C6B0840DE2BF9159200000000000000000001FFFFFFFFFFFC00000023563FB0*7D",
+    "text": "### DCX Message - J-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Fire and Disaster Management Agency\nA4 - Hazard category and type: SAFETY - Safety warning\nA4 - Hazard definition: Announcement of a potentially dangerous situation or event to the public impacting their safety.\nA5 - Severity: Extreme - Extraordinary threat to life or property\nA6A7 - Hazard onset: 2026-03-05T02:00:00Z\nA8 - Hazard duration: Unknown\nEX8 - Target area list type: Prefecture code\nEX9 - Target area list: ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa']\nEX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']",
     "data": {
-      "version": 1,
+      "version": 0,
       "message_type": {
         "scheme": "camf.a1_message_type",
         "code": "0",
@@ -1941,7 +2046,7 @@
       },
       "onset": {
         "status": "time",
-        "value": "2026-03-03T14:00:00Z",
+        "value": "2026-03-05T02:00:00Z",
         "basis": "received_at"
       },
       "instruction": {
@@ -2402,18 +2507,18 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 183
+      "prn": 186
     },
-    "nmea": "$QZQSM,55,9AB0004DE4000000207E000000000000000001132000100010C81400250570C*06",
-    "text": "### DCX Message - Information from Local Government ###\nA1 - Message type: Alert\nA2 - Country/region name: Japan\nA3 - Provider identifier: Local Government\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Unknown\nA6A7 - Hazard onset: None\nA8 - Hazard duration: Unknown\nA11 - Instruction: This is a test message for DCX.\nA11 - Instruction (ja): これは、DCX のテストです。\nA12 - Ellipse centre latitude: -90.0\nA13 - Ellipse centre longitude: -180.0\nA14 - Ellipse semi - major axis: 0.216\nA15 - Ellipse semi - minor axis: 0.216\nA16 - Ellipse azimuth: -90.0\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: -90.0\nC2 - Refined longitude of centre of main ellipse: -180.0\nC3 - Refined length of semi major axis: 0.216\nC4 - Refined length of semi minor axis: 0.216\nEX1 - Target area: Sapporo-shi, Hokkaido\nEX1 - Target area (ja): 北海道札幌市\nEX2 - Evacuate direction type: Head to the additional target area range.\nEX3 - Additional ellipse centre latitude: -89.998627\nEX4 - Additional ellipse centre longitude: 45.002747\nEX5 - Additional ellipse semi major axis: 0.535\nEX6 - Additional ellipse semi minor axis: 0.723\nEX7 - Additional ellipse azimuth: -82.96875",
+    "nmea": "$QZQSM,58,C6B0C00DE4881177E000BB65E4102937177E012C976C6881B8C694033D57010*0C",
+    "text": "### DCX Message - Information from Local Government ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Local Government\nA4 - Hazard category and type: MET - Flood\nA4 - Hazard definition: A general term for the overflow of water from a stream channel onto normally dry land in the floodplain (riverine flooding), higher-than normal levels along the coast and in lakes or reservoirs (coastal flooding) as well as ponding of water at or near the point where the rain fell (flash floods).\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-05T02:30:00Z\nA8 - Hazard duration: 12H <= Duration < 24H\nA12 - Ellipse centre latitude: 41.76379\nA13 - Ellipse centre longitude: 140.715337\nA14 - Ellipse semi - major axis: 4.421\nA15 - Ellipse semi - minor axis: 3.269\nA16 - Ellipse azimuth: 39.375\nA17 - Type of specific settings: B1 - Improved Resolution of Main Ellipse\nC1 - Refined latitude of centre of main ellipse: 41.765507\nC2 - Refined longitude of centre of main ellipse: 140.717397\nC3 - Refined length of semi major axis: 3.413\nC4 - Refined length of semi minor axis: 2.524\nEX1 - Target area: Hakodate-shi, Hokkaido\nEX1 - Target area (ja): 北海道函館市\nEX2 - Evacuate direction type: Leave the additional target area range.\nEX3 - Additional ellipse centre latitude: 41.757292\nEX4 - Additional ellipse centre longitude: 140.701261\nEX5 - Additional ellipse semi major axis: 0.535\nEX6 - Additional ellipse semi minor axis: 0.535\nEX7 - Additional ellipse azimuth: -37.96875",
     "data": {
       "version": 0,
       "message_type": {
         "scheme": "camf.a1_message_type",
-        "code": "1",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "en": "Alert"
+          "en": "Test"
         }
       },
       "country": {
@@ -2434,10 +2539,10 @@
       },
       "duration": {
         "scheme": "camf.a8_hazard_duration",
-        "code": "0",
+        "code": "3",
         "recognized": true,
         "labels": {
-          "en": "Unknown"
+          "en": "12H <= Duration < 24H"
         }
       },
       "provider": {
@@ -2451,27 +2556,33 @@
       "hazard": {
         "type": {
           "scheme": "camf.a4_hazard_type",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "68",
+          "recognized": true,
+          "labels": {
+            "en": "Flood"
+          }
         },
         "category": {
           "scheme": "camf.a4_hazard_category",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "68",
+          "recognized": true,
+          "labels": {
+            "en": "MET"
+          }
         },
         "definition": {
           "scheme": "camf.a4_hazard_definition",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "68",
+          "recognized": true,
+          "labels": {
+            "en": "A general term for the overflow of water from a stream channel onto normally dry land in the floodplain (riverine flooding), higher-than normal levels along the coast and in lakes or reservoirs (coastal flooding) as well as ponding of water at or near the point where the rain fell (flash floods)."
+          }
         }
       },
       "onset": {
-        "status": "not_used",
-        "value": null,
-        "basis": null
+        "status": "time",
+        "value": "2026-03-05T02:30:00Z",
+        "basis": "received_at"
       },
       "instruction": {
         "library": {
@@ -2492,58 +2603,55 @@
         },
         "content": {
           "scheme": "camf.instruction.country_111.library_1.version_0",
-          "code": "126",
+          "code": "0",
           "recognized": true,
-          "labels": {
-            "ja": "これは、DCX のテストです。",
-            "en": "This is a test message for DCX."
-          }
+          "labels": {}
         },
         "identifier": null
       },
       "main_ellipse": {
         "centre": {
-          "latitude_deg": -90.0,
-          "longitude_deg": -180.0
+          "latitude_deg": 41.76379,
+          "longitude_deg": 140.715337
         },
-        "semi_major_axis_km": 0.216,
-        "semi_minor_axis_km": 0.216,
-        "azimuth_deg": -90.0,
+        "semi_major_axis_km": 4.421,
+        "semi_minor_axis_km": 3.269,
+        "azimuth_deg": 39.375,
         "source": {
-          "centre_latitude": 0,
-          "centre_longitude": 0,
-          "semi_major_axis": 0,
-          "semi_minor_axis": 0,
-          "azimuth": 0
+          "centre_latitude": 47973,
+          "centre_longitude": 116768,
+          "semi_major_axis": 10,
+          "semi_minor_axis": 9,
+          "azimuth": 46
         }
       },
       "target_regions": [
         {
           "scheme": "qzss.dcx.area_code",
-          "code": "1100",
+          "code": "1202",
           "recognized": true,
           "labels": {
-            "ja": "北海道札幌市",
-            "en": "Sapporo-shi, Hokkaido"
+            "ja": "北海道函館市",
+            "en": "Hakodate-shi, Hokkaido"
           }
         }
       ],
       "evacuation": {
-        "direction": "head_to",
+        "direction": "leave",
         "ellipse": {
           "centre": {
-            "latitude_deg": -89.998627,
-            "longitude_deg": 45.002747
+            "latitude_deg": 41.757292,
+            "longitude_deg": 140.701261
           },
           "semi_major_axis_km": 0.535,
-          "semi_minor_axis_km": 0.723,
-          "azimuth_deg": -82.96875,
+          "semi_minor_axis_km": 0.535,
+          "azimuth_deg": -37.96875,
           "source": {
-            "centre_latitude": 1,
-            "centre_longitude": 2,
+            "centre_latitude": 95942,
+            "centre_longitude": 69687,
             "semi_major_axis": 3,
-            "semi_minor_axis": 4,
-            "azimuth": 5
+            "semi_minor_axis": 3,
+            "azimuth": 37
           }
         }
       },
@@ -2551,18 +2659,18 @@
         "kind": "refined_ellipse",
         "refined_ellipse": {
           "centre": {
-            "latitude_deg": -90.0,
-            "longitude_deg": -180.0
+            "latitude_deg": 41.765507,
+            "longitude_deg": 140.717397
           },
-          "semi_major_axis_km": 0.216,
-          "semi_minor_axis_km": 0.216,
-          "azimuth_deg": -90.0,
+          "semi_major_axis_km": 3.413,
+          "semi_minor_axis_km": 2.524,
+          "azimuth_deg": 39.375,
           "source": {
-            "centre_latitude": 0,
-            "centre_longitude": 0,
-            "semi_major_axis": 0,
-            "semi_minor_axis": 0,
-            "azimuth": 0
+            "centre_latitude": 5,
+            "centre_longitude": 6,
+            "semi_major_axis": 7,
+            "semi_minor_axis": 7,
+            "azimuth": 46
           }
         }
       }
@@ -2711,18 +2819,18 @@
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": {
       "system": "qzss",
-      "prn": 182
+      "prn": 185
     },
-    "nmea": "$QZQSM,54,53B0840DE100868FA0000000000000000000041B40000000000000124402A20*0D",
-    "text": "### DCX Message - L-Alert ###\n*** This is a test message ***\nA1 - Message type: Test\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)\nA4 - Hazard definition: Undefined hazard definition. (Code: 0)\nA5 - Severity: Moderate - Possible threat to life or property\nA6A7 - Hazard onset: 2026-03-03T03:58:00Z\nA8 - Hazard duration: 6H <= Duration < 12H\nEX1 - Target area: Kesennuma-shi, Miyagi\nEX1 - Target area (ja): 宮城県気仙沼市",
+    "nmea": "$QZQSM,57,C6B084CDE14816C7200000000000000000002A33400000000000001112B9590*70",
+    "text": "### DCX Message - L-Alert ###\nA1 - Message type: All Clear\nA2 - Country/region name: Japan\nA3 - Provider identifier: Foundation for MultiMedia Communications\nA4 - Hazard category and type: GEO - Earthquake\nA4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.\nA5 - Severity: Unknown\nA6A7 - Hazard onset: 2026-03-06T01:10:00Z\nA8 - Hazard duration: Unknown\nEX1 - Target area: Uki-shi, Kumamoto\nEX1 - Target area (ja): 熊本県宇城市",
     "data": {
       "version": 1,
       "message_type": {
         "scheme": "camf.a1_message_type",
-        "code": "0",
+        "code": "3",
         "recognized": true,
         "labels": {
-          "en": "Test"
+          "en": "All Clear"
         }
       },
       "country": {
@@ -2735,18 +2843,18 @@
       },
       "severity": {
         "scheme": "camf.a5_severity",
-        "code": "1",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "en": "Moderate - Possible threat to life or property"
+          "en": "Unknown"
         }
       },
       "duration": {
         "scheme": "camf.a8_hazard_duration",
-        "code": "2",
+        "code": "0",
         "recognized": true,
         "labels": {
-          "en": "6H <= Duration < 12H"
+          "en": "Unknown"
         }
       },
       "provider": {
@@ -2760,26 +2868,32 @@
       "hazard": {
         "type": {
           "scheme": "camf.a4_hazard_type",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "36",
+          "recognized": true,
+          "labels": {
+            "en": "Earthquake"
+          }
         },
         "category": {
           "scheme": "camf.a4_hazard_category",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "36",
+          "recognized": true,
+          "labels": {
+            "en": "GEO"
+          }
         },
         "definition": {
           "scheme": "camf.a4_hazard_definition",
-          "code": "0",
-          "recognized": false,
-          "labels": {}
+          "code": "36",
+          "recognized": true,
+          "labels": {
+            "en": "Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking."
+          }
         }
       },
       "onset": {
         "status": "time",
-        "value": "2026-03-03T03:58:00Z",
+        "value": "2026-03-06T01:10:00Z",
         "basis": "received_at"
       },
       "instruction": {
@@ -2810,11 +2924,11 @@
       "target_regions": [
         {
           "scheme": "qzss.dcx.area_code",
-          "code": "4205",
+          "code": "43213",
           "recognized": true,
           "labels": {
-            "ja": "宮城県気仙沼市",
-            "en": "Kesennuma-shi, Miyagi"
+            "ja": "熊本県宇城市",
+            "en": "Uki-shi, Kumamoto"
           }
         }
       ]
@@ -11362,13 +11476,13 @@
     "type": "qzss.dcr.earthquake_early_warning",
     "received_at": "2026-03-07T06:00:00Z",
     "satellite": null,
-    "nmea": "$QZQSM,55,9AAF899C80000324000039000548C5E2C000000003DFF8001C000012FE4B0FC*72",
-    "text": "防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 3月7日13時0分\n\n震央地名: 日向灘\n地震発生時刻: 7日13時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州",
+    "nmea": "$QZQSM,55,C6AF8C542000DB240000A8400548C5E2C000000003DFF8001C000010ADDB5D8*0E",
+    "text": "防災気象情報(緊急地震速報)(発表)(訓練/試験)\n*** これは訓練です ***\n緊急地震速報\n強い揺れに警戒してください。\n\n発表時刻: 8月21日10時0分\n\n震央地名: 日向灘\n地震発生時刻: 21日10時0分\n深さ: 10km\nマグニチュード: 7.2\n震度(下限): 震度6弱\n震度(上限): 〜程度以上\n長周期地震動階級(下限): 長周期地震動階級2\n長周期地震動階級(上限): 長周期地震動階級2\n島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州",
     "data": {
       "version": 1,
       "report_time": {
         "status": "time",
-        "value": "2026-03-07T04:00:00Z",
+        "value": "2026-08-21T01:00:00Z",
         "basis": "received_at"
       },
       "report_classification": {
@@ -11444,9 +11558,27 @@
           "en": "or greater"
         }
       },
+      "long_period_ground_motion_lower": {
+        "scheme": "qzss.dcr.long_period_ground_motion_lower_limit",
+        "code": "3",
+        "recognized": true,
+        "labels": {
+          "ja": "長周期地震動階級2",
+          "en": "Long-Period Ground Motion class of 2"
+        }
+      },
+      "long_period_ground_motion_upper": {
+        "scheme": "qzss.dcr.long_period_ground_motion_upper_limit",
+        "code": "3",
+        "recognized": true,
+        "labels": {
+          "ja": "長周期地震動階級2",
+          "en": "Long-Period Ground Motion class of 2"
+        }
+      },
       "occurrence_time": {
         "status": "time",
-        "value": "2026-03-07T04:00:00Z",
+        "value": "2026-08-21T01:00:00Z",
         "basis": "report_time"
       },
       "notifications": [

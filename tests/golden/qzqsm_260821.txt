@@ -1,0 +1,2441 @@
+>>> $QZQSM,56,53AD14540200035C0000A801142AD486A400FF200000000000000012FECDDD4*03
+Hypocenter
+防災気象情報(震源)(発表)(優先)
+21日9時1分ころ、地震がありました。
+この地震による津波の心配はありません。
+
+発表時刻: 8月21日9時4分
+
+震央地名: 沖縄本島近海
+緯度・経度: 北緯26度36分0秒 東経127度36分0秒
+深さ: 40km
+マグニチュード: 4.2
+{'coordinates_of_hypocenter': '北緯26度36分0秒 東経127度36分0秒',
+ 'coordinates_of_hypocenter_raw': {'lat_d': 26,
+                                   'lat_m': 36,
+                                   'lat_ns': 0,
+                                   'lat_s': 0,
+                                   'lon_d': 127,
+                                   'lon_ew': 0,
+                                   'lon_m': 36,
+                                   'lon_s': 0},
+ 'depth_of_hypocenter': '40km',
+ 'depth_of_hypocenter_raw': 40,
+ 'disaster_category': '震源',
+ 'disaster_category_en': 'Hypocenter',
+ 'disaster_category_no': 2,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'magnitude': '4.2',
+ 'magnitude_raw': 42,
+ 'message': b'S\xad\x14T\x02\x00\x03\\\x00\x00\xa8\x01\x14*\xd4\x86\xa4\x00\xff \x00\x00\x00\x00\x00\x00\x00\x12'
+            b'\xfe\xcd\xdd@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AD14540200035C0000A801142AD486A400FF200000000000000012FECDDD4*03',
+ 'notifications_on_disaster_prevention': ['この地震による津波の心配はありません。'],
+ 'notifications_on_disaster_prevention_raw': [215],
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 8, 21, 0, 1, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 21, 'hour': 0, 'minute': 1},
+ 'preamble': 'A',
+ 'raw': b'\xad\x14T\x02\x00\x03\\\x00\x00\xa8\x01\x14*\xd4\x86\xa4\x00\xff \x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '優先',
+ 'report_classification_en': 'Priority',
+ 'report_classification_no': 2,
+ 'report_time': datetime.datetime(2026, 8, 21, 0, 4, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'seismic_epicenter': '沖縄本島近海',
+ 'seismic_epicenter_raw': 850,
+ 'sentence': '$QZQSM,56,53AD14540200035C0000A801142AD486A400FF200000000000000012FECDDD4*03',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,56,C6AF8C542000DB240000A8400548C5E2C000000003DFF8001C000010ADDB5D8*0D
+EarthquakeEarlyWarning
+防災気象情報(緊急地震速報)(発表)(訓練/試験)
+*** これは訓練です ***
+緊急地震速報
+強い揺れに警戒してください。
+
+発表時刻: 8月21日10時0分
+
+震央地名: 日向灘
+地震発生時刻: 21日10時0分
+深さ: 10km
+マグニチュード: 7.2
+震度(下限): 震度6弱
+震度(上限): 〜程度以上
+長周期地震動階級(下限): 長周期地震動階級2
+長周期地震動階級(上限): 長周期地震動階級2
+島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
+{'assumptive': False,
+ 'depth_of_hypocenter': '10km',
+ 'depth_of_hypocenter_raw': 10,
+ 'disaster_category': '緊急地震速報',
+ 'disaster_category_en': 'Earthquake Early Warning',
+ 'disaster_category_no': 1,
+ 'eew_forecast_regions': ['島根',
+                          '岡山',
+                          '広島',
+                          '山口',
+                          '香川',
+                          '愛媛',
+                          '高知',
+                          '福岡',
+                          '佐賀',
+                          '長崎',
+                          '熊本',
+                          '大分',
+                          '宮崎',
+                          '鹿児島',
+                          '中国',
+                          '四国',
+                          '九州'],
+ 'eew_forecast_regions_raw': [37, 38, 39, 40, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 66, 67, 68],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'long_period_ground_motion_lower_limit': '長周期地震動階級2',
+ 'long_period_ground_motion_lower_limit_raw': 3,
+ 'long_period_ground_motion_upper_limit': '長周期地震動階級2',
+ 'long_period_ground_motion_upper_limit_raw': 3,
+ 'magnitude': '7.2',
+ 'magnitude_raw': 72,
+ 'message': b'\xc6\xaf\x8cT \x00\xdb$\x00\x00\xa8@\x05H\xc5\xe2\xc0\x00\x00\x00\x03\xdf\xf8\x00\x1c\x00\x00\x10'
+            b'\xad\xdb]\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AF8C542000DB240000A8400548C5E2C000000003DFF8001C000010ADDB5D8*0D',
+ 'notifications_on_disaster_prevention': ['強い揺れに警戒してください。'],
+ 'notifications_on_disaster_prevention_raw': [201],
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 8, 21, 1, 0, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 21, 'hour': 1, 'minute': 0},
+ 'preamble': 'C',
+ 'raw': b'\xaf\x8cT \x00\xdb$\x00\x00\xa8@\x05H\xc5\xe2\xc0\x00\x00\x00\x03\xdf\xf8\x00\x1c\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 0, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'seismic_epicenter': '日向灘',
+ 'seismic_epicenter_raw': 791,
+ 'seismic_intensity_lower_limit': '震度6弱',
+ 'seismic_intensity_lower_limit_raw': 8,
+ 'seismic_intensity_upper_limit': '〜程度以上',
+ 'seismic_intensity_upper_limit_raw': 11,
+ 'sentence': '$QZQSM,56,C6AF8C542000DB240000A8400548C5E2C000000003DFF8001C000010ADDB5D8*0D',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,56,9AAF9454228003880000A8451440C5C82A010830000000000000001332A67F8*0F
+Hypocenter
+防災気象情報(震源)(発表)(訓練/試験)
+*** これは訓練です ***
+21日10時5分ころ、地震がありました。
+震源の近傍で津波発生の可能性があります。
+
+発表時刻: 8月21日10時5分
+
+震央地名: 日向灘
+緯度・経度: 北緯32度42分0秒 東経132度6分0秒
+深さ: 40km
+マグニチュード: 6.4
+{'coordinates_of_hypocenter': '北緯32度42分0秒 東経132度6分0秒',
+ 'coordinates_of_hypocenter_raw': {'lat_d': 32,
+                                   'lat_m': 42,
+                                   'lat_ns': 0,
+                                   'lat_s': 0,
+                                   'lon_d': 132,
+                                   'lon_ew': 0,
+                                   'lon_m': 6,
+                                   'lon_s': 0},
+ 'depth_of_hypocenter': '40km',
+ 'depth_of_hypocenter_raw': 40,
+ 'disaster_category': '震源',
+ 'disaster_category_en': 'Hypocenter',
+ 'disaster_category_no': 2,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'magnitude': '6.4',
+ 'magnitude_raw': 64,
+ 'message': b'\x9a\xaf\x94T"\x80\x03\x88\x00\x00\xa8E\x14@\xc5\xc8*\x01\x080\x00\x00\x00\x00\x00\x00\x00\x13'
+            b'2\xa6\x7f\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAF9454228003880000A8451440C5C82A010830000000000000001332A67F8*0F',
+ 'notifications_on_disaster_prevention': ['震源の近傍で津波発生の可能性があります。'],
+ 'notifications_on_disaster_prevention_raw': [226],
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 21, 'hour': 1, 'minute': 5},
+ 'preamble': 'B',
+ 'raw': b'\xaf\x94T"\x80\x03\x88\x00\x00\xa8E\x14@\xc5\xc8*\x01\x080\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'seismic_epicenter': '日向灘',
+ 'seismic_epicenter_raw': 791,
+ 'sentence': '$QZQSM,56,9AAF9454228003880000A8451440C5C82A010830000000000000001332A67F8*0F',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,56,53AF9C54228005422CB25AE775A8D4CA854AB8000000000000000013A6D9B5C*06
+SeismicIntensity
+防災気象情報(震度)(発表)(訓練/試験)
+*** これは訓練です ***
+21日10時5分ころ、地震による強い揺れを感じました。
+
+発表時刻: 8月21日10時5分
+
+震度: 5強
+大分県
+
+震度: 5強
+宮崎県
+
+震度: 5弱
+高知県
+
+震度: 5弱
+熊本県
+
+震度: 4
+山口県
+
+震度: 4
+愛媛県
+
+震度: 4
+福岡県
+
+震度: 4
+佐賀県
+
+震度: 4
+鹿児島県
+{'disaster_category': '震度',
+ 'disaster_category_en': 'Seismic Intensity',
+ 'disaster_category_no': 3,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\x9cT"\x80\x05B,\xb2Z\xe7u\xa8\xd4\xca\x85J\xb8\x00\x00\x00\x00\x00\x00\x00\x00\x13\xa6\xd9\xb5\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AF9C54228005422CB25AE775A8D4CA854AB8000000000000000013A6D9B5C*06',
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 21, 'hour': 1, 'minute': 5},
+ 'preamble': 'A',
+ 'prefectures': ['大分県', '宮崎県', '高知県', '熊本県', '山口県', '愛媛県', '福岡県', '佐賀県', '鹿児島県'],
+ 'prefectures_raw': [44, 45, 39, 43, 35, 38, 40, 41, 46],
+ 'raw': b'\xaf\x9cT"\x80\x05B,\xb2Z\xe7u\xa8\xd4\xca\x85J\xb8\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'seismic_intensities': ['5強', '5強', '5弱', '5弱', '4', '4', '4', '4', '4'],
+ 'seismic_intensities_raw': [4, 4, 3, 3, 2, 2, 2, 2, 2],
+ 'sentence': '$QZQSM,56,53AF9C54228005422CB25AE775A8D4CA854AB8000000000000000013A6D9B5C*06',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFAC54228001E8F67C30453960114E620453BE00000000000000102EB36F4*7B
+Tsunami
+防災気象情報(津波)(発表)(訓練/試験)
+*** これは訓練です ***
+津波警報を発表しました。
+＜津波警報＞
+津波による被害が発生します。
+沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。
+津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。
+＜津波注意報＞
+海の中や海岸付近は危険です。
+海の中にいる人はただちに海から上がって、海岸から離れてください。
+潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。
+＜津波予報(若干の海面変動)＞
+若干の海面変動が予想されますが、被害の心配はありません。
+
+発表時刻: 8月21日10時5分
+
+津波到達予想時刻: 21日10時5分
+津波の高さ: 3m
+愛媛県宇和海沿岸
+
+津波到達予想時刻: 21日10時5分
+津波の高さ: 3m
+高知県
+
+津波到達予想時刻: 21日10時5分
+津波の高さ: 3m
+宮崎県
+{'disaster_category': '津波',
+ 'disaster_category_en': 'Tsunami',
+ 'disaster_category_no': 5,
+ 'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_times': [datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc)],
+ 'expected_tsunami_arrival_times_raw': [{'day': 0, 'hour': 1, 'minute': 5},
+                                        {'day': 0, 'hour': 1, 'minute': 5},
+                                        {'day': 0, 'hour': 1, 'minute': 5}],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xacT"\x80\x01\xe8\xf6|0E9`\x11Nb\x04S\xbe\x00\x00\x00\x00\x00\x00\x00\x10.\xb3o@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFAC54228001E8F67C30453960114E620453BE00000000000000102EB36F4*7B',
+ 'notifications_on_disaster_prevention': ['＜津波警報＞\n'
+                                          '津波による被害が発生します。\n'
+                                          '沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n'
+                                          '津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。',
+                                          '＜津波注意報＞\n'
+                                          '海の中や海岸付近は危険です。\n'
+                                          '海の中にいる人はただちに海から上がって、海岸から離れてください。\n'
+                                          '潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。',
+                                          '＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。'],
+ 'notifications_on_disaster_prevention_raw': [122, 123, 124],
+ 'preamble': 'C',
+ 'raw': b'\xaf\xacT"\x80\x01\xe8\xf6|0E9`\x11Nb\x04S\xbe\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFAC54228001E8F67C30453960114E620453BE00000000000000102EB36F4*7B',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'tsunami_forecast_regions': ['愛媛県宇和海沿岸', '高知県', '宮崎県'],
+ 'tsunami_forecast_regions_raw': [600, 610, 760],
+ 'tsunami_heights': ['3m', '3m', '3m'],
+ 'tsunami_heights_raw': [3, 3, 3],
+ 'tsunami_warning_code': '津波警報',
+ 'tsunami_warning_code_raw': 3,
+ 'version': 1}
+
+>>> $QZQSM,57,C6B084CDE14816C7200000000000000000002A33400000000000001112B9590*70
+LAlert
+### DCX Message - L-Alert ###
+A1 - Message type: All Clear
+A2 - Country/region name: Japan
+A3 - Provider identifier: Foundation for MultiMedia Communications
+A4 - Hazard category and type: GEO - Earthquake
+A4 - Hazard definition: Sudden movement of a block of the Earth’s crust along a geological fault and associated ground shaking.
+A5 - Severity: Unknown
+A6A7 - Hazard onset: 2026-08-21T01:10:00Z
+A8 - Hazard duration: Unknown
+EX1 - Target area: Uki-shi, Kumamoto
+EX1 - Target area (ja): 熊本県宇城市
+{'a10_library_version': '#1',
+ 'a11_japanese_library': '',
+ 'a11_japanese_library_ja': '',
+ 'a1_message_type': 'All Clear',
+ 'a2_country_region_name': 'Japan',
+ 'a3_provider_identifier': 'Foundation for MultiMedia Communications',
+ 'a4_hazard_category': 'GEO',
+ 'a4_hazard_definition': 'Sudden movement of a block of the Earth’s crust along a geological fault and associated '
+                         'ground shaking.',
+ 'a4_hazard_type': 'Earthquake',
+ 'a5_severity': 'Unknown',
+ 'a6_hazard_onset_week': 'Current',
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2026, 8, 21, 1, 10, tzinfo=datetime.timezone.utc),
+ 'a7_hazard_onset_time_of_week': 'FRIDAY - 01:10 AM',
+ 'a8_hazard_duration': 'Unknown',
+ 'a9_type_of_library': 'Country/region library',
+ 'camf': {'a1': 3,
+          'a10': 0,
+          'a11': 0,
+          'a12': 0,
+          'a13': 0,
+          'a14': 0,
+          'a15': 0,
+          'a16': 0,
+          'a17': 0,
+          'a18': 0,
+          'a2': 111,
+          'a3': 1,
+          'a4': 36,
+          'a5': 0,
+          'a6': 0,
+          'a7': 5831,
+          'a8': 0,
+          'a9': 1,
+          'ex1': 43213,
+          'ex10': 0,
+          'ex2': 0,
+          'ex3': 0,
+          'ex4': 0,
+          'ex5': 0,
+          'ex6': 0,
+          'ex7': 0,
+          'ex8': 1,
+          'ex9': 5880012263485603840,
+          'sdm': 132,
+          'sdmt': 0,
+          'vn': 1},
+ 'dcx_message_type': 'L-Alert',
+ 'dcx_version': 1,
+ 'ex1_target_area': 'Uki-shi, Kumamoto',
+ 'ex1_target_area_ja': '熊本県宇城市',
+ 'ignore_a12_to_a16': True,
+ 'ignore_a17_to_a18': False,
+ 'ignore_ex1': False,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'message': b'\xc6\xb0\x84\xcd\xe1H\x16\xc7 \x00\x00\x00\x00\x00\x00\x00\x00\x00*3@\x00\x00\x00\x00\x00\x00\x11'
+            b'\x12\xb9Y\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCX',
+ 'nmea': '$QZQSM,57,C6B084CDE14816C7200000000000000000002A33400000000000001112B9590*70',
+ 'preamble': 'C',
+ 'raw': b'\xcd\xe1H\x16\xc7 \x00\x00\x00\x00\x00\x00\x00\x00\x00*3@\x00\x00\x00\x00\x00\x00\x10',
+ 'satellite_designation_mask': ['For Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_id': 57,
+ 'satellite_prn': 185,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,57,C6B084CDE14816C7200000000000000000002A33400000000000001112B9590*70',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc)}
+
+>>> $QZQSM,56,C6AFAC542C8001E8F67C30593960164E620593BBC164EF80000000125E524E8*0F
+Tsunami
+防災気象情報(津波)(発表)(訓練/試験)
+*** これは訓練です ***
+津波警報を発表しました。
+＜津波警報＞
+津波による被害が発生します。
+沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。
+津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。
+＜津波注意報＞
+海の中や海岸付近は危険です。
+海の中にいる人はただちに海から上がって、海岸から離れてください。
+潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。
+＜津波予報(若干の海面変動)＞
+若干の海面変動が予想されますが、被害の心配はありません。
+
+発表時刻: 8月21日10時25分
+
+津波到達予想時刻: 21日10時25分
+津波の高さ: 3m
+愛媛県宇和海沿岸
+
+津波到達予想時刻: 21日10時25分
+津波の高さ: 3m
+高知県
+
+津波到達予想時刻: 21日10時25分
+津波の高さ: 3m
+大分県豊後水道沿岸
+
+津波到達予想時刻: 21日10時25分
+津波の高さ: 3m
+宮崎県
+{'disaster_category': '津波',
+ 'disaster_category_en': 'Tsunami',
+ 'disaster_category_no': 5,
+ 'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_times': [datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc)],
+ 'expected_tsunami_arrival_times_raw': [{'day': 0, 'hour': 1, 'minute': 25},
+                                        {'day': 0, 'hour': 1, 'minute': 25},
+                                        {'day': 0, 'hour': 1, 'minute': 25},
+                                        {'day': 0, 'hour': 1, 'minute': 25}],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xacT,\x80\x01\xe8\xf6|0Y9`\x16Nb\x05\x93\xbb\xc1d\xef\x80\x00\x00\x00\x12^RN\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFAC542C8001E8F67C30593960164E620593BBC164EF80000000125E524E8*0F',
+ 'notifications_on_disaster_prevention': ['＜津波警報＞\n'
+                                          '津波による被害が発生します。\n'
+                                          '沿岸部や川沿いにいる人はただちに高台や避難ビルなど安全な場所へ避難してください。\n'
+                                          '津波は繰り返し襲ってきます。警報が解除されるまで安全な場所から離れないでください。',
+                                          '＜津波注意報＞\n'
+                                          '海の中や海岸付近は危険です。\n'
+                                          '海の中にいる人はただちに海から上がって、海岸から離れてください。\n'
+                                          '潮の流れが速い状態が続きますので、注意報が解除されるまで海に入ったり海岸に近づいたりしないようにしてください。',
+                                          '＜津波予報(若干の海面変動)＞\n若干の海面変動が予想されますが、被害の心配はありません。'],
+ 'notifications_on_disaster_prevention_raw': [122, 123, 124],
+ 'preamble': 'C',
+ 'raw': b'\xaf\xacT,\x80\x01\xe8\xf6|0Y9`\x16Nb\x05\x93\xbb\xc1d\xef\x80\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFAC542C8001E8F67C30593960164E620593BBC164EF80000000125E524E8*0F',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'tsunami_forecast_regions': ['愛媛県宇和海沿岸', '高知県', '大分県豊後水道沿岸', '宮崎県'],
+ 'tsunami_forecast_regions_raw': [600, 610, 751, 760],
+ 'tsunami_heights': ['3m', '3m', '3m', '3m'],
+ 'tsunami_heights_raw': [3, 3, 3, 3],
+ 'tsunami_warning_code': '津波警報',
+ 'tsunami_warning_code_raw': 3,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFA454318002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81395D2DC8*09
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (1) [1/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4T1\x80\x02\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4q\xc1\xd4\xf1\xc1\xca\xf3Y_\x82\xd8\x13'
+            b'\x95\xd2\xdc\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFA454318002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81395D2DC8*09',
+ 'page_number': 1,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4q\xc1\xd4\xf1\xc1\xca\xf3Y_\x82\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFA454318002F2C6CBF35ADBF1C1C471C1D4F1C1CAF3595F82D81395D2DC8*09',
+ 'text_information': b'\xe5\x8d\x97\xe6\xb5\xb7\xe3\x83\x88\xe3\x83\xa9\xe3\x83\x95\xe6\xb2\xbf',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,53AFA454318002F1C0D471C0D1F1C0D371C0C7F1C0D071C0CAB4D8102623840*09
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (26) [2/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4T1\x80\x02\xf1\xc0\xd4q\xc0\xd1\xf1\xc0\xd3q\xc0\xc7\xf1\xc0\xd0q\xc0\xca\xb4\xd8\x10&#\x84\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFA454318002F1C0D471C0D1F1C0D371C0C7F1C0D071C0CAB4D8102623840*09',
+ 'page_number': 26,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xd4q\xc0\xd1\xf1\xc0\xd3q\xc0\xc7\xf1\xc0\xd0q\xc0\xca\xb4\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFA454318002F1C0D471C0D1F1C0D371C0C7F1C0D071C0CAB4D8102623840*09',
+ 'text_information': b'\xe3\x81\xa8\xe3\x81\xa3\xe3\x81\xa6\xe3\x81\x8f\xe3\x81\xa0\xe3\x81\x95',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0CFF4CC5973C0DEF2D7DF72DFCE71C14932D810BA33CB0*73
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (25) [3/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xcf\xf4\xccYs\xc0\xde\xf2\xd7\xdfr\xdf\xceq\xc1I2\xd8\x10\xba3\xcb\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0CFF4CC5973C0DEF2D7DF72DFCE71C14932D810BA33CB0*73',
+ 'page_number': 25,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xcf\xf4\xccYs\xc0\xde\xf2\xd7\xdfr\xdf\xceq\xc1I2\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0CFF4CC5973C0DEF2D7DF72DFCE71C14932D810BA33CB0*73',
+ 'text_information': b'\xe3\x81\x9f\xe9\x98\xb2\xe7\x81\xbd\xe5\xaf\xbe\xe5\xbf\x9c\xe3\x82\x92',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0C5F1C0C8F3D6C4F1C0D5F2DFCE71C0CC30D8116197130*00
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (24) [4/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xc5\xf1\xc0\xc8\xf3\xd6\xc4\xf1\xc0\xd5\xf2\xdf\xceq\xc0\xcc0\xd8\x11'
+            b'a\x97\x13\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0C5F1C0C8F3D6C4F1C0D5F2DFCE71C0CC30D8116197130*00',
+ 'page_number': 24,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xc5\xf1\xc0\xc8\xf3\xd6\xc4\xf1\xc0\xd5\xf2\xdf\xceq\xc0\xcc0\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0C5F1C0C8F3D6C4F1C0D5F2DFCE71C0CC30D8116197130*00',
+ 'text_information': b'\xe3\x81\x8b\xe3\x81\x91\xe7\xad\x89\xe3\x81\xab\xe5\xbf\x9c\xe3\x81\x98',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFA454318002F1C0D4F1C0C5F1C144F1C0D772C8DE71C0D9AED811DABEC6C*0B
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (23) [5/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4T1\x80\x02\xf1\xc0\xd4\xf1\xc0\xc5\xf1\xc1D\xf1\xc0\xd7r\xc8\xdeq\xc0\xd9\xae\xd8\x11'
+            b'\xda\xbe\xc6\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFA454318002F1C0D4F1C0C5F1C144F1C0D772C8DE71C0D9AED811DABEC6C*0B',
+ 'page_number': 23,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xd4\xf1\xc0\xc5\xf1\xc1D\xf1\xc0\xd7r\xc8\xdeq\xc0\xd9\xae\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFA454318002F1C0D4F1C0C5F1C144F1C0D772C8DE71C0D9AED811DABEC6C*0B',
+ 'text_information': b'\xe3\x81\xa9\xe3\x81\x8b\xe3\x82\x89\xe3\x81\xae\xe5\x91\xbc\xe3\x81\xb3',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,53AFA454318002F2DD4E71C1427443D573595DF25EC9F1C0D52CD81267DB774*77
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (22) [6/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4T1\x80\x02\xf2\xddNq\xc1BtC\xd5sY]\xf2^\xc9\xf1\xc0\xd5,\xd8\x12g\xdbw@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFA454318002F2DD4E71C1427443D573595DF25EC9F1C0D52CD81267DB774*77',
+ 'page_number': 22,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf2\xddNq\xc1BtC\xd5sY]\xf2^\xc9\xf1\xc0\xd5,\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFA454318002F2DD4E71C1427443D573595DF25EC9F1C0D52CD81267DB774*77',
+ 'text_information': b'\xe5\xba\x9c\xe3\x82\x84\xe8\x87\xaa\xe6\xb2\xbb\xe4\xbd\x93\xe3\x81\xaa',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0CCF1C041725DC572DF4671C0D7734A5FAAD812C97F150*0F
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (21) [7/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xcc\xf1\xc0Ar]\xc5r\xdfFq\xc0\xd7sJ_\xaa\xd8\x12\xc9\x7f\x15\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0CCF1C041725DC572DF4671C0D7734A5FAAD812C97F150*0F',
+ 'page_number': 21,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xcc\xf1\xc0Ar]\xc5r\xdfFq\xc0\xd7sJ_\xaa\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0CCF1C041725DC572DF4671C0D7734A5FAAD812C97F150*0F',
+ 'text_information': b'\xe3\x81\x99\xe3\x80\x82\xe4\xbb\x8a\xe5\xbe\x8c\xe3\x81\xae\xe6\x94\xbf',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0D4744041F1C0C471C144F1C14671C0DF28D81394E6124*75
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (20) [8/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xd4t@A\xf1\xc0\xc4q\xc1D\xf1\xc1Fq\xc0\xdf(\xd8\x13\x94\xe6\x12@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0D4744041F1C0C471C144F1C14671C0DF28D81394E6124*75',
+ 'page_number': 20,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xd4t@A\xf1\xc0\xc4q\xc1D\xf1\xc1Fq\xc0\xdf(\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0D4744041F1C0C471C144F1C14671C0DF28D81394E6124*75',
+ 'text_information': b'\xe3\x81\xa8\xe8\x80\x83\xe3\x81\x88\xe3\x82\x89\xe3\x82\x8c\xe3\x81\xbe',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFA454318002F4D5CC71C0DF71C0D1F1C0D371C0C271C145A6D8101254AE0*0E
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (19) [9/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4T1\x80\x02\xf4\xd5\xccq\xc0\xdfq\xc0\xd1\xf1\xc0\xd3q\xc0\xc2q\xc1E\xa6\xd8\x10\x12T\xae\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFA454318002F4D5CC71C0DF71C0D1F1C0D371C0C271C145A6D8101254AE0*0E',
+ 'page_number': 19,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf4\xd5\xccq\xc0\xdfq\xc0\xd1\xf1\xc0\xd3q\xc0\xc2q\xc1E\xa6\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFA454318002F4D5CC71C0DF71C0D1F1C0D371C0C271C145A6D8101254AE0*0E',
+ 'text_information': b'\xe9\xab\x98\xe3\x81\xbe\xe3\x81\xa3\xe3\x81\xa6\xe3\x81\x84\xe3\x82\x8b',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,53AFA454318002F1C0DCF1C0D373CDDC72D7DF73CD4271C0D5A4D810811BE64*0E
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (18) [10/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4T1\x80\x02\xf1\xc0\xdc\xf1\xc0\xd3s\xcd\xdcr\xd7\xdfs\xcdBq\xc0\xd5\xa4\xd8\x10\x81\x1b\xe6@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFA454318002F1C0DCF1C0D373CDDC72D7DF73CD4271C0D5A4D810811BE64*0E',
+ 'page_number': 18,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xdc\xf1\xc0\xd3s\xcd\xdcr\xd7\xdfs\xcdBq\xc0\xd5\xa4\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFA454318002F1C0DCF1C0D373CDDC72D7DF73CD4271C0D5A4D810811BE64*0E',
+ 'text_information': b'\xe3\x81\xb9\xe3\x81\xa6\xe7\x9b\xb8\xe5\xaf\xbe\xe7\x9a\x84\xe3\x81\xab',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0C672DCD9F2DC5C734CC171C0D5F357CA22D81139216B0*03
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (17) [11/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xc6r\xdc\xd9\xf2\xdc\\sL\xc1q\xc0\xd5\xf3W\xca"\xd8\x119!k\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0C672DCD9F2DC5C734CC171C0D5F357CA22D81139216B0*03',
+ 'page_number': 17,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xc6r\xdc\xd9\xf2\xdc\\sL\xc1q\xc0\xd5\xf3W\xca"\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0C672DCD9F2DC5C734CC171C0D5F357CA22D81139216B0*03',
+ 'text_information': b'\xe3\x81\x8c\xe5\xb9\xb3\xe5\xb8\xb8\xe6\x99\x82\xe3\x81\xab\xe6\xaf\x94',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0D773CCDD73CA4FF2C7D7F441DEF34053A0D811CDABB44*77
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (16) [12/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xd7s\xcc\xdds\xcaO\xf2\xc7\xd7\xf4A\xde\xf3@S\xa0\xd8\x11\xcd\xab\xb4@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0D773CCDD73CA4FF2C7D7F441DEF34053A0D811CDABB44*77',
+ 'page_number': 16,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xd7s\xcc\xdds\xcaO\xf2\xc7\xd7\xf4A\xde\xf3@S\xa0\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0D773CCDD73CA4FF2C7D7F441DEF34053A0D811CDABB44*77',
+ 'text_information': b'\xe3\x81\xae\xe7\x99\xba\xe7\x94\x9f\xe5\x8f\xaf\xe8\x83\xbd\xe6\x80\xa7',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFA454318002F1C040F2D253F45347F35450F2CE5874CE439ED8124478F60*77
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (15) [13/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4T1\x80\x02\xf1\xc0@\xf2\xd2S\xf4SG\xf3TP\xf2\xceXt\xceC\x9e\xd8\x12Dx\xf6\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFA454318002F1C040F2D253F45347F35450F2CE5874CE439ED8124478F60*77',
+ 'page_number': 15,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0@\xf2\xd2S\xf4SG\xf3TP\xf2\xceXt\xceC\x9e\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFA454318002F1C040F2D253F45347F35450F2CE5874CE439ED8124478F60*77',
+ 'text_information': b'\xe3\x80\x81\xe5\xa4\xa7\xe8\xa6\x8f\xe6\xa8\xa1\xe5\x9c\xb0\xe9\x9c\x87',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,53AFA454318002F2D74D74CE43F35D4872CFCFF1C0D3F1C0D79CD812F9571E8*72
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (14) [14/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4T1\x80\x02\xf2\xd7Mt\xceC\xf3]Hr\xcf\xcf\xf1\xc0\xd3\xf1\xc0\xd7\x9c\xd8\x12\xf9W\x1e\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFA454318002F2D74D74CE43F35D4872CFCFF1C0D3F1C0D79CD812F9571E8*72',
+ 'page_number': 14,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf2\xd7Mt\xceC\xf3]Hr\xcf\xcf\xf1\xc0\xd3\xf1\xc0\xd7\x9c\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFA454318002F2D74D74CE43F35D4872CFCFF1C0D3F1C0D79CD812F9571E8*72',
+ 'text_information': b'\xe5\xae\x9a\xe9\x9c\x87\xe6\xba\x90\xe5\x9f\x9f\xe3\x81\xa7\xe3\x81\xaf',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C1D4F1C1CAF2CE5874CE43F1C0D77341D99AD8135CD9054*71
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (13) [15/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc1\xd4\xf1\xc1\xca\xf2\xceXt\xceC\xf1\xc0\xd7sA\xd9\x9a\xd8\x13\\\xd9\x05@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C1D4F1C1CAF2CE5874CE43F1C0D77341D99AD8135CD9054*71',
+ 'page_number': 13,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc1\xd4\xf1\xc1\xca\xf2\xceXt\xceC\xf1\xc0\xd7sA\xd9\x9a\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C1D4F1C1CAF2CE5874CE43F1C0D77341D99AD8135CD9054*71',
+ 'text_information': b'\xe3\x83\xa9\xe3\x83\x95\xe5\x9c\xb0\xe9\x9c\x87\xe3\x81\xae\xe6\x83\xb3',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C14471C14571C040F2C6CBF35ADBF1C1C418D8103A37D28*71
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (12) [16/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc1Dq\xc1Eq\xc0@\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4\x18\xd8\x10:7\xd2\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C14471C14571C040F2C6CBF35ADBF1C1C418D8103A37D28*71',
+ 'page_number': 12,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc1Dq\xc1Eq\xc0@\xf2\xc6\xcb\xf3Z\xdb\xf1\xc1\xc4\x18\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C14471C14571C040F2C6CBF35ADBF1C1C418D8103A37D28*71',
+ 'text_information': b'\xe3\x82\x88\xe3\x82\x8a\xe3\x80\x81\xe5\x8d\x97\xe6\xb5\xb7\xe3\x83\x88',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFA454318002F1C0DCF1C14571C0D773CCDD73CA4FF1C0D596D81088AA8C4*7D
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (11) [17/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4T1\x80\x02\xf1\xc0\xdc\xf1\xc1Eq\xc0\xd7s\xcc\xdds\xcaO\xf1\xc0\xd5\x96\xd8\x10\x88\xaa\x8c@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFA454318002F1C0DCF1C14571C0D773CCDD73CA4FF1C0D596D81088AA8C4*7D',
+ 'page_number': 11,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xdc\xf1\xc1Eq\xc0\xd7s\xcc\xdds\xcaO\xf1\xc0\xd5\x96\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFA454318002F1C0DCF1C14571C0D773CCDD73CA4FF1C0D596D81088AA8C4*7D',
+ 'text_information': b'\xe3\x81\xb9\xe3\x82\x8a\xe3\x81\xae\xe7\x99\xba\xe7\x94\x9f\xe3\x81\xab',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,53AFA454318002F1C145F1C14371C0D1F1C0C7F1C14571C0CC94D8111F1F08C*07
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (10) [18/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4T1\x80\x02\xf1\xc1E\xf1\xc1Cq\xc0\xd1\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\x94\xd8\x11\x1f\x1f\x08\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFA454318002F1C145F1C14371C0D1F1C0C7F1C14571C0CC94D8111F1F08C*07',
+ 'page_number': 10,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc1E\xf1\xc1Cq\xc0\xd1\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\x94\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFA454318002F1C145F1C14371C0D1F1C0C7F1C14571C0CC94D8111F1F08C*07',
+ 'text_information': b'\xe3\x82\x8b\xe3\x82\x86\xe3\x81\xa3\xe3\x81\x8f\xe3\x82\x8a\xe3\x81\x99',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F4C04D72DC5C71C0D471C0D7F3CAD871C0D512D81199ABED8*05
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (9) [19/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf4\xc0Mr\xdc\\q\xc0\xd4q\xc0\xd7\xf3\xca\xd8q\xc0\xd5\x12\xd8\x11\x99\xab\xed\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F4C04D72DC5C71C0D471C0D7F3CAD871C0D512D81199ABED8*05',
+ 'page_number': 9,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf4\xc0Mr\xdc\\q\xc0\xd4q\xc0\xd7\xf3\xca\xd8q\xc0\xd5\x12\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F4C04D72DC5C71C0D471C0D7F3CAD871C0D512D81199ABED8*05',
+ 'text_information': b'\xe9\x80\x9a\xe5\xb8\xb8\xe3\x81\xa8\xe3\x81\xaf\xe7\x95\xb0\xe3\x81\xaa',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C14671C0DF71C0CCF1C04171C0C9F1C0D710D8124FDE658*03
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (8) [20/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc1Fq\xc0\xdfq\xc0\xcc\xf1\xc0Aq\xc0\xc9\xf1\xc0\xd7\x10\xd8\x12O\xdee\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C14671C0DF71C0CCF1C04171C0C9F1C0D710D8124FDE658*03',
+ 'page_number': 8,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc1Fq\xc0\xdfq\xc0\xcc\xf1\xc0Aq\xc0\xc9\xf1\xc0\xd7\x10\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C14671C0DF71C0CCF1C04171C0C9F1C0D710D8124FDE658*03',
+ 'text_information': b'\xe3\x82\x8c\xe3\x81\xbe\xe3\x81\x99\xe3\x80\x82\xe3\x81\x93\xe3\x81\xae',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFA454318002F1C0C9F1C0D471C0C673475472D74D71C0CA8ED812F022CBC*0F
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (7) [21/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4T1\x80\x02\xf1\xc0\xc9\xf1\xc0\xd4q\xc0\xc6sGTr\xd7Mq\xc0\xca\x8e\xd8\x12\xf0"\xcb\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFA454318002F1C0C9F1C0D471C0C673475472D74D71C0CA8ED812F022CBC*0F',
+ 'page_number': 7,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xc9\xf1\xc0\xd4q\xc0\xc6sGTr\xd7Mq\xc0\xca\x8e\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFA454318002F1C0C9F1C0D471C0C673475472D74D71C0CA8ED812F022CBC*0F',
+ 'text_information': b'\xe3\x81\x93\xe3\x81\xa8\xe3\x81\x8c\xe6\x8e\xa8\xe5\xae\x9a\xe3\x81\x95',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,53AFA454318002F3CCDD73CA4FF1C0CBF1C0D371C0C271C1458CD81349B6494*79
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (6) [22/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4T1\x80\x02\xf3\xcc\xdds\xcaO\xf1\xc0\xcb\xf1\xc0\xd3q\xc0\xc2q\xc1E\x8c\xd8\x13I\xb6I@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFA454318002F3CCDD73CA4FF1C0CBF1C0D371C0C271C1458CD81349B6494*79',
+ 'page_number': 6,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf3\xcc\xdds\xcaO\xf1\xc0\xcb\xf1\xc0\xd3q\xc0\xc2q\xc1E\x8c\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFA454318002F3CCDD73CA4FF1C0CBF1C0D371C0C271C1458CD81349B6494*79',
+ 'text_information': b'\xe7\x99\xba\xe7\x94\x9f\xe3\x81\x97\xe3\x81\xa6\xe3\x81\x84\xe3\x82\x8b',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0C7F1C14571C0CCF1C0DCF1C14571C0C60AD813FF9E1B4*7B
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (5) [23/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\xf1\xc0\xdc\xf1\xc1Eq\xc0\xc6\n\xd8\x13\xff\x9e\x1b@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0C7F1C14571C0CCF1C0DCF1C14571C0C60AD813FF9E1B4*7B',
+ 'page_number': 5,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xc7\xf1\xc1Eq\xc0\xcc\xf1\xc0\xdc\xf1\xc1Eq\xc0\xc6\n\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0C7F1C14571C0CCF1C0DCF1C14571C0C60AD813FF9E1B4*7B',
+ 'text_information': b'\xe3\x81\x8f\xe3\x82\x8a\xe3\x81\x99\xe3\x81\xb9\xe3\x82\x8a\xe3\x81\x8c',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0D7F3CAD871C0D571C145F1C14371C0D188D810A1F2310*0D
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (4) [24/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xd7\xf3\xca\xd8q\xc0\xd5q\xc1E\xf1\xc1Cq\xc0\xd1\x88\xd8\x10\xa1\xf21\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0D7F3CAD871C0D571C145F1C14371C0D188D810A1F2310*0D',
+ 'page_number': 4,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xd7\xf3\xca\xd8q\xc0\xd5q\xc1E\xf1\xc1Cq\xc0\xd1\x88\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0D7F3CAD871C0D571C145F1C14371C0D188D810A1F2310*0D',
+ 'text_information': b'\xe3\x81\xaf\xe7\x95\xb0\xe3\x81\xaa\xe3\x82\x8b\xe3\x82\x86\xe3\x81\xa3',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFA454318002F2D141F3CAC671C0D3F4C04D72DC5C71C0D406D8111756F08*71
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (3) [25/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xa4T1\x80\x02\xf2\xd1A\xf3\xca\xc6q\xc0\xd3\xf4\xc0Mr\xdc\\q\xc0\xd4\x06\xd8\x11\x17V\xf0\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFA454318002F2D141F3CAC671C0D3F4C04D72DC5C71C0D406D8111756F08*71',
+ 'page_number': 3,
+ 'preamble': 'B',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf2\xd1A\xf3\xca\xc6q\xc0\xd3\xf4\xc0Mr\xdc\\q\xc0\xd4\x06\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFA454318002F2D141F3CAC671C0D3F4C04D72DC5C71C0D406D8111756F08*71',
+ 'text_information': b'\xe5\xa2\x83\xe7\x95\x8c\xe3\x81\xa7\xe9\x80\x9a\xe5\xb8\xb8\xe3\x81\xa8',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,53AFA454318002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D811B3D1B28*09
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+受信中 (2) [26/27]
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xa4T1\x80\x02\xf1\xc0\xc2q\xc0\xd7q\xc1\xcb\xf1\xc1\xd6q\xc1\xdeq\xc1\xc4\x04\xd8\x11'
+            b'\xb3\xd1\xb2\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFA454318002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D811B3D1B28*09',
+ 'page_number': 2,
+ 'preamble': 'A',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xc2q\xc0\xd7q\xc1\xcb\xf1\xc1\xd6q\xc1\xdeq\xc1\xc4\x04\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFA454318002F1C0C271C0D771C1CBF1C1D671C1DE71C1C404D811B3D1B28*09',
+ 'text_information': b'\xe3\x81\x84\xe3\x81\xae\xe3\x83\x97\xe3\x83\xac\xe3\x83\xbc\xe3\x83\x88',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFA454318002F1C0C271C04100000000000000000000000036D8123DD181C*7E
+NankaiTroughEarthquake
+防災気象情報(南海トラフ地震)(発表)(訓練/試験)
+*** これは訓練です ***
+南海トラフ地震に関連する情報が発表されました。
+
+発表時刻: 8月21日10時35分
+地震関連情報: 巨大地震注意
+南海トラフ沿いのプレート境界で通常とは異なるゆっくりすべりが発生していることが推定されます。この通常とは異なるゆっくりすべりの発生により、南海トラフ地震の想定震源域では、大規模地震の発生可能性が平常時に比べて相対的に高まっていると考えられます。今後の政府や自治体などからの呼びかけ等に応じた防災対応をとってください。
+{'disaster_category': '南海トラフ地震',
+ 'disaster_category_en': 'Nankai Trough Earthquake',
+ 'disaster_category_no': 4,
+ 'information_serial_code': '巨大地震注意',
+ 'information_serial_code_raw': 5,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xa4T1\x80\x02\xf1\xc0\xc2q\xc0A\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x006\xd8\x12'
+            b'=\xd1\x81\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFA454318002F1C0C271C04100000000000000000000000036D8123DD181C*7E',
+ 'page_number': 27,
+ 'preamble': 'C',
+ 'raw': b'\xaf\xa4T1\x80\x02\xf1\xc0\xc2q\xc0A\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x006\xd8\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFA454318002F1C0C271C04100000000000000000000000036D8123DD181C*7E',
+ 'text_information': b'\xe3\x81\x84\xe3\x80\x82\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'total_page': 27,
+ 'version': 1}
+
+>>> $QZQSM,56,C6AFAC543180019C00002063396018CE620633BBC18CEF8000000012E2E2C4C*74
+Tsunami
+防災気象情報(津波)(発表)(訓練/試験)
+*** これは訓練です ***
+警報解除を発表しました。
+今後もしばらく海面変動が続くと思われます。
+
+発表時刻: 8月21日10時35分
+
+津波到達予想時刻: 21日10時35分
+津波の高さ: 3m
+愛媛県宇和海沿岸
+
+津波到達予想時刻: 21日10時35分
+津波の高さ: 3m
+高知県
+
+津波到達予想時刻: 21日10時35分
+津波の高さ: 3m
+大分県豊後水道沿岸
+
+津波到達予想時刻: 21日10時35分
+津波の高さ: 3m
+宮崎県
+{'disaster_category': '津波',
+ 'disaster_category_en': 'Tsunami',
+ 'disaster_category_no': 5,
+ 'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_times': [datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+                                    datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc)],
+ 'expected_tsunami_arrival_times_raw': [{'day': 0, 'hour': 1, 'minute': 35},
+                                        {'day': 0, 'hour': 1, 'minute': 35},
+                                        {'day': 0, 'hour': 1, 'minute': 35},
+                                        {'day': 0, 'hour': 1, 'minute': 35}],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xacT1\x80\x01\x9c\x00\x00 c9`\x18\xceb\x063\xbb\xc1\x8c\xef\x80\x00\x00\x00\x12\xe2\xe2\xc4\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFAC543180019C00002063396018CE620633BBC18CEF8000000012E2E2C4C*74',
+ 'notifications_on_disaster_prevention': ['今後もしばらく海面変動が続くと思われます。'],
+ 'notifications_on_disaster_prevention_raw': [103],
+ 'preamble': 'C',
+ 'raw': b'\xaf\xacT1\x80\x01\x9c\x00\x00 c9`\x18\xceb\x063\xbb\xc1\x8c\xef\x80\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFAC543180019C00002063396018CE620633BBC18CEF8000000012E2E2C4C*74',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'tsunami_forecast_regions': ['愛媛県宇和海沿岸', '高知県', '大分県豊後水道沿岸', '宮崎県'],
+ 'tsunami_forecast_regions_raw': [600, 610, 751, 760],
+ 'tsunami_heights': ['3m', '3m', '3m', '3m'],
+ 'tsunami_heights_raw': [3, 3, 3, 3],
+ 'tsunami_warning_code': '警報解除',
+ 'tsunami_warning_code_raw': 2,
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFC454450005445341F783E0F10910421230200000000000000012FB46E14*78
+Volcano
+防災気象情報(火山)(発表)(訓練/試験)
+*** これは訓練です ***
+火山に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時10分
+
+火山名: 阿蘇山
+日時: 8月21日11時10分
+現象: 噴火
+
+熊本県阿蘇市、熊本県高森町、熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 8, 21, 2, 10, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 10},
+ 'ambiguity_of_activity_time_no': 0,
+ 'disaster_category': '火山',
+ 'disaster_category_en': 'Volcano',
+ 'disaster_category_no': 8,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4321400, 4342800, 4343300],
+ 'message': b'\x9a\xaf\xc4TE\x00\x05DSA\xf7\x83\xe0\xf1\t\x10B\x120 \x00\x00\x00\x00\x00\x00\x00\x12\xfbF\xe1@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFC454450005445341F783E0F10910421230200000000000000012FB46E14*78',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xc4TE\x00\x05DSA\xf7\x83\xe0\xf1\t\x10B\x120 \x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 10, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFC454450005445341F783E0F10910421230200000000000000012FB46E14*78',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcanic_warning_code': '噴火',
+ 'volcanic_warning_code_raw': 52,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,56,C6AFCC5445000544523EE4C1F0782612208130918100000000000013199CCE4*77
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時10分
+
+速報
+火山名: 阿蘇山
+日時: 21日11時10分
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 8, 21, 2, 10, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 10},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1],
+ 'ash_fall_warning_type': '速報',
+ 'ash_fall_warning_type_raw': 1,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['1時間', '1時間', '1時間'],
+ 'expected_ash_fall_times_raw': [1, 1, 1],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4321400, 4342800, 4343300],
+ 'message': b'\xc6\xaf\xccTE\x00\x05DR>\xe4\xc1\xf0x&\x12 \x810\x91\x81\x00\x00\x00\x00\x00\x00\x13\x19\x9c\xce@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFCC5445000544523EE4C1F0782612208130918100000000000013199CCE4*77',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xccTE\x00\x05DR>\xe4\xc1\xf0x&\x12 \x810\x91\x81\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 10, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFCC5445000544523EE4C1F0782612208130918100000000000013199CCE4*77',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,56,9AAFCC544A000544A43EE541F0782A1220813091811183E0F00000106271CCC*77
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 21日11時20分
+
+基点時刻からの時間: 1時間
+現象: やや多量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 1時間
+現象: やや多量の降灰
+熊本県高森町
+
+基点時刻からの時間: 1時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 2時間
+現象: 少量の降灰
+熊本県阿蘇市
+{'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['やや多量の降灰', 'やや多量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [2, 2, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['1時間', '1時間', '1時間', '2時間'],
+ 'expected_ash_fall_times_raw': [1, 1, 1, 2],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村', '熊本県阿蘇市'],
+ 'local_governments_raw': [4321400, 4342800, 4343300, 4321400],
+ 'message': b'\x9a\xaf\xccTJ\x00\x05D\xa4>\xe5A\xf0x*\x12 \x810\x91\x81\x11\x83\xe0\xf0\x00\x00\x10bq\xcc\xc0',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFCC544A000544A43EE541F0782A1220813091811183E0F00000106271CCC*77',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xccTJ\x00\x05D\xa4>\xe5A\xf0x*\x12 \x810\x91\x81\x11\x83\xe0\xf0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFCC544A000544A43EE541F0782A1220813091811183E0F00000106271CCC*77',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,56,C6AFCC544A000544A43EE8C2441046123023307C1E19848820000010BDE8258*09
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 21日11時20分
+
+基点時刻からの時間: 2時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 2時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 3時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 3時間
+現象: 少量の降灰
+熊本県高森町
+{'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['2時間', '2時間', '3時間', '3時間'],
+ 'expected_ash_fall_times_raw': [2, 2, 3, 3],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県高森町', '熊本県南阿蘇村', '熊本県阿蘇市', '熊本県高森町'],
+ 'local_governments_raw': [4342800, 4343300, 4321400, 4342800],
+ 'message': b'\xc6\xaf\xccTJ\x00\x05D\xa4>\xe8\xc2D\x10F\x120#0|\x1e\x19\x84\x88 \x00\x00\x10\xbd\xe8%\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFCC544A000544A43EE8C2441046123023307C1E19848820000010BDE8258*09',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xccTJ\x00\x05D\xa4>\xe8\xc2D\x10F\x120#0|\x1e\x19\x84\x88 \x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFCC544A000544A43EE8C2441046123023307C1E19848820000010BDE8258*09',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,56,53AFCC544A000544A43EECC24604860F83C430910421848C08000010EF258E0*7A
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 21日11時20分
+
+基点時刻からの時間: 3時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 4時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 4時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 4時間
+現象: 少量の降灰
+熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['3時間', '4時間', '4時間', '4時間'],
+ 'expected_ash_fall_times_raw': [3, 4, 4, 4],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県南阿蘇村', '熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4343300, 4321400, 4342800, 4343300],
+ 'message': b'S\xaf\xccTJ\x00\x05D\xa4>\xec\xc2F\x04\x86\x0f\x83\xc40\x91\x04!\x84\x8c\x08\x00\x00\x10\xef%\x8e\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFCC544A000544A43EECC24604860F83C430910421848C08000010EF258E0*7A',
+ 'preamble': 'A',
+ 'raw': b'\xaf\xccTJ\x00\x05D\xa4>\xec\xc2F\x04\x86\x0f\x83\xc40\x91\x04!\x84\x8c\x08\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFCC544A000544A43EECC24604860F83C430910421848C08000010EF258E0*7A',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,56,9AAFCC544A000544A43EF4C1F078A61220853091813183E0F00000110645B60*03
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 21日11時20分
+
+基点時刻からの時間: 5時間
+現象: 少量の降灰
+熊本県阿蘇市
+
+基点時刻からの時間: 5時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 5時間
+現象: 少量の降灰
+熊本県南阿蘇村
+
+基点時刻からの時間: 6時間
+現象: 少量の降灰
+熊本県阿蘇市
+{'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1, 1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['5時間', '5時間', '5時間', '6時間'],
+ 'expected_ash_fall_times_raw': [5, 5, 5, 6],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県阿蘇市', '熊本県高森町', '熊本県南阿蘇村', '熊本県阿蘇市'],
+ 'local_governments_raw': [4321400, 4342800, 4343300, 4321400],
+ 'message': b'\x9a\xaf\xccTJ\x00\x05D\xa4>\xf4\xc1\xf0x\xa6\x12 \x850\x91\x811\x83\xe0\xf0\x00\x00\x11\x06E\xb6\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFCC544A000544A43EF4C1F078A61220853091813183E0F00000110645B60*03',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xccTJ\x00\x05D\xa4>\xf4\xc1\xf0x\xa6\x12 \x850\x91\x811\x83\xe0\xf0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFCC544A000544A43EF4C1F078A61220853091813183E0F00000110645B60*03',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,56,53AFCC544A000544A43EF8C24410C612302000000000000000000011B0BD094*04
+AshFall
+防災気象情報(降灰)(発表)(訓練/試験)
+*** これは訓練です ***
+降灰に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時20分
+
+詳細
+火山名: 阿蘇山
+日時: 21日11時20分
+
+基点時刻からの時間: 6時間
+現象: 少量の降灰
+熊本県高森町
+
+基点時刻からの時間: 6時間
+現象: 少量の降灰
+熊本県南阿蘇村
+{'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
+ 'ash_fall_warning_codes': ['少量の降灰', '少量の降灰'],
+ 'ash_fall_warning_codes_raw': [1, 1],
+ 'ash_fall_warning_type': '詳細',
+ 'ash_fall_warning_type_raw': 2,
+ 'disaster_category': '降灰',
+ 'disaster_category_en': 'Ash Fall',
+ 'disaster_category_no': 9,
+ 'expected_ash_fall_times': ['6時間', '6時間'],
+ 'expected_ash_fall_times_raw': [6, 6],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'local_governments': ['熊本県高森町', '熊本県南阿蘇村'],
+ 'local_governments_raw': [4342800, 4343300],
+ 'message': b'S\xaf\xccTJ\x00\x05D\xa4>\xf8\xc2D\x10\xc6\x120 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\xb0\xbd\t@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFCC544A000544A43EF8C24410C612302000000000000000000011B0BD094*04',
+ 'preamble': 'A',
+ 'raw': b'\xaf\xccTJ\x00\x05D\xa4>\xf8\xc2D\x10\xc6\x120 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFCC544A000544A43EF8C24410C612302000000000000000000011B0BD094*04',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'volcano_name': '阿蘇山',
+ 'volcano_name_raw': 503}
+
+>>> $QZQSM,56,9AAFD454518001113880115F901186A011ADB011D4C011FBD0000010A5B0D28*0F
+Weather
+防災気象情報(気象)(発表)(訓練/試験)
+*** これは訓練です ***
+気象に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時35分
+
+警報等情報要素: 大雨特別警報(発表)
+茨城県
+
+警報等情報要素: 大雨特別警報(発表)
+栃木県
+
+警報等情報要素: 大雨特別警報(発表)
+群馬県
+
+警報等情報要素: 大雨特別警報(発表)
+埼玉県
+
+警報等情報要素: 大雨特別警報(発表)
+千葉県
+
+警報等情報要素: 大雨特別警報(発表)
+東京都
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xd4TQ\x80\x01\x118\x80\x11_\x90\x11\x86\xa0\x11\xad\xb0\x11\xd4\xc0\x11\xfb\xd0\x00\x00\x10'
+            b'\xa5\xb0\xd2\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFD454518001113880115F901186A011ADB011D4C011FBD0000010A5B0D28*0F',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xd4TQ\x80\x01\x118\x80\x11_\x90\x11\x86\xa0\x11\xad\xb0\x11\xd4\xc0\x11\xfb\xd0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFD454518001113880115F901186A011ADB011D4C011FBD0000010A5B0D28*0F',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都'],
+ 'weather_forecast_regions_raw': [80000, 90000, 100000, 110000, 120000, 130000],
+ 'weather_related_disaster_sub_categories': ['大雨特別警報', '大雨特別警報', '大雨特別警報', '大雨特別警報', '大雨特別警報', '大雨特別警報'],
+ 'weather_related_disaster_sub_categories_raw': [2, 2, 2, 2, 2, 2],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,56,C6AFD4545180011222E0B93880B95F90B986A0B9ADB0B9D4C0000010EA4A268*7A
+Weather
+防災気象情報(気象)(発表)(訓練/試験)
+*** これは訓練です ***
+気象に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時35分
+
+警報等情報要素: 大雨特別警報(発表)
+神奈川県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+茨城県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+栃木県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+群馬県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+埼玉県
+
+警報等情報要素: 土砂災害警戒情報(発表)
+千葉県
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\xc6\xaf\xd4TQ\x80\x01\x12"\xe0\xb98\x80\xb9_\x90\xb9\x86\xa0\xb9\xad\xb0\xb9\xd4\xc0\x00\x00\x10'
+            b'\xeaJ&\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,C6AFD4545180011222E0B93880B95F90B986A0B9ADB0B9D4C0000010EA4A268*7A',
+ 'preamble': 'C',
+ 'raw': b'\xaf\xd4TQ\x80\x01\x12"\xe0\xb98\x80\xb9_\x90\xb9\x86\xa0\xb9\xad\xb0\xb9\xd4\xc0\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,C6AFD4545180011222E0B93880B95F90B986A0B9ADB0B9D4C0000010EA4A268*7A',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['神奈川県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県'],
+ 'weather_forecast_regions_raw': [140000, 80000, 90000, 100000, 110000, 120000],
+ 'weather_related_disaster_sub_categories': ['大雨特別警報', '土砂災害警戒情報', '土砂災害警戒情報', '土砂災害警戒情報', '土砂災害警戒情報', '土砂災害警戒情報'],
+ 'weather_related_disaster_sub_categories_raw': [2, 23, 23, 23, 23, 23],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,56,53AFD454518001B9FBD0BA22E00000000000000000000000000000111FB39F4*0A
+Weather
+防災気象情報(気象)(発表)(訓練/試験)
+*** これは訓練です ***
+気象に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時35分
+
+警報等情報要素: 土砂災害警戒情報(発表)
+東京都
+
+警報等情報要素: 土砂災害警戒情報(発表)
+神奈川県
+{'disaster_category': '気象',
+ 'disaster_category_en': 'Weather',
+ 'disaster_category_no': 10,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'S\xaf\xd4TQ\x80\x01\xb9\xfb\xd0\xba"\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'\x1f\xb3\x9f@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AFD454518001B9FBD0BA22E00000000000000000000000000000111FB39F4*0A',
+ 'preamble': 'A',
+ 'raw': b'\xaf\xd4TQ\x80\x01\xb9\xfb\xd0\xba"\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,53AFD454518001B9FBD0BA22E00000000000000000000000000000111FB39F4*0A',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1,
+ 'weather_forecast_regions': ['東京都', '神奈川県'],
+ 'weather_forecast_regions_raw': [130000, 140000],
+ 'weather_related_disaster_sub_categories': ['土砂災害警戒情報', '土砂災害警戒情報'],
+ 'weather_related_disaster_sub_categories_raw': [23, 23],
+ 'weather_warning_state': '発表',
+ 'weather_warning_state_raw': 1}
+
+>>> $QZQSM,56,9AAFDC5451800160A8F552860000000000000000000000000000001157EBCE0*05
+Flood
+防災気象情報(洪水)(発表)(訓練/試験)
+*** これは訓練です ***
+河川の氾濫に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時35分
+
+警報レベル: 氾濫警戒情報
+鬼怒川(栃木県・茨城県)
+{'disaster_category': '洪水',
+ 'disaster_category_en': 'Flood',
+ 'disaster_category_no': 11,
+ 'flood_forecast_regions': ['鬼怒川(栃木県・茨城県)'],
+ 'flood_forecast_regions_raw': [830303020300],
+ 'flood_warning_levels': ['氾濫警戒情報'],
+ 'flood_warning_levels_raw': [2],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xdcTQ\x80\x01`\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'W\xeb\xce\x00',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFDC5451800160A8F552860000000000000000000000000000001157EBCE0*05',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xdcTQ\x80\x01`\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 35, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFDC5451800160A8F552860000000000000000000000000000001157EBCE0*05',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,56,9AAFDC54590000E0A8F5528600000000000000000000000000000010FF367B8*0D
+Flood
+防災気象情報(洪水)(発表)(訓練/試験)
+*** これは訓練です ***
+河川の氾濫に関連する情報をお知らせします。
+
+発表時刻: 8月21日11時50分
+
+警報レベル: 警報解除
+鬼怒川(栃木県・茨城県)
+{'disaster_category': '洪水',
+ 'disaster_category_en': 'Flood',
+ 'disaster_category_no': 11,
+ 'flood_forecast_regions': ['鬼怒川(栃木県・茨城県)'],
+ 'flood_forecast_regions_raw': [830303020300],
+ 'flood_warning_levels': ['警報解除'],
+ 'flood_warning_levels_raw': [1],
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'message': b'\x9a\xaf\xdcTY\x00\x00\xe0\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10'
+            b'\xff6{\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,9AAFDC54590000E0A8F5528600000000000000000000000000000010FF367B8*0D',
+ 'preamble': 'B',
+ 'raw': b'\xaf\xdcTY\x00\x00\xe0\xa8\xf5R\x86\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '訓練/試験',
+ 'report_classification_en': 'Training/Test',
+ 'report_classification_no': 7,
+ 'report_time': datetime.datetime(2026, 8, 21, 2, 50, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AAFDC54590000E0A8F5528600000000000000000000000000000010FF367B8*0D',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,56,9AB0444DE19498C0200000000000000000000BD10000000000000011A7AC8F8*01
+LAlert
+### DCX Message - L-Alert ###
+A1 - Message type: Alert
+A2 - Country/region name: Japan
+A3 - Provider identifier: Foundation for MultiMedia Communications
+A4 - Hazard category and type: MET - Rainfall
+A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is according to each local standard.
+A5 - Severity: Moderate - Possible threat to life or property
+A6A7 - Hazard onset: 2026-08-21T09:35:00Z
+A8 - Hazard duration: Unknown
+EX1 - Target area: Chiba-shi, Chiba
+EX1 - Target area (ja): 千葉県千葉市
+{'a10_library_version': '#1',
+ 'a11_japanese_library': '',
+ 'a11_japanese_library_ja': '',
+ 'a1_message_type': 'Alert',
+ 'a2_country_region_name': 'Japan',
+ 'a3_provider_identifier': 'Foundation for MultiMedia Communications',
+ 'a4_hazard_category': 'MET',
+ 'a4_hazard_definition': 'Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is '
+                         'according to each local standard.',
+ 'a4_hazard_type': 'Rainfall',
+ 'a5_severity': 'Moderate - Possible threat to life or property',
+ 'a6_hazard_onset_week': 'Current',
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2026, 8, 21, 9, 35, tzinfo=datetime.timezone.utc),
+ 'a7_hazard_onset_time_of_week': 'FRIDAY - 09:35 AM',
+ 'a8_hazard_duration': 'Unknown',
+ 'a9_type_of_library': 'Country/region library',
+ 'camf': {'a1': 1,
+          'a10': 0,
+          'a11': 0,
+          'a12': 0,
+          'a13': 0,
+          'a14': 0,
+          'a15': 0,
+          'a16': 0,
+          'a17': 0,
+          'a18': 0,
+          'a2': 111,
+          'a3': 1,
+          'a4': 74,
+          'a5': 1,
+          'a6': 0,
+          'a7': 6336,
+          'a8': 0,
+          'a9': 1,
+          'ex1': 12100,
+          'ex10': 0,
+          'ex2': 0,
+          'ex3': 0,
+          'ex4': 0,
+          'ex5': 0,
+          'ex6': 0,
+          'ex7': 0,
+          'ex8': 0,
+          'ex9': 6811694436397875200,
+          'sdm': 68,
+          'sdmt': 0,
+          'vn': 1},
+ 'dcx_message_type': 'L-Alert',
+ 'dcx_version': 1,
+ 'ex1_target_area': 'Chiba-shi, Chiba',
+ 'ex1_target_area_ja': '千葉県千葉市',
+ 'ignore_a12_to_a16': True,
+ 'ignore_a17_to_a18': False,
+ 'ignore_ex1': False,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'message': b'\x9a\xb0DM\xe1\x94\x98\xc0 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\xd1\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'\xa7\xac\x8f\x80',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCX',
+ 'nmea': '$QZQSM,56,9AB0444DE19498C0200000000000000000000BD10000000000000011A7AC8F8*01',
+ 'preamble': 'B',
+ 'raw': b'M\xe1\x94\x98\xc0 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\xd1\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'satellite_designation_mask': ['For Japan',
+                                'For Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AB0444DE19498C0200000000000000000000BD10000000000000011A7AC8F8*01',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc)}
+
+>>> $QZQSM,56,53AD14558200035C0000AB021E3776C86A0118F00000000000000011DAFD064*09
+Hypocenter
+防災気象情報(震源)(発表)(優先)
+21日21時2分ころ、地震がありました。
+この地震による津波の心配はありません。
+
+発表時刻: 8月21日21時4分
+
+震央地名: 八丈島東方沖
+緯度・経度: 北緯33度42分0秒 東経140度30分0秒
+深さ: 60km
+マグニチュード: 5.5
+{'coordinates_of_hypocenter': '北緯33度42分0秒 東経140度30分0秒',
+ 'coordinates_of_hypocenter_raw': {'lat_d': 33,
+                                   'lat_m': 42,
+                                   'lat_ns': 0,
+                                   'lat_s': 0,
+                                   'lon_d': 140,
+                                   'lon_ew': 0,
+                                   'lon_m': 30,
+                                   'lon_s': 0},
+ 'depth_of_hypocenter': '60km',
+ 'depth_of_hypocenter_raw': 60,
+ 'disaster_category': '震源',
+ 'disaster_category_en': 'Hypocenter',
+ 'disaster_category_no': 2,
+ 'information_type': '発表',
+ 'information_type_en': 'Issue',
+ 'information_type_no': 0,
+ 'magnitude': '5.5',
+ 'magnitude_raw': 55,
+ 'message': b'S\xad\x14U\x82\x00\x03\\\x00\x00\xab\x02\x1e7v\xc8j\x01\x18\xf0\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'\xda\xfd\x06@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCR',
+ 'nmea': '$QZQSM,56,53AD14558200035C0000AB021E3776C86A0118F00000000000000011DAFD064*09',
+ 'notifications_on_disaster_prevention': ['この地震による津波の心配はありません。'],
+ 'notifications_on_disaster_prevention_raw': [215],
+ 'occurrence_time_of_earthquake': datetime.datetime(2026, 8, 21, 12, 2, tzinfo=datetime.timezone.utc),
+ 'occurrence_time_of_earthquake_raw': {'day': 21, 'hour': 12, 'minute': 2},
+ 'preamble': 'A',
+ 'raw': b'\xad\x14U\x82\x00\x03\\\x00\x00\xab\x02\x1e7v\xc8j\x01\x18\xf0\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'report_classification': '優先',
+ 'report_classification_en': 'Priority',
+ 'report_classification_no': 2,
+ 'report_time': datetime.datetime(2026, 8, 21, 12, 4, tzinfo=datetime.timezone.utc),
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'seismic_epicenter': '八丈島東方沖',
+ 'seismic_epicenter_raw': 475,
+ 'sentence': '$QZQSM,56,53AD14558200035C0000AB021E3776C86A0118F00000000000000011DAFD064*09',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc),
+ 'version': 1}
+
+>>> $QZQSM,56,9AB060CDE1941958200000000000000000000BD1000000000000001180DF994*0B
+LAlert
+### DCX Message - L-Alert ###
+A1 - Message type: All Clear
+A2 - Country/region name: Japan
+A3 - Provider identifier: Foundation for MultiMedia Communications
+A4 - Hazard category and type: MET - Rainfall
+A4 - Hazard definition: Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is according to each local standard.
+A5 - Severity: Unknown
+A6A7 - Hazard onset: 2026-08-21T12:07:00Z
+A8 - Hazard duration: Unknown
+EX1 - Target area: Chiba-shi, Chiba
+EX1 - Target area (ja): 千葉県千葉市
+{'a10_library_version': '#1',
+ 'a11_japanese_library': '',
+ 'a11_japanese_library_ja': '',
+ 'a1_message_type': 'All Clear',
+ 'a2_country_region_name': 'Japan',
+ 'a3_provider_identifier': 'Foundation for MultiMedia Communications',
+ 'a4_hazard_category': 'MET',
+ 'a4_hazard_definition': 'Rainfall greater than or equal to 50 mm in past 24 hours. Note: Precise threshold is '
+                         'according to each local standard.',
+ 'a4_hazard_type': 'Rainfall',
+ 'a5_severity': 'Unknown',
+ 'a6_hazard_onset_week': 'Current',
+ 'a6a7_hazard_onset_datetime': datetime.datetime(2026, 8, 21, 12, 7, tzinfo=datetime.timezone.utc),
+ 'a7_hazard_onset_time_of_week': 'FRIDAY - 00:07 PM',
+ 'a8_hazard_duration': 'Unknown',
+ 'a9_type_of_library': 'Country/region library',
+ 'camf': {'a1': 3,
+          'a10': 0,
+          'a11': 0,
+          'a12': 0,
+          'a13': 0,
+          'a14': 0,
+          'a15': 0,
+          'a16': 0,
+          'a17': 0,
+          'a18': 0,
+          'a2': 111,
+          'a3': 1,
+          'a4': 74,
+          'a5': 0,
+          'a6': 0,
+          'a7': 6488,
+          'a8': 0,
+          'a9': 1,
+          'ex1': 12100,
+          'ex10': 0,
+          'ex2': 0,
+          'ex3': 0,
+          'ex4': 0,
+          'ex5': 0,
+          'ex6': 0,
+          'ex7': 0,
+          'ex8': 0,
+          'ex9': 6811694436397875200,
+          'sdm': 96,
+          'sdmt': 0,
+          'vn': 1},
+ 'dcx_message_type': 'L-Alert',
+ 'dcx_version': 1,
+ 'ex1_target_area': 'Chiba-shi, Chiba',
+ 'ex1_target_area_ja': '千葉県千葉市',
+ 'ignore_a12_to_a16': True,
+ 'ignore_a17_to_a18': False,
+ 'ignore_ex1': False,
+ 'ignore_ex2_to_ex7': True,
+ 'ignore_ex8_to_ex9': True,
+ 'message': b'\x9a\xb0`\xcd\xe1\x94\x19X \x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\xd1\x00\x00\x00\x00\x00\x00\x00\x11'
+            b'\x80\xdf\x99@',
+ 'message_header': '$QZQSM',
+ 'message_type': 'DCX',
+ 'nmea': '$QZQSM,56,9AB060CDE1941958200000000000000000000BD1000000000000001180DF994*0B',
+ 'preamble': 'B',
+ 'raw': b'\xcd\xe1\x94\x19X \x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\xd1\x00\x00\x00\x00\x00\x00\x00\x10',
+ 'satellite_designation_mask': ['For Japan',
+                                'For Japan',
+                                'For use outside Japan',
+                                'For use outside Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan',
+                                'For Japan'],
+ 'satellite_designation_mask_type': 'MT44 is for Japan or for use outside Japan',
+ 'satellite_id': 56,
+ 'satellite_prn': 184,
+ 'satellite_svid': None,
+ 'sentence': '$QZQSM,56,9AB060CDE1941958200000000000000000000BD1000000000000001180DF994*0B',
+ 'timestamp': datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.timezone.utc)}
