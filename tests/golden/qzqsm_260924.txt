@@ -10,6 +10,16 @@ Weather
 
 警報等情報要素: 竜巻注意情報(発表)
 石狩・空知・後志地方
+--- en
+JMA-DC Report (Weather) (Issue) (Priority)
+
+Report time: 09:46 JST, 24 Sep.
+
+Disaster sub-category: Hazardous Wind Watch (Announcement)
+Kamikawa and Rumoi Region
+
+Disaster sub-category: Hazardous Wind Watch (Announcement)
+Region of Ishikari/Sorachi/Shiribeshi
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -120,6 +130,21 @@ Typhoon
 中心気圧: 1002hPa
 最大風速: 20m/s
 最大瞬間風速: 30m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 09:50 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 24 Sep.
+Type of reference time: Analysis
+Elapsed time: 0 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 18°30´0˝, E 134°5´0˝
+Central pressure: 1002 hPa
+Maximum wind speed: 20 m/s
+Maximum wind gust speed: 30 m/s
 {'central_pressure': '1002hPa',
  'central_pressure_raw': 1002,
  'coordinates_of_typhoon': '北緯18度30分0秒 東経134度5分0秒',
@@ -188,6 +213,21 @@ Typhoon
 中心気圧: 998hPa
 最大風速: 23m/s
 最大瞬間風速: 35m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 09:50 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 21:00 JST, 24 Sep.
+Type of reference time: Forecast
+Elapsed time: 12 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 18°40´0˝, E 132°10´0˝
+Central pressure: 998 hPa
+Maximum wind speed: 23 m/s
+Maximum wind gust speed: 35 m/s
 {'central_pressure': '998hPa',
  'central_pressure_raw': 998,
  'coordinates_of_typhoon': '北緯18度40分0秒 東経132度10分0秒',
@@ -256,6 +296,21 @@ Typhoon
 中心気圧: 994hPa
 最大風速: 23m/s
 最大瞬間風速: 35m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 09:50 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 25 Sep.
+Type of reference time: Forecast
+Elapsed time: 24 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 19°20´0˝, E 130°5´0˝
+Central pressure: 994 hPa
+Maximum wind speed: 23 m/s
+Maximum wind gust speed: 35 m/s
 {'central_pressure': '994hPa',
  'central_pressure_raw': 994,
  'coordinates_of_typhoon': '北緯19度20分0秒 東経130度5分0秒',
@@ -323,6 +378,21 @@ Typhoon
 中心気圧: 985hPa
 最大風速: 30m/s
 最大瞬間風速: 40m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 09:50 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 26 Sep.
+Type of reference time: Forecast
+Elapsed time: 48 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 21°5´0˝, E 127°10´0˝
+Central pressure: 985 hPa
+Maximum wind speed: 30 m/s
+Maximum wind gust speed: 40 m/s
 {'central_pressure': '985hPa',
  'central_pressure_raw': 985,
  'coordinates_of_typhoon': '北緯21度5分0秒 東経127度10分0秒',
@@ -391,6 +461,21 @@ Typhoon
 中心気圧: 975hPa
 最大風速: 35m/s
 最大瞬間風速: 50m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 09:50 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 27 Sep.
+Type of reference time: Forecast
+Elapsed time: 72 hours ahead
+Scale: None
+Intensity: Strong
+Latitude and longitude: N 22°50´0˝, E 126°35´0˝
+Central pressure: 975 hPa
+Maximum wind speed: 35 m/s
+Maximum wind gust speed: 50 m/s
 {'central_pressure': '975hPa',
  'central_pressure_raw': 975,
  'coordinates_of_typhoon': '北緯22度50分0秒 東経126度35分0秒',
@@ -459,6 +544,21 @@ Typhoon
 中心気圧: 965hPa
 最大風速: 40m/s
 最大瞬間風速: 55m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 09:50 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 28 Sep.
+Type of reference time: Forecast
+Elapsed time: 96 hours ahead
+Scale: None
+Intensity: Strong
+Latitude and longitude: N 24°30´0˝, E 127°20´0˝
+Central pressure: 965 hPa
+Maximum wind speed: 40 m/s
+Maximum wind gust speed: 55 m/s
 {'central_pressure': '965hPa',
  'central_pressure_raw': 965,
  'coordinates_of_typhoon': '北緯24度30分0秒 東経127度20分0秒',
@@ -527,6 +627,21 @@ Typhoon
 中心気圧: 965hPa
 最大風速: 40m/s
 最大瞬間風速: 55m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 09:50 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 29 Sep.
+Type of reference time: Forecast
+Elapsed time: 120 hours ahead
+Scale: None
+Intensity: Strong
+Latitude and longitude: N 25°50´0˝, E 127°55´0˝
+Central pressure: 965 hPa
+Maximum wind speed: 40 m/s
+Maximum wind gust speed: 55 m/s
 {'central_pressure': '965hPa',
  'central_pressure_raw': 965,
  'coordinates_of_typhoon': '北緯25度50分0秒 東経127度55分0秒',
@@ -598,6 +713,25 @@ Marine
 
 警報等情報要素: 海上風警報
 三陸沖西部
+--- en
+JMA-DC Report (Marine) (Issue) (Regular)
+
+Report time: 05:35 JST, 24 Sep.
+
+Warning code: Wind Warning
+Sea off Abashiri
+
+Warning code: Wind Warning
+Sea West of Hokkaido
+
+Warning code: Wind Warning
+Sea East of Hokkaido
+
+Warning code: Wind Warning
+Sea off Kushiro
+
+Warning code: Wind Warning
+Western Sea off Sanriku
 {'disaster_category': '海上',
  'disaster_category_en': 'Marine',
  'disaster_category_no': 14,
@@ -655,6 +789,34 @@ Marine
 
 警報等情報要素: 海上風警報
 サハリン東方海上
+--- en
+JMA-DC Report (Marine) (Issue) (Regular)
+
+Report time: 05:35 JST, 24 Sep.
+
+Warning code: Fog Warning
+Sea East of Sakhalin
+
+Warning code: Fog Warning
+Sea off Abashiri
+
+Warning code: Fog Warning
+Sea East of Hokkaido
+
+Warning code: Fog Warning
+Sea off Kushiro
+
+Warning code: Fog Warning
+Sea off Southern Coast of Maritime Province
+
+Warning code: Fog Warning
+Northwestern Part of Japan Sea
+
+Warning code: Fog Warning
+Sea West of Oki Syoto
+
+Warning code: Wind Warning
+Sea East of Sakhalin
 {'disaster_category': '海上',
  'disaster_category_en': 'Marine',
  'disaster_category_no': 14,
@@ -701,6 +863,23 @@ EarthquakeEarlyWarning
 長周期地震動階級(下限): 長周期地震動階級2
 長周期地震動階級(上限): 長周期地震動階級2
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
+--- en
+JMA-DC Report (Earthquake Early Warning) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Earthquake Early Warning (EEW)
+Watch out for strong tremors.
+
+Report time: 10:00 JST, 24 Sep.
+
+Place name of epicenter: Hyuganada Sea
+Occurrence time of earthquake: 10:00 JST, 24 Sep.
+Depth: 10 km
+Magnitude: 7.2
+Seismic intensity lower limit: Seismic intensity of 6-lower
+Seismic intensity upper limit: or greater
+Maximum expected Long-Period Ground Motion lower limit: Long-Period Ground Motion class of 2
+Maximum expected Long-Period Ground Motion upper limit: Long-Period Ground Motion class of 2
+Shimane, Okayama, Hiroshima, Yamaguchi, Kagawa, Ehime, Kochi, Fukuoka, Saga, Nagasaki, Kumamoto, Oita, Miyazaki, Kagoshima, Chugoku, Shikoku, Kyushu
 {'assumptive': False,
  'depth_of_hypocenter': '10km',
  'depth_of_hypocenter_raw': 10,
@@ -775,6 +954,18 @@ Hypocenter
 緯度・経度: 北緯32度42分0秒 東経132度6分0秒
 深さ: 40km
 マグニチュード: 6.4
+--- en
+JMA-DC Report (Hypocenter) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Occurred at 10:05 JST, 24 Sep.
+There is a possibility of a destructive local tsunami near the epicenter.
+
+Report time: 10:05 JST, 24 Sep.
+
+Place name of epicenter: Hyuganada Sea
+Latitude and longitude: N 32°42´0˝, E 132°6´0˝
+Depth: 40 km
+Magnitude: 6.4
 {'coordinates_of_hypocenter': '北緯32度42分0秒 東経132度6分0秒',
  'coordinates_of_hypocenter_raw': {'lat_d': 32,
                                    'lat_m': 42,
@@ -852,6 +1043,38 @@ SeismicIntensity
 
 震度: 4
 鹿児島県
+--- en
+JMA-DC Report (Seismic Intensity) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 10:05 JST, 24 Sep.
+
+Seismic intensity: 5-upper
+Oita Prefecture
+
+Seismic intensity: 5-upper
+Miyazaki Prefecture
+
+Seismic intensity: 5-lower
+Kochi Prefecture
+
+Seismic intensity: 5-lower
+Kumamoto Prefecture
+
+Seismic intensity: 4
+Yamaguchi Prefecture
+
+Seismic intensity: 4
+Ehime Prefecture
+
+Seismic intensity: 4
+Fukuoka Prefecture
+
+Seismic intensity: 4
+Saga Prefecture
+
+Seismic intensity: 4
+Kagoshima Prefecture
 {'disaster_category': '震度',
  'disaster_category_en': 'Seismic Intensity',
  'disaster_category_no': 3,
@@ -910,10 +1133,41 @@ Tsunami
 津波到達予想時刻: 24日10時5分
 津波の高さ: 3m
 宮崎県
+--- en
+JMA-DC Report (Tsunami) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Tsunami Warning issued for the following coastal regions of Japan:
+<Tsunami Warning>
+Damage due to tsunami waves is expected.
+Evacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.
+Tsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.
+<Tsunami Advisory>
+A marine threat is present.
+Get out of the water and leave coastal regions immediately.
+Due to the risk of ongoing strong currents, do not enter the sea or approach coastal regions until the advisory is lifted.
+<Tsunami Forecast (Slight sea-level change)>
+Slight sea-level changes may be observed in coastal regions, but no tsunami damage is expected.
+
+Report time: 10:05 JST, 24 Sep.
+
+Estimated initial tsunami arrival time: 10:05 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Ehime Prefecture
+
+Estimated initial tsunami arrival time: 10:05 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Kochi Prefecture
+
+Estimated initial tsunami arrival time: 10:05 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Miyazaki Prefecture
 {'disaster_category': '津波',
  'disaster_category_en': 'Tsunami',
  'disaster_category_no': 5,
  'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_time_types_en': ['Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time'],
  'expected_tsunami_arrival_times': [datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 9, 24, 1, 5, tzinfo=datetime.timezone.utc)],
@@ -989,10 +1243,46 @@ Tsunami
 津波到達予想時刻: 24日10時25分
 津波の高さ: 3m
 宮崎県
+--- en
+JMA-DC Report (Tsunami) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Tsunami Warning issued for the following coastal regions of Japan:
+<Tsunami Warning>
+Damage due to tsunami waves is expected.
+Evacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.
+Tsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.
+<Tsunami Advisory>
+A marine threat is present.
+Get out of the water and leave coastal regions immediately.
+Due to the risk of ongoing strong currents, do not enter the sea or approach coastal regions until the advisory is lifted.
+<Tsunami Forecast (Slight sea-level change)>
+Slight sea-level changes may be observed in coastal regions, but no tsunami damage is expected.
+
+Report time: 10:25 JST, 24 Sep.
+
+Estimated initial tsunami arrival time: 10:25 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Ehime Prefecture
+
+Estimated initial tsunami arrival time: 10:25 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Kochi Prefecture
+
+Estimated initial tsunami arrival time: 10:25 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Oita Prefecture
+
+Estimated initial tsunami arrival time: 10:25 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Miyazaki Prefecture
 {'disaster_category': '津波',
  'disaster_category_en': 'Tsunami',
  'disaster_category_no': 5,
  'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_time_types_en': ['Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time'],
  'expected_tsunami_arrival_times': [datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 9, 24, 1, 25, tzinfo=datetime.timezone.utc),
@@ -2070,10 +2360,37 @@ Tsunami
 津波到達予想時刻: 24日10時35分
 津波の高さ: 3m
 宮崎県
+--- en
+JMA-DC Report (Tsunami) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Warning Lifted issued for the following coastal regions of Japan:
+Sea-level changes may be observed.
+
+Report time: 10:35 JST, 24 Sep.
+
+Estimated initial tsunami arrival time: 10:35 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Ehime Prefecture
+
+Estimated initial tsunami arrival time: 10:35 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Kochi Prefecture
+
+Estimated initial tsunami arrival time: 10:35 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Oita Prefecture
+
+Estimated initial tsunami arrival time: 10:35 JST, 24 Sep.
+Estimated maximum tsunami height: 3 m
+Miyazaki Prefecture
 {'disaster_category': '津波',
  'disaster_category_en': 'Tsunami',
  'disaster_category_no': 5,
  'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_time_types_en': ['Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time'],
  'expected_tsunami_arrival_times': [datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 9, 24, 1, 35, tzinfo=datetime.timezone.utc),
@@ -2122,6 +2439,16 @@ Weather
 
 警報等情報要素: 竜巻注意情報(発表)
 石狩・空知・後志地方
+--- en
+JMA-DC Report (Weather) (Issue) (Priority)
+
+Report time: 10:43 JST, 24 Sep.
+
+Disaster sub-category: Hazardous Wind Watch (Announcement)
+Kamikawa and Rumoi Region
+
+Disaster sub-category: Hazardous Wind Watch (Announcement)
+Region of Ishikari/Sorachi/Shiribeshi
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2161,6 +2488,13 @@ Weather
 
 警報等情報要素: 竜巻注意情報(発表)
 石狩・空知・後志地方
+--- en
+JMA-DC Report (Weather) (Issue) (Priority)
+
+Report time: 10:43 JST, 24 Sep.
+
+Disaster sub-category: Hazardous Wind Watch (Announcement)
+Region of Ishikari/Sorachi/Shiribeshi
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2204,6 +2538,17 @@ Volcano
 現象: 噴火
 
 熊本県阿蘇市、熊本県高森町、熊本県南阿蘇村
+--- en
+JMA-DC Report (Volcano) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:10 JST, 24 Sep.
+
+Volcano: Asosan
+Activity time: 11:10 JST, 24 Sep.
+Warning code: Volcanic eruptions
+
+Aso City, Kumamoto Prefecture, Takamori Town, Kumamoto Prefecture, Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 9, 24, 2, 10, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 10},
  'ambiguity_of_activity_time_no': 0,
@@ -2259,6 +2604,27 @@ AshFall
 基点時刻からの時間: 1時間
 現象: 少量の降灰
 熊本県南阿蘇村
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:10 JST, 24 Sep.
+
+Preliminary
+Volcano: Asosan
+Activity time: 11:10 JST, 24 Sep.
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 9, 24, 2, 10, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 10},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰'],
@@ -2321,6 +2687,31 @@ AshFall
 基点時刻からの時間: 2時間
 現象: 少量の降灰
 熊本県阿蘇市
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 24 Sep.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 24 Sep.
+
+Expected ash fall time: 1 hour
+Warning code: Moderate ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Moderate ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 2 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['やや多量の降灰', 'やや多量の降灰', '少量の降灰', '少量の降灰'],
@@ -2383,6 +2774,31 @@ AshFall
 基点時刻からの時間: 3時間
 現象: 少量の降灰
 熊本県高森町
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 24 Sep.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 24 Sep.
+
+Expected ash fall time: 2 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 2 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 3 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 3 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
@@ -2445,6 +2861,31 @@ AshFall
 基点時刻からの時間: 4時間
 現象: 少量の降灰
 熊本県南阿蘇村
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 24 Sep.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 24 Sep.
+
+Expected ash fall time: 3 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 4 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 4 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 4 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
@@ -2508,6 +2949,31 @@ AshFall
 基点時刻からの時間: 6時間
 現象: 少量の降灰
 熊本県阿蘇市
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 24 Sep.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 24 Sep.
+
+Expected ash fall time: 5 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 5 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 5 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 6 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
@@ -2562,6 +3028,23 @@ AshFall
 基点時刻からの時間: 6時間
 現象: 少量の降灰
 熊本県南阿蘇村
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 24 Sep.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 24 Sep.
+
+Expected ash fall time: 6 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 6 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 9, 24, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 24, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰'],
@@ -2623,6 +3106,29 @@ Weather
 
 警報等情報要素: 大雨特別警報(発表)
 東京都
+--- en
+JMA-DC Report (Weather) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 24 Sep.
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Ibaraki Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Tochigi Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Gunma Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Saitama Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Chiba Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Tokyo
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2678,6 +3184,29 @@ Weather
 
 警報等情報要素: 土砂災害警戒情報(発表)
 千葉県
+--- en
+JMA-DC Report (Weather) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 24 Sep.
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Kanagawa Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Ibaraki Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Tochigi Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Gunma Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Saitama Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Chiba Prefecture
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2721,6 +3250,17 @@ Weather
 
 警報等情報要素: 土砂災害警戒情報(発表)
 神奈川県
+--- en
+JMA-DC Report (Weather) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 24 Sep.
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Tokyo
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Kanagawa Prefecture
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2761,6 +3301,14 @@ Flood
 
 警報レベル: 氾濫警戒情報
 鬼怒川(栃木県・茨城県)
+--- en
+JMA-DC Report (Flood) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 24 Sep.
+
+Warning level: Information to provide a warning on flooding
+Kinugawa River
 {'disaster_category': '洪水',
  'disaster_category_en': 'Flood',
  'disaster_category_no': 11,
@@ -2819,6 +3367,34 @@ Marine
 
 警報等情報要素: 海上風警報
 三陸沖東部
+--- en
+JMA-DC Report (Marine) (Issue) (Regular)
+
+Report time: 11:35 JST, 24 Sep.
+
+Warning code: Fog Warning
+Sea East of Sakhalin
+
+Warning code: Fog Warning
+Sea East of Hokkaido
+
+Warning code: Fog Warning
+Sea off Kushiro
+
+Warning code: Wind Warning
+Sea off Abashiri
+
+Warning code: Wind Warning
+Sea West of Hokkaido
+
+Warning code: Wind Warning
+Sea East of Hokkaido
+
+Warning code: Wind Warning
+Sea off Kushiro
+
+Warning code: Wind Warning
+Eastern Sea off Sanriku
 {'disaster_category': '海上',
  'disaster_category_en': 'Marine',
  'disaster_category_no': 14,
@@ -2858,6 +3434,16 @@ Marine
 
 警報等情報要素: 海上警報解除
 日本海西部
+--- en
+JMA-DC Report (Marine) (Issue) (Regular)
+
+Report time: 11:35 JST, 24 Sep.
+
+Warning code: Marine Warning Lifted
+Central Part of Japan Sea
+
+Warning code: Marine Warning Lifted
+Western Part of Japan Sea
 {'disaster_category': '海上',
  'disaster_category_en': 'Marine',
  'disaster_category_no': 14,
@@ -2898,6 +3484,16 @@ Marine
 
 警報等情報要素: 海上風警報
 沖縄南方海上
+--- en
+JMA-DC Report (Marine) (Issue) (Regular)
+
+Report time: 11:35 JST, 24 Sep.
+
+Warning code: Wind Warning
+Western Sea off Sanriku
+
+Warning code: Wind Warning
+Sea South of Okinawa
 {'disaster_category': '海上',
  'disaster_category_en': 'Marine',
  'disaster_category_no': 14,
@@ -2935,6 +3531,13 @@ Weather
 
 警報等情報要素: 竜巻注意情報(発表)
 石狩・空知・後志地方
+--- en
+JMA-DC Report (Weather) (Issue) (Priority)
+
+Report time: 11:46 JST, 24 Sep.
+
+Disaster sub-category: Hazardous Wind Watch (Announcement)
+Region of Ishikari/Sorachi/Shiribeshi
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2975,6 +3578,14 @@ Flood
 
 警報レベル: 警報解除
 鬼怒川(栃木県・茨城県)
+--- en
+JMA-DC Report (Flood) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:50 JST, 24 Sep.
+
+Warning level: Warning Lifted
+Kinugawa River
 {'disaster_category': '洪水',
  'disaster_category_en': 'Flood',
  'disaster_category_no': 11,
@@ -3116,6 +3727,21 @@ Typhoon
 中心気圧: 1000hPa
 最大風速: 20m/s
 最大瞬間風速: 30m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 12:45 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 12:00 JST, 24 Sep.
+Type of reference time: Analysis
+Elapsed time: 0 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 18°30´0˝, E 133°30´0˝
+Central pressure: 1000 hPa
+Maximum wind speed: 20 m/s
+Maximum wind gust speed: 30 m/s
 {'central_pressure': '1000hPa',
  'central_pressure_raw': 1000,
  'coordinates_of_typhoon': '北緯18度30分0秒 東経133度30分0秒',
@@ -3184,6 +3810,21 @@ Typhoon
 中心気圧: 998hPa
 最大風速: 23m/s
 最大瞬間風速: 35m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 12:45 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 00:00 JST, 25 Sep.
+Type of reference time: Forecast
+Elapsed time: 12 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 19°0´0˝, E 131°30´0˝
+Central pressure: 998 hPa
+Maximum wind speed: 23 m/s
+Maximum wind gust speed: 35 m/s
 {'central_pressure': '998hPa',
  'central_pressure_raw': 998,
  'coordinates_of_typhoon': '北緯19度0分0秒 東経131度30分0秒',
@@ -3252,6 +3893,21 @@ Typhoon
 中心気圧: 994hPa
 最大風速: 23m/s
 最大瞬間風速: 35m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 12:45 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 12:00 JST, 25 Sep.
+Type of reference time: Forecast
+Elapsed time: 24 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 19°50´0˝, E 129°30´0˝
+Central pressure: 994 hPa
+Maximum wind speed: 23 m/s
+Maximum wind gust speed: 35 m/s
 {'central_pressure': '994hPa',
  'central_pressure_raw': 994,
  'coordinates_of_typhoon': '北緯19度50分0秒 東経129度30分0秒',
@@ -3320,6 +3976,21 @@ Typhoon
 中心気圧: 985hPa
 最大風速: 30m/s
 最大瞬間風速: 40m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 12:45 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 26 Sep.
+Type of reference time: Forecast
+Elapsed time: 45 hours ahead
+Scale: None
+Intensity: None
+Latitude and longitude: N 21°5´0˝, E 127°10´0˝
+Central pressure: 985 hPa
+Maximum wind speed: 30 m/s
+Maximum wind gust speed: 40 m/s
 {'central_pressure': '985hPa',
  'central_pressure_raw': 985,
  'coordinates_of_typhoon': '北緯21度5分0秒 東経127度10分0秒',
@@ -3387,6 +4058,21 @@ Typhoon
 中心気圧: 975hPa
 最大風速: 35m/s
 最大瞬間風速: 50m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 12:45 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 27 Sep.
+Type of reference time: Forecast
+Elapsed time: 69 hours ahead
+Scale: None
+Intensity: Strong
+Latitude and longitude: N 22°50´0˝, E 126°35´0˝
+Central pressure: 975 hPa
+Maximum wind speed: 35 m/s
+Maximum wind gust speed: 50 m/s
 {'central_pressure': '975hPa',
  'central_pressure_raw': 975,
  'coordinates_of_typhoon': '北緯22度50分0秒 東経126度35分0秒',
@@ -3455,6 +4141,21 @@ Typhoon
 中心気圧: 965hPa
 最大風速: 40m/s
 最大瞬間風速: 55m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 12:45 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 28 Sep.
+Type of reference time: Forecast
+Elapsed time: 93 hours ahead
+Scale: None
+Intensity: Strong
+Latitude and longitude: N 24°30´0˝, E 127°20´0˝
+Central pressure: 965 hPa
+Maximum wind speed: 40 m/s
+Maximum wind gust speed: 55 m/s
 {'central_pressure': '965hPa',
  'central_pressure_raw': 965,
  'coordinates_of_typhoon': '北緯24度30分0秒 東経127度20分0秒',
@@ -3523,6 +4224,21 @@ Typhoon
 中心気圧: 965hPa
 最大風速: 40m/s
 最大瞬間風速: 55m/s
+--- en
+JMA-DC Report (Typhoon) (Issue) (Regular)
+
+Report time: 12:45 JST, 24 Sep.
+
+Typhoon number: No. 26
+Reference time: 09:00 JST, 29 Sep.
+Type of reference time: Forecast
+Elapsed time: 117 hours ahead
+Scale: None
+Intensity: Strong
+Latitude and longitude: N 25°50´0˝, E 127°55´0˝
+Central pressure: 965 hPa
+Maximum wind speed: 40 m/s
+Maximum wind gust speed: 55 m/s
 {'central_pressure': '965hPa',
  'central_pressure_raw': 965,
  'coordinates_of_typhoon': '北緯25度50分0秒 東経127度55分0秒',

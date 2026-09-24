@@ -8,7 +8,7 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 オプションは下記のとおりです。
 ```shell
 usage: azarashi [-h] [-f INPUT] [-b BAUDRATE] [--record RECORD] [--time TIME]
-                [-s] [-u] [-r] [-x] [-v] [--json]
+                [-s] [-u] [-r] [-x] [-v] [--json] [--english]
                 {hex,nmea,ublox,l1s}
 
 azarashi CLI
@@ -30,7 +30,10 @@ options:
   -r, --ignore-dcr      ignore dcr messages (default: False)
   -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
-  --json                output one JSON record per line (NDJSON) (default: False)
+  --json                output one JSON record per line (NDJSON) (default:
+                        False)
+  --english             output the text in English where the report has it
+                        (default: False)
 ```
 `-f` には、シリアルデバイスかファイルを指定します。`/dev/ttyS0` や `COM3` のようなシリアルデバイスを指定するときは、ボーレートを `-b` で指定してください。ファイルを指定したときは、その中身をそのまま読み込みます。
 
@@ -63,6 +66,14 @@ $ azarashi l1s -f Q002_20260917.l1s
 アーカイブには、災危通報のほかに、測位を補強するメッセージも入っています。災危通報でない記録は読み飛ばします。
 
 記録の GPS 時刻は、前の記録より1日以内で先に進んでいるはずです。そうでない記録があれば、バイトが欠けたか増えたかして、記録の区切りがずれています。そのときはエラーを1つ出します。そのあと、時刻が続く記録を1バイトずつずらして探し、見つかったところから読み進めます。
+## English
+`--english` を指定すると、DCR の報を英語で表示します。英語は気象庁の英語を出典にしています。出典と方針は [English Translation Policy](english-translation-policy.md) にあります。
+```shell
+$ azarashi nmea -f messages.log --english
+```
+DCX と北西太平洋津波情報は、指定しなくても英語で表示します。南海トラフ地震に関連する情報には英語の表示がないので、指定しても日本語で表示します。
+`--json` と `--verbose` との併用はできません。JSON には、日本語の `text` と英語の `text_en` の両方が入ります。
+
 ## Record and Replay
 `--record` を指定すると、デコードしながら、受信したデータをそのままファイルに追記します。記録したファイルを `-f` で指定するか標準入力に流すと、同じ受信を再現できます。
 ```shell

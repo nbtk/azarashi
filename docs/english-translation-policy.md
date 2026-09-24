@@ -5,7 +5,8 @@
 Every code table of the JMA-DC Report (DCR) but one has an English version beside its Japanese one,
 in a table named `*_en` in `azarashi/definitions/qzss/dcr/`. The JSON output gives it as
 `labels.en`. The exception is the Nankai Trough information, described below.
-The Python reports and `str(report)` stay Japanese.
+`str(report)` stays Japanese; `get_text_en()` gives the report in English, as described under
+The English Text below.
 
 This page records where the English comes from, the rules it follows, and every English that is
 azarashi's own, so that none of it is forgotten when JMA publishes more English.
@@ -369,10 +370,72 @@ space, as Japanese text does. Unknown is the dictionary's word for 不明.
 | `typhoon_number` | No. 1 |
 | `expected_ash_fall_time` | 1 hour, 3 hours |
 
+## The English Text
+
+`report.get_text_en()`, `text_en` in the JSON output and `azarashi --english` give a report as
+English text, built from the `*_en` tables, for every DCR report but the Nankai Trough
+information. The JMA-DC Report (Northwest Pacific Tsunami) and the DCX messages are shown in
+English already, and give that text.
+
+The words around the values come from the same sources as the tables.
+
+| Japanese | English | Source |
+|---|---|---|
+| 緊急地震速報 | Earthquake Early Warning (EEW) | dictionary |
+| 震央地名 | Place name of epicenter | dictionary |
+| 緯度・経度 | Latitude and longitude | dictionary |
+| 深さ | Depth | dictionary |
+| マグニチュード | Magnitude | dictionary |
+| 震度 | Seismic intensity | dictionary |
+| 津波到達予想時刻 | Estimated initial tsunami arrival time | dictionary |
+| 津波の高さ | Estimated maximum tsunami height | dictionary, for 予想される津波の高さ |
+| 火山名 | Volcano | dictionary |
+| 大きさ | Scale | dictionary, for 大きさ階級 |
+| 強さ | Intensity | dictionary, for 強さ階級 |
+| 中心気圧 | Central pressure | dictionary |
+| 最大風速 | Maximum wind speed | dictionary |
+| 最大瞬間風速 | Maximum wind gust speed | dictionary |
+| 発表時刻 | Report time | IS-QZSS-DCR-017, Report Time |
+| 地震発生時刻 | Occurrence time of earthquake | IS-QZSS-DCR-017 |
+| 仮定震源要素 | assumptive hypocenter | IS-QZSS-DCR-017 |
+| 震度(下限), 震度(上限) | Seismic intensity lower limit, upper limit | IS-QZSS-DCR-017 |
+| 長周期地震動階級(下限), (上限) | Maximum expected Long-Period Ground Motion lower limit, upper limit | IS-QZSS-DCR-017 |
+| 日時 | Activity time | IS-QZSS-DCR-017 |
+| 現象 | Warning code | IS-QZSS-DCR-017 |
+| 基点時刻からの時間 | Expected ash fall time | IS-QZSS-DCR-017 |
+| 警報等情報要素 | Disaster sub-category for weather, Warning code for marine warnings | IS-QZSS-DCR-017 |
+| 警報レベル | Warning level | IS-QZSS-DCR-017 |
+| 台風番号 | Typhoon number | IS-QZSS-DCR-017 |
+| 基点時刻 | Reference time | IS-QZSS-DCR-017 |
+| 基点時刻分類 | Type of reference time | IS-QZSS-DCR-017 |
+| 情報の基点時刻(実況)からの経過時間 | Elapsed time | IS-QZSS-DCR-017 |
+| 津波到達中と推測 | Tsunami arrival expected | dictionary |
+| 該当情報なし | No data | IS-QZSS-DCR-017 |
+
+The dictionary is used where it has the word, and IS-QZSS-DCR-017 where it does not. The words of
+the specification are written with a capital on the first word only, as the dictionary writes
+its words.
+
+Only two sentences are kept, as the dictionary writes them: 〇〇ころ、地震がありました becomes
+Occurred at 09:01 JST, 21 Aug., and 〇〇を発表しました becomes 〇〇 issued for the following coastal
+regions of Japan:. The Japanese text begins the other reports with a sentence that azarashi wrote,
+such as 火山に関連する情報をお知らせします. JMA has no English for them, and the English text
+leaves them out; the heading already names the kind of report. The notifications are the
+tables' English.
+
+A time is in JST, as JMA's English writes it: 09:04 JST, 21 Aug. The year is left out, as in the
+Japanese text, since the DCR does not carry the year. An approximate time takes around, as the
+dictionary's at around XX:XX; an activity time known only to the day stays a UTC day, as in the
+Japanese text. A position is written as the dictionary's N XX°YY´, E XX°YY´, with the seconds the
+DCR gives: N 26°36´0˝, E 127°36´0˝. A time or position that is out of range is named as the
+tables name an undefined code, such as Undefined Activity Time (Code: 1600).
+
 ## No English
 
 - `information_serial_code` and the text of the Nankai Trough information: see The Nankai Trough
   Information above.
+- The English text of the Nankai Trough information: `get_text_en()` gives None, `text_en` is
+  null, and `azarashi --english` shows the Japanese text.
 
 ## Changing the English
 

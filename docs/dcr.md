@@ -121,6 +121,7 @@ MT43 は災害種別ごとに電文の構造が違うので、クラスも災害
 | `expected_tsunami_arrival_times` | `list[datetime \| None]` |
 | `expected_tsunami_arrival_times_raw` | `list[DayHourMinute]` |
 | `expected_tsunami_arrival_time_types` | `list[str]` |
+| `expected_tsunami_arrival_time_types_en` | `list[str]` |
 | `tsunami_heights` | `list[str]` |
 | `tsunami_heights_raw` | `list[int]` |
 | `tsunami_forecast_regions` | `list[str]` |

@@ -28,9 +28,12 @@ def main() -> int:
     parser.add_argument('-x', '--ignore-dcx', help='ignore dcx messages', action='store_true')
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')
     parser.add_argument('--json', help='output one JSON record per line (NDJSON)', action='store_true')
+    parser.add_argument('--english', help='output the text in English where the report has it', action='store_true')
     args = parser.parse_args()
     if args.json and (args.verbose or args.source):
         parser.error('--json cannot be combined with --verbose or --source')
+    if args.english and (args.json or args.verbose):
+        parser.error('--english cannot be combined with --json, which gives text_en, or --verbose')
     if args.type == 'l1s' and args.time is not None:
         parser.error('--time cannot be used with l1s, which gives the time of every message')
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
@@ -61,7 +64,8 @@ def main() -> int:
             if args.verbose is True:
                 print(f'{received} --------------------------------\n{pformat(report.get_params())}\n')
             else:
-                print(f'{received} --------------------------------\n{report}\n')
+                text = report.get_text_en() if args.english else None
+                print(f'{received} --------------------------------\n{report if text is None else text}\n')
 
             if args.source is True:
                 sentence = report.sentence

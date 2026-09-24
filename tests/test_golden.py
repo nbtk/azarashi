@@ -45,7 +45,11 @@ def render(log):
             params = report.get_params()
             if 'camf' in params:
                 params['camf'] = vars(params['camf'])
-            blocks.append(f'>>> {sentence}\n{type(report).__name__}\n{report}\n{pformat(params, width=120)}\n')
+            text = f'{report}'
+            text_en = report.get_text_en()
+            if text_en is not None and text_en != text:  # the English, where it is not the text itself
+                text += f'\n--- en\n{text_en}'
+            blocks.append(f'>>> {sentence}\n{type(report).__name__}\n{text}\n{pformat(params, width=120)}\n')
     return '\n'.join(blocks).translate(_CONTROLS)
 
 

@@ -127,6 +127,9 @@ class Base(MessageBase):
             if key not in self.__dict__:
                 self.__dict__[key] = as_utc(value) if isinstance(value, datetime) else value
 
+    def get_text_en(self) -> str:
+        return str(self)  # the report is written in English
+
 
 
 class AlertBase(Base):

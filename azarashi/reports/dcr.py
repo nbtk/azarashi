@@ -1,17 +1,34 @@
 """The reports of a JMA-DC Report message (MT43)."""
+import importlib
 import threading
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, ClassVar
+from typing import Any, ClassVar, cast
 
 from .base import Coordinates, DayHourMinute, MessageBase, as_utc
 from ..definitions.qzss.dcr.day_hour_minute import activity_time_undefined
+from ..definitions.qzss.dcr.day_hour_minute import activity_time_undefined_en
 from ..definitions.qzss.dcr.day_hour_minute import occurrence_time_of_earthquake_undefined
+from ..definitions.qzss.dcr.day_hour_minute import occurrence_time_of_earthquake_undefined_en
+from ..definitions.qzss.dcr.latitude_and_longitude import is_position
+from ..definitions.qzss.dcr.latitude_and_longitude import latitude_and_longitude_code
+from ..definitions.qzss.dcr.latitude_and_longitude import latitude_and_longitude_undefined_en
 from ..definitions.qzss.dcr.page_number_and_total_page import page_number_and_total_page_undefined
 from ..definitions.qzss.dcr.page_number_and_total_page import page_numbers
 from ..definitions.qzss.dcr.page_number_and_total_page import total_pages
 from ..definitions.qzss.dcr.day_hour_minute import typhoon_reference_time_undefined
+from ..definitions.qzss.dcr.day_hour_minute import typhoon_reference_time_undefined_en
 from ..exceptions import AzarashiInvalidMessageError
+
+#: the months as JMA's English writes them in a date, e.g. 21 Aug.
+_MONTHS_EN = ('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.')
+
+
+def _en(table: str, code: int) -> str:
+    """The English of a code in the DCR table of that name."""
+    tables = importlib.import_module(f'..definitions.qzss.dcr.{table}', __package__)
+    return cast(str, getattr(tables, table + '_en')[code])
+
 
 def _day_hour_minute_code(raw: DayHourMinute) -> int:
     """A time field of 16 bits (day 5, hour 5 and minute 6) as one number."""
@@ -65,6 +82,13 @@ class Base(MessageBase):
             header += '\n*** CANCELLATION ***'
         return header
 
+    def get_text_en(self) -> str | None:
+        """The report in English, or None when azarashi has no English for it."""
+        return None
+
+    def get_report_time_str_en(self) -> str:
+        return self.convert_dt_to_str_en(self.report_time)
+
     def get_report_time_str(self, time_diff: int = 9) -> str:
         at = self.report_time + timedelta(hours=time_diff)
         return f'{at.month}月{at.day}日{at.hour}時{at.minute}分'
@@ -80,6 +104,16 @@ class Base(MessageBase):
     @classmethod
     def _convert_time_to_str(cls, dt: datetime | None, raw: DayHourMinute, undefined: str) -> str:
         return cls.convert_dt_to_str(dt) if dt is not None else undefined % _day_hour_minute_code(raw)
+
+    @staticmethod
+    def convert_dt_to_str_en(dt: datetime) -> str:
+        """The time in JST, as JMA's English writes it: 09:04 JST, 21 Aug."""
+        lt = dt + timedelta(hours=9)
+        return f'{lt.hour:02d}:{lt.minute:02d} JST, {lt.day} {_MONTHS_EN[lt.month - 1]}'
+
+    @classmethod
+    def _convert_time_to_str_en(cls, dt: datetime | None, raw: DayHourMinute, undefined: str) -> str:
+        return cls.convert_dt_to_str_en(dt) if dt is not None else undefined % _day_hour_minute_code(raw)
 
     @staticmethod
     def convert_dt_to_str_iso(dt: datetime) -> str:
@@ -102,6 +136,34 @@ class Base(MessageBase):
             raise AzarashiInvalidMessageError(
                 f'Undefined JMA Ambiguity of Activity Time: {du}',
                 self) from err
+
+    def convert_dt_to_ambiguous_time_str_en(self, td: datetime, du: int) -> str:
+        lt = td + timedelta(hours=9)
+        month = _MONTHS_EN[lt.month - 1]
+        try:
+            return [f'{lt.hour:02d}:{lt.minute:02d} JST, {lt.day} {month}',  # No ambiguity
+                    f'around {lt.hour:02d}:{lt.minute:02d} JST, {lt.day} {month}',
+                    f'around {lt.hour:02d}:{lt.minute:02d} JST, {lt.day} {month}',
+                    f'around {lt.hour:02d}:{lt.minute:02d} JST, {lt.day} {month}',
+                    f'around {lt.hour:02d}:00 JST, {lt.day} {month}',
+                    f'around {td.day} {_MONTHS_EN[td.month - 1]}',  # only the UTC day is valid, so it stays in UTC
+                    f'around {month}',
+                    f'around {lt.year}',
+                    ][du]
+        except IndexError as err:
+            raise AzarashiInvalidMessageError(
+                f'Undefined JMA Ambiguity of Activity Time: {du}',
+                self) from err
+
+    @staticmethod
+    def convert_lat_lon_to_str_en(coordinates: Coordinates) -> str:
+        """The position as JMA's English writes it: N 26°36´0˝, E 127°36´0˝."""
+        if not is_position(coordinates):
+            return latitude_and_longitude_undefined_en % latitude_and_longitude_code(coordinates)
+        return f'{"N" if coordinates["lat_ns"] == 0 else "S"} ' + \
+            f'{coordinates["lat_d"]}°{coordinates["lat_m"]}´{coordinates["lat_s"]}˝, ' + \
+            f'{"E" if coordinates["lon_ew"] == 0 else "W"} ' + \
+            f'{coordinates["lon_d"]}°{coordinates["lon_m"]}´{coordinates["lon_s"]}˝'
 
     @staticmethod
     def convert_lat_lon_to_str(coordinates: Coordinates) -> str:
@@ -190,6 +252,39 @@ class EarthquakeEarlyWarning(Base):
         return report
 
 
+    def get_text_en(self) -> str:
+        occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
+                                                self.occurrence_time_of_earthquake_raw,
+                                                occurrence_time_of_earthquake_undefined_en)
+        report = f'{self.get_header_en()}\n' + \
+                 'Earthquake Early Warning (EEW)\n'
+
+        report += '\n'.join(_en('notification_on_disaster_prevention', co)
+                             for co in self.notifications_on_disaster_prevention_raw)
+
+        if self.assumptive is True:
+            assumptive_str = ' (assumptive hypocenter)'
+        else:
+            assumptive_str = ''
+
+        report += f'\n\nReport time: {self.get_report_time_str_en()}\n\n' + \
+                  f'Place name of epicenter: {_en("epicenter_and_hypocenter", self.seismic_epicenter_raw)}\n' + \
+                  f'Occurrence time of earthquake: {occurred}\n' + \
+                  f'Depth: {_en("depth_of_hypocenter", self.depth_of_hypocenter_raw)}{assumptive_str}\n' + \
+                  f'Magnitude: {_en("eew_magnitude", self.magnitude_raw)}{assumptive_str}\n' + \
+                  'Seismic intensity lower limit: ' + \
+                  f'{_en("seismic_intensity_lower_limit", self.seismic_intensity_lower_limit_raw)}\n' + \
+                  'Seismic intensity upper limit: ' + \
+                  f'{_en("seismic_intensity_upper_limit", self.seismic_intensity_upper_limit_raw)}\n'
+        if self.long_period_ground_motion_lower_limit is not None:
+            report += 'Maximum expected Long-Period Ground Motion lower limit: ' + \
+                      f'{_en("long_period_ground_motion_lower_limit", self.long_period_ground_motion_lower_limit_raw)}\n'
+        if self.long_period_ground_motion_upper_limit is not None:
+            report += 'Maximum expected Long-Period Ground Motion upper limit: ' + \
+                      f'{_en("long_period_ground_motion_upper_limit", self.long_period_ground_motion_upper_limit_raw)}\n'
+        report += ', '.join(_en('eew_forecast_region', region) for region in self.eew_forecast_regions_raw)
+        return report
+
 class Hypocenter(Base):
     def __init__(self,
                  notifications_on_disaster_prevention: list[str],
@@ -236,6 +331,23 @@ class Hypocenter(Base):
         return report
 
 
+    def get_text_en(self) -> str:
+        occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
+                                                self.occurrence_time_of_earthquake_raw,
+                                                occurrence_time_of_earthquake_undefined_en)
+        report = f'{self.get_header_en()}\n' + \
+                 f'Occurred at {occurred}\n'
+
+        report += '\n'.join(_en('notification_on_disaster_prevention', co)
+                             for co in self.notifications_on_disaster_prevention_raw)
+
+        report += f'\n\nReport time: {self.get_report_time_str_en()}\n\n' + \
+                  f'Place name of epicenter: {_en("epicenter_and_hypocenter", self.seismic_epicenter_raw)}\n' + \
+                  f'Latitude and longitude: {self.convert_lat_lon_to_str_en(self.coordinates_of_hypocenter_raw)}\n' + \
+                  f'Depth: {_en("depth_of_hypocenter", self.depth_of_hypocenter_raw)}\n' + \
+                  f'Magnitude: {_en("hypocenter_magnitude", self.magnitude_raw)}'
+        return report
+
 class SeismicIntensity(Base):
     def __init__(self,
                  occurrence_time_of_earthquake: datetime | None,
@@ -266,6 +378,15 @@ class SeismicIntensity(Base):
                       f'{self.prefectures[i]}'
         return report
 
+
+    def get_text_en(self) -> str:
+        report = f'{self.get_header_en()}\n\n' + \
+                 f'Report time: {self.get_report_time_str_en()}'
+
+        for intensity, prefecture in zip(self.seismic_intensities_raw, self.prefectures_raw, strict=True):
+            report += f'\n\nSeismic intensity: {_en("seismic_intensity", intensity)}\n' + \
+                      f'{_en("prefecture", prefecture)}'
+        return report
 
 #: The pages of an announcement are assembled in the class, which every stream and every thread shares,
 #: and a report renders its text outside the lock that decoding holds, so both ends take this one.
@@ -373,6 +494,7 @@ class Tsunami(Base):
                  expected_tsunami_arrival_times: list[datetime | None],
                  expected_tsunami_arrival_times_raw: list[DayHourMinute],
                  expected_tsunami_arrival_time_types: list[str],
+                 expected_tsunami_arrival_time_types_en: list[str],
                  tsunami_heights: list[str],
                  tsunami_heights_raw: list[int],
                  tsunami_forecast_regions: list[str],
@@ -386,6 +508,7 @@ class Tsunami(Base):
         self.expected_tsunami_arrival_times = [as_utc(t) for t in expected_tsunami_arrival_times]
         self.expected_tsunami_arrival_times_raw = expected_tsunami_arrival_times_raw
         self.expected_tsunami_arrival_time_types = expected_tsunami_arrival_time_types
+        self.expected_tsunami_arrival_time_types_en = expected_tsunami_arrival_time_types_en
         self.tsunami_heights = tsunami_heights
         self.tsunami_heights_raw = tsunami_heights_raw
         self.tsunami_forecast_regions = tsunami_forecast_regions
@@ -422,6 +545,27 @@ class Tsunami(Base):
                       f'{self.tsunami_forecast_regions[i]}'
         return report
 
+
+    def get_text_en(self) -> str:
+        report = f'{self.get_header_en()}\n' + \
+                 f'{_en("tsunami_warning_code", self.tsunami_warning_code_raw)}' + \
+                 ' issued for the following coastal regions of Japan:\n'
+
+        report += '\n'.join(_en('notification_on_disaster_prevention', co)
+                             for co in self.notifications_on_disaster_prevention_raw)
+
+        report += f'\n\nReport time: {self.get_report_time_str_en()}'
+
+        for i in range(len(self.expected_tsunami_arrival_times)):
+            arrival_time = self.expected_tsunami_arrival_times[i]
+            if arrival_time is None:
+                ta = self.expected_tsunami_arrival_time_types_en[i]
+            else:
+                ta = self.convert_dt_to_str_en(arrival_time)
+            report += f'\n\nEstimated initial tsunami arrival time: {ta}\n' + \
+                      f'Estimated maximum tsunami height: {_en("tsunami_height", self.tsunami_heights_raw[i])}\n' + \
+                      f'{_en("tsunami_forecast_region", self.tsunami_forecast_regions_raw[i])}'
+        return report
 
 class NorthwestPacificTsunami(Base):
     def __init__(self,
@@ -463,6 +607,9 @@ class NorthwestPacificTsunami(Base):
         return report
 
 
+    def get_text_en(self) -> str:
+        return str(self)  # the report is written in English
+
 class Volcano(Base):
     def __init__(self,
                  ambiguity_of_activity_time_no: int,
@@ -503,6 +650,22 @@ class Volcano(Base):
         report += '、'.join(self.local_governments)
         return report
 
+
+    def get_text_en(self) -> str:
+        report = f'{self.get_header_en()}\n\n' + \
+                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
+                 f'Volcano: {_en("volcano_name", self.volcano_name_raw)}\n'
+        du = self.ambiguity_of_activity_time_no
+        if du < 6:  # an approximate month or year leaves no part of the activity time to show
+            if self.activity_time is not None:
+                activity_time = self.convert_dt_to_ambiguous_time_str_en(self.activity_time, du)
+            else:
+                activity_time = activity_time_undefined_en % _day_hour_minute_code(self.activity_time_raw)
+            report += f'Activity time: {activity_time}\n'
+        report += f'Warning code: {_en("volcanic_warning_code", self.volcanic_warning_code_raw)}\n\n'
+
+        report += ', '.join(_en('local_government', region) for region in self.local_governments_raw)
+        return report
 
 class AshFall(Base):
     def __init__(self,
@@ -551,6 +714,23 @@ class AshFall(Base):
         return report
 
 
+    def get_text_en(self) -> str:
+        activity_time = self._convert_time_to_str_en(self.activity_time, self.activity_time_raw,
+                                                     activity_time_undefined_en)
+        report = f'{self.get_header_en()}\n\n' + \
+                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
+                 f'{_en("ash_fall_warning_type", self.ash_fall_warning_type_raw)}\n' + \
+                 f'Volcano: {_en("volcano_name", self.volcano_name_raw)}\n' + \
+                 f'Activity time: {activity_time}'
+
+        for time, code, region in zip(self.expected_ash_fall_times_raw, self.ash_fall_warning_codes_raw,
+                                      self.local_governments_raw, strict=True):
+            report += '\n\n' + \
+                      f'Expected ash fall time: {_en("expected_ash_fall_time", time)}\n' + \
+                      f'Warning code: {_en("ash_fall_warning_code", code)}\n' + \
+                      f'{_en("local_government", region)}'
+        return report
+
 class Weather(Base):
     def __init__(self,
                  weather_warning_state: str,
@@ -580,6 +760,18 @@ class Weather(Base):
         return report
 
 
+    def get_text_en(self) -> str:
+        report = f'{self.get_header_en()}\n\n' + \
+                 f'Report time: {self.get_report_time_str_en()}'
+
+        state = _en('weather_warning_state', self.weather_warning_state_raw)
+        for sub_category, region in zip(self.weather_related_disaster_sub_categories_raw,
+                                        self.weather_forecast_regions_raw, strict=True):
+            report += '\n\nDisaster sub-category: ' + \
+                      f'{_en("weather_related_disaster_sub_category", sub_category)} ({state})\n' + \
+                      f'{_en("weather_forecast_region", region)}'
+        return report
+
 class Flood(Base):
     def __init__(self,
                  flood_warning_levels: list[str],
@@ -604,6 +796,15 @@ class Flood(Base):
         return report
 
 
+    def get_text_en(self) -> str:
+        report = f'{self.get_header_en()}\n\n' + \
+                 f'Report time: {self.get_report_time_str_en()}'
+
+        for level, region in zip(self.flood_warning_levels_raw, self.flood_forecast_regions_raw, strict=True):
+            report += f'\n\nWarning level: {_en("flood_warning_level", level)}\n' + \
+                      f'{_en("flood_forecast_region", region)}'
+        return report
+
 class Marine(Base):
     def __init__(self,
                  marine_warning_codes: list[str],
@@ -627,6 +828,15 @@ class Marine(Base):
                       f'{self.marine_forecast_regions[i]}'
         return report
 
+
+    def get_text_en(self) -> str:
+        report = f'{self.get_header_en()}\n\n' + \
+                 f'Report time: {self.get_report_time_str_en()}'
+
+        for code, region in zip(self.marine_warning_codes_raw, self.marine_forecast_regions_raw, strict=True):
+            report += f'\n\nWarning code: {_en("marine_warning_code", code)}\n' + \
+                      f'{_en("marine_forecast_region", region)}'
+        return report
 
 class Typhoon(Base):
     def __init__(self,
@@ -690,4 +900,23 @@ class Typhoon(Base):
                  f'中心気圧: {self.central_pressure}\n' + \
                  f'最大風速: {self.maximum_wind_speed}\n' + \
                  f'最大瞬間風速: {self.maximum_gust_wind_speed}'
+        return report
+
+    def get_text_en(self) -> str:
+        reference_time = self._convert_time_to_str_en(self.reference_time, self.reference_time_raw,
+                                                      typhoon_reference_time_undefined_en)
+        report = f'{self.get_header_en()}\n\n' + \
+                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
+                 f'Typhoon number: {_en("typhoon_number", self.typhoon_number_raw)}\n' + \
+                 f'Reference time: {reference_time}\n' + \
+                 f'Type of reference time: {_en("typhoon_reference_time_type", self.reference_time_type_raw)}\n' + \
+                 'Elapsed time: ' + \
+                 f'{_en("typhoon_elapsed_time_from_reference_time", self.elapsed_time_from_reference_time_raw)}\n' + \
+                 f'Scale: {_en("typhoon_scale_category", self.typhoon_scale_category_raw)}\n' + \
+                 f'Intensity: {_en("typhoon_intensity_category", self.typhoon_intensity_category_raw)}\n' + \
+                 f'Latitude and longitude: {self.convert_lat_lon_to_str_en(self.coordinates_of_typhoon_raw)}\n' + \
+                 f'Central pressure: {_en("typhoon_central_pressure", self.central_pressure_raw)}\n' + \
+                 f'Maximum wind speed: {_en("typhoon_maximum_wind_speed", self.maximum_wind_speed_raw)}\n' + \
+                 'Maximum wind gust speed: ' + \
+                 f'{_en("typhoon_maximum_gust_wind_speed", self.maximum_gust_wind_speed_raw)}'
         return report

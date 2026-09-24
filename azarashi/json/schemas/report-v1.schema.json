@@ -421,6 +421,12 @@
         "text": {
           "type": "string"
         },
+        "text_en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "data": {
           "type": "object"
         }
@@ -431,6 +437,7 @@
         "received_at",
         "satellite",
         "text",
+        "text_en",
         "data"
       ],
       "additionalProperties": false,

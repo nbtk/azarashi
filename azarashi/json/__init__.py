@@ -20,6 +20,7 @@ def to_json_dict(report: Report) -> dict[str, JsonValue]:
             "satellite": None if report.satellite_prn is None else {"system": "qzss", "prn": report.satellite_prn},
             "nmea": report.nmea,
             "text": str(report),
+            "text_en": report.get_text_en(),
             "data": data,
         }
     )

@@ -10,6 +10,17 @@ Hypocenter
 緯度・経度: 北緯26度36分0秒 東経127度36分0秒
 深さ: 40km
 マグニチュード: 4.2
+--- en
+JMA-DC Report (Hypocenter) (Issue) (Priority)
+Occurred at 09:01 JST, 21 Aug.
+This earthquake poses no tsunami risk.
+
+Report time: 09:04 JST, 21 Aug.
+
+Place name of epicenter: Adjacent Sea of Okinawa Main Island
+Latitude and longitude: N 26°36´0˝, E 127°36´0˝
+Depth: 40 km
+Magnitude: 4.2
 {'coordinates_of_hypocenter': '北緯26度36分0秒 東経127度36分0秒',
  'coordinates_of_hypocenter_raw': {'lat_d': 26,
                                    'lat_m': 36,
@@ -71,6 +82,23 @@ EarthquakeEarlyWarning
 長周期地震動階級(下限): 長周期地震動階級2
 長周期地震動階級(上限): 長周期地震動階級2
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
+--- en
+JMA-DC Report (Earthquake Early Warning) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Earthquake Early Warning (EEW)
+Watch out for strong tremors.
+
+Report time: 10:00 JST, 21 Aug.
+
+Place name of epicenter: Hyuganada Sea
+Occurrence time of earthquake: 10:00 JST, 21 Aug.
+Depth: 10 km
+Magnitude: 7.2
+Seismic intensity lower limit: Seismic intensity of 6-lower
+Seismic intensity upper limit: or greater
+Maximum expected Long-Period Ground Motion lower limit: Long-Period Ground Motion class of 2
+Maximum expected Long-Period Ground Motion upper limit: Long-Period Ground Motion class of 2
+Shimane, Okayama, Hiroshima, Yamaguchi, Kagawa, Ehime, Kochi, Fukuoka, Saga, Nagasaki, Kumamoto, Oita, Miyazaki, Kagoshima, Chugoku, Shikoku, Kyushu
 {'assumptive': False,
  'depth_of_hypocenter': '10km',
  'depth_of_hypocenter_raw': 10,
@@ -145,6 +173,18 @@ Hypocenter
 緯度・経度: 北緯32度42分0秒 東経132度6分0秒
 深さ: 40km
 マグニチュード: 6.4
+--- en
+JMA-DC Report (Hypocenter) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Occurred at 10:05 JST, 21 Aug.
+There is a possibility of a destructive local tsunami near the epicenter.
+
+Report time: 10:05 JST, 21 Aug.
+
+Place name of epicenter: Hyuganada Sea
+Latitude and longitude: N 32°42´0˝, E 132°6´0˝
+Depth: 40 km
+Magnitude: 6.4
 {'coordinates_of_hypocenter': '北緯32度42分0秒 東経132度6分0秒',
  'coordinates_of_hypocenter_raw': {'lat_d': 32,
                                    'lat_m': 42,
@@ -222,6 +262,38 @@ SeismicIntensity
 
 震度: 4
 鹿児島県
+--- en
+JMA-DC Report (Seismic Intensity) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 10:05 JST, 21 Aug.
+
+Seismic intensity: 5-upper
+Oita Prefecture
+
+Seismic intensity: 5-upper
+Miyazaki Prefecture
+
+Seismic intensity: 5-lower
+Kochi Prefecture
+
+Seismic intensity: 5-lower
+Kumamoto Prefecture
+
+Seismic intensity: 4
+Yamaguchi Prefecture
+
+Seismic intensity: 4
+Ehime Prefecture
+
+Seismic intensity: 4
+Fukuoka Prefecture
+
+Seismic intensity: 4
+Saga Prefecture
+
+Seismic intensity: 4
+Kagoshima Prefecture
 {'disaster_category': '震度',
  'disaster_category_en': 'Seismic Intensity',
  'disaster_category_no': 3,
@@ -280,10 +352,41 @@ Tsunami
 津波到達予想時刻: 21日10時5分
 津波の高さ: 3m
 宮崎県
+--- en
+JMA-DC Report (Tsunami) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Tsunami Warning issued for the following coastal regions of Japan:
+<Tsunami Warning>
+Damage due to tsunami waves is expected.
+Evacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.
+Tsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.
+<Tsunami Advisory>
+A marine threat is present.
+Get out of the water and leave coastal regions immediately.
+Due to the risk of ongoing strong currents, do not enter the sea or approach coastal regions until the advisory is lifted.
+<Tsunami Forecast (Slight sea-level change)>
+Slight sea-level changes may be observed in coastal regions, but no tsunami damage is expected.
+
+Report time: 10:05 JST, 21 Aug.
+
+Estimated initial tsunami arrival time: 10:05 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Ehime Prefecture
+
+Estimated initial tsunami arrival time: 10:05 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Kochi Prefecture
+
+Estimated initial tsunami arrival time: 10:05 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Miyazaki Prefecture
 {'disaster_category': '津波',
  'disaster_category_en': 'Tsunami',
  'disaster_category_no': 5,
  'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_time_types_en': ['Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time'],
  'expected_tsunami_arrival_times': [datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 8, 21, 1, 5, tzinfo=datetime.timezone.utc)],
@@ -451,10 +554,46 @@ Tsunami
 津波到達予想時刻: 21日10時25分
 津波の高さ: 3m
 宮崎県
+--- en
+JMA-DC Report (Tsunami) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Tsunami Warning issued for the following coastal regions of Japan:
+<Tsunami Warning>
+Damage due to tsunami waves is expected.
+Evacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.
+Tsunami waves are expected to hit repeatedly. Do not leave safe ground until the warning is lifted.
+<Tsunami Advisory>
+A marine threat is present.
+Get out of the water and leave coastal regions immediately.
+Due to the risk of ongoing strong currents, do not enter the sea or approach coastal regions until the advisory is lifted.
+<Tsunami Forecast (Slight sea-level change)>
+Slight sea-level changes may be observed in coastal regions, but no tsunami damage is expected.
+
+Report time: 10:25 JST, 21 Aug.
+
+Estimated initial tsunami arrival time: 10:25 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Ehime Prefecture
+
+Estimated initial tsunami arrival time: 10:25 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Kochi Prefecture
+
+Estimated initial tsunami arrival time: 10:25 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Oita Prefecture
+
+Estimated initial tsunami arrival time: 10:25 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Miyazaki Prefecture
 {'disaster_category': '津波',
  'disaster_category_en': 'Tsunami',
  'disaster_category_no': 5,
  'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_time_types_en': ['Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time'],
  'expected_tsunami_arrival_times': [datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 8, 21, 1, 25, tzinfo=datetime.timezone.utc),
@@ -1527,10 +1666,37 @@ Tsunami
 津波到達予想時刻: 21日10時35分
 津波の高さ: 3m
 宮崎県
+--- en
+JMA-DC Report (Tsunami) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+Warning Lifted issued for the following coastal regions of Japan:
+Sea-level changes may be observed.
+
+Report time: 10:35 JST, 21 Aug.
+
+Estimated initial tsunami arrival time: 10:35 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Ehime Prefecture
+
+Estimated initial tsunami arrival time: 10:35 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Kochi Prefecture
+
+Estimated initial tsunami arrival time: 10:35 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Bungo Strait Coast of Oita Prefecture
+
+Estimated initial tsunami arrival time: 10:35 JST, 21 Aug.
+Estimated maximum tsunami height: 3 m
+Miyazaki Prefecture
 {'disaster_category': '津波',
  'disaster_category_en': 'Tsunami',
  'disaster_category_no': 5,
  'expected_tsunami_arrival_time_types': ['津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻', '津波の到達予想時刻'],
+ 'expected_tsunami_arrival_time_types_en': ['Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time',
+                                            'Estimated initial tsunami arrival time'],
  'expected_tsunami_arrival_times': [datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
                                     datetime.datetime(2026, 8, 21, 1, 35, tzinfo=datetime.timezone.utc),
@@ -1580,6 +1746,17 @@ Volcano
 現象: 噴火
 
 熊本県阿蘇市、熊本県高森町、熊本県南阿蘇村
+--- en
+JMA-DC Report (Volcano) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:10 JST, 21 Aug.
+
+Volcano: Asosan
+Activity time: 11:10 JST, 21 Aug.
+Warning code: Volcanic eruptions
+
+Aso City, Kumamoto Prefecture, Takamori Town, Kumamoto Prefecture, Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 8, 21, 2, 10, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 10},
  'ambiguity_of_activity_time_no': 0,
@@ -1635,6 +1812,27 @@ AshFall
 基点時刻からの時間: 1時間
 現象: 少量の降灰
 熊本県南阿蘇村
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:10 JST, 21 Aug.
+
+Preliminary
+Volcano: Asosan
+Activity time: 11:10 JST, 21 Aug.
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 8, 21, 2, 10, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 10},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰'],
@@ -1697,6 +1895,31 @@ AshFall
 基点時刻からの時間: 2時間
 現象: 少量の降灰
 熊本県阿蘇市
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 21 Aug.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 21 Aug.
+
+Expected ash fall time: 1 hour
+Warning code: Moderate ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Moderate ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 1 hour
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 2 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['やや多量の降灰', 'やや多量の降灰', '少量の降灰', '少量の降灰'],
@@ -1759,6 +1982,31 @@ AshFall
 基点時刻からの時間: 3時間
 現象: 少量の降灰
 熊本県高森町
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 21 Aug.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 21 Aug.
+
+Expected ash fall time: 2 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 2 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 3 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 3 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
@@ -1821,6 +2069,31 @@ AshFall
 基点時刻からの時間: 4時間
 現象: 少量の降灰
 熊本県南阿蘇村
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 21 Aug.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 21 Aug.
+
+Expected ash fall time: 3 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 4 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 4 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 4 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
@@ -1883,6 +2156,31 @@ AshFall
 基点時刻からの時間: 6時間
 現象: 少量の降灰
 熊本県阿蘇市
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 21 Aug.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 21 Aug.
+
+Expected ash fall time: 5 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
+
+Expected ash fall time: 5 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 5 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
+
+Expected ash fall time: 6 hours
+Warning code: Low ash fall
+Aso City, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰', '少量の降灰', '少量の降灰'],
@@ -1937,6 +2235,23 @@ AshFall
 基点時刻からの時間: 6時間
 現象: 少量の降灰
 熊本県南阿蘇村
+--- en
+JMA-DC Report (Ash Fall) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:20 JST, 21 Aug.
+
+Detailed
+Volcano: Asosan
+Activity time: 11:20 JST, 21 Aug.
+
+Expected ash fall time: 6 hours
+Warning code: Low ash fall
+Takamori Town, Kumamoto Prefecture
+
+Expected ash fall time: 6 hours
+Warning code: Low ash fall
+Minamiaso Village, Kumamoto Prefecture
 {'activity_time': datetime.datetime(2026, 8, 21, 2, 20, tzinfo=datetime.timezone.utc),
  'activity_time_raw': {'day': 21, 'hour': 2, 'minute': 20},
  'ash_fall_warning_codes': ['少量の降灰', '少量の降灰'],
@@ -1997,6 +2312,29 @@ Weather
 
 警報等情報要素: 大雨特別警報(発表)
 東京都
+--- en
+JMA-DC Report (Weather) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 21 Aug.
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Ibaraki Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Tochigi Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Gunma Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Saitama Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Chiba Prefecture
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Tokyo
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2052,6 +2390,29 @@ Weather
 
 警報等情報要素: 土砂災害警戒情報(発表)
 千葉県
+--- en
+JMA-DC Report (Weather) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 21 Aug.
+
+Disaster sub-category: Heavy Rain Emergency Warning (Announcement)
+Kanagawa Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Ibaraki Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Tochigi Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Gunma Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Saitama Prefecture
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Chiba Prefecture
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2095,6 +2456,17 @@ Weather
 
 警報等情報要素: 土砂災害警戒情報(発表)
 神奈川県
+--- en
+JMA-DC Report (Weather) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 21 Aug.
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Tokyo
+
+Disaster sub-category: Landslide Alert Information (Announcement)
+Kanagawa Prefecture
 {'disaster_category': '気象',
  'disaster_category_en': 'Weather',
  'disaster_category_no': 10,
@@ -2135,6 +2507,14 @@ Flood
 
 警報レベル: 氾濫警戒情報
 鬼怒川(栃木県・茨城県)
+--- en
+JMA-DC Report (Flood) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:35 JST, 21 Aug.
+
+Warning level: Information to provide a warning on flooding
+Kinugawa River
 {'disaster_category': '洪水',
  'disaster_category_en': 'Flood',
  'disaster_category_no': 11,
@@ -2173,6 +2553,14 @@ Flood
 
 警報レベル: 警報解除
 鬼怒川(栃木県・茨城県)
+--- en
+JMA-DC Report (Flood) (Issue) (Training/Test)
+*** TRAINING/TEST ***
+
+Report time: 11:50 JST, 21 Aug.
+
+Warning level: Warning Lifted
+Kinugawa River
 {'disaster_category': '洪水',
  'disaster_category_en': 'Flood',
  'disaster_category_no': 11,
@@ -2305,6 +2693,17 @@ Hypocenter
 緯度・経度: 北緯33度42分0秒 東経140度30分0秒
 深さ: 60km
 マグニチュード: 5.5
+--- en
+JMA-DC Report (Hypocenter) (Issue) (Priority)
+Occurred at 21:02 JST, 21 Aug.
+This earthquake poses no tsunami risk.
+
+Report time: 21:04 JST, 21 Aug.
+
+Place name of epicenter: Off the east Coast of Hachijojima Island
+Latitude and longitude: N 33°42´0˝, E 140°30´0˝
+Depth: 60 km
+Magnitude: 5.5
 {'coordinates_of_hypocenter': '北緯33度42分0秒 東経140度30分0秒',
  'coordinates_of_hypocenter_raw': {'lat_d': 33,
                                    'lat_m': 42,

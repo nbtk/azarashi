@@ -37,7 +37,7 @@ azarashi がデコードしたレポートは、必ず JSON にできます。�
 なくても受け付けます。NaN や無限大、要素数のそろわない予報の配列などを渡したり、あとから属性を
 書き換えて設定したりすると、変換が失敗します。azarashi はこれらの値を確かめません。
 コードに対応する表示名はコード表から取得するため、レポートの表示用属性だけを変更しても `data` 内の `labels` には反映されません。
-`text` には `str(report)` の結果をそのまま出力します。
+`text` には `str(report)` の結果を、`text_en` には `report.get_text_en()` の結果を、そのまま出力します。
 
 ## CLI
 
@@ -62,6 +62,7 @@ JSON にできないレポートがあっても読み取りは止めません。
 | `satellite` | `{ "system": "qzss", "prn": 186 }`、不明なら `null` |
 | `nmea` | ライブラリが生成した QZQSM 文。行末改行なし |
 | `text` | 変換時点の `str(report)` |
+| `text_en` | 変換時点の `report.get_text_en()`。英語の表示がない報は `null` |
 | `data` | 種類ごとに定めた内容 |
 
 受信日時と警報に記載された日時は別です。
@@ -69,6 +70,8 @@ JSON にできないレポートがあっても読み取りは止めません。
 そのため、受信した衛星を確認するときは NMEA 内の番号ではなく `satellite` を参照してください。
 
 `text` は `print(report)` の本文です。print が追加する末尾改行、CLI の時刻や区切り線は含めません。
+`text_en` は英語の本文です。DCX と北西太平洋津波情報は、もともと英語で表示するので、`text` と同じ文字列です。
+南海トラフ地震に関連する情報には英語の表示がないので、`null` です。
 文章中の改行はエスケープされ、NDJSON は UTF-8・1行1オブジェクトです。
 表示用の文章ではなく、`type` と `data` を機械的な判断に使います。
 
@@ -344,7 +347,7 @@ A4 は hazard の `type`・`category`・`definition` の3つのコードオブ�
 仕様上の運用制約と、現在のデコーダーが受け入れるビットパターンは別です。
 デコーダーが受け入れた情報は、JSON 変換時にも出力に含めます。
 
-共通の入力属性：timestamp → received_at、satellite_prn → satellite、nmea → nmea、str(report) → text。
+共通の入力属性：timestamp → received_at、satellite_prn → satellite、nmea → nmea、str(report) → text、get_text_en() → text_en。
 sentence/message/raw/message_header/preamble、別体系の satellite_id/svid は別途出しません。
 元入力が必要なら記録機能を使います。計算プロパティと任意の追加属性は自動的に出しません。
 

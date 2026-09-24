@@ -18,6 +18,12 @@
 - `DayHourMinute` と `Coordinates` は辞書です。前者は `day`、`hour`、`minute` を、後者は緯度と経度を持ちます。
 - 時刻として読めない値が届いたときは、その時刻のフィールドは `None` になります。
 
+`print(report)` や `str(report)` は、レポートを文章にして返します。DCR は日本語で、DCX と北西太平洋津波情報は英語です。
+`report.get_text_en()` は、英語の文章を返します。
+- DCR の英語は、気象庁の英語を出典にしています。出典と方針は [English Translation Policy](english-translation-policy.md) にあります。
+- DCX と北西太平洋津波情報は、`str(report)` と同じ文字列を返します。
+- 南海トラフ地震に関連する情報には英語の表示がないので、`None` を返します。
+
 ## Construction, Mutation and Subclassing
 
 通常は `decode()` / `decode_stream()` でレポートを取得します。公開レポートクラスを

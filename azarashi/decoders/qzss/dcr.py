@@ -23,14 +23,11 @@ from ...definitions.qzss.dcr.hypocenter_magnitude import hypocenter_magnitude
 from ...definitions.qzss.dcr.information_serial_code import information_serial_code
 from ...definitions.qzss.dcr.information_type import information_type
 from ...definitions.qzss.dcr.information_type import information_type_en
-from ...definitions.qzss.dcr.latitude_and_longitude import latitude_and_longitude_minutes
-from ...definitions.qzss.dcr.latitude_and_longitude import latitude_and_longitude_seconds
+from ...definitions.qzss.dcr.latitude_and_longitude import is_position
 from ...definitions.qzss.dcr.latitude_and_longitude import latitude_and_longitude_undefined
-from ...definitions.qzss.dcr.latitude_and_longitude import latitude_degrees
 from ...definitions.qzss.dcr.local_government import local_government
 from ...definitions.qzss.dcr.long_period_ground_motion_lower_limit import long_period_ground_motion_lower_limit
 from ...definitions.qzss.dcr.long_period_ground_motion_upper_limit import long_period_ground_motion_upper_limit
-from ...definitions.qzss.dcr.latitude_and_longitude import longitude_degrees
 from ...definitions.qzss.dcr.marine_forecast_region import marine_forecast_region
 from ...definitions.qzss.dcr.marine_warning_code import marine_warning_code
 from ...definitions.qzss.dcr.day_hour_minute import minutes
@@ -225,14 +222,8 @@ class Common(ContextDecoder[Jma]):
             'lon_m': self.extract_field(slider + 29, 6),
             'lon_s': self.extract_field(slider + 35, 6),
         }
-        if (coordinates['lat_d'] in latitude_degrees
-                and coordinates['lat_m'] in latitude_and_longitude_minutes
-                and coordinates['lat_s'] in latitude_and_longitude_seconds
-                and coordinates['lon_d'] in longitude_degrees
-                and coordinates['lon_m'] in latitude_and_longitude_minutes
-                and coordinates['lon_s'] in latitude_and_longitude_seconds):
+        if is_position(coordinates):
             return dcr.Base.convert_lat_lon_to_str(coordinates), coordinates
-        # with one part outside its range, the other parts cannot be trusted as a position either
         return latitude_and_longitude_undefined % self.extract_field(slider, 41), coordinates
 
     def extract_depth_field(self, slider: int) -> tuple[str, int]:
@@ -252,17 +243,19 @@ class Common(ContextDecoder[Jma]):
                 'hour': self.extract_field(slider + 1, 5),
                 'minute': self.extract_field(slider + 6, 6)}
 
-    def extract_expected_tsunami_arrival_time_field(self, slider: int) -> tuple[datetime | None, DayHourMinute, str]:
-        """Expected arrival time of JMA-DC Report (Tsunami) with its raw values and type."""
+    def extract_expected_tsunami_arrival_time_field(
+            self, slider: int) -> tuple[datetime | None, DayHourMinute, str, str]:
+        """Expected arrival time of JMA-DC Report (Tsunami) with its raw values and type in Japanese and English."""
         raw = self.extract_expected_tsunami_arrival_time_raw(slider)
         if (raw['hour'], raw['minute']) == (31, 63):  # has arrived (estimated or observed)
-            return None, raw, '津波到達中と推測'
+            return None, raw, '津波到達中と推測', 'Tsunami arrival expected'
         if (raw['day'], raw['hour'], raw['minute']) == (0, 30, 62):  # no data
-            return None, raw, '該当情報なし'
+            return None, raw, '該当情報なし', 'No data'
         arrival_time = self.extract_expected_tsunami_arrival_time(slider)
         if arrival_time is None:
-            return None, raw, expected_tsunami_arrival_time_undefined % self.extract_field(slider, 12)
-        return arrival_time, raw, '津波の到達予想時刻'
+            code = self.extract_field(slider, 12)
+            return None, raw, expected_tsunami_arrival_time_undefined % code, expected_tsunami_arrival_time_undefined_en % code
+        return arrival_time, raw, '津波の到達予想時刻', 'Estimated initial tsunami arrival time'
 
     def extract_northwest_pacific_tsunami_arrival_time_field(self, slider: int) -> tuple[datetime | None, DayHourMinute, str]:
         """Expected arrival time of JMA-DC Report (Northwest Pacific Tsunami) with its raw values and type."""
@@ -445,6 +438,7 @@ class Tsunami(Common):
         self.expected_tsunami_arrival_times: list[datetime | None] = []
         self.expected_tsunami_arrival_times_raw: list[DayHourMinute] = []
         self.expected_tsunami_arrival_time_types: list[str] = []
+        self.expected_tsunami_arrival_time_types_en: list[str] = []
         self.tsunami_heights: list[str] = []
         self.tsunami_heights_raw: list[int] = []
         self.tsunami_forecast_regions: list[str] = []
@@ -454,10 +448,11 @@ class Tsunami(Common):
             if self.extract_field(offset, 26) == 0:
                 break
 
-            ta, ta_raw, ta_type = self.extract_expected_tsunami_arrival_time_field(offset)
+            ta, ta_raw, ta_type, ta_type_en = self.extract_expected_tsunami_arrival_time_field(offset)
             self.expected_tsunami_arrival_times.append(ta)
             self.expected_tsunami_arrival_times_raw.append(ta_raw)
             self.expected_tsunami_arrival_time_types.append(ta_type)
+            self.expected_tsunami_arrival_time_types_en.append(ta_type_en)
 
             th = self.extract_field(offset + 12, 4)
             self.tsunami_heights.append(tsunami_height[th])
@@ -476,6 +471,7 @@ class Tsunami(Common):
             expected_tsunami_arrival_times=self.expected_tsunami_arrival_times,
             expected_tsunami_arrival_times_raw=self.expected_tsunami_arrival_times_raw,
             expected_tsunami_arrival_time_types=self.expected_tsunami_arrival_time_types,
+            expected_tsunami_arrival_time_types_en=self.expected_tsunami_arrival_time_types_en,
             tsunami_heights=self.tsunami_heights,
             tsunami_heights_raw=self.tsunami_heights_raw,
             tsunami_forecast_regions=self.tsunami_forecast_regions,

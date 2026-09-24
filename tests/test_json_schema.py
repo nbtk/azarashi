@@ -43,7 +43,7 @@ def record(name):
     return example_record(next(r for r in REPORTS if type(r).__name__ == name))
 
 
-@pytest.mark.parametrize('field', ['schema_version', 'type', 'received_at', 'satellite', 'nmea', 'text', 'data'])
+@pytest.mark.parametrize('field', ['schema_version', 'type', 'received_at', 'satellite', 'nmea', 'text', 'text_en', 'data'])
 def test_envelope_fields_are_required(field):
     row = record('Tsunami')
     del row[field]
@@ -52,7 +52,7 @@ def test_envelope_fields_are_required(field):
 
 @pytest.mark.parametrize('field,value', [('schema_version', 2), ('nmea', ''), ('nmea', '$QZQSM,55,broken*00'),
     ('received_at', '2026-02-30T01:00:00Z'), ('received_at', '2026-03-01T01:00:00+09:00'),
-    ('satellite', {'system': 'qzss', 'prn': None}), ('unknown', 1)])
+    ('satellite', {'system': 'qzss', 'prn': None}), ('text_en', 1), ('unknown', 1)])
 def test_invalid_envelope_rejected(field, value):
     row = record('Tsunami')
     row[field] = value
