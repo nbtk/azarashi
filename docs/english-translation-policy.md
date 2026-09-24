@@ -38,7 +38,7 @@ Showing the English is right only on these conditions, and azarashi keeps to the
 | It must not pass for JMA's. | The sentences end in (Translated by azarashi), and this page lists every English that is azarashi's. |
 
 Only the notification sentences carry the note. The short labels azarashi translated, such as
-Marine Gale Warning and Other Volcano, carry none, so the JSON alone does not tell them apart from
+Swell Warning and Other Volcano, carry none, so the JSON alone does not tell them apart from
 JMA's English. They are short labels for a category or a value, not sentences. azarashi reviewed
 their English and decided not to mark short labels. They are listed on this page instead, and the
 JSON always gives the Japanese and the code beside them.
@@ -53,10 +53,13 @@ JSON always gives the Japanese and the code beside them.
    also an epicenter, with different English. Regions, volcanoes and epicenters are matched by the
    code of the JMA XML code table, the rest by their Japanese.
 3. **The words are JMA's; only the spacing and the case are tidied.** Doubled or invisible spaces
-   and full-width brackets are fixed. JMA writes the marine forecast regions in capitals (SEA OFF
-   ABASHIRI); they begin each word with a capital here (Sea off Abashiri), as every other table
-   does, with of, and, off and around in lower case after the first word. Where azarashi arranges
-   JMA's words, it says so below.
+   and full-width brackets are fixed. JMA writes the marine forecast regions and the marine
+   warnings in capitals (SEA OFF ABASHIRI, GALE WARNING); they begin each word with a capital here
+   (Sea off Abashiri), as every other table does, with of, and, off and around in lower case after
+   the first word. Where azarashi arranges JMA's words, it says so below.
+   The same Japanese can have a different English in different sections, and each table keeps the
+   word its own section uses: JMA translates 解除 as Lifted for tsunamis and volcanoes and as Cancel
+   for weather warnings, and 発表 as Issue or Announcement. The tables do not differ by mistake.
 4. **Where JMA gives no English, the English is azarashi's own**, so that what a report says,
    danger most of all, still reaches a reader of English. It is made of JMA's wording where JMA
    has one. It never says less than the Japanese: what the Japanese states as certain stays
@@ -102,6 +105,7 @@ table has no English.
 | JMA sea warning page, <https://www.jma.go.jp/bosai/seawarning/#lang=en> | 2026-09-24 | marine forecast regions that are not divided further |
 | JMA English marine warnings, <https://www.jma.go.jp/bosai/seawarning/data/warning_en/> | 2026-09-24 | six marine forecast regions that group others, named in NO WARNING FOR ... |
 | JMA map of disaster information, <https://www.jma.go.jp/bosai/map.html> | 2026-09-24 | Less than 0.2 m, and Less than for 未満 |
+| JMA explanation of the Asia-Pacific surface analysis chart, <https://www.jma.go.jp/jma/kishou/know/kurashi/ASAS_kaisetu.html> | 2026-09-24 | marine warnings: FOG WARNING, GALE WARNING, STORM WARNING and TYPHOON WARNING |
 | JMA English guide to tsunami warnings, <https://www.data.jma.go.jp/eqev/data/en/guide/tsunamiinfo.html> | 2026-09-24 | tsunami heights 1 m to 10 m |
 | IS-QZSS-DCR-017 | | Analysis, Estimate and Forecast; Preliminary and Detailed; Heavy Rain Emergency Warning; Record-breaking heavy rain in a short time |
 | MLIT Kanto Regional Development Bureau, Edogawa River Office, <https://www.ktr.mlit.go.jp/edogawa/edogawa00576.html> | 2026-09-24 | Ootoshi-Furutone River, Nakagawa River |
@@ -130,10 +134,17 @@ table has no English.
   (Preliminary) and (Detailed).
 - **Kagoshima Prefecture** for weather forecast region 460000, which the dictionary has only as a
   prefecture.
+- **Marine warning 20**, 海上風警報: JMA's chart of the Asia-Pacific calls it just WARNING, which says
+  what it is only beside the other warnings on the chart. Alone it would drop the 風 of the
+  Japanese, so the English is Wind Warning, with the dictionary's Wind, and is listed below as
+  azarashi's.
+- **A slip corrected.** The dictionary calls 美咲町 (local government 3366600) Misaki Ward, but it is
+  a town, and the dictionary calls each of its other 743 towns a Town. The English here is Misaki
+  Town, Okayama Prefecture.
 
 ## azarashi's English
 
-91 entries are listed one by one below. Two more families follow a pattern:
+87 entries are listed one by one below. Two more families follow a pattern:
 
 - `local_government`: 47 entries, the other municipalities of each prefecture, as Other
   municipalities in Hokkaido Prefecture.
@@ -275,13 +286,9 @@ table has no English.
 | Code | Japanese | English |
 |---|---|---|
 | 0 | 海上警報解除 | Marine Warning Lifted |
-| 10 | 海上着氷警報 | Marine Ice Accretion Warning |
-| 11 | 海上濃霧警報 | Marine Dense Fog Warning |
-| 12 | 海上うねり警報 | Marine Swell Warning |
-| 20 | 海上風警報 | Marine Wind Warning |
-| 21 | 海上強風警報 | Marine Gale Warning |
-| 22 | 海上暴風警報 | Marine Storm Warning |
-| 23 | 海上台風警報 | Marine Typhoon Warning |
+| 10 | 海上着氷警報 | Ice Accretion Warning |
+| 12 | 海上うねり警報 | Swell Warning |
+| 20 | 海上風警報 | Wind Warning |
 | 31 | その他の警報等情報要素_海上警報 | Other Marine Warning |
 
 ### volcanic_warning_code
@@ -348,8 +355,9 @@ others: X River, X River System, The upper, middle or lower Reaches of X River, 
 
 ### Numbers
 
-The numeric tables are written as the Japanese ones are, with a space before the unit, as JMA's
-dictionary writes Over 10 m. Unknown is the dictionary's word for 不明.
+The numeric tables are written as the Japanese ones are, with a space before the unit, as the SI
+(ISO 80000-1) sets it out and as JMA's own English writes Over 10 m. The Japanese tables write no
+space, as Japanese text does. Unknown is the dictionary's word for 不明.
 
 | Table | English |
 |---|---|
@@ -365,19 +373,6 @@ dictionary writes Over 10 m. Unknown is the dictionary's word for 不明.
 
 - `information_serial_code` and the text of the Nankai Trough information: see The Nankai Trough
   Information above.
-
-## Open questions
-
-- **Space before a unit.** The Japanese writes 10km and 1010hPa; the English writes 10 km and
-  1010 hPa, as the dictionary writes Over 10 m. Whether the English should follow the Japanese is
-  to be decided.
-- **Marine warnings.** JMA may use fixed English names for its marine warnings, such as Gale
-  Warning. azarashi's Marine Gale Warning and the rest are not checked against them.
-- **A slip in the dictionary.** The dictionary calls 美咲町 Misaki Ward; it is a town. azarashi
-  keeps the dictionary's English.
-- **Words that differ by section.** JMA translates 解除 as Lifted for tsunamis and volcanoes and
-  as Cancel for weather warnings, and 発表 as Issue or Announcement. Each table keeps the word
-  its own section uses.
 
 ## Changing the English
 

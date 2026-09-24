@@ -7,7 +7,9 @@ AreaInformationPrefectureEarthquake, as the DCR names a municipality after its p
 the dictionary tells apart municipalities of the same name by a region, the region is kept before
 the prefecture, as in Date City, Iburi, Hokkaido Prefecture; where it does so by the prefecture,
 the prefecture's full name takes its place, as in Chiyoda City, Tokyo Metropolis. The English for
-the other municipalities of each prefecture is azarashi's.
+the other municipalities of each prefecture is azarashi's. One slip in the dictionary is corrected:
+it calls 美咲町, 3366600, Misaki Ward, but it is a town, and the dictionary calls each of the other
+743 towns a Town.
 """
 from ...code_table import CodeTable
 
@@ -3273,7 +3275,7 @@ local_government_en = CodeTable(
         3362300: "Nagi Town, Okayama Prefecture",
         3364300: "Nishiawakura Village, Okayama Prefecture",
         3366300: "Kumenan Town, Okayama Prefecture",
-        3366600: "Misaki Ward, Okayama Prefecture",
+        3366600: "Misaki Town, Okayama Prefecture",
         3368100: "Kibichuo Town, Okayama Prefecture",
         3399999: "Other municipalities in Okayama Prefecture",
         3410000: "Hiroshima City, Hiroshima Prefecture",
