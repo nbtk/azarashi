@@ -13,6 +13,7 @@ from .streams import reader_lock as _reader_lock
 from .streams.state import reset_partial_lines
 from .streams.nmea import reset_pending_sentences
 from .streams.ublox import buffers as _ublox_buffers
+from .streams.l1s import archives as _l1s_archives
 from .streams.l1s import buffers as _l1s_buffers
 from .streams import ublox_qzss_dcr_message_extractor
 from .decoders import hex as hex_decoder
@@ -171,7 +172,8 @@ def reset_reading_state(stream: QzssDcrStream, msg_type: StreamFormat = 'nmea') 
         reset_partial_lines(reader)
         reset_pending_sentences(reader)
         _ublox_buffers.discard(reader)
-        _l1s_buffers.discard(reader)  # the archive's PRN is kept: it is not partial data
+        _l1s_buffers.discard(reader)
+        _l1s_archives.discard(reader)  # reading again starts from the archive's PRN
 
 
 def decode_stream(stream: QzssDcrStream,

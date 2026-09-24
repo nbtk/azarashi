@@ -71,15 +71,58 @@ def test_the_prn_is_read_once_per_stream():
 
 
 def test_a_stream_read_a_byte_at_a_time():
-    report = azarashi.decode_stream(OneByte(archive(_record(AUGMENTATION), _record(_message(EEW)))), 'l1s')
+    report = azarashi.decode_stream(OneByte(archive(_record(AUGMENTATION), _record(_message(EEW), SECOND + 1))), 'l1s')
     assert report == azarashi.decode(EEW) and report.satellite_prn == PRN
 
 
-def test_resetting_the_reading_state_keeps_the_prn():
-    stream = OneByte(archive(_record(_message(EEW)), _record(_message(EEW), SECOND + 1)))
-    azarashi.decode_stream(stream, 'l1s')
+def test_an_archive_read_again_from_its_start_after_a_reset():
+    stream = io.BytesIO(archive(_record(_message(EEW)), _record(_message(EEW), SECOND + 1)))
+    first = azarashi.decode_stream(stream, 'l1s')
+    stream.seek(0)
     azarashi.reset_reading_state(stream, 'l1s')
-    assert azarashi.decode_stream(stream, 'l1s').satellite_prn == PRN  # the PRN is not a partial record
+    assert azarashi.decode_stream(stream, 'l1s') == first
+    assert first.timestamp == START
+
+
+def test_another_archive_after_a_reset_gives_its_own_prn():
+    stream = OneByte(archive(_record(_message(EEW))))
+    azarashi.decode_stream(stream, 'l1s')
+    stream._data = io.BytesIO(archive(_record(_message(EEW), SECOND - 60), prn=189))
+    azarashi.reset_reading_state(stream, 'l1s')
+    report = azarashi.decode_stream(stream, 'l1s')
+    assert (report.satellite_prn, report.timestamp) == (189, START - datetime.timedelta(seconds=60))
+
+
+def _read_all(stream):
+    reports, errors = [], []
+    while True:
+        try:
+            reports.append(azarashi.decode_stream(stream, 'l1s'))
+        except azarashi.AzarashiNoMoreData:
+            return reports, errors
+        except azarashi.AzarashiInvalidMessageError as e:
+            errors.append(e.message)
+
+
+@pytest.mark.parametrize('cut', [
+    lambda r: r[:2] + r[3:],  # a byte of the time lost
+    lambda r: r[:20] + r[21:],  # a byte of the message lost
+    lambda r: r[:20] + b'\0' + r[20:],  # a byte added
+], ids=['time byte lost', 'message byte lost', 'byte added'])
+def test_records_out_of_step_are_reported_once_and_the_reading_goes_on(cut):
+    records = [_record(_message(EEW), SECOND + i) for i in range(6)]
+    reports, errors = _read_all(io.BytesIO(archive(*records[:2], cut(records[2]), *records[3:])))
+    assert [r.timestamp - START for r in reports][:2] == [datetime.timedelta(seconds=i) for i in range(2)]
+    assert reports[-2:] == [azarashi.decode(EEW)] * 2
+    assert [r.timestamp for r in reports[-2:]] == [START + datetime.timedelta(seconds=i) for i in (4, 5)]
+    assert sum(e.startswith('Record Out of Step After GPS Week 2436 Second') for e in errors) == 1
+
+
+def test_a_record_with_a_preamble_the_spec_does_not_define_is_read():
+    message = bytes((0xFF,)) + _message(EEW)[1:]  # not A, B or C: a later edition may add patterns
+    reports, errors = _read_all(io.BytesIO(archive(_record(message), _record(_message(EEW), SECOND + 1))))
+    assert not any(e.startswith('Record Out of Step') for e in errors)
+    assert reports[-1].timestamp == START + datetime.timedelta(seconds=1)
 
 
 @pytest.mark.parametrize('data', [b'', bytes((PRN,)), archive(_record(_message(EEW))[:20])],
