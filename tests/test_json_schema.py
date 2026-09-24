@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 from azarashi import json_schema, to_json_dict as example_record
-from azarashi.json.model import TYPE_NAMES, dcr_value
+from azarashi.json.model import TYPE_NAMES, _dcr_value
 from examples.generate import fixtures
 from test_declared_types import REPORTS
 
@@ -75,13 +75,13 @@ def test_tsunami_height_is_the_announced_interval():
 
 
 def test_quantity_special_values_are_not_zero_or_false():
-    assert dcr_value('depth_of_hypocenter', 10)['value'] == 10
-    assert dcr_value('depth_of_hypocenter', 501)['lower'] == {'value': 500, 'inclusive': False}
-    assert dcr_value('depth_of_hypocenter', 511)['reason'] == 'unknown'
-    unknown = dcr_value('depth_of_hypocenter', 502)
+    assert _dcr_value('depth_of_hypocenter', 10)['value'] == 10
+    assert _dcr_value('depth_of_hypocenter', 501)['lower'] == {'value': 500, 'inclusive': False}
+    assert _dcr_value('depth_of_hypocenter', 511)['reason'] == 'unknown'
+    unknown = _dcr_value('depth_of_hypocenter', 502)
     assert unknown['reason'] == 'unrecognized_code'
     assert unknown['code'] == {'scheme': 'qzss.dcr.depth_of_hypocenter', 'code': '502', 'recognized': False, 'labels': {}}
-    assert dcr_value('hypocenter_magnitude', 126)['qualifier'] == 'unknown_value'
+    assert _dcr_value('hypocenter_magnitude', 126)['qualifier'] == 'unknown_value'
 
 
 def test_jalert_forbids_camf_and_ellipse_fields():
@@ -465,5 +465,5 @@ def test_the_sentences_azarashi_translated_say_so():
              for code, text in getattr(importlib.import_module(f'{dcr.__name__}.{name.name}'),
                                         name.name + '_en', {}).items() if note in text}
     assert noted == {('notification_on_disaster_prevention', c) for c in (101, 102, 110, 112, 113, 114, 115, 216)}
-    labels = dcr_value('notification_on_disaster_prevention', 115)['labels']
+    labels = _dcr_value('notification_on_disaster_prevention', 115)['labels']
     assert labels['en'].endswith(note) and note not in labels['ja']

@@ -128,10 +128,10 @@ def test_receiver_filters_message_types(start_kwargs, expected_types):
 
 
 def test_log_time_is_utc_with_z():
-    from azarashi.network.log import utc_formatter
+    from azarashi.network.log import _utc_formatter
     record = logging.LogRecord('azarashi', logging.INFO, 'receiver.py', 1, 'hello', None, None)
     record.created, record.msecs = 1789300000.25, 250.0  # 2026-09-13T11:46:40.250 UTC
-    assert utc_formatter().format(record) == '2026-09-13T11:46:40.250Z - INFO - hello'
+    assert _utc_formatter().format(record) == '2026-09-13T11:46:40.250Z - INFO - hello'
 
 
 @pytest.mark.parametrize('args, expected', [([], None), (['-i', 'eth0'], b'eth0\0')])
@@ -212,7 +212,7 @@ def test_receiver_handlers_log_the_report(caplog):
     report = azarashi.decode(EEW)
     with caplog.at_level(logging.INFO, logger=receiver.logger.name):
         receiver.Receiver.default_handler(report)
-        receiver.simple_handler(report)
+        receiver._simple_handler(report)
     verbose, simple = [r.getMessage() for r in caplog.records]
     assert "'disaster_category': '緊急地震速報'," in verbose
     assert simple == f'\n{report}\n'

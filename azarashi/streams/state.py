@@ -135,25 +135,25 @@ class ReaderStore(Generic[_T]):
         self._unowned.clear()
 
 
-def has_read_timeout(reader: Callable[..., Any]) -> bool:
+def _has_read_timeout(reader: Callable[..., Any]) -> bool:
     """Whether an empty or partial read may only mean that the stream's read timeout expired (e.g. pySerial)."""
     return getattr(getattr(reader, '__self__', None), 'timeout', None) is not None
 
 
-def empty_read_error(reader: Callable[..., Any]) -> AzarashiTimeoutError | AzarashiNoMoreData:
+def _empty_read_error(reader: Callable[..., Any]) -> AzarashiTimeoutError | AzarashiNoMoreData:
     """The error for a read that delivered nothing: not yet on a stream with a timeout, never otherwise."""
-    if has_read_timeout(reader):
+    if _has_read_timeout(reader):
         return AzarashiTimeoutError('Timed Out')
     return AzarashiNoMoreData('Encountered EOF')
 
 
-def check_read_kind(data: object, kinds: tuple[type, ...], expected: str) -> None:
+def _check_read_kind(data: object, kinds: tuple[type, ...], expected: str) -> None:
     """Refuse what a stream gave when its format cannot read that kind; None is a read that brought nothing."""
     if data is not None and not isinstance(data, kinds):
         raise AzarashiArgumentTypeError(f'the stream gave {type(data).__name__}, but {expected}')
 
 
-def read_stream(reader: Callable[..., _T], reader_args: tuple[Any, ...] = ()) -> _T:
+def _read_stream(reader: Callable[..., _T], reader_args: tuple[Any, ...] = ()) -> _T:
     """Read from a stream, reporting a stream that failed rather than one that ended."""
     try:
         return reader(*reader_args)
@@ -177,13 +177,13 @@ def pop_bytes(size: int,
     """Take size bytes from buf, reading the binary stream until it holds them; what was read stays in buf until then."""
     while size > len(buf):
         try:
-            data = read_stream(reader, reader_args)
+            data = _read_stream(reader, reader_args)
         except AzarashiReopenStream:
             buf.clear()  # the rest of the frame can never arrive, and the bytes read are half of one
             raise
-        check_read_kind(data, (bytes, bytearray, memoryview), f'{msg_type} reads bytes: open the stream in binary mode')
+        _check_read_kind(data, (bytes, bytearray, memoryview), f'{msg_type} reads bytes: open the stream in binary mode')
         if not data:
-            raise empty_read_error(reader)
+            raise _empty_read_error(reader)
         buf += data
 
     ret = bytes(buf[:size])
@@ -200,12 +200,12 @@ def read_line(reader: Callable[..., str | bytes], reader_args: tuple[Any, ...]) 
     """Read a line; a line cut off by a read timeout is kept and completed on the next call."""
     partial = _partial_lines.get(reader)
     try:
-        line = read_stream(reader, reader_args)
+        line = _read_stream(reader, reader_args)
     except AzarashiReopenStream:
         partial.clear()  # the rest of the line can never arrive, and would corrupt the next one
         raise
-    check_read_kind(line, (str, bytes, bytearray), 'a line is read as str or bytes')
-    if has_read_timeout(reader):
+    _check_read_kind(line, (str, bytes, bytearray), 'a line is read as str or bytes')
+    if _has_read_timeout(reader):
         complete = line.endswith(b'\n') if isinstance(line, (bytes, bytearray)) else line.endswith('\n')
         if not line or not complete:
             if line:

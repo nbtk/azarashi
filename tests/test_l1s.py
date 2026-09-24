@@ -7,7 +7,7 @@ import pytest
 
 import azarashi
 from azarashi import __main__ as cli
-from azarashi.decoders.l1s import gps_to_utc
+from azarashi.decoders.l1s import _gps_to_utc
 from samples import EEW
 from samples import L_ALERT
 
@@ -97,9 +97,9 @@ def test_a_second_past_the_week_is_a_message_that_cannot_be_read():
 
 
 def test_gps_time_is_utc_behind_the_leap_seconds():
-    assert gps_to_utc(WEEK, SECOND) == START
-    assert gps_to_utc(1930, 18) == datetime.datetime(2017, 1, 1, tzinfo=datetime.UTC)
-    assert gps_to_utc(1930, 17) is None  # before the GPS-UTC offsets the table knows
+    assert _gps_to_utc(WEEK, SECOND) == START
+    assert _gps_to_utc(1930, 18) == datetime.datetime(2017, 1, 1, tzinfo=datetime.UTC)
+    assert _gps_to_utc(1930, 17) is None  # before the GPS-UTC offsets the table knows
 
 
 def test_a_time_before_the_offsets_known_is_a_message_that_cannot_be_read():

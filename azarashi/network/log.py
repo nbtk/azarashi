@@ -2,7 +2,7 @@ import logging
 import time
 
 
-def utc_formatter() -> logging.Formatter:
+def _utc_formatter() -> logging.Formatter:
     """Log line formatter with ISO 8601 UTC times, e.g. 2026-09-13T14:50:14.119Z."""
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     formatter.converter = time.gmtime
@@ -13,5 +13,5 @@ def utc_formatter() -> logging.Formatter:
 
 def configure_logging(level: int = logging.INFO) -> None:
     handler = logging.StreamHandler()
-    handler.setFormatter(utc_formatter())
+    handler.setFormatter(_utc_formatter())
     logging.basicConfig(level=level, handlers=[handler])

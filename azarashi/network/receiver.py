@@ -64,7 +64,7 @@ class Receiver:
                 callback(report, *callback_args, **callback_kwargs)
 
 
-def simple_handler(report: Report) -> None:
+def _simple_handler(report: Report) -> None:
     logger.info('\n' + str(report) + '\n')
 
 
@@ -83,7 +83,7 @@ def main() -> int:
     if args.verbose:
         recver.start(ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
     else:
-        recver.start(callback=simple_handler, ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
+        recver.start(callback=_simple_handler, ignore_dcr=args.ignore_dcr, ignore_dcx=args.ignore_dcx)
     return 0
 
 

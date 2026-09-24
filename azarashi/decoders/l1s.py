@@ -9,7 +9,7 @@ from ..definitions.gps import SECONDS_PER_WEEK
 from ..exceptions import AzarashiInvalidMessageError
 
 
-def gps_to_utc(week: int, seconds: int) -> datetime | None:
+def _gps_to_utc(week: int, seconds: int) -> datetime | None:
     """The UTC instant of a GPS week and second, or None before GPS_UTC_OFFSETS begins."""
     gps = GPS_EPOCH + timedelta(weeks=week, seconds=seconds)
     for since, offset in reversed(GPS_UTC_OFFSETS):
@@ -39,7 +39,7 @@ class Decoder(InputDecoder):
             raise AzarashiInvalidMessageError(
                 f'Invalid Second of the Week: {seconds}',
                 self)
-        utc = gps_to_utc(week, seconds)
+        utc = _gps_to_utc(week, seconds)
         if utc is None:
             raise AzarashiInvalidMessageError(
                 f'Time Before the GPS-UTC Offsets Known: week {week}, second {seconds}',
