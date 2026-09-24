@@ -402,6 +402,7 @@ The words around the values come from the same sources as the tables.
 | 長周期地震動階級(下限), (上限) | Maximum expected Long-Period Ground Motion lower limit, upper limit | IS-QZSS-DCR-017 |
 | 日時 | Activity time | IS-QZSS-DCR-017 |
 | 現象 | Warning code | IS-QZSS-DCR-017 |
+| 〇〇を発表しました, of a tsunami | Warning code: 〇〇 | IS-QZSS-DCR-017 |
 | 基点時刻からの時間 | Expected ash fall time | IS-QZSS-DCR-017 |
 | 警報等情報要素 | Disaster sub-category for weather, Warning code for marine warnings | IS-QZSS-DCR-017 |
 | 警報レベル | Warning level | IS-QZSS-DCR-017 |
@@ -416,12 +417,14 @@ The dictionary is used where it has the word, and IS-QZSS-DCR-017 where it does 
 the specification are written with a capital on the first word only, as the dictionary writes
 its words.
 
-Only two sentences are kept, as the dictionary writes them: 〇〇ころ、地震がありました becomes
-Occurred at 09:01 JST, 21 Aug., and 〇〇を発表しました becomes 〇〇 issued for the following coastal
-regions of Japan:. The Japanese text begins the other reports with a sentence that azarashi wrote,
-such as 火山に関連する情報をお知らせします. JMA has no English for them, and the English text
-leaves them out; the heading already names the kind of report. The notifications are the
-tables' English.
+One sentence is kept, as the dictionary writes it: 〇〇ころ、地震がありました becomes Occurred at
+09:01 JST, 21 Aug. The Japanese text begins the other reports with a sentence of its own. Those
+that azarashi wrote, such as 火山に関連する情報をお知らせします, have no English from JMA, and the
+English text leaves them out; the heading already names the kind of report. Where such a sentence
+holds a value, the value keeps a line of its own: the occurrence time of a seismic intensity
+report. The tsunami warning, which the Japanese states as 〇〇を発表しました, is a line Warning code:
+〇〇, since the dictionary's 〇〇 issued for the following coastal regions of Japan: does not read
+for a warning lifted or for no tsunami. The notifications are the tables' English.
 
 A time is in JST, as JMA's English writes it: 09:04 JST, 21 Aug. The year is left out, as in the
 Japanese text, since the DCR does not carry the year. An approximate time takes around, as the

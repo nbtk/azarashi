@@ -14,7 +14,7 @@ from ...definitions.qzss.dcr.eew_forecast_region import eew_forecast_region
 from ...definitions.qzss.dcr.eew_magnitude import eew_magnitude
 from ...definitions.qzss.dcr.epicenter_and_hypocenter import epicenter_and_hypocenter
 from ...definitions.qzss.dcr.expected_ash_fall_time import expected_ash_fall_time
-from ...definitions.qzss.dcr.day_hour_minute import expected_tsunami_arrival_time_undefined
+from ...definitions.qzss.dcr.day_hour_minute import expected_tsunami_arrival_time_kind
 from ...definitions.qzss.dcr.day_hour_minute import expected_tsunami_arrival_time_undefined_en
 from ...definitions.qzss.dcr.flood_forecast_region import flood_forecast_region
 from ...definitions.qzss.dcr.flood_warning_level import flood_warning_level
@@ -247,15 +247,8 @@ class Common(ContextDecoder[Jma]):
             self, slider: int) -> tuple[datetime | None, DayHourMinute, str, str]:
         """Expected arrival time of JMA-DC Report (Tsunami) with its raw values and type in Japanese and English."""
         raw = self.extract_expected_tsunami_arrival_time_raw(slider)
-        if (raw['hour'], raw['minute']) == (31, 63):  # has arrived (estimated or observed)
-            return None, raw, '津波到達中と推測', 'Tsunami arrival expected'
-        if (raw['day'], raw['hour'], raw['minute']) == (0, 30, 62):  # no data
-            return None, raw, '該当情報なし', 'No data'
         arrival_time = self.extract_expected_tsunami_arrival_time(slider)
-        if arrival_time is None:
-            code = self.extract_field(slider, 12)
-            return None, raw, expected_tsunami_arrival_time_undefined % code, expected_tsunami_arrival_time_undefined_en % code
-        return arrival_time, raw, '津波の到達予想時刻', 'Estimated initial tsunami arrival time'
+        return arrival_time, raw, *expected_tsunami_arrival_time_kind(raw, arrival_time is not None)
 
     def extract_northwest_pacific_tsunami_arrival_time_field(self, slider: int) -> tuple[datetime | None, DayHourMinute, str]:
         """Expected arrival time of JMA-DC Report (Northwest Pacific Tsunami) with its raw values and type."""

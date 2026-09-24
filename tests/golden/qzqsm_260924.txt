@@ -1049,6 +1049,8 @@ JMA-DC Report (Seismic Intensity) (Issue) (Training/Test)
 
 Report time: 10:05 JST, 24 Sep.
 
+Occurrence time of earthquake: 10:05 JST, 24 Sep.
+
 Seismic intensity: 5-upper
 Oita Prefecture
 
@@ -1136,7 +1138,7 @@ Tsunami
 --- en
 JMA-DC Report (Tsunami) (Issue) (Training/Test)
 *** TRAINING/TEST ***
-Tsunami Warning issued for the following coastal regions of Japan:
+Warning code: Tsunami Warning
 <Tsunami Warning>
 Damage due to tsunami waves is expected.
 Evacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.
@@ -1246,7 +1248,7 @@ Tsunami
 --- en
 JMA-DC Report (Tsunami) (Issue) (Training/Test)
 *** TRAINING/TEST ***
-Tsunami Warning issued for the following coastal regions of Japan:
+Warning code: Tsunami Warning
 <Tsunami Warning>
 Damage due to tsunami waves is expected.
 Evacuate immediately from coastal regions and riverside areas to a safer place such as high ground or an evacuation building.
@@ -2363,7 +2365,7 @@ Tsunami
 --- en
 JMA-DC Report (Tsunami) (Issue) (Training/Test)
 *** TRAINING/TEST ***
-Warning Lifted issued for the following coastal regions of Japan:
+Warning code: Warning Lifted
 Sea-level changes may be observed.
 
 Report time: 10:35 JST, 24 Sep.

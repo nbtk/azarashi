@@ -15,7 +15,7 @@ from test_dcr import EEW, HYPOCENTER, NWP, TSUNAMI, _with_arrival_time
 from test_golden import LOGS, TESTS
 
 VOLCANO = '$QZQSM,56,9AAFC454450005445341F783E0F10910421230200000000000000012FB46E14*78'
-JAPANESE = re.compile('[ぁ-んァ-ヶ一-龥]')
+JAPANESE = re.compile('[ぁ-んァ-ヶー一-龥々、。，．（）「」【】：・〜]')
 
 
 def _reports():
@@ -89,7 +89,22 @@ def test_tsunami_arrival_types_in_english():
         'Estimated initial tsunami arrival time: Tsunami arrival expected',
         'Estimated initial tsunami arrival time: No data',
     ]
-    assert 'Tsunami Warning issued for the following coastal regions of Japan:' in report.get_text_en()
+    assert report.get_text_en().splitlines()[2] == 'Warning code: Tsunami Warning'
+
+
+@pytest.mark.parametrize('code, line', [
+    (1, 'Warning code: No Tsunami'),
+    (2, 'Warning code: Warning Lifted'),
+    (5, 'Warning code: Major Tsunami Warning: Issued'),
+])
+def test_the_tsunami_warning_is_a_line_of_its_own(code, line):
+    report = azarashi.decode(with_fields(TSUNAMI, [(80, 4, code)]))
+    assert report.get_text_en().splitlines()[2] == line
+
+
+def test_the_seismic_intensity_gives_the_occurrence_time():
+    report = next(r for r in _reports() if type(r).__name__ == 'SeismicIntensity')
+    assert 'Occurrence time of earthquake: 10:05 JST, 21 Aug.' in report.get_text_en().splitlines()
 
 
 def test_an_occurrence_time_that_is_not_a_time_is_named_by_its_code():

@@ -251,7 +251,6 @@ class EarthquakeEarlyWarning(Base):
         report += '、'.join(self.eew_forecast_regions)
         return report
 
-
     def get_text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
@@ -284,6 +283,7 @@ class EarthquakeEarlyWarning(Base):
                       f'{_en("long_period_ground_motion_upper_limit", self.long_period_ground_motion_upper_limit_raw)}\n'
         report += ', '.join(_en('eew_forecast_region', region) for region in self.eew_forecast_regions_raw)
         return report
+
 
 class Hypocenter(Base):
     def __init__(self,
@@ -330,7 +330,6 @@ class Hypocenter(Base):
                   f'マグニチュード: {self.magnitude}'
         return report
 
-
     def get_text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
@@ -347,6 +346,7 @@ class Hypocenter(Base):
                   f'Depth: {_en("depth_of_hypocenter", self.depth_of_hypocenter_raw)}\n' + \
                   f'Magnitude: {_en("hypocenter_magnitude", self.magnitude_raw)}'
         return report
+
 
 class SeismicIntensity(Base):
     def __init__(self,
@@ -378,15 +378,19 @@ class SeismicIntensity(Base):
                       f'{self.prefectures[i]}'
         return report
 
-
     def get_text_en(self) -> str:
+        occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
+                                                self.occurrence_time_of_earthquake_raw,
+                                                occurrence_time_of_earthquake_undefined_en)
         report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}'
+                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
+                 f'Occurrence time of earthquake: {occurred}'
 
         for intensity, prefecture in zip(self.seismic_intensities_raw, self.prefectures_raw, strict=True):
             report += f'\n\nSeismic intensity: {_en("seismic_intensity", intensity)}\n' + \
                       f'{_en("prefecture", prefecture)}'
         return report
+
 
 #: The pages of an announcement are assembled in the class, which every stream and every thread shares,
 #: and a report renders its text outside the lock that decoding holds, so both ends take this one.
@@ -494,11 +498,11 @@ class Tsunami(Base):
                  expected_tsunami_arrival_times: list[datetime | None],
                  expected_tsunami_arrival_times_raw: list[DayHourMinute],
                  expected_tsunami_arrival_time_types: list[str],
-                 expected_tsunami_arrival_time_types_en: list[str],
                  tsunami_heights: list[str],
                  tsunami_heights_raw: list[int],
                  tsunami_forecast_regions: list[str],
                  tsunami_forecast_regions_raw: list[int],
+                 expected_tsunami_arrival_time_types_en: list[str],
                  **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.notifications_on_disaster_prevention = notifications_on_disaster_prevention
@@ -545,27 +549,24 @@ class Tsunami(Base):
                       f'{self.tsunami_forecast_regions[i]}'
         return report
 
-
     def get_text_en(self) -> str:
         report = f'{self.get_header_en()}\n' + \
-                 f'{_en("tsunami_warning_code", self.tsunami_warning_code_raw)}' + \
-                 ' issued for the following coastal regions of Japan:\n'
+                 f'Warning code: {_en("tsunami_warning_code", self.tsunami_warning_code_raw)}\n'
 
         report += '\n'.join(_en('notification_on_disaster_prevention', co)
                              for co in self.notifications_on_disaster_prevention_raw)
 
         report += f'\n\nReport time: {self.get_report_time_str_en()}'
 
-        for i in range(len(self.expected_tsunami_arrival_times)):
-            arrival_time = self.expected_tsunami_arrival_times[i]
-            if arrival_time is None:
-                ta = self.expected_tsunami_arrival_time_types_en[i]
-            else:
-                ta = self.convert_dt_to_str_en(arrival_time)
+        for arrival_time, arrival_type, height, region in zip(
+                self.expected_tsunami_arrival_times, self.expected_tsunami_arrival_time_types_en,
+                self.tsunami_heights_raw, self.tsunami_forecast_regions_raw, strict=True):
+            ta = arrival_type if arrival_time is None else self.convert_dt_to_str_en(arrival_time)
             report += f'\n\nEstimated initial tsunami arrival time: {ta}\n' + \
-                      f'Estimated maximum tsunami height: {_en("tsunami_height", self.tsunami_heights_raw[i])}\n' + \
-                      f'{_en("tsunami_forecast_region", self.tsunami_forecast_regions_raw[i])}'
+                      f'Estimated maximum tsunami height: {_en("tsunami_height", height)}\n' + \
+                      f'{_en("tsunami_forecast_region", region)}'
         return report
+
 
 class NorthwestPacificTsunami(Base):
     def __init__(self,
@@ -606,9 +607,9 @@ class NorthwestPacificTsunami(Base):
                       f'Coastal Region: {self.coastal_regions_en[i]}'
         return report
 
-
     def get_text_en(self) -> str:
         return str(self)  # the report is written in English
+
 
 class Volcano(Base):
     def __init__(self,
@@ -650,7 +651,6 @@ class Volcano(Base):
         report += '、'.join(self.local_governments)
         return report
 
-
     def get_text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}\n\n' + \
@@ -666,6 +666,7 @@ class Volcano(Base):
 
         report += ', '.join(_en('local_government', region) for region in self.local_governments_raw)
         return report
+
 
 class AshFall(Base):
     def __init__(self,
@@ -713,7 +714,6 @@ class AshFall(Base):
                       f'{self.local_governments[i]}'
         return report
 
-
     def get_text_en(self) -> str:
         activity_time = self._convert_time_to_str_en(self.activity_time, self.activity_time_raw,
                                                      activity_time_undefined_en)
@@ -730,6 +730,7 @@ class AshFall(Base):
                       f'Warning code: {_en("ash_fall_warning_code", code)}\n' + \
                       f'{_en("local_government", region)}'
         return report
+
 
 class Weather(Base):
     def __init__(self,
@@ -759,7 +760,6 @@ class Weather(Base):
                       f'{self.weather_forecast_regions[i]}'
         return report
 
-
     def get_text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}'
@@ -771,6 +771,7 @@ class Weather(Base):
                       f'{_en("weather_related_disaster_sub_category", sub_category)} ({state})\n' + \
                       f'{_en("weather_forecast_region", region)}'
         return report
+
 
 class Flood(Base):
     def __init__(self,
@@ -795,7 +796,6 @@ class Flood(Base):
                       f'{self.flood_forecast_regions[i]}'
         return report
 
-
     def get_text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}'
@@ -804,6 +804,7 @@ class Flood(Base):
             report += f'\n\nWarning level: {_en("flood_warning_level", level)}\n' + \
                       f'{_en("flood_forecast_region", region)}'
         return report
+
 
 class Marine(Base):
     def __init__(self,
@@ -828,7 +829,6 @@ class Marine(Base):
                       f'{self.marine_forecast_regions[i]}'
         return report
 
-
     def get_text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}'
@@ -837,6 +837,7 @@ class Marine(Base):
             report += f'\n\nWarning code: {_en("marine_warning_code", code)}\n' + \
                       f'{_en("marine_forecast_region", region)}'
         return report
+
 
 class Typhoon(Base):
     def __init__(self,
