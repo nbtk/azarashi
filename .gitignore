@@ -136,6 +136,9 @@ specs/
 *.pdf
 *.xlsx
 
+# L1S archives
+*.l1s
+
 
 # Local working notes
 /TODO.md

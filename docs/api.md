@@ -10,6 +10,7 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
 - `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型でも bytes 型でも渡せます。pySerial の `readline()` が返すバイト列は、そのまま渡してください。`ublox` のメッセージは bytes 型です。
   - `spresense` は `nmea` の別名です。
   - `net` は、[receiver](network.md#receiver) が受け取る33バイトのデータグラム形式です。先頭の1バイトが衛星 ID で、残りがメッセージ本体です。
+  - `l1s` は `decode()` では使えません。L1S アーカイブの衛星の PRN はファイルの先頭にしかないので、`decode_stream()` で読んでください。
 - `timestamp`: メッセージを受信した時刻です。デフォルトは現在時刻です。メッセージにない年や日付は、この時刻から補います。[記録しておいたメッセージ](cli.md#record-and-replay)をあとからデコードするときに指定してください。タイムゾーンのない datetime は、実行環境のローカル時刻として扱います。
 ### Example
 `decode()` はレポートオブジェクトを返します。返るクラスとフィールド、デコードした例は [Reports](reports.md) を見てください。
@@ -24,7 +25,8 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
 azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True, timestamp=None)
 ```
 - `stream`: メッセージを読み込むストリームです。シリアルデバイスは pySerial で開いて渡してください。ファイルは `open(path, 'rb')` のように、バイナリモードで開くことをおすすめします。
-- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
+- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox`、`l1s` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
+  `l1s` は、拡張子が `.l1s` の L1S アーカイブです。受信時刻は記録ごとの GPS 時刻から決まるので、`timestamp` は指定できません。災危通報でない記録は読み飛ばします。
   `net` はストリームでは使えません。データグラムごとに `decode(data, 'net')` を呼んでください。型検査でもこの違いを確認します。
 - `callback`: レポートを受け取る関数です。`None` のときは、メッセージを一つデコードして、そのレポートを返します。関数を指定したときは、例外が発生するまでデコードを繰り返し、レポートができるたびに関数を呼び出します。関数は次のように呼び出されます。
 ```python
@@ -69,7 +71,8 @@ azarashi.reset_reading_state(stream, msg_type='nmea')
 破棄します。重複履歴は残します。戻り値は `None` です。
 
 `stream` と `msg_type` は `decode_stream()` と同じ選び方で読み取り元を指定します。
-その読み取り元に保存された行の途中のデータ・抽出済み NMEA 文・UBX バッファを、形式や読み取りメソッドにかかわらず破棄します。
+その読み取り元に保存された行の途中のデータ・抽出済み NMEA 文・UBX バッファ・L1S アーカイブの読みかけの記録を、形式や読み取りメソッドにかかわらず破棄します。
+L1S アーカイブの先頭から読んだ衛星の PRN は、読みかけのデータではないので残します。
 `.buffer` を共有するラッパーでは、他のラッパーから読める未配信データにも影響します。
 読み取り元が異なるストリームや、各ラッパーの重複履歴には影響しません。
 
@@ -203,7 +206,9 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 
 何が起きたかは、これを継承した次のクラスが表します。
 ### AzarashiUnsupportedFormatError
-`msg_type` に、azarashi が読まない形式を渡したときに送出されます。`decode()` が読むのは nmea・spresense・hex・ublox・net の5つです。`decode_stream()` と `reset_reading_state()` は net を除く4つを読みます。net はストリームではないので、データグラムを1つずつ `decode()` に渡してください。
+`msg_type` に、azarashi が読まない形式を渡したときに送出されます。`decode()` が読むのは nmea・spresense・hex・ublox・net の5つです。`decode_stream()` と `reset_reading_state()` は、net を除く4つに l1s を加えた5つを読みます。net はストリームではないので、データグラムを1つずつ `decode()` に渡してください。l1s はストリームとしてしか読めないので、`decode()` には渡せません。
+
+l1s に `timestamp` を渡したときにも送出されます。L1S アーカイブは、記録ごとに受信時刻を持っているからです。
 
 `ValueError` を継承しています。値の種類は合っているが、受け付けない値だという意味です。
 ### AzarashiArgumentTypeError
@@ -211,8 +216,8 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 
 - `decode()` の `msg` が、文字列でもバイト列でもない
 - `timestamp` が `datetime` でない
-- `stream` に、その形式を読むメソッドがない。nmea・spresense・hex は `readline()`、ublox は `read1()` か `read()` を使います
-- `stream` が、その形式では読めないものを返す。ublox は文字列を読めないので、ファイルはバイナリモードで開いてください
+- `stream` に、その形式を読むメソッドがない。nmea・spresense・hex は `readline()`、ublox と l1s は `read1()` か `read()` を使います
+- `stream` が、その形式では読めないものを返す。ublox と l1s は文字列を読めないので、ファイルはバイナリモードで開いてください
 - `callback` が呼び出せない。`callback_args` が並びでない。`callback_kwargs` が名前と値の対応でない
 - `unique` が、真偽値でも数値でもない
 - `to_json_dict()` や `to_ndjson()` に、レポートでないものを渡した

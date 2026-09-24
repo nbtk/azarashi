@@ -169,6 +169,29 @@ def read_stream(reader: Callable[..., _T], reader_args: tuple[Any, ...] = ()) ->
         raise AzarashiStreamClosedError(f'{type(e).__name__}: {e}') from e
 
 
+def pop_bytes(size: int,
+              buf: bytearray,
+              reader: Callable[..., bytes | None],
+              reader_args: tuple[Any, ...],
+              msg_type: str) -> bytes:
+    """Take size bytes from buf, reading the binary stream until it holds them; what was read stays in buf until then."""
+    while size > len(buf):
+        try:
+            data = read_stream(reader, reader_args)
+        except AzarashiReopenStream:
+            buf.clear()  # the rest of the frame can never arrive, and the bytes read are half of one
+            raise
+        check_read_kind(data, (bytes, bytearray, memoryview), f'{msg_type} reads bytes: open the stream in binary mode')
+        if not data:
+            raise empty_read_error(reader)
+        buf += data
+
+    ret = bytes(buf[:size])
+    del buf[:size]
+
+    return ret
+
+
 _partial_lines: ReaderStore[list[Any]] = ReaderStore(list)  # the parts of a line, str or bytes as read
 max_partial_line = 1024  # the longest sentence a decoder takes is 76 characters, so this cannot cut a message
 

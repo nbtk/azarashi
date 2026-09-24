@@ -6,16 +6,19 @@ from typing import Any, Literal, Protocol, TypeAlias, cast
 
 from .streams import hex_qzss_dcr_message_extractor
 from .streams import nmea_qzss_dcr_message_extractor
+from .streams import l1s_qzss_dcr_message_extractor
 from .streams import StreamKeyedDict
 from .streams import stream_lock
 from .streams import reader_lock as _reader_lock
 from .streams.state import reset_partial_lines
 from .streams.nmea import reset_pending_sentences
 from .streams.ublox import buffers as _ublox_buffers
+from .streams.l1s import buffers as _l1s_buffers
 from .streams import ublox_qzss_dcr_message_extractor
 from .decoders import hex as hex_decoder
 from .decoders import net as net_decoder
 from .decoders import nmea as nmea_decoder
+from .decoders import l1s as l1s_decoder
 from .decoders import ubx as ublox_decoder
 from .exceptions import AzarashiArgumentTypeError
 from .exceptions import AzarashiInvalidMessageError
@@ -23,8 +26,10 @@ from .exceptions import AzarashiUnsupportedFormatError
 from .reports import Report
 
 #: the forms a stream can carry; 'spresense' is another name for 'nmea'
-StreamFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox']
-MessageFormat: TypeAlias = StreamFormat | Literal['net']  # 'net' carries one datagram, not a stream
+StreamFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox', 'l1s']
+#: the forms decode() takes one message in: 'net' carries one datagram, not a stream, and a record
+#: of 'l1s' means nothing without the archive's PRN, which only its stream gives
+MessageFormat: TypeAlias = Literal['nmea', 'spresense', 'hex', 'ublox', 'net']
 
 
 class SupportsReadline(Protocol):
@@ -34,13 +39,13 @@ class SupportsReadline(Protocol):
 
 
 class SupportsRead1(Protocol):
-    """A buffered binary stream, for 'ublox'."""
+    """A buffered binary stream, for 'ublox' and 'l1s'."""
 
     def read1(self) -> bytes: ...
 
 
 class SupportsRead(Protocol):
-    """A binary stream that is read one byte at a time, for 'ublox': pySerial, an unbuffered file, ..."""
+    """A binary stream that is read one byte at a time, for 'ublox' and 'l1s': pySerial, an unbuffered file, ..."""
 
     def read(self, size: int, /) -> bytes | None: ...
 
@@ -100,8 +105,15 @@ def _check_unique(unique: object) -> None:
 
 def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: datetime | None = None) -> Report:
     _check_message(msg)
+    if cast(str, msg_type) == 'l1s':  # the annotation leaves l1s out, and a caller may still pass it
+        raise AzarashiUnsupportedFormatError(
+            'Message Type l1s is read as a stream, which gives the PRN; use decode_stream()')
     _check_format(msg_type, ('nmea', 'spresense', 'hex', 'ublox', 'net'))
     _check_timestamp(timestamp)
+    return _decode(msg, msg_type, timestamp)
+
+
+def _decode(msg: str | bytes, msg_type: str, timestamp: datetime | None) -> Report:
     if not msg:
         raise AzarashiInvalidMessageError('Empty Message')
 
@@ -111,6 +123,8 @@ def decode(msg: str | bytes, msg_type: MessageFormat = 'nmea', timestamp: dateti
         return net_decoder.Decoder(msg, timestamp=timestamp).decode()
     if msg_type == 'nmea' or msg_type == 'spresense':
         return nmea_decoder.Decoder(msg, timestamp=timestamp).decode()
+    if msg_type == 'l1s':
+        return l1s_decoder.Decoder(msg, timestamp=timestamp).decode()
     return ublox_decoder.Decoder(msg, timestamp=timestamp).decode()
 
 
@@ -122,24 +136,22 @@ def _select_reader(stream: QzssDcrStream, msg_type: str) -> tuple[
     if msg_type == 'net':
         raise AzarashiUnsupportedFormatError(
             "Message Type net is not a stream format; use decode(data, 'net') for each datagram")
-    _check_format(msg_type, ('nmea', 'spresense', 'hex', 'ublox'))
+    _check_format(msg_type, ('nmea', 'spresense', 'hex', 'ublox', 'l1s'))
     if msg_type in ('hex', 'nmea', 'spresense'):
         if not callable(readline := getattr(stream, 'readline', None)):
             raise AzarashiArgumentTypeError(f'readline() does not exist: {type(stream)}')
         extractor = hex_qzss_dcr_message_extractor if msg_type == 'hex' else nmea_qzss_dcr_message_extractor
         reader = readline
         reader_args = ()
-    else:  # ublox
+    else:  # ublox, l1s: binary streams
+        extractor = l1s_qzss_dcr_message_extractor if msg_type == 'l1s' else ublox_qzss_dcr_message_extractor
         if callable(read1 := getattr(stream, 'read1', None)):
-            extractor = ublox_qzss_dcr_message_extractor
             reader = read1
             reader_args = ()
         elif callable(buffer_read1 := getattr(getattr(stream, 'buffer', None), 'read1', None)):
-            extractor = ublox_qzss_dcr_message_extractor
             reader = buffer_read1
             reader_args = ()
         elif callable(read := getattr(stream, 'read', None)):
-            extractor = ublox_qzss_dcr_message_extractor
             reader = read
             reader_args = (1,)  # positional: raw streams (io.FileIO, SocketIO) reject read(size=1)
         else:
@@ -159,6 +171,7 @@ def reset_reading_state(stream: QzssDcrStream, msg_type: StreamFormat = 'nmea') 
         reset_partial_lines(reader)
         reset_pending_sentences(reader)
         _ublox_buffers.discard(reader)
+        _l1s_buffers.discard(reader)  # the archive's PRN is kept: it is not partial data
 
 
 def decode_stream(stream: QzssDcrStream,
@@ -175,6 +188,9 @@ def decode_stream(stream: QzssDcrStream,
     _check_callback(callback, callback_args, callback_kwargs)
     _check_unique(unique)
     _check_timestamp(timestamp)
+    if msg_type == 'l1s' and timestamp is not None:
+        raise AzarashiUnsupportedFormatError(
+            'Message Type l1s gives the time of every message; do not give a timestamp')
     if callback_kwargs is None:
         callback_kwargs = {}
 
@@ -184,7 +200,7 @@ def decode_stream(stream: QzssDcrStream,
         with lock:  # the state of a stream belongs to one thread at a time, message by message
             with reading_lock:  # shared buffers must yield one complete frame at a time
                 msg = extractor(reader, reader_args=reader_args)
-            report = decode(msg, msg_type, timestamp)
+            report = _decode(msg, msg_type, timestamp)
 
             if report.message_type == 'DCR':
                 if ignore_dcr:

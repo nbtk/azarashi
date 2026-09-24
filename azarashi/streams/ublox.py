@@ -3,10 +3,7 @@ from collections.abc import Callable
 from typing import Any
 
 from .state import ReaderStore
-from .state import check_read_kind
-from .state import empty_read_error
-from .state import read_stream
-from ..exceptions import AzarashiReopenStream
+from .state import pop_bytes
 from ..exceptions import AzarashiStopReading
 from ..exceptions import AzarashiTimeoutError
 from ..definitions.qzss.l1s import message_types
@@ -17,26 +14,6 @@ buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per rea
 #: that failed is not here, because the bytes it gave are half of a frame that can never arrive.
 INCOMPLETE = (AzarashiTimeoutError, AzarashiStopReading)
 
-
-def __pop(size: int,
-          buf: bytearray,
-          reader: Callable[..., bytes | None],
-          reader_args: tuple[Any, ...]) -> bytes:
-    while size > len(buf):
-        try:
-            data = read_stream(reader, reader_args)
-        except AzarashiReopenStream:
-            buf.clear()  # the rest of the frame can never arrive, and the bytes read are half of one
-            raise
-        check_read_kind(data, (bytes, bytearray, memoryview), 'ublox reads bytes: open the stream in binary mode')
-        if not data:
-            raise empty_read_error(reader)
-        buf += data
-
-    ret = bytes(buf[:size])
-    del buf[:size]
-
-    return ret
 
 
 def _is_sfrbx_payload_length(length: int) -> bool:
@@ -61,7 +38,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
     match_count = 0
     while True:
         try:
-            byte = __pop(1, buf, reader, reader_args)[0]
+            byte = pop_bytes(1, buf, reader, reader_args, 'ublox')[0]
         except INCOMPLETE:
             buf[:0] = header[:match_count]  # a later call resumes from the partial header
             raise
@@ -75,7 +52,7 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
         if match_count == len(header): # SFRBX message
             match_count = 0
             try:
-                message_length_bytes = __pop(2, buf, reader, reader_args)
+                message_length_bytes = pop_bytes(2, buf, reader, reader_args, 'ublox')
             except INCOMPLETE:
                 buf[:0] = header
                 raise
@@ -85,8 +62,8 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
                 continue
 
             try:
-                payload = __pop(message_length + 2,  # payload + CK_A + CK_B
-                                buf, reader, reader_args)
+                payload = pop_bytes(message_length + 2,  # payload + CK_A + CK_B
+                                    buf, reader, reader_args, 'ublox')
             except INCOMPLETE:
                 if header in message_length_bytes + buf:  # another header follows: this one was a false header
                     buf[:0] = message_length_bytes

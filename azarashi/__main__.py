@@ -16,7 +16,7 @@ def _utc(time: datetime.datetime) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description='azarashi CLI', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('type', help='message type', type=str, choices=['hex', 'nmea', 'ublox'])
+    parser.add_argument('type', help='message type', type=str, choices=['hex', 'nmea', 'ublox', 'l1s'])
     parser.add_argument('-f', '--input', help='input serial device or file', type=str, default='stdin')
     parser.add_argument('-b', '--baudrate', help='baud rate of the serial device', type=int, default=9600)
     parser.add_argument('--record', help='append the raw input to this file', type=str, default=None)
@@ -31,6 +31,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.json and (args.verbose or args.source):
         parser.error('--json cannot be combined with --verbose or --source')
+    if args.type == 'l1s' and args.time is not None:
+        parser.error('--time cannot be used with l1s, which gives the time of every message')
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
     source = open_input(args.input, args.baudrate)
     stream = source if args.record is None else RecordingStream(source, open(args.record, mode='ab'))

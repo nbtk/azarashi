@@ -9,12 +9,12 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 ```shell
 usage: azarashi [-h] [-f INPUT] [-b BAUDRATE] [--record RECORD] [--time TIME]
                 [-s] [-u] [-r] [-x] [-v] [--json]
-                {hex,nmea,ublox}
+                {hex,nmea,ublox,l1s}
 
 azarashi CLI
 
 positional arguments:
-  {hex,nmea,ublox}      message type
+  {hex,nmea,ublox,l1s}  message type
 
 options:
   -h, --help            show this help message and exit
@@ -51,6 +51,16 @@ azarashi コマンドのメッセージタイプに `hex` を指定します。`
 ```shell
 $ echo C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC | azarashi hex
 ```
+## L1S Archive
+拡張子が `.l1s` の L1S アーカイブを読むときは、メッセージタイプに `l1s` を指定します。
+```shell
+$ azarashi l1s -f Q002_20260917.l1s
+```
+アーカイブは、先頭の1バイトが衛星の PRN です。そのあとに、1秒ごとの記録が続きます。記録は、4バイトの GPS 時刻と、32バイトの L1S メッセージです。
+
+レポートの衛星番号には、アーカイブの PRN が入ります。受信時刻には、記録ごとの GPS 時刻を UTC に直したものを使います。GPS 時刻は UTC よりうるう秒の分だけ進んでいるので、その差の18秒を引きます。受信時刻が記録から決まるので、`--time` は指定できません。
+
+アーカイブには、災危通報のほかに、測位を補強するメッセージも入っています。災危通報でない記録は読み飛ばします。
 ## Record and Replay
 `--record` を指定すると、デコードしながら、受信したデータをそのままファイルに追記します。記録したファイルを `-f` で指定するか標準入力に流すと、同じ受信を再現できます。
 ```shell

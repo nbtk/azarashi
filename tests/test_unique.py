@@ -72,12 +72,12 @@ def test_unique_zero_and_negative_disable_dedup():
 def test_unique_seconds_uses_the_last_reception_time(monkeypatch, offsets, delivered):
     start = datetime.datetime(2026, 3, 10, tzinfo=datetime.UTC)
     times = iter(start + datetime.timedelta(seconds=offset) for offset in offsets)
-    decode = DI.decode
+    decode = DI._decode  # what decode_stream() decodes each message with
 
     def at_reception(msg, msg_type, timestamp):
         return decode(msg, msg_type, timestamp=next(times))
 
-    monkeypatch.setattr(DI, 'decode', at_reception)
+    monkeypatch.setattr(DI, '_decode', at_reception)
     reports = []
     with pytest.raises(azarashi.AzarashiStopReading):
         azarashi.decode_stream(io.StringIO(MSG * len(offsets)), unique=60, callback=reports.append)
@@ -96,8 +96,8 @@ def test_mutating_a_delivered_report_does_not_change_duplicate_history():
 def test_callback_mutation_does_not_change_reception_time_or_reservation(monkeypatch):
     start = datetime.datetime(2026, 9, 21, tzinfo=datetime.UTC)
     times = iter([start, start + datetime.timedelta(seconds=61), start + datetime.timedelta(seconds=62)])
-    decode = DI.decode
-    monkeypatch.setattr(DI, 'decode', lambda msg, msg_type, timestamp: decode(msg, msg_type, next(times)))
+    decode = DI._decode
+    monkeypatch.setattr(DI, '_decode', lambda msg, msg_type, timestamp: decode(msg, msg_type, next(times)))
     seen = []
 
     def callback(report):
