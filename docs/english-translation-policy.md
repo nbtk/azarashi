@@ -38,12 +38,6 @@ Showing the English is right only on these conditions, and azarashi keeps to the
 | The Japanese must stay at hand. | The JSON always gives `labels.ja` and the code beside `labels.en`. The Japanese is the meaning. |
 | It must not pass for JMA's. | The sentences end in (Translated by azarashi), and this page lists every English that is azarashi's. |
 
-Only the notification sentences carry the note. The short labels azarashi translated, such as
-Swell Warning and Other Volcano, carry none, so the JSON alone does not tell them apart from
-JMA's English. They are short labels for a category or a value, not sentences. azarashi reviewed
-their English and decided not to mark short labels. They are listed on this page instead, and the
-JSON always gives the Japanese and the code beside them.
-
 ## Rules
 
 1. **The English is JMA's wherever JMA gives it.** IS-QZSS-DCR-017 itself says its phrasing
@@ -71,10 +65,9 @@ JSON always gives the Japanese and the code beside them.
    Wikipedia, with the date it was retrieved.
 6. **The sentences azarashi translated carry a note.** Of the disaster prevention notifications,
    the eight sentences with no JMA English end in `(Translated by azarashi)`, so that the note
-   goes wherever the sentence goes. Only these carry it, since they are the only sentences
-   azarashi translated; the short labels it translated are listed on this page. The note says
-   who translated the sentence. It does not mean an English without the note is JMA's.
-   azarashi does not call its English official or unofficial.
+   goes wherever the sentence goes. The short labels azarashi translated, such as Swell Warning
+   and Other Volcano, carry no note; they are listed on this page. An English without the note is
+   therefore not necessarily JMA's.
 7. **The Japanese is what JMA sent.** The JSON always gives `labels.ja` beside `labels.en`, and
    the Japanese is the meaning.
 8. **azarashi's English stands in until JMA gives its own.** When JMA publishes English for an
