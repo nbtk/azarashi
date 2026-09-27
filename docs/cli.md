@@ -26,7 +26,7 @@ options:
   --time TIME           time the input was received, e.g. 2026-09-01T12:00:00Z
                         (default: None)
   -s, --source          output the source messages (default: False)
-  -u, --unique          supress duplicate messages (default: False)
+  -u, --unique          suppress duplicate messages (default: False)
   -r, --ignore-dcr      ignore dcr messages (default: False)
   -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)

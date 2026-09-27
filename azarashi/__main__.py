@@ -23,7 +23,7 @@ def main() -> int:
     parser.add_argument('--time', help='time the input was received, e.g. 2026-09-01T12:00:00Z',
                         type=datetime.datetime.fromisoformat, default=None)
     parser.add_argument('-s', '--source', help='output the source messages', action='store_true')
-    parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
+    parser.add_argument('-u', '--unique', help='suppress duplicate messages', action='store_true')
     parser.add_argument('-r', '--ignore-dcr', help='ignore dcr messages', action='store_true')
     parser.add_argument('-x', '--ignore-dcx', help='ignore dcx messages', action='store_true')
     parser.add_argument('-v', '--verbose', help="verbose mode", action='store_true')

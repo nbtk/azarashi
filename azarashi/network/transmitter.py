@@ -52,7 +52,7 @@ def main() -> int:
     parser.add_argument('-f', '--input', help='input serial device or file', type=str, default='stdin')
     parser.add_argument('-b', '--baudrate', help='baud rate of the serial device', type=int, default=9600)
     parser.add_argument('--record', help='append the raw input to this file', type=str, default=None)
-    parser.add_argument('-u', '--unique', help='supress duplicate messages', action='store_true')
+    parser.add_argument('-u', '--unique', help='suppress duplicate messages', action='store_true')
     args = parser.parse_args()
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
     source = open_input(args.input, args.baudrate)
