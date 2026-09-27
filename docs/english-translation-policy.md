@@ -35,7 +35,7 @@ Showing the English is right only on these conditions, and azarashi keeps to the
 |---|---|
 | It must not say less than the Japanese. | What the Japanese states as certain stays certain in English, and おそれ becomes "may", as JMA translates it. |
 | It must not say more than the Japanese. | Nothing is added: no advice, no urgency and no detail the Japanese does not give. |
-| The Japanese must stay at hand. | The JSON always gives `labels.ja` and the code beside `labels.en`. The Japanese is the meaning. |
+| The Japanese must stay at hand. | The JSON gives `labels.ja` and the code beside `labels.en`. The Japanese is the meaning. The Northwest Pacific tsunami tables are in English, and the Japanese of the one code azarashi translated there is listed on this page. |
 | It must not pass for JMA's. | The sentences end in (Translated by azarashi), and this page lists every English that is azarashi's. |
 
 ## Rules
@@ -68,8 +68,8 @@ Showing the English is right only on these conditions, and azarashi keeps to the
    goes wherever the sentence goes. The short labels azarashi translated, such as Swell Warning
    and Other Volcano, carry no note; they are listed on this page. An English without the note is
    therefore not necessarily JMA's.
-7. **The Japanese is what JMA sent.** The JSON always gives `labels.ja` beside `labels.en`, and
-   the Japanese is the meaning.
+7. **The Japanese is what JMA sent.** The JSON gives `labels.ja` beside `labels.en`, and the
+   Japanese is the meaning.
 8. **azarashi's English stands in until JMA gives its own.** When JMA publishes English for an
    entry, JMA's English replaces azarashi's, the notifications first.
 9. **Each module says which of its entries are azarashi's**, in its docstring.
