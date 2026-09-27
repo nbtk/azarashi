@@ -81,7 +81,7 @@ QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に�
 入力アダプターは現在 QZSS に対応し、QZSS 固有の context と補助処理は `decoders/qzss/` に置きます。
 公開 API の形式名は `ublox` です。
 
-`definitions/camf/` には A1〜A11、A17、C10、D1〜D36 の表を置きます。共通処理は A12〜A15 の座標・
+`definitions/camf/` には A1〜A11、A17、C7〜C10、D1〜D36 の表を置きます。共通処理は A12〜A15 の座標・
 半軸長の変換で、`decoders/camf/geometry.py` にあります。コードの意味と変換は CAMF Issue 1.2
 （2026年3月、現行版）の 3.1、3.2、3.3、3.5、3.6、3.7 節と照合しています。
 公開されている [Issue 1.1](https://www.gsc-europa.eu/sites/default/files/sites/all/files/EWSS-CAMF_v1.1.pdf)

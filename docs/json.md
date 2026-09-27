@@ -27,8 +27,8 @@ tables = azarashi.code_tables()
 
 `to_json_dict(report)` は独立した辞書を返します。戻り値を変更しても、レポートや次の出力に影響しません。
 `to_ndjson(report)` は末尾の改行を含む1件分の文字列です。`print()` を使う場合は `end=''` を指定します。
-`json_schema()` はパッケージに同梱されたスキーマを、`code_tables()` は同梱されたコード表を辞書として返します。
-どちらも呼び出すたびに新しい辞書を返します。
+`json_schema()` はパッケージに同梱されたスキーマを、`code_tables()` はコード表を辞書として返します。
+コード表はファイルを読まず、azarashi のコード表からその場で作ります。どちらも呼び出すたびに新しい辞書を返します。
 辞書の戻り値の型は `dict[str, JsonValue]` です。`JsonValue` は JSON で表せる値の型で、`azarashi` からインポートできます。
 
 全18種類のレポートとそのサブクラスに対応しています。サブクラスも基底クラスと同じ形式で出力し、追加した属性は含めません。
@@ -234,7 +234,7 @@ DCR の `report_classification` と `information_type` も、同じように `is
 | `table` | 表 |
 |---|---|
 | `qzss.dcr.<表の名前>` | DCR の表。例：`qzss.dcr.tsunami_height` |
-| `camf.a1_message_type` など | CAMF の A1〜A10、A17、C10、D1〜D36 |
+| `camf.a1_message_type` など | CAMF の A1〜A10、A17、C7〜C10、D1〜D36 |
 | `camf.a3_provider_identifier.country_N` | A2 の国 N が割り当てる提供者 |
 | `camf.a11_instruction_library.international.version_V` | CAMF の国際ライブラリ（A9=0）の版 V |
 | `camf.a11_instruction_library.country_N.version_V` | 国 N のライブラリ（A9=1）の版 V |
@@ -265,7 +265,8 @@ DCR の英語は、気象庁の多言語辞書や気象庁のページ、DCR 仕
 `{"ja": "指示なし", "en": "No instruction"}` です。仕様書はこの意味を英語の本文でしか書いていないので、この名前は日本語も英語も azarashi が付けたものです。
 国際ライブラリのコード0は、CAMF の IC-A-01 で、表では reserved（割り当てなし）です。指示なしではなく、`status` は `undefined` です。
 C10 のコード0は、CAMF が注記で「指示なし」と定めているので、`status` は `special`、`labels.en` は `No instruction` です。
-A3 と A4 のコード0は、仕様が not used と定めているので、`status` は `special`、`labels.en` は `Not used` です。
+A4 のコード0と、表 4.2-6 の4か国（日本、オーストラリア、フィジー、タイ）の A3 のコード0は、仕様が not used と定めているので、
+`status` は `special`、`labels.en` は `Not used` です。ほかの国の A3 は azarashi が表を持たないので、コード0も `undefined` です。
 
 ### Instruction
 
@@ -452,8 +453,9 @@ Python のレポートの対応する配列どうしで要素数が違う場合�
 
 DCX の `target_regions` は地域のコードオブジェクトの配列です。
 EX1 が 0 のときは、対象地域の指定がないので空の配列です。
-EX9 の元の64ビット整数は出さず、元のビット列は `reception.nmea` に保持します。
-この違いは [DCX-004](https://qzss.go.jp/en/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) 4.2.4.2 に対応します。
+EX9 は、EX8 によって都道府県か市町村かが変わります（[DCX-004](https://qzss.go.jp/en/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) 4.2.4.2）。
+都道府県なら `qzss.dcx.ex9_target_area_code_list`、市町村なら EX1 と同じ `qzss.dcx.ex1_target_area_code` の表のコードになります。
+EX9 の元の64ビットの値は出しません。元のビット列は `reception.nmea` にあります。
 
 DCR の位置は、次の形です。
 
@@ -563,7 +565,8 @@ A4 は `hazard` の `type`・`category`・`definition` の3つのコードオブ
 
 DCX の `version` も同じ形です。L-Alert、J-Alert、市町村からの情報は、仕様の定める1なら `valid`、それ以外は `undefined` です。
 2026年9月の実際の放送では、J-Alert と市町村からの情報が0を送っていて、`undefined` になります。
-国外からの情報は発信元独自の版なので、どの値でも `valid` です。種類のわからない DCX も同じです。
+国外からの情報は発信元独自の版なので、どの値でも `valid` です。
+種類のわからない DCX は、仕様が版を定めていないので、どの値でも `undefined` です。
 
 | Python クラス / type の末尾 | 警報共通項目以外の項目 |
 |---|---|
@@ -650,27 +653,6 @@ azarashi のテストは、スキーマに未定義のキーと種類を拒否�
 封筒の構造は `$defs/envelope` の1か所で定義し、各レポートの種類がそれを参照して `type` と `data` を
 絞り込みます。`reception.nmea` は QZSS の種類で必須です。この版の全18種類は QZSS DCR/DCX なので、
 実際にはすべてのレコードで必須です。QZQSM 文を持たない伝送路が加わる場合は、その種類で必須にしません。
-
-## Changes from v1
-
-v1 は azarashi 0.17.0 の形式です。v2 では次のように変わりました。
-
-- 最上位：`test` は `is_test`、`received_at`・`satellite`・`nmea` は `reception` の中、`text`・`text_en` は `texts` になりました。`message_id` と `series` が加わりました。
-- コードオブジェクト：`scheme` は `table`、`recognized` は `status` になりました。
-- 数量：`kind` をやめ、`status` と `value`・`range` にしました。範囲の `inclusive` と、`qualifier` をやめました。単位は UCUM です。
-- `status`：どの値も `valid`・`assumed`・`special`・`undefined` の4つの言葉で表します。時刻には `precision` を足しました。時刻の `source` は必ずあります。
-- 位置と楕円：`status` と `value` の形にしました。位置の `source` のキーは略さない英語です。
-- 表の名前：`qzss.dcx.area_code` は `qzss.dcx.ex1_target_area_code`、`qzss.dcx.prefecture_bit` は `qzss.dcx.ex9_target_area_code_list`、
-  `camf.provider.country_N` は `camf.a3_provider_identifier.country_N`、`camf.instruction.…` は `camf.a11_instruction_library.…` になりました。
-- DCX：`version` は `{"status", "value"}`、`instruction.version` は `instruction.library_version`、EX2 と A17 はコードオブジェクトです。
-  国際ライブラリ以外では `instruction.identifier` を省きます。EX1 が 0 なら `target_regions` は空の配列です。
-  第二楕円は、C7〜C9 の数量と C10 のコードを並べる形にしました。C7 の中心のずれも出力します。
-  A3・A4 のコード0は `special`（Not used）、国際ライブラリのコード0は `undefined` です。
-  EX9 の都道府県の `code` は、下位から0始まりのビット位置から、北海道1〜沖縄47 の番号になりました。
-- DCR：緊急地震速報の `assumptive` は、`depth`・`magnitude` の `status: "assumed"` になりました。洪水の `level` は `warning` です。
-  長周期地震動のコード0も出力します。
-- コード表のファイルと `code_tables()` が加わりました。
-- 津波の高さのコード13の英語は、`No information` から、仕様書の言葉の `No data` になりました。
 
 ## Examples and Tests
 
