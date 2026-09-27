@@ -113,12 +113,18 @@ def test_a_code_defined_without_a_name_carries_no_label():
     assert Table('x.y', {0: ''}, None, None).code(0) == {'status': 'valid', 'code': '0', 'table': 'x.y', 'labels': {}}
 
 
-def test_an_unnamed_prefecture_bit_keeps_its_position():
-    from azarashi.json.tables import TABLES, Table, _bit_names
+def test_an_ex9_prefecture_has_the_code_of_its_place_in_the_table():
+    # IS-QZSS-DCX-004 Table 4.2-25 from the top, the codes of IS-QZSS-DCR-017 Table 4.1.2-16
+    from azarashi.json.tables import TABLES, Table, _prefecture_names
 
-    assert TABLES['qzss.dcx.ex9_target_area_code_list'].code(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo Metropolis'}
-    unnamed = Table('qzss.dcx.ex9_target_area_code_list', _bit_names({}), _bit_names({}), None).code(12)
-    assert unnamed == {'status': 'undefined', 'code': '12', 'table': 'qzss.dcx.ex9_target_area_code_list', 'labels': {}}
+    ex9, dcr = TABLES['qzss.dcx.ex9_target_area_code_list'], TABLES['qzss.dcr.prefecture']
+    assert ex9.codes == dcr.codes == tuple(range(1, 48))
+    assert all(ex9.labels(code) == dcr.labels(code) for code in ex9.codes)
+    assert ex9.code(1)['labels'] == {'ja': '北海道', 'en': 'Hokkaido Prefecture'}
+    assert ex9.code(13)['labels'] == {'ja': '東京都', 'en': 'Tokyo Metropolis'}
+    assert ex9.code(47)['labels'] == {'ja': '沖縄県', 'en': 'Okinawa Prefecture'}
+    unnamed = Table('qzss.dcx.ex9_target_area_code_list', _prefecture_names({}), _prefecture_names({}), None).code(13)
+    assert unnamed == {'status': 'undefined', 'code': '13', 'table': 'qzss.dcx.ex9_target_area_code_list', 'labels': {}}
 
 
 def _printed_numbers(field, label):

@@ -120,10 +120,16 @@ def test_the_message_id_names_the_message_and_not_its_reception():
         assert system == '.'.join(row['type'].split('.')[:2])
         assert content == report.raw.hex()
     # the same message from another satellite, received at another time
-    from test_dcx_fields import JAPAN, _decode, dcx
-    one = example_record(_decode(dcx(**JAPAN, a3=1, a14=1)))
-    other = copy.deepcopy(one)
-    other['reception'] = {**one['reception'], 'satellite': {'system': 'qzss', 'prn': 199}}
+    import datetime
+    from qzqsm import nmea_checksum
+    from test_dcx_fields import JAPAN, dcx
+    sentence = dcx(**JAPAN, a3=1, a14=1)
+    body = sentence[1:].split('*')[0].replace('QZQSM,55,', 'QZQSM,57,')
+    received = datetime.datetime(2026, 3, 7, 6, 0, tzinfo=datetime.UTC)
+    one = example_record(nmea.Decoder(sentence, timestamp=received).decode())
+    other = example_record(nmea.Decoder(f'${body}*{nmea_checksum(body)}',
+                                        timestamp=received + datetime.timedelta(minutes=5)).decode())
+    assert one['reception'] != other['reception']
     assert one['message_id'] == other['message_id']
 
 
@@ -144,6 +150,28 @@ def test_the_series_of_a_report(name, lifecycle, key):
     series = record(name).get('series', {})
     assert series.get('lifecycle') == lifecycle
     assert (key is None and 'key' not in series) or re.fullmatch(key, series['key'])
+
+
+def test_the_pages_of_one_nankai_announcement_are_one_series_of_messages():
+    pages = {}
+    for report in REPORTS:
+        if type(report).__name__ == 'NankaiTroughEarthquake':
+            row = example_record(report)
+            pages.setdefault(row['series']['key'], {})[report.page_number] = row['message_id']
+    announcement = max(pages.values(), key=len)
+    assert len(announcement) > 1  # the pages of one announcement, or the test proves nothing
+    assert len(set(announcement.values())) == len(announcement)  # each page its own message
+
+
+def test_an_alert_and_its_all_clear_are_one_series_and_another_area_another():
+    # IS-QZSS-DCX-004 4.2.3.1: A2, A3, A4 and EX1 name an L-Alert
+    from test_dcx_fields import _decode, dcx
+    def row(a1, ex1):
+        return example_record(_decode(dcx(a1=a1, a2=111, a3=1, a4=36, ex1=ex1)))
+    alert, all_clear, elsewhere = row(1, 43213), row(3, 43213), row(1, 43214)
+    assert (alert['series']['lifecycle'], all_clear['series']['lifecycle']) == ('issue', 'all_clear')
+    assert alert['series']['key'] == all_clear['series']['key'] != elsewhere['series']['key']
+    assert alert['message_id'] != all_clear['message_id']
 
 
 def test_a_dcr_information_type_outside_the_table_has_a_null_lifecycle():
@@ -379,14 +407,21 @@ def test_a_table_names_the_specification_that_defines_it():
     for name, table in CODE_TABLES.items():
         prefix = name.split('.')[0] if name.startswith('camf.') else '.'.join(name.split('.')[:2])
         spec = {'camf': 'CAMF', 'qzss.dcr': 'IS-QZSS-DCR', 'qzss.dcx': 'IS-QZSS-DCX'}[prefix]
-        source = table['source']
-        assert source is None or source.startswith(spec) or (prefix == 'camf' and source.startswith('IS-QZSS-DCX')), name
+        source = table['source']  # A3 and the Japanese library are CAMF fields whose codes DCX-004 lists
+        assert source.startswith(spec) or (prefix == 'camf' and source.startswith('IS-QZSS-DCX')), name
 
 
 def test_every_code_table_a_record_names_is_in_the_file_or_one_azarashi_has_no_codes_of():
     names = {code['table'] for report in REPORTS for code in _codes(example_record(report))}
     assert names - set(CODE_TABLES) <= {n for n in names if n.startswith(('camf.a3_', 'camf.a11_'))}
     assert set(PROFILES) <= set(CODE_TABLES)
+
+
+def test_a_code_of_a_table_the_file_lacks_is_undefined_and_unnamed():
+    # a country or library version azarashi has no codes of: nothing to look up, and no need to
+    missing = [code for report in REPORTS for code in _codes(example_record(report)) if code['table'] not in CODE_TABLES]
+    assert {code['table'] for code in missing} >= {'camf.a3_provider_identifier.country_103'}
+    assert all(code['status'] == 'undefined' and code['labels'] == {} for code in missing), missing
 
 
 def test_the_international_library_has_one_table_for_every_country():
@@ -429,8 +464,6 @@ def test_an_undefined_code_has_no_label():
     ('LAlert', 'onset', {'status': 'assumed', 'value': None, 'source': {'week': 0, 'minute_of_week': 1}}),
     ('LAlert', 'onset', {'status': 'undefined', 'value': None, 'source': {'day': 1, 'hour': 1, 'minute': 1}}),
     ('Hypocenter', 'occurrence_time', {'status': 'special', 'value': None, 'labels': {'en': 'x'},
-                                       'source': {'day': 1, 'hour': 1, 'minute': 1}}),
-    ('Hypocenter', 'occurrence_time', {'status': 'not_valid', 'value': None,
                                        'source': {'day': 1, 'hour': 1, 'minute': 1}}),
     ('Hypocenter', 'occurrence_time', {'status': 'undefined', 'value': None, 'source': {'week': 0, 'minute_of_week': 0}}),
     ('Hypocenter', 'occurrence_time', {'status': 'valid', 'value': '2026-01-01T00:00:00Z', 'precision': 'day',
@@ -606,7 +639,7 @@ def test_a_quantity_takes_only_the_shapes_its_own_field_can_produce():
     assert not VALIDATOR.is_valid(row)  # a value and a range at once
     row = record('Hypocenter')
     row['data']['depth']['relative_to'] = 'main_ellipse.semi_major_axis'
-    assert not VALIDATOR.is_valid(row)  # only D4 is measured in another length
+    assert not VALIDATOR.is_valid(row)  # only D4 and C7 to C9 are measured against the main ellipse
 
 
 @pytest.mark.parametrize('field,table', [

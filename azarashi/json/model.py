@@ -23,7 +23,7 @@ from ..definitions.qzss.dcr.latitude_and_longitude import is_position
 from ..definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
 from ..exceptions import AzarashiArgumentTypeError
 from ..reports.base import Coordinates, DayHourMinute
-from .tables import B4_NAMES, TABLES, Table, instruction, provider
+from .tables import B4_NAMES, TABLES, Table, instruction, prefecture_code, provider
 
 JsonValue: TypeAlias = str | int | float | bool | None | list["JsonValue"] | dict[str, "JsonValue"]
 
@@ -502,7 +502,7 @@ def _target_regions(report: Any) -> list[dict[str, Any]] | None:
     if not report.ignore_ex8_to_ex9:
         if c.ex8 == 0:
             bits = TABLES["qzss.dcx.ex9_target_area_code_list"]
-            regions = [bits.code(bit) for bit in range(EX9_PREFECTURE_BITS) if c.ex9 & 1 << bit + 17]
+            regions = [bits.code(prefecture_code(bit)) for bit in range(EX9_PREFECTURE_BITS) if c.ex9 & 1 << bit + 17]
         else:
             regions = [area.code(n) for shift in (48, 32, 16, 0) if (n := (c.ex9 >> shift & 65535))]
     return regions

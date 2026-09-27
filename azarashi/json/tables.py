@@ -159,16 +159,25 @@ CAMF_TABLES = [
 ]
 
 
-def _bit_names(table: Mapping[int, str]) -> dict[int, str]:
-    """The prefectures of EX9 by bit position, as a record gives the code, rather than by mask."""
-    return {bit: table[1 << bit] for bit in range(EX9_PREFECTURE_BITS) if 1 << bit in table}
+def prefecture_code(bit: int) -> int:
+    """The code a record gives the EX9 prefecture of a bit, counted from the lowest bit as 0.
+
+    It is the prefecture's place in IS-QZSS-DCX-004 Table 4.2-25, counted from the top: Hokkaido,
+    the lowest bit, is 1 and Okinawa 47. These are the codes of IS-QZSS-DCR-017 Table 4.1.2-16.
+    """
+    return bit + 1
+
+
+def _prefecture_names(table: Mapping[int, str]) -> dict[int, str]:
+    """The prefectures of EX9 by the code a record gives them, rather than by mask."""
+    return {prefecture_code(bit): table[1 << bit] for bit in range(EX9_PREFECTURE_BITS) if 1 << bit in table}
 
 
 DCX_TABLES = [
     Table("qzss.dcx.ex1_target_area_code", ex1_target_area_code_ja, ex1_target_area_code_en, f"{DCX} Table 4.2-21"),
     Table("qzss.dcx.ex2_evacuate_direction_type", None, ex2_evacuate_direction_type, f"{DCX} Table 4.2-22"),
-    Table("qzss.dcx.ex9_target_area_code_list", _bit_names(ex9_target_area_code_ja),
-          _bit_names(ex9_target_area_code_en), f"{DCX} Table 4.2-25"),
+    Table("qzss.dcx.ex9_target_area_code_list", _prefecture_names(ex9_target_area_code_ja),
+          _prefecture_names(ex9_target_area_code_en), f"{DCX} Table 4.2-25"),
 ]
 
 JAPAN = 111

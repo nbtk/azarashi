@@ -2408,7 +2408,7 @@
       "target_regions": [
         {
           "status": "valid",
-          "code": "0",
+          "code": "1",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "北海道",
@@ -2417,7 +2417,7 @@
         },
         {
           "status": "valid",
-          "code": "1",
+          "code": "2",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "青森県",
@@ -2426,7 +2426,7 @@
         },
         {
           "status": "valid",
-          "code": "2",
+          "code": "3",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "岩手県",
@@ -2435,7 +2435,7 @@
         },
         {
           "status": "valid",
-          "code": "3",
+          "code": "4",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "宮城県",
@@ -2444,7 +2444,7 @@
         },
         {
           "status": "valid",
-          "code": "4",
+          "code": "5",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "秋田県",
@@ -2453,7 +2453,7 @@
         },
         {
           "status": "valid",
-          "code": "5",
+          "code": "6",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "山形県",
@@ -2462,7 +2462,7 @@
         },
         {
           "status": "valid",
-          "code": "6",
+          "code": "7",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "福島県",
@@ -2471,7 +2471,7 @@
         },
         {
           "status": "valid",
-          "code": "7",
+          "code": "8",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "茨城県",
@@ -2480,7 +2480,7 @@
         },
         {
           "status": "valid",
-          "code": "8",
+          "code": "9",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "栃木県",
@@ -2489,7 +2489,7 @@
         },
         {
           "status": "valid",
-          "code": "9",
+          "code": "10",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "群馬県",
@@ -2498,7 +2498,7 @@
         },
         {
           "status": "valid",
-          "code": "10",
+          "code": "11",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "埼玉県",
@@ -2507,7 +2507,7 @@
         },
         {
           "status": "valid",
-          "code": "11",
+          "code": "12",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "千葉県",
@@ -2516,7 +2516,7 @@
         },
         {
           "status": "valid",
-          "code": "12",
+          "code": "13",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "東京都",
@@ -2525,7 +2525,7 @@
         },
         {
           "status": "valid",
-          "code": "13",
+          "code": "14",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "神奈川県",
@@ -2534,7 +2534,7 @@
         },
         {
           "status": "valid",
-          "code": "14",
+          "code": "15",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "新潟県",
@@ -2543,7 +2543,7 @@
         },
         {
           "status": "valid",
-          "code": "15",
+          "code": "16",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "富山県",
@@ -2552,7 +2552,7 @@
         },
         {
           "status": "valid",
-          "code": "16",
+          "code": "17",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "石川県",
@@ -2561,7 +2561,7 @@
         },
         {
           "status": "valid",
-          "code": "17",
+          "code": "18",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "福井県",
@@ -2570,7 +2570,7 @@
         },
         {
           "status": "valid",
-          "code": "18",
+          "code": "19",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "山梨県",
@@ -2579,7 +2579,7 @@
         },
         {
           "status": "valid",
-          "code": "19",
+          "code": "20",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "長野県",
@@ -2588,7 +2588,7 @@
         },
         {
           "status": "valid",
-          "code": "20",
+          "code": "21",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "岐阜県",
@@ -2597,7 +2597,7 @@
         },
         {
           "status": "valid",
-          "code": "21",
+          "code": "22",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "静岡県",
@@ -2606,7 +2606,7 @@
         },
         {
           "status": "valid",
-          "code": "22",
+          "code": "23",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "愛知県",
@@ -2615,7 +2615,7 @@
         },
         {
           "status": "valid",
-          "code": "23",
+          "code": "24",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "三重県",
@@ -2624,7 +2624,7 @@
         },
         {
           "status": "valid",
-          "code": "24",
+          "code": "25",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "滋賀県",
@@ -2633,7 +2633,7 @@
         },
         {
           "status": "valid",
-          "code": "25",
+          "code": "26",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "京都府",
@@ -2642,7 +2642,7 @@
         },
         {
           "status": "valid",
-          "code": "26",
+          "code": "27",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "大阪府",
@@ -2651,7 +2651,7 @@
         },
         {
           "status": "valid",
-          "code": "27",
+          "code": "28",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "兵庫県",
@@ -2660,7 +2660,7 @@
         },
         {
           "status": "valid",
-          "code": "28",
+          "code": "29",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "奈良県",
@@ -2669,7 +2669,7 @@
         },
         {
           "status": "valid",
-          "code": "29",
+          "code": "30",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "和歌山県",
@@ -2678,7 +2678,7 @@
         },
         {
           "status": "valid",
-          "code": "30",
+          "code": "31",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "鳥取県",
@@ -2687,7 +2687,7 @@
         },
         {
           "status": "valid",
-          "code": "31",
+          "code": "32",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "島根県",
@@ -2696,7 +2696,7 @@
         },
         {
           "status": "valid",
-          "code": "32",
+          "code": "33",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "岡山県",
@@ -2705,7 +2705,7 @@
         },
         {
           "status": "valid",
-          "code": "33",
+          "code": "34",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "広島県",
@@ -2714,7 +2714,7 @@
         },
         {
           "status": "valid",
-          "code": "34",
+          "code": "35",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "山口県",
@@ -2723,7 +2723,7 @@
         },
         {
           "status": "valid",
-          "code": "35",
+          "code": "36",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "徳島県",
@@ -2732,7 +2732,7 @@
         },
         {
           "status": "valid",
-          "code": "36",
+          "code": "37",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "香川県",
@@ -2741,7 +2741,7 @@
         },
         {
           "status": "valid",
-          "code": "37",
+          "code": "38",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "愛媛県",
@@ -2750,7 +2750,7 @@
         },
         {
           "status": "valid",
-          "code": "38",
+          "code": "39",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "高知県",
@@ -2759,7 +2759,7 @@
         },
         {
           "status": "valid",
-          "code": "39",
+          "code": "40",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "福岡県",
@@ -2768,7 +2768,7 @@
         },
         {
           "status": "valid",
-          "code": "40",
+          "code": "41",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "佐賀県",
@@ -2777,7 +2777,7 @@
         },
         {
           "status": "valid",
-          "code": "41",
+          "code": "42",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "長崎県",
@@ -2786,7 +2786,7 @@
         },
         {
           "status": "valid",
-          "code": "42",
+          "code": "43",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "熊本県",
@@ -2795,7 +2795,7 @@
         },
         {
           "status": "valid",
-          "code": "43",
+          "code": "44",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "大分県",
@@ -2804,7 +2804,7 @@
         },
         {
           "status": "valid",
-          "code": "44",
+          "code": "45",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "宮崎県",
@@ -2813,7 +2813,7 @@
         },
         {
           "status": "valid",
-          "code": "45",
+          "code": "46",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "鹿児島県",
@@ -2822,7 +2822,7 @@
         },
         {
           "status": "valid",
-          "code": "46",
+          "code": "47",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "沖縄県",
@@ -13065,7 +13065,7 @@
       "target_regions": [
         {
           "status": "valid",
-          "code": "12",
+          "code": "13",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "東京都",
@@ -13074,7 +13074,7 @@
         },
         {
           "status": "valid",
-          "code": "13",
+          "code": "14",
           "table": "qzss.dcx.ex9_target_area_code_list",
           "labels": {
             "ja": "神奈川県",

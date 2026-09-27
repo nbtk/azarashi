@@ -240,7 +240,7 @@ DCR の `report_classification` と `information_type` も、同じように `is
 | `camf.a11_instruction_library.country_N.version_V` | 国 N のライブラリ（A9=1）の版 V |
 | `qzss.dcx.ex1_target_area_code` | DCX の EX1 の地域コード。EX8=1 のときの EX9 の地域コードも同じ表です |
 | `qzss.dcx.ex2_evacuate_direction_type` | DCX の EX2 |
-| `qzss.dcx.ex9_target_area_code_list` | DCX の EX9 の都道府県。`code` は下位から0始まりのビット位置です |
+| `qzss.dcx.ex9_target_area_code_list` | DCX の EX9 の都道府県。`code` は表 4.2-25 を上から数えた番号（北海道1〜沖縄47）で、DCR の表 4.1.2-16 の Code と同じです |
 
 N と V は、伝送されたコード値です。
 CAMF のフィールドの表は、伝送路によらず同じ意味なので `camf.` で始まります。
@@ -304,6 +304,8 @@ azarashi が持っていないライブラリの版でも、指示のコード�
 コード表は、仕様が定めることだけを伝えます。コードの並び順や、どちらが上かは伝えません。
 どの仕様も、表を「この順に上がる段階」とは書いていないからです。段階で比べたいときは、`labels` や数量の `range` を見て決めてください。
 国や版で変わる表は、azarashi が持っている国と版の分だけ並べます。
+持っていない国や版の表（たとえば `camf.a3_provider_identifier.country_103`）は、ファイルにありません。
+そうした表を指すコードは、必ず `status` が `undefined`、`labels` が `{}` です。表を引かなくても判断できます。
 
 `labels` の決め方は、どの表も同じです。表がコードに言葉を付けていればその言葉、数だけを定めていれば、その数に仕様の単位を付けた文字です。
 単位のない数は、数だけです。DCR の深さの `10 km`、マグニチュードの `7.2`、CAMF の D3 の `22.5°`、D4 の `0.25` がその例です。
@@ -664,6 +666,7 @@ v1 は azarashi 0.17.0 の形式です。v2 では次のように変わりまし
   国際ライブラリ以外では `instruction.identifier` を省きます。EX1 が 0 なら `target_regions` は空の配列です。
   第二楕円は、C7〜C9 の数量と C10 のコードを並べる形にしました。C7 の中心のずれも出力します。
   A3・A4 のコード0は `special`（Not used）、国際ライブラリのコード0は `undefined` です。
+  EX9 の都道府県の `code` は、下位から0始まりのビット位置から、北海道1〜沖縄47 の番号になりました。
 - DCR：緊急地震速報の `assumptive` は、`depth`・`magnitude` の `status: "assumed"` になりました。洪水の `level` は `warning` です。
   長周期地震動のコード0も出力します。
 - コード表のファイルと `code_tables()` が加わりました。
