@@ -68,7 +68,7 @@
   ["qzss.ubx", "svid_to_prn", "0650491f570b3593ce41e879e7be6020fdceea365407a1f38ab099fe13fefbc8"],
   ["qzss.dcr.eew_forecast_region", "eew_forecast_region", "b4d3ae7fe3e8c2bac4515c3065ba029fd62ac830abd310ad35addf9f1fbd70b5"],
   ["qzss.dcr.eew_forecast_region", "eew_forecast_region_en", "08feefa6659c44a77be8cfec4fbe2dae05d81800ccc7b57f168ba79f1fdb2e4c"],
-  ["qzss.dcr.tsunamigenic_potential", "tsunamigenic_potential_en", "d91a477cae8b85a8a20861bb3e84bc13866383cbb7de82602199f9aa67f38266"],
+  ["qzss.dcr.tsunamigenic_potential", "tsunamigenic_potential_en", "bcecad132b0a740052ab62f47573bb928c1535a027e723b0260b1e3a9ebe8010"],
   ["qzss.dcr.expected_ash_fall_time", "expected_ash_fall_time", "8a61c5fb68a07beff9dc95bc8a7b6a49279c64a484f274a6f7ba6c2c6247cf92"],
   ["qzss.dcr.expected_ash_fall_time", "expected_ash_fall_time_en", "9243b55242dd3f5969ebace20b47882bc67a92216a00190cfbecff8ccabc2e99"],
   ["qzss.dcr.tsunami_warning_code", "tsunami_warning_code", "3e23666c398dd2a22a5be89be39d1f6abe1e96086ccb4aa9ec54552464cd5c8b"],

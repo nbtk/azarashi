@@ -58,14 +58,26 @@ class Table:
         return {"status": self.status(code), "code": str(code), "table": self.name, "labels": self.labels(code)}
 
 
+def _others(names: Mapping[int, Any] | None) -> set[int]:
+    """The codes a DCR table names その他, other: JMA sends one for a value its table has no code for.
+
+    IS-QZSS-DCR-017 notes it under the information serial code: "There is a case to transmit
+    undefined codes due to revise the JMA system. "15" is indicated in this case." A regional one,
+    as 北海道のその他の市町村, still says which prefecture or region.
+    """
+    return {code for code, text in (names or {}).items()
+            if isinstance(text, str) and (text.startswith("その他") or "のその他の" in text)}
+
+
 def _dcr(name: str, source: str, special: tuple[int, ...] = ()) -> Table:
     tables = importlib.import_module(f"..definitions.qzss.dcr.{name}", __package__)
+    ja = getattr(tables, name, None)
     return Table(
         "qzss.dcr." + name,
-        getattr(tables, name, None),
+        ja,
         getattr(tables, name + "_en", None),
         f"{DCR} {source}",
-        frozenset(special),
+        frozenset(special) | _others(ja),
     )
 
 
@@ -88,9 +100,9 @@ DCR_TABLES = [
     _dcr("tsunami_warning_code", "Table 4.1.2-22"),
     _dcr("tsunami_height", "Table 4.1.2-23", special=(13, 14)),
     _dcr("tsunami_forecast_region", "Table 4.1.2-24"),
-    _dcr("tsunamigenic_potential", "Table 4.1.2-27"),
+    _dcr("tsunamigenic_potential", "Table 4.1.2-27", special=(7,)),  # その他の津波発生の可能性有無
     _dcr("northwest_pacific_tsunami_height", "Table 4.1.2-27a", special=(511,)),
-    _dcr("coastal_region", "Table 4.1.2-28", special=(99,)),
+    _dcr("coastal_region", "Table 4.1.2-28", special=(99, 100)),  # Unknown, Other region
     _dcr("volcanic_warning_code", "Table 4.1.2-31"),
     _dcr("volcano_name", "Table 4.1.2-32"),
     _dcr("local_government", "Table 4.1.2-33"),

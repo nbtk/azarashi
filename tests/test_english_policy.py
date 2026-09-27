@@ -10,7 +10,7 @@ NOTE = ' (Translated by azarashi)'
 
 
 def _table(name, suffix=''):
-    return getattr(importlib.import_module(f'azarashi.definitions.qzss.dcr.{name}'), name + suffix)
+    return getattr(importlib.import_module(f'azarashi.definitions.qzss.dcr.{name}'), name + suffix, None)
 
 
 def _cells(line):
@@ -41,7 +41,8 @@ def test_the_policy_lists_azarashis_english():
 
 @pytest.mark.parametrize('table, code, japanese, english', LISTED, ids=lambda value: str(value))
 def test_a_listed_english_is_the_english_of_its_table(table, code, japanese, english):
-    assert _table(table)[code] == japanese
+    if _table(table) is not None:  # an English table gives the Japanese of the specification in the list only
+        assert _table(table)[code] == japanese
     assert _table(table, '_en')[code] == english
 
 

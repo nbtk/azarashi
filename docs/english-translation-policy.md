@@ -146,7 +146,7 @@ table has no English.
 
 ## azarashi's English
 
-86 entries are listed one by one below. Two more families follow a pattern:
+87 entries are listed one by one below. Two more families follow a pattern:
 
 - `local_government`: 47 entries, the other municipalities of each prefecture, as Other
   municipalities in Hokkaido Prefecture.
@@ -259,6 +259,14 @@ table has no English.
 | 2 | 警報解除 | Warning Lifted |
 | 5 | 大津波警報：発表 | Major Tsunami Warning: Issued |
 | 15 | その他の警報 | Other Warning |
+
+### tsunamigenic_potential
+
+The table is in English but for this code, which the specification writes in Japanese only.
+
+| Code | Japanese | English |
+|---|---|---|
+| 7 | その他の津波発生の可能性有無 | Other Tsunamigenic Potential |
 
 ### typhoon_intensity_category
 

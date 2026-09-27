@@ -207,7 +207,7 @@ def test_tsunami_height_is_the_announced_range():
     ('qzss.dcr.depth_of_hypocenter', 511, {'status': 'special', 'value': None}),
     ('qzss.dcr.depth_of_hypocenter', 502, {'status': 'undefined', 'value': None}),
     ('qzss.dcr.hypocenter_magnitude', 126, {'status': 'special', 'range': {'lower': 8, 'upper': None}, 'unit': '1'}),
-    ('qzss.dcr.tsunami_height', 15, {'status': 'valid'}),
+    ('qzss.dcr.tsunami_height', 15, {'status': 'special', 'value': None}),  # その他: a height the table has no code for
     ('qzss.dcr.northwest_pacific_tsunami_height', 508,
      {'status': 'valid', 'range': {'lower': 10, 'upper': None}, 'unit': 'm'}),
     ('qzss.dcr.northwest_pacific_tsunami_height', 509, {'status': 'valid'}),
@@ -773,3 +773,16 @@ def test_every_provider_table_is_that_of_dcx_004():
     providers = {name: table for name, table in CODE_TABLES.items() if name.startswith('camf.a3_provider_identifier.')}
     assert set(providers) == {f'camf.a3_provider_identifier.country_{n}' for n in (10, 71, 111, 219)}
     assert {table['source'] for table in providers.values()} == {'IS-QZSS-DCX-004 Table 4.2-6'}
+
+
+def test_a_code_jma_sends_for_a_value_its_table_lacks_is_special():
+    # IS-QZSS-DCR-017: "There is a case to transmit undefined codes due to revise the JMA system."
+    expected = {('qzss.dcr.tsunami_warning_code', '15'), ('qzss.dcr.information_serial_code', '15'),
+                ('qzss.dcr.local_government', '199999'), ('qzss.dcr.flood_forecast_region', '829999999999'),
+                ('qzss.dcr.tsunamigenic_potential', '7'), ('qzss.dcr.coastal_region', '100')}
+    for table, code in expected:
+        assert CODE_TABLES[table]['codes'][code]['status'] == 'special', (table, code)
+    assert CODE_TABLES['qzss.dcr.local_government']['codes']['199999']['labels']['ja'] == '北海道のその他の市町村'
+    # a text that only uses the word, and CAMF's category named OTHER, are values of their own
+    assert CODE_TABLES['qzss.dcr.information_serial_code']['codes']['3']['status'] == 'valid'
+    assert CODE_TABLES['camf.a4_hazard_category']['codes']['113']['status'] == 'valid'
