@@ -409,7 +409,7 @@ def example():
 exit(example())
 ```
 ### Field Receiver
-現場に置きっぱなしにする受信機のお手本です。ここまでの例を一つにまとめてあります。3つの行動、抜き差しからの復帰、終了の伝え方、そして**自分の失敗を読み取りループに混ぜないこと**を入れました。
+現場に置きっぱなしにする受信機のお手本です。3つの行動、抜き差しからの復帰、終了の伝え方、そして**自分の失敗を読み取りループに混ぜないこと**を入れました。
 
 ```python
 import logging
@@ -426,18 +426,10 @@ PORT = '/dev/serial/by-id/usb-u-blox_AG_u-blox_GNSS_receiver-if00'
 BACKOFF = (1, 2, 5, 10, 30)
 
 logger = logging.getLogger('receiver')
-stopping = False
 
 def stop(signum, frame):
-    global stopping
-    stopping = True
-
-def wait(seconds):
-    """停止の合図に早く気づくため、短く刻んで待つ"""
-    for _ in range(seconds):
-        if stopping:
-            return
-        time.sleep(1)
+    """読み取りや待ち時間の途中でも抜ける。ポートは main() の finally が閉じる"""
+    sys.exit(0)
 
 def deliver(report):
     """警報を渡す。ここでの失敗はこのプログラムのものなので、ここで始末する"""
@@ -449,11 +441,9 @@ def deliver(report):
 
 def read(port):
     """読めるものがなくなるまで読む。終了コードか、開き直しを求める None を返す"""
-    while not stopping:
+    while True:
         try:
             azarashi.decode_stream(port, 'ublox', deliver, unique=3600 * 24, ignore_dcx=False)
-        except azarashi.AzarashiTimeoutError:
-            pass  # 時間内に届かなかった。stopping を見にいくために一周する
         except azarashi.AzarashiReadOn as e:
             logger.warning('[%s] %s', type(e).__name__, e)  # 1通落ちただけ。ストリームは無事
         except azarashi.AzarashiStopReading as e:
@@ -465,7 +455,6 @@ def read(port):
         except azarashi.AzarashiReopenStream as e:
             logger.warning('[%s] %s', type(e).__name__, e)
             return None  # デバイスが消えた。呼び出し側が開き直す
-    return 0
 
 def main():
     signal.signal(signal.SIGTERM, stop)
@@ -473,18 +462,18 @@ def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
     # ポートを指定せずに作る。1つのオブジェクトを開いて閉じて開き直すため
-    port = serial.Serial(baudrate=9600, timeout=1)
+    port = serial.Serial(baudrate=9600)
     port.port = PORT
 
     attempt = 0
-    while not stopping:
+    while True:
         try:
             port.open()
         except OSError as e:
             seconds = BACKOFF[min(attempt, len(BACKOFF) - 1)]
             logger.warning('[%s] %s: %d秒後に開き直す', type(e).__name__, e, seconds)
             attempt += 1
-            wait(seconds)
+            time.sleep(seconds)
             continue
         logger.info('reading %s', port.port)
         attempt = 0
@@ -494,7 +483,6 @@ def main():
             port.close()
         if code is not None:
             return code
-    return 0
 
 if __name__ == '__main__':
     sys.exit(main())
@@ -502,15 +490,13 @@ if __name__ == '__main__':
 
 このコードが守っていることを、上から順に挙げます。
 
-**捕捉の順序には規則があります。** 同じ枝の中では葉を先に書いてください。`AzarashiTimeoutError` は `AzarashiReadOn` の下、`AzarashiStreamClosedError` は `AzarashiReopenStream` の下にあるので、先に書かないと、親の節が先に捕まえてしまいます。枝どうしの3つは、[Minimal Loop](#minimal-loop) のとおりどの順番でも構いません。
+**捕捉の順序には規則があります。** 同じ枝の中では葉を先に書いてください。`AzarashiStreamClosedError` は `AzarashiReopenStream` の下にあるので、先に書かないと、親の節が先に捕まえてしまいます。枝どうしの3つは、[Minimal Loop](#minimal-loop) のとおりどの順番でも構いません。
 
 **この例では、配信に失敗しても受信を続けます。** コールバックの例外は `decode_stream()` からそのまま伝わります。通常の `OSError` は `AzarashiReopenStream` に変換されず、この読み取りループでは捕捉されません。`deliver()` は失敗をログに残して正常に戻るので、失敗した警報も `unique` の記憶には通知済みとして残ります。
 
 **開き直すのは同じオブジェクトです。** ポートを指定せずにオブジェクトを作り、それを開いて閉じて開き直します。
 
-**`timeout=1` は、入力が途絶えたときに停止の合図を確認するためです。** 読み取りがタイムアウトすると、外側のループで `stopping` を確認します。データが流れ続けている間は、[Timeout](#timeout) のとおり確認できないことがあります。
-
-**待ち時間は刻みます。** `time.sleep(30)` のまま待つと、停止を頼まれてから終わるまでに30秒かかります。`wait()` は1秒ずつ区切って確認します。
+**停止の合図を受けたら、その場で抜けます。** `stop()` が `SystemExit` を送出するので、読み取りの途中でも、開き直すまでの待ち時間の途中でも終わります。ポートは `main()` の `finally` が閉じます。`deliver()` が捕まえるのは `Exception` なので、`SystemExit` は通り抜けます。
 
 **終了コードは supervisor のためです。** データが尽きたときと停止を頼まれたときは 0 を返し、自分でポートを閉じてしまったときは 1 を返します。systemd で `Restart=on-failure` としておけば、再起動と通知の対象は後者だけになります。デバイスの抜き差しからはプロセスの中で復帰するので、終了しません。
 

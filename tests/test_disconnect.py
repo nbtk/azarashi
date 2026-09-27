@@ -3,6 +3,7 @@ import io
 import os
 import pathlib
 import re
+import signal
 import socket
 import sys
 import threading
@@ -277,21 +278,53 @@ def _device_examples():
 DEVICE_EXAMPLES = _device_examples()
 
 
-def _run_example(where, body, monkeypatch):
-    """Run a documented example against a device that is pulled out, and return the device."""
+class _Streaming(_Pulled):
+    """A device that keeps sending, as a u-blox receiver does, and is sent SIGTERM while it does."""
+
+    #: reads before the signal arrives
+    SIGNALLED_AFTER = 10
+
+    def __init__(self, timeout=None):
+        super().__init__(timeout)
+        self.closed = False
+
+    def read1(self, *args):
+        self.reads += 1
+        if self.reads > self.READS_ALLOWED:
+            raise _Spun(f'still reading after {self.reads} reads, though told to stop')
+        if self.reads == self.SIGNALLED_AFTER:
+            signal.raise_signal(signal.SIGTERM)
+        return FRAME
+
+    read = read1
+
+    def close(self):
+        self.closed = True
+
+
+def _run_example(where, body, monkeypatch, device=_Pulled):
+    """Run a documented example against a device, pulled out unless told otherwise, and return the device."""
     devices = []
     fake = types.ModuleType('serial')
-    fake.Serial = lambda *args, **kwargs: devices.append(_Pulled(kwargs.get('timeout'))) or devices[-1]
+    fake.Serial = lambda *args, **kwargs: devices.append(device(kwargs.get('timeout'))) or devices[-1]
     fake.SerialException = serial.SerialException
     monkeypatch.setitem(sys.modules, 'serial', fake)  # the examples import serial themselves
     clock = types.ModuleType('time')  # an example that waits for the device must not make the test wait
     clock.sleep = lambda seconds: None
     monkeypatch.setitem(sys.modules, 'time', clock)
+    handlers = {number: signal.getsignal(number) for number in (signal.SIGTERM, signal.SIGINT)}
+    exited = None
     try:
         exec(compile(body, where, 'exec'), {'__name__': '__main__'})
-    except (SystemExit, _Enough):  # the examples that end in exit(example()), and the ones that reconnect
+    except SystemExit as e:  # the examples that end in exit(example()) or sys.exit()
+        exited = e.code
+    except _Enough:  # the ones that reconnect
         pass
+    finally:  # an example that handles signals must not keep handling this process's
+        for number, handler in handlers.items():
+            signal.signal(number, handler)
     assert devices, f'{where} did not open the device'
+    devices[0].exited = exited
     return devices[0]
 
 
@@ -316,6 +349,14 @@ def test_the_documented_reconnect_example_reopens_the_same_device(monkeypatch, c
     device = _run_example(where, DEVICE_EXAMPLES[where], monkeypatch)
     # the same object is reopened, which is what keeps the dedup memory across the reconnect
     assert device.reopens == _Pulled.REOPENS_ALLOWED + 1
+
+
+def test_the_field_receiver_stops_on_sigterm_while_data_keeps_coming(monkeypatch, capsys):
+    # a receiver sends all the time, so a read never times out: the signal itself has to end the reading
+    where = next(w for w in DEVICE_EXAMPLES if 'BACKOFF' in DEVICE_EXAMPLES[w])
+    device = _run_example(where, DEVICE_EXAMPLES[where], monkeypatch, device=_Streaming)
+    assert (device.exited, device.closed) == (0, True)
+    assert device.reads == _Streaming.SIGNALLED_AFTER
 
 
 def test_the_guard_notices_an_example_that_keeps_reading(monkeypatch, capsys):
