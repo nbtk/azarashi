@@ -1,7 +1,7 @@
 [azarashi](../README.md) / [Reports](reports.md) / DCR
 
 # DCR (MT43)
-気象庁が発表する防災気象情報のレポートです。`dcr.Base` を継承します。仕様は [IS-QZSS-DCR](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcr-017.pdf) の Message Type 43 です。
+気象庁が発表する防災気象情報のレポートです。`dcr.Base` を継承します。仕様は IS-QZSS-DCR の Message Type 43 です。
 
 クラスは災害種別ごとに分かれます。共通のフィールドは次のとおりです。
 | フィールド | 型 |

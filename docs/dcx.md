@@ -1,7 +1,7 @@
 [azarashi](../README.md) / [Reports](reports.md) / DCX
 
 # DCX (MT44)
-気象庁以外の機関が発表するメッセージのレポートです。`dcx.Base` を継承します。仕様は [IS-QZSS-DCX](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) の Message Type 44 で、CAMF という共通の形式を使います。
+気象庁以外の機関が発表するメッセージのレポートです。`dcx.Base` を継承します。仕様は IS-QZSS-DCX の Message Type 44 で、CAMF という共通の形式を使います。
 
 クラスは発信機関ごとに分かれます。
 

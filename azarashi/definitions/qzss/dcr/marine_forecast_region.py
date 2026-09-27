@@ -4,8 +4,7 @@ The English names are JMA's own, as its English sea warning page gives them
 (https://www.jma.go.jp/bosai/seawarning/#lang=en, retrieved 2026-09-24). That page names the
 regions that are not divided further. The regions that group them have no English name there, but
 JMA's English marine warnings name such a region when none of it is under a warning, as in NO
-WARNING FOR SEA OFF KANTO (https://www.jma.go.jp/bosai/seawarning/data/warning_en/, retrieved
-2026-09-24). They give 3000, 3200, 4000, 5100, 5200 and 6000. The English for 1000, 1100, 2000,
+WARNING FOR SEA OFF KANTO (retrieved 2026-09-24). They give 3000, 3200, 4000, 5100, 5200 and 6000. The English for 1000, 1100, 2000,
 3100 and 4100 is azarashi's, made the way JMA names the others, and so is the English for the DCR's
 own name, 10000. JMA writes these names in capitals; here each word begins with a capital, and of,
 and, off and around are in lower case after the first word, as in the other tables. Only the case

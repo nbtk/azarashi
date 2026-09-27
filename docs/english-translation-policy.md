@@ -104,7 +104,7 @@ table has no English.
 |---|---|---|
 | JMA multilingual dictionary of weather information terms (気象情報等に関する多言語辞書), updated 2026-03-26 | 2026-09-24 | most tables |
 | JMA sea warning page, <https://www.jma.go.jp/bosai/seawarning/#lang=en> | 2026-09-24 | marine forecast regions that are not divided further |
-| JMA English marine warnings, <https://www.jma.go.jp/bosai/seawarning/data/warning_en/> | 2026-09-24 | six marine forecast regions that group others, named in NO WARNING FOR ... |
+| JMA English marine warnings | 2026-09-24 | six marine forecast regions that group others, named in NO WARNING FOR ... |
 | JMA map of disaster information, <https://www.jma.go.jp/bosai/map.html> | 2026-09-24 | Less than 0.2 m, and Less than for 未満 |
 | JMA explanation of the Asia-Pacific surface analysis chart, <https://www.jma.go.jp/jma/kishou/know/kurashi/ASAS_kaisetu.html> | 2026-09-24 | marine warnings: FOG WARNING, GALE WARNING, STORM WARNING and TYPHOON WARNING |
 | JMA English guide to tsunami warnings, <https://www.data.jma.go.jp/eqev/data/en/guide/tsunamiinfo.html> | 2026-09-24 | tsunami heights 1 m to 10 m |
