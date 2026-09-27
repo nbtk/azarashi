@@ -1,4 +1,4 @@
-"""Regenerate the code tables and deterministic examples: PYTHONPATH=.:tests python -m examples.generate."""
+"""Regenerate the schema, the code tables and deterministic examples: PYTHONPATH=.:tests python -m examples.generate."""
 from azarashi import decode
 import json
 from pathlib import Path
@@ -54,7 +54,9 @@ if __name__ == '__main__':
     from jsonschema import Draft202012Validator, FormatChecker
     from strict_schema import strict
     from azarashi import code_tables
+    from examples.schema import schema_text
     root = Path(__file__).resolve().parents[2]
+    (root / 'azarashi/json/schemas/report-v2.schema.json').write_text(schema_text(), encoding='utf-8')
     (root / 'docs/json/code-tables-v2.json').write_text(code_tables_text(code_tables()), encoding='utf-8')
     validator = Draft202012Validator(strict(json_schema()), format_checker=FormatChecker())
     chosen = fixtures()
@@ -67,4 +69,4 @@ if __name__ == '__main__':
         for r in records), encoding='utf-8')
     (folder / 'report-v2.examples.pretty.json').write_text(
         json.dumps(records, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
-    print(f'Wrote the code tables, {len(TYPE_NAMES)} report variants and {len(chosen)} complete examples.')
+    print(f'Wrote the schema, the code tables, {len(TYPE_NAMES)} report variants and {len(chosen)} complete examples.')

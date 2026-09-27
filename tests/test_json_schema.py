@@ -338,6 +338,11 @@ def _codes(node):
             yield from _codes(value)
 
 
+def test_the_bundled_schema_is_the_one_the_conversion_tables_build():
+    from examples.schema import schema_text
+    assert (ROOT / 'azarashi/json/schemas/report-v2.schema.json').read_text(encoding='utf-8') == schema_text()
+
+
 def test_the_code_tables_are_the_catalogue_and_the_docs_file_is_the_same():
     assert code_tables() == built_code_tables()
     assert (FOLDER / 'code-tables-v2.json').read_text(encoding='utf-8') == code_tables_text(code_tables())

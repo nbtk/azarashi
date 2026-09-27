@@ -671,7 +671,7 @@ v1 は azarashi 0.17.0 の形式です。v2 では次のように変わりまし
 
 スキーマは配布パッケージの `azarashi/json/schemas/report-v2.schema.json` に含まれ、`json_schema()` で取得できます。
 公開する名前は `azarashi` から取れる5つだけで、`azarashi.json` の中の内部名は互換性の対象ではありません。
-例と、docs のコード表のファイルを作り直すコードは `tests/examples/` にあります。
+スキーマ、例、docs のコード表のファイルを作り直すコードは `tests/examples/` にあります。
 例は、既存の全レポート型・C/D の分岐・特殊な値を検証します。
 コード表が仕様に合っていることを、JSON のテストだけで証明するものではありません。
 
