@@ -5,7 +5,7 @@
 # Azarashi
 A QZSS DCR Decoder.
 ## Description
-azarashi は、準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ形式に対応しています。災危通報は「災害・危機管理通報サービス」の略で、防災機関が発表した地震や津波などの情報を、みちびきが送信します。
+azarashi は、準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ、16進数の文字列、L1S アーカイブを読めます。災危通報は「災害・危機管理通報サービス」の略で、防災機関が発表した地震や津波などの情報を、みちびきが送信します。
 
 IS-QZSS-DCR-017 と IS-QZSS-DCX-004 に対応しています。DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。
 ## Installation
