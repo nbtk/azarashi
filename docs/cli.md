@@ -35,9 +35,9 @@ options:
   --english             output the text in English where the report has it
                         (default: False)
 ```
-`-f` には、シリアルデバイスかファイルを指定します。`/dev/ttyS0` や `COM3` のようなシリアルデバイスを指定するときは、ボーレートを `-b` で指定してください。ファイルを指定したときは、その中身をそのまま読み込みます。
+`-f` には、シリアルデバイスかファイルを指定します。`/dev/ttyS0` や `COM3` のようなシリアルデバイスを指定するときは、ボーレートを `-b` で指定してください。
 
-CLI は DCR と DCX の両方を表示します。DCR を表示したくないときは `-r` を、DCX を表示したくないときは `-x` を指定してください。API の [`decode_stream()`](api.md#decode_stream) はデフォルトで DCX を無視するので、CLI とは動きが違います。
+CLI は DCR と DCX の両方を表示します。DCR を表示したくないときは `-r` を、DCX を表示したくないときは `-x` を指定してください。
 ## u-blox
 azarashi コマンドのメッセージタイプに `ublox` を指定します。
 ```shell
