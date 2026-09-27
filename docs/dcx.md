@@ -3,7 +3,7 @@
 # DCX (MT44)
 気象庁以外の機関が発表するメッセージのレポートです。`dcx.Base` を継承します。仕様は [IS-QZSS-DCX](https://qzss.go.jp/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) の Message Type 44 で、CAMF という共通の形式を使います。
 
-MT44 は全員が同じ形式を使い、発信機関によって拡張領域の読み方が変わります。そのためクラスは発信機関ごとに分かれます。
+クラスは発信機関ごとに分かれます。
 
 | 発信元 | クラス | 説明 |
 |---|---|---|
@@ -128,7 +128,7 @@ MT44 は全員が同じ形式を使い、発信機関によって拡張領域の
 ほかに、ビットフィールドのままの値を持つ `camf` と、どの範囲を読み飛ばしたかを示す `ignore_a12_to_a16`、`ignore_a17_to_a18`、`ignore_ex1`、`ignore_ex2_to_ex7`、`ignore_ex8_to_ex9` があります。
 
 ## Example
-DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。下記は L-Alert をデコードする例です。
+L-Alert をデコードする例です。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E' # l-alert
