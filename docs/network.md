@@ -1,7 +1,7 @@
 [azarashi](../README.md) / Network
 
 # Network
-GPS アンテナは屋外や窓際に置く必要があるので、データを処理する装置の近くに置けるとは限りません。そこで、受信したデータを UDP パケットで別の装置に送るスクリプトを用意しました。IPv4 と IPv6 の両方に対応しています。
+受信したデータを、UDP パケットで別の装置に送るスクリプトです。アンテナを置く場所と、データを処理する装置が離れているときに使います。IPv4 と IPv6 の両方に対応しています。
 ## Transmitter
 送信側のスクリプトです。DCR と DCX の両方のメッセージを送信します。デフォルトの宛先は IPv6 のリンクローカルマルチキャストアドレスです。宛先を変えるときは `-d` で指定してください。`-f`、`-b`、`--record` の使い方は [azarashi CLI](cli.md) と同じです。
 ```shell
@@ -27,7 +27,7 @@ options:
   -b BAUDRATE, --baudrate BAUDRATE
                         baud rate of the serial device (default: 9600)
   --record RECORD       append the raw input to this file (default: None)
-  -u, --unique          supress duplicate messages (default: False)
+  -u, --unique          suppress duplicate messages (default: False)
 ```
 ## Receiver
 受信側のスクリプトです。DCR と DCX の両方を表示します。DCR を表示したくないときは `-r` を、DCX を表示したくないときは `-x` を指定してください。受信するインタフェースは `-i` で指定できます。ただし `-i` は Linux の `SO_BINDTODEVICE` を使うので、Linux でしか使えません。
