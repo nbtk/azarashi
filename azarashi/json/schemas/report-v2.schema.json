@@ -1,0 +1,5184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:azarashi:report:2",
+  "title": "Azarashi report JSON v2",
+  "description": "One decoded report. The contract is specified in docs/json.md; serialization API is separate.",
+  "$comment": "Patterns end with $(?![\\s\\S]) rather than $, because in some regular expression engines, Python's among them, $ also matches before a trailing newline. Constraints a schema cannot express, a lower bound below its upper one, a semi-minor axis below its semi-major, a page number within its total, a message_id that begins with the type, a code and its labels as the code tables give them, are checked by the conversion tests instead.",
+  "$ref": "#/$defs/envelope",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "pattern": "^qzss\\."
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "reception": {
+            "required": [
+              "nmea"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.earthquake_early_warning"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/EarthquakeEarlyWarning"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.hypocenter"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Hypocenter"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.seismic_intensity"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/SeismicIntensity"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.nankai_trough_earthquake"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/NankaiTroughEarthquake"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": {
+                    "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\dZ\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$(?![\\s\\S])"
+                  }
+                },
+                "required": [
+                  "key"
+                ]
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.tsunami"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Tsunami"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.northwest_pacific_tsunami"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/NorthwestPacificTsunami"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "en"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.volcano"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Volcano"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.ash_fall"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/AshFall"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.weather"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Weather"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.flood"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Flood"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.typhoon"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Typhoon"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcr.marine"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Marine"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "correction",
+                      "cancellation",
+                      null
+                    ]
+                  }
+                },
+                "required": [
+                  "lifecycle"
+                ]
+              },
+              {
+                "properties": {
+                  "key": false
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "ja"
+            ]
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.null"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/NullMsg"
+          },
+          "is_test": {
+            "const": false
+          },
+          "series": false,
+          "texts": {
+            "required": [
+              "en"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.outside_japan"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/OutsideJapan"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "key": false
+                }
+              },
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "update",
+                      "all_clear"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "en"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "is_test": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "series": {
+                  "required": [
+                    "lifecycle"
+                  ]
+                }
+              },
+              "required": [
+                "series"
+              ]
+            },
+            "else": {
+              "properties": {
+                "series": {
+                  "properties": {
+                    "lifecycle": false
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.l_alert"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/LAlert"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "key": {
+                    "pattern": "^(0|[1-9][0-9]*)(\\.(0|[1-9][0-9]*)){3}$(?![\\s\\S])"
+                  }
+                },
+                "required": [
+                  "key"
+                ]
+              },
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "update",
+                      "all_clear"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "en"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "is_test": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "series": {
+                  "required": [
+                    "lifecycle"
+                  ]
+                }
+              },
+              "required": [
+                "series"
+              ]
+            },
+            "else": {
+              "properties": {
+                "series": {
+                  "properties": {
+                    "lifecycle": false
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.j_alert"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/JAlert"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "key": {
+                    "pattern": "^(0|[1-9][0-9]*)(\\.(0|[1-9][0-9]*)){2}$(?![\\s\\S])"
+                  }
+                },
+                "required": [
+                  "key"
+                ]
+              },
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "update",
+                      "all_clear"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "en"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "is_test": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "series": {
+                  "required": [
+                    "lifecycle"
+                  ]
+                }
+              },
+              "required": [
+                "series"
+              ]
+            },
+            "else": {
+              "properties": {
+                "series": {
+                  "properties": {
+                    "lifecycle": false
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.mt_info"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/MTInfo"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "key": {
+                    "pattern": "^(0|[1-9][0-9]*)(\\.(0|[1-9][0-9]*)){3}$(?![\\s\\S])"
+                  }
+                },
+                "required": [
+                  "key"
+                ]
+              },
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "update",
+                      "all_clear"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "en"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "is_test": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "series": {
+                  "required": [
+                    "lifecycle"
+                  ]
+                }
+              },
+              "required": [
+                "series"
+              ]
+            },
+            "else": {
+              "properties": {
+                "series": {
+                  "properties": {
+                    "lifecycle": false
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "qzss.dcx.unknown"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/Unknown"
+          },
+          "series": {
+            "allOf": [
+              {
+                "properties": {
+                  "key": false
+                }
+              },
+              {
+                "properties": {
+                  "lifecycle": {
+                    "enum": [
+                      "issue",
+                      "update",
+                      "all_clear"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "texts": {
+            "required": [
+              "en"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "is_test": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "series": {
+                  "required": [
+                    "lifecycle"
+                  ]
+                }
+              },
+              "required": [
+                "series"
+              ]
+            },
+            "else": {
+              "properties": {
+                "series": {
+                  "properties": {
+                    "lifecycle": false
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "envelope": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 2
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$(?![\\s\\S])",
+          "description": "A report type. This version defines those its allOf names; a later release may add types."
+        },
+        "is_test": {
+          "type": "boolean"
+        },
+        "message_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+\\.[a-z0-9_]+:(?:[0-9a-f]{2})+$(?![\\s\\S])",
+          "description": "The first two parts of type, a colon, and the message without what differs from one satellite or transmission to another, in lower-case hex. Two records with the same message_id carry the same message."
+        },
+        "series": {
+          "type": "object",
+          "properties": {
+            "lifecycle": {
+              "enum": [
+                "issue",
+                "correction",
+                "cancellation",
+                "update",
+                "all_clear",
+                null
+              ]
+            },
+            "key": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [],
+          "description": "How the message stands among others: what it does to its series, and the key that names the series. A key applies only to the report types whose specification says which messages belong together."
+        },
+        "reception": {
+          "type": "object",
+          "properties": {
+            "at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$(?![\\s\\S])"
+            },
+            "satellite": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "system": {
+                      "enum": [
+                        "qzss"
+                      ]
+                    },
+                    "prn": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 255,
+                      "$comment": "the PRN number as transmitted, whose width leaves room for numbers QZSS has not assigned"
+                    }
+                  },
+                  "required": [
+                    "system",
+                    "prn"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "nmea": {
+              "type": "string",
+              "pattern": "^\\$QZQSM,[0-9]+,[0-9A-F]{63}\\*[0-9A-F]{2}$(?![\\s\\S])"
+            }
+          },
+          "required": [
+            "at",
+            "satellite"
+          ],
+          "description": "What differs from one reception of the message to another. nmea is required by the report types that have a QZQSM sentence, which is every type of this version."
+        },
+        "texts": {
+          "type": "object",
+          "properties": {
+            "ja": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [],
+          "minProperties": 1,
+          "description": "The report as text, by language. The language the report is written in is always there."
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "type",
+        "is_test",
+        "message_id",
+        "reception",
+        "texts",
+        "data"
+      ],
+      "description": "What every record carries."
+    },
+    "labels": {
+      "type": "object",
+      "properties": {
+        "ja": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": []
+    },
+    "code": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "valid",
+            "special",
+            "undefined"
+          ]
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$(?![\\s\\S])"
+        },
+        "table": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$(?![\\s\\S])"
+        },
+        "labels": {
+          "$ref": "#/$defs/labels"
+        }
+      },
+      "required": [
+        "status",
+        "code",
+        "table",
+        "labels"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "undefined"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "labels": {
+                "maxProperties": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "special"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "labels": {
+                "minProperties": 1
+              }
+            }
+          }
+        }
+      ],
+      "description": "A transmitted code, named in the code table the table names. A code that is not in that table is undefined and has no labels; a special one says what it means in its labels."
+    },
+    "range": {
+      "type": "object",
+      "properties": {
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "not": {
+        "properties": {
+          "lower": {
+            "type": "null"
+          },
+          "upper": {
+            "type": "null"
+          }
+        }
+      },
+      "description": "A range, null on a side that is open. Whether a range holds its ends is in the labels."
+    },
+    "quantity": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "valid",
+            "assumed",
+            "special",
+            "undefined"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "range": {
+          "$ref": "#/$defs/range"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "$comment": "UCUM; \"1\" for a number without a unit"
+        },
+        "relative_to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$(?![\\s\\S])"
+        },
+        "table": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$(?![\\s\\S])"
+        },
+        "labels": {
+          "$ref": "#/$defs/labels"
+        }
+      },
+      "required": [
+        "status",
+        "code",
+        "table",
+        "labels"
+      ],
+      "not": {
+        "required": [
+          "value",
+          "range"
+        ]
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          },
+          "then": {
+            "required": [
+              "unit"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "range"
+            ]
+          },
+          "then": {
+            "required": [
+              "unit"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "undefined"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "labels": {
+                "maxProperties": 0
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "valid",
+                  "assumed"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "special"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "labels": {
+                "minProperties": 1
+              }
+            }
+          }
+        }
+      ],
+      "description": "A code that stands for a number (value) or a range of numbers (range) in unit. A code that says the number is unknown has a null value, and one that stands for no number has neither."
+    },
+    "time": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "valid",
+            "special",
+            "undefined"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{1,6})?Z$(?![\\s\\S])"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "precision": {
+          "enum": [
+            "minute",
+            "hour",
+            "day"
+          ]
+        },
+        "basis": {
+          "enum": [
+            "received_at",
+            "report_time"
+          ]
+        },
+        "labels": {
+          "$ref": "#/$defs/labels"
+        },
+        "source": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "source"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "valid"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "precision",
+              "basis"
+            ]
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "precision": false,
+              "basis": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "special"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "labels"
+            ],
+            "properties": {
+              "labels": {
+                "minProperties": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "labels": false
+            }
+          }
+        }
+      ],
+      "description": "A time in UTC. precision says to what it is known, and basis which time gave the year and the parts the message leaves out. source holds the fields the message gave."
+    },
+    "day_hour_minute": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hour": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minute": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "day",
+        "hour",
+        "minute"
+      ]
+    },
+    "month_day_hour_minute": {
+      "type": "object",
+      "properties": {
+        "month": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "day": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hour": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minute": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "month",
+        "day",
+        "hour",
+        "minute"
+      ]
+    },
+    "week_minute": {
+      "type": "object",
+      "properties": {
+        "week": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minute_of_week": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "week",
+        "minute_of_week"
+      ]
+    },
+    "time_report_time": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/time"
+        },
+        {
+          "properties": {
+            "status": {
+              "enum": [
+                "valid"
+              ]
+            },
+            "basis": {
+              "const": "received_at"
+            },
+            "precision": {
+              "enum": [
+                "minute"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/month_day_hour_minute"
+            }
+          }
+        }
+      ]
+    },
+    "time_event": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/time"
+        },
+        {
+          "properties": {
+            "status": {
+              "enum": [
+                "valid",
+                "undefined"
+              ]
+            },
+            "basis": {
+              "const": "report_time"
+            },
+            "precision": {
+              "enum": [
+                "minute"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/day_hour_minute"
+            }
+          }
+        }
+      ]
+    },
+    "time_activity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/time"
+        },
+        {
+          "properties": {
+            "status": {
+              "enum": [
+                "valid",
+                "special",
+                "undefined"
+              ]
+            },
+            "basis": {
+              "const": "report_time"
+            },
+            "precision": {
+              "enum": [
+                "minute",
+                "hour",
+                "day"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/day_hour_minute"
+            }
+          }
+        }
+      ]
+    },
+    "time_arrival": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/time"
+        },
+        {
+          "properties": {
+            "status": {
+              "enum": [
+                "valid",
+                "special",
+                "undefined"
+              ]
+            },
+            "basis": {
+              "const": "report_time"
+            },
+            "precision": {
+              "enum": [
+                "minute"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/day_hour_minute"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_onset": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/time"
+        },
+        {
+          "properties": {
+            "status": {
+              "enum": [
+                "valid",
+                "special",
+                "undefined"
+              ]
+            },
+            "basis": {
+              "const": "received_at"
+            },
+            "precision": {
+              "enum": [
+                "minute"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/week_minute"
+            }
+          }
+        }
+      ]
+    },
+    "position": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "valid",
+            "undefined"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "latitude": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "longitude": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              },
+              "required": [
+                "latitude",
+                "longitude"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "const": "deg"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "latitude_hemisphere": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "latitude_degrees": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "latitude_minutes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "latitude_seconds": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "longitude_hemisphere": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "longitude_degrees": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "longitude_minutes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "longitude_seconds": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "latitude_hemisphere",
+            "latitude_degrees",
+            "latitude_minutes",
+            "latitude_seconds",
+            "longitude_hemisphere",
+            "longitude_degrees",
+            "longitude_minutes",
+            "longitude_seconds"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "source"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "valid"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "unit"
+            ]
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "unit": false
+            }
+          }
+        }
+      ],
+      "description": "WGS84 latitude and longitude, north and east positive."
+    },
+    "main_ellipse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "valid"
+        },
+        "value": {
+          "type": "object",
+          "properties": {
+            "centre": {
+              "type": "object",
+              "properties": {
+                "latitude_deg": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "longitude_deg": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              },
+              "required": [
+                "latitude_deg",
+                "longitude_deg"
+              ]
+            },
+            "semi_major_axis_km": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "semi_minor_axis_km": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "azimuth_deg": {
+              "type": "number",
+              "minimum": -90,
+              "exclusiveMaximum": 90,
+              "$comment": "A16 and EX7 count from -90 degrees"
+            }
+          },
+          "required": [
+            "centre",
+            "semi_major_axis_km",
+            "semi_minor_axis_km",
+            "azimuth_deg"
+          ]
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "centre_latitude": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "centre_longitude": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "semi_major_axis": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "semi_minor_axis": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "azimuth": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "centre_latitude",
+            "centre_longitude",
+            "semi_major_axis",
+            "semi_minor_axis",
+            "azimuth"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "source"
+      ],
+      "$comment": "A12 spans the poles and A13 the meridians",
+      "description": "WGS84 centre; azimuth measured from east toward north, not a navigation bearing. source holds the transmitted codes of the group the ellipse comes from."
+    },
+    "refined_ellipse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "valid"
+        },
+        "value": {
+          "type": "object",
+          "properties": {
+            "centre": {
+              "type": "object",
+              "properties": {
+                "latitude_deg": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90.01
+                },
+                "longitude_deg": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180.01
+                }
+              },
+              "required": [
+                "latitude_deg",
+                "longitude_deg"
+              ]
+            },
+            "semi_major_axis_km": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "semi_minor_axis_km": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "azimuth_deg": {
+              "type": "number",
+              "minimum": -90,
+              "exclusiveMaximum": 90,
+              "$comment": "A16 and EX7 count from -90 degrees"
+            }
+          },
+          "required": [
+            "centre",
+            "semi_major_axis_km",
+            "semi_minor_axis_km",
+            "azimuth_deg"
+          ]
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "centre_latitude": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "centre_longitude": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "semi_major_axis": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "semi_minor_axis": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "azimuth": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "centre_latitude",
+            "centre_longitude",
+            "semi_major_axis",
+            "semi_minor_axis",
+            "azimuth"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "source"
+      ],
+      "$comment": "C1 to C4 add up to seven eighths of an A12 or A13 step, which can pass the pole or the meridian",
+      "description": "WGS84 centre; azimuth measured from east toward north, not a navigation bearing. source holds the transmitted codes of the group the ellipse comes from."
+    },
+    "additional_ellipse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "valid"
+        },
+        "value": {
+          "type": "object",
+          "properties": {
+            "centre": {
+              "type": "object",
+              "properties": {
+                "latitude_deg": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "longitude_deg": {
+                  "type": "number",
+                  "minimum": 45,
+                  "maximum": 225
+                }
+              },
+              "required": [
+                "latitude_deg",
+                "longitude_deg"
+              ]
+            },
+            "semi_major_axis_km": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "semi_minor_axis_km": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "azimuth_deg": {
+              "type": "number",
+              "minimum": -90,
+              "exclusiveMaximum": 90,
+              "$comment": "A16 and EX7 count from -90 degrees"
+            }
+          },
+          "required": [
+            "centre",
+            "semi_major_axis_km",
+            "semi_minor_axis_km",
+            "azimuth_deg"
+          ]
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "centre_latitude": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "centre_longitude": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "semi_major_axis": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "semi_minor_axis": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "azimuth": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "centre_latitude",
+            "centre_longitude",
+            "semi_major_axis",
+            "semi_minor_axis",
+            "azimuth"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "source"
+      ],
+      "$comment": "EX4 counts from 45 degrees east, so it passes 180",
+      "description": "WGS84 centre; azimuth measured from east toward north, not a navigation bearing. source holds the transmitted codes of the group the ellipse comes from."
+    },
+    "dcr_version": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "valid",
+            "undefined"
+          ]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "status",
+        "value"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "valid"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "status": {
+                "const": "undefined"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dcx_version_japan": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "valid",
+            "undefined"
+          ]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "status",
+        "value"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "valid"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "status": {
+                "const": "undefined"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dcx_version_outside_japan": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "valid"
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "status",
+        "value"
+      ]
+    },
+    "dcx_version_unknown": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "undefined"
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "status",
+        "value"
+      ]
+    },
+    "EarthquakeEarlyWarning": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "depth": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.depth_of_hypocenter"
+                },
+                "unit": {
+                  "const": "km"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "magnitude": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.eew_magnitude"
+                },
+                "unit": {
+                  "const": "1"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "epicenter": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.epicenter_and_hypocenter"
+                }
+              }
+            }
+          ]
+        },
+        "intensity_lower": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.seismic_intensity_lower_limit"
+                }
+              }
+            }
+          ]
+        },
+        "intensity_upper": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.seismic_intensity_upper_limit"
+                }
+              }
+            }
+          ]
+        },
+        "long_period_ground_motion_lower": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.long_period_ground_motion_lower_limit"
+                }
+              }
+            }
+          ]
+        },
+        "long_period_ground_motion_upper": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.long_period_ground_motion_upper_limit"
+                }
+              }
+            }
+          ]
+        },
+        "occurrence_time": {
+          "$ref": "#/$defs/time_event"
+        },
+        "notifications": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/code"
+              },
+              {
+                "properties": {
+                  "table": {
+                    "const": "qzss.dcr.notification_on_disaster_prevention"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "target_regions": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/code"
+              },
+              {
+                "properties": {
+                  "table": {
+                    "const": "qzss.dcr.eew_forecast_region"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "depth",
+        "magnitude",
+        "epicenter",
+        "intensity_lower",
+        "intensity_upper",
+        "long_period_ground_motion_lower",
+        "long_period_ground_motion_upper",
+        "occurrence_time",
+        "notifications",
+        "target_regions"
+      ]
+    },
+    "Hypocenter": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "depth": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.depth_of_hypocenter"
+                },
+                "unit": {
+                  "const": "km"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "magnitude": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.hypocenter_magnitude"
+                },
+                "unit": {
+                  "const": "1"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "epicenter": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.epicenter_and_hypocenter"
+                }
+              }
+            }
+          ]
+        },
+        "occurrence_time": {
+          "$ref": "#/$defs/time_event"
+        },
+        "notifications": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/code"
+              },
+              {
+                "properties": {
+                  "table": {
+                    "const": "qzss.dcr.notification_on_disaster_prevention"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "position": {
+          "$ref": "#/$defs/position"
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "depth",
+        "magnitude",
+        "epicenter",
+        "occurrence_time",
+        "notifications",
+        "position"
+      ]
+    },
+    "SeismicIntensity": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "occurrence_time": {
+          "$ref": "#/$defs/time_event"
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.prefecture"
+                      }
+                    }
+                  }
+                ]
+              },
+              "intensity": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.seismic_intensity"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "region",
+              "intensity"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "occurrence_time",
+        "observations"
+      ]
+    },
+    "NankaiTroughEarthquake": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "information_serial": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_serial_code"
+                }
+              }
+            }
+          ]
+        },
+        "page": {
+          "type": "object",
+          "properties": {
+            "number": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 63
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 63
+            },
+            "content_hex": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-f]{2})*$(?![\\s\\S])"
+            }
+          },
+          "required": [
+            "number",
+            "total",
+            "content_hex"
+          ],
+          "$comment": "both are six-bit fields as transmitted; a page number of zero is one the specification leaves undefined"
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "information_serial",
+        "page"
+      ]
+    },
+    "Tsunami": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "warning": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.tsunami_warning_code"
+                }
+              }
+            }
+          ]
+        },
+        "notifications": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/code"
+              },
+              {
+                "properties": {
+                  "table": {
+                    "const": "qzss.dcr.notification_on_disaster_prevention"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "forecasts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.tsunami_forecast_region"
+                      }
+                    }
+                  }
+                ]
+              },
+              "height": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/quantity"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.tsunami_height"
+                      },
+                      "unit": {
+                        "const": "m"
+                      },
+                      "value": {
+                        "type": "null"
+                      },
+                      "relative_to": false
+                    }
+                  }
+                ]
+              },
+              "arrival": {
+                "$ref": "#/$defs/time_arrival"
+              }
+            },
+            "required": [
+              "region",
+              "height",
+              "arrival"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "warning",
+        "notifications",
+        "forecasts"
+      ]
+    },
+    "NorthwestPacificTsunami": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "tsunamigenic_potential": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.tsunamigenic_potential"
+                }
+              }
+            }
+          ]
+        },
+        "forecasts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.coastal_region"
+                      }
+                    }
+                  }
+                ]
+              },
+              "height": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/quantity"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.northwest_pacific_tsunami_height"
+                      },
+                      "unit": {
+                        "const": "m"
+                      },
+                      "value": {
+                        "type": "null"
+                      },
+                      "relative_to": false
+                    }
+                  }
+                ]
+              },
+              "arrival": {
+                "$ref": "#/$defs/time_arrival"
+              }
+            },
+            "required": [
+              "region",
+              "height",
+              "arrival"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "tsunamigenic_potential",
+        "forecasts"
+      ]
+    },
+    "Volcano": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "volcano": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.volcano_name"
+                }
+              }
+            }
+          ]
+        },
+        "warning": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.volcanic_warning_code"
+                }
+              }
+            }
+          ]
+        },
+        "activity_time": {
+          "$ref": "#/$defs/time_activity"
+        },
+        "target_regions": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/code"
+              },
+              {
+                "properties": {
+                  "table": {
+                    "const": "qzss.dcr.local_government"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "activity_time_ambiguity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.ambiguity_of_activity_time"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "volcano",
+        "warning",
+        "activity_time",
+        "target_regions",
+        "activity_time_ambiguity"
+      ]
+    },
+    "AshFall": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "volcano": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.volcano_name"
+                }
+              }
+            }
+          ]
+        },
+        "warning_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.ash_fall_warning_type"
+                }
+              }
+            }
+          ]
+        },
+        "activity_time": {
+          "$ref": "#/$defs/time_event"
+        },
+        "forecasts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.local_government"
+                      }
+                    }
+                  }
+                ]
+              },
+              "elapsed_time": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/quantity"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.expected_ash_fall_time"
+                      },
+                      "unit": {
+                        "const": "h"
+                      },
+                      "range": false,
+                      "relative_to": false
+                    }
+                  }
+                ]
+              },
+              "warning": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.ash_fall_warning_code"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "region",
+              "elapsed_time",
+              "warning"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "volcano",
+        "warning_type",
+        "activity_time",
+        "forecasts"
+      ]
+    },
+    "Weather": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "warning_state": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.weather_warning_state"
+                }
+              }
+            }
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.weather_forecast_region"
+                      }
+                    }
+                  }
+                ]
+              },
+              "warning": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.weather_related_disaster_sub_category"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "region",
+              "warning"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "warning_state",
+        "warnings"
+      ]
+    },
+    "Flood": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.flood_forecast_region"
+                      }
+                    }
+                  }
+                ]
+              },
+              "warning": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.flood_warning_level"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "region",
+              "warning"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "warnings"
+      ]
+    },
+    "Typhoon": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "number": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_number"
+                }
+              }
+            }
+          ]
+        },
+        "scale_category": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_scale_category"
+                }
+              }
+            }
+          ]
+        },
+        "intensity_category": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_intensity_category"
+                }
+              }
+            }
+          ]
+        },
+        "central_pressure": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_central_pressure"
+                },
+                "unit": {
+                  "const": "hPa"
+                },
+                "range": false,
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "maximum_wind_speed": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_maximum_wind_speed"
+                },
+                "unit": {
+                  "const": "m/s"
+                },
+                "range": false,
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "maximum_gust_wind_speed": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_maximum_gust_wind_speed"
+                },
+                "unit": {
+                  "const": "m/s"
+                },
+                "range": false,
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "reference_time_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_reference_time_type"
+                }
+              }
+            }
+          ]
+        },
+        "elapsed_time": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.typhoon_elapsed_time_from_reference_time"
+                },
+                "unit": {
+                  "const": "h"
+                },
+                "range": false,
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "reference_time": {
+          "$ref": "#/$defs/time_event"
+        },
+        "position": {
+          "$ref": "#/$defs/position"
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "number",
+        "scale_category",
+        "intensity_category",
+        "central_pressure",
+        "maximum_wind_speed",
+        "maximum_gust_wind_speed",
+        "reference_time_type",
+        "elapsed_time",
+        "reference_time",
+        "position"
+      ]
+    },
+    "Marine": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcr_version"
+        },
+        "report_time": {
+          "$ref": "#/$defs/time_report_time"
+        },
+        "report_classification": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.report_classification"
+                }
+              }
+            }
+          ]
+        },
+        "information_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcr.information_type"
+                }
+              }
+            }
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.marine_forecast_region"
+                      }
+                    }
+                  }
+                ]
+              },
+              "warning": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/code"
+                  },
+                  {
+                    "properties": {
+                      "table": {
+                        "const": "qzss.dcr.marine_warning_code"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "region",
+              "warning"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "report_time",
+        "report_classification",
+        "information_type",
+        "warnings"
+      ]
+    },
+    "dcx_instruction": {
+      "type": "object",
+      "properties": {
+        "library": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.a9_type_of_library"
+                }
+              }
+            }
+          ]
+        },
+        "library_version": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.a10_library_version"
+                }
+              }
+            }
+          ]
+        },
+        "content": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "pattern": "^camf\\.a11_instruction_library\\.(international|country_(0|[1-9][0-9]*))\\.version_(0|[1-9][0-9]*)$(?![\\s\\S])"
+                }
+              }
+            }
+          ]
+        },
+        "identifier": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "library",
+        "library_version",
+        "content"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "library": {
+                "properties": {
+                  "code": {
+                    "const": "0"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "identifier"
+            ]
+          },
+          "else": {
+            "properties": {
+              "identifier": false
+            }
+          }
+        }
+      ],
+      "description": "The guidance of A11, from the library A9 chooses in the version A10 gives. identifier is CAMF's name for an instruction of its own library."
+    },
+    "dcx_hazard": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.a4_hazard_type"
+                }
+              }
+            }
+          ]
+        },
+        "category": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.a4_hazard_category"
+                }
+              }
+            }
+          ]
+        },
+        "definition": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.a4_hazard_definition"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "category",
+        "definition"
+      ]
+    },
+    "dcx_target_regions": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/code"
+          },
+          {
+            "properties": {
+              "table": {
+                "enum": [
+                  "qzss.dcx.ex1_target_area_code",
+                  "qzss.dcx.ex9_target_area_code_list"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "dcx_evacuation": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "qzss.dcx.ex2_evacuate_direction_type"
+                }
+              }
+            }
+          ]
+        },
+        "ellipse": {
+          "$ref": "#/$defs/additional_ellipse"
+        }
+      },
+      "required": [
+        "direction",
+        "ellipse"
+      ]
+    },
+    "hazard_details": {
+      "type": "object",
+      "properties": {
+        "magnitude_on_richter_scale": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d1_magnitude_on_richter_scale"
+                },
+                "unit": {
+                  "const": "1"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "seismic_coefficient": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d2_seismic_coefficient"
+                }
+              }
+            }
+          ]
+        },
+        "azimuth_from_centre_of_main_ellipse_to_epicentre": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d3_azimuth_from_centre_of_main_ellipse_to_epicentre"
+                },
+                "unit": {
+                  "const": "deg"
+                },
+                "range": false,
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "vector_length_between_centre_of_main_ellipse_and_epicentre": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d4_vector_length_between_centre_of_main_ellipse_and_epicentre"
+                },
+                "unit": {
+                  "const": "1"
+                },
+                "range": false,
+                "relative_to": {
+                  "const": "main_ellipse.semi_major_axis"
+                }
+              }
+            }
+          ]
+        },
+        "wave_height": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d5_wave_height"
+                },
+                "unit": {
+                  "const": "m"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "temperature_range": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d6_temperature_range"
+                },
+                "unit": {
+                  "const": "Cel"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "hurricane_category": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d7_hurricane_category"
+                }
+              }
+            }
+          ]
+        },
+        "wind_speed": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d8_wind_speed"
+                },
+                "unit": {
+                  "const": "km/h"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "rainfall_amounts": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d9_rainfall_amounts"
+                },
+                "unit": {
+                  "const": "mm/h"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "damage_category": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d10_damage_category"
+                }
+              }
+            }
+          ]
+        },
+        "tornado_probability": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d11_tornado_probability"
+                }
+              }
+            }
+          ]
+        },
+        "hail_scale": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d12_hail_scale"
+                }
+              }
+            }
+          ]
+        },
+        "visibility": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d13_visibility"
+                },
+                "unit": {
+                  "const": "m"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "snow_depth": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d14_snow_depth"
+                },
+                "unit": {
+                  "const": "cm"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "flood_severity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d15_flood_severity"
+                }
+              }
+            }
+          ]
+        },
+        "lightning_intensity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d16_lightning_intensity"
+                }
+              }
+            }
+          ]
+        },
+        "fog_level": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d17_fog_level"
+                }
+              }
+            }
+          ]
+        },
+        "drought_level": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d18_drought_level"
+                }
+              }
+            }
+          ]
+        },
+        "avalanche_warning_level": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d19_avalanche_warning_level"
+                }
+              }
+            }
+          ]
+        },
+        "ash_fall_amount_and_impact": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d20_ash_fall_amount_and_impact"
+                }
+              }
+            }
+          ]
+        },
+        "geomagnetic_scale": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d21_geomagnetic_scale"
+                }
+              }
+            }
+          ]
+        },
+        "terrorism_threat_level": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d22_terrorism_threat_level"
+                }
+              }
+            }
+          ]
+        },
+        "fire_risk_level": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d23_fire_risk_level"
+                }
+              }
+            }
+          ]
+        },
+        "water_quality": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d24_water_quality"
+                }
+              }
+            }
+          ]
+        },
+        "uv_index": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d25_uv_index"
+                }
+              }
+            }
+          ]
+        },
+        "number_of_cases_per_100000_inhabitants": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d26_number_of_cases_per_100000_inhabitants"
+                },
+                "unit": {
+                  "const": "1"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "noise_range": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d27_noise_range"
+                },
+                "unit": {
+                  "const": "dB"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "air_quality_index": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d28_air_quality_index"
+                }
+              }
+            }
+          ]
+        },
+        "outage_estimated_duration": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/quantity"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d29_outage_estimated_duration"
+                },
+                "unit": {
+                  "const": "min"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "relative_to": false
+              }
+            }
+          ]
+        },
+        "nuclear_event_scale": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d30_nuclear_event_scale"
+                }
+              }
+            }
+          ]
+        },
+        "chemical_hazard_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d31_chemical_hazard_type"
+                }
+              }
+            }
+          ]
+        },
+        "biohazard_level": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d32_biohazard_level"
+                }
+              }
+            }
+          ]
+        },
+        "biohazard_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d33_biohazard_type"
+                }
+              }
+            }
+          ]
+        },
+        "explosive_hazard_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d34_explosive_hazard_type"
+                }
+              }
+            }
+          ]
+        },
+        "infection_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d35_infection_type"
+                }
+              }
+            }
+          ]
+        },
+        "typhoon_category": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.d36_typhoon_category"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": []
+    },
+    "specific_settings": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/code"
+            },
+            {
+              "properties": {
+                "table": {
+                  "const": "camf.a17_type_of_specific_settings"
+                }
+              }
+            }
+          ]
+        },
+        "refined_ellipse": {
+          "$ref": "#/$defs/refined_ellipse"
+        },
+        "hazard_centre": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "valid"
+            },
+            "value": {
+              "type": "object",
+              "properties": {
+                "latitude_deg": {
+                  "type": "number",
+                  "minimum": -100,
+                  "maximum": 100
+                },
+                "longitude_deg": {
+                  "type": "number",
+                  "minimum": -190,
+                  "maximum": 190
+                }
+              },
+              "required": [
+                "latitude_deg",
+                "longitude_deg"
+              ]
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "latitude": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "longitude": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "latitude",
+                "longitude"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "source"
+          ],
+          "$comment": "C5 and C6 offset the main centre by up to ten degrees either way"
+        },
+        "second_ellipse": {
+          "type": "object",
+          "properties": {
+            "shift": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/quantity"
+                },
+                {
+                  "properties": {
+                    "table": {
+                      "const": "camf.c7_shift_of_second_ellipse_centre"
+                    },
+                    "unit": {
+                      "const": "1"
+                    },
+                    "range": false,
+                    "relative_to": {
+                      "const": "main_ellipse.semi_major_axis"
+                    }
+                  }
+                }
+              ]
+            },
+            "scale_factor": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/quantity"
+                },
+                {
+                  "properties": {
+                    "table": {
+                      "const": "camf.c8_homothetic_factor_of_second_ellipse"
+                    },
+                    "unit": {
+                      "const": "1"
+                    },
+                    "range": false,
+                    "relative_to": {
+                      "const": "main_ellipse"
+                    }
+                  }
+                }
+              ]
+            },
+            "bearing": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/quantity"
+                },
+                {
+                  "properties": {
+                    "table": {
+                      "const": "camf.c9_bearing_angle_of_second_ellipse"
+                    },
+                    "unit": {
+                      "const": "deg"
+                    },
+                    "range": false,
+                    "relative_to": {
+                      "const": "main_ellipse.azimuth"
+                    }
+                  }
+                }
+              ]
+            },
+            "instruction": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/code"
+                },
+                {
+                  "properties": {
+                    "table": {
+                      "const": "camf.c10_instruction_library_for_second_ellipse"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "required": [
+            "shift",
+            "scale_factor",
+            "bearing",
+            "instruction"
+          ],
+          "description": "CAMF B3: the second ellipse, made from the main one by C7 to C9, and its C10 instruction."
+        },
+        "hazard_details": {
+          "$ref": "#/$defs/hazard_details"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "type": {
+              "properties": {
+                "code": {
+                  "const": "0"
+                }
+              }
+            }
+          },
+          "required": [
+            "refined_ellipse"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "hazard_centre"
+                ]
+              },
+              {
+                "required": [
+                  "second_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_details"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "properties": {
+                "code": {
+                  "const": "1"
+                }
+              }
+            }
+          },
+          "required": [
+            "hazard_centre"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "refined_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "second_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_details"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "properties": {
+                "code": {
+                  "const": "2"
+                }
+              }
+            }
+          },
+          "required": [
+            "second_ellipse"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "refined_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_centre"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_details"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "type": {
+              "properties": {
+                "code": {
+                  "const": "3"
+                }
+              }
+            }
+          },
+          "required": [
+            "hazard_details"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "refined_ellipse"
+                ]
+              },
+              {
+                "required": [
+                  "hazard_centre"
+                ]
+              },
+              {
+                "required": [
+                  "second_ellipse"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "dcx_message_type": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "table": {
+              "const": "camf.a1_message_type"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_country": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "table": {
+              "const": "camf.a2_country_region_name"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_severity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "table": {
+              "const": "camf.a5_severity"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_duration": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "table": {
+              "const": "camf.a8_hazard_duration"
+            }
+          }
+        }
+      ]
+    },
+    "dcx_provider": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/code"
+        },
+        {
+          "properties": {
+            "table": {
+              "pattern": "^camf\\.a3_provider_identifier\\.country_(0|[1-9][0-9]*)$(?![\\s\\S])"
+            }
+          }
+        }
+      ]
+    },
+    "OutsideJapan": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcx_version_outside_japan"
+        },
+        "message_type": {
+          "$ref": "#/$defs/dcx_message_type"
+        },
+        "country": {
+          "$ref": "#/$defs/dcx_country"
+        },
+        "severity": {
+          "$ref": "#/$defs/dcx_severity"
+        },
+        "duration": {
+          "$ref": "#/$defs/dcx_duration"
+        },
+        "provider": {
+          "$ref": "#/$defs/dcx_provider"
+        },
+        "hazard": {
+          "$ref": "#/$defs/dcx_hazard"
+        },
+        "onset": {
+          "$ref": "#/$defs/dcx_onset"
+        },
+        "instruction": {
+          "$ref": "#/$defs/dcx_instruction"
+        },
+        "main_ellipse": {
+          "$ref": "#/$defs/main_ellipse"
+        },
+        "specific_settings": {
+          "$ref": "#/$defs/specific_settings"
+        }
+      },
+      "required": [
+        "version",
+        "message_type",
+        "country",
+        "severity",
+        "duration",
+        "provider",
+        "hazard",
+        "onset",
+        "instruction",
+        "main_ellipse"
+      ]
+    },
+    "LAlert": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcx_version_japan"
+        },
+        "message_type": {
+          "$ref": "#/$defs/dcx_message_type"
+        },
+        "country": {
+          "$ref": "#/$defs/dcx_country"
+        },
+        "severity": {
+          "$ref": "#/$defs/dcx_severity"
+        },
+        "duration": {
+          "$ref": "#/$defs/dcx_duration"
+        },
+        "provider": {
+          "$ref": "#/$defs/dcx_provider"
+        },
+        "hazard": {
+          "$ref": "#/$defs/dcx_hazard"
+        },
+        "onset": {
+          "$ref": "#/$defs/dcx_onset"
+        },
+        "instruction": {
+          "$ref": "#/$defs/dcx_instruction"
+        },
+        "main_ellipse": {
+          "$ref": "#/$defs/main_ellipse"
+        },
+        "specific_settings": {
+          "$ref": "#/$defs/specific_settings"
+        },
+        "target_regions": {
+          "$ref": "#/$defs/dcx_target_regions"
+        }
+      },
+      "required": [
+        "version",
+        "message_type",
+        "country",
+        "severity",
+        "duration",
+        "provider",
+        "hazard",
+        "onset",
+        "instruction"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "main_ellipse"
+          ],
+          "not": {
+            "required": [
+              "target_regions"
+            ]
+          }
+        },
+        {
+          "required": [
+            "target_regions"
+          ],
+          "not": {
+            "required": [
+              "main_ellipse"
+            ]
+          }
+        }
+      ]
+    },
+    "JAlert": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcx_version_japan"
+        },
+        "message_type": {
+          "$ref": "#/$defs/dcx_message_type"
+        },
+        "country": {
+          "$ref": "#/$defs/dcx_country"
+        },
+        "severity": {
+          "$ref": "#/$defs/dcx_severity"
+        },
+        "duration": {
+          "$ref": "#/$defs/dcx_duration"
+        },
+        "provider": {
+          "$ref": "#/$defs/dcx_provider"
+        },
+        "hazard": {
+          "$ref": "#/$defs/dcx_hazard"
+        },
+        "onset": {
+          "$ref": "#/$defs/dcx_onset"
+        },
+        "instruction": {
+          "$ref": "#/$defs/dcx_instruction"
+        },
+        "target_regions": {
+          "$ref": "#/$defs/dcx_target_regions"
+        }
+      },
+      "required": [
+        "version",
+        "message_type",
+        "country",
+        "severity",
+        "duration",
+        "provider",
+        "hazard",
+        "onset",
+        "instruction",
+        "target_regions"
+      ]
+    },
+    "MTInfo": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcx_version_japan"
+        },
+        "message_type": {
+          "$ref": "#/$defs/dcx_message_type"
+        },
+        "country": {
+          "$ref": "#/$defs/dcx_country"
+        },
+        "severity": {
+          "$ref": "#/$defs/dcx_severity"
+        },
+        "duration": {
+          "$ref": "#/$defs/dcx_duration"
+        },
+        "provider": {
+          "$ref": "#/$defs/dcx_provider"
+        },
+        "hazard": {
+          "$ref": "#/$defs/dcx_hazard"
+        },
+        "onset": {
+          "$ref": "#/$defs/dcx_onset"
+        },
+        "instruction": {
+          "$ref": "#/$defs/dcx_instruction"
+        },
+        "main_ellipse": {
+          "$ref": "#/$defs/main_ellipse"
+        },
+        "specific_settings": {
+          "$ref": "#/$defs/specific_settings"
+        },
+        "target_regions": {
+          "$ref": "#/$defs/dcx_target_regions"
+        },
+        "evacuation": {
+          "$ref": "#/$defs/dcx_evacuation"
+        }
+      },
+      "required": [
+        "version",
+        "message_type",
+        "country",
+        "severity",
+        "duration",
+        "provider",
+        "hazard",
+        "onset",
+        "instruction",
+        "main_ellipse",
+        "target_regions"
+      ]
+    },
+    "Unknown": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/dcx_version_unknown"
+        },
+        "message_type": {
+          "$ref": "#/$defs/dcx_message_type"
+        },
+        "country": {
+          "$ref": "#/$defs/dcx_country"
+        },
+        "severity": {
+          "$ref": "#/$defs/dcx_severity"
+        },
+        "duration": {
+          "$ref": "#/$defs/dcx_duration"
+        },
+        "provider": {
+          "$ref": "#/$defs/dcx_provider"
+        },
+        "hazard": {
+          "$ref": "#/$defs/dcx_hazard"
+        },
+        "onset": {
+          "$ref": "#/$defs/dcx_onset"
+        },
+        "instruction": {
+          "$ref": "#/$defs/dcx_instruction"
+        },
+        "main_ellipse": {
+          "$ref": "#/$defs/main_ellipse"
+        },
+        "specific_settings": {
+          "$ref": "#/$defs/specific_settings"
+        }
+      },
+      "required": [
+        "version",
+        "message_type",
+        "country",
+        "severity",
+        "duration",
+        "provider",
+        "hazard",
+        "onset",
+        "instruction",
+        "main_ellipse"
+      ]
+    },
+    "NullMsg": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  }
+}

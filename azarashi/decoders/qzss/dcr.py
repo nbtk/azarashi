@@ -279,11 +279,12 @@ class Common(ContextDecoder[Jma]):
 class EarthquakeEarlyWarning(Common):
     def decode(self) -> dcr.EarthquakeEarlyWarning:
         lgll = self.extract_field(47, 3)
-        self.long_period_ground_motion_lower_limit = long_period_ground_motion_lower_limit[lgll]
+        # 0 is no data: a code with a name, but no class for the report to show
+        self.long_period_ground_motion_lower_limit = None if lgll == 0 else long_period_ground_motion_lower_limit[lgll]
         self.long_period_ground_motion_lower_limit_raw = lgll
 
         lgul = self.extract_field(50, 3)
-        self.long_period_ground_motion_upper_limit = long_period_ground_motion_upper_limit[lgul]
+        self.long_period_ground_motion_upper_limit = None if lgul == 0 else long_period_ground_motion_upper_limit[lgul]
         self.long_period_ground_motion_upper_limit_raw = lgul
 
         self.notifications_on_disaster_prevention, self.notifications_on_disaster_prevention_raw =\

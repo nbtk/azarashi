@@ -6,8 +6,9 @@ word for 不明 wherever it appears. Less than 0.2 m, for 1, is JMA's, as its ma
 information (https://www.jma.go.jp/bosai/map.html, retrieved 2026-09-24) writes it. 1 m, 3 m, 5 m
 and 10 m, for 2 to 5, are JMA's, as its English guide to tsunami warnings
 (https://www.data.jma.go.jp/eqev/data/en/guide/tsunamiinfo.html, retrieved 2026-09-24) writes the
-estimated heights. The English for 13 and 15 is azarashi's, in the dictionary's wording where it
-has one.
+estimated heights. No data, for 13, is the specification's word for the case, as its note on
+該当情報なし writes it. The English for 15 is azarashi's, in the dictionary's wording where it has
+one.
 """
 from ...code_table import CodeTable
 
@@ -36,7 +37,7 @@ tsunami_height_en = CodeTable(
         4: "5 m",
         5: "10 m",
         6: "Over 10 m",
-        13: "No information",
+        13: "No data",
         14: "Unknown",
         15: "Other Tsunami Height",
     },

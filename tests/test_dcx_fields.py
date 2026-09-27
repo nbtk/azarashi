@@ -168,9 +168,10 @@ def test_japanese_library_without_instruction():
     report = _decode(dcx(**JAPAN, a3=2, a9=1, a11=0))  # all bits 0: no instruction (IS-QZSS-DCX-004)
     assert report.a11_japanese_library == 'No instruction'
     assert 'A11 - Instruction: No instruction\n' in str(report)
-    assert 'A11 - Instruction (ja)' not in str(report)  # the Japanese library has no Japanese for it
+    assert 'A11 - Instruction (ja): 指示なし\n' in str(report)
     content = azarashi.to_json_dict(report)['data']['instruction']['content']
-    assert (content['code'], content['recognized'], content['labels']) == ('0', True, {'en': 'No instruction'})
+    assert (content['code'], content['status'], content['labels']) == ('0', 'special',
+                                                                       {'ja': '指示なし', 'en': 'No instruction'})
 
 
 def test_country_library_of_another_country_is_not_decoded():
@@ -267,9 +268,9 @@ B4_FIELDS = [  # hazard types (A4) and their lower level fields: (attribute, pos
     ([36], [('d1_magnitude_on_richter_scale', 131, 4, b4.d1_magnitude_on_richter_scale),
             ('d2_seismic_coefficient', 135, 3, b4.d2_seismic_coefficient),
             ('d3_azimuth_from_centre_of_main_ellipse_to_epicentre', 138, 4,
-             b4.d3_azimuth_from_centre_of_main_ellipse_to_epicentre),
+             b4.d3_azimuth_from_centre_of_main_ellipse_to_epicentre_value),
             ('d4_vector_length_between_centre_of_main_ellipse_and_epicentre', 142, 4,
-             b4.d4_vector_length_between_centre_of_main_ellipse_and_epicentre)]),
+             b4.d4_vector_length_between_centre_of_main_ellipse_and_epicentre_value)]),
     ([43, 44], [('d5_wave_height', 131, 3, b4.d5_wave_height)]),
     ([63, 71], [('d6_temperature_range', 131, 4, b4.d6_temperature_range)]),
     ([80], [('d7_hurricane_category', 131, 3, b4.d7_hurricane_category),
@@ -455,4 +456,4 @@ C7 - Shift of second ellipse centre: 0
 C8 - Homothetic factor of second ellipse: 0.25
 C9 - Bearing angle of second ellipse: 0.0
 C10 - Instruction library for second ellipse code: IC-C-01
-C10 - Instruction library for second ellipse: ''' % report.a4_hazard_definition
+C10 - Instruction library for second ellipse: No instruction''' % report.a4_hazard_definition

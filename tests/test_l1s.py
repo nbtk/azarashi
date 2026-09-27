@@ -49,8 +49,8 @@ def test_each_message_takes_its_satellite_and_time_from_the_archive():
 
 def test_the_json_gives_the_satellite_and_the_time_of_the_archive():
     record = azarashi.to_json_dict(azarashi.decode_stream(io.BytesIO(archive(_record(_message(EEW)))), 'l1s'))
-    assert record['satellite'] == {'system': 'qzss', 'prn': PRN}
-    assert record['received_at'] == '2026-09-17T00:00:00Z'
+    assert record['reception']['satellite'] == {'system': 'qzss', 'prn': PRN}
+    assert record['reception']['at'] == '2026-09-17T00:00:00.000Z'
 
 
 def test_records_that_are_not_dcr_or_dcx_are_passed_over():
@@ -179,7 +179,7 @@ def test_the_command_reads_an_archive(monkeypatch, capsys, tmp_path):
     code, out, err = _cli(monkeypatch, capsys, ['l1s', '-f', str(path), '--json'])
     report = azarashi.decode_stream(io.BytesIO(archive(_record(_message(EEW)))), 'l1s')
     assert code == 0 and out.count('\n') == 1
-    assert '"received_at":"2026-09-17T00:01:00Z"' in out and f'"nmea":"{report.nmea}"' in out
+    assert '"at":"2026-09-17T00:01:00.000Z"' in out and f'"nmea":"{report.nmea}"' in out
 
 
 def test_the_command_refuses_a_time_for_an_archive(monkeypatch, capsys, tmp_path):

@@ -1,4 +1,4 @@
-"""Regenerate deterministic examples: PYTHONPATH=.:tests python -m examples.generate."""
+"""Regenerate the code tables and deterministic examples: PYTHONPATH=.:tests python -m examples.generate."""
 from azarashi import decode
 import json
 from pathlib import Path
@@ -33,18 +33,38 @@ def fixtures():
     return selected
 
 
+def code_tables_text(tables):
+    """The code tables as docs/json gives them: one code to a line, so that a change shows as the lines it changes."""
+    def line(value):
+        return json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(', ', ': '))
+
+    out = ['{', f'  "schema_version": {line(tables["schema_version"])},', '  "tables": {']
+    names = list(tables['tables'])
+    for i, name in enumerate(names):
+        table = tables['tables'][name]
+        out += [f'    {line(name)}: {{', f'      "source": {line(table["source"])},', '      "codes": {']
+        codes = list(table['codes'].items())
+        out += [f'        {line(code)}: {line(entry)}' + (',' if j < len(codes) - 1 else '')
+                for j, (code, entry) in enumerate(codes)]
+        out += ['      }', '    }' + (',' if i < len(names) - 1 else '')]
+    return '\n'.join(out + ['  }', '}']) + '\n'
+
+
 if __name__ == '__main__':
     from jsonschema import Draft202012Validator, FormatChecker
     from strict_schema import strict
+    from azarashi import code_tables
+    root = Path(__file__).resolve().parents[2]
+    (root / 'docs/json/code-tables-v2.json').write_text(code_tables_text(code_tables()), encoding='utf-8')
     validator = Draft202012Validator(strict(json_schema()), format_checker=FormatChecker())
     chosen = fixtures()
     for r in chosen:
         validator.validate(to_json_dict(r))
-    folder = Path(__file__).resolve().parents[2] / 'docs/json'
+    folder = root / 'docs/json'
     records = [to_json_dict(r) for r in chosen]
-    (folder / 'report-v1.examples.ndjson').write_text(''.join(
+    (folder / 'report-v2.examples.ndjson').write_text(''.join(
         json.dumps(r, ensure_ascii=False, allow_nan=False, separators=(',', ':')) + '\n'
         for r in records), encoding='utf-8')
-    (folder / 'report-v1.examples.pretty.json').write_text(
+    (folder / 'report-v2.examples.pretty.json').write_text(
         json.dumps(records, ensure_ascii=False, allow_nan=False, indent=2) + '\n', encoding='utf-8')
-    print(f'Wrote {len(TYPE_NAMES)} report variants and {len(chosen)} complete examples.')
+    print(f'Wrote the code tables, {len(TYPE_NAMES)} report variants and {len(chosen)} complete examples.')

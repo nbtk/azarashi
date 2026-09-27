@@ -27,7 +27,7 @@ c10_instruction_library_for_second_ellipse_code = CodeTable(
 
 c10_instruction_library_for_second_ellipse = CodeTable(
     {
-        0: "",
+        0: "No instruction",  # CAMF Issue 1.2, 3.7.3.4: 00000 is the empty field, no instruction from this list
         1: "Prepare for evacuation. Take only the essentials with you, especially ID cards, passport, credit cards and cash. Evacuate only after the instruction of the emergency authorities.",
         2: "Prepare emergency food and relief material: Check and restock your equipment and supplies of water, food, medicine, cash and batteries.",
         3: "Be prepared to protect yourself and your property. Flooding of properties and transport networks is expected. Disruption to power, communications and water supplies are possible. Evacuation may be required. Dangerous driving conditions due to reduced visibility and aquaplaning.",

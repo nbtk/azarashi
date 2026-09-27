@@ -19,6 +19,8 @@ PYRIGHT = {'reportArgumentType': {'arg-type'},
            'reportCallIssue': {'arg-type', 'call-arg'},
            'reportAssignmentType': {'assignment'},
            'reportAttributeAccessIssue': {'assignment'}}
+#: mypy names a wrong argument to an overloaded function after the overloads it matches none of
+MYPY = {'call-overload': {'call-overload', 'arg-type'}}
 
 generated, report = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
 text = report.read_text()
@@ -40,7 +42,7 @@ if text.lstrip().startswith('{'):
 else:
     checker = 'mypy'
     for n_, code in re.findall(r'^[^:]+:(\d+): error:.*\[([a-z-]+)\]$', text, re.M):
-        got.setdefault(int(n_), set()).add(code)
+        got.setdefault(int(n_), set()).update(MYPY.get(code, {code}))
 
 missed = [(n, c) for n, c in want.items() if c not in got.get(n, set())]
 print('checker           : %s' % checker)

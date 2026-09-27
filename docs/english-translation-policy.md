@@ -5,7 +5,7 @@
 Every code table of the JMA-DC Report (DCR) but one has an English version beside its Japanese one,
 in a table named `*_en` in `azarashi/definitions/qzss/dcr/`. The JSON output gives it as
 `labels.en`. The exception is the Nankai Trough information, described below.
-`str(report)` stays Japanese; `get_text_en()` gives the report in English, as described under
+`str(report)` stays Japanese; `get_text('en')` gives the report in English, as described under
 The English Text below.
 
 This page records where the English comes from, the rules it follows, and every English that is
@@ -146,7 +146,7 @@ table has no English.
 
 ## azarashi's English
 
-87 entries are listed one by one below. Two more families follow a pattern:
+86 entries are listed one by one below. Two more families follow a pattern:
 
 - `local_government`: 47 entries, the other municipalities of each prefecture, as Other
   municipalities in Hokkaido Prefecture.
@@ -249,7 +249,6 @@ table has no English.
 
 | Code | Japanese | English |
 |---|---|---|
-| 13 | 該当情報なし | No information |
 | 15 | その他の津波の高さ | Other Tsunami Height |
 
 ### tsunami_warning_code
@@ -389,10 +388,10 @@ is written as the DCR tables write it, so that a place reads the same in a DCR a
 
 ## The English Text
 
-`report.get_text_en()`, `text_en` in the JSON output and `azarashi --english` give a report as
+`report.get_text('en')`, `texts.en` in the JSON output and `azarashi --english` give a report as
 English text, built from the `*_en` tables, for every DCR report but the Nankai Trough
 information. The JMA-DC Report (Northwest Pacific Tsunami) and the DCX messages are shown in
-English already, and give that text.
+English already, and give that text; a DCX message leaves out its Japanese lines, marked (ja).
 
 The words around the values come from the same sources as the tables.
 
@@ -454,8 +453,8 @@ range is named as the tables name an undefined code, such as Undefined Activity 
 
 - `information_serial_code` and the text of the Nankai Trough information: see The Nankai Trough
   Information above.
-- The English text of the Nankai Trough information: `get_text_en()` gives None, `text_en` is
-  null, and `azarashi --english` shows the Japanese text.
+- The English text of the Nankai Trough information: `get_text('en')` gives None, `texts` has no
+  `en`, and `azarashi --english` shows the Japanese text.
 
 ## Changing the English
 

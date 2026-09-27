@@ -19,23 +19,40 @@
 - 時刻として読めない値が届いたときは、その時刻のフィールドは `None` になります。
 
 `print(report)` や `str(report)` は、レポートを文章にして返します。DCR は日本語で、DCX と北西太平洋津波情報は英語です。
-`report.get_text_en()` は、英語の文章を返します。
+DCX の文章には、「(ja)」の付いた日本語の行も入ります。
+
+`report.get_text()` は、言語を指定して文章を返します。言語は `'ja'` や `'en'` のコードで指定します。
+
+```python
+report.get_text()            # その報が書かれている言語の文章。必ずある
+report.get_text('en')        # 英語の文章。なければ None
+report.get_text('en', 'ja')  # 英語の文章。なければ日本語の文章。どちらもなければ None
+```
+
+| 報 | `get_text()` | `get_text('ja')` | `get_text('en')` |
+|---|---|---|---|
+| DCR（南海トラフ地震に関連する情報と北西太平洋津波情報を除く） | 日本語 | 日本語 | 英語 |
+| DCR の南海トラフ地震に関連する情報 | 日本語 | 日本語 | `None` |
+| DCR の北西太平洋津波情報 | 英語 | `None` | 英語 |
+| DCX | 英語 | `None` | 英語 |
+
+- DCR の日本語は、`str(report)` と同じ文字列です。
 - DCR の英語は、気象庁の英語を出典にしています。出典と方針は [English Translation Policy](english-translation-policy.md) にあります。
-- DCX と北西太平洋津波情報は、`str(report)` と同じ文字列を返します。
-- 南海トラフ地震に関連する情報には英語の表示がないので、`None` を返します。
+- DCX の英語は、`str(report)` から「(ja)」の行を除いた文字列です。
+- 北西太平洋津波情報の英語は、`str(report)` と同じ文字列です。
 
 文章の中の時刻は、報によって JST か UTC かが違います。
 
 | 報 | 出力 | タイムゾーン | 形式の例 |
 |---|---|---|---|
 | DCR（南海トラフ地震に関連する情報と北西太平洋津波情報を除く） | `str(report)` | JST | 8月21日9時4分 |
-| DCR（南海トラフ地震に関連する情報と北西太平洋津波情報を除く） | `report.get_text_en()` | JST | 09:04 JST, 21 Aug. |
+| DCR（南海トラフ地震に関連する情報と北西太平洋津波情報を除く） | `report.get_text('en')` | JST | 09:04 JST, 21 Aug. |
 | DCR の南海トラフ地震に関連する情報 | `str(report)` | JST | 8月21日9時4分 |
-| DCR の南海トラフ地震に関連する情報 | `report.get_text_en()` | なし（`None` を返します） | |
+| DCR の南海トラフ地震に関連する情報 | `report.get_text('en')` | なし（`None` を返します） | |
 | DCR の北西太平洋津波情報 | `str(report)` | UTC | --08-21T00:04Z |
-| DCR の北西太平洋津波情報 | `report.get_text_en()` | UTC | --08-21T00:04Z |
+| DCR の北西太平洋津波情報 | `report.get_text('en')` | UTC | --08-21T00:04Z |
 | DCX | `str(report)` | UTC | 2026-09-17T01:00:00Z |
-| DCX | `report.get_text_en()` | UTC | 2026-09-17T01:00:00Z |
+| DCX | `report.get_text('en')` | UTC | 2026-09-17T01:00:00Z |
 
 DCR の火山の活動時刻は、日付だけが有効なとき（Du=5）に限り、UTC の日付をそのまま表示します。
 

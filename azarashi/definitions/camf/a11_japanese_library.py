@@ -47,7 +47,7 @@ a11_japanese_library_en = CodeTable(
 
 a11_japanese_library_ja = CodeTable(
     {
-        0: "",
+        0: "指示なし",  # azarashi's Japanese for the case the specification writes in English only
         1: "直ちに命を守るための最善の行動を。",
         126: "これは、DCX のテストです。",
         127: "直ちに命を守るための最善の行動を。",

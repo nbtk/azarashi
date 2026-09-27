@@ -127,8 +127,8 @@ class Base(MessageBase):
             if key not in self.__dict__:
                 self.__dict__[key] = as_utc(value) if isinstance(value, datetime) else value
 
-    def get_text_en(self) -> str:
-        return str(self)  # the report is written in English
+    def _texts(self) -> dict[str, str]:
+        return {'en': str(self)}  # the report is written in English
 
 
 
@@ -227,6 +227,13 @@ class AlertBase(Base):
         return None if onset is None else onset.isoformat().replace('+00:00', 'Z')
 
     def __str__(self) -> str:
+        return self._text(japanese=True)
+
+    def _texts(self) -> dict[str, str]:
+        return {'en': self._text(japanese=False)}
+
+    def _text(self, japanese: bool) -> str:
+        """The report in English, with the Japanese of the fields that have it when japanese is set."""
         header = f"### DCX Message - {self.dcx_message_type} ###\n"
         if self.camf.a1 == 0:
                 header += "*** This is a test message ***\n"
@@ -249,7 +256,7 @@ class AlertBase(Base):
             report += f"A11 - Instruction: {self.a11_international_library}\n"
         if self.a11_japanese_library:
             report += f"A11 - Instruction: {self.a11_japanese_library}\n"
-        if self.a11_japanese_library_ja:
+        if japanese and self.a11_japanese_library_ja:
             report += f"A11 - Instruction (ja): {self.a11_japanese_library_ja}\n"
 
         if self.ignore_a12_to_a16 is False:
@@ -274,8 +281,9 @@ class AlertBase(Base):
                             report += f"{headline}: {content}\n"
 
         if self.ignore_ex1 is False:
-            report += f"EX1 - Target area: {self.ex1_target_area}\n" + \
-                      f"EX1 - Target area (ja): {self.ex1_target_area_ja}\n"
+            report += f"EX1 - Target area: {self.ex1_target_area}\n"
+            if japanese:
+                report += f"EX1 - Target area (ja): {self.ex1_target_area_ja}\n"
 
         if self.ignore_ex2_to_ex7 is False:
             report += f"EX2 - Evacuate direction type: {self.ex2_evacuate_direction_type}\n" + \
@@ -287,8 +295,9 @@ class AlertBase(Base):
 
         if self.ignore_ex8_to_ex9 is False:
             report += f"EX8 - Target area list type: {self.ex8_target_area_list_type}\n" + \
-                      f"EX9 - Target area list: {self.ex9_target_area_list}\n" + \
-                      f"EX9 - Target area list (ja): {self.ex9_target_area_list_ja}\n"
+                      f"EX9 - Target area list: {self.ex9_target_area_list}\n"
+            if japanese:
+                report += f"EX9 - Target area list (ja): {self.ex9_target_area_list_ja}\n"
 
         if report.endswith('\n'):
             report = report[:-1]

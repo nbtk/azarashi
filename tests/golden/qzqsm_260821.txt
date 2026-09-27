@@ -443,11 +443,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-08-21T01:10:00Z
 A8 - Hazard duration: Unknown
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Uki City, Kumamoto Prefecture
 EX1 - Target area (ja): 熊本県宇城市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'All Clear',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2604,11 +2605,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-08-21T09:35:00Z
 A8 - Hazard duration: Unknown
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiba City, Chiba Prefecture
 EX1 - Target area (ja): 千葉県千葉市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Alert',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2763,11 +2765,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-08-21T12:07:00Z
 A8 - Hazard duration: Unknown
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiba City, Chiba Prefecture
 EX1 - Target area (ja): 千葉県千葉市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'All Clear',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',

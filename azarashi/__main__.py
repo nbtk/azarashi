@@ -33,7 +33,7 @@ def main() -> int:
     if args.json and (args.verbose or args.source):
         parser.error('--json cannot be combined with --verbose or --source')
     if args.english and (args.json or args.verbose):
-        parser.error('--english cannot be combined with --json, which gives text_en, or --verbose')
+        parser.error('--english cannot be combined with --json, which gives the texts in every language, or --verbose')
     if args.type == 'l1s' and args.time is not None:
         parser.error('--time cannot be used with l1s, which gives the time of every message')
     # read bytes so that line noise reaches the decoder instead of failing in a text decoder
@@ -64,7 +64,7 @@ def main() -> int:
             if args.verbose is True:
                 print(f'{received} --------------------------------\n{pformat(report.get_params())}\n')
             else:
-                text = report.get_text_en() if args.english else None
+                text = report.get_text('en') if args.english else None
                 print(f'{received} --------------------------------\n{report if text is None else text}\n')
 
             if args.source is True:

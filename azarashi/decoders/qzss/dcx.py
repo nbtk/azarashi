@@ -18,12 +18,15 @@ from ...definitions.camf.a5_severity import a5_severity
 from ...definitions.camf.a6_hazard_onset_week import a6_hazard_onset_week
 from ...definitions.camf.a8_hazard_duration import a8_hazard_duration
 from ...definitions.camf.a9_type_of_library import a9_type_of_library
+from ...definitions.camf.c7_shift_of_second_ellipse_centre import c7_shift_of_second_ellipse_centre_value
+from ...definitions.camf.c8_homothetic_factor_of_second_ellipse import c8_homothetic_factor_of_second_ellipse_value
+from ...definitions.camf.c9_bearing_angle_of_second_ellipse import c9_bearing_angle_of_second_ellipse_value
 from ...definitions.camf.c10_instruction_library_for_second_ellipse import c10_instruction_library_for_second_ellipse
 from ...definitions.camf.c10_instruction_library_for_second_ellipse import c10_instruction_library_for_second_ellipse_code
 from ...definitions.camf.d_fields import d1_magnitude_on_richter_scale
 from ...definitions.camf.d_fields import d2_seismic_coefficient
-from ...definitions.camf.d_fields import d3_azimuth_from_centre_of_main_ellipse_to_epicentre
-from ...definitions.camf.d_fields import d4_vector_length_between_centre_of_main_ellipse_and_epicentre
+from ...definitions.camf.d_fields import d3_azimuth_from_centre_of_main_ellipse_to_epicentre_value
+from ...definitions.camf.d_fields import d4_vector_length_between_centre_of_main_ellipse_and_epicentre_value
 from ...definitions.camf.d_fields import d5_wave_height
 from ...definitions.camf.d_fields import d6_temperature_range
 from ...definitions.camf.d_fields import d7_hurricane_category
@@ -58,6 +61,7 @@ from ...definitions.camf.d_fields import d35_infection_type
 from ...definitions.camf.d_fields import d36_typhoon_category
 from ...definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_en
 from ...definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_ja
+from ...definitions.qzss.dcx.ex2_evacuate_direction_type import ex2_evacuate_direction_type
 from ...definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
 from ...definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_en
 from ...definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja
@@ -288,9 +292,9 @@ class Decoder(ContextDecoder[Message]):
             camf.c8 = self.extract_field(133, 3)
             camf.c9 = self.extract_field(136, 5)
             camf.c10 = self.extract_field(141, 5)
-            self.c7_shift_of_second_ellipse_centre = camf.c7
-            self.c8_homothetic_factor_of_second_ellipse = 0.25 * (camf.c8 + 1)
-            self.c9_bearing_angle_of_second_ellipse = round(camf.c9 * 360 / 32, 5)
+            self.c7_shift_of_second_ellipse_centre = c7_shift_of_second_ellipse_centre_value[camf.c7]
+            self.c8_homothetic_factor_of_second_ellipse = c8_homothetic_factor_of_second_ellipse_value[camf.c8]
+            self.c9_bearing_angle_of_second_ellipse = c9_bearing_angle_of_second_ellipse_value[camf.c9]
             self.c10_instruction_library_for_second_ellipse_code = \
                 c10_instruction_library_for_second_ellipse_code[camf.c10]
             self.c10_instruction_library_for_second_ellipse = \
@@ -309,9 +313,9 @@ class Decoder(ContextDecoder[Message]):
             self.d1_magnitude_on_richter_scale = d1_magnitude_on_richter_scale[camf.d1]
             self.d2_seismic_coefficient = d2_seismic_coefficient[camf.d2]
             self.d3_azimuth_from_centre_of_main_ellipse_to_epicentre = \
-                d3_azimuth_from_centre_of_main_ellipse_to_epicentre[camf.d3]
+                d3_azimuth_from_centre_of_main_ellipse_to_epicentre_value[camf.d3]
             self.d4_vector_length_between_centre_of_main_ellipse_and_epicentre = \
-                d4_vector_length_between_centre_of_main_ellipse_and_epicentre[camf.d4]
+                d4_vector_length_between_centre_of_main_ellipse_and_epicentre_value[camf.d4]
         elif camf.a4 == 44 or camf.a4 == 43:  # tsunami or tidal wave
             camf.d5 = self.extract_field(131, 3)
             self.d5_wave_height = d5_wave_height[camf.d5]
@@ -455,10 +459,7 @@ class Decoder(ContextDecoder[Message]):
         self.ex1_target_area_ja = ex1_target_area_code_ja[camf.ex1]
 
     def _decode_ex2_to_ex7(self, camf: dcx.CAMF) -> None:
-        if camf.ex2 == 0:
-            self.ex2_evacuate_direction_type = "Leave the additional target area range."
-        else:
-            self.ex2_evacuate_direction_type = "Head to the additional target area range."
+        self.ex2_evacuate_direction_type = ex2_evacuate_direction_type[camf.ex2]
         self.ex3_additional_ellipse_centre_latitude = round(-90 + 180 / 0x1FFFF * camf.ex3, 6)
         self.ex4_additional_ellipse_centre_longitude = round(45 + 180 / 0x1FFFF * camf.ex4, 6)
         self.ex5_additional_ellipse_semi_major_axis = round(semi_axis(camf.ex5), 3)

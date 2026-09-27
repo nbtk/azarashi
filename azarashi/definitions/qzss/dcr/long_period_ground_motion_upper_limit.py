@@ -1,6 +1,7 @@
 """Upper limits of the long-period ground motion class of the EEW, IS-QZSS-DCR-017.
 
-Unknown is the dictionary's word for 不明 wherever it appears. The English for 1, 2, 3, 4, 5 and 6 is
+Unknown is the dictionary's word for 不明 wherever it appears. 0 is the specification's case of no data, in the
+words 該当情報なし and No data the specification uses for it elsewhere. The English for 1, 2, 3, 4, 5 and 6 is
 azarashi's, in the dictionary's wording where it has one; Less than is how JMA's map of tsunami
 information writes 未満.
 """
@@ -8,7 +9,7 @@ from ...code_table import CodeTable
 
 long_period_ground_motion_upper_limit = CodeTable(
     {
-        0: None,
+        0: "該当情報なし",
         1: "長周期地震動階級1未満",
         2: "長周期地震動階級1",
         3: "長周期地震動階級2",
@@ -23,6 +24,7 @@ long_period_ground_motion_upper_limit = CodeTable(
 
 long_period_ground_motion_upper_limit_en = CodeTable(
     {
+        0: "No data",
         1: "Less than Long-Period Ground Motion class of 1",
         2: "Long-Period Ground Motion class of 1",
         3: "Long-Period Ground Motion class of 2",

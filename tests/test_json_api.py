@@ -17,25 +17,31 @@ def test_ndjson_is_one_line_and_round_trips():
     assert line.endswith('\n') and line.count('\n') == 1
     value = json.loads(line)
     assert value == azarashi.to_json_dict(report)
-    assert value['text'] == str(report)
-    assert '\n' in value['text'] and '緊急地震速報' in line
+    assert value['texts']['ja'] == str(report)
+    assert '\n' in value['texts']['ja'] and '緊急地震速報' in line
 
 
 def test_json_values_are_detached_in_both_directions():
     report = copy.deepcopy(next(r for r in REPORTS if type(r) is reports.dcr.Hypocenter))
     original = azarashi.to_json_dict(report)
     output = azarashi.to_json_dict(report)
-    output['data']['position']['source']['lat_d'] = 88
+    output['data']['position']['source']['latitude_degrees'] = 88
     output['data']['notifications'].clear()
     assert azarashi.to_json_dict(report) == original
     report.coordinates_of_hypocenter_raw['lat_d'] = 12
-    assert original['data']['position']['source']['lat_d'] != 12
+    assert original['data']['position']['source']['latitude_degrees'] != 12
 
 
 def test_schema_is_a_fresh_copy():
     first = azarashi.json_schema()
     first['$defs'].clear()
     assert azarashi.json_schema()['$defs']
+
+
+def test_code_tables_are_a_fresh_copy():
+    first = azarashi.code_tables()
+    first['tables'].clear()
+    assert azarashi.code_tables()['tables']
 
 
 def test_subclasses_use_the_supported_base_contract():
@@ -77,44 +83,42 @@ def test_parallel_lists_are_not_silently_truncated():
 
 def test_quantity_profiles_agree_with_the_code_tables():
     """The numeric profiles live beside the code tables they interpret, so tie them together."""
-    import importlib
     import re
 
     from azarashi.json.model import PROFILES
+    from azarashi.json.tables import TABLES
 
-    for table_name, (scalar, bounds, _missing, _unit) in PROFILES.items():
-        module = importlib.import_module(f'azarashi.definitions.qzss.dcr.{table_name}')
-        table = getattr(module, table_name, None) or getattr(module, table_name + '_en')
-        for group in (scalar, bounds, _missing):
-            undefined = [code for code in group if code not in table]
-            assert undefined == [], f'{table_name}: {undefined} carry a meaning no code table defines'
+    for name, (scalar, ranges, _unit) in PROFILES.items():
+        if not name.startswith('qzss.dcr.'):
+            continue
+        table = TABLES[name]
+        for group in (scalar, ranges):
+            undefined = [code for code in group if code not in table.codes]
+            assert undefined == [], f'{name}: {undefined} carry a meaning no code table defines'
         for code, number in scalar.items():
-            shown = re.match(r'(\d+(?:\.\d+)?)', table[code])
-            assert shown is not None, f'{table_name}[{code}]: {table[code]!r} names no number'
-            assert float(shown.group(1)) == float(number), f'{table_name}[{code}]: {table[code]!r} is not {number}'
-        for code, (lower, upper) in bounds.items():
-            if not isinstance(table[code], str):  # a defined code may carry no display string
-                continue
-            edges = [edge['value'] for edge in (lower, upper) if edge is not None]
-            assert any(re.search(rf'(?<![\d.]){edge:g}(?![\d])', table[code]) for edge in edges), \
-                f'{table_name}[{code}]: {table[code]!r} names none of {edges}'
+            label = next(iter(table.labels(code).values()))
+            shown = re.match(r'(\d+(?:\.\d+)?)', label)
+            assert shown is not None, f'{name}[{code}]: {label!r} names no number'
+            assert float(shown.group(1)) == float(number), f'{name}[{code}]: {label!r} is not {number}'
+        for code, (lower, upper) in ranges.items():
+            labels = ' '.join(table.labels(code).values())
+            edges = [edge for edge in (lower, upper) if edge is not None]
+            assert any(re.search(rf'(?<![\d.]){edge:g}(?![\d])', labels) for edge in edges), \
+                f'{name}[{code}]: {labels!r} names none of {edges}'
 
 
 def test_a_code_defined_without_a_name_carries_no_label():
-    from azarashi.json.model import _coded
+    from azarashi.json.tables import Table
 
-    assert _coded('x', 0, {0: ''}) == {'scheme': 'x', 'code': '0', 'recognized': True, 'labels': {}}
+    assert Table('x.y', {0: ''}, None, None).code(0) == {'status': 'valid', 'code': '0', 'table': 'x.y', 'labels': {}}
 
 
-def test_an_unnamed_prefecture_bit_keeps_its_position(monkeypatch):
-    from azarashi.json import model
+def test_an_unnamed_prefecture_bit_keeps_its_position():
+    from azarashi.json.tables import TABLES, Table, _bit_names
 
-    assert model._prefecture_bit(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo Metropolis'}
-    # substitutes, because the decoder lists the prefectures in the real tables' own order
-    monkeypatch.setattr(model, 'ex9_target_area_code_ja', {})
-    monkeypatch.setattr(model, 'ex9_target_area_code_en', {})
-    unnamed = model._prefecture_bit(12)
-    assert unnamed == {'scheme': 'qzss.dcx.prefecture_bit', 'code': '12', 'recognized': False, 'labels': {}}
+    assert TABLES['qzss.dcx.ex9_target_area_code_list'].code(12)['labels'] == {'ja': '東京都', 'en': 'Tokyo Metropolis'}
+    unnamed = Table('qzss.dcx.ex9_target_area_code_list', _bit_names({}), _bit_names({}), None).code(12)
+    assert unnamed == {'status': 'undefined', 'code': '12', 'table': 'qzss.dcx.ex9_target_area_code_list', 'labels': {}}
 
 
 def _printed_numbers(field, label):
@@ -140,25 +144,19 @@ def test_camf_profiles_are_transcribed_from_their_tables():
     from itertools import pairwise
 
     from azarashi.definitions.camf import d_fields
-    from azarashi.json.model import CAMF_PROFILES
+    from azarashi.json.model import PROFILES
 
-    for field, (scalar, bounds, _missing, _unit) in CAMF_PROFILES.items():
+    for name, (scalar, ranges, _unit) in PROFILES.items():
+        if not name.startswith('camf.d'):
+            continue
+        field = name.removeprefix('camf.')
         table = getattr(d_fields, field)
-        assert set(scalar) | set(bounds) == set(table), f'{field}: not one row per defined code'
-        for code, number in scalar.items():
-            assert number == table[code], f'{field}[{code}]: {number} is not {table[code]}'
-        rows = [bounds[code] for code in sorted(bounds)]
-        for code, (lower, upper) in zip(sorted(bounds), rows, strict=True):
-            edge = (lower or upper)['value']
+        assert set(scalar) | set(ranges) == set(table), f'{field}: not one row per defined code'
+        if scalar:  # the numbers are the definition's own, and its names print them
+            assert scalar is getattr(d_fields, field + '_value'), field
+        rows = [ranges[code] for code in sorted(ranges)]
+        for code, (lower, upper) in zip(sorted(ranges), rows, strict=True):
+            edge = lower if lower is not None else upper
             assert float(edge) in _printed_numbers(field, table[code]), f'{field}[{code}]: {edge} not in {table[code]!r}'
         for (_, upper), (lower, _) in pairwise(rows):
-            assert upper['value'] == lower['value'], f'{field}: a gap or an overlap at {upper} / {lower}'
-            assert upper['inclusive'] != lower['inclusive'], f'{field}: {upper["value"]} is in both ranges or neither'
-
-
-def test_an_edge_the_table_leaves_open_goes_with_the_lower_range():
-    # D8 and D13 write both sides of an edge with <, and the other tables mostly give it to the lower range
-    from azarashi.json.model import CAMF_PROFILES
-
-    assert CAMF_PROFILES['d8_wind_speed'][1][1][1] == {'value': 6, 'inclusive': True}  # 5.9 and 6 are Beaufort 1
-    assert CAMF_PROFILES['d13_visibility'][1][1][1] == {'value': 200, 'inclusive': True}
+            assert upper == lower, f'{field}: a gap or an overlap at {upper} / {lower}'

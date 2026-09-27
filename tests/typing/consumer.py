@@ -96,3 +96,7 @@ if isinstance(report, reports.dcr.Tsunami):
 json_record: dict[str, azarashi.JsonValue] = azarashi.to_json_dict(report)
 ndjson_line: str = azarashi.to_ndjson(report)
 json_contract: dict[str, azarashi.JsonValue] = azarashi.json_schema()
+json_code_tables: dict[str, azarashi.JsonValue] = azarashi.code_tables()
+own_text: str = report.get_text()
+english_text: str | None = report.get_text('en')
+preferred_text: str | None = report.get_text('en', 'ja')

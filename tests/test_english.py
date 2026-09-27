@@ -1,4 +1,4 @@
-"""The English text of the reports: get_text_en(), text_en in JSON and azarashi --english."""
+"""The text of the reports by language: get_text(), texts in JSON and azarashi --english."""
 import datetime
 import re
 import sys
@@ -41,7 +41,7 @@ def test_every_dcr_report_but_nankai_has_english_with_no_japanese():
     for report in _reports():
         if report.message_type != 'DCR':
             continue
-        text = report.get_text_en()
+        text = report.get_text('en')
         if isinstance(report, Nankai):
             assert text is None
             continue
@@ -52,21 +52,38 @@ def test_every_dcr_report_but_nankai_has_english_with_no_japanese():
 
 
 def test_reports_written_in_english_give_their_text():
-    dcx = [r for r in _reports() if r.message_type == 'DCX']
-    assert dcx and all(r.get_text_en() == str(r) for r in dcx)
     nwp = azarashi.decode(NWP)
-    assert nwp.get_text_en() == str(nwp)
+    assert nwp.get_text() == nwp.get_text('en') == str(nwp)
+    assert nwp.get_text('ja') is None
 
 
-def test_json_gives_the_english_text():
+def test_dcx_gives_its_english_lines_only():
+    dcx = [r for r in _reports() if r.message_type == 'DCX']
+    japanese = [r for r in dcx if JAPANESE.search(str(r))]
+    assert japanese, 'no DCX report with Japanese lines to check'
+    for report in dcx:
+        assert report.get_text() == report.get_text('en')
+        assert report.get_text() == '\n'.join(line for line in str(report).splitlines() if ' (ja): ' not in line)
+        assert not JAPANESE.search(report.get_text())
+        assert report.get_text('ja') is None
+
+
+def test_a_report_gives_its_own_language_without_one_named():
     report = azarashi.decode(HYPOCENTER)
-    record = azarashi.to_json_dict(report)
-    assert record['text_en'] == report.get_text_en()
-    assert record['text'] == str(report)
+    assert report.get_text() == report.get_text('ja') == str(report)
+
+
+def test_the_first_language_the_report_has_is_given():
+    report = azarashi.decode(HYPOCENTER)
+    assert report.get_text('fr', 'en', 'ja') == report.get_text('en') != str(report)
+    assert report.get_text('fr') is None
+    nankai = next(r for r in _reports() if isinstance(r, Nankai))
+    assert nankai.get_text('en') is None
+    assert nankai.get_text('en', 'ja') == str(nankai)
 
 
 def test_the_hypocenter_in_english():
-    lines = azarashi.decode(HYPOCENTER).get_text_en().splitlines()
+    lines = azarashi.decode(HYPOCENTER).get_text('en').splitlines()
     assert lines[0] == 'JMA-DC Report (Hypocenter) (Issue) (Training/Test)'
     assert lines[2] == 'Occurred at 13:05 JST, 7 Mar.'
     assert 'Latitude and longitude: N 32°42´00˝, E 132°06´00˝' in lines
@@ -75,7 +92,7 @@ def test_the_hypocenter_in_english():
 def test_coordinates_out_of_range_are_named_by_the_same_code_as_in_japanese():
     report = azarashi.decode(with_fields(HYPOCENTER, [(122 + 29, 6, 60)]))
     assert report.coordinates_of_hypocenter == '緯度・経度(コード番号：280515596032)'
-    assert 'Latitude and longitude: Undefined Latitude and Longitude (Code: 280515596032)' in report.get_text_en()
+    assert 'Latitude and longitude: Undefined Latitude and Longitude (Code: 280515596032)' in report.get_text('en')
 
 
 def test_tsunami_arrival_types_in_english():
@@ -84,12 +101,12 @@ def test_tsunami_arrival_types_in_english():
     report = azarashi.decode(_with_arrival_time(sentence, 0, 0, 24, 0))
     assert report.expected_tsunami_arrival_time_types_en == [
         'Undefined Expected Tsunami Arrival Time (Code: 1536)', 'Tsunami arrival expected', 'No data']
-    assert [line for line in report.get_text_en().splitlines() if line.startswith('Estimated initial')] == [
+    assert [line for line in report.get_text('en').splitlines() if line.startswith('Estimated initial')] == [
         'Estimated initial tsunami arrival time: Undefined Expected Tsunami Arrival Time (Code: 1536)',
         'Estimated initial tsunami arrival time: Tsunami arrival expected',
         'Estimated initial tsunami arrival time: No data',
     ]
-    assert report.get_text_en().splitlines()[2] == 'Warning code: Tsunami Warning'
+    assert report.get_text('en').splitlines()[2] == 'Warning code: Tsunami Warning'
 
 
 @pytest.mark.parametrize('code, line', [
@@ -99,24 +116,24 @@ def test_tsunami_arrival_types_in_english():
 ])
 def test_the_tsunami_warning_is_a_line_of_its_own(code, line):
     report = azarashi.decode(with_fields(TSUNAMI, [(80, 4, code)]))
-    assert report.get_text_en().splitlines()[2] == line
+    assert report.get_text('en').splitlines()[2] == line
 
 
 def test_the_seismic_intensity_gives_the_occurrence_time():
     report = next(r for r in _reports() if type(r).__name__ == 'SeismicIntensity')
-    assert 'Occurrence time of earthquake: 10:05 JST, 21 Aug.' in report.get_text_en().splitlines()
+    assert 'Occurrence time of earthquake: 10:05 JST, 21 Aug.' in report.get_text('en').splitlines()
 
 
 def test_an_occurrence_time_that_is_not_a_time_is_named_by_its_code():
     report = azarashi.decode(with_fields(EEW, [(85, 5, 24)]))  # hour 24
     assert report.occurrence_time_of_earthquake is None
-    assert 'Occurrence time of earthquake: Undefined Occurrence Time of Earthquake (Code: ' in report.get_text_en()
+    assert 'Occurrence time of earthquake: Undefined Occurrence Time of Earthquake (Code: ' in report.get_text('en')
 
 
 def test_the_assumptive_hypocenter_is_marked():
     report = azarashi.decode(EEW)
     report.assumptive = True
-    text = report.get_text_en()
+    text = report.get_text('en')
     assert 'Depth: 10 km (assumptive hypocenter)' in text
     assert 'Magnitude: 7.2 (assumptive hypocenter)' in text
 
@@ -138,12 +155,12 @@ def test_times_are_in_jst_as_jma_writes_them(utc, jst):
 def test_an_approximate_activity_time(du, line):
     received = datetime.datetime(2026, 8, 21, 15, 0, tzinfo=datetime.UTC)
     report = nmea.Decoder(with_fields(VOLCANO, [(50, 3, du)]), timestamp=received).decode()
-    assert line in report.get_text_en().splitlines()
+    assert line in report.get_text('en').splitlines()
 
 
 def test_an_activity_time_of_a_month_or_a_year_is_not_shown():
     report = azarashi.decode(with_fields(VOLCANO, [(50, 3, 6)]))
-    assert not any(line.startswith('Activity time') for line in report.get_text_en().splitlines())
+    assert not any(line.startswith('Activity time') for line in report.get_text('en').splitlines())
 
 
 def _run(monkeypatch, capsys, path, *options):
@@ -157,7 +174,7 @@ def test_the_command_shows_english(monkeypatch, capsys, tmp_path):
     path.write_text(HYPOCENTER + '\n', encoding='utf-8')
     code, out = _run(monkeypatch, capsys, path, '--english')
     assert code == 0
-    assert azarashi.decode(HYPOCENTER).get_text_en() in out.out
+    assert azarashi.decode(HYPOCENTER).get_text('en') in out.out
     assert not JAPANESE.search(out.out)
 
 

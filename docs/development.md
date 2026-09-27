@@ -67,9 +67,12 @@ EX1・EX9 と、DCX 自身のメッセージ種別の3つです。
 `a3_provider_identifier_map` は A2 の国コードをキーにします。国名を識別子にしません。電文が
 運ぶのはコードで、国名は改称される一方コードは変わらないからです。
 
-JSON 出力は `azarashi/json/` にまとめます。`__init__.py` が公開する4つの入口、`model.py` が
-レポートから JSON への対応、`schemas/` が同梱するスキーマです。スキーマは配布物に含めるので、
-`setup.py` の `package_data` に `azarashi.json` として登録しています。
+JSON 出力は `azarashi/json/` にまとめます。`__init__.py` が公開する入口、`model.py` が
+レポートから JSON への対応、`tables.py` がレコードの参照するコード表の一覧、`schemas/` が同梱する
+スキーマです。`code_tables()` は `tables.py` からその場で作るので、コード表のファイルは配布物に含めません。
+docs の `docs/json/code-tables-v2.json` も `tables.py` から作るので、コードの名前や `special` を変えたら
+`PYTHONPATH=.:tests python -m examples.generate` で作り直します。テストが、ファイルと `code_tables()` の一致を確かめます。
+スキーマは配布物に含めるので、`setup.py` の `package_data` に `azarashi.json` として登録しています。
 
 `definitions/code_table.py` の `CodeTable` は、未定義コードの扱いを備えた辞書です。
 QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。

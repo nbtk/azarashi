@@ -11,11 +11,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:00:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -105,11 +106,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:00:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -199,11 +201,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:01:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -292,11 +295,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:01:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -386,11 +390,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:02:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -480,11 +485,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:02:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -574,11 +580,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:03:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -667,11 +674,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:03:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -760,11 +768,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:04:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -854,11 +863,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:04:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -947,11 +957,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:05:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1041,11 +1052,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:05:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1135,11 +1147,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:06:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1228,11 +1241,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:06:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1323,11 +1337,12 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:07:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chuo Ward, Sapporo City
 EX1 - Target area (ja): 札幌市中央区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1416,11 +1431,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:07:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1510,11 +1526,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:08:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1603,11 +1620,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:08:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1699,11 +1717,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:09:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1793,11 +1812,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:09:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1887,11 +1907,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:10:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -1981,11 +2002,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:10:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2079,11 +2101,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:11:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2172,11 +2195,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:11:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2265,11 +2289,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:12:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2359,11 +2384,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:12:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2452,11 +2478,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:13:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2545,11 +2572,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:13:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2638,11 +2666,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:14:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2732,11 +2761,12 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:14:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Chiyoda City, Tokyo Metropolis
 EX1 - Target area (ja): 東京都千代田区
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2825,11 +2855,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:15:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -2918,11 +2949,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:15:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3013,11 +3045,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:16:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3111,11 +3144,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:16:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3205,11 +3239,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:17:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3299,11 +3334,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:17:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3393,11 +3429,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:18:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3488,11 +3525,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:18:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3581,11 +3619,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:19:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3674,11 +3713,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:19:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3767,11 +3807,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:20:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3861,11 +3902,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:20:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -3955,11 +3997,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:21:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4049,11 +4092,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:21:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4145,11 +4189,12 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:22:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Osaka City, Osaka Prefecture
 EX1 - Target area (ja): 大阪府大阪市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4240,11 +4285,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:22:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4334,11 +4380,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:23:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4427,11 +4474,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:23:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4521,11 +4569,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:24:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4615,11 +4664,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:24:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4708,11 +4758,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:25:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4806,11 +4857,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:25:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4901,11 +4953,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:26:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -4995,11 +5048,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:26:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -5088,11 +5142,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:27:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -5181,11 +5236,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:27:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -5274,11 +5330,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:28:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -5366,11 +5423,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:28:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -5459,11 +5517,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:29:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -5552,11 +5611,12 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:29:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Naha City, Okinawa Prefecture
 EX1 - Target area (ja): 沖縄県那覇市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
@@ -5645,6 +5705,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:30:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -5657,7 +5718,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -5765,6 +5826,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:30:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -5777,7 +5839,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -5877,6 +5939,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:31:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -5889,7 +5952,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -5990,6 +6053,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:31:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6002,7 +6066,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6099,23 +6163,24 @@ LAlert
 A1 - Message type: Test
 A2 - Country/region name: Japan
 A3 - Provider identifier: Foundation for MultiMedia Communications
-A4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)
-A4 - Hazard definition: Undefined hazard definition. (Code: 0)
+A4 - Hazard category and type: Not used - Not used
+A4 - Hazard definition: Not used
 A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:31:00Z
 A8 - Hazard duration: 6H <= Duration < 12H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Shizuoka City, Shizuoka Prefecture
 EX1 - Target area (ja): 静岡県静岡市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
- 'a4_hazard_category': 'UNDEFINED (Code: 0)',
- 'a4_hazard_definition': 'Undefined hazard definition. (Code: 0)',
- 'a4_hazard_type': 'Undefined hazard type (Code: 0)',
+ 'a4_hazard_category': 'Not used',
+ 'a4_hazard_definition': 'Not used',
+ 'a4_hazard_type': 'Not used',
  'a5_severity': 'Severe - Significant threat to life or property',
  'a6_hazard_onset_week': 'Current',
  'a6a7_hazard_onset_datetime': datetime.datetime(2026, 9, 17, 1, 31, tzinfo=datetime.timezone.utc),
@@ -6198,6 +6263,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:32:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6210,7 +6276,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6312,6 +6378,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:32:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6324,7 +6391,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6428,6 +6495,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:33:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6440,7 +6508,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6541,6 +6609,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:33:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6553,7 +6622,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6657,6 +6726,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:34:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6669,7 +6739,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6771,6 +6841,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:34:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6783,7 +6854,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6885,6 +6956,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:35:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -6897,7 +6969,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -6998,6 +7070,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:35:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -7010,7 +7083,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -7112,6 +7185,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:36:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -7124,7 +7198,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -7221,23 +7295,24 @@ LAlert
 A1 - Message type: Test
 A2 - Country/region name: Japan
 A3 - Provider identifier: Foundation for MultiMedia Communications
-A4 - Hazard category and type: UNDEFINED (Code: 0) - Undefined hazard type (Code: 0)
-A4 - Hazard definition: Undefined hazard definition. (Code: 0)
+A4 - Hazard category and type: Not used - Not used
+A4 - Hazard definition: Not used
 A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:36:00Z
 A8 - Hazard duration: 6H <= Duration < 12H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX1 - Target area: Shizuoka City, Shizuoka Prefecture
 EX1 - Target area (ja): 静岡県静岡市
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Foundation for MultiMedia Communications',
- 'a4_hazard_category': 'UNDEFINED (Code: 0)',
- 'a4_hazard_definition': 'Undefined hazard definition. (Code: 0)',
- 'a4_hazard_type': 'Undefined hazard type (Code: 0)',
+ 'a4_hazard_category': 'Not used',
+ 'a4_hazard_definition': 'Not used',
+ 'a4_hazard_type': 'Not used',
  'a5_severity': 'Severe - Significant threat to life or property',
  'a6_hazard_onset_week': 'Current',
  'a6a7_hazard_onset_datetime': datetime.datetime(2026, 9, 17, 1, 36, tzinfo=datetime.timezone.utc),
@@ -7320,6 +7395,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T01:36:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -7332,7 +7408,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -7433,6 +7509,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:37:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 43.04097
 A13 - Ellipse centre longitude: 141.297617
 A14 - Ellipse semi - major axis: 10.933
@@ -7445,7 +7522,7 @@ C3 - Refined length of semi major axis: 9.865
 C4 - Refined length of semi minor axis: 6.768
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 43.04097,
  'a13_ellipse_centre_longitude': 141.297617,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -7548,6 +7625,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:37:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -7560,7 +7638,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -7662,6 +7740,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:38:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -7674,7 +7753,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -7775,6 +7854,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:38:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -7787,7 +7867,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -7889,6 +7969,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:39:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -7901,7 +7982,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8002,6 +8083,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:39:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8014,7 +8096,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8120,6 +8202,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:40:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8132,7 +8215,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8240,6 +8323,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:40:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8252,7 +8336,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8358,6 +8442,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:41:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8370,7 +8455,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8471,6 +8556,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:41:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8483,7 +8569,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8584,6 +8670,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:42:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8596,7 +8683,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8699,6 +8786,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:42:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8711,7 +8799,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8812,6 +8900,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:43:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8824,7 +8913,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -8927,6 +9016,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:43:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -8939,7 +9029,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -9040,6 +9130,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:44:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -9052,7 +9143,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -9154,6 +9245,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:44:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.688258
 A13 - Ellipse centre longitude: 139.756773
 A14 - Ellipse semi - major axis: 3.269
@@ -9166,7 +9258,7 @@ C3 - Refined length of semi major axis: 2.843
 C4 - Refined length of semi minor axis: 2.181
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.688258,
  'a13_ellipse_centre_longitude': 139.756773,
  'a14_ellipse_semi_major_axis': 3.269,
@@ -9268,6 +9360,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:45:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -9280,7 +9373,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -9382,6 +9475,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:45:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -9394,7 +9488,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -9495,6 +9589,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:46:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -9507,7 +9602,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -9608,6 +9703,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:46:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -9620,7 +9716,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -9722,6 +9818,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:47:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -9734,7 +9831,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -9836,6 +9933,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:47:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -9848,7 +9946,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -9950,6 +10048,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:48:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -9962,7 +10061,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10064,6 +10163,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:48:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10076,7 +10176,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10177,6 +10277,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:49:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10189,7 +10290,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10290,6 +10391,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:49:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10302,7 +10404,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10403,6 +10505,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:50:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10415,7 +10518,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10516,6 +10619,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:50:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10528,7 +10632,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10629,6 +10733,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:51:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10641,7 +10746,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10742,6 +10847,7 @@ A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:51:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10754,7 +10860,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10855,6 +10961,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:52:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 34.677501
 A13 - Ellipse centre longitude: 135.516018
 A14 - Ellipse semi - major axis: 4.421
@@ -10867,7 +10974,7 @@ C3 - Refined length of semi major axis: 3.413
 C4 - Refined length of semi minor axis: 2.524
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 34.677501,
  'a13_ellipse_centre_longitude': 135.516018,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -10967,6 +11074,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:52:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -10979,7 +11087,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11081,6 +11189,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:53:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -11093,7 +11202,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11194,6 +11303,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:53:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -11206,7 +11316,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11308,6 +11418,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:54:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -11320,7 +11431,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11421,6 +11532,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:54:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -11433,7 +11545,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11534,6 +11646,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:55:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -11546,7 +11659,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11646,6 +11759,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:55:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -11658,7 +11772,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11758,6 +11872,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T01:56:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 26.206912
 A13 - Ellipse centre longitude: 127.682706
 A14 - Ellipse semi - major axis: 10.933
@@ -11770,7 +11885,7 @@ C3 - Refined length of semi major axis: 8.441
 C4 - Refined length of semi minor axis: 6.242
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 26.206912,
  'a13_ellipse_centre_longitude': 127.682706,
  'a14_ellipse_semi_major_axis': 10.933,
@@ -11870,12 +11985,13 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T02:00:00Z
 A8 - Hazard duration: Unknown
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX8 - Target area list type: Prefecture code
 EX9 - Target area list: ['Hokkaido Prefecture', 'Aomori Prefecture', 'Iwate Prefecture', 'Miyagi Prefecture', 'Akita Prefecture', 'Yamagata Prefecture', 'Fukushima Prefecture', 'Ibaraki Prefecture', 'Tochigi Prefecture', 'Gunma Prefecture', 'Saitama Prefecture', 'Chiba Prefecture', 'Tokyo Metropolis', 'Kanagawa Prefecture', 'Niigata Prefecture', 'Toyama Prefecture', 'Ishikawa Prefecture', 'Fukui Prefecture', 'Yamanashi Prefecture', 'Nagano Prefecture', 'Gifu Prefecture', 'Shizuoka Prefecture', 'Aichi Prefecture', 'Mie Prefecture', 'Shiga Prefecture', 'Kyoto Prefecture', 'Osaka Prefecture', 'Hyogo Prefecture', 'Nara Prefecture', 'Wakayama Prefecture', 'Tottori Prefecture', 'Shimane Prefecture', 'Okayama Prefecture', 'Hiroshima Prefecture', 'Yamaguchi Prefecture', 'Tokushima Prefecture', 'Kagawa Prefecture', 'Ehime Prefecture', 'Kochi Prefecture', 'Fukuoka Prefecture', 'Saga Prefecture', 'Nagasaki Prefecture', 'Kumamoto Prefecture', 'Oita Prefecture', 'Miyazaki Prefecture', 'Kagoshima Prefecture', 'Okinawa Prefecture']
 EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Fire and Disaster Management Agency',
@@ -15139,12 +15255,13 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T02:15:00Z
 A8 - Hazard duration: Unknown
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 EX8 - Target area list type: Prefecture code
 EX9 - Target area list: ['Hokkaido Prefecture', 'Aomori Prefecture', 'Iwate Prefecture', 'Miyagi Prefecture', 'Akita Prefecture', 'Yamagata Prefecture', 'Fukushima Prefecture', 'Ibaraki Prefecture', 'Tochigi Prefecture', 'Gunma Prefecture', 'Saitama Prefecture', 'Chiba Prefecture', 'Tokyo Metropolis', 'Kanagawa Prefecture', 'Niigata Prefecture', 'Toyama Prefecture', 'Ishikawa Prefecture', 'Fukui Prefecture', 'Yamanashi Prefecture', 'Nagano Prefecture', 'Gifu Prefecture', 'Shizuoka Prefecture', 'Aichi Prefecture', 'Mie Prefecture', 'Shiga Prefecture', 'Kyoto Prefecture', 'Osaka Prefecture', 'Hyogo Prefecture', 'Nara Prefecture', 'Wakayama Prefecture', 'Tottori Prefecture', 'Shimane Prefecture', 'Okayama Prefecture', 'Hiroshima Prefecture', 'Yamaguchi Prefecture', 'Tokushima Prefecture', 'Kagawa Prefecture', 'Ehime Prefecture', 'Kochi Prefecture', 'Fukuoka Prefecture', 'Saga Prefecture', 'Nagasaki Prefecture', 'Kumamoto Prefecture', 'Oita Prefecture', 'Miyazaki Prefecture', 'Kagoshima Prefecture', 'Okinawa Prefecture']
 EX9 - Target area list (ja): ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県']
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a1_message_type': 'Test',
  'a2_country_region_name': 'Japan',
  'a3_provider_identifier': 'Related Ministries',
@@ -18406,6 +18523,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T02:30:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 41.76379
 A13 - Ellipse centre longitude: 140.715337
 A14 - Ellipse semi - major axis: 4.421
@@ -18426,7 +18544,7 @@ EX6 - Additional ellipse semi minor axis: 0.535
 EX7 - Additional ellipse azimuth: -37.96875
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 41.76379,
  'a13_ellipse_centre_longitude': 140.715337,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -19725,6 +19843,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T02:35:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.663539
 A13 - Ellipse centre longitude: 139.317317
 A14 - Ellipse semi - major axis: 1.788
@@ -19745,7 +19864,7 @@ EX6 - Additional ellipse semi minor axis: 0.216
 EX7 - Additional ellipse azimuth: -45.0
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.663539,
  'a13_ellipse_centre_longitude': 139.317317,
  'a14_ellipse_semi_major_axis': 1.788,
@@ -21044,6 +21163,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T02:40:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 24.468299
 A13 - Ellipse centre longitude: 122.999748
 A14 - Ellipse semi - major axis: 0.978
@@ -21064,7 +21184,7 @@ EX6 - Additional ellipse semi minor axis: 0.292
 EX7 - Additional ellipse azimuth: -4.21875
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 24.468299,
  'a13_ellipse_centre_longitude': 122.999748,
  'a14_ellipse_semi_major_axis': 0.978,
@@ -21575,6 +21695,7 @@ A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-17T02:45:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 41.76379
 A13 - Ellipse centre longitude: 140.715337
 A14 - Ellipse semi - major axis: 4.421
@@ -21595,7 +21716,7 @@ EX6 - Additional ellipse semi minor axis: 0.535
 EX7 - Additional ellipse azimuth: -37.96875
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 41.76379,
  'a13_ellipse_centre_longitude': 140.715337,
  'a14_ellipse_semi_major_axis': 4.421,
@@ -22897,6 +23018,7 @@ A5 - Severity: Moderate - Possible threat to life or property
 A6A7 - Hazard onset: 2026-09-17T02:50:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 35.663539
 A13 - Ellipse centre longitude: 139.317317
 A14 - Ellipse semi - major axis: 1.788
@@ -22917,7 +23039,7 @@ EX6 - Additional ellipse semi minor axis: 0.216
 EX7 - Additional ellipse azimuth: -45.0
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 35.663539,
  'a13_ellipse_centre_longitude': 139.317317,
  'a14_ellipse_semi_major_axis': 1.788,
@@ -24217,6 +24339,7 @@ A5 - Severity: Extreme - Extraordinary threat to life or property
 A6A7 - Hazard onset: 2026-09-17T02:55:00Z
 A8 - Hazard duration: 12H <= Duration < 24H
 A11 - Instruction: No instruction
+A11 - Instruction (ja): 指示なし
 A12 - Ellipse centre latitude: 24.468299
 A13 - Ellipse centre longitude: 122.999748
 A14 - Ellipse semi - major axis: 0.978
@@ -24237,7 +24360,7 @@ EX6 - Additional ellipse semi minor axis: 0.292
 EX7 - Additional ellipse azimuth: -4.21875
 {'a10_library_version': '#1',
  'a11_japanese_library': 'No instruction',
- 'a11_japanese_library_ja': '',
+ 'a11_japanese_library_ja': '指示なし',
  'a12_ellipse_centre_latitude': 24.468299,
  'a13_ellipse_centre_longitude': 122.999748,
  'a14_ellipse_semi_major_axis': 0.978,

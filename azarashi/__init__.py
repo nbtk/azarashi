@@ -18,7 +18,7 @@ from .exceptions import AzarashiStreamClosedError
 from .exceptions import AzarashiTimeoutError
 from .exceptions import AzarashiUnsupportedFormatError
 from .reports import Report
-from .json import JsonValue, json_schema, to_json_dict, to_ndjson
+from .json import JsonValue, code_tables, json_schema, to_json_dict, to_ndjson
 
 __all__ = [
     # the decoding and reading-state entry points
@@ -26,10 +26,11 @@ __all__ = [
     'decode_stream',
     'reset_reading_state',
 
-    # JSON output and its schema
+    # JSON output, its schema and the code tables its records name
     'to_json_dict',
     'to_ndjson',
     'json_schema',
+    'code_tables',
     'JsonValue',
 
     # the report classes, and the type of what the entry points return

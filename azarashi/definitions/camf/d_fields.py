@@ -29,43 +29,23 @@ d2_seismic_coefficient = CodeTable(
     undefined='Undefined seismic coefficient (Code: %d)'
 )
 
-d3_azimuth_from_centre_of_main_ellipse_to_epicentre = {
-    0: 0.0,
-    1: 22.5,
-    2: 45.0,
-    3: 67.5,
-    4: 90.0,
-    5: 112.5,
-    6: 135.0,
-    7: 157.5,
-    8: 180.0,
-    9: 202.5,
-    10: 225.0,
-    11: 247.5,
-    12: 270.0,
-    13: 292.5,
-    14: 315.0,
-    15: 337.5,
-}
+#: CAMF Issue 1.2, 18.4.35.3, in degrees
+d3_azimuth_from_centre_of_main_ellipse_to_epicentre_value = {code: code * 22.5 for code in range(16)}
 
-d4_vector_length_between_centre_of_main_ellipse_and_epicentre = {
-    0: 0.25,
-    1: 0.5,
-    2: 0.75,
-    3: 1,
-    4: 2,
-    5: 3,
-    6: 5,
-    7: 10,
-    8: 20,
-    9: 30,
-    10: 40,
-    11: 50,
-    12: 70,
-    13: 100,
-    14: 150,
-    15: 200,
-}
+d3_azimuth_from_centre_of_main_ellipse_to_epicentre = CodeTable(
+    {code: f'{deg:g}°' for code, deg in d3_azimuth_from_centre_of_main_ellipse_to_epicentre_value.items()},
+    undefined='Undefined azimuth from centre of main ellipse to epicentre (Code: %d)'
+)
+
+#: CAMF Issue 1.2, 18.4.35.4, in lengths of the semi-major axis of the main ellipse
+d4_vector_length_between_centre_of_main_ellipse_and_epicentre_value = dict(
+    enumerate([0.25, 0.5, 0.75, 1, 2, 3, 5, 10, 20, 30, 40, 50, 70, 100, 150, 200])
+)
+
+d4_vector_length_between_centre_of_main_ellipse_and_epicentre = CodeTable(
+    {code: f'{factor:g}' for code, factor in d4_vector_length_between_centre_of_main_ellipse_and_epicentre_value.items()},
+    undefined='Undefined vector length between centre of main ellipse and epicentre (Code: %d)'
+)
 
 d5_wave_height = CodeTable(
     {

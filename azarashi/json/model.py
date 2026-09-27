@@ -1,21 +1,29 @@
-"""Report JSON conversion. Field selection is explicit; arbitrary instance attributes are not exported."""
+"""Report JSON conversion. Field selection is explicit; arbitrary instance attributes are not exported.
 
-import importlib
+Every field of data has one of a few outer shapes: a code, a quantity, a time, a position or a
+group of values, each with a status that says whether the value can be used as it is.
+"""
+
 import math
-import re
-from itertools import pairwise
 from datetime import UTC, datetime
+from itertools import pairwise
+from collections.abc import Mapping
 from typing import Any, TypeAlias, cast
+
 from .. import reports
-from ..definitions.qzss.dcr.latitude_and_longitude import is_position
-from ..reports.base import Coordinates
-from ..exceptions import AzarashiArgumentTypeError
-from ..definitions.camf import d_fields as B4_MODULE
 from ..definitions.camf.a11_library import a11_library
-from ..definitions.camf.a3_provider_identifier import a3_provider_identifier_map
+from ..definitions.camf.a7_hazard_onset_time_of_week import a7_hazard_onset_time_of_week_not_used_en
+from ..definitions.camf.c7_shift_of_second_ellipse_centre import c7_shift_of_second_ellipse_centre_value
+from ..definitions.camf.c8_homothetic_factor_of_second_ellipse import c8_homothetic_factor_of_second_ellipse_value
+from ..definitions.camf.c9_bearing_angle_of_second_ellipse import c9_bearing_angle_of_second_ellipse_value
+from ..definitions.camf.d_fields import d3_azimuth_from_centre_of_main_ellipse_to_epicentre_value
+from ..definitions.camf.d_fields import d4_vector_length_between_centre_of_main_ellipse_and_epicentre_value
+from ..definitions.qzss.dcr.day_hour_minute import expected_tsunami_arrival_time_kind
+from ..definitions.qzss.dcr.latitude_and_longitude import is_position
 from ..definitions.qzss.dcx.ex9_target_area_code import EX9_PREFECTURE_BITS
-from ..definitions.qzss.dcx.ex9_target_area_code import ex9_target_area_code_ja, ex9_target_area_code_en
-from ..definitions.qzss.dcx.ex1_target_area_code import ex1_target_area_code_ja, ex1_target_area_code_en
+from ..exceptions import AzarashiArgumentTypeError
+from ..reports.base import Coordinates, DayHourMinute
+from .tables import B4_NAMES, TABLES, Table, instruction, provider
 
 JsonValue: TypeAlias = str | int | float | bool | None | list["JsonValue"] | dict[str, "JsonValue"]
 
@@ -26,169 +34,197 @@ def utc(value: datetime) -> str:
     return value.astimezone(UTC).isoformat().replace("+00:00", "Z")
 
 
-def _coded(scheme: str, value: int, ja: Any = None, en: Any = None) -> dict[str, Any]:
-    known = any(value in table for table in (ja, en) if table is not None)
-    labels = {
-        lang: table[value]
-        for lang, table in [("ja", ja), ("en", en)]
-        if table is not None and value in table and isinstance(table[value], str) and table[value]
-    }
-    return {"scheme": scheme, "code": str(value), "recognized": known, "labels": labels}
+def utc_milliseconds(value: datetime) -> str:
+    if value.tzinfo is None:
+        raise ValueError("Naive datetime")
+    return value.astimezone(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
-def _quantity(code: dict[str, Any], profile: str) -> dict[str, Any]:
-    n = int(code["code"])
-    if not code["recognized"]:
-        return {"kind": "missing", "reason": "unrecognized_code", "code": code}
-    scalar, bounds, missing, unit = PROFILES[profile] if profile in PROFILES else CAMF_PROFILES[profile]
-    if n in scalar:
-        return {"kind": "scalar", "value": scalar[n], "unit": unit, "code": code}
-    if n in bounds:
-        lower, upper = bounds[n]
-        result = {"kind": "bounds", "lower": lower, "upper": upper, "unit": unit, "code": code}
-        if profile == "hypocenter_magnitude" and n == 126:
-            result["qualifier"] = "unknown_value"
-        return result
-    if n in missing:
-        return {"kind": "missing", "reason": missing[n], "code": code}
-    return {"kind": "category", "code": code}
-
-
-def _bound(value: float, inclusive: bool) -> dict[str, Any]:
-    return {"value": value, "inclusive": inclusive}
-
-
-PROFILES: dict[str, Any] = {
-    "depth_of_hypocenter": ({i: i for i in range(501)}, {501: (_bound(500, False), None)}, {511: "unknown"}, "km"),
-    "eew_magnitude": ({i: i / 10 for i in range(1, 101)}, {101: (_bound(10, False), None)}, {127: "unknown"}, None),
-    "hypocenter_magnitude": (
-        {i: i / 10 for i in range(1, 101)},
-        {101: (_bound(10, False), None), 126: (_bound(8, False), None)},
-        {127: "unknown"},
-        None,
-    ),
-    "tsunami_height": (
-        {},
-        {
-            1: (None, _bound(0.2, False)),
-            2: (_bound(0.2, True), _bound(1, True)),
-            3: (_bound(1, False), _bound(3, True)),
-            4: (_bound(3, False), _bound(5, True)),
-            5: (_bound(5, False), _bound(10, True)),
-            6: (_bound(10, False), None),
-        },
-        {13: "no_information", 14: "unknown"},
-        "m",
-    ),
-    "northwest_pacific_tsunami_height": ({}, {508: (_bound(10, False), None)}, {511: "unknown"}, "m"),
-    "typhoon_central_pressure": ({i: i for i in range(1101)}, {}, {}, "hPa"),
-    "typhoon_maximum_wind_speed": ({i: i for i in range(15, 106)}, {}, {0: "unknown"}, "m/s"),
-    "typhoon_maximum_gust_wind_speed": ({i: i for i in range(15, 106)}, {}, {0: "unknown"}, "m/s"),
-    "expected_ash_fall_time": ({i: i for i in range(1, 7)}, {}, {}, "h"),
-    "typhoon_elapsed_time_from_reference_time": ({i: i for i in range(128)}, {}, {}, "h"),
-}
-
-
-Range: TypeAlias = tuple[dict[str, Any] | None, dict[str, Any] | None]  # (lower, upper), None where it is open
+Range: TypeAlias = tuple[float | None, float | None]  # (lower, upper), None where it is open
 
 
 def _up_to(*edges: float, floor: float | None = None) -> dict[int, Range]:
-    """Contiguous ranges that leave out their lower edge and hold their upper one: (a, b].
-
-    The first range reaches down without limit unless a floor is given, which it then leaves out;
-    the last reaches up without limit.
-    """
-    rows: list[Range] = [(None if floor is None else _bound(floor, False), _bound(edges[0], True))]
-    rows += [(_bound(a, False), _bound(b, True)) for a, b in pairwise(edges)]
-    rows.append((_bound(edges[-1], False), None))
+    """Contiguous ranges up to each edge: the first from the floor, or from nothing, the last without end."""
+    rows: list[Range] = [(floor, edges[0]), *pairwise(edges), (edges[-1], None)]
     return dict(enumerate(rows))
 
 
 def _from(*edges: float, floor: float | None = None) -> dict[int, Range]:
-    """Contiguous ranges that hold their lower edge and leave out their upper one: [a, b).
-
-    A floor adds a first range above it, leaving both the floor and the first edge out; the last
-    range reaches up without limit.
-    """
-    rows: list[Range] = [] if floor is None else [(_bound(floor, False), _bound(edges[0], False))]
-    rows += [(_bound(a, True), _bound(b, False)) for a, b in pairwise(edges)]
-    rows.append((_bound(edges[-1], True), None))
+    """Contiguous ranges from each edge, the last without end; a floor adds a first range below them."""
+    rows: list[Range] = [] if floor is None else [(floor, edges[0])]
+    rows += pairwise(edges)
+    rows.append((edges[-1], None))
     return dict(enumerate(rows))
 
 
-D26_FROM = (0, 10, 21, 51, 71, 101, 126, 151, 176, 201, 251, 301, 351, 401, 451, 501, 751)
+#: a quantity table: the codes that are one number, those that are a range, and the UCUM unit
+Profile: TypeAlias = tuple[Mapping[int, float], Mapping[int, Range], str]
 
-#: CAMF Issue 1.2, 18.4.35: the B4 details that are numbers or numeric ranges. The edges are the
-#: numbers the tables print. Where a table writes both sides of an edge with <, the edge goes with
-#: the lower range, as the tables that do say where it goes mostly have it.
-CAMF_PROFILES: dict[str, Any] = {
-    "d1_magnitude_on_richter_scale": ({}, _from(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), {}, None),
-    "d3_azimuth_from_centre_of_main_ellipse_to_epicentre": ({i: i * 22.5 for i in range(16)}, {}, {}, "deg"),
-    "d4_vector_length_between_centre_of_main_ellipse_and_epicentre": (
-        dict(enumerate([0.25, 0.5, 0.75, 1, 2, 3, 5, 10, 20, 30, 40, 50, 70, 100, 150, 200])),
+PROFILES: dict[str, Profile] = {
+    "qzss.dcr.depth_of_hypocenter": ({i: i for i in range(501)}, {501: (500, None)}, "km"),
+    "qzss.dcr.eew_magnitude": ({i: i / 10 for i in range(1, 101)}, {101: (10, None)}, "1"),
+    "qzss.dcr.hypocenter_magnitude": ({i: i / 10 for i in range(1, 101)}, {101: (10, None), 126: (8, None)}, "1"),
+    "qzss.dcr.tsunami_height": (
         {},
-        {},
-        "semi_major_axis",
+        {1: (None, 0.2), 2: (0.2, 1), 3: (1, 3), 4: (3, 5), 5: (5, 10), 6: (10, None)},
+        "m",
     ),
-    "d5_wave_height": ({}, _up_to(0.5, 1.0, 1.5, 2.0, 3.0, 5.0, 10.0), {}, "m"),
-    "d6_temperature_range": ({}, _up_to(*range(-30, 36, 5), 45), {}, "degC"),
-    "d8_wind_speed": ({}, _up_to(1, 6, 12, 20, 31, 40, 51, 62, 75, 89, 103, 118, floor=0), {}, "km/h"),
-    "d9_rainfall_amounts": ({}, _up_to(2.5, 7.5, 10, 20, 30, 50, 80), {}, "mm/h"),
-    "d13_visibility": ({}, _up_to(20, 200, 500, 1000, 2000, 4000, 10000, 20000, 50000), {}, "m"),
-    "d14_snow_depth": ({}, _up_to(*range(20, 601, 20), floor=0), {}, "cm"),
-    "d26_number_of_cases_per_100000_inhabitants": (
+    "qzss.dcr.northwest_pacific_tsunami_height": (
+        {},
+        {1: (0.3, 1), 2: (1, 3), 3: (3, 5), 4: (5, 10), 508: (10, None)},
+        "m",
+    ),
+    "qzss.dcr.typhoon_central_pressure": ({i: i for i in range(1101)}, {}, "hPa"),
+    "qzss.dcr.typhoon_maximum_wind_speed": ({i: i for i in range(15, 106)}, {}, "m/s"),
+    "qzss.dcr.typhoon_maximum_gust_wind_speed": ({i: i for i in range(15, 106)}, {}, "m/s"),
+    "qzss.dcr.expected_ash_fall_time": ({i: i for i in range(1, 7)}, {}, "h"),
+    "qzss.dcr.typhoon_elapsed_time_from_reference_time": ({i: i for i in range(128)}, {}, "h"),
+    # CAMF Issue 1.2, 18.4.35: the B4 details that are numbers or numeric ranges, by the numbers the tables print
+    "camf.d1_magnitude_on_richter_scale": ({}, _from(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), "1"),
+    "camf.d3_azimuth_from_centre_of_main_ellipse_to_epicentre": (
+        d3_azimuth_from_centre_of_main_ellipse_to_epicentre_value,
+        {},
+        "deg",
+    ),
+    "camf.d4_vector_length_between_centre_of_main_ellipse_and_epicentre": (
+        d4_vector_length_between_centre_of_main_ellipse_and_epicentre_value,
+        {},
+        "1",
+    ),
+    # CAMF Issue 1.2, 18.3: the second ellipse, made from the main one
+    "camf.c7_shift_of_second_ellipse_centre": (c7_shift_of_second_ellipse_centre_value, {}, "1"),
+    "camf.c8_homothetic_factor_of_second_ellipse": (c8_homothetic_factor_of_second_ellipse_value, {}, "1"),
+    "camf.c9_bearing_angle_of_second_ellipse": (c9_bearing_angle_of_second_ellipse_value, {}, "deg"),
+    "camf.d5_wave_height": ({}, _up_to(0.5, 1.0, 1.5, 2.0, 3.0, 5.0, 10.0), "m"),
+    "camf.d6_temperature_range": ({}, _up_to(*range(-30, 36, 5), 45), "Cel"),
+    "camf.d8_wind_speed": ({}, _up_to(1, 6, 12, 20, 31, 40, 51, 62, 75, 89, 103, 118, floor=0), "km/h"),
+    "camf.d9_rainfall_amounts": ({}, _up_to(2.5, 7.5, 10, 20, 30, 50, 80), "mm/h"),
+    "camf.d13_visibility": ({}, _up_to(20, 200, 500, 1000, 2000, 4000, 10000, 20000, 50000), "m"),
+    "camf.d14_snow_depth": ({}, _up_to(*range(20, 601, 20), floor=0), "cm"),
+    "camf.d26_number_of_cases_per_100000_inhabitants": (
         {},
         {
-            **{i: (_bound(a, True), _bound(b, False)) for i, (a, b) in enumerate(pairwise(D26_FROM))},
-            16: (_bound(751, True), _bound(1000, True)),
-            17: (_bound(1000, False), _bound(2000, True)),
-            18: (_bound(2000, False), _bound(3000, True)),
-            19: (_bound(3000, False), _bound(5000, True)),
-            20: (_bound(5000, False), None),
+            **dict(enumerate(pairwise((0, 10, 21, 51, 71, 101, 126, 151, 176, 201, 251, 301, 351, 401, 451, 501, 751)))),
+            16: (751, 1000),
+            17: (1000, 2000),
+            18: (2000, 3000),
+            19: (3000, 5000),
+            20: (5000, None),
         },
-        {},
-        None,
+        "1",
     ),
-    "d27_noise_range": ({}, _up_to(45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, floor=40), {}, "dB"),
-    "d29_outage_estimated_duration": (
+    "camf.d27_noise_range": ({}, _up_to(45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, floor=40), "dB"),
+    "camf.d29_outage_estimated_duration": (
         {},
         _from(30, 45, 60, 90, 120, 180, 240, 300, 600, 1440, 2880, 10080, floor=0),
-        {},
         "min",
     ),
 }
 
+#: a quantity measured in something the record gives elsewhere, rather than in a unit
+RELATIVE_TO = {
+    "camf.d4_vector_length_between_centre_of_main_ellipse_and_epicentre": "main_ellipse.semi_major_axis",
+    "camf.c7_shift_of_second_ellipse_centre": "main_ellipse.semi_major_axis",
+    "camf.c8_homothetic_factor_of_second_ellipse": "main_ellipse",  # both of its semi-axes
+    "camf.c9_bearing_angle_of_second_ellipse": "main_ellipse.azimuth",  # turned from it
+}
 
-def _time_value(
-    dt: datetime | None, raw: dict[str, int] | None = None, basis: str = "report_time", arrival: str | None = None
-) -> dict[str, Any]:
-    if dt is not None:
-        return {"status": "time", "value": utc(dt), "basis": basis}
-    status = "unrecognized_code"
-    if arrival and raw is not None and (raw["hour"] == 31) and (raw["minute"] == 63):
-        status = "arrived_or_unknown" if arrival == "northwest" else "arrival_estimated"
-    elif arrival == "domestic" and raw == {"day": 0, "hour": 30, "minute": 62}:
-        status = "no_information"
-    elif raw and raw.get("minute_of_week") == 0:
-        status = "not_used"
-    result: dict[str, Any] = {"status": status, "value": None, "basis": None}
-    if status == "unrecognized_code":
-        result["source"] = raw
+
+def quantity(table: Table, n: int, assumed: bool = False) -> dict[str, Any]:
+    """A code that stands for a number or a range of numbers, in the unit of its table.
+
+    A code that stands for no number has no value; one that says the number is unknown has a null one.
+    """
+    scalars, ranges, unit = PROFILES[table.name]
+    status = table.status(n)
+    result: dict[str, Any] = {"status": status}
+    if status == "valid" and assumed:
+        result["status"] = "assumed"
+    if n in scalars:
+        result.update({"value": scalars[n], "unit": unit})
+    elif n in ranges:
+        lower, upper = ranges[n]
+        result.update({"range": {"lower": lower, "upper": upper}, "unit": unit})
+    elif status != "valid":
+        result["value"] = None
+    if table.name in RELATIVE_TO and "unit" in result:
+        result["relative_to"] = RELATIVE_TO[table.name]
+    code_object = table.code(n)
+    del code_object["status"]
+    return {**result, **code_object}
+
+
+def _time(dt: datetime | None, source: dict[str, int], basis: str, precision: str = "minute") -> dict[str, Any]:
+    """A time the message gives: how precise it is, and which time gave the parts the message leaves out.
+
+    One whose fields are not a time is undefined.
+    """
+    if dt is None:
+        return _no_time("undefined", source)
+    return {"status": "valid", "value": utc(dt), "precision": precision, "basis": basis, "source": source}
+
+
+def _no_time(status: str, source: dict[str, int], labels: dict[str, str] | None = None) -> dict[str, Any]:
+    """A time field that holds no time, with what the message gave in its place."""
+    result: dict[str, Any] = {"status": status, "value": None}
+    if labels:
+        result["labels"] = labels
+    result["source"] = source
     return result
 
 
-def _position(raw: Coordinates) -> dict[str, Any]:
-    valid = is_position(raw)
+def _day_hour_minute(raw: DayHourMinute) -> dict[str, int]:
+    return {"day": raw["day"], "hour": raw["hour"], "minute": raw["minute"]}
 
+
+def _arrival(report: Any, i: int, domestic: bool) -> dict[str, Any]:
+    """An expected tsunami arrival: a time, or one of the words the tables give in place of one."""
+    dt = report.expected_tsunami_arrival_times[i]
+    raw = report.expected_tsunami_arrival_times_raw[i]
+    source = _day_hour_minute(raw)
+    arrived = (raw["hour"], raw["minute"]) == (31, 63)
+    if dt is not None:
+        return _time(dt, source, "report_time")
+    if domestic and (arrived or (raw["day"], raw["hour"], raw["minute"]) == (0, 30, 62)):
+        ja, en = expected_tsunami_arrival_time_kind(raw, False)
+        return _no_time("special", source, {"ja": ja, "en": en})
+    if not domestic and arrived:  # arrived, or its time unknown
+        return _no_time("special", source, {"en": report.expected_tsunami_arrival_time_types_en[i]})
+    return _no_time("undefined", source)
+
+
+POSITION_SOURCE = {
+    "lat_ns": "latitude_hemisphere",
+    "lat_d": "latitude_degrees",
+    "lat_m": "latitude_minutes",
+    "lat_s": "latitude_seconds",
+    "lon_ew": "longitude_hemisphere",
+    "lon_d": "longitude_degrees",
+    "lon_m": "longitude_minutes",
+    "lon_s": "longitude_seconds",
+}
+
+
+def _position(raw: Coordinates) -> dict[str, Any]:
     def degree(d: int, m: int, s: int, negative: int) -> float:
         return round((d + m / 60 + s / 3600) * (-1 if negative else 1), 9)
 
-    return {
-        "status": "valid" if valid else "unrecognized_code",
-        "latitude_deg": degree(raw["lat_d"], raw["lat_m"], raw["lat_s"], raw["lat_ns"]) if valid else None,
-        "longitude_deg": degree(raw["lon_d"], raw["lon_m"], raw["lon_s"], raw["lon_ew"]) if valid else None,
-        "source": raw,
-    }
+    source = {POSITION_SOURCE[key]: value for key, value in raw.items()}
+    if not is_position(raw):
+        return {"status": "undefined", "value": None, "source": source}
+    latitude = degree(raw["lat_d"], raw["lat_m"], raw["lat_s"], raw["lat_ns"])
+    longitude = degree(raw["lon_d"], raw["lon_m"], raw["lon_s"], raw["lon_ew"])
+    return {"status": "valid", "value": {"latitude": latitude, "longitude": longitude}, "unit": "deg", "source": source}
+
+
+def _version(value: int, valid: bool) -> dict[str, Any]:
+    """The version the message says it is in: valid where it is one the specification gives."""
+    return {"status": "valid" if valid else "undefined", "value": value}
+
+
+def _dcr(table: str, n: int, assumed: bool = False) -> dict[str, Any]:
+    t = TABLES["qzss.dcr." + table]
+    return quantity(t, n, assumed) if t.name in PROFILES else t.code(n)
 
 
 COMMON = [
@@ -282,7 +318,7 @@ LISTS = {
         "warnings",
         [
             ("region", "flood_forecast_regions_raw", "flood_forecast_region"),
-            ("level", "flood_warning_levels_raw", "flood_warning_level"),
+            ("warning", "flood_warning_levels_raw", "flood_warning_level"),
         ],
     ),
     "Marine": (
@@ -343,106 +379,96 @@ TYPE_NAMES = dict(
     )
 )
 
-
-def _dcr_code(table: str, value: int) -> dict[str, Any]:
-    tables = importlib.import_module(f"..definitions.qzss.dcr.{table}", __package__)
-    ja = getattr(tables, table, None)
-    en = getattr(tables, table + "_en", None)
-    return _coded("qzss.dcr." + table, value, ja, en)
-
-
-def _dcr_value(table: str, value: int) -> dict[str, Any]:
-    c = _dcr_code(table, value)
-    return _quantity(c, table) if table in PROFILES else c
+#: the precision of a volcano's activity time by its ambiguity Du; 6 and 7 leave no time
+ACTIVITY_PRECISION = ["minute", "minute", "minute", "minute", "hour", "day"]
 
 
 def dcr_model(name: str, report: Any) -> dict[str, Any]:
+    at = report.report_time
     data: dict[str, Any] = {
-        "version": report.version,
-        "report_time": _time_value(report.report_time, basis="received_at"),
+        "version": _version(report.version, report.version == 1),
+        "report_time": _time(at, {"month": at.month, "day": at.day, "hour": at.hour, "minute": at.minute}, "received_at"),
     }
+    assumed = bool(getattr(report, "assumptive", False))
     for out, src, table in COMMON + SINGLES.get(name, []):
-        data[out] = _dcr_value(table, getattr(report, src))
+        data[out] = _dcr(table, getattr(report, src), assumed and out in ("depth", "magnitude"))
     if name in TIMES:
         out, src = TIMES[name]
-        data[out] = _time_value(getattr(report, src), getattr(report, src + "_raw"))
+        given = _day_hour_minute(getattr(report, src + "_raw"))
+        du: int = report.ambiguity_of_activity_time_no if name == "Volcano" else 0
+        if du < len(ACTIVITY_PRECISION):
+            data[out] = _time(getattr(report, src), given, "report_time", ACTIVITY_PRECISION[du])
+        else:  # the message gives a time, and says its day, hour and minute are not valid
+            data[out] = _no_time("special", given, TABLES["qzss.dcr.ambiguity_of_activity_time"].labels(du))
     if name in ("EarthquakeEarlyWarning", "Hypocenter", "Tsunami"):
         data["notifications"] = [
-            _dcr_value("notification_on_disaster_prevention", n) for n in report.notifications_on_disaster_prevention_raw
+            _dcr("notification_on_disaster_prevention", n) for n in report.notifications_on_disaster_prevention_raw
         ]
     if name in LISTS:
         out, columns = LISTS[name]
-        arrival = name in ("Tsunami", "NorthwestPacificTsunami")
         rows = list(zip(*(getattr(report, src) for _, src, _ in columns), strict=True))
-        data[out] = [
-            {key: _dcr_value(table, v) for (key, _, table), v in zip(columns, row, strict=True)} for row in rows
-        ]
-        if arrival:
-            for item, dt, raw in zip(
-                data[out], report.expected_tsunami_arrival_times, report.expected_tsunami_arrival_times_raw, strict=True
-            ):
-                item["arrival"] = _time_value(dt, raw, arrival="domestic" if name == "Tsunami" else "northwest")
+        data[out] = [{key: _dcr(table, v) for (key, _, table), v in zip(columns, row, strict=True)} for row in rows]
+        if name in ("Tsunami", "NorthwestPacificTsunami"):
+            for i, item in enumerate(data[out]):
+                item["arrival"] = _arrival(report, i, domestic=name == "Tsunami")
     for cls, source, table in [
         ("EarthquakeEarlyWarning", "eew_forecast_regions_raw", "eew_forecast_region"),
         ("Volcano", "local_governments_raw", "local_government"),
     ]:
         if name == cls:
-            data["target_regions"] = [_dcr_value(table, n) for n in getattr(report, source)]
+            data["target_regions"] = [_dcr(table, n) for n in getattr(report, source)]
     if name in ("Hypocenter", "Typhoon"):
         data["position"] = _position(
             getattr(report, "coordinates_of_" + ("hypocenter" if name == "Hypocenter" else "typhoon") + "_raw")
         )
-    if name == "EarthquakeEarlyWarning":
-        data["assumptive"] = report.assumptive
     if name == "Volcano":
-        data["activity_time_ambiguity"] = _dcr_code("ambiguity_of_activity_time", report.ambiguity_of_activity_time_no)
+        data["activity_time_ambiguity"] = _dcr("ambiguity_of_activity_time", report.ambiguity_of_activity_time_no)
     if name == "NankaiTroughEarthquake":
         data["page"] = {
             "number": report.page_number,
             "total": report.total_page,
             "content_hex": report.text_information.hex(),
         }
-    optional = []
-    if name == "EarthquakeEarlyWarning":
-        optional = ["long_period_ground_motion_lower", "long_period_ground_motion_upper"]
-        for key in optional:
-            if key in data and data[key]["code"] == "0":
-                del data[key]
     return data
 
 
-def _ellipse(report: Any, prefix: str) -> dict[str, Any]:
-    names = {
-        "main": (
-            "a12_ellipse_centre_latitude",
-            "a13_ellipse_centre_longitude",
-            "a14_ellipse_semi_major_axis",
-            "a15_ellipse_semi_minor_axis",
-            "a16_ellipse_azimuth",
-        ),
-        "refined": (
-            "c1_refined_latitude_of_centre_of_main_ellipse",
-            "c2_refined_longitude_of_centre_of_main_ellipse",
-            "c3_refined_length_of_semi_major_axis",
-            "c4_refined_length_of_semi_minor_axis",
-            "a16_ellipse_azimuth",
-        ),
-        "additional": (
-            "ex3_additional_ellipse_centre_latitude",
-            "ex4_additional_ellipse_centre_longitude",
-            "ex5_additional_ellipse_semi_major_axis",
-            "ex6_additional_ellipse_semi_minor_axis",
-            "ex7_additional_ellipse_azimuth",
-        ),
-    }
+ELLIPSES = {
+    "main": (
+        "a12_ellipse_centre_latitude",
+        "a13_ellipse_centre_longitude",
+        "a14_ellipse_semi_major_axis",
+        "a15_ellipse_semi_minor_axis",
+        "a16_ellipse_azimuth",
+    ),
+    "refined": (
+        "c1_refined_latitude_of_centre_of_main_ellipse",
+        "c2_refined_longitude_of_centre_of_main_ellipse",
+        "c3_refined_length_of_semi_major_axis",
+        "c4_refined_length_of_semi_minor_axis",
+        "a16_ellipse_azimuth",
+    ),
+    "additional": (
+        "ex3_additional_ellipse_centre_latitude",
+        "ex4_additional_ellipse_centre_longitude",
+        "ex5_additional_ellipse_semi_major_axis",
+        "ex6_additional_ellipse_semi_minor_axis",
+        "ex7_additional_ellipse_azimuth",
+    ),
+}
+
+
+def _ellipse(report: Any, which: str) -> dict[str, Any]:
     keys = ("centre_latitude", "centre_longitude", "semi_major_axis", "semi_minor_axis", "azimuth")
-    fields = names[prefix]
+    fields = ELLIPSES[which]
     lat, lon, major, minor, angle = [getattr(report, n) for n in fields]
     return {
-        "centre": {"latitude_deg": lat, "longitude_deg": lon},
-        "semi_major_axis_km": major,
-        "semi_minor_axis_km": minor,
-        "azimuth_deg": angle,
+        "status": "valid",
+        "value": {
+            "centre": {"latitude_deg": lat, "longitude_deg": lon},
+            "semi_major_axis_km": major,
+            "semi_minor_axis_km": minor,
+            "azimuth_deg": angle,
+        },
         # the transmitted codes, so that the conversions above never have to be inverted
         "source": {key: getattr(report.camf, field.split("_", 1)[0]) for key, field in zip(keys, fields, strict=True)},
     }
@@ -455,93 +481,148 @@ XCODES = [
     ("duration", "a8", "a8_hazard_duration"),
 ]
 
-B4_TABLES: dict[str, Any] = {k: v for k, v in vars(B4_MODULE).items() if re.match("d\\d+_", k)}
+#: the version IS-QZSS-DCX-004 gives the messages of Japan; one from outside Japan is in its sender's
+#: own versions, and one of a kind DCX does not define has none the specification gives
+DCX_VERSION = {"LAlert": 1, "JAlert": 1, "MTInfo": 1}
+
+SETTINGS = ["refined_ellipse", "hazard_centre", "second_ellipse", "hazard_details"]
 
 
-def _xcode(table: str, n: int) -> dict[str, Any]:
-    """A table CAMF defines, under the camf. scheme of that table."""
-    module = "a4_hazard_category_and_type" if table.startswith("a4_") else table
-    definitions = importlib.import_module(f"..definitions.camf.{module}", __package__)
-    return _coded("camf." + table, n, en=getattr(definitions, table))
+def _camf(table: str, n: int) -> dict[str, Any]:
+    t = TABLES["camf." + table]
+    return quantity(t, n) if t.name in PROFILES else t.code(n)
 
 
-def _region_code(n: int) -> dict[str, Any]:
-    return _coded("qzss.dcx.area_code", n, ex1_target_area_code_ja, ex1_target_area_code_en)
+def _target_regions(report: Any) -> list[dict[str, Any]] | None:
+    c = report.camf
+    area = TABLES["qzss.dcx.ex1_target_area_code"]
+    regions = None
+    if not report.ignore_ex1:
+        regions = [] if c.ex1 == 0 else [area.code(c.ex1)]  # all 0: no target area
+    if not report.ignore_ex8_to_ex9:
+        if c.ex8 == 0:
+            bits = TABLES["qzss.dcx.ex9_target_area_code_list"]
+            regions = [bits.code(bit) for bit in range(EX9_PREFECTURE_BITS) if c.ex9 & 1 << bit + 17]
+        else:
+            regions = [area.code(n) for shift in (48, 32, 16, 0) if (n := (c.ex9 >> shift & 65535))]
+    return regions
 
 
-def _prefecture_bit(bit: int) -> dict[str, Any]:
-    """The prefecture EX9 sets at this bit, keyed by the bit position rather than the mask."""
-    def named(table: Any) -> dict[int, Any]:
-        mask = 1 << bit
-        return {bit: table[mask]} if mask in table else {}  # an unnamed bit keeps its position only
-
-    return _coded("qzss.dcx.prefecture_bit", bit, named(ex9_target_area_code_ja), named(ex9_target_area_code_en))
-
-
-def _instruction_scheme(camf: Any) -> str:
-    """The library A11 indexes: the international one for A9=0, the national one of A2 otherwise."""
-    if camf.a9 == 0:  # the international library is the same table for every country
-        return f"camf.instruction.library_{camf.a9}.version_{camf.a10}"
-    return f"camf.instruction.country_{camf.a2}.library_{camf.a9}.version_{camf.a10}"
+def _specific_settings(report: Any) -> dict[str, Any]:
+    c = report.camf
+    kind = SETTINGS[int(c.a17)]
+    settings: dict[str, Any] = {"type": _camf("a17_type_of_specific_settings", c.a17)}
+    if c.a17 == 0:
+        settings[kind] = _ellipse(report, "refined")
+    elif c.a17 == 1:
+        settings[kind] = {
+            "status": "valid",
+            "value": {
+                "latitude_deg": report.c5_latitude_of_centre_of_hazard,
+                "longitude_deg": report.c6_longitude_of_centre_of_hazard,
+            },
+            "source": {"latitude": c.c5, "longitude": c.c6},  # offsets from the main ellipse centre
+        }
+    elif c.a17 == 2:
+        settings[kind] = {
+            "shift": _camf("c7_shift_of_second_ellipse_centre", c.c7),
+            "scale_factor": _camf("c8_homothetic_factor_of_second_ellipse", c.c8),
+            "bearing": _camf("c9_bearing_angle_of_second_ellipse", c.c9),
+            "instruction": _camf("c10_instruction_library_for_second_ellipse", c.c10),
+        }
+    else:
+        details: dict[str, Any] = {}
+        for name in B4_NAMES:
+            raw = getattr(c, name.split("_", 1)[0])
+            if raw is not None:
+                details[name.split("_", 1)[1]] = _camf(name, raw)
+        settings[kind] = details
+    return settings
 
 
 def dcx_model(name: str, report: Any) -> dict[str, Any]:
     if name == "NullMsg":
         return {}
     c = report.camf
-    data = {"version": report.dcx_version, **{out: _xcode(table, getattr(c, field)) for out, field, table in XCODES}}
-    provider_table: Any = a3_provider_identifier_map.get(c.a2)
-    data["provider"] = _coded(f"camf.provider.country_{c.a2}", c.a3, en=provider_table)
-    data["hazard"] = {part: _xcode("a4_hazard_" + part, c.a4) for part in ("type", "category", "definition")}
-    data["onset"] = _time_value(
-        report.a6a7_hazard_onset_datetime, {"week": c.a6, "minute_of_week": c.a7}, basis="received_at"
-    )
-    library = a11_library(c.a9, c.a2, c.a10)
-    identifier = None if library.identifier is None else library.identifier.get(c.a11)
-    data["instruction"] = {
-        "library": _xcode("a9_type_of_library", c.a9),
-        "version": _xcode("a10_library_version", c.a10),
-        "content": _coded(_instruction_scheme(c), c.a11, library.ja, library.en),
-        "identifier": identifier,
+    data: dict[str, Any] = {
+        "version": _version(
+            report.dcx_version,
+            name == "OutsideJapan" or report.dcx_version == DCX_VERSION.get(name),
+        ),
+        **{out: _camf(table, getattr(c, field)) for out, field, table in XCODES},
+        "provider": provider(c.a2).code(c.a3),
+        "hazard": {part: _camf("a4_hazard_" + part, c.a4) for part in ("type", "category", "definition")},
     }
+    source = {"week": c.a6, "minute_of_week": c.a7}
+    if c.a7 == 0:  # not used
+        data["onset"] = _no_time("special", source, {"en": a7_hazard_onset_time_of_week_not_used_en})
+    else:
+        data["onset"] = _time(report.a6a7_hazard_onset_datetime, source, "received_at")
+    guidance: dict[str, Any] = {
+        "library": _camf("a9_type_of_library", c.a9),
+        "library_version": _camf("a10_library_version", c.a10),
+        "content": instruction(c.a9, c.a2, c.a10).code(c.a11),
+    }
+    if c.a9 == 0:  # CAMF names the instructions of its own library
+        names = a11_library(c.a9, c.a2, c.a10).identifier
+        guidance["identifier"] = None if names is None else names.get(c.a11)
+    data["instruction"] = guidance
     if not report.ignore_a12_to_a16:
         data["main_ellipse"] = _ellipse(report, "main")
-    if not report.ignore_ex1:
-        data["target_regions"] = [_region_code(c.ex1)]
-    if not report.ignore_ex8_to_ex9:
-        if c.ex8 == 0:
-            data["target_regions"] = [_prefecture_bit(bit) for bit in range(EX9_PREFECTURE_BITS) if c.ex9 & 1 << bit + 17]
-        else:
-            data["target_regions"] = [_region_code(n) for shift in (48, 32, 16, 0) if (n := (c.ex9 >> shift & 65535))]
+    regions = _target_regions(report)
+    if regions is not None:
+        data["target_regions"] = regions
     if not report.ignore_ex2_to_ex7:
-        data["evacuation"] = {"direction": "head_to" if c.ex2 else "leave", "ellipse": _ellipse(report, "additional")}
+        data["evacuation"] = {
+            "direction": TABLES["qzss.dcx.ex2_evacuate_direction_type"].code(c.ex2),
+            "ellipse": _ellipse(report, "additional"),
+        }
     if report.a17_type_of_specific_settings is not None:
-        kind = ["refined_ellipse", "hazard_centre", "second_ellipse", "hazard_details"][int(c.a17)]
-        if c.a17 == 0:
-            value = _ellipse(report, "refined")
-        elif c.a17 == 1:
-            value = {
-                "latitude_deg": report.c5_latitude_of_centre_of_hazard,
-                "longitude_deg": report.c6_longitude_of_centre_of_hazard,
-                "source": {"latitude": c.c5, "longitude": c.c6},  # offsets from the main ellipse centre
-            }
-        elif c.a17 == 2:
-            value = {
-                "scale_factor": report.c8_homothetic_factor_of_second_ellipse,
-                "bearing_deg": report.c9_bearing_angle_of_second_ellipse,
-                "instruction": _xcode("c10_instruction_library_for_second_ellipse", c.c10),
-                "source": {"shift": c.c7, "scale_factor": c.c8, "bearing": c.c9},
-            }
-        else:
-            value = {}
-            for field, table in B4_TABLES.items():
-                raw = getattr(c, field.split("_", 1)[0])
-                if raw is None:
-                    continue
-                item = _coded("camf." + field, raw, en=table)
-                value[field.split("_", 1)[1]] = _quantity(item, field) if field in CAMF_PROFILES else item
-        data["specific_settings"] = {"kind": kind, kind: value}
+        data["specific_settings"] = _specific_settings(report)
     return data
+
+
+LIFECYCLE_DCR = ["issue", "correction", "cancellation"]  # information type It
+LIFECYCLE_DCX = [None, "issue", "update", "all_clear"]  # message type A1; 0 is a test
+
+
+def series(name: str, report: Any) -> dict[str, Any]:
+    """How the message stands among the others: what it does to its series, and what names the series."""
+    result: dict[str, Any] = {}
+    if name in DCR_TYPES:
+        it = report.information_type_no
+        result["lifecycle"] = LIFECYCLE_DCR[it] if it < len(LIFECYCLE_DCR) else None
+        if name == "NankaiTroughEarthquake":
+            result["key"] = ".".join(
+                [
+                    f"{report.report_time:%Y-%m-%dT%H:%MZ}",
+                    str(report.report_classification_no),
+                    str(it),
+                    str(report.information_serial_code_raw),
+                    str(report.total_page),
+                ]
+            )
+        return result
+    if name == "NullMsg":
+        return result
+    c = report.camf
+    if c.a1 != 0:
+        result["lifecycle"] = LIFECYCLE_DCX[c.a1]
+    if name in ("LAlert", "MTInfo"):  # IS-QZSS-DCX-004 4.2.3.1
+        result["key"] = f"{c.a2}.{c.a3}.{c.a4}.{c.ex1}"
+    elif name == "JAlert":
+        result["key"] = f"{c.a2}.{c.a3}.{c.a4}"
+    return result
+
+
+def message_id(name: str, report: Any) -> str:
+    """The same for every copy of one message: its system and format, and the content no satellite changes."""
+    raw: bytes = report.raw
+    return ".".join(TYPE_NAMES[name].split(".")[:2]) + ":" + raw.hex()
+
+
+def texts(report: Any) -> dict[str, str]:
+    return {language: text for language in ("ja", "en") if (text := report.get_text(language)) is not None}
 
 
 def copy_json(value: Any) -> JsonValue:

@@ -58,6 +58,24 @@ class Base:
     def __str__(self) -> str:
         return str(self.__dict__)
 
+    @overload
+    def get_text(self) -> str: ...
+    @overload
+    def get_text(self, language: str, *languages: str) -> str | None: ...
+    def get_text(self, language: str | None = None, *languages: str) -> str | None:
+        """The report as text in the first of the languages it has, or in its own without one.
+
+        A language is a code such as 'ja' or 'en'. The text is None when it has none of them.
+        """
+        texts = self._texts()
+        if language is None:
+            return next(iter(texts.values()))
+        return next((texts[wanted] for wanted in (language, *languages) if wanted in texts), None)
+
+    def _texts(self) -> dict[str, str]:
+        """The report as text by language, the language it is written in first."""
+        raise NotImplementedError
+
     def get_params(self) -> dict[str, Any]:
         return deepcopy(self.__dict__)
 

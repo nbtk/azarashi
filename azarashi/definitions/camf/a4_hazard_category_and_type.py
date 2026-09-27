@@ -3,6 +3,7 @@ from ..code_table import CodeTable
 
 a4_hazard_category = CodeTable(
     {
+        0: "Not used",  # CAMF Issue 1.2, Annex C 4: not used
         1: "CBRNE",
         2: "CBRNE",
         3: "CBRNE",
@@ -123,6 +124,7 @@ a4_hazard_category = CodeTable(
 
 a4_hazard_type = CodeTable(
     {
+        0: "Not used",  # CAMF Issue 1.2, Annex C 4: not used
         1: "Air strike",
         2: "Attack on IT systems",
         3: "Attack with nuclear weapons",
@@ -243,6 +245,7 @@ a4_hazard_type = CodeTable(
 
 a4_hazard_definition = CodeTable(
     {
+        0: "Not used",  # CAMF Issue 1.2, Annex C 4: not used
         1: "Attack performed by an aircraft, usually of military type, either by bombing (or similar), firing guns or missiles.",
         2: "Intentional attempt to expose, alter, disable, destroy, steal or gain unauthorized access to or make unauthorised use of IT equipment.",
         3: "From www.dhs.gov 'Attack performed with a device producing a nuclear explosion.",

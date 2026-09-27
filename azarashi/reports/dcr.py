@@ -82,7 +82,11 @@ class Base(MessageBase):
             header += '\n*** CANCELLATION ***'
         return header
 
-    def get_text_en(self) -> str | None:
+    def _texts(self) -> dict[str, str]:
+        en = self._text_en()
+        return {'ja': str(self)} if en is None else {'ja': str(self), 'en': en}
+
+    def _text_en(self) -> str | None:
         """The report in English, or None when azarashi has no English for it."""
         return None
 
@@ -251,7 +255,7 @@ class EarthquakeEarlyWarning(Base):
         report += '、'.join(self.eew_forecast_regions)
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
                                                 occurrence_time_of_earthquake_undefined_en)
@@ -330,7 +334,7 @@ class Hypocenter(Base):
                   f'マグニチュード: {self.magnitude}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
                                                 occurrence_time_of_earthquake_undefined_en)
@@ -378,7 +382,7 @@ class SeismicIntensity(Base):
                       f'{self.prefectures[i]}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
                                                 occurrence_time_of_earthquake_undefined_en)
@@ -549,7 +553,7 @@ class Tsunami(Base):
                       f'{self.tsunami_forecast_regions[i]}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         report = f'{self.get_header_en()}\n' + \
                  f'Warning code: {_en("tsunami_warning_code", self.tsunami_warning_code_raw)}\n'
 
@@ -607,8 +611,8 @@ class NorthwestPacificTsunami(Base):
                       f'Coastal Region: {self.coastal_regions_en[i]}'
         return report
 
-    def get_text_en(self) -> str:
-        return str(self)  # the report is written in English
+    def _texts(self) -> dict[str, str]:
+        return {'en': str(self)}  # the report is written in English
 
 
 class Volcano(Base):
@@ -651,7 +655,7 @@ class Volcano(Base):
         report += '、'.join(self.local_governments)
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}\n\n' + \
                  f'Volcano: {_en("volcano_name", self.volcano_name_raw)}\n'
@@ -714,7 +718,7 @@ class AshFall(Base):
                       f'{self.local_governments[i]}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         activity_time = self._convert_time_to_str_en(self.activity_time, self.activity_time_raw,
                                                      activity_time_undefined_en)
         report = f'{self.get_header_en()}\n\n' + \
@@ -760,7 +764,7 @@ class Weather(Base):
                       f'{self.weather_forecast_regions[i]}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}'
 
@@ -796,7 +800,7 @@ class Flood(Base):
                       f'{self.flood_forecast_regions[i]}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}'
 
@@ -829,7 +833,7 @@ class Marine(Base):
                       f'{self.marine_forecast_regions[i]}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         report = f'{self.get_header_en()}\n\n' + \
                  f'Report time: {self.get_report_time_str_en()}'
 
@@ -903,7 +907,7 @@ class Typhoon(Base):
                  f'最大瞬間風速: {self.maximum_gust_wind_speed}'
         return report
 
-    def get_text_en(self) -> str:
+    def _text_en(self) -> str:
         reference_time = self._convert_time_to_str_en(self.reference_time, self.reference_time_raw,
                                                       typhoon_reference_time_undefined_en)
         report = f'{self.get_header_en()}\n\n' + \

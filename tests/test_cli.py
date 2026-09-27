@@ -183,8 +183,8 @@ def test_json_output_contains_only_complete_records(monkeypatch, capsys):
     assert len(rows) == 2
     assert rows[0]['type'] == 'qzss.dcr.earthquake_early_warning'
     assert rows[1]['type'] == 'qzss.dcx.l_alert'
-    assert rows[0]['received_at'] == '2026-03-07T06:00:00Z'
-    assert rows[0]['text'].startswith('防災気象情報')
+    assert rows[0]['reception']['at'] == '2026-03-07T06:00:00.000Z'
+    assert rows[0]['texts']['ja'].startswith('防災気象情報')
     assert err  # noise and EOF diagnostics stay off stdout
 
 
