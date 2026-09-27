@@ -66,7 +66,7 @@ def test_the_examples_print_what_they_say(document):
 
 def test_every_example_is_covered_or_known_not_to_be():
     counted = {document: len(list(_examples(document))) for document in DOCUMENTS}
-    assert counted == {'README.md': 1, 'docs/api.md': 1, 'docs/dcr.md': 4, 'docs/dcx.md': 2}
+    assert counted == {'README.md': 1, 'docs/api.md': 1, 'docs/dcr.md': 3, 'docs/dcx.md': 2}
     skipped = [(document, i) for document in DOCUMENTS
                for i, (language, body) in enumerate(_blocks(document))
                if language == 'python' and '>>>' in body and NEEDS_A_DEVICE in body]
