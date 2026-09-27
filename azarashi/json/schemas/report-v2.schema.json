@@ -1489,12 +1489,6 @@
             "day"
           ]
         },
-        "basis": {
-          "enum": [
-            "received_at",
-            "report_time"
-          ]
-        },
         "labels": {
           "$ref": "#/$defs/labels"
         },
@@ -1523,8 +1517,7 @@
               }
             },
             "required": [
-              "precision",
-              "basis"
+              "precision"
             ]
           },
           "else": {
@@ -1532,8 +1525,7 @@
               "value": {
                 "type": "null"
               },
-              "precision": false,
-              "basis": false
+              "precision": false
             }
           }
         },
@@ -1562,7 +1554,7 @@
           }
         }
       ],
-      "description": "A time in UTC. precision says to what it is known, and basis which time gave the year and the parts the message leaves out. source holds the fields the message gave."
+      "description": "A time in UTC. precision says to what it is known. source holds the fields the message gave."
     },
     "day_hour_minute": {
       "type": "object",
@@ -1642,9 +1634,6 @@
                 "valid"
               ]
             },
-            "basis": {
-              "const": "received_at"
-            },
             "precision": {
               "enum": [
                 "minute"
@@ -1669,9 +1658,6 @@
                 "valid",
                 "undefined"
               ]
-            },
-            "basis": {
-              "const": "report_time"
             },
             "precision": {
               "enum": [
@@ -1698,9 +1684,6 @@
                 "special",
                 "undefined"
               ]
-            },
-            "basis": {
-              "const": "report_time"
             },
             "precision": {
               "enum": [
@@ -1730,9 +1713,6 @@
                 "undefined"
               ]
             },
-            "basis": {
-              "const": "report_time"
-            },
             "precision": {
               "enum": [
                 "minute"
@@ -1758,9 +1738,6 @@
                 "special",
                 "undefined"
               ]
-            },
-            "basis": {
-              "const": "received_at"
             },
             "precision": {
               "enum": [

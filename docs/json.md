@@ -358,7 +358,6 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
   "status": "valid",
   "value": "2026-08-21T00:01:00Z",
   "precision": "minute",
-  "basis": "report_time",
   "source": {"day": 21, "hour": 0, "minute": 1}
 }
 ```
@@ -367,19 +366,20 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 |---|---|
 | `value` | UTC の日時。末尾は `Z`。`status` が `valid` でなければ `null` |
 | `precision` | どこまでわかっている時刻か。`minute`、`hour`、`day` |
-| `basis` | 電文にない年・月・日を補うのに使った基準。`received_at`（受信日時）か `report_time`（発表時刻） |
 | `labels` | `special` の時刻が何を意味するか |
 | `source` | 電文にある時刻の部分。どの `status` でも必ずあります |
 
-`precision` と `basis` は、`status` が `valid` のときだけあります。
+`precision` は、`status` が `valid` のときだけあります。
 
-| フィールド | 取り得る `status` | `basis` | `source` |
+電文にない年や月、週は、次の時刻から補います。
+
+| フィールド | 取り得る `status` | `source` | 補う元の時刻 |
 |---|---|---|---|
-| `report_time` | `valid` | `received_at` | 月・日・時・分 |
-| `occurrence_time`、`reference_time`、降灰の `activity_time` | `valid`、`undefined` | `report_time` | 日・時・分 |
-| 火山の `activity_time` | `valid`、`special`、`undefined` | `report_time` | 日・時・分 |
-| 津波と北西太平洋津波の `arrival` | `valid`、`special`、`undefined` | `report_time` | 日・時・分 |
-| DCX の `onset` | `valid`、`special`、`undefined` | `received_at` | 週・週内分 |
+| `report_time` | `valid` | 月・日・時・分 | `reception.at` |
+| `occurrence_time`、`reference_time`、降灰の `activity_time` | `valid`、`undefined` | 日・時・分 | `report_time` |
+| 火山の `activity_time` | `valid`、`special`、`undefined` | 日・時・分 | `report_time` |
+| 津波と北西太平洋津波の `arrival` | `valid`、`special`、`undefined` | 日・時・分 | `report_time` |
+| DCX の `onset` | `valid`、`special`、`undefined` | 週・週内分 | `reception.at` |
 
 時刻でない値のときは、`status` が `special` で、意味は `labels` にあります。
 

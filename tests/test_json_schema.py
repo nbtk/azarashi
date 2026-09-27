@@ -467,10 +467,10 @@ def test_an_undefined_code_has_no_label():
                                        'source': {'day': 1, 'hour': 1, 'minute': 1}}),
     ('Hypocenter', 'occurrence_time', {'status': 'undefined', 'value': None, 'source': {'week': 0, 'minute_of_week': 0}}),
     ('Hypocenter', 'occurrence_time', {'status': 'valid', 'value': '2026-01-01T00:00:00Z', 'precision': 'day',
-                                       'basis': 'report_time', 'source': {'day': 1, 'hour': 1, 'minute': 1}}),
+                                       'source': {'day': 1, 'hour': 1, 'minute': 1}}),
     ('Hypocenter', 'occurrence_time', {'status': 'valid', 'value': None, 'precision': 'minute',
-                                       'basis': 'report_time', 'source': {'day': 1, 'hour': 1, 'minute': 1}}),
-    ('Hypocenter', 'occurrence_time', {'status': 'undefined', 'value': None, 'basis': 'report_time',
+                                       'source': {'day': 1, 'hour': 1, 'minute': 1}}),
+    ('Hypocenter', 'occurrence_time', {'status': 'undefined', 'value': None, 'precision': 'minute',
                                        'source': {'day': 1, 'hour': 1, 'minute': 1}}),
 ])
 def test_a_time_field_refuses_a_state_it_cannot_reach(name, field, state):
@@ -478,13 +478,6 @@ def test_a_time_field_refuses_a_state_it_cannot_reach(name, field, state):
     assert field in row['data']  # a key the record has, or the test proves nothing
     row['data'][field] = state
     assert not VALIDATOR.is_valid(row)
-
-
-def test_report_time_is_always_read_against_the_reception_time():
-    row = record('Hypocenter')
-    assert row['data']['report_time']['basis'] == 'received_at'
-    row['data']['report_time']['basis'] = 'report_time'
-    assert not VALIDATOR.is_valid(row)  # nothing is completed from itself
 
 
 @pytest.mark.parametrize('hour,minute,day,labels', [
@@ -696,7 +689,7 @@ def test_no_target_area_is_an_empty_list():
 
 AMERICAN = re.compile(r'center|[a-z]{3}iz(e|es|ed|ing|ation)(\b|_)|yze|meter|liter|color|behavior|gray|catalog|defense')
 BRITISH = re.compile(r'centre|[a-z]{3}is(e|es|ed|ing|ation)(\b|_)|yse|metre|litre|colour|behaviour|grey|catalogue|defence')
-CHOSEN = ('type', 'status', 'basis', 'precision', 'lifecycle', 'unit', 'relative_to')  # values azarashi names
+CHOSEN = ('type', 'status', 'precision', 'lifecycle', 'unit', 'relative_to')  # values azarashi names
 
 
 def _record_words(node):

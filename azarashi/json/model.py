@@ -154,14 +154,14 @@ def quantity(table: Table, n: int, assumed: bool = False) -> dict[str, Any]:
     return {**result, **code_object}
 
 
-def _time(dt: datetime | None, source: dict[str, int], basis: str, precision: str = "minute") -> dict[str, Any]:
-    """A time the message gives: how precise it is, and which time gave the parts the message leaves out.
+def _time(dt: datetime | None, source: dict[str, int], precision: str = "minute") -> dict[str, Any]:
+    """A time the message gives, and how precise it is.
 
     One whose fields are not a time is undefined.
     """
     if dt is None:
         return _no_time("undefined", source)
-    return {"status": "valid", "value": utc(dt), "precision": precision, "basis": basis, "source": source}
+    return {"status": "valid", "value": utc(dt), "precision": precision, "source": source}
 
 
 def _no_time(status: str, source: dict[str, int], labels: dict[str, str] | None = None) -> dict[str, Any]:
@@ -184,7 +184,7 @@ def _arrival(report: Any, i: int, domestic: bool) -> dict[str, Any]:
     source = _day_hour_minute(raw)
     arrived = (raw["hour"], raw["minute"]) == (31, 63)
     if dt is not None:
-        return _time(dt, source, "report_time")
+        return _time(dt, source)
     if domestic and (arrived or (raw["day"], raw["hour"], raw["minute"]) == (0, 30, 62)):
         ja, en = expected_tsunami_arrival_time_kind(raw, False)
         return _no_time("special", source, {"ja": ja, "en": en})
@@ -387,7 +387,7 @@ def dcr_model(name: str, report: Any) -> dict[str, Any]:
     at = report.report_time
     data: dict[str, Any] = {
         "version": _version(report.version, report.version == 1),
-        "report_time": _time(at, {"month": at.month, "day": at.day, "hour": at.hour, "minute": at.minute}, "received_at"),
+        "report_time": _time(at, {"month": at.month, "day": at.day, "hour": at.hour, "minute": at.minute}),
     }
     assumed = bool(getattr(report, "assumptive", False))
     for out, src, table in COMMON + SINGLES.get(name, []):
@@ -397,7 +397,7 @@ def dcr_model(name: str, report: Any) -> dict[str, Any]:
         given = _day_hour_minute(getattr(report, src + "_raw"))
         du: int = report.ambiguity_of_activity_time_no if name == "Volcano" else 0
         if du < len(ACTIVITY_PRECISION):
-            data[out] = _time(getattr(report, src), given, "report_time", ACTIVITY_PRECISION[du])
+            data[out] = _time(getattr(report, src), given, ACTIVITY_PRECISION[du])
         else:  # the message gives a time, and says its day, hour and minute are not valid
             data[out] = _no_time("special", given, TABLES["qzss.dcr.ambiguity_of_activity_time"].labels(du))
     if name in ("EarthquakeEarlyWarning", "Hypocenter", "Tsunami"):
@@ -557,7 +557,7 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
     if c.a7 == 0:  # not used
         data["onset"] = _no_time("special", source, {"en": a7_hazard_onset_time_of_week_not_used_en})
     else:
-        data["onset"] = _time(report.a6a7_hazard_onset_datetime, source, "received_at")
+        data["onset"] = _time(report.a6a7_hazard_onset_datetime, source)
     guidance: dict[str, Any] = {
         "library": _camf("a9_type_of_library", c.a9),
         "library_version": _camf("a10_library_version", c.a10),

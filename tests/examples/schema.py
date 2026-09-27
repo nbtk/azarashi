@@ -57,10 +57,9 @@ def camf_field(table):
     return quantity_in(name) if name in PROFILES else code_in(name)
 
 
-def time_variant(statuses, basis, source, precisions=('minute',)):
+def time_variant(statuses, source, precisions=('minute',)):
     return {'allOf': [ref('time'), {'properties': {
         'status': {'enum': statuses},
-        'basis': {'const': basis},
         'precision': {'enum': list(precisions)},
         'source': ref(source),
     }}]}
@@ -157,21 +156,19 @@ defs['time'] = {
         'status': {'enum': ['valid', 'special', 'undefined']},
         'value': nullable({'type': 'string', 'format': 'date-time', 'pattern': DATE_TIME}),
         'precision': {'enum': ['minute', 'hour', 'day']},
-        'basis': {'enum': ['received_at', 'report_time']},
         'labels': ref('labels'),
         'source': {'type': 'object'},
     },
     'required': ['status', 'value', 'source'],
     'allOf': [
         {'if': {'properties': {'status': {'const': 'valid'}}},
-         'then': {'properties': {'value': {'type': 'string'}}, 'required': ['precision', 'basis']},
-         'else': {'properties': {'value': {'type': 'null'}, 'precision': False, 'basis': False}}},
+         'then': {'properties': {'value': {'type': 'string'}}, 'required': ['precision']},
+         'else': {'properties': {'value': {'type': 'null'}, 'precision': False}}},
         {'if': {'properties': {'status': {'const': 'special'}}},
          'then': {'required': ['labels'], 'properties': {'labels': {'minProperties': 1}}},
          'else': {'properties': {'labels': False}}},
     ],
-    'description': 'A time in UTC. precision says to what it is known, and basis which time gave the year and the '
-                   'parts the message leaves out. source holds the fields the message gave.',
+    'description': 'A time in UTC. precision says to what it is known. source holds the fields the message gave.',
 }
 
 defs['day_hour_minute'] = obj({'day': {'type': 'integer', 'minimum': 0}, 'hour': {'type': 'integer', 'minimum': 0},
@@ -179,12 +176,12 @@ defs['day_hour_minute'] = obj({'day': {'type': 'integer', 'minimum': 0}, 'hour':
 defs['month_day_hour_minute'] = obj({k: {'type': 'integer', 'minimum': 0} for k in ('month', 'day', 'hour', 'minute')})
 defs['week_minute'] = obj({'week': {'type': 'integer', 'minimum': 0}, 'minute_of_week': {'type': 'integer', 'minimum': 0}})
 
-defs['time_report_time'] = time_variant(['valid'], 'received_at', 'month_day_hour_minute')
-defs['time_event'] = time_variant(['valid', 'undefined'], 'report_time', 'day_hour_minute')
-defs['time_activity'] = time_variant(['valid', 'special', 'undefined'], 'report_time', 'day_hour_minute',
+defs['time_report_time'] = time_variant(['valid'], 'month_day_hour_minute')
+defs['time_event'] = time_variant(['valid', 'undefined'], 'day_hour_minute')
+defs['time_activity'] = time_variant(['valid', 'special', 'undefined'], 'day_hour_minute',
                                      ('minute', 'hour', 'day'))
-defs['time_arrival'] = time_variant(['valid', 'special', 'undefined'], 'report_time', 'day_hour_minute')
-defs['dcx_onset'] = time_variant(['valid', 'special', 'undefined'], 'received_at', 'week_minute')
+defs['time_arrival'] = time_variant(['valid', 'special', 'undefined'], 'day_hour_minute')
+defs['dcx_onset'] = time_variant(['valid', 'special', 'undefined'], 'week_minute')
 
 defs['position'] = {
     'type': 'object',

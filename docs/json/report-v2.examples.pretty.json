@@ -28,7 +28,6 @@
         "status": "valid",
         "value": "2026-08-21T01:00:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -125,7 +124,6 @@
         "status": "valid",
         "value": "2026-08-21T01:00:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 21,
           "hour": 1,
@@ -329,7 +327,6 @@
         "status": "valid",
         "value": "2026-08-21T00:04:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -390,7 +387,6 @@
         "status": "valid",
         "value": "2026-08-21T00:01:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 21,
           "hour": 0,
@@ -457,7 +453,6 @@
         "status": "valid",
         "value": "2026-08-21T01:05:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -487,7 +482,6 @@
         "status": "valid",
         "value": "2026-08-21T01:05:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 21,
           "hour": 1,
@@ -707,7 +701,6 @@
         "status": "valid",
         "value": "2026-08-21T01:35:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -777,7 +770,6 @@
         "status": "valid",
         "value": "2026-08-21T01:05:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -870,7 +862,6 @@
             "status": "valid",
             "value": "2026-08-21T01:05:00Z",
             "precision": "minute",
-            "basis": "report_time",
             "source": {
               "day": 0,
               "hour": 1,
@@ -906,7 +897,6 @@
             "status": "valid",
             "value": "2026-08-21T01:05:00Z",
             "precision": "minute",
-            "basis": "report_time",
             "source": {
               "day": 0,
               "hour": 1,
@@ -942,7 +932,6 @@
             "status": "valid",
             "value": "2026-08-21T01:05:00Z",
             "precision": "minute",
-            "basis": "report_time",
             "source": {
               "day": 0,
               "hour": 1,
@@ -981,7 +970,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -1042,7 +1030,6 @@
             "status": "valid",
             "value": "2026-03-07T06:00:00Z",
             "precision": "minute",
-            "basis": "report_time",
             "source": {
               "day": 0,
               "hour": 6,
@@ -1082,7 +1069,6 @@
         "status": "valid",
         "value": "2026-08-21T02:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -1130,7 +1116,6 @@
         "status": "valid",
         "value": "2026-08-21T02:10:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 21,
           "hour": 2,
@@ -1205,7 +1190,6 @@
         "status": "valid",
         "value": "2026-08-21T02:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -1253,7 +1237,6 @@
         "status": "valid",
         "value": "2026-08-21T02:10:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 21,
           "hour": 2,
@@ -1386,7 +1369,6 @@
         "status": "valid",
         "value": "2026-08-21T02:35:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -1574,7 +1556,6 @@
         "status": "valid",
         "value": "2026-08-21T02:35:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -1653,7 +1634,6 @@
         "status": "valid",
         "value": "2026-09-24T00:50:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 9,
           "day": 24,
@@ -1763,7 +1743,6 @@
         "status": "valid",
         "value": "2026-09-24T00:00:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 24,
           "hour": 0,
@@ -1819,7 +1798,6 @@
         "status": "valid",
         "value": "2026-09-23T20:35:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 9,
           "day": 23,
@@ -2056,7 +2034,6 @@
         "status": "valid",
         "value": "2026-03-05T04:15:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "week": 0,
           "minute_of_week": 4576
@@ -2232,7 +2209,6 @@
         "status": "valid",
         "value": "2026-03-06T01:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "week": 0,
           "minute_of_week": 5831
@@ -2372,7 +2348,6 @@
         "status": "valid",
         "value": "2026-03-05T02:00:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "week": 0,
           "minute_of_week": 4441
@@ -2926,7 +2901,6 @@
         "status": "valid",
         "value": "2026-03-05T02:30:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "week": 0,
           "minute_of_week": 4471
@@ -3318,7 +3292,6 @@
         "status": "valid",
         "value": "2026-03-06T01:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "week": 0,
           "minute_of_week": 5831
@@ -11807,7 +11780,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -11868,7 +11840,6 @@
         "status": "valid",
         "value": "2026-03-07T05:02:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 7,
           "hour": 5,
@@ -11935,7 +11906,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -11999,7 +11969,6 @@
         "status": "valid",
         "value": "2026-03-07T05:02:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 7,
           "hour": 5,
@@ -12066,7 +12035,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -12126,7 +12094,6 @@
         "status": "valid",
         "value": "2026-03-07T05:02:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 7,
           "hour": 5,
@@ -12193,7 +12160,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -12250,7 +12216,6 @@
         "status": "valid",
         "value": "2026-03-07T05:02:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 7,
           "hour": 5,
@@ -12317,7 +12282,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -12435,7 +12399,6 @@
             "status": "valid",
             "value": "2026-03-08T00:15:00Z",
             "precision": "minute",
-            "basis": "report_time",
             "source": {
               "day": 1,
               "hour": 0,
@@ -12475,7 +12438,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -12593,7 +12555,6 @@
             "status": "valid",
             "value": "2026-03-08T00:15:00Z",
             "precision": "minute",
-            "basis": "report_time",
             "source": {
               "day": 1,
               "hour": 0,
@@ -12633,7 +12594,6 @@
         "status": "valid",
         "value": "2026-03-07T05:10:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 3,
           "day": 7,
@@ -12747,7 +12707,6 @@
             "status": "valid",
             "value": "2026-03-08T00:15:00Z",
             "precision": "minute",
-            "basis": "report_time",
             "source": {
               "day": 1,
               "hour": 0,
@@ -13396,7 +13355,6 @@
         "status": "valid",
         "value": "2026-08-21T01:00:00Z",
         "precision": "minute",
-        "basis": "received_at",
         "source": {
           "month": 8,
           "day": 21,
@@ -13493,7 +13451,6 @@
         "status": "valid",
         "value": "2026-08-21T01:00:00Z",
         "precision": "minute",
-        "basis": "report_time",
         "source": {
           "day": 21,
           "hour": 1,
