@@ -622,7 +622,8 @@ def message_id(name: str, report: Any) -> str:
 
 
 def texts(report: Any) -> dict[str, str]:
-    return {language: text for language in ("ja", "en") if (text := report.get_text(language)) is not None}
+    result: dict[str, str] = report.get_texts()
+    return result
 
 
 def copy_json(value: Any) -> JsonValue:

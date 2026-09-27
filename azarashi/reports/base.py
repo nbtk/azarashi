@@ -72,6 +72,10 @@ class Base:
             return next(iter(texts.values()))
         return next((texts[wanted] for wanted in (language, *languages) if wanted in texts), None)
 
+    def get_texts(self) -> dict[str, str]:
+        """The report as text in every language it has, by language code, the language it is written in first."""
+        return dict(self._texts())
+
     def _texts(self) -> dict[str, str]:
         """The report as text by language, the language it is written in first."""
         raise NotImplementedError

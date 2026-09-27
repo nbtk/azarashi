@@ -68,6 +68,31 @@ def test_dcx_gives_its_english_lines_only():
         assert report.get_text('ja') is None
 
 
+@pytest.mark.parametrize('sentence, languages', [
+    (HYPOCENTER, ['ja', 'en']),  # a DCR report: Japanese, and JMA's English beside it
+    (NWP, ['en']),  # written in English only
+])
+def test_every_text_of_a_report_by_language_its_own_first(sentence, languages):
+    report = azarashi.decode(sentence)
+    texts = report.get_texts()
+    assert list(texts) == languages
+    assert texts == {language: report.get_text(language) for language in languages}
+    assert next(iter(texts.values())) == report.get_text()
+    texts.clear()
+    assert report.get_texts()  # a dict of its own each time
+
+
+def test_every_text_of_every_report():
+    for report in _reports():
+        texts = report.get_texts()
+        assert texts and all(texts.values())
+        assert texts == {language: text for language in ('ja', 'en') if (text := report.get_text(language)) is not None}
+        if isinstance(report, Nankai):
+            assert list(texts) == ['ja']  # no English for the Nankai Trough information
+        elif report.message_type == 'DCX':
+            assert list(texts) == ['en']
+
+
 def test_a_report_gives_its_own_language_without_one_named():
     report = azarashi.decode(HYPOCENTER)
     assert report.get_text() == report.get_text('ja') == str(report)
