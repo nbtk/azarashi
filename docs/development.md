@@ -19,8 +19,7 @@ GitHub Actions の typing ジョブは、ビルドした wheel をインスト�
 内部のデコーダ間の受け渡しも検査します。`tests/typing/decoder_mistakes.py` は、
 QZSS L1S デコーダへの必須値の欠落・型違い・引数名の誤記と、DCR/DCX 下流への誤った context の受け渡しを含みます。
 CI は mypy と Pyright の両方で、各行が意図した種類のエラーになることを確認します。
-`decoders.qzss.l1s.Decoder` には、
-`sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
+`decoders.qzss.l1s.Decoder` には `sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
 
 内部では `Frame` → `Message` → `Jma`（DCR）の順に型付き情報を渡し、最終レポートだけを生成します。
 入力アダプターは `InputDecoder`、後続段階は `ContextDecoder` を使います。後続段階は
@@ -82,7 +81,7 @@ docs の `docs/json/code-tables-v2.json` も `tables.py` から作るので、�
 `definitions/code_table.py` の `CodeTable` は、未定義コードの扱いを備えた辞書です。
 QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。
 入力アダプターは現在 QZSS に対応し、QZSS 固有の context と補助処理は `decoders/qzss/` に置きます。
-公開 API の形式名は `ublox` です。
+モジュール名は `ubx` ですが、公開 API の形式名は `ublox` です。
 
 `definitions/camf/` には A1〜A11、A17、C7〜C10、D1〜D36 の表を置きます。共通処理は A12〜A15 の座標・
 半軸長の変換で、`decoders/camf/geometry.py` にあります。コードの意味と変換は CAMF Issue 1.2
@@ -92,7 +91,5 @@ QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に�
 Galileo EWSS を追加する際も、伝送やビット位置の処理を各システムに置き、CAMF のフィールドの表は
 そのまま共有します。
 
-`definitions` と `decoders` のモジュール経路・クラス名は内部実装です。
-公開の入口には `decode()` / `decode_stream()` を使い、レポートは `azarashi.reports` から参照してください。
 `tests/test_definition_values.py` は、コード表の値と未定義値の文言を参照スナップショットと比較します。
 表を更新する際は `tests/definition_values.json` の該当する期待値も、変更内容と照合して更新してください。
