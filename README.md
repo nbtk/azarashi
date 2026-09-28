@@ -88,6 +88,7 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 - [Network](https://github.com/nbtk/azarashi/blob/main/docs/network.md): 受信したデータを UDP で別の装置に送る
 - [Tips](https://github.com/nbtk/azarashi/blob/main/docs/tips.md): 何も表示されないとき、Encountered EOF、SD フィールドの監視
 - [Development](https://github.com/nbtk/azarashi/blob/main/docs/development.md): テストと静的解析の実行方法
+- [Changelog](https://github.com/nbtk/azarashi/blob/main/CHANGELOG.md): 版ごとの変更
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
 Questions, suggestions, and comments are welcome! Please feel free to write in English.
