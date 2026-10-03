@@ -6,14 +6,14 @@ from azarashi.decoders.qzss.context import Frame, Message, Jma
 from azarashi.decoders.qzss import dcr, dcx
 
 stamp = datetime.now(UTC)
-Decoder('', nmea='', timestamp=stamp)  # want: call-arg
-Decoder('', message='invalid', nmea='', timestamp=stamp)  # want: arg-type
-Decoder('', message=b'', nmea='', timestamp=stamp, satelite_id=55)  # want: call-arg
+Decoder('', timestamp=stamp)  # want: call-arg
+Decoder('', message='invalid', timestamp=stamp)  # want: arg-type
+Decoder('', message=b'', timestamp=stamp, satelite_id=55)  # want: call-arg
 
-frame = Frame(sentence='', message=b'', nmea='', timestamp=stamp)
-message = Message(**frame.params(), preamble='A', message_type='DCR')
-Message(**frame.params(), preamble='A')  # want: call-arg
-Message(**frame.params(), preamble=1, message_type='DCR')  # want: arg-type
+frame = Frame(sentence='', message=b'', timestamp=stamp)
+message = Message(**frame.params(), nmea='', preamble='A', message_type='DCR')
+Message(**frame.params(), nmea='', preamble='A')  # want: call-arg
+Message(**frame.params(), nmea='', preamble=1, message_type='DCR')  # want: arg-type
 dcr.Decoder(frame)  # want: arg-type
 dcx.Decoder(frame)  # want: arg-type
 dcr.EarthquakeEarlyWarning(message)  # want: arg-type

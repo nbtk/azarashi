@@ -37,12 +37,9 @@ class Decoder(InputDecoder):
                 'Invalid Message',
                 self)
 
-        self.nmea = self.message_to_nmea()
-
         # stacks the next decoder
         return l1s.Decoder(
             sentence=self.sentence,
             message=self.message,
-            nmea=self.nmea,
             timestamp=self.timestamp,
         ).decode()

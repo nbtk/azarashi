@@ -159,7 +159,7 @@ def test_receiver_command_filter_options(monkeypatch, args, expected):
 @pytest.mark.parametrize('datagram, warning', [
     (b'hello', "[AzarashiInvalidMessageError] Too Short Sentence -> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
     (b'', '[AzarashiInvalidMessageError] Empty Message'),
-    (bytes((55,)) + bytes(32), '[AzarashiInvalidMessageError] Undefined Message Type: 0 -> $QZQSM,55,' + '0' * 63 + '*74'),
+    (bytes((55,)) + bytes(32), "[AzarashiInvalidMessageError] Undefined Message Type: 0 -> b'\\x37" + '\\x00' * 32 + "'"),
 ])
 def test_receiver_skips_datagrams_that_are_not_messages(caplog, datagram, warning):
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:

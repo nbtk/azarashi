@@ -72,3 +72,8 @@ def sfrbx(nmea: str, *, gnss: int = 5, sv: int = 0, sig: int = 1, num_words: int
     message = bytes.fromhex(hex_message(nmea) + '0')  # 250 bits padded to 32 bytes
     words = b''.join(message[i:i + 4][::-1] for i in range(0, 32, 4))  # data words are little-endian
     return ubx(b'\x02\x13', bytes((gnss, sv, sig, 0, num_words, 0, 2, 0)) + words)
+
+
+def datagram(nmea: str) -> bytes:
+    """A datagram of the net format carrying the message of a QZQSM sentence, after its satellite id."""
+    return bytes((int(nmea.split(',')[1]),)) + bytes.fromhex(hex_message(nmea) + '0')

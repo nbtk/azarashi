@@ -6,7 +6,7 @@ import pytest
 import azarashi
 from azarashi.decoders.qzss import base as decoder_base
 from azarashi.reports import base as report_base
-from qzqsm import hex_message, jma, sentence, sfrbx
+from qzqsm import datagram, hex_message, jma, sentence, sfrbx
 from samples import EEW, L_ALERT
 
 
@@ -26,9 +26,7 @@ def test_only_the_final_report_is_constructed(message, fmt, monkeypatch):
         original(self, *args, **kwargs)
 
     monkeypatch.setattr(report_base.Base, '__init__', record)
-    payload = bytes.fromhex(hex_message(message) + '0')
-    inputs = {'nmea': message, 'hex': hex_message(message), 'ublox': sfrbx(message),
-              'net': bytes((55,)) + payload}
+    inputs = {'nmea': message, 'hex': hex_message(message), 'ublox': sfrbx(message), 'net': datagram(message)}
     stamp = datetime(2026, 9, 21, tzinfo=UTC)
     report = azarashi.decode(inputs[fmt], fmt, timestamp=stamp)
     assert constructed == [type(report)]

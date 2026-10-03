@@ -6,8 +6,11 @@ import pytest
 
 import azarashi
 from azarashi import exceptions
+from qzqsm import datagram
+from qzqsm import hex_message
 from qzqsm import nmea_checksum
 from qzqsm import sfrbx
+from qzqsm import with_fields
 from samples import EEW
 
 PACKAGE = pathlib.Path(azarashi.__file__).parent
@@ -194,17 +197,44 @@ def test_decoder_errors_carry_the_decoder_and_the_cause():
     assert str(excinfo.value) == f'Invalid Checksum -> {EEW[:-2]}ZZ'
 
 
+def _shown(received):
+    """What str() of an error shows of what was received."""
+    return "b'" + ''.join(f'\\x{byte:02X}' for byte in received) + "'" if isinstance(received, bytes) else received
+
+
 def test_frame_errors_show_the_frame():
     frame = sfrbx(EEW)[:-1] + b'\x00'
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
         azarashi.decode(frame, 'ublox')
-    shown = "b'" + ''.join(f'\\x{byte:02X}' for byte in frame) + "'"
+    shown = _shown(frame)
     assert str(excinfo.value) == f'{excinfo.value.message} -> {shown}'
     assert shown.startswith("b'\\xB5\\x62\\x02\\x13")
 
 
-def test_message_errors_show_the_message_as_nmea():
-    broken = EEW[:-4] + '0*' + nmea_checksum(EEW[1:-4] + '0')  # the last message bits change: the CRC no longer matches
+BROKEN_CRC = EEW[:-4] + '0*' + nmea_checksum(EEW[1:-4] + '0')  # the last message bits change: the CRC no longer matches
+AUGMENTATION = '$QZQSM,61,53BCC26A42058434985072210E2A5454F84FC000000003F0000000000EA04D8*08'  # message type 47
+#: how each format receives the message of a QZQSM sentence
+RECEIVED = [('ublox', sfrbx), ('net', datagram), ('hex', hex_message), ('nmea', lambda sentence: sentence)]
+
+
+# a QZQSM sentence is built only for a DCR or DCX message; until the CRC and the message type say so,
+# an error shows what was received
+
+@pytest.mark.parametrize('sentence, message', [(BROKEN_CRC, 'CRC Mismatch'),
+                                               (AUGMENTATION, 'Undefined Message Type: 47')])
+@pytest.mark.parametrize('msg_type, received', RECEIVED)
+def test_errors_before_the_message_type_is_known_show_what_was_received(sentence, message, msg_type, received):
+    msg = received(sentence)
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
-        azarashi.decode(sfrbx(broken), 'ublox')
-    assert str(excinfo.value) == f'CRC Mismatch -> {broken}'
+        azarashi.decode(msg, msg_type)
+    assert excinfo.value.message == message
+    assert excinfo.value.instance.nmea == ''
+    assert str(excinfo.value) == f'{message} -> {_shown(msg)}'
+
+
+@pytest.mark.parametrize('msg_type, received', RECEIVED)
+def test_errors_of_a_dcr_message_show_its_qzqsm_sentence(msg_type, received):
+    sentence = with_fields(EEW, [(214, 6, 0)])  # a version the decoder does not take
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
+        azarashi.decode(received(sentence), msg_type)
+    assert str(excinfo.value) == f'Unsupported JMA-DC Report Version: 0 -> {sentence}'

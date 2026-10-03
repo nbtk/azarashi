@@ -62,6 +62,16 @@ def test_records_that_are_not_dcr_or_dcx_are_passed_over():
         azarashi.decode_stream(stream, 'l1s', ignore_dcx=False)
 
 
+def test_a_record_with_a_crc_mismatch_shows_the_record():
+    message = _message(EEW)
+    broken = message[:-1] + bytes((message[-1] ^ 0x40,))  # the last bit of the CRC
+    with pytest.raises(azarashi.AzarashiInvalidMessageError, match='CRC Mismatch') as excinfo:
+        azarashi.decode_stream(io.BytesIO(archive(_record(broken))), 'l1s')
+    assert excinfo.value.instance.sentence == bytes((PRN,)) + _record(broken)  # what str() shows
+    assert excinfo.value.instance.nmea == ''
+    assert '$QZQSM' not in str(excinfo.value)
+
+
 def test_the_prn_is_read_once_per_stream():
     stream = io.BytesIO(archive(_record(_message(EEW)), _record(_message(EEW), SECOND + 1)))
     first = azarashi.decode_stream(stream, 'l1s')

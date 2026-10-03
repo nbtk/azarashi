@@ -1,9 +1,8 @@
 from datetime import UTC, datetime
 from typing import Any, Generic, TypeVar
 
-from .context import Frame
+from .context import Frame, Message
 from ...reports import Report
-from ...definitions.nmea import QZQSM_HEADER
 from ...exceptions import AzarashiNotImplementedError
 
 
@@ -16,19 +15,6 @@ class InputDecoder:
         self.sentence = sentence
         self.raw = b''
         self.timestamp = (datetime.now(UTC) if timestamp is None else timestamp).astimezone(UTC)
-
-    def message_to_nmea(self) -> str:
-        sat_id = getattr(self, 'satellite_id', None)
-        if sat_id is None:
-            sat_id = 55  # Set the satellite_id of PRN183 if it was default.
-
-        nmea_partial = f'{QZQSM_HEADER},{sat_id},{self.message.hex()[:-1].upper()}'
-
-        checksum = 0
-        for c in nmea_partial[1:]:  # without the '$' at the beginning
-            checksum ^= ord(c)
-
-        return nmea_partial + '*%02X' % checksum
 
 
 _Context = TypeVar('_Context', bound=Frame)
@@ -49,7 +35,7 @@ class ContextDecoder(Generic[_Context]):
 
     @property
     def nmea(self) -> str:
-        return self.context.nmea
+        return self.context.nmea if isinstance(self.context, Message) else ''  # a DCR or DCX message only
 
     def extract_field(self, slider: int, size: int) -> int:
         field = bytearray(self.context.message[slider >> 3:(slider + size >> 3) + 1])

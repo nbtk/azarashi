@@ -201,7 +201,7 @@ def test_preamble(preamble, name):
 
 
 def test_decoder_base_is_abstract():
-    context = Frame(sentence=EEW, message=b'', nmea=EEW, timestamp=datetime.now(UTC))
+    context = Frame(sentence=EEW, message=b'', timestamp=datetime.now(UTC))
     with pytest.raises(azarashi.AzarashiNotImplementedError) as excinfo:
         base.ContextDecoder(context).decode()
     assert str(excinfo.value) == 'Decoder Not Implemented'
@@ -213,7 +213,7 @@ def test_extract_field_matches_the_bit_string():
     for _ in range(20):
         bits = rng.getrandbits(250)
         decoder = base.ContextDecoder(Frame(
-            sentence='', message=(bits << 6).to_bytes(32, 'big'), nmea='', timestamp=datetime.now(UTC)))
+            sentence='', message=(bits << 6).to_bytes(32, 'big'), timestamp=datetime.now(UTC)))
         for pos in range(250):
             for size in range(1, min(64, 250 - pos) + 1):
                 assert decoder.extract_field(pos, size) == bits >> (250 - pos - size) & (1 << size) - 1, (pos, size)

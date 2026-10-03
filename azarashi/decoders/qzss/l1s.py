@@ -7,15 +7,16 @@ from . import dcr
 from . import dcx
 from ...definitions.qzss.l1s import message_types
 from ...definitions.qzss.l1s import preambles
+from ...definitions.nmea import QZQSM_HEADER
 from ...exceptions import AzarashiInvalidMessageError
 
 
 class Decoder(ContextDecoder[Frame]):
-    def __init__(self, sentence: str | bytes, *, message: bytes, nmea: str,
+    def __init__(self, sentence: str | bytes, *, message: bytes,
                  timestamp: datetime, message_header: str | bytes | None = None,
                  satellite_id: int | None = None, satellite_prn: int | None = None,
                  satellite_svid: int | None = None) -> None:
-        super().__init__(Frame(sentence=sentence, message=message, nmea=nmea, timestamp=timestamp,
+        super().__init__(Frame(sentence=sentence, message=message, timestamp=timestamp,
                               message_header=message_header, satellite_id=satellite_id,
                               satellite_prn=satellite_prn, satellite_svid=satellite_svid))
 
@@ -62,5 +63,18 @@ class Decoder(ContextDecoder[Frame]):
                 self)
 
         # stacks the next decoder
-        return next_decoder(Message(**self.context.params(),
+        return next_decoder(Message(**self.context.params(), nmea=self._nmea(),
                                     preamble=self.preamble, message_type=self.message_type)).decode()
+
+    def _nmea(self) -> str:
+        sat_id = self.context.satellite_id
+        if sat_id is None:
+            sat_id = 55  # Set the satellite_id of PRN183 if it was default.
+
+        nmea_partial = f'{QZQSM_HEADER},{sat_id},{self.context.message.hex()[:-1].upper()}'
+
+        checksum = 0
+        for c in nmea_partial[1:]:  # without the '$' at the beginning
+            checksum ^= ord(c)
+
+        return nmea_partial + '*%02X' % checksum

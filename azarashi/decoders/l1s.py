@@ -47,13 +47,11 @@ class Decoder(InputDecoder):
         self.timestamp = utc
 
         self.message = self.sentence[5:36] + bytes((self.sentence[36] & 0xC0,))  # 250 bits
-        self.nmea = self.message_to_nmea()
 
         # stacks the next decoder
         return l1s.Decoder(
             sentence=self.sentence,
             message=self.message,
-            nmea=self.nmea,
             timestamp=self.timestamp,
             satellite_id=self.satellite_id,
             satellite_prn=self.satellite_prn,

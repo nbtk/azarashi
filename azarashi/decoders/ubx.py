@@ -79,14 +79,10 @@ class Decoder(InputDecoder):
                            self.sentence[data_offset + 0 + i * 4]))
         self.message = data[:31] + bytes((data[31] & 0xC0,))
 
-        # generates the nmea sentence
-        self.nmea = self.message_to_nmea()
-
         # stacks the next decoder
         return l1s.Decoder(
             sentence=self.sentence,
             message=self.message,
-            nmea=self.nmea,
             timestamp=self.timestamp,
             message_header=self.message_header,
             satellite_id=self.satellite_id,

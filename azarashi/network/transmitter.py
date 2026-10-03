@@ -27,7 +27,7 @@ class Transmitter:
 
     def handler(self, report: Report) -> None:
         with socket.socket(self.addr_info[0], self.addr_info[1]) as sock:
-            sat_id = (report.satellite_id or 55).to_bytes(1, 'big')  # PRN183, as in message_to_nmea()
+            sat_id = (report.satellite_id or 55).to_bytes(1, 'big')  # PRN183, as in the QZQSM sentence of a report
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             logger.info(report.nmea)
             sock.sendto(sat_id + report.message, self.addr_info[-1])

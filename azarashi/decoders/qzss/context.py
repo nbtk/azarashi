@@ -7,7 +7,6 @@ from typing import TypedDict
 class FrameParams(TypedDict):
     sentence: str | bytes
     message: bytes
-    nmea: str
     timestamp: datetime
     message_header: str | bytes | None
     satellite_id: int | None
@@ -21,7 +20,6 @@ class Frame:
 
     sentence: str | bytes
     message: bytes
-    nmea: str
     timestamp: datetime
     message_header: str | bytes | None = None
     satellite_id: int | None = None
@@ -32,7 +30,6 @@ class Frame:
         return {
             'sentence': self.sentence,
             'message': self.message,
-            'nmea': self.nmea,
             'timestamp': self.timestamp,
             'message_header': self.message_header,
             'satellite_id': self.satellite_id,
@@ -42,6 +39,7 @@ class Frame:
 
 
 class MessageParams(FrameParams):
+    nmea: str
     preamble: str
     message_type: str
 
@@ -50,12 +48,14 @@ class MessageParams(FrameParams):
 class Message(Frame):
     """The shared preamble, CRC and message-type checks have completed."""
 
+    nmea: str
     preamble: str
     message_type: str
 
     def params(self) -> MessageParams:
         return {
             **super().params(),
+            'nmea': self.nmea,
             'preamble': self.preamble,
             'message_type': self.message_type,
         }

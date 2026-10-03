@@ -86,14 +86,10 @@ class Decoder(InputDecoder):
                 'Invalid Message',
                 self) from err
 
-        # generates a nmea sentence
-        self.nmea = self.message_to_nmea()
-
         # stacks the next decoder
         return l1s.Decoder(
             sentence=self.sentence,
             message=self.message,
-            nmea=self.nmea,
             timestamp=self.timestamp,
             message_header=self.message_header,
             satellite_id=self.satellite_id,
