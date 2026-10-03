@@ -6,8 +6,9 @@
 ### Highlights
 0.17.1 gives the **JSON output its second version** (`"schema_version": 2`) and every report its
 **text in every language it has**, through `get_text()` and `get_texts()`. Both change what 0.17.0
-gave, so read the Upgrade Notes if you use `get_text_en()` or the JSON output. Code that reads
-reports otherwise runs unchanged.
+gave, and so does the text of the decoding errors, so read the Upgrade Notes if you use
+`get_text_en()`, the JSON output, or the text of an error. Code that reads reports otherwise runs
+unchanged.
 
 **The JSON schema is still settling, and we welcome comments.** Please open an
 [issue](https://github.com/nbtk/azarashi/issues) with anything that is hard to read, missing, or
@@ -82,6 +83,22 @@ These codes read differently in `str(report)`, in the report attributes and in t
 The long-period ground motion limits of code 0 are named 該当情報なし / No data in the JSON. The
 report attributes stay `None` for that code.
 
+#### Text of a decoding error
+A program that matches the text of an error has to be changed. The classes stay the same.
+
+- **A message that is not DCR or DCX** reads
+  `The Message is not DCR or DCX: expected Message Type 43 or 44, but got 47`, instead of
+  `Undefined Message Type: 47`.
+- **A wrong length, checksum or CRC** gives the expected and the actual value, as in
+  `Too Short Sentence: expected 76 characters, but got 75` and
+  `CRC Mismatch: expected 1510FF, but got 1510FC`. `Checksum Mismatch, should be 05` reads
+  `Checksum Mismatch: expected 05, but got 00`, and a UBX frame that is not from QZSS or not of
+  the L1S signal gives the expected ID the same way.
+- **After `->`, an error found before the message is known to be DCR or DCX shows what was
+  received**: the UBX frame, the datagram or the archive record as bytes, or the hex text. These
+  errors are a CRC mismatch and a message that is not DCR or DCX. They showed a QZQSM sentence
+  that azarashi had built, and `instance.nmea` held it; it is now empty.
+
 ### Added
 - `get_text()` with any number of languages, and `get_texts()`.
 - `code_tables()`, the code tables the JSON records name.
@@ -97,6 +114,12 @@ report attributes stay `None` for that code.
 - The Minimal Loop example catches `AzarashiStopReading`, as its text says.
 - The help of `--unique` spells suppress right.
 - The documents say only what a reader needs, and no longer link to pages that are gone.
+- A message type that IS-QZSS-L1S-009 defines, such as an augmentation message (MT 47 to 50), was
+  called undefined ([#28](https://github.com/nbtk/azarashi/issues/28)).
+- An error no longer shows a QZQSM sentence for a message that is not known to be DCR or DCX. The
+  QZQSM sentence is defined for DCR and DCX messages only. The Upgrade Notes say what it shows now.
+- The [API docs](https://github.com/nbtk/azarashi/blob/main/docs/api.md#decode) say that
+  `decode()` gives a report for a DCR or DCX message only, and what `decode_stream()` skips.
 
 Tested on Python 3.11 to 3.14.
 
