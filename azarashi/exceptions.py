@@ -40,7 +40,7 @@ class AzarashiDecodeError(AzarashiReadOn, ValueError):
 
 
 class AzarashiInvalidMessageError(AzarashiDecodeError):
-    """The message cannot be read: a length, a checksum or a CRC is wrong, or no decoder fits it.
+    """The message cannot be read: a length, a checksum or a CRC is wrong, it is not a DCR or DCX message, or no decoder fits it.
 
     A code value the spec does not define is not one of these; it is kept and named in the report.
     """

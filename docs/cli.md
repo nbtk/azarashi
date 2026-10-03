@@ -43,6 +43,8 @@ azarashi コマンドのメッセージタイプに `ublox` を指定します�
 ```shell
 $ azarashi ublox -f /dev/ttyS0 -b 9600
 ```
+受信機が出すフレームのうち、QZSS の L1S 信号の災危通報だけを読みます。ほかのフレームは読み飛ばします。
+
 デバイスファイルの読み込み権限が足りないときは、sudo を使わずに、[Preparation](preparation.md) のとおりユーザを `dialout` グループに追加してください。
 ## Sony Spresense
 azarashi コマンドのメッセージタイプに `nmea` を指定します。ボーレートは、スケッチで設定した値に合わせてください。
