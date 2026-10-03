@@ -2,7 +2,7 @@
 
 # Changelog
 
-## 0.17.1 (unreleased)
+## 0.17.1 (2026-10-03)
 ### Highlights
 0.17.1 gives the **JSON output its second version** (`"schema_version": 2`) and every report its
 **text in every language it has**, through `get_text()` and `get_texts()`. Both change what 0.17.0
