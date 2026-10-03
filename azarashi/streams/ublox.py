@@ -7,6 +7,8 @@ from .state import pop_bytes
 from ..exceptions import AzarashiStopReading
 from ..exceptions import AzarashiTimeoutError
 from ..definitions.qzss.l1s import message_types
+from ..definitions.qzss.ubx import GNSS_ID
+from ..definitions.qzss.ubx import L1S_SIGNAL_ID
 from ..definitions.ubx import RXM_SFRBX_HEADER
 
 buffers: ReaderStore[bytearray] = ReaderStore(bytearray)  # unread bytes per reader; retention follows ReaderStore
@@ -80,10 +82,10 @@ def ublox_qzss_dcr_message_extractor(reader: Callable[..., bytes | None],
             if message_length < 12:  # no data word
                 continue
 
-            if message[6] != 5:  # not sent by QZSS
+            if message[6] != GNSS_ID:  # not sent by QZSS
                 continue
 
-            if message[8] != 1:  # not a L1S signal
+            if message[8] != L1S_SIGNAL_ID:  # not a L1S signal
                 continue
 
             if message[16] >> 2 not in message_types.keys():

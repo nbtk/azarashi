@@ -2,6 +2,8 @@ from ..reports import Report
 from .qzss import l1s
 from .qzss.base import InputDecoder
 from ..definitions.ubx import RXM_SFRBX_HEADER
+from ..definitions.qzss.ubx import GNSS_ID
+from ..definitions.qzss.ubx import L1S_SIGNAL_ID
 from ..definitions.qzss.ubx import svid_to_prn
 from ..exceptions import AzarashiInvalidMessageError
 
@@ -41,9 +43,9 @@ class Decoder(InputDecoder):
 
         # checks the gnss id
         gnss_id = self.sentence[6]
-        if gnss_id != 5:
+        if gnss_id != GNSS_ID:
             raise AzarashiInvalidMessageError(
-                f'This Sentence is not from QZSS: {gnss_id}',
+                f'This Sentence is not from QZSS: expected GNSS ID {GNSS_ID}, but got {gnss_id}',
                 self)
 
         # extracts the satellite id
@@ -53,9 +55,9 @@ class Decoder(InputDecoder):
 
         # checks the signal id
         sig_id = self.sentence[8]
-        if sig_id != 1:
+        if sig_id != L1S_SIGNAL_ID:
             raise AzarashiInvalidMessageError(
-                f'The Sentence is not an L1S Signal: {sig_id}',
+                f'The Sentence is not an L1S Signal: expected Signal ID {L1S_SIGNAL_ID}, but got {sig_id}',
                 self)
 
         # checks the data size

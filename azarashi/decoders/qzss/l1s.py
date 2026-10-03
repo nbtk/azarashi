@@ -50,7 +50,8 @@ class Decoder(ContextDecoder[Frame]):
             self.message_type = message_types[mt]
         except KeyError as err:
             raise AzarashiInvalidMessageError(
-                f'Undefined Message Type: {mt}',
+                f'The Message is not {" or ".join(message_types.values())}: '
+                f'expected Message Type {" or ".join(map(str, message_types))}, but got {mt}',
                 self) from err
 
         next_decoder: type[ContextDecoder[Message]]

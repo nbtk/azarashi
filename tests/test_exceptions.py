@@ -221,7 +221,8 @@ RECEIVED = [('ublox', sfrbx), ('net', datagram), ('hex', hex_message), ('nmea', 
 # an error shows what was received
 
 @pytest.mark.parametrize('sentence, message', [(BROKEN_CRC, 'CRC Mismatch: expected 1510FF, but got 1510FC'),
-                                               (AUGMENTATION, 'Undefined Message Type: 47')])
+                                               (AUGMENTATION, 'The Message is not DCR or DCX: '
+                                                              'expected Message Type 43 or 44, but got 47')])
 @pytest.mark.parametrize('msg_type, received', RECEIVED)
 def test_errors_before_the_message_type_is_known_show_what_was_received(sentence, message, msg_type, received):
     msg = received(sentence)

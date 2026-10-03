@@ -126,8 +126,8 @@ def _sfrbx_payload(frame):
     (b'\xB5\x62\x02\x14' + sfrbx(EEW)[4:], "Unknown Message Header: b'\\xb5b\\x02\\x14'"),
     (ubx(b'\x02\x13', bytes((5, 0, 1, 0, 8, 0))), 'Too Short Sentence: expected at least 16 bytes, but got 14'),
     (sfrbx(EEW)[:-1] + b'\x00', 'Checksum Mismatch: expected '),
-    (sfrbx(EEW, gnss=0), 'This Sentence is not from QZSS: 0'),
-    (sfrbx(EEW, sig=0), 'The Sentence is not an L1S Signal: 0'),
+    (sfrbx(EEW, gnss=0), 'This Sentence is not from QZSS: expected GNSS ID 5, but got 0'),
+    (sfrbx(EEW, sig=0), 'The Sentence is not an L1S Signal: expected Signal ID 1, but got 0'),
     (sfrbx(EEW, num_words=9), 'Invalid Message Length: expected 44 bytes for 9 data words, but got 40'),
     (ubx(b'\x02\x13', _sfrbx_payload(sfrbx(EEW, num_words=7))[:-4]),
      'Invalid Message Length: expected at least 8 data words, but got 7'),
@@ -186,8 +186,8 @@ def test_ublox_clears_the_bits_after_the_message():
 @pytest.mark.parametrize('msg, message', [
     (EEW[:-4] + ('0' if EEW[-4] != '0' else '1') + '*' + nmea_checksum(EEW[1:-4] + ('0' if EEW[-4] != '0' else '1')),
      'CRC Mismatch: expected 1510FF, but got 1510FC'),
-    (sentence([(0, 8, 0x53), (8, 6, 42)]), 'Undefined Message Type: 42'),
-    (sentence([(0, 8, 0x53), (8, 6, 0)]), 'Undefined Message Type: 0'),
+    (sentence([(0, 8, 0x53), (8, 6, 42)]), 'The Message is not DCR or DCX: expected Message Type 43 or 44, but got 42'),
+    (sentence([(0, 8, 0x53), (8, 6, 0)]), 'The Message is not DCR or DCX: expected Message Type 43 or 44, but got 0'),
 ])
 def test_message_rejects(msg, message):
     assert _error(msg) == message

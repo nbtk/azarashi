@@ -160,7 +160,8 @@ def test_receiver_command_filter_options(monkeypatch, args, expected):
     (b'hello', "[AzarashiInvalidMessageError] Too Short Sentence: expected 33 bytes, but got 5 "
                "-> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
     (b'', '[AzarashiInvalidMessageError] Empty Message'),
-    (bytes((55,)) + bytes(32), "[AzarashiInvalidMessageError] Undefined Message Type: 0 -> b'\\x37" + '\\x00' * 32 + "'"),
+    (bytes((55,)) + bytes(32), '[AzarashiInvalidMessageError] The Message is not DCR or DCX: '
+                               "expected Message Type 43 or 44, but got 0 -> b'\\x37" + '\\x00' * 32 + "'"),
 ])
 def test_receiver_skips_datagrams_that_are_not_messages(caplog, datagram, warning):
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
