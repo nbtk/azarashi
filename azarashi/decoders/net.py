@@ -3,6 +3,8 @@ from .qzss import l1s
 from .qzss.base import InputDecoder
 from ..exceptions import AzarashiInvalidMessageError
 
+SENTENCE_LENGTH = 33  # the satellite id and 32 bytes of the message
+
 
 class Decoder(InputDecoder):
     sentence: str | bytes
@@ -17,13 +19,13 @@ class Decoder(InputDecoder):
                 self)
         self.sentence = self.sentence.strip()
 
-        if len(self.sentence) < 33:
+        if len(self.sentence) < SENTENCE_LENGTH:
             raise AzarashiInvalidMessageError(
-                'Too Short Sentence',
+                f'Too Short Sentence: expected {SENTENCE_LENGTH} bytes, but got {len(self.sentence)}',
                 self)
-        if len(self.sentence) > 33:
+        if len(self.sentence) > SENTENCE_LENGTH:
             raise AzarashiInvalidMessageError(
-                'Too Long Sentence',
+                f'Too Long Sentence: expected {SENTENCE_LENGTH} bytes, but got {len(self.sentence)}',
                 self)
 
         self.message = self.sentence[1:]

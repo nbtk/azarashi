@@ -85,9 +85,9 @@ def test_nmea_truncated_sentence_after_garbage_is_a_decoder_error():
 
 
 @pytest.mark.parametrize('line, results', [  # the newline between the sentences was lost
-    (EEW[:30] + EEW, ['Too Short Sentence', 'EEW']),
+    (EEW[:30] + EEW, ['Too Short Sentence: expected 76 characters, but got 30', 'EEW']),
     (EEW + EEW, ['EEW', 'EEW']),
-    (EEW + EEW[:30], ['EEW', 'Too Short Sentence']),
+    (EEW + EEW[:30], ['EEW', 'Too Short Sentence: expected 76 characters, but got 30']),
 ])
 def test_nmea_sentences_on_one_line_are_decoded_one_by_one(line, results):
     stream = io.BytesIO(line.encode() + b'\r\n')

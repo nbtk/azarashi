@@ -220,7 +220,7 @@ RECEIVED = [('ublox', sfrbx), ('net', datagram), ('hex', hex_message), ('nmea', 
 # a QZQSM sentence is built only for a DCR or DCX message; until the CRC and the message type say so,
 # an error shows what was received
 
-@pytest.mark.parametrize('sentence, message', [(BROKEN_CRC, 'CRC Mismatch'),
+@pytest.mark.parametrize('sentence, message', [(BROKEN_CRC, 'CRC Mismatch: expected 1510FF, but got 1510FC'),
                                                (AUGMENTATION, 'Undefined Message Type: 47')])
 @pytest.mark.parametrize('msg_type, received', RECEIVED)
 def test_errors_before_the_message_type_is_known_show_what_was_received(sentence, message, msg_type, received):

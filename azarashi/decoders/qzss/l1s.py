@@ -38,9 +38,10 @@ class Decoder(ContextDecoder[Frame]):
                 if crc_remaining_len == 0:
                     break
         crc &= 0xffffff
-        if crc != self.extract_field(226, 24):
+        transmitted = self.extract_field(226, 24)
+        if crc != transmitted:
             raise AzarashiInvalidMessageError(
-                'CRC Mismatch',
+                f'CRC Mismatch: expected {crc:06X}, but got {transmitted:06X}',
                 self)
 
         # checks the message type

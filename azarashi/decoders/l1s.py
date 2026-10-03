@@ -8,6 +8,8 @@ from ..definitions.gps import GPS_UTC_OFFSETS
 from ..definitions.gps import SECONDS_PER_WEEK
 from ..exceptions import AzarashiInvalidMessageError
 
+RECORD_LENGTH = 1 + 4 + 32  # PRN + GPS time + message
+
 
 def _gps_to_utc(week: int, seconds: int) -> datetime | None:
     """The UTC instant of a GPS week and second, or None before GPS_UTC_OFFSETS begins."""
@@ -25,9 +27,9 @@ class Decoder(InputDecoder):
     sentence: bytes
 
     def decode(self) -> Report:
-        if len(self.sentence) != 1 + 4 + 32:  # PRN + GPS time + message
+        if len(self.sentence) != RECORD_LENGTH:
             raise AzarashiInvalidMessageError(
-                f'Invalid Record Length: {len(self.sentence)}',
+                f'Invalid Record Length: expected {RECORD_LENGTH} bytes, but got {len(self.sentence)}',
                 self)
 
         self.satellite_prn = self.sentence[0]

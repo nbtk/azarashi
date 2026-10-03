@@ -4,6 +4,9 @@ from .qzss.base import InputDecoder
 from ..definitions.nmea import QZQSM_HEADER
 from ..exceptions import AzarashiInvalidMessageError
 
+SENTENCE_LENGTH = 76  # $QZQSM, the satellite id, 63 hex digits of the message and the checksum
+CHECKSUM_LENGTH = 2  # hex digits
+
 
 class Decoder(InputDecoder):
     sentence: str | bytes
@@ -18,13 +21,13 @@ class Decoder(InputDecoder):
         words = sentence.split()
         self.sentence = words[0] if words else ''  # a blank line is too short
 
-        if len(self.sentence) < 76:
+        if len(self.sentence) < SENTENCE_LENGTH:
             raise AzarashiInvalidMessageError(
-                'Too Short Sentence',
+                f'Too Short Sentence: expected {SENTENCE_LENGTH} characters, but got {len(self.sentence)}',
                 self)
-        if len(self.sentence) > 76:
+        if len(self.sentence) > SENTENCE_LENGTH:
             raise AzarashiInvalidMessageError(
-                'Too Long Sentence',
+                f'Too Long Sentence: expected {SENTENCE_LENGTH} characters, but got {len(self.sentence)}',
                 self)
 
         # checks the checksum
@@ -35,9 +38,9 @@ class Decoder(InputDecoder):
                 'Checksum Not Found',
                 self) from err
 
-        if len(csum) != 2:
+        if len(csum) != CHECKSUM_LENGTH:
             raise AzarashiInvalidMessageError(
-                'Invalid Checksum Length',
+                f'Invalid Checksum Length: expected {CHECKSUM_LENGTH} characters, but got {len(csum)}',
                 self)
 
         try:
@@ -53,7 +56,7 @@ class Decoder(InputDecoder):
 
         if summed != checksum:
             raise AzarashiInvalidMessageError(
-                'Checksum Mismatch, should be %02X' % summed,
+                f'Checksum Mismatch: expected {summed:02X}, but got {checksum:02X}',
                 self)
 
         # extracts a message header, satellite id, and message

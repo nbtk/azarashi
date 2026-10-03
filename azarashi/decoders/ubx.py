@@ -5,6 +5,9 @@ from ..definitions.ubx import RXM_SFRBX_HEADER
 from ..definitions.qzss.ubx import svid_to_prn
 from ..exceptions import AzarashiInvalidMessageError
 
+SHORTEST_SENTENCE = len(RXM_SFRBX_HEADER) + 2 + 8 + 2  # SFRBX + Length + fixed part + CHK
+MESSAGE_WORDS = 8  # the 250-bit message takes 8 data words
+
 
 class Decoder(InputDecoder):
     sentence: bytes
@@ -19,9 +22,9 @@ class Decoder(InputDecoder):
                 f'Unknown Message Header: {self.message_header!r}',
                 self)
 
-        if len(self.sentence) < len(RXM_SFRBX_HEADER) + 2 + 8 + 2:  # SFRBX + Length + fixed part + CHK
+        if len(self.sentence) < SHORTEST_SENTENCE:
             raise AzarashiInvalidMessageError(
-                'Too Short Sentence',
+                f'Too Short Sentence: expected at least {SHORTEST_SENTENCE} bytes, but got {len(self.sentence)}',
                 self)
 
         # checks the fletcher's checksum
@@ -60,13 +63,18 @@ class Decoder(InputDecoder):
         declared_length = int.from_bytes(self.sentence[4:6], 'little')
         if declared_length != payload_length:
             raise AzarashiInvalidMessageError(
-                f'Payload Length Mismatch: declared {declared_length}, but got {payload_length}',
+                f'Payload Length Mismatch: declared {declared_length} bytes, but got {payload_length}',
                 self)
         num_data_word = self.sentence[10]
-        if (num_data_word * 4 + 8 != payload_length
-                or num_data_word < 8):  # the 250-bit message takes 8 data words
+        expected_length = 8 + num_data_word * 4  # fixed part + data words
+        if expected_length != payload_length:
             raise AzarashiInvalidMessageError(
-                f'Invalid Message Length: {num_data_word}',
+                f'Invalid Message Length: expected {expected_length} bytes for {num_data_word} data words, '
+                f'but got {payload_length}',
+                self)
+        if num_data_word < MESSAGE_WORDS:
+            raise AzarashiInvalidMessageError(
+                f'Invalid Message Length: expected at least {MESSAGE_WORDS} data words, but got {num_data_word}',
                 self)
 
         # extracts the dcr message

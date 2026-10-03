@@ -7,6 +7,7 @@ import pytest
 
 import azarashi
 from azarashi import __main__ as cli
+from azarashi.decoders.l1s import Decoder
 from azarashi.decoders.l1s import _gps_to_utc
 from samples import EEW
 from samples import L_ALERT
@@ -147,6 +148,13 @@ def test_a_second_past_the_week_is_a_message_that_cannot_be_read():
     with pytest.raises(azarashi.AzarashiInvalidMessageError, match='Invalid Second of the Week'):
         azarashi.decode_stream(stream, 'l1s')
     assert azarashi.decode_stream(stream, 'l1s').timestamp == START  # reading on reaches the next record
+
+
+def test_a_record_of_another_length_is_a_message_that_cannot_be_read():
+    record = bytes((PRN,)) + _record(_message(EEW))
+    with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
+        Decoder(record[:-1]).decode()  # the stream reads whole records: only a direct call gives another length
+    assert excinfo.value.message == 'Invalid Record Length: expected 37 bytes, but got 36'
 
 
 def test_gps_time_is_utc_behind_the_leap_seconds():

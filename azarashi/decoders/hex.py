@@ -3,6 +3,8 @@ from .qzss import l1s
 from .qzss.base import InputDecoder
 from ..exceptions import AzarashiInvalidMessageError
 
+SENTENCE_LENGTH = 63  # the 250-bit message with 2 bits of padding, in hex digits
+
 
 class Decoder(InputDecoder):
     sentence: str | bytes
@@ -16,13 +18,13 @@ class Decoder(InputDecoder):
             sentence = sentence.decode(errors='replace')
         self.sentence = sentence.strip()
 
-        if len(self.sentence) < 63:
+        if len(self.sentence) < SENTENCE_LENGTH:
             raise AzarashiInvalidMessageError(
-                'Too Short Sentence',
+                f'Too Short Sentence: expected {SENTENCE_LENGTH} characters, but got {len(self.sentence)}',
                 self)
-        if len(self.sentence) > 63:
+        if len(self.sentence) > SENTENCE_LENGTH:
             raise AzarashiInvalidMessageError(
-                'Too Long Sentence',
+                f'Too Long Sentence: expected {SENTENCE_LENGTH} characters, but got {len(self.sentence)}',
                 self)
 
         # converts the message to bytes type

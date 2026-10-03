@@ -30,14 +30,14 @@ def _error(msg, msg_type='nmea'):
 # NMEA
 
 @pytest.mark.parametrize('msg, message', [
-    (' \r\n', 'Too Short Sentence'),  # a blank line
-    (EEW[:-1], 'Too Short Sentence'),
-    (EEW + '0', 'Too Long Sentence'),
+    (' \r\n', 'Too Short Sentence: expected 76 characters, but got 0'),  # a blank line
+    (EEW[:-1], 'Too Short Sentence: expected 76 characters, but got 75'),
+    (EEW + '0', 'Too Long Sentence: expected 76 characters, but got 77'),
     (EEW.replace('*', ','), 'Checksum Not Found'),
     (EEW[:-4] + '**05', 'Checksum Not Found'),
-    (EEW[:-4] + '*005', 'Invalid Checksum Length'),
+    (EEW[:-4] + '*005', 'Invalid Checksum Length: expected 2 characters, but got 3'),
     (EEW[:-2] + 'ZZ', 'Invalid Checksum'),
-    (EEW[:-2] + '00', 'Checksum Mismatch, should be 05'),
+    (EEW[:-2] + '00', 'Checksum Mismatch: expected 05, but got 00'),
     (_nmea('QZQSM;55,' + EEW_HEX), 'Invalid Sentence'),
     (_nmea('GPQSM,55,' + EEW_HEX), 'Unknown Message Header: $GPQSM'),
     (_nmea('QZQSM,5,0' + EEW_HEX), 'Invalid Satellite ID: 5'),
@@ -83,9 +83,9 @@ def test_wrong_kind_of_input_is_a_decoder_error(msg, msg_type, message):
 # hex
 
 @pytest.mark.parametrize('msg, message', [
-    (' \n', 'Too Short Sentence'),
-    (EEW_HEX[:-1], 'Too Short Sentence'),
-    (EEW_HEX + '0', 'Too Long Sentence'),
+    (' \n', 'Too Short Sentence: expected 63 characters, but got 0'),
+    (EEW_HEX[:-1], 'Too Short Sentence: expected 63 characters, but got 62'),
+    (EEW_HEX + '0', 'Too Long Sentence: expected 63 characters, but got 64'),
     (EEW_HEX[:-1] + 'G', 'Invalid Message'),
     (EEW_HEX[:30] + '  ' + EEW_HEX[32:], 'Invalid Message'),  # bytes.fromhex() would skip the spaces
 ])
@@ -103,8 +103,8 @@ def test_hex_has_no_satellite():
 # net
 
 @pytest.mark.parametrize('msg, message', [
-    (bytes((55,)) + bytes(31), 'Too Short Sentence'),
-    (bytes((55,)) + bytes(33), 'Too Long Sentence'),
+    (bytes((55,)) + bytes(31), 'Too Short Sentence: expected 33 bytes, but got 32'),
+    (bytes((55,)) + bytes(33), 'Too Long Sentence: expected 33 bytes, but got 34'),
 ])
 def test_net_rejects(msg, message):
     assert _error(msg, 'net') == message
@@ -124,12 +124,13 @@ def _sfrbx_payload(frame):
 
 @pytest.mark.parametrize('frame, message', [
     (b'\xB5\x62\x02\x14' + sfrbx(EEW)[4:], "Unknown Message Header: b'\\xb5b\\x02\\x14'"),
-    (ubx(b'\x02\x13', bytes((5, 0, 1, 0, 8, 0))), 'Too Short Sentence'),
+    (ubx(b'\x02\x13', bytes((5, 0, 1, 0, 8, 0))), 'Too Short Sentence: expected at least 16 bytes, but got 14'),
     (sfrbx(EEW)[:-1] + b'\x00', 'Checksum Mismatch: expected '),
     (sfrbx(EEW, gnss=0), 'This Sentence is not from QZSS: 0'),
     (sfrbx(EEW, sig=0), 'The Sentence is not an L1S Signal: 0'),
-    (sfrbx(EEW, num_words=9), 'Invalid Message Length: 9'),
-    (ubx(b'\x02\x13', _sfrbx_payload(sfrbx(EEW, num_words=7))[:-4]), 'Invalid Message Length: 7'),
+    (sfrbx(EEW, num_words=9), 'Invalid Message Length: expected 44 bytes for 9 data words, but got 40'),
+    (ubx(b'\x02\x13', _sfrbx_payload(sfrbx(EEW, num_words=7))[:-4]),
+     'Invalid Message Length: expected at least 8 data words, but got 7'),
 ])
 def test_ublox_rejects(frame, message):
     assert _error(frame, 'ublox').startswith(message)
@@ -153,7 +154,7 @@ def test_ublox_rejects_inconsistent_declared_length(declared_length):
         ck_b = (ck_b + ck_a) & 0xff
     frame[-2:] = bytes((ck_a, ck_b))
     assert _error(bytes(frame), 'ublox') == \
-        f'Payload Length Mismatch: declared {declared_length}, but got 40'
+        f'Payload Length Mismatch: declared {declared_length} bytes, but got 40'
 
 
 @pytest.mark.parametrize('sv, satellite_prn', [
@@ -184,7 +185,7 @@ def test_ublox_clears_the_bits_after_the_message():
 
 @pytest.mark.parametrize('msg, message', [
     (EEW[:-4] + ('0' if EEW[-4] != '0' else '1') + '*' + nmea_checksum(EEW[1:-4] + ('0' if EEW[-4] != '0' else '1')),
-     'CRC Mismatch'),
+     'CRC Mismatch: expected 1510FF, but got 1510FC'),
     (sentence([(0, 8, 0x53), (8, 6, 42)]), 'Undefined Message Type: 42'),
     (sentence([(0, 8, 0x53), (8, 6, 0)]), 'Undefined Message Type: 0'),
 ])

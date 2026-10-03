@@ -157,7 +157,8 @@ def test_receiver_command_filter_options(monkeypatch, args, expected):
 
 
 @pytest.mark.parametrize('datagram, warning', [
-    (b'hello', "[AzarashiInvalidMessageError] Too Short Sentence -> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
+    (b'hello', "[AzarashiInvalidMessageError] Too Short Sentence: expected 33 bytes, but got 5 "
+               "-> b'\\x68\\x65\\x6C\\x6C\\x6F'"),
     (b'', '[AzarashiInvalidMessageError] Empty Message'),
     (bytes((55,)) + bytes(32), "[AzarashiInvalidMessageError] Undefined Message Type: 0 -> b'\\x37" + '\\x00' * 32 + "'"),
 ])
@@ -226,7 +227,7 @@ def test_transmitter_command_warns_about_decoder_errors(monkeypatch, caplog, udp
     monkeypatch.setattr(sys, 'stdin', io.TextIOWrapper(io.BytesIO(data)))
     with caplog.at_level(logging.WARNING, logger=transmitter.logger.name):
         assert transmitter.main() == 0
-    assert [r.getMessage() for r in caplog.records] == [f'[AzarashiInvalidMessageError] Checksum Mismatch, should be 05 -> {EEW[:-2]}00']
+    assert [r.getMessage() for r in caplog.records] == [f'[AzarashiInvalidMessageError] Checksum Mismatch: expected 05, but got 00 -> {EEW[:-2]}00']
     assert azarashi.decode(udp_sink.recv(256), 'net') == azarashi.decode(EEW)
     assert record.read_bytes() == data
 
