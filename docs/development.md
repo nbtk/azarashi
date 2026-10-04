@@ -93,3 +93,32 @@ Galileo EWSS を追加する際も、伝送やビット位置の処理を各シ�
 
 `tests/test_definition_values.py` は、コード表の値と未定義値の文言を参照スナップショットと比較します。
 表を更新する際は `tests/definition_values.json` の該当する期待値も、変更内容と照合して更新してください。
+
+## Release
+リリースは、GitHub のリリースを公開して行います。公開すると `.github/workflows/release.yml` が wheel と sdist を作り、PyPI に公開します。
+途中で承認を求められることはありません。PyPI に一度公開した版番号は、取り消しても同じ番号で出し直せません。
+
+版番号は `0.<IS-QZSS-DCR の版>.<修正の番号>` です。IS-QZSS-DCR-017 に対応している間は 0.17.x で、修正や機能の追加では最後の数だけを上げます。
+新しい IS-QZSS-DCR の版に対応したら、2番目の数をその版に合わせ、最後の数を0に戻します。IS-QZSS-DCR-018 に対応した版は 0.18.0 です。
+
+タグの名前は、版番号の前に `v` を付けたものです。例えば `v0.17.1` です。リリースの題名もタグと同じにします。
+タグは、確かめたコミットに1つだけ付けます。公開したあとは付け直しません。
+
+1. 上の規則で版番号を決め、`setup.py` の `version` を書き換えてコミットします。
+2. リリースするコミットを push し、GitHub Actions の Test がすべて通ることを確かめます。同じ push で動く Dependency Graph は、Test ではありません。
+3. リリースするコミットからパッケージを作り、中身を確かめます。前の版の wheel と、入っているファイルを比べます。
+   新しい環境に wheel を入れ、デコードと CLI が動くことも確かめます。
+   ```shell
+   $ git archive <commit> | tar -x -C <空のディレクトリ>
+   $ python -m build
+   $ python -m twine check dist/*
+   $ pip download --no-deps azarashi==<前の版> -d <別のディレクトリ>
+   ```
+4. リリースノートを書きます。リポジトリには置かず、ほかの場所のファイルにします。
+   見出しは前の版にならい、`## Highlights`、`## Upgrade Notes`、`## Added`、`## Fixed` などにします。
+   最後に `Tested on Python 3.11 to 3.14.` と、`**Full Changelog**: https://github.com/nbtk/azarashi/compare/v<前の版>...v<この版>` を書きます。
+5. タグとその版が、まだ GitHub にも PyPI にもないことを確かめてから、リリースを作って公開します。
+   ```shell
+   $ gh release create v<この版> --target <commit> --title v<この版> --notes-file <リリースノートのファイル>
+   ```
+6. Actions の Upload Python Package to PyPI が成功したことを確かめます。PyPI の最新版が新しい版になり、`pip install azarashi==<この版>` でその版が入ることも確かめます。
