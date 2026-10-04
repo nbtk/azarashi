@@ -1,8 +1,7 @@
 """International A11, two five-bit lists: CAMF Issue 1.2, 3.5.3 and Annex C 11.
 
-The original names index List A. List B has its own table; its codes 29 and 30
-are reserved. Zero is left empty in both lists: the prose permits a null
-instruction, while the tables call it reserved. It must never select an action.
+a11_international_library and a11_international_library_code are List A. List B has
+its own tables; its codes 29 and 30 are reserved.
 """
 from ..code_table import CodeTable
 
