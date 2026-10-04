@@ -30,6 +30,9 @@ def fixtures():
                   dcx(**JAPAN, a3=2, ex8=1, ex9=65535 << 48)]
     selected += [decode(s, 'nmea', timestamp=RECEIVED) for s in sentences]
     selected.append(decode(selected[0].message.hex()[:-1], 'hex', timestamp=RECEIVED))
+    # The two international lists, a reserved B code, and an unsupported version.
+    selected += [decode(dcx(a1=1, a2=10, a3=2, a9=0, a10=version, a11=(3 << 5) | list_b, a14=1),
+                        timestamp=RECEIVED) for version, list_b in ((0, 1), (0, 29), (1, 1))]
     return selected
 
 

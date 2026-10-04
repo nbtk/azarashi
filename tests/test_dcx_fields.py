@@ -118,19 +118,22 @@ def test_provider_identifier(a2, a3, provider):
 
 
 def test_international_library():
-    report = _decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=3))
+    report = _decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=(3 << 5) | 1))
     assert (report.a9_type_of_library, report.a10_library_version) == ('International library', '#1')
-    assert report.a11_international_library_code == 'IC-A-04'
-    assert report.a11_international_library == 'Seek shelter in a building immediately. Stay under cover and stay informed.'
-    assert 'A11 - Instruction code: IC-A-04\n' \
-           'A11 - Instruction: Seek shelter in a building immediately. Stay under cover and stay informed.\n' \
+    assert report.a11_international_library_code == 'IC-A-04; IC-B-02'
+    assert report.a11_international_library == \
+        'Seek shelter in a building immediately. Stay under cover and stay informed. ' \
+        'Check with the weather services and local authorities for additional information'
+    assert 'A11 - Instruction code: IC-A-04; IC-B-02\n' \
+           'A11 - Instruction: Seek shelter in a building immediately. Stay under cover and stay informed. ' \
+           'Check with the weather services and local authorities for additional information\n' \
            in str(report)
 
 
 def test_international_library_without_instruction():
     report = _decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=0))
-    assert (report.a11_international_library_code, report.a11_international_library) == ('IC-A-01', '')
-    assert 'A11 - Instruction code: IC-A-01\nA12 - ' in str(report)
+    assert (report.a11_international_library_code, report.a11_international_library) == ('IC-A-01; IC-B-01', '')
+    assert 'A11 - Instruction code: IC-A-01; IC-B-01\nA12 - ' in str(report)
 
 
 def test_japanese_library():
@@ -433,7 +436,7 @@ def test_ex8_ex9_cities():
 # the whole report
 
 def test_outside_japan_report():
-    report = _decode(dcx(a1=1, a2=10, a3=2, a4=82, a5=2, a6=0, a7=1, a8=1, a9=0, a11=1,
+    report = _decode(dcx(a1=1, a2=10, a3=2, a4=82, a5=2, a6=0, a7=1, a8=1, a9=0, a11=33,
                          a12=0x8000, a13=0x10000, a14=10, a15=5, a16=32, a17=2, vn=1))
     assert str(report) == '''### DCX Message - Information from Organizations outside Japan ###
 A1 - Message type: Alert
@@ -444,8 +447,8 @@ A4 - Hazard definition: %s
 A5 - Severity: Severe - Significant threat to life or property
 A6A7 - Hazard onset: 2026-09-14T00:00:00Z
 A8 - Hazard duration: Duration < 6H
-A11 - Instruction code: IC-A-02
-A11 - Instruction: You are in the danger zone, leave the area immediately. Listen to radio or media for directions and information.
+A11 - Instruction code: IC-A-02; IC-B-02
+A11 - Instruction: You are in the danger zone, leave the area immediately. Listen to radio or media for directions and information. Check with the weather services and local authorities for additional information
 A12 - Ellipse centre latitude: 0.001373
 A13 - Ellipse centre longitude: 0.001373
 A14 - Ellipse semi - major axis: 4.421

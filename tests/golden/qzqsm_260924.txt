@@ -4305,8 +4305,8 @@ A4 - Hazard definition: A series of waves (with long wavelengths when traveling 
 A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-24T04:15:00Z
 A8 - Hazard duration: Unknown
-A11 - Instruction code: IC-A-UNDEFINED (Code: 928)
-A11 - Instruction: Undefined instruction in the international library. (Code: 928)
+A11 - Instruction code: IC-A-30; IC-B-01
+A11 - Instruction: This is only a test. You do not have to take any action or to adopt any particular sheltering behaviour.
 A12 - Ellipse centre latitude: 5.11284
 A13 - Ellipse centre longitude: 95.769926
 A14 - Ellipse semi - major axis: 165.324
@@ -4318,8 +4318,14 @@ C2 - Refined longitude of centre of main ellipse: 95.769926
 C3 - Refined length of semi major axis: 165.324
 C4 - Refined length of semi minor axis: 90.407
 {'a10_library_version': '#1',
- 'a11_international_library': 'Undefined instruction in the international library. (Code: 928)',
- 'a11_international_library_code': 'IC-A-UNDEFINED (Code: 928)',
+ 'a11_international_library': 'This is only a test. You do not have to take any action or to adopt any particular '
+                              'sheltering behaviour.',
+ 'a11_international_library_a': 'This is only a test. You do not have to take any action or to adopt any particular '
+                                'sheltering behaviour.',
+ 'a11_international_library_a_code': 'IC-A-30',
+ 'a11_international_library_b': '',
+ 'a11_international_library_b_code': 'IC-B-01',
+ 'a11_international_library_code': 'IC-A-30; IC-B-01',
  'a12_ellipse_centre_latitude': 5.11284,
  'a13_ellipse_centre_longitude': 95.769926,
  'a14_ellipse_semi_major_axis': 165.324,
@@ -4422,8 +4428,8 @@ A4 - Hazard definition: A series of waves (with long wavelengths when traveling 
 A5 - Severity: Unknown
 A6A7 - Hazard onset: 2026-09-24T04:20:00Z
 A8 - Hazard duration: Unknown
-A11 - Instruction code: IC-A-UNDEFINED (Code: 928)
-A11 - Instruction: Undefined instruction in the international library. (Code: 928)
+A11 - Instruction code: IC-A-30; IC-B-01
+A11 - Instruction: This is only a test. You do not have to take any action or to adopt any particular sheltering behaviour.
 A12 - Ellipse centre latitude: 5.11284
 A13 - Ellipse centre longitude: 95.769926
 A14 - Ellipse semi - major axis: 165.324
@@ -4435,8 +4441,14 @@ C2 - Refined longitude of centre of main ellipse: 95.769926
 C3 - Refined length of semi major axis: 165.324
 C4 - Refined length of semi minor axis: 90.407
 {'a10_library_version': '#1',
- 'a11_international_library': 'Undefined instruction in the international library. (Code: 928)',
- 'a11_international_library_code': 'IC-A-UNDEFINED (Code: 928)',
+ 'a11_international_library': 'This is only a test. You do not have to take any action or to adopt any particular '
+                              'sheltering behaviour.',
+ 'a11_international_library_a': 'This is only a test. You do not have to take any action or to adopt any particular '
+                                'sheltering behaviour.',
+ 'a11_international_library_a_code': 'IC-A-30',
+ 'a11_international_library_b': '',
+ 'a11_international_library_b_code': 'IC-B-01',
+ 'a11_international_library_code': 'IC-A-30; IC-B-01',
  'a12_ellipse_centre_latitude': 5.11284,
  'a13_ellipse_centre_longitude': 95.769926,
  'a14_ellipse_semi_major_axis': 165.324,

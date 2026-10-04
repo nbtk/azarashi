@@ -236,9 +236,18 @@ class Decoder(ContextDecoder[Message]):
         self.a9_type_of_library = a9_type_of_library[camf.a9]
         self.a10_library_version = a10_library_version[camf.a10]
         library = a11_library(camf.a9, camf.a2, camf.a10)
-        if library.name == 'international' and library.en is not None and library.identifier is not None:
-            self.a11_international_library_code = library.identifier[camf.a11]
-            self.a11_international_library = library.en[camf.a11]
+        if (library.name == 'international' and library.en is not None and library.identifier is not None
+                and library.en_b is not None and library.identifier_b is not None):
+            # DCX-004 Table 4.2-16: bits 1-5 are List A, bits 6-10 are List B.
+            list_a, list_b = camf.a11 >> 5, camf.a11 & 0x1f
+            self.a11_international_library_a_code = library.identifier[list_a]
+            self.a11_international_library_a = library.en[list_a]
+            self.a11_international_library_b_code = library.identifier_b[list_b]
+            self.a11_international_library_b = library.en_b[list_b]
+            self.a11_international_library_code = '; '.join((self.a11_international_library_a_code,
+                                                           self.a11_international_library_b_code))
+            self.a11_international_library = ' '.join(text for text in (self.a11_international_library_a,
+                                                                       self.a11_international_library_b) if text)
         elif library.name == 'japanese' and library.en is not None and library.ja is not None:
             self.a11_japanese_library = library.en[camf.a11]
             self.a11_japanese_library_ja = library.ja[camf.a11]

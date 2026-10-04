@@ -8,7 +8,7 @@ import math
 from datetime import UTC, datetime
 from itertools import pairwise
 from collections.abc import Mapping
-from typing import Any, TypeAlias, cast
+from typing import Any, Literal, TypeAlias, cast
 
 from .. import reports
 from ..definitions.camf.a11_library import a11_library
@@ -104,11 +104,13 @@ PROFILES: dict[str, Profile] = {
     "camf.d26_number_of_cases_per_100000_inhabitants": (
         {},
         {
-            **dict(enumerate(pairwise((0, 10, 21, 51, 71, 101, 126, 151, 176, 201, 251, 301, 351, 401, 451, 501, 751)))),
+            **dict(enumerate(((0, 9), (10, 20), (21, 50), (51, 70), (71, 100), (101, 125), (126, 150),
+                             (151, 175), (176, 200), (201, 250), (251, 300), (301, 350), (351, 400),
+                             (401, 450), (451, 500), (501, 750)))),
             16: (751, 1000),
-            17: (1000, 2000),
-            18: (2000, 3000),
-            19: (3000, 5000),
+            17: (1000, None),
+            18: (2000, None),
+            19: (3000, None),
             20: (5000, None),
         },
         "1",
@@ -561,11 +563,21 @@ def dcx_model(name: str, report: Any) -> dict[str, Any]:
     guidance: dict[str, Any] = {
         "library": _camf("a9_type_of_library", c.a9),
         "library_version": _camf("a10_library_version", c.a10),
-        "content": instruction(c.a9, c.a2, c.a10).code(c.a11),
     }
-    if c.a9 == 0:  # CAMF names the instructions of its own library
-        names = a11_library(c.a9, c.a2, c.a10).identifier
-        guidance["identifier"] = None if names is None else names.get(c.a11)
+    if c.a9 == 0:
+        library = a11_library(c.a9, c.a2, c.a10)
+        guidance["content"] = {}
+        parts: tuple[Literal["list_a", "list_b"], ...] = ("list_a", "list_b")
+        for part in parts:
+            raw = c.a11 >> 5 if part == "list_a" else c.a11 & 0x1f
+            names = library.identifier if part == "list_a" else library.identifier_b
+            guidance["content"][part] = {
+                **instruction(c.a9, c.a2, c.a10, part=part).code(raw),
+                "identifier": None if names is None else names.get(raw),
+            }
+        guidance["source"] = {"a11": c.a11}
+    else:
+        guidance["content"] = instruction(c.a9, c.a2, c.a10).code(c.a11)
     data["instruction"] = guidance
     if not report.ignore_a12_to_a16:
         data["main_ellipse"] = _ellipse(report, "main")

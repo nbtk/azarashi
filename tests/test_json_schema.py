@@ -424,10 +424,11 @@ def test_a_code_of_a_table_the_file_lacks_is_undefined_and_unnamed():
     assert all(code['status'] == 'undefined' and code['labels'] == {} for code in missing), missing
 
 
-def test_the_international_library_has_one_table_for_every_country():
+def test_the_international_library_has_two_lists_shared_by_every_country():
     international = {code['table'] for report in REPORTS for code in _codes(example_record(report))
                      if code['table'].startswith('camf.a11_') and '.international.' in code['table']}
-    assert international == {'camf.a11_instruction_library.international.version_0'}
+    assert international == {'camf.a11_instruction_library.international.version_0.' + part
+                             for part in ('list_a', 'list_b')}
 
 
 def test_the_envelope_is_defined_once_and_every_type_requires_its_nmea():
@@ -582,7 +583,10 @@ def test_only_the_international_library_names_its_instruction():
     assert not VALIDATOR.is_valid(row)
     row = record('OutsideJapan')
     assert row['data']['instruction']['library']['code'] == '0'
-    del row['data']['instruction']['identifier']
+    del row['data']['instruction']['content']['list_a']['identifier']
+    assert not VALIDATOR.is_valid(row)
+    row = record('OutsideJapan')
+    del row['data']['instruction']['content']['list_b']['identifier']
     assert not VALIDATOR.is_valid(row)
 
 
@@ -788,11 +792,11 @@ def test_a_code_dcx_004_calls_reserved_is_undefined():
     # IS-QZSS-DCX-004 2.4: a value not assigned yet, which a later edition may give a meaning
     from test_dcx_fields import _decode, dcx
     data = example_record(_decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=0, a14=1)))['data']
-    assert data['instruction']['content'] == {'status': 'undefined', 'code': '0',
-                                              'table': 'camf.a11_instruction_library.international.version_0',
-                                              'labels': {}}
-    assert data['instruction']['identifier'] == 'IC-A-01'
-    assert '0' not in CODE_TABLES['camf.a11_instruction_library.international.version_0']['codes']
+    for part, identifier in [('list_a', 'IC-A-01'), ('list_b', 'IC-B-01')]:
+        table = 'camf.a11_instruction_library.international.version_0.' + part
+        assert data['instruction']['content'][part] == {'status': 'undefined', 'code': '0',
+                                                        'table': table, 'labels': {}, 'identifier': identifier}
+        assert '0' not in CODE_TABLES[table]['codes']
 
 
 def test_every_provider_table_is_that_of_dcx_004():

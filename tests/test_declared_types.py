@@ -46,7 +46,7 @@ def _messages():
                 jma(5, TSUNAMI + [(85, 5, 31)]), jma(6, NORTHWEST_PACIFIC_TSUNAMI), jma(8, VOLCANO),
                 jma(8, VOLCANO + [(50, 3, 7)]), jma(9, ASH_FALL), jma(10, WEATHER), jma(11, FLOOD), jma(12, TYPHOON),
                 jma(14, [(53, 5, 22), (58, 14, 1030)]), jma(4, [(53, 4, 5), (201, 6, 1), (207, 6, 1)]))
-    yield from (dcx(**{**ELLIPSE, 'a9': 0, 'a11': 3, 'a17': a17}) for a17 in range(4))
+    yield from (dcx(**{**ELLIPSE, 'a9': 0, 'a11': (3 << 5) | 1, 'a17': a17}) for a17 in range(4))
     yield from (dcx(**ELLIPSE, a4=a4, a17=3) for hazards, _ in B4_FIELDS for a4 in hazards)
     yield dcx(**JAPAN, a3=1, ex1=1100)
     yield dcx(**JAPAN, a3=4, ex1=1100, ex2=1, ex3=1, ex4=2, ex5=3, ex6=4, ex7=5, a9=1, a11=126)

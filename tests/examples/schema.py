@@ -284,20 +284,32 @@ for name in DCR_TYPES:
     defs[name] = obj(props)
 
 # DCX
+for part, letter in [('list_a', 'A'), ('list_b', 'B')]:
+    defs['dcx_instruction_' + part] = obj({
+        **defs['code']['properties'],
+        'code': {'enum': [str(i) for i in range(32)]},
+        'table': {'type': 'string', 'pattern': '^camf\\.a11_instruction_library\\.international\\.version_'
+                  '(0|[1-9][0-9]*)\\.' + part + END},
+        'identifier': nullable({'type': 'string', 'pattern': '^IC-' + letter + '-(0[1-9]|[12][0-9]|3[0-2])' + END}),
+    }, allOf=defs['code']['allOf'], description='One five-bit international A11 instruction, from ' + part + '.')
+
 defs['dcx_instruction'] = {
     'type': 'object',
     'properties': {
         'library': camf_field('a9_type_of_library'),
         'library_version': camf_field('a10_library_version'),
-        'content': {'allOf': [ref('code'), {'properties': {'table': {
-            'pattern': '^camf\\.a11_instruction_library\\.(international|country_(0|[1-9][0-9]*))\\.version_(0|[1-9][0-9]*)' + END}}}]},
-        'identifier': nullable({'type': 'string', 'minLength': 1}),
+        'content': {},
+        'source': obj({'a11': {'type': 'integer', 'minimum': 0, 'maximum': 1023}}),
     },
     'required': ['library', 'library_version', 'content'],
     'allOf': [{'if': {'properties': {'library': {'properties': {'code': {'const': '0'}}}}},
-               'then': {'required': ['identifier']}, 'else': {'properties': {'identifier': False}}}],
-    'description': "The guidance of A11, from the library A9 chooses in the version A10 gives. identifier is CAMF's "
-                   'name for an instruction of its own library.',
+               'then': {'properties': {'content': obj({part: ref('dcx_instruction_' + part)
+                                                       for part in ('list_a', 'list_b')})}, 'required': ['source']},
+               'else': {'properties': {'content': {'allOf': [ref('code'), {'properties': {'table': {
+                   'pattern': '^camf\\.a11_instruction_library\\.country_(0|[1-9][0-9]*)\\.version_(0|[1-9][0-9]*)' + END}}}]},
+                                        'source': False}}}],
+    'description': 'A11 uses two five-bit instructions for the international library and one ten-bit code for a '
+                   'country library. Each international list has its own CAMF identifier; source keeps the ten bits.',
 }
 defs['dcx_hazard'] = obj({part: camf_field('a4_hazard_' + part) for part in ('type', 'category', 'definition')})
 defs['dcx_target_regions'] = {'type': 'array', 'items': {'allOf': [ref('code'), {'properties': {'table': {

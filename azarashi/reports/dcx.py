@@ -155,6 +155,10 @@ class AlertBase(Base):
 
     a11_international_library_code: str | None = None
     a11_international_library: str | None = None
+    a11_international_library_a_code: str | None = None
+    a11_international_library_a: str | None = None
+    a11_international_library_b_code: str | None = None
+    a11_international_library_b: str | None = None
     a11_japanese_library: str | None = None
     a11_japanese_library_ja: str | None = None
     a12_ellipse_centre_latitude: float | None = None

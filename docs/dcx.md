@@ -46,6 +46,10 @@
 | `a10_library_version` | `str` |
 | `a11_international_library_code` | `str \| None` |
 | `a11_international_library` | `str \| None` |
+| `a11_international_library_a_code` | `str \| None` |
+| `a11_international_library_a` | `str \| None` |
+| `a11_international_library_b_code` | `str \| None` |
+| `a11_international_library_b` | `str \| None` |
 | `a11_japanese_library` | `str \| None` |
 | `a11_japanese_library_ja` | `str \| None` |
 | `a12_ellipse_centre_latitude` | `float \| None` |
@@ -54,6 +58,14 @@
 | `a15_ellipse_semi_minor_axis` | `float \| None` |
 | `a16_ellipse_azimuth` | `float \| None` |
 | `a17_type_of_specific_settings` | `str \| None` |
+
+国際ライブラリの A11 は、先頭5ビットの List A と後半5ビットの List B に分けて読みます。
+`a11_international_library_a_code` と `a11_international_library_b_code` は各リストの識別子、
+`a11_international_library_a` と `a11_international_library_b` は各リストの指示です。
+既存の `a11_international_library_code` は両識別子を `; ` でつなぎ、
+`a11_international_library` は両指示を空白でつないだ文字列です。空の指示はつなぎません。
+対応しないライブラリの版では、これらはすべて `None` です。
+日本のライブラリは10ビット全体を1つのコードとして読みます。
 
 ## C Fields
 | フィールド | 型 |

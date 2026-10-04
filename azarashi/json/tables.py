@@ -191,13 +191,15 @@ def provider(country: int) -> Table:
                  frozenset([0]))  # not used
 
 
-def instruction(library: int, country: int, version: int) -> Table:
+def instruction(library: int, country: int, version: int, *, part: Literal['list_a', 'list_b'] = 'list_a') -> Table:
     """The A11 instructions of the library A9 chooses, in the version A10 gives."""
     tables = a11_library(library, country, version)
     if library == 0:  # CAMF's own library, the same for every country
-        return Table(f"camf.a11_instruction_library.international.version_{version}", tables.ja, tables.en,
-                     f"{CAMF} Annex C 11" if tables.en is not None else None,
-                     reserved=frozenset([0]) if tables.en is not None else frozenset())  # IC-A-01
+        names = tables.en if part == 'list_a' else tables.en_b
+        reserved = (0,) if part == 'list_a' else (0, 29, 30)
+        return Table(f"camf.a11_instruction_library.international.version_{version}.{part}", None, names,
+                     f"{CAMF} Annex C 11" if names is not None else None,
+                     reserved=frozenset(reserved) if names is not None else frozenset())
     source = f"{DCX} Tables 4.2-14 and 4.2-15" if tables.en is not None else None
     special = (0,) if tables.en is not None else ()  # all bits 0: no instruction
     return Table(f"camf.a11_instruction_library.country_{country}.version_{version}", tables.ja, tables.en, source,
@@ -213,6 +215,7 @@ def every_table() -> Iterator[Table]:
     for country in sorted(a3_provider_identifier_map):
         yield provider(country)
     yield instruction(0, 0, 0)
+    yield instruction(0, 0, 0, part='list_b')
     yield instruction(1, JAPAN, 0)
 
 

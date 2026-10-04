@@ -52,8 +52,10 @@ A program that reads v1 records has to be changed.
   prefecture: **a filter on `code` alone gives wrong prefectures until it is changed.**
 - **DCX**
   - `version` is `{"status": ..., "value": ...}`.
-  - `instruction.version` is `instruction.library_version`, and `instruction.identifier` is given
-    for the international library only.
+  - `instruction.version` is `instruction.library_version`. The international library's
+    `instruction.content.list_a` and `.list_b` each carry a five-bit code and its `identifier`.
+    `instruction.source.a11` keeps the full ten-bit value. A country's library keeps one ten-bit
+    code in `instruction.content`.
   - EX2 and A17 are code objects.
   - `target_regions` is an empty list when EX1 is 0.
   - The second ellipse is given as the C7 to C9 quantities and the C10 code, and the shift of its
@@ -108,6 +110,16 @@ A program that matches the text of an error has to be changed. The classes stay 
   the commands print, so the documents keep up with the code.
 
 ### Fixed
+- International A11 is decoded as its two five-bit lists, A and B. Before, all ten bits indexed
+  List A alone: valid instructions became undefined, or a List B instruction selected an unrelated
+  List A action. Both instructions now appear in the text and JSON. The existing Python
+  `a11_international_library_code` and `a11_international_library` stay `str | None` and combine the
+  lists; `a11_international_library_a_code`, `_a`, `_b_code` and `_b` give them separately.
+- CAMF D26 JSON ranges keep the specification's endpoints. Codes 0–15 no longer substitute the
+  next code's lower edge for their upper edge, and codes 17–19 no longer invent an upper bound.
+  The latter error also existed in 0.17.0.
+- The JSON docs say that the Nankai Trough `series.key` groups pages of one announcement. It does
+  not identify the original announcement of a correction or cancellation.
 - The Field Receiver example in the [API docs](https://github.com/nbtk/azarashi/blob/main/docs/api.md#field-receiver)
   now stops on SIGTERM while data keeps coming. Before, a receiver that kept sending kept it
   reading.

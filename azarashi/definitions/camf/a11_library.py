@@ -17,7 +17,9 @@ class A11Library(NamedTuple):
     name: str  # 'international', 'japanese', or '' when there is no library to read
     ja: CodeTable[int, str] | None
     en: CodeTable[int, str] | None
-    identifier: CodeTable[int, str] | None  # the IC-A-nn names, which only CAMF's library gives
+    identifier: CodeTable[int, str] | None  # the IC-A-nn names of List A
+    en_b: CodeTable[int, str] | None = None
+    identifier_b: CodeTable[int, str] | None = None  # the IC-B-nn names of List B
 
 
 NO_LIBRARY = A11Library('', None, None, None)
@@ -27,10 +29,12 @@ def a11_library(a9: int, a2: int, a10: int) -> A11Library:
     """The library the guidance instruction comes from, empty when azarashi cannot read it."""
     if a10 != 0:  # only version #1 of any library is carried
         return NO_LIBRARY
-    if a9 == 0:  # the international library is one table, shared by every country
+    if a9 == 0:  # two five-bit lists, shared by every country
         return A11Library('international', None,
                           international.a11_international_library,
-                          international.a11_international_library_code)
+                          international.a11_international_library_code,
+                          international.a11_international_library_b,
+                          international.a11_international_library_b_code)
     if a2 == 111:
         return A11Library('japanese',
                           japanese.a11_japanese_library_ja,

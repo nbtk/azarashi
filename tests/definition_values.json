@@ -58,6 +58,8 @@
   ["qzss.dcr.marine_forecast_region", "marine_forecast_region_en", "e7d1c311e80eaa1af61cf81ec2b33e1db796064713b4b6b39ec89e1b7d68408e"],
   ["camf.a11_international_library", "a11_international_library_code", "8ab3d2f6227103e6b274fbceb031ec2cdb5c0ef2b66090be3dbba52d34cf1058"],
   ["camf.a11_international_library", "a11_international_library", "1e88396c9dca03d92c2091e66e3ab86b9e739bf218c02258bfc7552e2848077e"],
+  ["camf.a11_international_library", "a11_international_library_b_code", "fd6f7a91aec203b856e7db2ebb77d24ce8815102fa053862629f04023684233d"],
+  ["camf.a11_international_library", "a11_international_library_b", "c96eadfe78543aa3c0b1aadc21a572524eb4853e3605b3aa294c8668d6fefea8"],
   ["nmea", "QZQSM_HEADER", "ef46f9542d2668ee52ca5535d824635668301bd38dc5c6f87913750e32162f98"],
   ["qzss.dcr.flood_warning_level", "flood_warning_level", "d7a11f7237d56e527357ef9c851826df70561bf1402d43c34abf95a8a0369b45"],
   ["qzss.dcr.flood_warning_level", "flood_warning_level_en", "bfa6ee6edd413fe7058165036134b0c64a898cbc51acdc43588412f422955328"],

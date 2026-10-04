@@ -38,6 +38,11 @@ elif isinstance(report, reports.dcx.AlertBase):
     areas: list[str] | None = report.ex9_target_area_list
     hazard: int = report.camf.a4
     latitude: float | None = report.a12_ellipse_centre_latitude
+    combined_instruction: str | None = report.a11_international_library
+    instruction_a_code: str | None = report.a11_international_library_a_code
+    instruction_a: str | None = report.a11_international_library_a
+    instruction_b_code: str | None = report.a11_international_library_b_code
+    instruction_b: str | None = report.a11_international_library_b
 elif isinstance(report, qzss_dc_report.dcx.NullMsg):  # the earlier module name; an alert field here is a type error
     null_kind: str = report.dcx_message_type
 elif isinstance(report, qzss_dc_report.QzssDcReportJmaTsunami):  # an earlier class name, where v0.16.4 had it
