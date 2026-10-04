@@ -54,6 +54,7 @@ A program that reads v1 records has to be changed.
   - `version` is `{"status": ..., "value": ...}`.
   - `instruction.version` is `instruction.library_version`. The international library's
     `instruction.content.list_a` and `.list_b` each carry a five-bit code and its `identifier`.
+    Code 0 of either list is `special`, No instruction, as code 0 of C10 is.
     `instruction.source.a11` keeps the full ten-bit value. A country's library keeps one ten-bit
     code in `instruction.content`.
   - EX2 and A17 are code objects.
