@@ -9124,6 +9124,7 @@
     "camf.a11_instruction_library.international.version_0.list_a": {
       "source": "CAMF Issue 1.2 Annex C 11",
       "codes": {
+        "0": {"status": "special", "labels": {"en": "No instruction"}},
         "1": {"status": "valid", "labels": {"en": "You are in the danger zone, leave the area immediately. Listen to radio or media for directions and information."}},
         "2": {"status": "valid", "labels": {"en": "You are in the danger zone, leave the area immediately and reach the evacuation point indicated by the area plotted in yellow. Listen to radio or media for directions and information."}},
         "3": {"status": "valid", "labels": {"en": "Seek shelter in a building immediately. Stay under cover and stay informed."}},
@@ -9160,6 +9161,7 @@
     "camf.a11_instruction_library.international.version_0.list_b": {
       "source": "CAMF Issue 1.2 Annex C 11",
       "codes": {
+        "0": {"status": "special", "labels": {"en": "No instruction"}},
         "1": {"status": "valid", "labels": {"en": "Check with the weather services and local authorities for additional information"}},
         "2": {"status": "valid", "labels": {"en": "Find out the location of the information points set up by the authorities on official channels (radio, internet, TV, social networks…)"}},
         "3": {"status": "valid", "labels": {"en": "Sensitive or vulnerable people should not go out unless they must."}},

@@ -2067,10 +2067,12 @@
             "identifier": "IC-A-30"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -3155,17 +3157,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -4057,17 +4063,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -4270,17 +4280,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -4454,17 +4468,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -4638,17 +4656,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -4822,17 +4844,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -5006,17 +5032,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -5211,17 +5241,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -5416,17 +5450,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -5621,17 +5659,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -5834,17 +5876,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -6013,17 +6059,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -6210,17 +6260,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -6407,17 +6461,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -6586,17 +6644,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -6765,17 +6827,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -6962,17 +7028,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -7175,17 +7245,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -7367,17 +7441,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -7564,17 +7642,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -7743,17 +7825,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -7922,17 +8008,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -8101,17 +8191,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -8298,17 +8392,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -8477,17 +8575,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -8656,17 +8758,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -8835,17 +8941,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -9014,17 +9124,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -9193,17 +9307,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -9372,17 +9490,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -9551,17 +9673,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -9730,17 +9856,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -9922,17 +10052,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -10114,17 +10248,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -10298,17 +10436,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -10477,17 +10619,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -10661,17 +10807,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -10845,17 +10995,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -11029,17 +11183,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -11213,17 +11371,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -11397,17 +11559,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -11576,17 +11742,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -11755,17 +11925,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -11934,17 +12108,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -12113,17 +12291,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -12300,17 +12482,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -13446,17 +13632,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -13635,17 +13825,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -13796,17 +13990,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },
@@ -13957,17 +14155,21 @@
         },
         "content": {
           "list_a": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_a",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-A-01"
           },
           "list_b": {
-            "status": "undefined",
+            "status": "special",
             "code": "0",
             "table": "camf.a11_instruction_library.international.version_0.list_b",
-            "labels": {},
+            "labels": {
+              "en": "No instruction"
+            },
             "identifier": "IC-B-01"
           }
         },

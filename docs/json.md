@@ -231,10 +231,8 @@ DCR の英語は、気象庁の多言語辞書や気象庁のページ、DCR 仕
 
 日本のライブラリのコード0は、DCX 仕様書が本文で no instruction と定めるコードです。`status` は `special`、`labels` は
 `{"ja": "指示なし", "en": "No instruction"}` です。表にはないので、この名前は日本語も英語も azarashi が付けたものです。
-国際ライブラリは List A/B ともコード0、List B はコード29・30も、表では reserved です。
-これらの `status` は `undefined`、`labels` は空です。
-CAMF §3.5.3 の本文は各リストの null 値による空の指示を許可しますが、表はコード0を reserved としています。
-JSON では現在の `undefined` の扱いを維持し、ゼロから行動指示を作りません。
+国際ライブラリの List A と List B のコード0も、CAMF の注記が指示なしと定めているので、`status` は `special`、`labels.en` は `No instruction` です。
+List B のコード29と30は、表で reserved なので `undefined` です。
 C10 のコード0は、CAMF の注記が指示なしと定めているので、`status` は `special`、`labels.en` は `No instruction` です。
 A4 のコード0と、表 4.2-6 の4か国（日本、オーストラリア、フィジー、タイ）の A3 のコード0は、仕様が not used と定めているので、
 `status` は `special`、`labels.en` は `Not used` です。ほかの国の A3 は azarashi が表を持たないので、コード0も `undefined` です。

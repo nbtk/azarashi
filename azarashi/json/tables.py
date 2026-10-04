@@ -196,10 +196,12 @@ def instruction(library: int, country: int, version: int, *, part: Literal['list
     tables = a11_library(library, country, version)
     if library == 0:  # CAMF's own library, the same for every country
         names = tables.en if part == 'list_a' else tables.en_b
-        reserved = (0,) if part == 'list_a' else (0, 29, 30)
-        return Table(f"camf.a11_instruction_library.international.version_{version}.{part}", None, names,
-                     f"{CAMF} Annex C 11" if names is not None else None,
-                     reserved=frozenset(reserved) if names is not None else frozenset())
+        if names is None:
+            return Table(f"camf.a11_instruction_library.international.version_{version}.{part}", None, None, None)
+        return Table(f"camf.a11_instruction_library.international.version_{version}.{part}", None,
+                     {**names, 0: "No instruction"},  # CAMF Issue 1.2, 3.5.3: 00000 is the empty value of a list
+                     f"{CAMF} Annex C 11", frozenset([0]),
+                     reserved=frozenset() if part == 'list_a' else frozenset([29, 30]))
     source = f"{DCX} Tables 4.2-14 and 4.2-15" if tables.en is not None else None
     special = (0,) if tables.en is not None else ()  # all bits 0: no instruction
     return Table(f"camf.a11_instruction_library.country_{country}.version_{version}", tables.ja, tables.en, source,

@@ -36,15 +36,20 @@ def test_all_international_a11_bits_keep_both_lists_without_version_fallback(ver
             guidance = row['data']['instruction']
             assert guidance['source'] == {'a11': raw}
             for part, letter, number, reserved in (
-                ('list_a', 'A', list_a, {0}), ('list_b', 'B', list_b, {0, 29, 30}),
+                ('list_a', 'A', list_a, set()), ('list_b', 'B', list_b, {29, 30}),
             ):
                 code = guidance['content'][part]
                 assert code['code'] == str(number)
                 assert code['table'] == f'camf.a11_instruction_library.international.version_{version}.{part}'
                 assert code['identifier'] == (f'IC-{letter}-{number + 1:02d}' if version == 0 else None)
-                expected_status = 'undefined' if version or number in reserved else 'valid'
+                if version or number in reserved:
+                    expected_status = 'undefined'
+                elif number == 0:  # the empty value of a list
+                    expected_status = 'special'
+                else:
+                    expected_status = 'valid'
                 assert code['status'] == expected_status
-                assert bool(code['labels']) is (expected_status == 'valid')
+                assert bool(code['labels']) is (expected_status != 'undefined')
             if version:
                 assert report.a11_international_library_code is None
                 assert report.a11_international_library_a is None and report.a11_international_library_b is None
@@ -116,12 +121,11 @@ def test_a_reserved_secondary_code_never_selects_a_primary_action(list_b, valida
 
 
 def test_null_primary_code_cannot_turn_a_warning_update_into_an_all_clear(validator):
-    # Zero's status is kept undefined pending resolution of the prose/table mismatch.
     report = _international(31)
     row = azarashi.to_json_dict(report)
     validator.validate(row)
     content = row['data']['instruction']['content']
-    assert content['list_a']['status'] == 'undefined' and content['list_a']['labels'] == {}
+    assert content['list_a']['status'] == 'special' and content['list_a']['labels'] == {'en': 'No instruction'}
     assert content['list_b']['status'] == 'valid' and content['list_b']['identifier'] == 'IC-B-32'
     assert 'This replaces the warning previously in effect for this area.' in str(report)
     assert 'Conditions have improved' not in str(report)

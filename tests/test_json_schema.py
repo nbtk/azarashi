@@ -788,15 +788,21 @@ def test_a_value_dcx_004_calls_not_used_is_special_and_says_so():
     assert (data['onset']['status'], data['onset']['labels']) == ('special', {'en': 'Not used'})
 
 
-def test_a_code_dcx_004_calls_reserved_is_undefined():
-    # IS-QZSS-DCX-004 2.4: a value not assigned yet, which a later edition may give a meaning
+def test_the_empty_international_instruction_is_special_and_a_reserved_one_undefined():
+    # CAMF Issue 1.2, 3.5.3: 00000 is the empty value of either list, as code 0 of C10 is
     from test_dcx_fields import _decode, dcx
     data = example_record(_decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=0, a14=1)))['data']
     for part, identifier in [('list_a', 'IC-A-01'), ('list_b', 'IC-B-01')]:
         table = 'camf.a11_instruction_library.international.version_0.' + part
-        assert data['instruction']['content'][part] == {'status': 'undefined', 'code': '0',
-                                                        'table': table, 'labels': {}, 'identifier': identifier}
-        assert '0' not in CODE_TABLES[table]['codes']
+        assert data['instruction']['content'][part] == {'status': 'special', 'code': '0', 'table': table,
+                                                        'labels': {'en': 'No instruction'}, 'identifier': identifier}
+        assert CODE_TABLES[table]['codes']['0']['status'] == 'special'
+    # IS-QZSS-DCX-004 2.4: a value not assigned yet, which a later edition may give a meaning
+    data = example_record(_decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=29, a14=1)))['data']
+    table = 'camf.a11_instruction_library.international.version_0.list_b'
+    assert data['instruction']['content']['list_b'] == {'status': 'undefined', 'code': '29', 'table': table,
+                                                        'labels': {}, 'identifier': 'IC-B-30'}
+    assert '29' not in CODE_TABLES[table]['codes']
 
 
 def test_every_provider_table_is_that_of_dcx_004():
