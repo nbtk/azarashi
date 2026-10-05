@@ -19,7 +19,7 @@ GitHub Actions の typing ジョブは、ビルドした wheel をインスト�
 内部のデコーダ間の受け渡しも検査します。`tests/typing/decoder_mistakes.py` は、
 QZSS L1S デコーダへの必須値の欠落・型違い・引数名の誤記と、DCR/DCX 下流への誤った context の受け渡しを含みます。
 CI は mypy と Pyright の両方で、各行が意図した種類のエラーになることを確認します。
-`decoders.qzss.l1s.Decoder` には `sentence`・`message`・`nmea`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
+`decoders.qzss.l1s.Decoder` には `sentence`・`message`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
 
 内部では `Frame` → `Message` → `Jma`（DCR）の順に型付き情報を渡し、最終レポートだけを生成します。
 入力アダプターは `InputDecoder`、後続段階は `ContextDecoder` を使います。後続段階は
@@ -60,16 +60,16 @@ frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 
 コード表を置く場所は、**どのフィールドがその表を索くか**で決めます。CAMF のフィールドが索く表は
 `definitions/camf/` に置きます。値を誰が決めるかは問いません。A3 の提供者は各国が割り当て、
-A11 の国別ライブラリの文言はその国のものですが、CAMF 電文を運ぶどのサービスも同じ表を読むので
+A11 の国別ライブラリの文言はその国のものですが、CAMF のメッセージを運ぶどのサービスも同じ表を読むので
 ここに置きます。新しいサービスが加わっても、表が増えるのではなく項目が増えます。
 
 サービスが CAMF に足したフィールドの表は、そのサービスの下に置きます。DCX の場合は拡張領域の
 EX1・EX2・EX9 と、DCX 自身のメッセージ種別の4つです。
 
-`a3_provider_identifier_map` は A2 の国コードをキーにします。国名を識別子にしません。電文が
+`a3_provider_identifier_map` は A2 の国コードをキーにします。国名を識別子にしません。メッセージが
 運ぶのはコードで、国名は改称される一方コードは変わらないからです。
 
-JSON 出力は `azarashi/json/` にまとめます。`__init__.py` が公開する入口、`model.py` が
+JSON 出力は `azarashi/json/` にまとめます。`__init__.py` が公開する入口と、レポートの `to_json_dict()`・`to_ndjson()` が使う変換、`model.py` が
 レポートから JSON への対応、`tables.py` がレコードの参照するコード表の一覧、`schemas/` が同梱する
 スキーマです。`code_tables()` は `tables.py` からその場で作るので、コード表のファイルは配布物に含めません。
 docs の `docs/json/code-tables-v2.json` も `tables.py` から作るので、コードの名前や `special` を変えたら
@@ -79,7 +79,7 @@ docs の `docs/json/code-tables-v2.json` も `tables.py` から作るので、�
 スキーマは配布物に含めるので、`setup.py` の `package_data` に `azarashi.json` として登録しています。
 
 `definitions/code_table.py` の `CodeTable` は、未定義コードの扱いを備えた辞書です。
-QZSS の衛星番号と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。
+QZSS の PRN と UBX の SVID の対応は `definitions/qzss/ubx.py` に置きます。
 入力アダプターは現在 QZSS に対応し、QZSS 固有の context と補助処理は `decoders/qzss/` に置きます。
 モジュール名は `ubx` ですが、公開 API の形式名は `ublox` です。
 

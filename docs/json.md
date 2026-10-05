@@ -9,8 +9,6 @@
 - [整形した完全な出力例](json/report-v2.examples.pretty.json)
 - [同じ内容の NDJSON](json/report-v2.examples.ndjson)
 
-出力例は、受信したログと合成したテストメッセージから作りました。受信日時は固定の値です。
-
 ## API
 
 ```python
@@ -61,13 +59,13 @@ azarashi ublox --input /dev/ttyUSB0 --json --unique
 | キー | 答える問い | 内容 |
 |---|---|---|
 | `schema_version` | どの版の形式か | 整数 `2` |
-| `type` | 何の報か | `qzss.dcr.tsunami` などの固定識別子 |
+| `type` | 何のレポートか | `qzss.dcr.tsunami` などの固定識別子 |
 | `is_test` | 訓練・試験か | 真偽値 |
-| `message_id` | どの電文か | 同じ電文なら同じ値。[Duplicates](#duplicates) を参照 |
-| `series` | ほかの電文とどうつながるか | [Series](#series) を参照。つながりのない報では省きます |
+| `message_id` | どのメッセージか | `==` で等しいレポートなら同じ値。[Duplicates](#duplicates) を参照 |
+| `series` | ほかのメッセージとどうつながるか | [Series](#series) を参照。つながりのないレポートでは省きます |
 | `reception` | いつ、どの衛星で受けたか | 受信ごとに変わる値 |
 | `texts` | 何と言っているか | 言語ごとの文章 |
-| `data` | 何と言っているか | 種類ごとに定めた内容 |
+| `data` | その中身を項目ごとに | 種類ごとに定めた内容 |
 
 `is_test` は、DCR では通報区分のコードが 7（訓練/試験）のとき、DCX では A1 のコードが 0（Test）のときに `true` です。
 DCX の空メッセージ（`qzss.dcx.null`）は警報を持たないので、常に `false` です。
@@ -79,34 +77,35 @@ DCX の空メッセージ（`qzss.dcx.null`）は警報を持たないので、�
 |---|---|
 | `at` | UTC の受信日時。ミリ秒まで書き、末尾は `Z` |
 | `satellite` | `{"system": "qzss", "prn": 186}`。不明なら `null` |
-| `nmea` | ライブラリが生成した QZQSM 文。行末改行なし |
+| `nmea` | azarashi が生成した QZQSM 文。必ずあります。行末改行なし |
 
-衛星番号が不明な入力から NMEA を生成するときは、既定値の55が入ります。
-受信した衛星を確認するときは、NMEA の中の番号ではなく `satellite` を参照してください。
+QZQSM 文には衛星 ID の欄が必ずあります。hex のように衛星のわからない入力では、azarashi はそこに 55（PRN183 の衛星 ID）を入れます。
+受信した衛星は `satellite` で確かめてください。衛星がわからないときは `null` です。
 
 ### Texts
 
 `texts` は、言語コードをキーにした文章です。`report.get_texts()` と同じ中身です。
 
-| 報 | `ja` | `en` |
+| レポート | `ja` | `en` |
 |---|---|---|
 | DCR（南海トラフ地震に関連する情報と北西太平洋津波情報を除く） | あり | あり |
 | DCR の南海トラフ地震に関連する情報 | あり | なし |
 | DCR の北西太平洋津波情報 | なし | あり |
 | DCX | なし | あり |
 
-DCX の `en` は英語の行だけです。`str(report)` の「(ja)」の付いた日本語の行は入りません。
-DCX の日本語の地名は、`data` の `labels.ja` にあります。
+DCX の `en` には、`str(report)` にある日本語の行、「A11 - Instruction (ja)」「EX1 - Target area (ja)」「EX9 - Target area list (ja)」は入りません。
+日本語の指示と地名は、`data` のそれぞれのコードの `labels.ja` にあります。
 
 ## Duplicates
 
-同じ電文は、複数の衛星から、違うプリアンブルで繰り返し届きます。
-`message_id` が同じレコードは、同じ電文です。どの衛星で、どのプリアンブルで受け取っても、同じ値になります。
+同じメッセージは、複数の衛星から、違うプリアンブルで繰り返し届きます。
+`message_id` は、2つのレポートが `==` で等しいときに同じ値になり、等しくないときは違う値になります。
+CLI の `--unique` と `decode_stream()` の `unique` も、同じ基準で重複を見分けます。
 
-形は「システムと形式」「:」「電文の中身の16進」です。
+形は「システムとメッセージの種類」「:」「レポートの `raw` の16進」です。
 
-- システムと形式は、`type` の先頭の2つです。例：`qzss.dcr`、`qzss.dcx`。
-- 電文の中身は、衛星ごと・送信ごとに変わる部分を除いたビット列を、小文字の16進にしたものです。
+- システムとメッセージの種類は、`type` の先頭の2つです。例：`qzss.dcr`、`qzss.dcx`。
+- `raw` は、衛星ごと・送信ごとに変わる部分を除いたビット列で、小文字の16進にします。
   除くのは、プリアンブル、CRC、DCX の衛星指定マスクです。DCR は27バイト（54桁）、DCX は CAMF から25バイト（50桁）です。
 
 ```text
@@ -114,18 +113,15 @@ qzss.dcr:af89a820000324000050400548c5e2c000000003dff8001c000010
 qzss.dcx:0de102111de000000000000000000001134000000000000000
 ```
 
-まったく同じ中身の電文が、ずっと後に送られることもあります。そのときも `message_id` は同じです。
+まったく同じ中身のメッセージが、ずっと後に送られることもあります。そのときも `message_id` は同じです。
 重複を除くときは、時間の範囲と組み合わせてください。DCR は月日時分を持つので1年以内、
-DCX は週の中の分を持つので1週間以内なら、同じ値は同じ電文です。
-CLI の `--unique` と `decode_stream()` の `unique` も、`message_id` と同じ部分で同じ電文かを判断します。
+DCX は週の中の分を持つので1週間以内なら、同じ値は同じメッセージの繰り返しです。
 
 ## Series
 
-`series` は、その電文がほかの電文とどうつながるかを示します。
+`lifecycle` は、そのレポートが発表・訂正・取消・更新・解除のどれに当たるかを表します。
 
-`lifecycle` は、その電文が一連の報に対して何をするかです。
-
-| 報 | 元のコード | `lifecycle` |
+| レポート | 元のコード | `lifecycle` |
 |---|---|---|
 | DCR | 情報形態 0 発表 | `issue` |
 | DCR | 情報形態 1 訂正 | `correction` |
@@ -135,25 +131,21 @@ CLI の `--unique` と `decode_stream()` の `unique` も、`message_id` と同�
 | DCX | A1 2 Update | `update` |
 | DCX | A1 3 All Clear | `all_clear` |
 
-DCX の A1 0 Test と空メッセージは、一連の報に何もしないので `lifecycle` を省きます。
+DCX の A1 0 Test と空メッセージは、そのどれにも当たらないので `lifecycle` を省きます。
 
-`key` は、一連の報を名指す文字列です。同じ `key` の電文は、同じ一連の報です。
-仕様が「同じ」と定める項目の値を、`.` でつないでいます。
+`key` は、同じ警報のレポートに共通の文字列です。
+仕様が、同じ警報なら同じ値になると定めている項目を、`.` でつないでいます。
 
-| 報 | `key` の元 | 例 |
+| レポート | `key` の元 | 例 |
 |---|---|---|
 | DCX の L-Alert と市町村からの情報 | A2・A3・A4・EX1 | `111.1.36.43213` |
 | DCX の J-Alert | A2・A3・A4 | `111.2.95` |
 | DCR の南海トラフ地震に関連する情報 | 発表時刻・通報区分・情報形態・情報番号・総ページ数 | `2026-08-21T01:35Z.7.0.5.27` |
 
-南海トラフ地震に関連する情報の `key` は、同じ発表のページをまとめます。
+南海トラフ地震に関連する情報の `key` は、1つの発表のページに共通の文字列です。
 ほかの DCR、国外からの情報、種類のわからない DCX には `key` がありません。
 
-`lifecycle` も `key` もない報では、`series` そのものを省きます。
-
-`data.message_type` は CAMF の A1 です。QZSS のメッセージタイプ（43・44）ではありません。
-A1 の意味は、`is_test`（A1=0）と `series.lifecycle`（A1=1〜3）でも読めます。
-DCR の `report_classification` と `information_type` も、同じように `is_test` と `series.lifecycle` で読めます。
+`lifecycle` も `key` もないレポートでは、`series` を省きます。
 
 ## Status
 
@@ -174,7 +166,7 @@ DCR の `report_classification` と `information_type` も、同じように `is
 - 仕様が値のない印として割り当てた値：「Not used」
 - 気象庁が表にない値を送るときのコード：「その他の警報」「北海道のその他の市町村」など。IS-QZSS-DCR-017 は、気象庁のシステムの改修で
   表にない値を送るときに使う、と注で説明しています。地域ごとの「その他」は、`labels` でどの都道府県や地方かがわかります
-- 電文自身が無効と言っている値：火山の日時で Du が 6・7 のとき
+- メッセージ自身が無効と言っている値：火山の日時で Du が 6・7 のとき
 
 仕様が割り当てていない値は `undefined` です。
 
@@ -218,7 +210,7 @@ N と V は、伝送されたコード値です。
 
 DCR の英語は、気象庁の多言語辞書や気象庁のページ、DCR 仕様書の英語から取っています。
 気象庁が英語を出していないものは、azarashi の訳です。
-気象庁の公式の英語が出たら、それに置き換えます。英訳の方針と、azarashi の訳の一覧は [English Translation Policy](english-translation-policy.md) にあります。
+英訳の方針と、azarashi の訳の一覧は [English Translation Policy](english-translation-policy.md) にあります。
 防災事項の文のうち azarashi の訳は、末尾に `(Translated by azarashi)` と付けています。
 この印がない英語が、気象庁の英語だとは限りません。
 意味の正は、常に日本語の `ja` です。
@@ -366,11 +358,11 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 | `value` | UTC の日時。末尾は `Z`。`status` が `valid` でなければ `null` |
 | `precision` | どこまでわかっている時刻か。`minute`、`hour`、`day` |
 | `labels` | `special` の時刻が何を意味するか |
-| `source` | 電文にある時刻の部分。どの `status` でも必ずあります |
+| `source` | メッセージにある時刻の部分。どの `status` でも必ずあります |
 
 `precision` は、`status` が `valid` のときだけあります。
 
-電文にない年や月、週は、次の時刻から補います。
+メッセージにない年や月、週は、次の時刻から補います。
 
 | フィールド | 取り得る `status` | `source` | 補う元の時刻 |
 |---|---|---|---|
@@ -401,7 +393,7 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 
 DCX の `target_regions` は地域のコードオブジェクトの配列です。
 EX1 が 0 のときは、対象地域の指定がないので空の配列です。
-EX9 は、EX8 によって都道府県か市町村かが変わります（[DCX-004](https://qzss.go.jp/en/technical/download/pdf/ps-is-qzss/is-qzss-dcx-004.pdf) 4.2.4.2）。
+EX9 は、EX8 によって都道府県か市町村かが変わります。
 都道府県なら `qzss.dcx.ex9_target_area_code_list`、市町村なら EX1 と同じ `qzss.dcx.ex1_target_area_code` の表のコードになります。
 
 DCR の位置は、次の形です。
@@ -438,16 +430,15 @@ DCX の楕円は、次の形です。
 
 軸長は km、座標・角度は度で、単位はキーの末尾に付けています。
 角度は東を0、東から北へ正とする仕様の規約です。
-航海用の北基準の方位角と混同しないでください（DCX-004 4.2.3.16 / 4.2.4.1.7）。
+航海用の北基準の方位角と混同しないでください。
 
 補正楕円の中心は、主楕円の中心に C1・C2 の小さな補正（最大で約0.0024度）を足すので、極や経度180度をわずかに越えることがあります。
 避難方向の追加楕円は EX4 が東経45度起点なので、経度45〜225度です。災害中心は主楕円から±10度ずれるので、
-緯度±100・経度±190です。方位は-90度以上90度未満です。
+緯度±100・経度±190です。楕円の方位 `azimuth_deg` は、どの楕円も -90 度以上 90 度未満です。
 
 楕円の `source` は、その楕円を組み立てた伝送コードです。
 どの仕様フィールドのコードかは、楕円の位置で決まります。`main_ellipse` は A12〜A16、
 `specific_settings.refined_ellipse` は C1〜C4 と A16、`evacuation.ellipse` は EX3〜EX7 です。
-補正楕円は A12〜A15 との組み合わせで値が決まるので、`main_ellipse` と一緒に出力します。
 
 `specific_settings` は、A17 のコードオブジェクト `type` と、その種類のグループを1つ持ちます。
 
@@ -498,11 +489,11 @@ DCR の `version` は `{"status": …, "value": …}` です。仕様の定め�
 
 DCX 警報共通：Vn → `version`、A1 → `message_type`、A2 → `country`、A3 → `provider`、A4 → `hazard`、
 A5 → `severity`、A6・A7 → `onset`、A8 → `duration`、A9・A10・A11 → `instruction`。
+`message_type` は CAMF の A1 です。L1S の Message Type（43・44）ではありません。
 A4 は `hazard` の `type`・`category`・`definition` の3つのコードオブジェクトにします。
 1つの A4 のコードを、種類・区分・説明の3つの表で引いたものです。`code` はどれも同じです。
 
 DCX の `version` も同じ形です。L-Alert、J-Alert、市町村からの情報は、仕様の定める1なら `valid`、それ以外は `undefined` です。
-2026年9月の実際の放送では、J-Alert と市町村からの情報が0を送っていて、`undefined` になります。
 国外からの情報は、どの値でも `valid` です。
 種類のわからない DCX は、どの値でも `undefined` です。
 
@@ -513,7 +504,7 @@ DCX の `version` も同じ形です。L-Alert、J-Alert、市町村からの情
 | LAlert / l_alert | main_ellipse または target_regions の一方、適用される specific_settings |
 | JAlert / j_alert | target_regions。楕円と specific_settings はありません |
 | MTInfo / mt_info | main_ellipse、target_regions、適用される specific_settings と evacuation |
-| Unknown / unknown | デコーダーが解釈した共通項目・main_ellipse・specific_settings |
+| Unknown / unknown | デコーダが解釈した共通項目・main_ellipse・specific_settings |
 
 | DCX の元のフィールド | 出力先 |
 |---|---|
@@ -532,15 +523,15 @@ raw → `message_id`、`get_texts()` → `texts`。
 
 ## Corrections, Cancellations and All Clears
 
-訂正や取消の報には、どの報を訂正・取り消したのかを示す項目がありません。
-DCX の L-Alert、J-Alert、市町村からの情報は、`series.key` で一連の報に対応づけられます。
-ほかの報は、報の種類・地域・時刻などの内容で対応づけてください。
+訂正や取消のレポートには、どのレポートを訂正・取り消したのかを示す項目がありません。
+DCX の L-Alert、J-Alert、市町村からの情報は、`series.key` で同じ警報のレポートと対応づけられます。
+ほかのレポートは、レポートの種類・地域・時刻などの内容で対応づけてください。
 
-報を取り消すことと、警報そのものが終わることは別のものです。
+レポートを取り消すことと、警報そのものが終わることは別のものです。
 
-| 意味 | 報 | どこで読むか |
+| 意味 | レポート | どこで読むか |
 |---|---|---|
-| 報の取消 | DCR | `series.lifecycle` が `cancellation`（情報形態 2） |
+| レポートの取消 | DCR | `series.lifecycle` が `cancellation`（情報形態 2） |
 | 危険の終わり | DCX | `series.lifecycle` が `all_clear`（A1 3） |
 | 警報の解除（警報すべて） | 気象 | `data.warning_state` のコード 2 解除 |
 | 警報の解除 | 津波 | `data.warning` のコード 2 警報解除 |
@@ -551,7 +542,7 @@ DCX の L-Alert、J-Alert、市町村からの情報は、`series.key` で一連
 
 `page` は1ページ分です。UTF-8 の文字がページ境界で切れるので、本文は `content_hex` に保持します。
 同じ発表のページは、`series.key` でまとめられます。
-`texts.ja` は、変換した時点の共有の組み立て状態から作ります。同じページでも、後で変換し直すと文章が変わることがあります。
+`texts.ja` は、変換する時点までに受信したページから組み立てた文章です。後からページが届くと、同じページを変換し直したときに文章が変わります。
 
 ## Validation and Versioning
 
@@ -568,19 +559,7 @@ Galileo EWS に対応するときは、v3 にします。v2 の `reception.satel
 
 `schema_version` は整数で、azarashi 自身のバージョンとは独立です。
 
-`reception.nmea` は、QZSS の報では必ずあります。この版の全18種類は QZSS の報です。
-
-## Examples and Tests
-
-スキーマは配布パッケージの `azarashi/json/schemas/report-v2.schema.json` に含まれ、`json_schema()` で取得できます。
 公開しているのは、レポートの `to_json_dict()`・`to_ndjson()` と、`azarashi` から取れる `json_schema()`・`code_tables()`・`JsonValue` です。
 `azarashi.json` の中の内部名は互換性の対象ではありません。
-スキーマ、例、docs のコード表のファイルを作り直すコードは `tests/examples/` にあります。
-
-```shell
-pip install -e . pytest 'jsonschema[format]'
-PYTHONPATH=.:tests python -m examples.generate
-python -m pytest tests/test_json_schema.py
-```
 
 JSON への変換ではスキーマによる検証を行いません。必要な場合は `json_schema()` でスキーマを取得し、検証ライブラリに渡してください。

@@ -7,7 +7,7 @@ azarashi をプログラムから使うための関数と例外です。コマ�
 azarashi.decode(msg, msg_type='nmea', timestamp=None)
 ```
 - `msg`: デコードするメッセージです。
-- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型でも bytes 型でも渡せます。pySerial の `readline()` が返すバイト列は、そのまま渡してください。`ublox` のメッセージは bytes 型です。
+- `msg_type`: 入力の形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型でも bytes 型でも渡せます。pySerial の `readline()` が返すバイト列は、そのまま渡してください。`ublox` のメッセージは bytes 型です。
   - `spresense` は `nmea` の別名です。
   - `net` は、[receiver](network.md#receiver) が受け取る33バイトのデータグラム形式です。先頭の1バイトが衛星 ID で、残りがメッセージ本体です。
   - `l1s` は `decode()` では使えません。L1S アーカイブの衛星の PRN はファイルの先頭にしかないので、`decode_stream()` で読んでください。
@@ -27,7 +27,7 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
 azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True, timestamp=None)
 ```
 - `stream`: メッセージを読み込むストリームです。シリアルデバイスは pySerial で開いて渡してください。ファイルは `open(path, 'rb')` のように、バイナリモードで開くことをおすすめします。
-- `msg_type`: メッセージの形式です。`nmea`、`hex`、`ublox`、`l1s` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
+- `msg_type`: 入力の形式です。`nmea`、`hex`、`ublox`、`l1s` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
   `ublox` は、QZSS の L1S 信号の災危通報だけを読みます。ほかのフレームは読み飛ばします。
   `l1s` は、拡張子が `.l1s` の L1S アーカイブです。受信時刻は記録ごとの GPS 時刻から決まるので、`timestamp` は指定できません。災危通報でない記録は読み飛ばします。
   `nmea` と `hex` は、災危通報でないメッセージに AzarashiInvalidMessageError を送出します。
@@ -38,7 +38,7 @@ callback(report, *callback_args, **callback_kwargs)
 ```
 - `callback_args`: 関数に渡す位置引数です。
 - `callback_kwargs`: 関数に渡すキーワード引数です。
-- `unique`: 重複したメッセージを無視するかどうかです。
+- `unique`: `==` で等しいレポートを重複とみなし、無視するかどうかです。
   - `False`: 重複を無視しません。デフォルトです。
   - `True`: 記憶している同じメッセージは、2回目以降を無視します。時間が経っても記憶は失効しません。
   - 秒数: 同じメッセージでも、最後に受信してからその秒数を過ぎていれば、もう一度通知します。通知済みとして記憶しているメッセージは、抑制したときも受信時刻を更新します。例えば `unique=60` では、30秒おきに届く同じメッセージを定期的に通知することはありません。最後の受信から60秒を超えて間が空いたときに通知します。
@@ -83,7 +83,7 @@ L1S アーカイブから読んだ衛星の PRN と GPS 時刻も破棄します
 通常の受信タイムアウトではリセットせず、次の読み取りで続きを受信してください。
 
 読み取りメソッドや `.buffer` を差し替える場合は、差し替え前にリセットしてください。差し替え先にも以前の読み取り状態が残っている場合は、そちらもリセットします。
-未対応形式やメソッド不足は、消去前に `decode_stream()` と同じ例外で報告します。
+形式やストリームのメソッドが合わないときは、何も破棄する前に、`decode_stream()` と同じ例外を送出します。
 
 `decode_stream()` とリセットのロック待機時間は、下位ストリームの読み取りタイムアウトに
 含まれません。共有元の別の read がブロックしていれば、その timeout 設定を超えて待つ場合があります。
@@ -127,7 +127,7 @@ AzarashiException
 
 何が起きたかを表すクラスは、仕様の改訂や対応形式の追加で増えることがあります。4つのほうを捕捉しておけば、増えても書き換えは要りません。
 
-失敗の理由は `.message` に入り、`.instance` には失敗したデコーダが入る場合があります。読み取り障害やタイムアウトなど、デコーダを伴わない例外では `None` です。`str()` は電文があればそれも付けます。
+失敗の理由は `.message` に入り、`.instance` には失敗したデコーダが入る場合があります。読み取り障害やタイムアウトなど、デコーダを伴わない例外では `None` です。`str()` は、受け取ったメッセージがあればそれも付けます。
 ## AzarashiReadOn
 メッセージが手に入らなかったことを表すクラスです。読めないメッセージ、azarashi が扱えないメッセージ、読み終えていないメッセージが、すべてこのクラスの下にあります。
 

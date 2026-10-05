@@ -48,7 +48,7 @@ $ azarashi ublox -f /dev/ttyS0 -b 9600
 >>> report.disaster_category, report.magnitude, report.seismic_epicenter
 ('緊急地震速報', '7.2', '日向灘')
 ```
-ストリームから読み続けるときは `decode_stream()` を使います。シリアルデバイスは pySerial で開いて渡してください。メッセージが一つ読めるたびに `callback` が呼ばれます。
+ストリームから読み続けるときは `decode_stream()` を使います。シリアルデバイスは pySerial で開いて渡してください。レポートができるたびに `callback` が呼ばれます。
 ```python
 import azarashi
 import serial
@@ -67,7 +67,7 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 ```
 捕捉している3つのクラスが、次に何をすべきかを表します。
 
-- `AzarashiReadOn`: メッセージが手に入らなかったときに送出されます。たとえば電文が壊れていたときや、azarashi がまだ対応していない種類のメッセージだったときです。ストリームは無事なので、もう一度呼べば次のメッセージに進みます。
+- `AzarashiReadOn`: メッセージが手に入らなかったときに送出されます。たとえばメッセージが壊れていたときや、azarashi がまだ対応していない種類のメッセージだったときです。ストリームは無事なので、もう一度呼べば次のメッセージに進みます。
 - `AzarashiReopenStream`: ストリームの読み取りそのものが失敗したときに送出されます。たとえば USB のデバイスが抜けたときです。そのストリームは二度と読めないので、閉じて開き直してください。
 - `AzarashiStopReading`: 読むものがなくなったときに送出されます。たとえば記録したファイルを最後まで読んだときです。続きは届きません。
 
@@ -82,12 +82,12 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 - [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md): `decode()`、`decode_stream()`、例外、型ヒント、プログラムの例
 - [JSON](https://github.com/nbtk/azarashi/blob/main/docs/json.md): JSON API、NDJSON 出力、JSON Schema、コード表
 - [English Translation Policy](https://github.com/nbtk/azarashi/blob/main/docs/english-translation-policy.md): DCR の英語の方針と出典、azarashi が訳した英語の一覧
-- [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): レポートオブジェクトの共通フィールドと、形式ごとの一覧
+- [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): レポートオブジェクトの共通フィールドと、メッセージの種類ごとの一覧
   - [DCR](https://github.com/nbtk/azarashi/blob/main/docs/dcr.md): MT43 のクラスとフィールド、デコード例
   - [DCX](https://github.com/nbtk/azarashi/blob/main/docs/dcx.md): MT44 のクラスとフィールド、デコード例
 - [Network](https://github.com/nbtk/azarashi/blob/main/docs/network.md): 受信したデータを UDP で別の装置に送る
-- [Tips](https://github.com/nbtk/azarashi/blob/main/docs/tips.md): 何も表示されないとき、Encountered EOF、SD フィールドの監視
-- [Development](https://github.com/nbtk/azarashi/blob/main/docs/development.md): テストと静的解析の実行方法
+- [Tips](https://github.com/nbtk/azarashi/blob/main/docs/tips.md): 何も表示されないとき、Encountered EOF、衛星指定マスクの監視
+- [Development](https://github.com/nbtk/azarashi/blob/main/docs/development.md): テストと静的解析の実行方法、リリースの手順
 - [Releases](https://github.com/nbtk/azarashi/releases): 版ごとの変更
 ## Feedback
 イシュー報告、プルリクエスト、コメント等、なんでもよいのでフィードバックお待ちしています。星をもらうと開発が活発になります。
