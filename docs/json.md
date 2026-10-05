@@ -77,9 +77,9 @@ DCX の空メッセージ（`qzss.dcx.null`）は警報を持たないので、�
 |---|---|
 | `at` | UTC の受信日時。ミリ秒まで書き、末尾は `Z` |
 | `satellite` | `{"system": "qzss", "prn": 186}`。不明なら `null` |
-| `nmea` | azarashi が生成した QZQSM 文。必ずあります。行末改行なし |
+| `nmea` | azarashi が生成した QZQSM センテンス。必ずあります。行末改行なし |
 
-QZQSM 文には衛星 ID の欄が必ずあります。hex のように衛星のわからない入力では、azarashi はそこに 55（PRN183 の衛星 ID）を入れます。
+QZQSM センテンスには衛星 ID の欄が必ずあります。hex のように衛星のわからない入力では、azarashi はそこに 55（PRN183 の衛星 ID）を入れます。
 受信した衛星は `satellite` で確かめてください。衛星がわからないときは `null` です。
 
 ### Texts
