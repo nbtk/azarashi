@@ -9,9 +9,9 @@
 |---|---|---|
 | L-Alert | `dcx.LAlert` | 一般財団法人マルチメディア振興センターが発表します。 |
 | J-Alert | `dcx.JAlert` | 消防庁と関係省庁が発表します。 |
-| 自治体 | `dcx.MTInfo` | 地方公共団体が発表します。 |
-| 日本国外の機関 | `dcx.OutsideJapan` | 日本国外の機関が発表します。 |
-| CAMF フィールドを使わないメッセージ | `dcx.NullMsg` | 警報を持たず、衛星指定マスクだけを運びます。 |
+| 地方公共団体からの情報 | `dcx.MTInfo` | 地方公共団体が発表します。 |
+| 国外の機関からの情報 | `dcx.OutsideJapan` | 日本国外の機関が発表します。 |
+| 空メッセージ | `dcx.NullMsg` | 警報を持たず、衛星指定マスクだけを運びます。 |
 | 上記以外 | `dcx.Unknown` | 日本から発表されたもので、発信機関が上のどれでもないものです。正確にデコードできない可能性が高いので、デバッグのとき以外は無視してください。 |
 
 警報のフィールドは `dcx.AlertBase` で宣言しています。上の表の `dcx.NullMsg` 以外の5クラスが、これを継承します。
@@ -170,7 +170,7 @@ C2 - Refined longitude of centre of main ellipse: 139.690855
 C3 - Refined length of semi major axis: 10.933
 C4 - Refined length of semi minor axis: 5.979
 ```
-レポートオブジェクトからパラメータを取得するには `get_params()` メソッドを使います。
+レポートのフィールドは、`get_params()` で辞書として取り出せます。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params(), sort_dicts=False)

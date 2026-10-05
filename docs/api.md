@@ -15,7 +15,7 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
 
 `decode()` がレポートを返すのは、災危通報のメッセージだけです。L1S の Message Type 43 の DCR と、44 の DCX です。測位を補強するメッセージなど、それ以外の L1S メッセージを渡すと、[AzarashiInvalidMessageError](#azarashiinvalidmessageerror) を送出します。u-blox のフレームでは、QZSS の L1S 信号でないフレームも同じです。受信機が出すフレームをすべて読むときは、`decode_stream()` を使ってください。災危通報でないフレームを読み飛ばします。
 ### Example
-`decode()` はレポートオブジェクトを返します。返るクラスとフィールド、デコードした例は [Reports](reports.md) を見てください。
+`decode()` はレポートを返します。返るクラスとフィールド、デコードした例は [Reports](reports.md) を見てください。
 ```python
 >>> import azarashi
 >>> report = azarashi.decode('$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05')
@@ -56,7 +56,7 @@ callback(report, *callback_args, **callback_kwargs)
 
 引数が間違っているときは、[AzarashiFixTheCall](#azarashifixthecall) の下の例外を送出します。
 ### Example
-シリアルデバイスを pySerial で開いて読み込み、デコードしたレポートオブジェクトを `print()` に渡します。
+シリアルデバイスを pySerial で開いて読み込み、デコードしたレポートを `print()` に渡します。
 ```python
 >>> import azarashi
 >>> import serial

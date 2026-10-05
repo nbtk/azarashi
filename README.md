@@ -37,11 +37,11 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-GPS モジュールから直接読むときは、デバイスのパスとボーレートを指定します。
+受信機から直接読むときは、デバイスのパスとボーレートを指定します。
 ```shell
 $ azarashi ublox -f /dev/ttyS0 -b 9600
 ```
-プログラムから使うときは `decode()` にメッセージを渡します。レポートオブジェクトが返り、`print()` に渡すと、さきほどのコマンドと同じ文章を表示します。災害の種類ごとのパラメータは、属性か `get_params()` で取り出せます。
+プログラムから使うときは `decode()` にメッセージを渡します。レポートが返り、`print()` に渡すと、さきほどのコマンドと同じ文章を表示します。災害の種類ごとのフィールドは、属性として読むか、`get_params()` で取り出せます。
 ```python
 >>> import azarashi
 >>> report = azarashi.decode('$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05')
@@ -82,7 +82,7 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
 - [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md): `decode()`、`decode_stream()`、例外、型ヒント、プログラムの例
 - [JSON](https://github.com/nbtk/azarashi/blob/main/docs/json.md): JSON API、NDJSON 出力、JSON Schema、コード表
 - [English Translation Policy](https://github.com/nbtk/azarashi/blob/main/docs/english-translation-policy.md): DCR の英語の方針と出典、azarashi が訳した英語の一覧
-- [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): レポートオブジェクトの共通フィールドと、メッセージの種類ごとの一覧
+- [Reports](https://github.com/nbtk/azarashi/blob/main/docs/reports.md): レポートの共通フィールドと、メッセージの種類ごとの一覧
   - [DCR](https://github.com/nbtk/azarashi/blob/main/docs/dcr.md): MT43 のクラスとフィールド、デコード例
   - [DCX](https://github.com/nbtk/azarashi/blob/main/docs/dcx.md): MT44 のクラスとフィールド、デコード例
 - [Network](https://github.com/nbtk/azarashi/blob/main/docs/network.md): 受信したデータを UDP で別の装置に送る

@@ -225,7 +225,7 @@
 | `marine_forecast_regions_raw` | `list[int]` |
 
 ## Example
-`decode()` はレポートオブジェクトを返します。`print()` に渡すと、災害情報を読みやすい文章にして表示します。
+`decode()` はレポートを返します。`print()` に渡すと、災害情報を読みやすい文章にして表示します。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
@@ -248,7 +248,7 @@
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-レポートオブジェクトのパラメータは、`get_params()` メソッドで辞書として取得できます。時刻のパラメータは、すべて UTC のタイムゾーンが付いた `datetime` です。`str()` が返す文章では、時刻を JST に変換して表示します。
+レポートのフィールドは、`get_params()` で辞書として取り出せます。時刻のフィールドは、すべて UTC のタイムゾーンが付いた `datetime` です。`str()` が返す文章では、時刻を JST に変換して表示します。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params())
@@ -304,7 +304,7 @@
  'timestamp': datetime.datetime(2024, 6, 21, 6, 40, 34, 960948, tzinfo=datetime.timezone.utc),
  'version': 1}
 ```
-時刻として読めない値が届いたときは、その時刻のパラメータは `None` になります。送られてきた日・時・分は、名前の末尾に `_raw` が付いたパラメータに残ります。例えば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`AzarashiInvalidMessageError` が送出されます。
+時刻として読めない値が届いたときは、その時刻のフィールドは `None` になります。送られてきた日・時・分は、名前の末尾に `_raw` が付いたフィールドに残ります。例えば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`AzarashiInvalidMessageError` が送出されます。
 
 同じ情報を重複して受信したかどうかは、`==` で比べると判別できます。
 ```python

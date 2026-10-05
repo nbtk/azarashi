@@ -42,12 +42,12 @@ $ sudo dmesg | grep serial
 $ sudo usermod -a -G dialout $USER
 $ logout # then re-login to the machine
 ```
-次に、SFRBX メッセージの出力を有効にします。データシートを見て設定コマンドを直接送るか、設定ツールを使ってください。ここでは設定ツール ubxtool を使います。ubxtool は次のようにインストールします。
+次に、SFRBX フレームの出力を有効にします。データシートを見て設定コマンドを直接送るか、設定ツールを使ってください。ここでは設定ツール ubxtool を使います。ubxtool は次のようにインストールします。
 ```shell
 $ sudo apt update
 $ sudo apt install gpsd gpsd-clients
 ```
-SFRBX メッセージの出力に関連する設定コマンドの例です。
+SFRBX フレームの出力に関連する設定コマンドの例です。
 ```shell
 $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram
 $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram
@@ -59,7 +59,7 @@ $ ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX
 ## u-blox F9P < USB > Windows + u-center (GUI)
 設定ツール [u-center](https://www.u-blox.com/en/product/u-center) をダウンロードし、インストールしてください。
 
-u-center で SFRBX メッセージを出力するように設定してください。下記は SFRBX メッセージを USB に出力するための参考設定手順です。
+u-center で SFRBX フレームを出力するように設定してください。下記は SFRBX フレームを USB に出力するための参考設定手順です。
 ```
 Open u-center ->
   View -> Configuration View ->
@@ -69,7 +69,7 @@ Open u-center ->
     NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
     CFG (Configuration) -> Save current configuration -> Send
 ```
-u-center で QZSS の L1S シグナル受信機能を有効にしてください。下記は GPS と QZSS のメッセージをすべて受信するための参考設定手順です。
+u-center で QZSS の L1S 信号の受信を有効にしてください。下記は GPS と QZSS の信号をすべて受信するための参考設定手順です。
 ```
 Open u-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
