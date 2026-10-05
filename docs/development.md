@@ -48,7 +48,7 @@ frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 
 ## Source Layout
 
-`definitions` と `decoders` は、受信形式・衛星システム・共通警報形式の境界を揃えています。
+`definitions` と `decoders` は、同じ分け方でディレクトリを分けています。入力の形式、衛星システム、共通警報形式（CAMF）です。
 
 | 所属 | 定義 | デコード処理 |
 |---|---|---|
@@ -58,7 +58,7 @@ frame = sfrbx(sentence)  # 同じメッセージの UBX-RXM-SFRBX
 | DCX | `definitions/qzss/dcx/` | `decoders/qzss/dcx.py` |
 | CAMF 共通部分 | `definitions/camf/` | `decoders/camf/` |
 
-コード表を置く場所は、**どのフィールドがその表を索くか**で決めます。CAMF のフィールドが索く表は
+コード表を置く場所は、**どのフィールドがその表を引くか**で決めます。CAMF のフィールドが索く表は
 `definitions/camf/` に置きます。値を誰が決めるかは問いません。A3 の提供者は各国が割り当て、
 A11 の国別ライブラリの文言はその国のものですが、CAMF のメッセージを運ぶどのサービスも同じ表を読むので
 ここに置きます。新しいサービスが加わっても、表が増えるのではなく項目が増えます。
@@ -87,7 +87,7 @@ QZSS の PRN と UBX の SVID の対応は `definitions/qzss/ubx.py` に置き�
 半軸長の変換で、`decoders/camf/geometry.py` にあります。コードの意味と変換は CAMF Issue 1.2
 （2026年3月、現行版）の 3.1、3.2、3.3、3.5、3.6、3.7 節と照合しています。
 公開されている [Issue 1.1](https://www.gsc-europa.eu/sites/default/files/sites/all/files/EWSS-CAMF_v1.1.pdf)
-は前の版です。表示文言と未定義値の扱いはライブラリ側のものです。
+は前の版です。表示の文言と、未定義の値の扱いは、azarashi が決めたものです。
 Galileo EWSS を追加する際も、伝送やビット位置の処理を各システムに置き、CAMF のフィールドの表は
 そのまま共有します。
 

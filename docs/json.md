@@ -4,7 +4,7 @@
 
 レポートの `to_json_dict()` と `to_ndjson()`、CLI の `--json` が出力する JSON の形式と、各項目の意味を説明します。
 
-- [JSON Schema](../azarashi/json/schemas/report-v2.schema.json)：Draft 2020-12、全18種類
+- [JSON Schema](../azarashi/json/schemas/report-v2.schema.json)：Draft 2020-12。レポートの18種類すべてを定めます
 - [コード表](json/code-tables-v2.json)：レコードの `table` と `code` で引ける表
 - [整形した完全な出力例](json/report-v2.examples.pretty.json)
 - [同じ内容の NDJSON](json/report-v2.examples.ndjson)
@@ -56,7 +56,7 @@ azarashi ublox --input /dev/ttyUSB0 --json --unique
 }
 ```
 
-| キー | 答える問い | 内容 |
+| キー | 何がわかるか | 内容 |
 |---|---|---|
 | `schema_version` | どの版の形式か | 整数 `2` |
 | `type` | 何のレポートか | `qzss.dcr.tsunami` などの固定識別子 |
@@ -77,9 +77,11 @@ DCX の空メッセージ（`qzss.dcx.null`）は警報を持たないので、�
 |---|---|
 | `at` | UTC の受信時刻。ミリ秒まで書き、末尾は `Z` |
 | `satellite` | `{"system": "qzss", "prn": 186}`。不明なら `null` |
-| `nmea` | azarashi が生成した QZQSM センテンス。必ずあります。行末改行なし |
+| `nmea` | azarashi が生成した QZQSM センテンス。省きません。行末の改行は含みません |
 
-QZQSM センテンスには衛星 ID の欄が必ずあります。hex のように衛星のわからない入力では、azarashi はそこに 55（PRN183 の衛星 ID）を入れます。
+QZQSM センテンスは `$QZQSM,<衛星 ID>,<メッセージの16進63桁>*<チェックサム>` の形です。
+衛星 ID は、L1S の PRN の下位6ビットを十進で書いたもので、PRN183 なら 55 です。
+hex のように衛星のわからない入力では、azarashi は衛星 ID を 55 にします。
 受信した衛星は `satellite` で確かめてください。衛星がわからないときは `null` です。
 
 ### Texts
@@ -106,7 +108,7 @@ CLI の `--unique` と `decode_stream()` の `unique` も、同じ基準で重�
 
 - システムとメッセージの種類は、`type` の先頭の2つです。例：`qzss.dcr`、`qzss.dcx`。
 - `raw` は、衛星ごと・送信ごとに変わる部分を除いたビット列で、小文字の16進にします。
-  除くのは、プリアンブル、CRC、DCX の衛星指定マスクです。DCR は27バイト（54桁）、DCX は CAMF から25バイト（50桁）です。
+  除くのは、プリアンブル、CRC、DCX の衛星指定マスクです。DCR は27バイト（54桁）、DCX は CAMF の先頭から数えた25バイト（50桁）です。
 
 ```text
 qzss.dcr:af89a820000324000050400548c5e2c000000003dff8001c000010
@@ -156,7 +158,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 |---|---|
 | `valid` | そのまま使ってよい値 |
 | `assumed` | 仮の値。緊急地震速報の仮定震源（仕様書の assumptive hypocenter）の深さとマグニチュード |
-| `special` | 仕様が定めた特殊な値。そのまま使える値ではありません。意味は、必ずある `labels` にあります |
+| `special` | 仕様が定めた特殊な値。そのまま使える値ではありません。意味は `labels` にあり、`labels` は空になりません |
 | `undefined` | 表にないコード |
 
 `special` の例です。
@@ -190,7 +192,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 `code` は非負整数の十進文字列で、先頭にゼロを付けません。
 コード表のファイルのキーも文字列なので、そのまま引けます。
 
-`table` は `<仕様の名前>.<表の名前>` です。国や版で中身が変わる表だけ、`.` で絞り込みを続けます。
+`table` は `<仕様の名前>.<表の名前>` です。国や版で中身が変わる表は、そのあとに `.` で国や版を続けます。
 
 | `table` | 表 |
 |---|---|
@@ -260,7 +262,7 @@ A4 のコード0と、4か国（日本、オーストラリア、フィジー、
 | `source` | コードを定める仕様書の表 |
 | `codes` | 表にあるコードごとの `status` と `labels`。`status` は `valid` か `special` です |
 
-コードの並び順に意味はありません。段階で比べたいときは、`labels` や数量の `range` を見てください。
+コードの並び順に意味はありません。大小を比べたいときは、`labels` や数量の `range` を見てください。
 国や版で変わる表は、azarashi が持っている国と版の分だけ並べます。
 持っていない国や版の表（たとえば `camf.a3_provider_identifier.country_103`）は、ファイルにありません。
 そうした表を指すコードは、必ず `status` が `undefined`、`labels` が `{}` です。
@@ -314,7 +316,7 @@ A4 のコード0と、4か国（日本、オーストラリア、フィジー、
 
 境界は[気象庁の高さ区分](https://www.jma.go.jp/jma/kishou/know/jishin/joho/tsunamiinfo.html)に対応します。
 
-北西太平洋津波の高さは、コード1〜4が仕様の数の範囲（例 0.3〜1）です。
+北西太平洋津波の高さのコード1〜4は、仕様の表の範囲を `range` にします。例えば 0.3〜1 です。
 508「10m 超」は `{"lower": 10, "upper": null}` です。
 511「不明」は `special` です。
 
@@ -340,7 +342,7 @@ CAMF の災害別詳細（D1〜D36）のうち、数値や数値の範囲を表�
 単位の異なる表は1つにそろえ、視程はメートル、停電時間は分で表します。
 
 D2 の地震係数は日本の震度の段階（5弱・5強など）なので、数値にせずコードで出力します。
-残りの項目は数値ではない区分です。
+上の表にないほかの項目も、数値ではない区分なのでコードで出力します。
 
 ## Time
 
@@ -358,7 +360,7 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 | `value` | UTC の日時。末尾は `Z`。`status` が `valid` でなければ `null` |
 | `precision` | どこまでわかっている時刻か。`minute`、`hour`、`day` |
 | `labels` | `special` の時刻が何を意味するか |
-| `source` | メッセージにある時刻の部分。どの `status` でも必ずあります |
+| `source` | メッセージにある時刻の部分。`status` によらず省きません |
 
 `precision` は、`status` が `valid` のときだけあります。
 
@@ -382,13 +384,13 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 | DCX の `onset` | `Not used`（A7 が 0） |
 
 火山の日時の精度は、日時の曖昧さ（Du）で決まります。Du が 0〜3 なら `minute`、4 なら `hour`、5 なら `day` です。
-火山には `activity_time_ambiguity` も必ず添えます。Du のコードオブジェクトで、表は `qzss.dcr.ambiguity_of_activity_time` です。
+火山のレコードは、`activity_time_ambiguity` も省きません。Du のコードオブジェクトで、表は `qzss.dcr.ambiguity_of_activity_time` です。
 英語のラベルは DCR 仕様書の文言です。日本語の表はないので、`ja` はありません。
 
 ## Regions, Forecasts and Positions
 
-繰り返し項目は1件ごとのオブジェクトです。
-津波の `forecasts` の各要素は `region`・`arrival`・`height` を必須にします。
+地域ごとに繰り返す項目は、1つの地域を1つのオブジェクトにした配列です。
+津波の `forecasts` の要素は、`region`・`arrival`・`height` を省きません。
 ほかの警報も、地域とその警報内容を一緒に持ちます。洪水の `warnings` の要素も `{region, warning}` です。
 
 DCX の `target_regions` は地域のコードオブジェクトの配列です。
@@ -432,12 +434,13 @@ DCX の楕円は、次の形です。
 角度は東を0、東から北へ正とする仕様の規約です。
 航海用の北基準の方位角と混同しないでください。
 
+緯度は ±90 度、経度は ±180 度を超えることがあります。
 補正楕円の中心は、主楕円の中心に C1・C2 の小さな補正（最大で約0.0024度）を足すので、極や経度180度をわずかに越えることがあります。
-避難方向の追加楕円は EX4 が東経45度起点なので、経度45〜225度です。災害中心は主楕円から±10度ずれるので、
-緯度±100・経度±190です。楕円の方位 `azimuth_deg` は、どの楕円も -90 度以上 90 度未満です。
+追加楕円の中心の経度は、EX4 が東経45度から数えるので、45〜225度です。
+災害の中心は主楕円の中心から最大10度ずれるので、緯度は±100度、経度は±190度までになります。楕円の方位 `azimuth_deg` は、どの楕円も -90 度以上 90 度未満です。
 
 楕円の `source` は、その楕円を組み立てた伝送コードです。
-どの仕様フィールドのコードかは、楕円の位置で決まります。`main_ellipse` は A12〜A16、
+どのフィールドのコードかは、どの楕円かで決まります。`main_ellipse` は A12〜A16、
 `specific_settings.refined_ellipse` は C1〜C4 と A16、`evacuation.ellipse` は EX3〜EX7 です。
 
 `specific_settings` は、A17 のコードオブジェクト `type` と、その種類のグループを1つ持ちます。
@@ -500,10 +503,10 @@ DCX の `version` も同じ形です。L-Alert、J-Alert、地方公共団体か
 | Python クラス / type の末尾 | 警報共通項目以外の項目 |
 |---|---|
 | NullMsg / null | data={}。警報共通項目も出しません |
-| OutsideJapan / outside_japan | main_ellipse、適用される specific_settings |
-| LAlert / l_alert | main_ellipse または target_regions の一方、適用される specific_settings |
+| OutsideJapan / outside_japan | main_ellipse、A17 に応じた specific_settings |
+| LAlert / l_alert | main_ellipse または target_regions の一方、A17 に応じた specific_settings |
 | JAlert / j_alert | target_regions。楕円と specific_settings はありません |
-| MTInfo / mt_info | main_ellipse、target_regions、適用される specific_settings と evacuation |
+| MTInfo / mt_info | main_ellipse、target_regions、A17 に応じた specific_settings と evacuation |
 | Unknown / unknown | デコーダーが解釈した共通項目・main_ellipse・specific_settings |
 
 | DCX の元のフィールド | 出力先 |
@@ -548,7 +551,7 @@ DCX の L-Alert、J-Alert、地方公共団体からの情報は、`series.key` 
 
 `$id` は `urn:azarashi:report:2` です。外部スキーマの参照はありません。
 スキーマは形を検証します。下限≦上限のような項目間の関係と、コードと名前の一致は検証しません。名前はコード表と照らせば確かめられます。
-JSON Schema の format 検証を有効にしてください。
+スキーマで検証するときは、format の検証を有効にしてください。
 
 同じ版の中で、キーとレポートの種類を足すことがあります。読む側は、知らないキーと知らない `type` を無視してください。
 スキーマも、知らないキーと、`qzss.dcr.tsunami` と同じ形の知らない `type` を受け付けます。
