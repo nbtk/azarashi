@@ -1,7 +1,7 @@
 [azarashi](../README.md) / API
 
 # API
-azarashi をプログラムから使うための関数と例外です。コマンドの使い方は [CLI](cli.md) を見てください。
+この文書は、azarashi をプログラムから使うための関数と例外を説明します。コマンドの使い方は [CLI](cli.md) を見てください。
 ## decode()
 ```python
 azarashi.decode(msg, msg_type='nmea', timestamp=None)
@@ -11,9 +11,9 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
   - `spresense` は `nmea` の別名です。
   - `net` は、[receiver](network.md#receiver) が受け取る33バイトのデータグラム形式です。先頭の1バイトが衛星 ID で、残りがメッセージ本体です。
   - `l1s` は `decode()` では使えません。L1S アーカイブの衛星の PRN はファイルの先頭にしかないので、`decode_stream()` で読んでください。
-- `timestamp`: メッセージを受信した時刻です。デフォルトは現在時刻です。メッセージにない年や日付は、この時刻から補います。[記録しておいたメッセージ](cli.md#record-and-replay)をあとからデコードするときに指定してください。タイムゾーンのない datetime は、実行環境のローカル時刻として扱います。
+- `timestamp`: メッセージを受信した時刻です。デフォルトは現在時刻です。azarashi は、メッセージにない年や日付を、この時刻から補います。[記録しておいたメッセージ](cli.md#record-and-replay)をあとからデコードするときは、記録した時刻を指定してください。azarashi は、タイムゾーンのない datetime を、実行環境のローカル時刻として扱います。
 
-`decode()` がレポートを返すのは、災危通報のメッセージだけです。L1S の Message Type 43 の DCR と、44 の DCX です。測位を補強するメッセージなど、それ以外の L1S メッセージを渡すと、[AzarashiInvalidMessageError](#azarashiinvalidmessageerror) を送出します。u-blox のフレームでは、QZSS の L1S 信号でないフレームも同じです。受信機が出すフレームをすべて読むときは、`decode_stream()` を使ってください。災危通報でないフレームを読み飛ばします。
+`decode()` がレポートを返すのは、災危通報のメッセージだけです。L1S の Message Type 43 の DCR と、44 の DCX です。測位を補強するメッセージなど、それ以外の L1S メッセージを渡すと、[AzarashiInvalidMessageError](#azarashiinvalidmessageerror) を送出します。u-blox のフレームを渡すときは、QZSS の L1S 信号でないフレームにも、この例外を送出します。受信機が出すフレームをすべて読むときは、`decode_stream()` を使ってください。`decode_stream()` は、災危通報でないフレームを読み飛ばします。
 ### Example
 `decode()` はレポートを返します。返るクラスとフィールド、デコードした例は [Reports](reports.md) を見てください。
 ```python
@@ -28,33 +28,33 @@ azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(),
 ```
 - `stream`: メッセージを読み込むストリームです。シリアルデバイスは pySerial で開いて渡してください。ファイルは `open(path, 'rb')` のように、バイナリモードで開くことをおすすめします。
 - `msg_type`: 入力の形式です。`nmea`、`hex`、`ublox`、`l1s` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
-  `ublox` は、QZSS の L1S 信号の災危通報だけを読みます。ほかのフレームは読み飛ばします。
-  `l1s` は、拡張子が `.l1s` の L1S アーカイブです。受信時刻は記録ごとの GPS 時刻から決まるので、`timestamp` は指定できません。災危通報でない記録は読み飛ばします。
-  `nmea` と `hex` は、災危通報でないメッセージに AzarashiInvalidMessageError を送出します。
+  `ublox` では、`decode_stream()` は QZSS の L1S 信号の災危通報だけを読み、ほかのフレームを読み飛ばします。
+  `l1s` は、拡張子が `.l1s` の L1S アーカイブです。受信時刻は記録ごとの GPS 時刻から決まるので、`timestamp` は指定できません。`decode_stream()` は、災危通報でない記録を読み飛ばします。
+  `nmea` と `hex` では、`decode_stream()` は災危通報でないメッセージに AzarashiInvalidMessageError を送出します。
   `net` はストリームでは使えません。データグラムごとに `decode(data, 'net')` を呼んでください。
-- `callback`: レポートを受け取る関数です。`None` のときは、メッセージを一つデコードして、そのレポートを返します。関数を指定したときは、例外が発生するまでデコードを繰り返し、レポートができるたびに関数を呼び出します。関数は次のように呼び出されます。
+- `callback`: レポートを受け取る関数です。`callback` が `None` のときは、`decode_stream()` はメッセージを1つデコードして、そのレポートを返します。関数を指定したときは、`decode_stream()` は例外が発生するまでデコードを繰り返し、レポートができるたびに関数を呼び出します。関数は次のように呼び出されます。
 ```python
 callback(report, *callback_args, **callback_kwargs)
 ```
 - `callback_args`: 関数に渡す位置引数です。
 - `callback_kwargs`: 関数に渡すキーワード引数です。
-- `unique`: `==` で等しいレポートを重複とみなし、無視するかどうかです。
+- `unique`: `==` で等しいレポートを重複とみなし、無視するかどうかです。ここで「通知する」は、コールバックを呼ぶこと、コールバックがなければレポートを返すことです。
   - `False`: 重複を無視しません。デフォルトです。
-  - `True`: 記憶している同じメッセージは、2回目以降を無視します。時間が経っても記憶は失効しません。
-  - 秒数: 同じメッセージでも、最後に受信してからその秒数を過ぎていれば、もう一度通知します。通知済みとして記憶しているメッセージは、抑制したときも受信時刻を更新します。例えば `unique=60` では、30秒おきに届く同じメッセージを定期的に通知することはありません。最後の受信から60秒を超えて間が空いたときに通知します。
+  - `True`: 記憶しているレポートと `==` で等しいレポートは、2回目以降を無視します。時間が経っても記憶は失効しません。
+  - 秒数: 等しいレポートでも、最後に受信してからその秒数を過ぎていれば、もう一度通知します。通知済みとして記憶しているレポートは、無視したときも、記憶している受信時刻を更新します。例えば `unique=60` では、30秒おきに届く同じメッセージを定期的に通知することはありません。最後の受信から60秒を超えて間が空いたときに通知します。
 
-  どちらも記憶するのは直近256件です。容量を超えて記憶から外れたメッセージは、再び通知します。
+  `True` でも秒数でも、記憶するのは直近の256件です。記憶から外れたレポートは、再び通知します。
 
   重複の記憶はストリームのオブジェクトごとです。別のオブジェクトなら、`==` で等しくても記憶は独立しています。デバイスを開き直すときは [AzarashiReopenStream](#azarashireopenstream) を見てください。
 
-  コールバックが正常に戻った後に、そのメッセージを通知済みとして記憶します。コールバックが失敗すると例外をそのまま呼び出し元へ伝え、後から届く同じメッセージを再び通知します。コールバックを指定しない場合は、レポートを返す前に記憶します。
+  `decode_stream()` は、コールバックが正常に戻った後に、そのレポートを通知済みとして記憶します。コールバックが失敗すると、`decode_stream()` は例外をそのまま呼び出し元へ伝え、後から届く等しいレポートを再び通知します。コールバックを指定しないときは、`decode_stream()` はレポートを返す前に記憶します。
 - `ignore_dcr`: DCR メッセージを無視するときは `True` を指定します。デフォルトは `False` です。
 - `ignore_dcx`: DCX メッセージを無視するかどうかです。デフォルトは `True` で、DCX メッセージを無視します。DCX メッセージも受け取るときは `False` を指定してください。
 - `timestamp`: ストリームのデータを受信した時刻です。デフォルトは現在時刻です。[記録しておいたデータ](cli.md#record-and-replay)を読み込むときに、記録した時刻を指定してください。この時刻はすべてのレポートに使われるので、リアルタイムに受信するときは指定しないでください。
 
-秒数での重複判定は、レポートの `timestamp` で経過を測ります。`timestamp` を指定して読むと時刻が進まないので、秒数を指定しても同じメッセージを再び通知しません。
+秒数での重複判定は、レポートの `timestamp` で経過を測ります。`decode_stream()` に `timestamp` を指定すると、レポートの `timestamp` が進まないので、`unique` に秒数を指定しても、等しいレポートを再び通知しません。
 
-引数が間違っているときは、[AzarashiFixTheCall](#azarashifixthecall) の下の例外を送出します。
+引数が間違っているときは、`decode_stream()` は [AzarashiFixTheCall](#azarashifixthecall) の下の例外を送出します。
 ### Example
 シリアルデバイスを pySerial で開いて読み込み、デコードしたレポートを `print()` に渡します。
 ```python
@@ -69,14 +69,14 @@ callback(report, *callback_args, **callback_kwargs)
 azarashi.reset_reading_state(stream, msg_type='nmea')
 ```
 
-azarashi が保持している読みかけのデータと、まだ通知していないメッセージを破棄します。重複の記憶は残します。戻り値は `None` です。
-[AzarashiReopenStream](#azarashireopenstream) を受けずに、自分の判断で同じストリームを開き直すときに使います。AzarashiReopenStream のときは、ストリームが壊れた時点で読みかけのデータを捨てています。
+`reset_reading_state()` は、azarashi が保持している読みかけのデータと、まだ通知していないメッセージを捨てます。重複の記憶は残します。戻り値は `None` です。
+[AzarashiReopenStream](#azarashireopenstream) を受けずに、自分の判断で同じストリームを開き直すときに使います。AzarashiReopenStream を受けたときは、azarashi がストリームの壊れた時点で読みかけのデータを捨てています。
 
 azarashi は、読みかけのデータを、読み取りに使うオブジェクトごとに覚えています。そのオブジェクトは、ストリームそのものです。
 ただし ublox と l1s で、`read1()` を持たないストリームを、その `.buffer` の `read1()` で読むときは、`.buffer` です。
 `reset_reading_state()` は、`decode_stream()` と同じやり方で `stream` と `msg_type` からそのオブジェクトを決め、そこに覚えているものをすべて捨てます。
 捨てるのは、行の途中のデータ、まだ渡していない NMEA センテンス、UBX の読みかけのバイト列、L1S アーカイブの読みかけの記録と、アーカイブの PRN と GPS 時刻です。どの形式で読んでいたものも捨てます。
-次にアーカイブを読むときは、先頭の PRN から読みます。
+リセットのあと、azarashi はアーカイブを先頭の PRN から読みます。
 同じ `.buffer` を読み取りに使うほかのストリームの読みかけのデータも、一緒に捨てます。読み取りに使うオブジェクトが違うストリームのデータと、重複の記憶は残ります。
 
 **同じオブジェクトで読む読み取りとコールバックがすべて終わってから呼んでください。**
@@ -128,25 +128,25 @@ AzarashiException
 
 何が起きたかを表すクラスは、仕様の改訂や対応形式の追加で増えることがあります。4つのほうを捕捉しておけば、増えても書き換えは要りません。
 
-失敗の理由は `.message` に入り、`.instance` には失敗したデコーダーが入る場合があります。読み取り障害やタイムアウトなど、デコーダーを伴わない例外では `None` です。`str()` は、受け取ったメッセージがあればそれも付けます。
+失敗の理由は `.message` に入り、`.instance` には失敗したデコーダーが入る場合があります。読み取り障害やタイムアウトなど、デコーダーを伴わない例外では `None` です。例外の `str()` が返す文字列には、受け取ったメッセージがあれば、それも付きます。
 ## AzarashiReadOn
-メッセージが手に入らなかったことを表すクラスです。読めないメッセージ、azarashi が扱えないメッセージ、読み終えていないメッセージが、すべてこのクラスの下にあります。
+AzarashiReadOn は、メッセージが手に入らなかったことを表すクラスです。読めないメッセージ、azarashi が扱えないメッセージ、読み終えていないメッセージが、すべてこのクラスの下にあります。
 
 ストリームは無事です。捕捉したら `decode_stream()` をもう一度呼んでください。読めないメッセージはそのまま失われますが、次のメッセージから読み込みが続きます。読み終えていないメッセージは、次の呼び出しで続きから読み込みます。
 
 例は [Minimal Loop](#minimal-loop) にあります。
 ## AzarashiDecodeError
-メッセージをレポートにできなかったことを表すクラスです。次の二つの親にあたります。デコードの失敗をまとめて捕捉したいときは、これを捕捉してください。
+AzarashiDecodeError は、メッセージをレポートにできなかったことを表すクラスです。次の二つの親にあたります。デコードの失敗をまとめて捕捉したいときは、これを捕捉してください。
 
 `ValueError` を継承しているので、`except ValueError` でも捕捉できます。
 ## AzarashiInvalidMessageError
-メッセージそのものを読めないときに送出されます。チェックサムや CRC が合わない、長さが足りない、中身が空、災危通報のメッセージでない、どのデコーダーに渡すか決められない、といった場合です。空のメッセージを渡したときも、ストリームが終わったわけではないのでこのクラスになります。仕様にないコード値を受け取っただけでは送出しません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。
+AzarashiInvalidMessageError は、メッセージそのものを読めないときに送出されます。チェックサムや CRC が合わない、長さが足りない、中身が空、災危通報のメッセージでない、どのデコーダーに渡すか決められない、といった場合です。空のメッセージを渡したときも、ストリームが終わったわけではないのでこのクラスになります。仕様にないコード値を受け取っただけでは送出しません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。
 ## AzarashiNotImplementedError
-実験的な配信など、azarashi が対応していないメッセージを受け取ったときに送出されます。そうした配信が始まると頻繁に送出されるので、デバッグのとき以外は捕捉して無視してもよいでしょう。
+AzarashiNotImplementedError は、実験的な配信など、azarashi が対応していないメッセージを受け取ったときに送出されます。そうした配信が始まると頻繁に送出されるので、デバッグのとき以外は捕捉して無視してもよいでしょう。
 
 **`NotImplementedError` は継承していません。** `except NotImplementedError` や `except RuntimeError` では捕まりません。
 ## AzarashiTimeoutError
-pySerial などで `timeout` を指定して開いたストリームの読み取りが、データを返さずに終わったときや、行の途中までを返したときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。
+AzarashiTimeoutError は、pySerial などで `timeout` を指定して開いたストリームの読み取りが、データを返さずに終わったときや、行の途中までを返したときに送出されます。読みかけのデータは残っているので、もう一度 `decode_stream()` を呼べば続きから読み込みます。
 
 **ソケットを読むときは、`socket.makefile()` に `settimeout()` を組み合わせないでください。** 一度タイムアウトすると、そのファイルオブジェクトは二度と読めなくなります。azarashi はこれを [AzarashiReopenStream](#azarashireopenstream) として報告します。
 
@@ -158,13 +158,13 @@ azarashi.decode_stream(port, 'ublox', print)
 
 **`TimeoutError`・`OSError`・`EOFError` は継承しません。** `except OSError` で再接続するコードは、タイムアウトでは開き直しません。
 
-`except AzarashiDecodeError` でも捕まりません。プログラムの例は [Timeout](#timeout) にあります。
+AzarashiTimeoutError は、`except AzarashiDecodeError` でも捕まりません。プログラムの例は [Timeout](#timeout) にあります。
 ## AzarashiReopenStream
-ストリームの読み取りそのものが失敗したことを表すクラスです。USB のシリアルデバイスを引き抜いたときや、TCP の接続が切れたときに送出されます。
+AzarashiReopenStream は、ストリームの読み取りそのものが失敗したことを表すクラスです。USB のシリアルデバイスを引き抜いたときや、TCP の接続が切れたときに送出されます。
 
 そのストリームはもう使えません。読み直しても同じエラーがすぐに返るので、読み直し続けると待ち時間のないループになり、CPU を使い切ります。閉じて開き直してください。
 
-`AzarashiReadOn` も `EOFError` も継承していません。
+AzarashiReopenStream は、`AzarashiReadOn` も `EOFError` も継承していません。
 
 pySerial のデバイスを差し直して読み続けるときは、`close()` して `open()` で**同じオブジェクトを開き直してください**。`unique` の重複の記憶はストリームごとなので、同じオブジェクトなら記憶が残り、記憶している警報を通知しなおしません。`serial.Serial()` で別のオブジェクトを作ると、新しい記憶で読み始めるため同じ警報をもう一度通知します。プログラムの例は [Reconnect](#reconnect) にあります。
 
@@ -174,39 +174,39 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 
 何が起きたかは、これを継承した次の2つが表します。どちらも開き直せば済むので、ループで分ける必要はありません。ログや監視で区別したいときに使ってください。
 ### AzarashiDisconnectedError
-読み取り中にデバイスや相手が消えたときに送出されます。USB のシリアルデバイスの引き抜き、TCP 接続のリセット、そのほかストリームが `OSError` として報告した失敗です。
+AzarashiDisconnectedError は、読み取り中にデバイスや相手が消えたときに送出されます。USB のシリアルデバイスの引き抜き、TCP 接続のリセット、そのほかストリームが `OSError` として報告した失敗です。
 ### AzarashiStreamClosedError
-読み取り中にストリームが閉じられたときに送出されます。
+AzarashiStreamClosedError は、読み取り中にストリームが閉じられたときに送出されます。
 
 再接続処理が閉じたのなら、開き直せば済みます。ただし、**自分のプログラムが閉じたストリームを読み続けている**ときもこれになります。無条件に開き直すループは、そのバグを隠します。
 ## AzarashiStopReading
-データが尽きたことを表すクラスです。読むものがなく、開き直す先もありません。`EOFError` を継承しているので、`EOFError` で止めているコードはそのまま動きます。
+AzarashiStopReading は、データが尽きたことを表すクラスです。読むものがなく、開き直す先もありません。`EOFError` を継承しているので、`EOFError` で止めているコードはそのまま動きます。
 
 何が起きたかは、これを継承した次のクラスが表します。
 ### AzarashiNoMoreData
-ファイルが末尾に達したときや、TCP の接続を相手側が閉じたときに送出されます。
+AzarashiNoMoreData は、ファイルが末尾に達したときや、TCP の接続を相手側が閉じたときに送出されます。
 
 デバイスを引き抜いたときは、これではなく [AzarashiDisconnectedError](#azarashidisconnectederror) です。
 
 **尽きたことが重大かどうかは、azarashi からは分かりません。** 記録ファイルを最後まで読んだのなら正常終了で、`azarashi` コマンドは終了コード 0 を返します。生きたフィードが途切れたのなら、その配信は戻りません。
 ## AzarashiFixTheCall
-呼び出し方が間違っていることを表すクラスです。読み直しても、開き直しても直りません。呼び出しているコードを直してください。
+AzarashiFixTheCall は、呼び出し方が間違っていることを表すクラスです。読み直しても、開き直しても直りません。呼び出しているコードを直してください。
 
-何も読まないうちに確かめるので、ストリームに届いていたメッセージは失われず、正しく呼び直せばそのまま読めます。ただ1つ、ストリームが文字列とバイト列のどちらを返すかだけは、最初の1回を読んで確かめます。
+azarashi は呼び出し方の誤りを何も読まないうちに確かめるので、ストリームに届いていたメッセージは失われず、正しく呼び直せばそのまま読めます。ただ1つ、ストリームが文字列とバイト列のどちらを返すかだけは、最初の1回を読んで確かめます。
 
 届いたメッセージの中身の誤りは、これに入りません。空のメッセージや壊れたメッセージは [AzarashiInvalidMessageError](#azarashiinvalidmessageerror) で、次を読めば先へ進めます。
 
-`AzarashiReadOn`、`AzarashiReopenStream`、`AzarashiStopReading` のどれも継承していません。そのため、この3つを捕捉する読み取りのループを通り抜け、理由を示してプログラムを止めます。
+`AzarashiReadOn`、`AzarashiReopenStream`、`AzarashiStopReading` のどれも継承していません。そのため、このクラスの例外は、この3つを捕捉する読み取りのループを通り抜け、理由を示してプログラムを止めます。
 
 何が起きたかは、これを継承した次のクラスが表します。
 ### AzarashiUnsupportedFormatError
-`msg_type` に、azarashi が読まない形式を渡したときに送出されます。`decode()` が読むのは nmea・spresense・hex・ublox・net の5つです。`decode_stream()` と `reset_reading_state()` は、net を除く4つに l1s を加えた5つを読みます。
+AzarashiUnsupportedFormatError は、`msg_type` に、azarashi が読まない形式を渡したときに送出されます。`decode()` が読むのは nmea・spresense・hex・ublox・net の5つです。`decode_stream()` と `reset_reading_state()` は、net を除く4つに l1s を加えた5つを読みます。
 
 `decode_stream()` で l1s に `timestamp` を渡したときにも送出されます。
 
-`ValueError` を継承しています。
+AzarashiUnsupportedFormatError は `ValueError` を継承しています。
 ### AzarashiArgumentTypeError
-引数が、その呼び出しに必要な種類のものでないときに送出されます。
+AzarashiArgumentTypeError は、引数が、その呼び出しに必要な種類のものでないときに送出されます。
 
 - `decode()` の `msg` が、文字列でもバイト列でもない
 - `timestamp` が `datetime` でない
@@ -215,7 +215,7 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 - `callback` が呼び出せない。`callback_args` が並びでない。`callback_kwargs` が名前と値の対応でない
 - `unique` が、真偽値でも数値でもない
 
-`TypeError` を継承しています。
+AzarashiArgumentTypeError は `TypeError` を継承しています。
 
 ## Earlier Names
 次の名前も使えます。それぞれ右の名前と同じものです。
@@ -225,7 +225,7 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 | `QzssDcrDecoderException` | `AzarashiInvalidMessageError` |
 | `QzssDcrDecoderNotImplementedError` | `AzarashiNotImplementedError` |
 
-レポートのクラスも短くなりました。所属するモジュールで修飾して書きます。
+レポートのクラスの名前も短くなりました。今の名前は、所属するモジュールで修飾して書きます。
 
 | 以前の名前 | 今の名前 |
 | --- | --- |
@@ -266,7 +266,7 @@ DCX のレポートには、メッセージの種類や内容によって設定�
 警報を持たない `dcx.NullMsg` は、これらのフィールドを一つも持ちません。そのため警報のフィールドを読むときは `dcx.AlertBase` で絞ってください。`dcx.Base` で絞ると `dcx.NullMsg` も通ってしまいます。
 ## Examples
 ### Minimal Loop
-ストリームから読み続けるときの、いちばん短い形です。捕捉する3つのクラスが、そのまま何をすべきかを表します。
+次の例は、ストリームから読み続けるときの、いちばん短い形です。捕捉する3つのクラスが、そのまま何をすべきかを表します。
 ```python
 import azarashi
 import sys
@@ -284,13 +284,13 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
         except azarashi.AzarashiStopReading:
             break
 ```
-読めないメッセージと、azarashi が扱えないメッセージは、ここで読み飛ばされます。何を飛ばしたかを気にしないなら、`AzarashiReadOn` の節は `pass` だけでも構いません。
+読めないメッセージと、azarashi が扱えないメッセージは、`AzarashiReadOn` の節で読み飛ばされます。何を飛ばしたかを気にしないなら、`AzarashiReadOn` の節は `pass` だけでも構いません。
 
 3つは互いに継承関係がないので、**どの順番に書いても同じように動きます**。デバイスを差し直して読み続けたいときは、`break` の代わりにポートを開き直してください。[Reconnect](#reconnect) にその例があります。
 
 `timeout` を付けて開いたストリームでも、この形のまま動きます。タイムアウトも `AzarashiReadOn` の下にあるからです。タイムアウトの合間に別の仕事をしたいときだけ、[Timeout](#timeout) のように節を分けてください。
 ### I/O Stream
-例外処理を加えた簡単なプログラムの例です。記録したファイルを読み込みます。
+次の例は、例外処理を加えた簡単なプログラムです。記録したファイルを読み込みます。
 ```python
 import azarashi
 import sys
@@ -312,7 +312,7 @@ def example():
 exit(example())
 ```
 ### pySerial
-[pySerial](https://pyserial.readthedocs.io/en/latest/) でシリアルポートを開いて `decode_stream()` に渡す例です。
+次の例は、[pySerial](https://pyserial.readthedocs.io/en/latest/) でシリアルポートを開いて `decode_stream()` に渡します。
 ```python
 import azarashi
 import sys
@@ -339,7 +339,7 @@ def example():
 exit(example())
 ```
 ### Reconnect
-USB のシリアルデバイスを抜き差ししても読み続ける例です。`AzarashiReopenStream` を捕捉したら、閉じて開き直します。
+次の例は、USB のシリアルデバイスを抜き差ししても読み続けます。この例は、`AzarashiReopenStream` を捕捉したら、ポートを閉じて開き直します。
 
 開き直すのは**同じオブジェクト**です。理由は [AzarashiReopenStream](#azarashireopenstream) にあります。
 
@@ -374,7 +374,7 @@ exit(example())
 ### Timeout
 シリアルポートを `timeout` 付きで開くと、読み取りがタイムアウトした際に `AzarashiTimeoutError` を捕捉して別の仕事ができます。以下は、その機会に終了の合図を確認する例です。
 
-`timeout` は下位ストリームの個々の読み取りに適用され、`decode_stream()` 全体の実行時間を制限しません。データが流れ続ける場合は、通知しないメッセージや重複も含めて読み続けるため、タイムアウトせず、終了の合図を確認できないことがあります。
+`timeout` は下位ストリームの個々の読み取りに適用され、`decode_stream()` 全体の実行時間を制限しません。データが流れ続けると、`decode_stream()` は通知しないメッセージや重複も読み続けるので、読み取りがタイムアウトせず、プログラムが終了の合図を確かめられないことがあります。
 
 `AzarashiTimeoutError` は [AzarashiReadOn](#azarashireadon) の下にあります。タイムアウトの合間に別の仕事をしないのであれば、この節をやめて `AzarashiReadOn` にまとめても構いません。両方書くときは、`AzarashiTimeoutError` を先に書いてください。
 
@@ -413,7 +413,7 @@ def example():
 exit(example())
 ```
 ### Field Receiver
-現場に置きっぱなしにする受信機のお手本です。3つの行動、抜き差しからの復帰、終了の伝え方、そして**自分の失敗を読み取りループに混ぜないこと**を入れました。
+次の例は、現場に置きっぱなしにする受信機のお手本です。この例は、3つの行動、抜き差しからの復帰、終了の伝え方、そして**自分の失敗を読み取りループに混ぜないこと**を示します。
 
 ```python
 import logging
