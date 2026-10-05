@@ -223,19 +223,19 @@ RECEIVED = [('ublox', sfrbx), ('net', datagram), ('hex', hex_message), ('nmea', 
 @pytest.mark.parametrize('sentence, message', [(BROKEN_CRC, 'CRC Mismatch: expected 1510FF, but got 1510FC'),
                                                (AUGMENTATION, 'The Message is not DCR or DCX: '
                                                               'expected Message Type 43 or 44, but got 47')])
-@pytest.mark.parametrize('msg_type, received', RECEIVED)
-def test_errors_before_the_message_type_is_known_show_what_was_received(sentence, message, msg_type, received):
+@pytest.mark.parametrize('msg_format, received', RECEIVED)
+def test_errors_before_the_message_type_is_known_show_what_was_received(sentence, message, msg_format, received):
     msg = received(sentence)
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
-        azarashi.decode(msg, msg_type)
+        azarashi.decode(msg, msg_format)
     assert excinfo.value.message == message
     assert excinfo.value.instance.nmea == ''
     assert str(excinfo.value) == f'{message} -> {_shown(msg)}'
 
 
-@pytest.mark.parametrize('msg_type, received', RECEIVED)
-def test_errors_of_a_dcr_message_show_its_qzqsm_sentence(msg_type, received):
+@pytest.mark.parametrize('msg_format, received', RECEIVED)
+def test_errors_of_a_dcr_message_show_its_qzqsm_sentence(msg_format, received):
     sentence = with_fields(EEW, [(214, 6, 0)])  # a version the decoder does not take
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
-        azarashi.decode(received(sentence), msg_type)
+        azarashi.decode(received(sentence), msg_format)
     assert str(excinfo.value) == f'Unsupported JMA-DC Report Version: 0 -> {sentence}'

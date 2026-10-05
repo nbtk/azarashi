@@ -54,10 +54,10 @@ def test_both_kinds_of_mistake_get_past_a_reading_loop():
 
 # decode()
 
-@pytest.mark.parametrize('msg_type, error', [('rtcm', FORMAT), ('', FORMAT), (0, KIND), (None, KIND)])
-def test_decode_refuses_a_format_it_does_not_read(msg_type, error):
+@pytest.mark.parametrize('msg_format, error', [('rtcm', FORMAT), ('', FORMAT), (0, KIND), (None, KIND)])
+def test_decode_refuses_a_format_it_does_not_read(msg_format, error):
     with pytest.raises(error):
-        azarashi.decode(EEW, msg_type)
+        azarashi.decode(EEW, msg_format)
 
 
 @pytest.mark.parametrize('msg', [12345, None, memoryview(EEW.encode()), [EEW]], ids=type)
@@ -81,9 +81,9 @@ def test_decode_still_takes_what_a_message_is():
 # decode_stream()
 
 @pytest.mark.parametrize('arguments, error', [
-    ({'msg_type': 'rtcm'}, FORMAT),
-    ({'msg_type': 'net'}, FORMAT),
-    ({'msg_type': 0}, KIND),
+    ({'msg_format': 'rtcm'}, FORMAT),
+    ({'msg_format': 'net'}, FORMAT),
+    ({'msg_format': 0}, KIND),
     ({'callback': 123}, KIND),
     ({'callback': print, 'callback_args': 5}, KIND),
     ({'callback': print, 'callback_kwargs': ['sep']}, KIND),
@@ -100,10 +100,10 @@ def test_decode_stream_refuses_a_wrong_call_before_it_reads(arguments, error):
     assert azarashi.decode_stream(stream) == azarashi.decode(EEW)  # the waiting message was not lost
 
 
-@pytest.mark.parametrize('msg_type', ['nmea', 'spresense', 'hex', 'ublox'])
-def test_decode_stream_refuses_a_stream_without_its_reader(msg_type):
+@pytest.mark.parametrize('msg_format', ['nmea', 'spresense', 'hex', 'ublox'])
+def test_decode_stream_refuses_a_stream_without_its_reader(msg_format):
     with pytest.raises(KIND):
-        azarashi.decode_stream(_Nothing(), msg_type)
+        azarashi.decode_stream(_Nothing(), msg_format)
 
 
 def test_decode_stream_refuses_a_stream_that_gives_the_wrong_kind():
@@ -140,13 +140,13 @@ def test_decode_stream_still_takes_what_worked(arguments):
 
 # reset_reading_state()
 
-@pytest.mark.parametrize('stream, msg_type, error', [
+@pytest.mark.parametrize('stream, msg_format, error', [
     (io.StringIO(), 'rtcm', FORMAT),
     (io.StringIO(), 'net', FORMAT),
     (io.StringIO(), 0, KIND),
     (_Nothing(), 'nmea', KIND),
 ])
-def test_reset_refuses_a_wrong_call(stream, msg_type, error):
+def test_reset_refuses_a_wrong_call(stream, msg_format, error):
     with pytest.raises(error):
-        azarashi.reset_reading_state(stream, msg_type)
+        azarashi.reset_reading_state(stream, msg_format)
 

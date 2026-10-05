@@ -4,10 +4,10 @@
 この文書は、azarashi をプログラムから使うための関数と例外を説明します。コマンドの使い方は [CLI](cli.md) を見てください。
 ## decode()
 ```python
-azarashi.decode(msg, msg_type='nmea', timestamp=None)
+azarashi.decode(msg, msg_format='nmea', timestamp=None)
 ```
 - `msg`: デコードするメッセージです。
-- `msg_type`: 入力の形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型でも bytes 型でも渡せます。pySerial の `readline()` が返すバイト列は、そのまま渡してください。`ublox` のフレームは bytes 型で渡します。
+- `msg_format`: 入力の形式です。`nmea`、`hex`、`ublox` のどれかを指定します。デフォルトは `nmea` です。`nmea` と `hex` のメッセージは str 型でも bytes 型でも渡せます。pySerial の `readline()` が返すバイト列は、そのまま渡してください。`ublox` のフレームは bytes 型で渡します。
   - `spresense` は `nmea` の別名です。
   - `net` は、[receiver](network.md#receiver) が受け取る33バイトのデータグラム形式です。先頭の1バイトが衛星 ID で、残りがメッセージ本体です。
   - `l1s` は `decode()` では使えません。L1S アーカイブの衛星の PRN はファイルの先頭にしかないので、`decode_stream()` で読んでください。
@@ -24,10 +24,10 @@ azarashi.decode(msg, msg_type='nmea', timestamp=None)
 ```
 ## decode_stream()
 ```python
-azarashi.decode_stream(stream, msg_type='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True, timestamp=None)
+azarashi.decode_stream(stream, msg_format='nmea', callback=None, callback_args=(), callback_kwargs=None, unique=False, ignore_dcr=False, ignore_dcx=True, timestamp=None)
 ```
 - `stream`: メッセージを読み込むストリームです。シリアルデバイスは pySerial で開いて渡してください。ファイルは `open(path, 'rb')` のように、バイナリモードで開くことをおすすめします。
-- `msg_type`: 入力の形式です。`nmea`、`hex`、`ublox`、`l1s` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
+- `msg_format`: 入力の形式です。`nmea`、`hex`、`ublox`、`l1s` のどれかを指定します。デフォルトは `nmea` です。`spresense` は `nmea` の別名です。
   `ublox` では、`decode_stream()` は QZSS の L1S 信号の災危通報だけを読み、ほかのフレームを読み飛ばします。
   `l1s` は、拡張子が `.l1s` の L1S アーカイブです。受信時刻は記録ごとの GPS 時刻から決まるので、`timestamp` は指定できません。`decode_stream()` は、災危通報でない記録を読み飛ばします。
   `nmea` と `hex` では、`decode_stream()` は災危通報でないメッセージに AzarashiInvalidMessageError を送出します。
@@ -61,12 +61,12 @@ callback(report, *callback_args, **callback_kwargs)
 >>> import azarashi
 >>> import serial
 >>> ser = serial.Serial('/dev/ttyS0', 9600)
->>> azarashi.decode_stream(ser, msg_type='ublox', callback=print)
+>>> azarashi.decode_stream(ser, msg_format='ublox', callback=print)
 ```
 ## reset_reading_state()
 
 ```python
-azarashi.reset_reading_state(stream, msg_type='nmea')
+azarashi.reset_reading_state(stream, msg_format='nmea')
 ```
 
 `reset_reading_state()` は、azarashi が保持している読みかけのデータと、まだ通知していないメッセージを捨てます。重複の記憶は残します。戻り値は `None` です。
@@ -74,7 +74,7 @@ azarashi.reset_reading_state(stream, msg_type='nmea')
 
 azarashi は、読みかけのデータを、読み取りに使うオブジェクトごとに覚えています。そのオブジェクトは、ストリームそのものです。
 ただし ublox と l1s で、`read1()` を持たないストリームを、その `.buffer` の `read1()` で読むときは、そのオブジェクトは `.buffer` です。
-`reset_reading_state()` は、`decode_stream()` と同じやり方で `stream` と `msg_type` からそのオブジェクトを決め、そこに覚えているものをすべて捨てます。
+`reset_reading_state()` は、`decode_stream()` と同じやり方で `stream` と `msg_format` からそのオブジェクトを決め、そこに覚えているものをすべて捨てます。
 捨てるのは、行の途中のデータ、まだ渡していない NMEA センテンス、UBX の読みかけのバイト列、L1S アーカイブの読みかけの記録と、アーカイブの PRN と GPS 時刻です。どの形式で読んでいたものも捨てます。
 リセットのあと、azarashi はアーカイブを先頭の PRN から読みます。
 同じ `.buffer` を読み取りに使うほかのストリームの読みかけのデータも、一緒に捨てます。読み取りに使うオブジェクトが違うストリームのデータと、重複の記憶は残ります。
@@ -200,7 +200,7 @@ AzarashiFixTheCall は、`AzarashiReadOn`、`AzarashiReopenStream`、`AzarashiSt
 
 何が起きたかは、AzarashiFixTheCall を継承した次のクラスが表します。
 ### AzarashiUnsupportedFormatError
-AzarashiUnsupportedFormatError は、`msg_type` に、azarashi が読まない形式を渡したときに送出されます。`decode()` が読むのは nmea・spresense・hex・ublox・net の5つです。`decode_stream()` と `reset_reading_state()` は、net を除く4つに l1s を加えた5つを読みます。
+AzarashiUnsupportedFormatError は、`msg_format` に、azarashi が読まない形式を渡したときに送出されます。`decode()` が読むのは nmea・spresense・hex・ublox・net の5つです。`decode_stream()` と `reset_reading_state()` は、net を除く4つに l1s を加えた5つを読みます。
 
 `decode_stream()` で l1s に `timestamp` を渡したときにも送出されます。
 
@@ -214,6 +214,7 @@ AzarashiArgumentTypeError は、引数が、その呼び出しに必要な種類
 - `stream` が、その形式では読めないものを返す。ublox と l1s は文字列を読めないので、ファイルはバイナリモードで開いてください
 - `callback` が呼び出せない。`callback_args` が並びでない。`callback_kwargs` が名前と値の対応でない
 - `unique` が、真偽値でも数値でもない
+- `msg_format` と、以前の名前の `msg_type` を両方渡した
 
 AzarashiArgumentTypeError は `TypeError` を継承しています。
 
@@ -237,6 +238,8 @@ AzarashiArgumentTypeError は `TypeError` を継承しています。
 `azarashi.qzss_dc_report` からは、今のモジュールの `base`・`dcr`・`dcx` も使えます。
 
 `reports.dcr` が MT43、`reports.dcx` が MT44、両方に共通するものが `reports.base` です。全クラスの一覧は [Reports](reports.md) にあります。
+
+引数の `msg_format` は、以前の名前の `msg_type` でも渡せます。`msg_type` は、`decode()`、`decode_stream()`、`reset_reading_state()`、`Transmitter.start()` のどれでも使えます。両方を渡すと、これらの関数は [AzarashiArgumentTypeError](#azarashiargumenttypeerror) を送出します。mypy や Pyright などの型検査は、`msg_type` をエラーとして報告します。送信側のスクリプトの `--msg-format` も、以前の名前の `--msg-type` で指定できます。
 
 ログやエラー出力に出るクラス名は、今の名前に変わります。以前の名前で出力を検索しているときは、書き換えてください。
 
@@ -299,7 +302,7 @@ def example():
     with open('qzss.ubx', mode='rb') as f:
         while True:
             try:
-                azarashi.decode_stream(f, msg_type='ublox', callback=print)
+                azarashi.decode_stream(f, msg_format='ublox', callback=print)
             except azarashi.AzarashiDecodeError as e:
                 print(f'# [{type(e).__name__}] {e}', file=sys.stderr)
             except azarashi.AzarashiStopReading as e:

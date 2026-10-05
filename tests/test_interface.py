@@ -1,4 +1,4 @@
-"""decode() and decode_stream(): message types, how streams are read, filtering, callbacks and per-stream state."""
+"""decode() and decode_stream(): message formats, how streams are read, filtering, callbacks and per-stream state."""
 import gc
 import io
 import weakref
@@ -42,10 +42,10 @@ def test_decode_nothing_is_an_invalid_message(msg):
     assert not isinstance(excinfo.value, EOFError)
 
 
-def test_decode_unknown_message_type():
+def test_decode_unknown_message_format():
     with pytest.raises(azarashi.AzarashiUnsupportedFormatError) as excinfo:
         azarashi.decode(EEW, 'rtcm')
-    assert str(excinfo.value) == 'Unknown Message Type: rtcm'
+    assert str(excinfo.value) == 'Unknown Message Format: rtcm'
 
 
 @pytest.mark.parametrize('fmt', ['hex', 'net', 'nmea'])
@@ -57,10 +57,10 @@ def test_decoders_take_nothing_as_an_invalid_message(fmt):
 
 # decode_stream(): how streams are read
 
-def test_decode_stream_unknown_message_type():
+def test_decode_stream_unknown_message_format():
     with pytest.raises(azarashi.AzarashiUnsupportedFormatError) as excinfo:
         azarashi.decode_stream(io.BytesIO(), 'rtcm')
-    assert str(excinfo.value) == 'Unknown Message Type: rtcm'
+    assert str(excinfo.value) == 'Unknown Message Format: rtcm'
 
 
 @pytest.mark.parametrize('operation', [azarashi.decode_stream, azarashi.reset_reading_state])
@@ -68,19 +68,19 @@ def test_net_is_not_a_stream_format_and_consumes_no_input(operation):
     stream = io.BytesIO(bytes((55,)) + azarashi.decode(EEW).message)
     with pytest.raises(azarashi.AzarashiUnsupportedFormatError) as error:
         operation(stream, 'net')
-    assert str(error.value) == "Message Type net is not a stream format; use decode(data, 'net') for each datagram"
+    assert str(error.value) == "Message Format net is not a stream format; use decode(data, 'net') for each datagram"
     assert stream.tell() == 0
 
 
-@pytest.mark.parametrize('msg_type, message', [
+@pytest.mark.parametrize('msg_format, message', [
     ('nmea', "readline() does not exist: <class 'test_interface._Nothing'>"),
     ('spresense', "readline() does not exist: <class 'test_interface._Nothing'>"),
     ('hex', "readline() does not exist: <class 'test_interface._Nothing'>"),
     ('ublox', "Neither read() nor read1() exists: <class 'test_interface._Nothing'>"),
 ])
-def test_decode_stream_needs_a_reader(msg_type, message):
+def test_decode_stream_needs_a_reader(msg_format, message):
     with pytest.raises(azarashi.AzarashiArgumentTypeError) as excinfo:
-        azarashi.decode_stream(_Nothing(), msg_type)
+        azarashi.decode_stream(_Nothing(), msg_format)
     assert str(excinfo.value) == message
 
 
@@ -90,14 +90,14 @@ def test_ublox_from_a_text_stream_reads_its_buffer():
     assert azarashi.decode_stream(stream, 'ublox') == azarashi.decode(EEW)
 
 
-@pytest.mark.parametrize('msg_type, data', [
+@pytest.mark.parametrize('msg_format, data', [
     ('nmea', f'{EEW}\r\n'.encode()),
     ('spresense', f'{EEW}\r\n'.encode()),
     ('hex', f'{hex_message(EEW)}\n'.encode()),
     ('ublox', sfrbx(EEW)),
 ])
-def test_every_message_type_from_a_stream(msg_type, data):
-    assert azarashi.decode_stream(io.BytesIO(data), msg_type) == azarashi.decode(EEW)
+def test_every_message_type_from_a_stream(msg_format, data):
+    assert azarashi.decode_stream(io.BytesIO(data), msg_format) == azarashi.decode(EEW)
 
 
 # decode_stream(): filtering and callbacks

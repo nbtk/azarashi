@@ -21,9 +21,9 @@ def _nmea(body):
     return f'${body}*{nmea_checksum(body)}'
 
 
-def _error(msg, msg_type='nmea'):
+def _error(msg, msg_format='nmea'):
     with pytest.raises(azarashi.AzarashiInvalidMessageError) as excinfo:
-        azarashi.decode(msg, msg_type)
+        azarashi.decode(msg, msg_format)
     return excinfo.value.message
 
 
@@ -64,20 +64,20 @@ def test_spresense_is_nmea():
     assert azarashi.decode(EEW, 'spresense') == azarashi.decode(EEW, 'nmea')
 
 
-@pytest.mark.parametrize('msg, msg_type', [(EEW.encode() + b'\r\n', 'nmea'), (EEW_HEX.encode() + b'\n', 'hex')])
-def test_text_formats_take_a_line_of_bytes(msg, msg_type):  # as pySerial's readline() gives it
-    report = azarashi.decode(msg, msg_type)
+@pytest.mark.parametrize('msg, msg_format', [(EEW.encode() + b'\r\n', 'nmea'), (EEW_HEX.encode() + b'\n', 'hex')])
+def test_text_formats_take_a_line_of_bytes(msg, msg_format):  # as pySerial's readline() gives it
+    report = azarashi.decode(msg, msg_format)
     assert report == azarashi.decode(EEW)
     assert isinstance(report.sentence, str)
 
 
-@pytest.mark.parametrize('msg, msg_type, message', [
+@pytest.mark.parametrize('msg, msg_format, message', [
     (b'\xff' * 76, 'nmea', 'Checksum Not Found'),
     (b'\xff' * 63, 'hex', 'Invalid Message'),
     ('7' + '0' * 32, 'net', 'Invalid Sentence'),  # a datagram is bytes
 ])
-def test_wrong_kind_of_input_is_a_decoder_error(msg, msg_type, message):
-    assert _error(msg, msg_type) == message
+def test_wrong_kind_of_input_is_a_decoder_error(msg, msg_format, message):
+    assert _error(msg, msg_format) == message
 
 
 # hex

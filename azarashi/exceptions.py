@@ -133,7 +133,7 @@ class AzarashiFixTheCall(AzarashiException):
 class AzarashiUnsupportedFormatError(AzarashiFixTheCall, ValueError):
     """The format asked for is not one azarashi reads, or not one this call reads.
 
-    A msg_type outside nmea, spresense, hex, ublox, l1s and net; net given to a call that
+    A msg_format outside nmea, spresense, hex, ublox, l1s and net; net given to a call that
     reads a stream, or l1s to decode(), which takes one message; or a timestamp given
     with l1s, which gives the time of every message. It is a ValueError: the argument
     is one azarashi does not take.

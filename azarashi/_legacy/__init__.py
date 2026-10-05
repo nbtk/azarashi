@@ -1,7 +1,9 @@
 """The names of earlier versions, kept so that code written for them runs unchanged.
 
-New code uses the current names. Every earlier name lives in this package, here and in
-qzss_dc_report.py, and the package azarashi hands them out; nothing inside azarashi uses them.
+New code uses the current names. Every earlier name lives in this package. The names of classes
+and exceptions are here and in qzss_dc_report.py, and the package azarashi hands them out. The
+keyword msg_type is in arguments.py, and the functions that take msg_format take it through
+takes_msg_type(). Nothing else inside azarashi uses them.
 """
 from . import qzss_dc_report
 from ..exceptions import AzarashiInvalidMessageError

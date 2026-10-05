@@ -41,11 +41,11 @@ def pty():
 def test_a_device_pulled_out_is_a_stream_error(pty):
     master, port = pty
     os.write(master, EEW.encode() + b'\r\n')
-    assert azarashi.decode_stream(port, msg_type='nmea').message_type == 'DCR'
+    assert azarashi.decode_stream(port, msg_format='nmea').message_type == 'DCR'
     os.close(master)  # the device disappears
     time.sleep(0.1)
     with pytest.raises(azarashi.AzarashiReopenStream) as excinfo:
-        azarashi.decode_stream(port, msg_type='nmea')
+        azarashi.decode_stream(port, msg_format='nmea')
     assert isinstance(excinfo.value.__cause__, serial.SerialException)
 
 
@@ -54,10 +54,10 @@ def test_a_device_pulled_out_is_told_apart_from_a_stream_that_ended(pty):
     os.close(master)
     time.sleep(0.1)
     with pytest.raises(azarashi.AzarashiReopenStream):
-        azarashi.decode_stream(port, msg_type='nmea')
+        azarashi.decode_stream(port, msg_format='nmea')
     # a stream that ended raises EOFError, so the two do not need the same handling
     with pytest.raises(EOFError) as excinfo:
-        azarashi.decode_stream(io.StringIO(''), msg_type='nmea')
+        azarashi.decode_stream(io.StringIO(''), msg_format='nmea')
     assert not isinstance(excinfo.value, azarashi.AzarashiReopenStream)
 
 
@@ -76,26 +76,26 @@ class _Unplugged:
     read1 = read
 
 
-@pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
+@pytest.mark.parametrize('msg_format', ['nmea', 'hex', 'ublox'])
 @pytest.mark.parametrize('error', [
     serial.SerialException('device reports readiness to read but returned no data'),
     serial.SerialException('read failed: [Errno 6] Device not configured'),
     OSError(5, 'Input/output error'),
 ])
-def test_every_format_reports_a_failing_stream_the_same_way(msg_type, error):
+def test_every_format_reports_a_failing_stream_the_same_way(msg_format, error):
     with pytest.raises(azarashi.AzarashiDisconnectedError) as excinfo:
-        azarashi.decode_stream(_Unplugged(error), msg_type=msg_type)
+        azarashi.decode_stream(_Unplugged(error), msg_format=msg_format)
     assert excinfo.value.__cause__ is error
     assert str(excinfo.value) == f'{type(error).__name__}: {error}'
 
 
-@pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
-def test_no_clause_order_turns_a_failing_stream_into_something_else(msg_type):
+@pytest.mark.parametrize('msg_format', ['nmea', 'hex', 'ublox'])
+def test_no_clause_order_turns_a_failing_stream_into_something_else(msg_format):
     # AzarashiReadOn says the next message can be read and EOFError says the data ended, so a
     # pulled-out device must be taken for neither, whichever clause a caller happens to write first
     def caught(order):
         try:
-            azarashi.decode_stream(_Unplugged(serial.SerialException('device disconnected')), msg_type=msg_type)
+            azarashi.decode_stream(_Unplugged(serial.SerialException('device disconnected')), msg_format=msg_format)
         except order[0]:
             return 'first'
         except order[1]:
@@ -109,22 +109,22 @@ def test_no_clause_order_turns_a_failing_stream_into_something_else(msg_type):
     assert caught((ended, read_on, stream_error)) == 'third'
 
 
-@pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
-def test_handling_written_for_pyserial_still_catches_a_failing_stream(msg_type):
+@pytest.mark.parametrize('msg_format', ['nmea', 'hex', 'ublox'])
+def test_handling_written_for_pyserial_still_catches_a_failing_stream(msg_format):
     # pySerial raises serial.SerialException, which is an OSError: handling written for that has to keep working
     with pytest.raises(OSError):
-        azarashi.decode_stream(_Unplugged(serial.SerialException('device disconnected')), msg_type=msg_type)
+        azarashi.decode_stream(_Unplugged(serial.SerialException('device disconnected')), msg_format=msg_format)
 
 
-@pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
-def test_a_stream_closed_under_azarashi_is_a_stream_error(tmp_path, msg_type):
+@pytest.mark.parametrize('msg_format', ['nmea', 'hex', 'ublox'])
+def test_a_stream_closed_under_azarashi_is_a_stream_error(tmp_path, msg_format):
     # an io object raises ValueError, not OSError, once it is closed; reopening a device does that
     path = tmp_path / 'closed.nmea'
     path.write_bytes(EEW.encode() + b'\r\n')
     stream = path.open('rb')
     stream.close()
     with pytest.raises(azarashi.AzarashiStreamClosedError) as excinfo:
-        azarashi.decode_stream(stream, msg_type=msg_type)
+        azarashi.decode_stream(stream, msg_format=msg_format)
     assert isinstance(excinfo.value.__cause__, ValueError)
 
 
@@ -137,7 +137,7 @@ def test_a_value_error_from_elsewhere_is_left_alone():
             raise ValueError('a bug in the reader')
 
     with pytest.raises(ValueError) as excinfo:
-        azarashi.decode_stream(Broken(), msg_type='nmea')
+        azarashi.decode_stream(Broken(), msg_format='nmea')
     assert not isinstance(excinfo.value, azarashi.AzarashiReadOn)
 
 
@@ -159,14 +159,14 @@ def test_the_first_sentence_after_a_replug_is_not_lost():
     try:
         os.write(master, EEW[:20].encode())  # no newline, so the read times out with a part in hand
         with pytest.raises(azarashi.AzarashiTimeoutError):
-            azarashi.decode_stream(port, msg_type='nmea')
+            azarashi.decode_stream(port, msg_format='nmea')
         os.close(master)
         with pytest.raises(azarashi.AzarashiReopenStream):
-            azarashi.decode_stream(port, msg_type='nmea')
+            azarashi.decode_stream(port, msg_format='nmea')
 
         master, slave = _replug(port, slave)
         os.write(master, EEW.encode() + b'\r\n')
-        assert azarashi.decode_stream(port, msg_type='nmea').message_type == 'DCR'
+        assert azarashi.decode_stream(port, msg_format='nmea').message_type == 'DCR'
     finally:
         port.close()
         os.close(slave)
@@ -179,14 +179,14 @@ def test_the_first_frame_after_a_replug_is_not_lost():
     try:
         os.write(master, FRAME[:14])  # the header and part of the payload, then the cable goes
         with pytest.raises((azarashi.AzarashiReopenStream, azarashi.AzarashiTimeoutError)):
-            azarashi.decode_stream(port, msg_type='ublox')
+            azarashi.decode_stream(port, msg_format='ublox')
         os.close(master)
         with pytest.raises(azarashi.AzarashiReopenStream):
-            azarashi.decode_stream(port, msg_type='ublox')
+            azarashi.decode_stream(port, msg_format='ublox')
 
         master, slave = _replug(port, slave)
         os.write(master, FRAME)
-        assert azarashi.decode_stream(port, msg_type='ublox').message_type == 'DCR'
+        assert azarashi.decode_stream(port, msg_format='ublox').message_type == 'DCR'
     finally:
         port.close()
         os.close(slave)
@@ -205,7 +205,7 @@ def test_a_stream_that_fails_midway_through_a_frame_is_a_stream_error():
             return FRAME[:10]  # the header and part of the payload, then the cable goes
 
     with pytest.raises(azarashi.AzarashiReopenStream):
-        azarashi.decode_stream(HalfFrame(), msg_type='ublox')
+        azarashi.decode_stream(HalfFrame(), msg_format='ublox')
 
 
 class _Spun(BaseException):
@@ -366,7 +366,7 @@ def test_the_guard_notices_an_example_that_keeps_reading(monkeypatch, capsys):
                 "with serial.Serial('/dev/ttyS0', 9600) as ser:\n"
                 "    while True:\n"
                 "        try:\n"
-                "            azarashi.decode_stream(ser, msg_type='ublox', callback=print)\n"
+                "            azarashi.decode_stream(ser, msg_format='ublox', callback=print)\n"
                 "        except EOFError:\n"
                 "            break\n"
                 "        except Exception:\n"
@@ -383,7 +383,7 @@ def test_a_failing_callback_is_not_turned_into_a_stream_error():
         raise error
 
     with pytest.raises(OSError) as excinfo:
-        azarashi.decode_stream(io.StringIO(f'{EEW}\n'), msg_type='nmea', callback=callback)
+        azarashi.decode_stream(io.StringIO(f'{EEW}\n'), msg_format='nmea', callback=callback)
     assert excinfo.value is error
 
 
@@ -391,7 +391,7 @@ def test_the_two_reasons_to_reopen_are_told_apart_and_caught_together():
     # a log line wants to know which happened; a reading loop only wants to know to reopen
     def raised(stream):
         try:
-            azarashi.decode_stream(stream, msg_type='nmea')
+            azarashi.decode_stream(stream, msg_format='nmea')
         except azarashi.AzarashiReopenStream as e:  # the one clause covers both reasons
             return type(e)
 
@@ -423,9 +423,9 @@ def idle_socket():
         server.close()
 
 
-@pytest.mark.parametrize('msg_type', ['nmea', 'hex', 'ublox'])
+@pytest.mark.parametrize('msg_format', ['nmea', 'hex', 'ublox'])
 @pytest.mark.parametrize('buffering', [-1, 0], ids=['buffered', 'unbuffered'])
-def test_a_file_over_a_socket_that_timed_out_needs_a_new_stream(idle_socket, msg_type, buffering):
+def test_a_file_over_a_socket_that_timed_out_needs_a_new_stream(idle_socket, msg_format, buffering):
     """A read timeout on socket.makefile() leaves the file unusable, so a new stream is the way on.
 
     Python says as much of makefile() with a timeout, and it holds: the TimeoutError is followed by
@@ -436,12 +436,12 @@ def test_a_file_over_a_socket_that_timed_out_needs_a_new_stream(idle_socket, msg
     client, conn = idle_socket
     stream = client.makefile('rb', buffering=buffering)
     with pytest.raises(azarashi.AzarashiReopenStream):
-        azarashi.decode_stream(stream, msg_type=msg_type)
+        azarashi.decode_stream(stream, msg_format=msg_format)
 
     conn.sendall(EEW.encode() + b'\r\n')  # the data it was waiting for, now that it is there
     time.sleep(0.1)
     with pytest.raises(azarashi.AzarashiReopenStream):
-        azarashi.decode_stream(stream, msg_type=msg_type)
+        azarashi.decode_stream(stream, msg_format=msg_format)
 
 
 def test_a_socket_read_with_a_timeout_resumes_through_pyserial(idle_socket):
@@ -464,13 +464,13 @@ def test_a_socket_read_with_a_timeout_resumes_through_pyserial(idle_socket):
         sentence = EEW.encode() + b'\r\n'
         peer.sendall(sentence[:30])
         with pytest.raises(azarashi.AzarashiTimeoutError):
-            azarashi.decode_stream(port, msg_type='nmea')
+            azarashi.decode_stream(port, msg_format='nmea')
 
         peer.sendall(sentence[30:])
-        assert azarashi.decode_stream(port, msg_type='nmea').message_type == 'DCR'
+        assert azarashi.decode_stream(port, msg_format='nmea').message_type == 'DCR'
 
         with pytest.raises(azarashi.AzarashiTimeoutError):  # and it can be read again after that
-            azarashi.decode_stream(port, msg_type='nmea')
+            azarashi.decode_stream(port, msg_format='nmea')
     finally:
         port.close()
         peer.close()

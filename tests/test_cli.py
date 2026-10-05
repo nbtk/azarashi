@@ -90,9 +90,9 @@ def test_header_time_is_utc_with_z(monkeypatch, capsys):
 
 
 def test_header_time_is_when_the_message_arrived(monkeypatch, capsys):
-    def decode_stream(stream, msg_type, **kwargs):
+    def decode_stream(stream, msg_format, **kwargs):
         time.sleep(0.3)  # the message takes a while to arrive
-        return azarashi.decode_stream(stream, msg_type, **kwargs)
+        return azarashi.decode_stream(stream, msg_format, **kwargs)
 
     monkeypatch.setattr(cli, 'decode_stream', decode_stream)
     started = datetime.datetime.now(datetime.UTC)
@@ -137,10 +137,10 @@ def test_decoder_errors_are_reported_and_skipped(monkeypatch, capsys):
     errors = [azarashi.AzarashiNotImplementedError('Decoder Not Implemented'),
               azarashi.AzarashiInvalidMessageError('Bad Message')]
 
-    def decode_stream(stream, msg_type, **kwargs):
+    def decode_stream(stream, msg_format, **kwargs):
         if errors:
             raise errors.pop()
-        return azarashi.decode_stream(stream, msg_type, **kwargs)
+        return azarashi.decode_stream(stream, msg_format, **kwargs)
 
     monkeypatch.setattr(cli, 'decode_stream', decode_stream)
     code, out, err = _run(monkeypatch, capsys, ['nmea'], EEW.encode() + b'\r\n')

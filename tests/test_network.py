@@ -90,7 +90,7 @@ def test_transmitter_survives_a_failed_send(monkeypatch, udp_sink, options):
 def test_transmitter_relays_dcr_and_dcx(udp_sink):
     xmitter = transmitter.Transmitter('127.0.0.1', udp_sink.getsockname()[1], socket.AF_INET)
     with pytest.raises(EOFError):
-        xmitter.start(io.BytesIO(f'{EEW}\r\n{L_ALERT}\r\n'.encode()), msg_type='nmea')
+        xmitter.start(io.BytesIO(f'{EEW}\r\n{L_ALERT}\r\n'.encode()), msg_format='nmea')
     received = [azarashi.decode(udp_sink.recv(256), 'net') for _ in range(2)]
     assert [r.message_type for r in received] == ['DCR', 'DCX']
 
@@ -236,7 +236,7 @@ def test_transmitter_command_warns_about_decoder_errors(monkeypatch, caplog, udp
 def test_transmitter_command_warns_about_unimplemented_decoders(monkeypatch, caplog):
     errors = [azarashi.AzarashiNotImplementedError('Decoder Not Implemented')]
 
-    def start(self, stream, msg_type, unique):
+    def start(self, stream, msg_format, unique):
         if errors:
             raise errors.pop()
         raise EOFError('Encountered EOF')

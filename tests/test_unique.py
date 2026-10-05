@@ -74,8 +74,8 @@ def test_unique_seconds_uses_the_last_reception_time(monkeypatch, offsets, deliv
     times = iter(start + datetime.timedelta(seconds=offset) for offset in offsets)
     decode = DI._decode  # what decode_stream() decodes each message with
 
-    def at_reception(msg, msg_type, timestamp):
-        return decode(msg, msg_type, timestamp=next(times))
+    def at_reception(msg, msg_format, timestamp):
+        return decode(msg, msg_format, timestamp=next(times))
 
     monkeypatch.setattr(DI, '_decode', at_reception)
     reports = []
@@ -97,7 +97,7 @@ def test_callback_mutation_does_not_change_reception_time_or_reservation(monkeyp
     start = datetime.datetime(2026, 9, 21, tzinfo=datetime.UTC)
     times = iter([start, start + datetime.timedelta(seconds=61), start + datetime.timedelta(seconds=62)])
     decode = DI._decode
-    monkeypatch.setattr(DI, '_decode', lambda msg, msg_type, timestamp: decode(msg, msg_type, next(times)))
+    monkeypatch.setattr(DI, '_decode', lambda msg, msg_format, timestamp: decode(msg, msg_format, next(times)))
     seen = []
 
     def callback(report):

@@ -173,7 +173,7 @@ def pop_bytes(size: int,
               buf: bytearray,
               reader: Callable[..., bytes | None],
               reader_args: tuple[Any, ...],
-              msg_type: str) -> bytes:
+              msg_format: str) -> bytes:
     """Take size bytes from buf, reading the binary stream until it holds them; what was read stays in buf until then."""
     while size > len(buf):
         try:
@@ -181,7 +181,7 @@ def pop_bytes(size: int,
         except AzarashiReopenStream:
             buf.clear()  # the rest of the frame can never arrive, and the bytes read are half of one
             raise
-        _check_read_kind(data, (bytes, bytearray, memoryview), f'{msg_type} reads bytes: open the stream in binary mode')
+        _check_read_kind(data, (bytes, bytearray, memoryview), f'{msg_format} reads bytes: open the stream in binary mode')
         if not data:
             raise _empty_read_error(reader)
         buf += data

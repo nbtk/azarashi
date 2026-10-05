@@ -47,12 +47,15 @@ def test_the_typing_marker_is_there_and_ships():
 
 
 def test_the_earlier_names_are_all_in_one_module():
-    # Earlier names belong in _legacy/, and the package exports only. Internal modules use the current names.
+    # Earlier names belong in _legacy/, and the package exports only. Internal modules use the current names;
+    # the functions that take msg_format take its earlier name through takes_msg_type(), and import nothing else.
     legacy = importlib.import_module('azarashi._legacy')
     assert set(legacy.__all__) <= set(azarashi.__all__)
     assert all(getattr(azarashi, name) is getattr(legacy, name) for name in legacy.__all__)
     for path in _outside_legacy():
-        assert '_legacy' not in path.read_text(encoding='utf-8'), f'{path} would keep the earlier names alive'
+        text = re.sub(r'^from \.+_legacy\.arguments import takes_msg_type$', '', path.read_text(encoding='utf-8'),
+                      flags=re.MULTILINE)
+        assert '_legacy' not in text, f'{path} would keep the earlier names alive'
 
 
 def test_no_earlier_name_is_used_inside_the_package():

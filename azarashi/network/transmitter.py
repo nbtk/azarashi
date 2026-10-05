@@ -14,6 +14,7 @@ from ..exceptions import AzarashiReopenStream
 from ..api import StreamFormat
 from ..api import QzssDcrStream
 from ..api import decode_stream
+from .._legacy.arguments import takes_msg_type
 
 logger = logging.getLogger(__name__)
 
@@ -32,12 +33,13 @@ class Transmitter:
             logger.info(report.nmea)
             sock.sendto(sat_id + report.message, self.addr_info[-1])
 
-    def start(self, stream: QzssDcrStream | None = None, msg_type: StreamFormat = 'ublox',
+    @takes_msg_type
+    def start(self, stream: QzssDcrStream | None = None, msg_format: StreamFormat = 'ublox',
               unique: bool | float = False) -> None:
         # sys.stdin as it is now, not as it was when this module was read
         source: QzssDcrStream = sys.stdin if stream is None else stream
         # relay every message; receivers choose what to use
-        decode_stream(source, msg_type=msg_type, callback=self.handler, unique=unique,
+        decode_stream(source, msg_format=msg_format, callback=self.handler, unique=unique,
                       ignore_dcr=False, ignore_dcx=False)
 
 
@@ -47,8 +49,10 @@ def main() -> int:
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-d', '--dst-host', help="destination host", type=str, default='ff02::1')
     parser.add_argument('-p', '--dst-port', help='destination port', type=int, default=2112)
-    parser.add_argument('-t', '--msg-type', help="message type", type=str, choices=['hex', 'nmea', 'ublox'],
+    parser.add_argument('-t', '--msg-format', help="message format", type=str, choices=['hex', 'nmea', 'ublox'],
                         default='nmea')
+    parser.add_argument('--msg-type', dest='msg_format', help=argparse.SUPPRESS, type=str,  # the earlier name of -t
+                        choices=['hex', 'nmea', 'ublox'], default=argparse.SUPPRESS)
     parser.add_argument('-f', '--input', help='input serial device or file', type=str, default='stdin')
     parser.add_argument('-b', '--baudrate', help='baud rate of the serial device', type=int, default=9600)
     parser.add_argument('--record', help='append the raw input to this file', type=str, default=None)
@@ -61,7 +65,7 @@ def main() -> int:
     xmitter = Transmitter(dst_host=args.dst_host, dst_port=args.dst_port)
     while True:
         try:
-            xmitter.start(stream=stream, msg_type=args.msg_type, unique=args.unique)
+            xmitter.start(stream=stream, msg_format=args.msg_format, unique=args.unique)
         except AzarashiReadOn as e:
             logger.warning(f'[{type(e).__name__}] {e}')
         except EOFError as e:

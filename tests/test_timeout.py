@@ -55,13 +55,13 @@ def test_ublox_frame_split_by_a_timeout():
             azarashi.decode_stream(stream, 'ublox')
 
 
-@pytest.mark.parametrize('msg_type, line', [('nmea', EEW_LINE), ('hex', EEW_HEX_LINE)])
-def test_line_split_by_a_timeout(msg_type, line):
+@pytest.mark.parametrize('msg_format, line', [('nmea', EEW_LINE), ('hex', EEW_HEX_LINE)])
+def test_line_split_by_a_timeout(msg_format, line):
     for split in range(1, len(line)):
         stream = _SerialLike(line[:split], b'', line[split:])
         with pytest.raises(azarashi.AzarashiTimeoutError):
-            azarashi.decode_stream(stream, msg_type)
-        assert azarashi.decode_stream(stream, msg_type) == _expected(), split
+            azarashi.decode_stream(stream, msg_format)
+        assert azarashi.decode_stream(stream, msg_format) == _expected(), split
 
 
 def test_a_timeout_is_not_the_end_of_the_data():
@@ -73,26 +73,26 @@ def test_a_timeout_is_not_the_end_of_the_data():
     assert isinstance(e.value, azarashi.AzarashiReadOn)  # the way on is to read again
 
 
-@pytest.mark.parametrize('msg_type, data', [('ublox', FRAME[:10]), ('nmea', b'$GPGGA,,'), ('hex', b'')])
-def test_streams_without_a_timeout_still_end_with_eof(msg_type, data):
+@pytest.mark.parametrize('msg_format, data', [('ublox', FRAME[:10]), ('nmea', b'$GPGGA,,'), ('hex', b'')])
+def test_streams_without_a_timeout_still_end_with_eof(msg_format, data):
     with pytest.raises(EOFError) as e:
-        azarashi.decode_stream(io.BytesIO(data), msg_type)
+        azarashi.decode_stream(io.BytesIO(data), msg_format)
     # the data ended, which is not the timeout of a stream that may still send more
     assert isinstance(e.value, azarashi.AzarashiNoMoreData)
     assert not isinstance(e.value, azarashi.AzarashiTimeoutError)
 
 
 @pytest.mark.skipif(not hasattr(os, 'openpty'), reason='needs a pseudo terminal')
-@pytest.mark.parametrize('msg_type, data', [('ublox', FRAME), ('nmea', EEW_LINE)])
-def test_pyserial_timeout_mid_message(msg_type, data):
+@pytest.mark.parametrize('msg_format, data', [('ublox', FRAME), ('nmea', EEW_LINE)])
+def test_pyserial_timeout_mid_message(msg_format, data):
     master, slave = os.openpty()
     try:
         with serial.Serial(os.ttyname(slave), 115200, timeout=0.2) as port:
             os.write(master, data[:20])
             with pytest.raises(azarashi.AzarashiTimeoutError):
-                azarashi.decode_stream(port, msg_type)
+                azarashi.decode_stream(port, msg_format)
             os.write(master, data[20:])
-            assert azarashi.decode_stream(port, msg_type) == _expected()
+            assert azarashi.decode_stream(port, msg_format) == _expected()
     finally:
         os.close(master)
         os.close(slave)

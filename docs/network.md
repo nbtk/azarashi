@@ -3,7 +3,7 @@
 # Network
 azarashi には、受信したデータを UDP パケットで別の装置に送るための、送信側と受信側の2つのスクリプトがあります。この2つのスクリプトは、アンテナを置く場所と、データを処理する装置が離れているときに使います。どちらのスクリプトも、IPv4 と IPv6 の両方に対応しています。
 ## Transmitter
-送信側のスクリプトは `azarashi.network.transmitter` です。transmitter は、DCR と DCX の両方のメッセージを送信します。デフォルトの宛先は IPv6 のリンクローカルマルチキャストアドレスです。宛先を変えるときは `-d` で指定してください。`-f`、`-b`、`--record` の使い方は [azarashi コマンド](cli.md) と同じです。
+送信側のスクリプトは `azarashi.network.transmitter` です。transmitter は、DCR と DCX の両方のメッセージを送信します。デフォルトの宛先は IPv6 のリンクローカルマルチキャストアドレスです。宛先を変えるときは `-d` で指定してください。`--msg-format` は、以前の名前の `--msg-type` でも指定できます。`-f`、`-b`、`--record` の使い方は [azarashi コマンド](cli.md) と同じです。
 ```shell
 $ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0 -b 9600
 ```
@@ -20,8 +20,8 @@ options:
                         destination host (default: ff02::1)
   -p DST_PORT, --dst-port DST_PORT
                         destination port (default: 2112)
-  -t {hex,nmea,ublox}, --msg-type {hex,nmea,ublox}
-                        message type (default: nmea)
+  -t {hex,nmea,ublox}, --msg-format {hex,nmea,ublox}
+                        message format (default: nmea)
   -f INPUT, --input INPUT
                         input serial device or file (default: stdin)
   -b BAUDRATE, --baudrate BAUDRATE

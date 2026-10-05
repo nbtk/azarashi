@@ -14,7 +14,7 @@ usage: azarashi [-h] [-f INPUT] [-b BAUDRATE] [--record RECORD] [--time TIME]
 azarashi CLI
 
 positional arguments:
-  {hex,nmea,ublox,l1s}  message type
+  {hex,nmea,ublox,l1s}  message format
 
 options:
   -h, --help            show this help message and exit

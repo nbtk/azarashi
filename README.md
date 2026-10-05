@@ -56,7 +56,7 @@ import serial
 with serial.Serial('/dev/ttyS0', 9600) as ser:
     while True:
         try:
-            azarashi.decode_stream(ser, msg_type='ublox', callback=print)
+            azarashi.decode_stream(ser, msg_format='ublox', callback=print)
         except azarashi.AzarashiReadOn as e:
             print(f'# [{type(e).__name__}] {e}')
         except azarashi.AzarashiReopenStream as e:

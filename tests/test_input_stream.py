@@ -58,18 +58,18 @@ def test_names_that_are_not_paths_go_to_pyserial():
         assert (port.baudrate, port.timeout) == (38400, None)
 
 
-@pytest.mark.parametrize('msg_type, data, make_stream', [
+@pytest.mark.parametrize('msg_format, data, make_stream', [
     ('ublox', b'noise' + FRAME + FRAME, io.BytesIO),   # read1()
     ('ublox', b'noise' + FRAME + FRAME, _ReadOnly),    # read(1)
     ('nmea', (EEW + '\r\n').encode() * 2, io.BytesIO),  # readline()
 ])
-def test_recording_copies_everything_read(tmp_path, msg_type, data, make_stream):
+def test_recording_copies_everything_read(tmp_path, msg_format, data, make_stream):
     path = tmp_path / 'record'
     stream = RecordingStream(make_stream(data), open(path, 'ab'))
     reports = []
     with pytest.raises(EOFError):
         while True:
-            reports.append(azarashi.decode_stream(stream, msg_type))
+            reports.append(azarashi.decode_stream(stream, msg_format))
     stream.close()
     assert reports == [azarashi.decode(EEW, 'nmea')] * 2
     assert path.read_bytes() == data
