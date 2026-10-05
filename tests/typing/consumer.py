@@ -98,8 +98,8 @@ if isinstance(report, reports.dcr.Tsunami):
         forecast_arrival: datetime.datetime | None = forecast.arrival_time
         forecast_hour: int = forecast.arrival_time_raw['hour']
 
-json_record: dict[str, azarashi.JsonValue] = azarashi.to_json_dict(report)
-ndjson_line: str = azarashi.to_ndjson(report)
+json_record: dict[str, azarashi.JsonValue] = report.to_json_dict()
+ndjson_line: str = report.to_ndjson()
 json_contract: dict[str, azarashi.JsonValue] = azarashi.json_schema()
 json_code_tables: dict[str, azarashi.JsonValue] = azarashi.code_tables()
 own_text: str = report.get_text()

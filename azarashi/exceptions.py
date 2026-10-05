@@ -145,7 +145,7 @@ class AzarashiArgumentTypeError(AzarashiFixTheCall, TypeError):
 
     A message that is neither text nor bytes, a timestamp that is not a datetime, a stream without
     the method its format reads with or one that gives text where bytes are read, a callback that
-    cannot be called, callback arguments that are not a sequence or a mapping of names, a unique=
-    that is neither a truth value nor a number, or something given to the JSON conversion that is
-    not a report. It is a TypeError, as Python's own calls report an argument of the wrong kind.
+    cannot be called, callback arguments that are not a sequence or a mapping of names, or a unique=
+    that is neither a truth value nor a number. It is a TypeError, as Python's own calls report an
+    argument of the wrong kind.
     """

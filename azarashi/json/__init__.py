@@ -12,8 +12,8 @@ from ..reports import Report
 SCHEMA = "schemas/report-v2.schema.json"
 
 
-def to_json_dict(report: Report) -> dict[str, JsonValue]:
-    """Return an independent JSON v2 record of the report."""
+def record(report: Report) -> dict[str, JsonValue]:
+    """The JSON v2 record of the report, a new dict at each call: what report.to_json_dict() returns."""
     name = report_name(report)
     data = dcr_model(name, report) if name in DCR_TYPES else dcx_model(name, report)
     record: dict[str, object] = {
@@ -36,20 +36,20 @@ def to_json_dict(report: Report) -> dict[str, JsonValue]:
     return result
 
 
-def to_ndjson(report: Report) -> str:
-    """Return one compact JSON record with a trailing newline."""
-    return json.dumps(to_json_dict(report), ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n"
+def ndjson(report: Report) -> str:
+    """The JSON v2 record as one compact line with a trailing newline: what report.to_ndjson() returns."""
+    return json.dumps(record(report), ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n"
 
 
 def json_schema() -> dict[str, JsonValue]:
-    """Return an independent copy of the bundled JSON v2 schema."""
+    """Return the bundled JSON v2 schema, a new dict at each call."""
     result = copy_json(json.loads(files("azarashi.json").joinpath(SCHEMA).read_text(encoding="utf-8")))
     assert isinstance(result, dict)
     return result
 
 
 def code_tables() -> dict[str, JsonValue]:
-    """Return the code tables that the JSON v2 records name, made anew from azarashi's own tables."""
+    """Return the code tables that the JSON v2 records name, a new dict at each call."""
     result = copy_json(_code_tables())
     assert isinstance(result, dict)
     return result

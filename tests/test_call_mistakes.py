@@ -150,10 +150,3 @@ def test_reset_refuses_a_wrong_call(stream, msg_type, error):
     with pytest.raises(error):
         azarashi.reset_reading_state(stream, msg_type)
 
-
-# the JSON conversion
-
-@pytest.mark.parametrize('convert', [azarashi.to_json_dict, azarashi.to_ndjson])
-def test_the_json_conversion_refuses_what_is_not_a_report(convert):
-    with pytest.raises(KIND, match='Unsupported report type'):
-        convert(object())

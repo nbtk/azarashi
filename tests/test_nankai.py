@@ -84,9 +84,9 @@ def test_issue_and_cancellation_pages_have_separate_keys_and_are_not_assembled_t
     pages = _announcement_a()
     for page in range(1, 27):
         issued = azarashi.decode(with_fields(pages[page], [(41, 2, 0)]))
-    issue_key = azarashi.to_json_dict(issued)['series']['key']
+    issue_key = issued.to_json_dict()['series']['key']
     cancelled = azarashi.decode(with_fields(pages[27], [(41, 2, 2)]))
-    cancellation = azarashi.to_json_dict(cancelled)['series']
+    cancellation = cancelled.to_json_dict()['series']
     assert cancellation['lifecycle'] == 'cancellation' and cancellation['key'] != issue_key
     assert cancelled.completed is False and set(Nankai.reports) == {27}
     assert cancelled.extract_text_information() == '受信中 (27) [1/27]'

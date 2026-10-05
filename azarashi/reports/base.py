@@ -1,7 +1,11 @@
 """What every report carries, whatever the message said."""
 from copy import deepcopy
 from datetime import datetime, UTC
-from typing import Any, TypedDict, overload
+from typing import TYPE_CHECKING, Any, TypedDict, cast, overload
+
+if TYPE_CHECKING:
+    from ..json.model import JsonValue
+    from . import Report
 
 
 @overload
@@ -117,3 +121,13 @@ class MessageBase(MessagePartial):
         super().__init__(**kwargs)
         self.preamble = preamble
         self.message_type = message_type
+
+    def to_json_dict(self) -> dict[str, 'JsonValue']:
+        """The JSON v2 record of the report, a new dict at each call."""
+        from ..json import record  # the JSON model reads the report classes, so it is imported when first used
+        return record(cast('Report', self))
+
+    def to_ndjson(self) -> str:
+        """The JSON v2 record of the report as one compact line, with a trailing newline."""
+        from ..json import ndjson
+        return ndjson(cast('Report', self))

@@ -2,7 +2,7 @@
 from azarashi import decode
 import json
 from pathlib import Path
-from azarashi import json_schema, to_json_dict
+from azarashi import json_schema
 from azarashi.json.model import TYPE_NAMES
 from test_declared_types import REPORTS, RECEIVED
 from test_dcx_fields import dcx, JAPAN
@@ -64,9 +64,9 @@ if __name__ == '__main__':
     validator = Draft202012Validator(strict(json_schema()), format_checker=FormatChecker())
     chosen = fixtures()
     for r in chosen:
-        validator.validate(to_json_dict(r))
+        validator.validate(r.to_json_dict())
     folder = root / 'docs/json'
-    records = [to_json_dict(r) for r in chosen]
+    records = [r.to_json_dict() for r in chosen]
     (folder / 'report-v2.examples.ndjson').write_text(''.join(
         json.dumps(r, ensure_ascii=False, allow_nan=False, separators=(',', ':')) + '\n'
         for r in records), encoding='utf-8')

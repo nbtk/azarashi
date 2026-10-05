@@ -59,7 +59,7 @@ def render_json(log):
     with open(os.path.join(TESTS, log), encoding='utf-8') as f:
         for line in f:
             if line.startswith('$QZQSM'):
-                records.append(azarashi.to_ndjson(nmea.Decoder(line.strip(), timestamp=LOGS[log]).decode()))
+                records.append(nmea.Decoder(line.strip(), timestamp=LOGS[log]).decode().to_ndjson())
     return ''.join(records)
 
 

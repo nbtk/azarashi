@@ -103,7 +103,7 @@ RUN = [('docs/api.md', 'def handler(report: azarashi.Report)'),
        ('docs/api.md', "open('qzss.ubx', mode='rb')"),
        ('docs/api.md', "serial.serial_for_url('socket://"),
        ('docs/reports.md', 'report.get_texts()'),
-       ('docs/json.md', 'azarashi.to_json_dict(report)'),
+       ('docs/json.md', 'report.to_json_dict()'),
        ('docs/dcr.md', 'for forecast in report.forecasts:'),
        ('docs/development.md', 'from qzqsm import jma, sfrbx')]
 
@@ -195,9 +195,9 @@ def test_the_text_example_calls_what_reports_have():
 
 
 def test_the_json_example_gives_a_record_the_schema_and_the_tables(capsys):
-    names = _run('docs/json.md', 'azarashi.to_json_dict(report)', {'sentence': EEW})
+    names = _run('docs/json.md', 'report.to_json_dict()', {'sentence': EEW})
     assert names['record']['type'] == 'qzss.dcr.earthquake_early_warning'
-    assert capsys.readouterr().out == azarashi.to_ndjson(names['report'])
+    assert capsys.readouterr().out == names['report'].to_ndjson()
     assert names['schema']['$id'] == 'urn:azarashi:report:2' and names['tables']['tables']
 
 

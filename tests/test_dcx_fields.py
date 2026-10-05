@@ -3,7 +3,6 @@ import datetime
 
 import pytest
 
-import azarashi
 from azarashi.decoders import nmea
 from azarashi.definitions.camf import d_fields as b4
 from azarashi import reports
@@ -172,7 +171,7 @@ def test_japanese_library_without_instruction():
     assert report.a11_japanese_library == 'No instruction'
     assert 'A11 - Instruction: No instruction\n' in str(report)
     assert 'A11 - Instruction (ja): 指示なし\n' in str(report)
-    content = azarashi.to_json_dict(report)['data']['instruction']['content']
+    content = report.to_json_dict()['data']['instruction']['content']
     assert (content['code'], content['status'], content['labels']) == ('0', 'special',
                                                                        {'ja': '指示なし', 'en': 'No instruction'})
 

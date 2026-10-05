@@ -2,7 +2,7 @@
 
 # JSON Output v2
 
-`to_json_dict()` と `to_ndjson()`、CLI の `--json` が出力する JSON の形式と、各項目の意味を説明します。
+レポートの `to_json_dict()` と `to_ndjson()`、CLI の `--json` が出力する JSON の形式と、各項目の意味を説明します。
 
 - [JSON Schema](../azarashi/json/schemas/report-v2.schema.json)：Draft 2020-12、全18種類
 - [コード表](json/code-tables-v2.json)：レコードの `table` と `code` で引ける表
@@ -18,23 +18,17 @@ import sys
 import azarashi
 
 report = azarashi.decode(sentence, 'nmea')
-record = azarashi.to_json_dict(report)
-sys.stdout.write(azarashi.to_ndjson(report))
+record = report.to_json_dict()
+sys.stdout.write(report.to_ndjson())
 schema = azarashi.json_schema()
 tables = azarashi.code_tables()
 ```
 
-`to_json_dict(report)` は独立した辞書を返します。戻り値を変更しても、レポートや次の出力に影響しません。
-`to_ndjson(report)` は末尾の改行を含む1件分の文字列です。`print()` を使う場合は `end=''` を指定します。
-`json_schema()` はパッケージに同梱されたスキーマを、`code_tables()` はコード表を辞書として返します。
-どちらも呼び出すたびに新しい辞書を返します。
-辞書の戻り値の型は `dict[str, JsonValue]` です。`JsonValue` は JSON で表せる値の型で、`azarashi` からインポートできます。
-
-レポートのサブクラスは基底クラスと同じ形式で出力し、追加した属性は含めません。
-レポートでないものを渡すと `AzarashiArgumentTypeError` になります。これは `TypeError` の一種です。
-azarashi がデコードしたレポートは、必ず JSON にできます。あとから属性に NaN や無限大、要素数の
-そろわない予報の配列などを設定すると、変換が失敗します。
-コードの名前はコード表から取ります。レポートの表示用の属性だけを変更しても、`data` の `labels` は変わりません。
+レポートの `to_json_dict()` はレコードを、`json_schema()` はパッケージに同梱されたスキーマを、`code_tables()` はコード表を辞書として返します。
+どれも呼び出すたびに新しい辞書を返すので、書き換えても、レポートやほかの呼び出しの結果は変わりません。
+レポートの `to_ndjson()` は末尾の改行を含む1件分の文字列です。`print()` を使う場合は `end=''` を指定します。
+型ヒントでは、3つの戻り値は `dict[str, JsonValue]` です。`JsonValue` は、JSON の値を表す型の別名です。
+文字列・整数・小数・真偽値・`None`、または中身が `JsonValue` のリストと辞書です。`azarashi` から import できます。
 
 ## CLI
 
@@ -579,7 +573,8 @@ Galileo EWS に対応するときは、v3 にします。v2 の `reception.satel
 ## Examples and Tests
 
 スキーマは配布パッケージの `azarashi/json/schemas/report-v2.schema.json` に含まれ、`json_schema()` で取得できます。
-公開する名前は `azarashi` から取れる5つだけで、`azarashi.json` の中の内部名は互換性の対象ではありません。
+公開しているのは、レポートの `to_json_dict()`・`to_ndjson()` と、`azarashi` から取れる `json_schema()`・`code_tables()`・`JsonValue` です。
+`azarashi.json` の中の内部名は互換性の対象ではありません。
 スキーマ、例、docs のコード表のファイルを作り直すコードは `tests/examples/` にあります。
 
 ```shell

@@ -8,7 +8,7 @@ import pytest
 
 from azarashi.decoders import nmea
 
-from azarashi import code_tables, json_schema, to_json_dict as example_record
+from azarashi import code_tables, json_schema
 from azarashi.json.model import PROFILES, TYPE_NAMES
 from azarashi.json.tables import TABLES, code_tables as built_code_tables
 from examples.generate import code_tables_text, fixtures
@@ -54,20 +54,20 @@ def test_the_published_schema_closes_no_object():
 
 @pytest.mark.parametrize('report', REPORTS)
 def test_real_and_crafted_reports_conform(report):
-    VALIDATOR.validate(example_record(report))
+    VALIDATOR.validate(report.to_json_dict())
 
 
 def test_saved_examples_are_complete_reproducible_and_cover_all_types():
     rows = [json.loads(line) for line in (FOLDER / 'report-v2.examples.ndjson').read_text(encoding='utf-8').splitlines()]
     assert rows == json.loads((FOLDER / 'report-v2.examples.pretty.json').read_text(encoding='utf-8'))
-    assert rows == [example_record(r) for r in fixtures()]
+    assert rows == [r.to_json_dict() for r in fixtures()]
     assert {r['type'] for r in rows} == set(TYPE_NAMES.values())
     for row in rows:
         VALIDATOR.validate(row)
 
 
 def record(name):
-    return example_record(next(r for r in REPORTS if type(r).__name__ == name))
+    return next(r for r in REPORTS if type(r).__name__ == name).to_json_dict()
 
 
 @pytest.mark.parametrize('field', ['schema_version', 'type', 'is_test', 'message_id', 'reception', 'texts', 'data'])
@@ -107,7 +107,7 @@ def test_the_language_a_report_is_written_in_is_always_there(name, language):
 
 def test_the_texts_are_the_texts_of_the_report():
     for report in REPORTS:
-        texts = example_record(report)['texts']
+        texts = report.to_json_dict()['texts']
         assert texts == {language: report.get_text(language) for language in ('ja', 'en')
                          if report.get_text(language) is not None}
         assert report.get_text() in texts.values()
@@ -115,7 +115,7 @@ def test_the_texts_are_the_texts_of_the_report():
 
 def test_the_message_id_names_the_message_and_not_its_reception():
     for report in REPORTS:
-        row = example_record(report)
+        row = report.to_json_dict()
         system, content = row['message_id'].split(':')
         assert system == '.'.join(row['type'].split('.')[:2])
         assert content == report.raw.hex()
@@ -126,16 +126,16 @@ def test_the_message_id_names_the_message_and_not_its_reception():
     sentence = dcx(**JAPAN, a3=1, a14=1)
     body = sentence[1:].split('*')[0].replace('QZQSM,55,', 'QZQSM,57,')
     received = datetime.datetime(2026, 3, 7, 6, 0, tzinfo=datetime.UTC)
-    one = example_record(nmea.Decoder(sentence, timestamp=received).decode())
-    other = example_record(nmea.Decoder(f'${body}*{nmea_checksum(body)}',
-                                        timestamp=received + datetime.timedelta(minutes=5)).decode())
+    one = nmea.Decoder(sentence, timestamp=received).decode().to_json_dict()
+    other = nmea.Decoder(f'${body}*{nmea_checksum(body)}',
+                                        timestamp=received + datetime.timedelta(minutes=5)).decode().to_json_dict()
     assert one['reception'] != other['reception']
     assert one['message_id'] == other['message_id']
 
 
 def test_the_message_id_is_the_same_whatever_the_preamble_and_the_satellite_designation():
     from test_dcx_fields import JAPAN, _decode, dcx
-    ids = {example_record(_decode(dcx([(0, 8, preamble)], **JAPAN, a3=1, a14=1, sdmt=1, sdm=mask)))['message_id']
+    ids = {_decode(dcx([(0, 8, preamble)], **JAPAN, a3=1, a14=1, sdmt=1, sdm=mask)).to_json_dict()['message_id']
            for preamble, mask in [(0x9A, 0), (0x53, 0x1ff), (0xC6, 0x0f0)]}
     assert len(ids) == 1
 
@@ -156,7 +156,7 @@ def test_the_pages_of_one_nankai_announcement_are_one_series_of_messages():
     pages = {}
     for report in REPORTS:
         if type(report).__name__ == 'NankaiTroughEarthquake':
-            row = example_record(report)
+            row = report.to_json_dict()
             pages.setdefault(row['series']['key'], {})[report.page_number] = row['message_id']
     announcement = max(pages.values(), key=len)
     assert len(announcement) > 1  # the pages of one announcement, or the test proves nothing
@@ -167,7 +167,7 @@ def test_an_alert_and_its_all_clear_are_one_series_and_another_area_another():
     # IS-QZSS-DCX-004 4.2.3.1: A2, A3, A4 and EX1 name an L-Alert
     from test_dcx_fields import _decode, dcx
     def row(a1, ex1):
-        return example_record(_decode(dcx(a1=a1, a2=111, a3=1, a4=36, ex1=ex1)))
+        return _decode(dcx(a1=a1, a2=111, a3=1, a4=36, ex1=ex1)).to_json_dict()
     alert, all_clear, elsewhere = row(1, 43213), row(3, 43213), row(1, 43214)
     assert (alert['series']['lifecycle'], all_clear['series']['lifecycle']) == ('issue', 'all_clear')
     assert alert['series']['key'] == all_clear['series']['key'] != elsewhere['series']['key']
@@ -178,7 +178,7 @@ def test_a_dcr_information_type_outside_the_table_has_a_null_lifecycle():
     from qzqsm import with_fields
     from test_dcr import TSUNAMI
     from azarashi import decode
-    row = example_record(decode(with_fields(TSUNAMI, [(41, 2, 3)])))
+    row = decode(with_fields(TSUNAMI, [(41, 2, 3)])).to_json_dict()
     assert row['series']['lifecycle'] is None
     VALIDATOR.validate(row)
 
@@ -252,7 +252,7 @@ def test_an_assumed_hypocenter_marks_its_depth_and_magnitude():
     from test_dcr import EEW
     report = decode(EEW)
     report.assumptive = True
-    data = example_record(report)['data']
+    data = report.to_json_dict()['data']
     assert data['depth']['status'] == data['magnitude']['status'] == 'assumed'
     assert data['epicenter']['status'] == 'valid'
 
@@ -280,7 +280,7 @@ def test_quantity_rejects_empty_ranges_and_wrong_units():
 def test_no_input_report_is_mutated():
     r = next(r for r in REPORTS if type(r).__name__ == 'Tsunami')
     before = copy.deepcopy(r.get_params())
-    example_record(r)
+    r.to_json_dict()
     assert r.get_params() == before
 
 
@@ -312,12 +312,12 @@ def test_every_dcr_source_field_has_a_mapping_or_explicit_omission():
 def test_every_ellipse_keeps_the_codes_it_was_built_from():
     report = next(r for r in REPORTS if type(r).__name__ == 'OutsideJapan')
     camf, groups = report.camf, {'main_ellipse': ('a12', 'a13', 'a14', 'a15', 'a16')}
-    settings = example_record(report)['data']['specific_settings']
+    settings = report.to_json_dict()['data']['specific_settings']
     assert settings['type']['code'] == '0'
     groups['refined_ellipse'] = ('c1', 'c2', 'c3', 'c4', 'a16')
     keys = ('centre_latitude', 'centre_longitude', 'semi_major_axis', 'semi_minor_axis', 'azimuth')
     for where, fields in groups.items():
-        source = (example_record(report)['data'] if where == 'main_ellipse' else settings)[where]['source']
+        source = (report.to_json_dict()['data'] if where == 'main_ellipse' else settings)[where]['source']
         assert source == {key: getattr(camf, field) for key, field in zip(keys, fields, strict=True)}, where
 
 
@@ -342,7 +342,7 @@ def test_specific_settings_is_defined_once_for_every_type_that_carries_it(name):
 @pytest.mark.parametrize('kind', ['hazard_centre', 'second_ellipse'])
 def test_every_kind_of_specific_settings_is_accepted_under_every_type(name, kind):
     settings = next(s for r in REPORTS if hasattr(r, 'camf')
-                    if (s := example_record(r)['data'].get('specific_settings')) and kind in s)
+                    if (s := r.to_json_dict()['data'].get('specific_settings')) and kind in s)
     row = record(name)
     row['data']['specific_settings'] = settings
     VALIDATOR.validate(row)
@@ -380,7 +380,7 @@ def test_the_code_tables_are_the_catalogue_and_the_docs_file_is_the_same():
 def test_every_code_a_record_carries_is_in_the_code_tables_as_the_record_gives_it():
     checked = 0
     for report in REPORTS:
-        for code in _codes(example_record(report)):
+        for code in _codes(report.to_json_dict()):
             table = CODE_TABLES.get(code['table'])
             entry = None if table is None else table['codes'].get(code['code'])
             if code['status'] == 'undefined':
@@ -412,20 +412,20 @@ def test_a_table_names_the_specification_that_defines_it():
 
 
 def test_every_code_table_a_record_names_is_in_the_file_or_one_azarashi_has_no_codes_of():
-    names = {code['table'] for report in REPORTS for code in _codes(example_record(report))}
+    names = {code['table'] for report in REPORTS for code in _codes(report.to_json_dict())}
     assert names - set(CODE_TABLES) <= {n for n in names if n.startswith(('camf.a3_', 'camf.a11_'))}
     assert set(PROFILES) <= set(CODE_TABLES)
 
 
 def test_a_code_of_a_table_the_file_lacks_is_undefined_and_unnamed():
     # a country or library version azarashi has no codes of: nothing to look up, and no need to
-    missing = [code for report in REPORTS for code in _codes(example_record(report)) if code['table'] not in CODE_TABLES]
+    missing = [code for report in REPORTS for code in _codes(report.to_json_dict()) if code['table'] not in CODE_TABLES]
     assert {code['table'] for code in missing} >= {'camf.a3_provider_identifier.country_103'}
     assert all(code['status'] == 'undefined' and code['labels'] == {} for code in missing), missing
 
 
 def test_the_international_library_has_two_lists_shared_by_every_country():
-    international = {code['table'] for report in REPORTS for code in _codes(example_record(report))
+    international = {code['table'] for report in REPORTS for code in _codes(report.to_json_dict())
                      if code['table'].startswith('camf.a11_') and '.international.' in code['table']}
     assert international == {'camf.a11_instruction_library.international.version_0.' + part
                              for part in ('list_a', 'list_b')}
@@ -488,7 +488,7 @@ def test_a_time_field_refuses_a_state_it_cannot_reach(name, field, state):
 def test_a_tsunami_arrival_that_is_not_a_time_says_what_it_is(hour, minute, day, labels):
     from azarashi import decode
     from test_dcr import TSUNAMI, _with_arrival_time
-    arrival = example_record(decode(_with_arrival_time(TSUNAMI, 0, day, hour, minute)))['data']['forecasts'][0]['arrival']
+    arrival = decode(_with_arrival_time(TSUNAMI, 0, day, hour, minute)).to_json_dict()['data']['forecasts'][0]['arrival']
     assert arrival == {'status': 'special', 'value': None, 'labels': labels,
                        'source': {'day': day, 'hour': hour, 'minute': minute}}
 
@@ -497,7 +497,7 @@ def test_a_northwest_pacific_arrival_that_is_not_a_time_is_arrived_or_unknown():
     from azarashi import decode
     from qzqsm import with_fields
     from test_dcr import NWP
-    row = example_record(decode(with_fields(NWP, [(57, 5, 31), (62, 6, 63)])))
+    row = decode(with_fields(NWP, [(57, 5, 31), (62, 6, 63)])).to_json_dict()
     assert row['data']['forecasts'][0]['arrival'] == {'status': 'special', 'value': None,
                                                       'labels': {'en': 'Arrived or Unknown'},
                                                       'source': {'day': 0, 'hour': 31, 'minute': 63}}
@@ -512,7 +512,7 @@ def test_a_volcano_activity_time_is_as_precise_as_its_ambiguity(du, expected):
     from azarashi import decode
     from qzqsm import with_fields
     from test_english import VOLCANO
-    row = example_record(decode(with_fields(VOLCANO, [(50, 3, du)])))
+    row = decode(with_fields(VOLCANO, [(50, 3, du)])).to_json_dict()
     activity = row['data']['activity_time']
     assert (activity['status'], activity.get('precision')) == expected
     assert (activity['value'] is None) is (expected[0] != 'valid')
@@ -548,7 +548,7 @@ def test_a_version_is_valid_where_it_is_the_one_the_specification_gives(name, ve
     # none for a kind it does not define
     report = copy.deepcopy(next(r for r in REPORTS if type(r).__name__ == name))
     setattr(report, 'version' if name == 'Tsunami' else 'dcx_version', version)
-    row = example_record(report)
+    row = report.to_json_dict()
     assert row['data']['version'] == {'status': status, 'value': version}
     VALIDATOR.validate(row)
     row['data']['version'] = {'status': 'valid' if status == 'undefined' else 'undefined', 'value': version}
@@ -666,7 +666,7 @@ def test_every_code_a_numeric_b4_field_can_carry_converts_to_a_valid_record():
             checked.add(name)
             for code in range(1 << size):
                 others = [(p, s, 0) for n, p, s, _ in fields if n != name]
-                row = example_record(_decode(dcx([(position, size, code), *others], **ELLIPSE, a4=hazards[0], a17=3)))
+                row = _decode(dcx([(position, size, code), *others], **ELLIPSE, a4=hazards[0], a17=3)).to_json_dict()
                 details = row['data']['specific_settings']['hazard_details']
                 assert details[name.split('_', 1)[1]]['code'] == str(code)
                 VALIDATOR.validate(row)
@@ -677,7 +677,7 @@ def test_every_code_a_numeric_b4_field_can_carry_converts_to_a_valid_record():
 def test_the_hazard_is_three_codes_of_one_value(a4, status):
     # type, category and definition are three tables of A4, and an undefined code has no text in any
     from test_dcx_fields import JAPAN, _decode, dcx
-    hazard = example_record(_decode(dcx(**JAPAN, a3=1, a4=a4, a14=1)))['data']['hazard']
+    hazard = _decode(dcx(**JAPAN, a3=1, a4=a4, a14=1)).to_json_dict()['data']['hazard']
     assert list(hazard) == ['type', 'category', 'definition']
     for part, code in hazard.items():
         assert code['table'] == 'camf.a4_hazard_' + part and code['code'] == str(a4)
@@ -686,7 +686,7 @@ def test_the_hazard_is_three_codes_of_one_value(a4, status):
 
 def test_no_target_area_is_an_empty_list():
     from test_dcx_fields import JAPAN, _decode, dcx
-    row = example_record(_decode(dcx(**JAPAN, a3=1, ex1=0)))
+    row = _decode(dcx(**JAPAN, a3=1, ex1=0)).to_json_dict()
     assert row['data']['target_regions'] == []
     VALIDATOR.validate(row)
 
@@ -712,7 +712,7 @@ def _record_words(node):
 
 def test_a_name_is_spelled_as_its_specification_spells_it():
     # the JMA reports write American English and CAMF British; the names both share keep one spelling
-    rows = [example_record(r) for r in fixtures()]
+    rows = [r.to_json_dict() for r in fixtures()]
     rows += [{'type': 'qzss.dcx.unknown', 'data': {'specific_settings': {
         'hazard_details': dict.fromkeys(SCHEMA['$defs']['hazard_details']['properties'])}}}]  # every B4 detail
     words = {service: {w for row in rows if row['type'].startswith(f'qzss.{service}.')
@@ -746,7 +746,7 @@ def test_the_test_flag_of_every_logged_report():
             if not line.startswith('$QZQSM'):
                 continue
             report = nmea.Decoder(line.strip(), timestamp=received).decode()
-            record = example_record(report)
+            record = report.to_json_dict()
             data = record['data']
             if record['type'].startswith('qzss.dcr.'):
                 expected = data['report_classification']['code'] == '7'
@@ -762,7 +762,7 @@ def test_the_test_flag_of_every_logged_report():
 def test_the_second_ellipse_gives_each_transform_in_the_terms_of_the_main_one():
     from test_dcx_fields import ELLIPSE, _decode, dcx
     report = _decode(dcx([(131, 2, 3), (133, 3, 7), (136, 5, 8), (141, 5, 0)], **ELLIPSE, a17=2))
-    row = example_record(report)
+    row = report.to_json_dict()
     second = row['data']['specific_settings']['second_ellipse']
     assert list(second) == ['shift', 'scale_factor', 'bearing', 'instruction']
     assert {key: (value['value'], value['unit'], value['relative_to'], value['labels'])
@@ -782,7 +782,7 @@ def test_the_second_ellipse_gives_each_transform_in_the_terms_of_the_main_one():
 def test_a_value_dcx_004_calls_not_used_is_special_and_says_so():
     # IS-QZSS-DCX-004 2.4: a value assigned to say there is none
     from test_dcx_fields import _decode, dcx
-    data = example_record(_decode(dcx(a1=1, a2=10, a3=0, a4=0, a14=1)))['data']
+    data = _decode(dcx(a1=1, a2=10, a3=0, a4=0, a14=1)).to_json_dict()['data']
     for code in (data['provider'], *data['hazard'].values()):
         assert (code['status'], code['code'], code['labels']) == ('special', '0', {'en': 'Not used'})
     assert (data['onset']['status'], data['onset']['labels']) == ('special', {'en': 'Not used'})
@@ -791,14 +791,14 @@ def test_a_value_dcx_004_calls_not_used_is_special_and_says_so():
 def test_the_empty_international_instruction_is_special_and_a_reserved_one_undefined():
     # CAMF Issue 1.2, 3.5.3: 00000 is the empty value of either list, as code 0 of C10 is
     from test_dcx_fields import _decode, dcx
-    data = example_record(_decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=0, a14=1)))['data']
+    data = _decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=0, a14=1)).to_json_dict()['data']
     for part, identifier in [('list_a', 'IC-A-01'), ('list_b', 'IC-B-01')]:
         table = 'camf.a11_instruction_library.international.version_0.' + part
         assert data['instruction']['content'][part] == {'status': 'special', 'code': '0', 'table': table,
                                                         'labels': {'en': 'No instruction'}, 'identifier': identifier}
         assert CODE_TABLES[table]['codes']['0']['status'] == 'special'
     # IS-QZSS-DCX-004 2.4: a value not assigned yet, which a later edition may give a meaning
-    data = example_record(_decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=29, a14=1)))['data']
+    data = _decode(dcx(a1=1, a2=10, a3=2, a9=0, a11=29, a14=1)).to_json_dict()['data']
     table = 'camf.a11_instruction_library.international.version_0.list_b'
     assert data['instruction']['content']['list_b'] == {'status': 'undefined', 'code': '29', 'table': table,
                                                         'labels': {}, 'identifier': 'IC-B-30'}

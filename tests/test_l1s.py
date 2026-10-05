@@ -49,7 +49,7 @@ def test_each_message_takes_its_satellite_and_time_from_the_archive():
 
 
 def test_the_json_gives_the_satellite_and_the_time_of_the_archive():
-    record = azarashi.to_json_dict(azarashi.decode_stream(io.BytesIO(archive(_record(_message(EEW)))), 'l1s'))
+    record = azarashi.decode_stream(io.BytesIO(archive(_record(_message(EEW)))), 'l1s').to_json_dict()
     assert record['reception']['satellite'] == {'system': 'qzss', 'prn': PRN}
     assert record['reception']['at'] == '2026-09-17T00:00:00.000Z'
 

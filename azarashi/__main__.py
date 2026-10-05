@@ -5,7 +5,7 @@ import sys
 from pprint import pformat
 
 from azarashi import AzarashiReadOn
-from azarashi import decode_stream, to_ndjson
+from azarashi import decode_stream
 from azarashi.input_stream import RecordingStream
 from azarashi.input_stream import open_input
 
@@ -52,7 +52,7 @@ def main() -> int:
                                    timestamp=args.time)
             if args.json:
                 try:
-                    record = to_ndjson(report)  # built before it is written: stdout gets whole records only
+                    record = report.to_ndjson()  # built before it is written: stdout gets whole records only
                 except Exception as e:  # a report that cannot be converted must not end the stream
                     print(f'{now()} --------------------------------\n'
                           f'# [{type(e).__name__}] {e}\n', file=sys.stderr)

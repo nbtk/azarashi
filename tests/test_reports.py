@@ -166,7 +166,7 @@ def test_a_time_without_a_time_zone_is_local_time_kept_in_utc(local_time_is_toky
     report = getattr(reports.dcr if hasattr(reports.dcr, name) else reports.dcx, name)(**params)
     kept = getattr(report, field)[0] if listed else getattr(report, field)
     assert kept == datetime.datetime(2026, 3, 1, 0, 0, tzinfo=datetime.UTC) and kept.tzinfo is datetime.UTC
-    assert azarashi.to_json_dict(report)  # the time the JSON conversion refused before
+    assert report.to_json_dict()  # the time the JSON conversion refused before
 
 
 def test_a_time_left_out_stays_left_out():

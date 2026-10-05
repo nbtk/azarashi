@@ -90,7 +90,7 @@ L1S アーカイブから読んだ衛星の PRN と GPS 時刻も破棄します
 
 ## JSON Output
 
-`to_json_dict(report)` は JSON 用の辞書、`to_ndjson(report)` は改行付きの1件分の文字列を返します。
+レポートの `to_json_dict()` は JSON 用の辞書、`to_ndjson()` は改行付きの1件分の文字列を返します。
 `json_schema()` は配布スキーマの辞書を、`code_tables()` は JSON が参照するコード表の辞書を返します。
 詳しくは [JSON Output](json.md) を参照してください。
 
@@ -213,7 +213,6 @@ pySerial の `serial.SerialException` も `OSError` の一種です。このク�
 - `stream` が、その形式では読めないものを返す。ublox と l1s は文字列を読めないので、ファイルはバイナリモードで開いてください
 - `callback` が呼び出せない。`callback_args` が並びでない。`callback_kwargs` が名前と値の対応でない
 - `unique` が、真偽値でも数値でもない
-- `to_json_dict()` や `to_ndjson()` に、レポートでないものを渡した
 
 `TypeError` を継承しています。
 

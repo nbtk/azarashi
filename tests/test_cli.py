@@ -219,7 +219,8 @@ def test_json_binary_and_hex_inputs_keep_recording(monkeypatch, capsys, tmp_path
 def test_json_skips_a_report_it_cannot_convert(monkeypatch, capsys):
     import json
 
-    convert = cli.to_ndjson
+    from azarashi.reports.base import MessageBase
+    convert = MessageBase.to_ndjson
     failed = []
 
     def to_ndjson(report):
@@ -228,7 +229,7 @@ def test_json_skips_a_report_it_cannot_convert(monkeypatch, capsys):
             raise ValueError('JSON numbers must be finite')
         return convert(report)
 
-    monkeypatch.setattr(cli, 'to_ndjson', to_ndjson)
+    monkeypatch.setattr(MessageBase, 'to_ndjson', to_ndjson)
     data = (EEW + '\n' + L_ALERT + '\n').encode()
     code, out, err = _run(monkeypatch, capsys, ['nmea', '--json'], data)
     assert code == 0  # the unconvertible report is reported and the stream goes on
