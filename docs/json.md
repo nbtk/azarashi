@@ -24,8 +24,8 @@ tables = azarashi.json_code_tables()
 
 レポートの `to_json_dict()` はレコードを、`json_schema()` はパッケージに同梱されたスキーマを、`json_code_tables()` はコード表を辞書として返します。
 どれも呼び出すたびに新しい辞書を返すので、返った辞書を書き換えても、レポートやほかの呼び出しの結果は変わりません。
-レポートの `to_ndjson()` は末尾の改行を含む1件分の文字列です。`print()` を使う場合は `end=''` を指定します。
-型ヒントでは、3つの戻り値は `dict[str, JsonValue]` です。`JsonValue` は、JSON の値を表す型の別名です。
+レポートの `to_ndjson()` は、末尾の改行を含む1件分の文字列を返します。`print()` を使う場合は `end=''` を指定します。
+`to_json_dict()`・`json_schema()`・`json_code_tables()` の戻り値の型は、`dict[str, JsonValue]` です。`JsonValue` は、JSON の値を表す型の別名です。
 `JsonValue` が表すのは、文字列・整数・小数・真偽値・`None`、または中身が `JsonValue` のリストと辞書です。`JsonValue` は `azarashi` から import できます。
 
 ## CLI
@@ -59,8 +59,8 @@ azarashi ublox --input /dev/ttyUSB0 --json --unique
 レコードの中のどのオブジェクトでも、キーを出さないことと、値を `null` にすることは、意味が違います。
 この文書では、キーを出さないことを「省く」と書きます。
 
-- キーを省く：その項目は、このレコードに当てはまらない。例えば、南海トラフ地震に関連する情報でない DCR のレポートには、`series.key` がない。
-- 値を `null` にする：その項目は当てはまるが、値がない。例えば、衛星のわからない入力では、`reception.satellite` が `null`。
+- キーを省く：その項目が、このレコードに当てはまらないことを表します。たとえば、南海トラフ地震に関連する情報でない DCR のレポートには、`series.key` がありません。
+- 値を `null` にする：その項目は当てはまるが、値がないことを表します。たとえば、衛星のわからない入力では、`reception.satellite` が `null` です。
 
 | キー | 何がわかるか | 内容 |
 |---|---|---|
@@ -113,7 +113,9 @@ DCX の `en` には、`str(report)` にある日本語の行、「A11 - Instruct
 
 - システムとメッセージの種類は、`type` の先頭の2つです。例：`qzss.dcr`、`qzss.dcx`。
 - `raw` は、メッセージから衛星ごと・送信ごとに変わる部分を除いたビット列です。`message_id` には、小文字の16進で書きます。
-  メッセージから除くのは、プリアンブル、CRC、DCX の衛星指定マスクです。`raw` の長さは、DCR では27バイト（54桁）、DCX では CAMF の先頭から数えた25バイト（50桁）です。
+  DCR の `raw` は、メッセージの Message Type から Vn（Version Number）までです。DCX の `raw` は、CAMF の A1 から Vn までです。
+  どちらの `raw` も、プリアンブル、Vn のあとの予約ビット、CRC を含みません。DCX の `raw` は、Message Type と衛星指定マスクも含みません。
+  `raw` の最後のバイトの下位4ビットは0です。`raw` の長さは、DCR では27バイト（54桁）、DCX では25バイト（50桁）です。
 
 ```text
 qzss.dcr:af89a820000324000050400548c5e2c000000003dff8001c000010
@@ -160,7 +162,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 ## Status
 
 `data` のコード・数量・時刻・位置・楕円には、どれにも `status` があります。その値をそのまま使ってよいかは、`status` だけで判断できます。
-`hazard` や `instruction`、`forecasts` の要素のような入れ物と、南海トラフの `page` には、`status` はありません。
+`hazard` や `instruction`、`forecasts` の要素のように、ほかのオブジェクトをまとめるオブジェクトと、南海トラフの `page` には、`status` はありません。
 
 | `status` | 意味 |
 |---|---|
@@ -169,7 +171,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 | `special` | 仕様が定めた特殊な値。そのまま使える値ではありません。意味は `labels` にあり、`labels` は空になりません |
 | `undefined` | 表にないコード |
 
-`special` の例です。
+`special` のコードには、次のようなものがあります。
 
 - 値がわからない：「不明 / Unknown」
 - 値がない：「なし / None」「該当情報なし / No data」「指示なし / No instruction」
@@ -216,9 +218,9 @@ N と V は、伝送されたコード値です。
 DCR の英語は、気象庁の多言語辞書や気象庁のページ、DCR 仕様書の英語から取っています。
 気象庁が英語を出していないものは、azarashi の訳です。
 英訳の方針と、azarashi の訳の一覧は [English Translation Policy](english-translation-policy.md) にあります。
-防災事項の文のうち azarashi の訳は、末尾に `(Translated by azarashi)` と付けています。
+azarashi が訳した防災事項の文には、末尾に `(Translated by azarashi)` を付けています。
 この印がない英語が、気象庁の英語だとは限りません。
-意味の正は、常に日本語の `ja` です。
+意味の基準は、常に日本語の `ja` です。
 
 日本のライブラリのコード0は、DCX 仕様書が本文で no instruction と定めるコードです。`status` は `special`、`labels` は
 `{"ja": "指示なし", "en": "No instruction"}` です。このコードは表にないので、この名前は日本語も英語も azarashi が付けたものです。
@@ -243,7 +245,7 @@ azarashi が対応していない A10 の版では、両方のオブジェクト
 
 コード表は、レコードの `table` と `code` で引ける1つの JSON です。
 [docs/json/code-tables-v2.json](json/code-tables-v2.json) にあります。Python では `json_code_tables()` で同じ中身が取れます。
-レコードの `status` と `labels` は、コード表と必ず一致します。
+コード表にあるコードでは、レコードの `status` と `labels` は、コード表の `status` と `labels` と同じです。
 
 ```json
 {
@@ -268,10 +270,10 @@ azarashi が対応していない A10 の版では、両方のオブジェクト
 コードの並び順に意味はありません。大小を比べたいときは、`labels` や数量の `range` を見てください。
 国や版で中身が変わる表は、azarashi が持っている国と版の分だけ、コード表に入っています。
 持っていない国や版の表（たとえば `camf.a3_provider_identifier.country_103`）は、ファイルにありません。
-そうした表を指すコードは、必ず `status` が `undefined`、`labels` が `{}` です。
+そうした表を指すコードは、`status` が `undefined`、`labels` が `{}` です。
 
-`labels` の決め方は、どの表も同じです。表がコードに言葉を付けていればその言葉、数だけを定めていれば、その数に仕様の単位を付けた文字です。
-単位のない数の `labels` は、数だけです。DCR の深さの `10 km`、マグニチュードの `7.2`、CAMF の D3 の `22.5°`、D4 の `0.25` がその例です。
+`labels` の決め方は、どの表も同じです。表がコードに言葉を付けていればその言葉、数だけを定めていれば、その数に仕様の単位を付けた文字列です。
+たとえば、DCR の深さの `labels.en` は `10 km`、CAMF の D3 は `22.5°` です。単位のない数の `labels` は数だけで、マグニチュードは `7.2`、CAMF の D4 は `0.25` です。
 
 ## Quantities
 
@@ -295,7 +297,7 @@ azarashi が対応していない A10 の版では、両方のオブジェクト
 | `unit` | UCUM の単位。`Cel` は ℃、`"1"` は単位のない数（マグニチュードや倍率など） |
 | `relative_to` | 値が倍率や相対的な角度のとき、何に対する値か。同じレコードの項目を指します。CAMF の D4 と C7〜C9 だけです |
 
-`value` と `range` は、どちらか一方だけです。
+1つのオブジェクトに、`value` と `range` が両方あることはありません。
 `special` のコードで数がないものは、`value` が `null` です。「不明」や「その他の津波の高さ」がこれに当たります。
 `valid` のコードで数を表さないものは、`value` と `range` のどちらも省きます。北西太平洋津波の高さの「巨大」「高い」がこれに当たります。
 範囲が端を含むかどうかは、`labels` の「未満」「超」などの言い回しで判断してください。
@@ -319,7 +321,7 @@ azarashi が対応していない A10 の版では、両方のオブジェクト
 
 この範囲の境界は[気象庁の高さ区分](https://www.jma.go.jp/jma/kishou/know/jishin/joho/tsunamiinfo.html)に対応します。
 
-北西太平洋津波の高さのコード1〜4は、仕様の表の範囲を `range` にします。例えば 0.3〜1 です。
+北西太平洋津波の高さのコード1〜4では、`range` は仕様の表の範囲です。たとえば 0.3〜1 です。
 508「10m 超」の `range` は `{"lower": 10, "upper": null}` です。
 511「不明」の `status` は `special` です。
 
@@ -367,7 +369,7 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 
 `precision` は、`status` が `valid` のときだけあります。
 
-メッセージにない年や月、週は、次の時刻から補います。
+azarashi は、メッセージにない年や月、週を、次の時刻から補います。
 
 | フィールド | 取り得る `status` | `source` | 補う元の時刻 |
 |---|---|---|---|
@@ -386,7 +388,7 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 | 火山の `activity_time` | Du が 6・7 のときの Du の名前。例 `Approximate time (month)` |
 | DCX の `onset` | `Not used`（A7 が 0） |
 
-火山の日時の精度は、日時の曖昧さ（Du）で決まります。Du が 0〜3 なら `minute`、4 なら `hour`、5 なら `day` です。
+火山の `activity_time` の `precision` は、日時の曖昧さ（Du）で決まります。Du が 0〜3 なら `minute`、4 なら `hour`、5 なら `day` です。
 火山のレコードは、`activity_time_ambiguity` も省きません。`activity_time_ambiguity` は Du のコードオブジェクトで、表は `qzss.dcr.ambiguity_of_activity_time` です。
 この表の英語のラベルは DCR 仕様書の文言です。日本語の表はないので、`labels` に `ja` はありません。
 
@@ -560,7 +562,7 @@ azarashi は、同じ版の中でも、キーとレポートの種類を足す�
 スキーマも、知らないキーと、`qzss.dcr.tsunami` と同じ形の知らない `type` を受け付けます。
 
 既存のキーの意味・形・単位を変えるとき、既存のキーに新しい値（`status` や `lifecycle` の種類など）を足すとき、
-キーを消すときは、別の版にします。コード表に新しいコードが加わるのと、表示の文言の修正は、このどれにも当たりません。
+キーを消すときは、`schema_version` を上げます。コード表に新しいコードが加わるのと、表示の文言の修正は、このどれにも当たりません。
 azarashi が Galileo EWS に対応するときは、v3 にします。v2 の `reception.satellite.system` は `qzss` だけです。
 
 `schema_version` は整数で、azarashi 自身のバージョンとは独立です。
@@ -568,4 +570,4 @@ azarashi が Galileo EWS に対応するときは、v3 にします。v2 の `re
 公開しているのは、レポートの `to_json_dict()`・`to_ndjson()` と、`azarashi` から取れる `json_schema()`・`json_code_tables()`・`JsonValue` です。
 `azarashi.json` の中の内部名は互換性の対象ではありません。
 
-`to_json_dict()` は、スキーマで検証しません。検証が必要なときは、`json_schema()` でスキーマを取得し、検証ライブラリに渡してください。
+`to_json_dict()` は、返すレコードをスキーマで検証しません。検証が必要なときは、`json_schema()` でスキーマを取得し、検証ライブラリに渡してください。

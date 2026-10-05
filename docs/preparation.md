@@ -1,9 +1,9 @@
 [azarashi](../README.md) / Preparation
 
 # Preparation
-デバイスに災危通報メッセージを出力させるための設定例です。
+この文書は、受信機に災危通報のメッセージを出力させる設定の例を示します。
 ## u-blox M10S < UART > Raspberry Pi 4 + Ubuntu 22.04 + ubxtool (CLI)
-UART を有効にするため、設定ファイルの末尾に `enable_uart=1` を追記します。
+UART を有効にするため、Raspberry Pi の設定ファイル `/boot/firmware/config.txt` の末尾に `enable_uart=1` を追記します。
 ```shell
 $ sudo vi /boot/firmware/config.txt
 ```
@@ -47,7 +47,7 @@ $ logout # then re-login to the machine
 $ sudo apt update
 $ sudo apt install gpsd gpsd-clients
 ```
-SFRBX フレームの出力に関連する設定コマンドの例です。
+次のコマンドは、ubxtool で SFRBX フレームの出力を設定する例です。
 ```shell
 $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,1 # sets 'enable'  to ram
 $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,1 # sets 'disable' to ram
@@ -55,11 +55,11 @@ $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,1,2 # sets 'en
 $ ubxtool -f /dev/ttyS0 -s 9600 -z CFG-MSGOUT-UBX_RXM_SFRBX_UART1,0,2 # sets 'disable' to bbr (battery-backed ram)
 $ ubxtool -f /dev/ttyS0 -s 9600 -g CFG-MSGOUT-UBX_RXM_SFRBX_UART1 | grep -A3 UBX-CFG-VALGET # gets the state
 ```
-デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
+受信機は、通電してから災危通報を含むフレームを出力し始めるまでに、しばらく時間がかかります。
 ## u-blox F9P < USB > Windows + u-center (GUI)
 設定ツール [u-center](https://www.u-blox.com/en/product/u-center) をダウンロードし、インストールしてください。
 
-u-center で SFRBX フレームを出力するように設定してください。下記は SFRBX フレームを USB に出力するための参考設定手順です。
+u-center で SFRBX フレームを出力するように設定してください。次の手順は、SFRBX フレームを USB に出力する設定の例です。
 ```
 Open u-center ->
   View -> Configuration View ->
@@ -69,7 +69,7 @@ Open u-center ->
     NMEA (NMEA Protocol) -> NMEA Version -> Select 4.11 -> Send
     CFG (Configuration) -> Save current configuration -> Send
 ```
-u-center で QZSS の L1S 信号の受信を有効にしてください。下記は GPS と QZSS の信号をすべて受信するための参考設定手順です。
+u-center で QZSS の L1S 信号の受信を有効にしてください。次の手順は、GPS と QZSS の信号をすべて受信する設定の例です。
 ```
 Open u-center ->
   View -> Generation 9 Configuration View -> GNSS Configuration ->
@@ -77,6 +77,6 @@ Open u-center ->
       Check the "RAM" and "Flash" boxes in the "Write to layer" ->
         Send Configuration
 ```
-設定は永続化され、他の機器に接続し直しても災危通報メッセージを出力します。デバイスに通電してから災危通報メッセージを出力し始めるまでしばらく時間がかかります。
+この設定は受信機に保存されるので、受信機をほかの機器につなぎ直しても、災危通報を含むフレームを出力します。受信機は、通電してから災危通報を含むフレームを出力し始めるまでに、しばらく時間がかかります。
 ## Sony Spresense
 [QZSS 災危通報 (QZQSM) の NMEA センテンスを出力するように設定してください。](https://developer.sony.com/develop/spresense/docs/arduino_tutorials_ja.html#_qzss_災危通報を出力する)

@@ -1,13 +1,13 @@
 [azarashi](../README.md) / Network
 
 # Network
-受信したデータを、UDP パケットで別の装置に送るスクリプトです。アンテナを置く場所と、データを処理する装置が離れているときに使います。IPv4 と IPv6 の両方に対応しています。
+azarashi には、受信したデータを UDP パケットで別の装置に送るための、送信側と受信側の2つのスクリプトがあります。この2つのスクリプトは、アンテナを置く場所と、データを処理する装置が離れているときに使います。どちらのスクリプトも、IPv4 と IPv6 の両方に対応しています。
 ## Transmitter
-送信側のスクリプトです。DCR と DCX の両方のメッセージを送信します。デフォルトの宛先は IPv6 のリンクローカルマルチキャストアドレスです。宛先を変えるときは `-d` で指定してください。`-f`、`-b`、`--record` の使い方は [azarashi コマンド](cli.md) と同じです。
+送信側のスクリプトは `azarashi.network.transmitter` です。transmitter は、DCR と DCX の両方のメッセージを送信します。デフォルトの宛先は IPv6 のリンクローカルマルチキャストアドレスです。宛先を変えるときは `-d` で指定してください。`-f`、`-b`、`--record` の使い方は [azarashi コマンド](cli.md) と同じです。
 ```shell
 $ python3 -m azarashi.network.transmitter -t ublox -f /dev/ttyS0 -b 9600
 ```
-オプションは下記のとおりです。
+transmitter のオプションは、次のとおりです。
 ```
 usage: transmitter.py [-h] [-d DST_HOST] [-p DST_PORT] [-t {hex,nmea,ublox}]
                       [-f INPUT] [-b BAUDRATE] [--record RECORD] [-u]
@@ -30,11 +30,11 @@ options:
   -u, --unique          suppress duplicate messages (default: False)
 ```
 ## Receiver
-受信側のスクリプトです。DCR と DCX の両方を表示します。DCR を表示したくないときは `-r` を、DCX を表示したくないときは `-x` を指定してください。受信するインタフェースは `-i` で指定できます。ただし `-i` は Linux の `SO_BINDTODEVICE` を使うので、Linux でしか使えません。
+受信側のスクリプトは `azarashi.network.receiver` です。receiver は、DCR と DCX の両方を表示します。DCR を表示したくないときは `-r` を、DCX を表示したくないときは `-x` を指定してください。受信するインタフェースは `-i` で指定できます。ただし `-i` は Linux の `SO_BINDTODEVICE` を使うので、Linux でしか使えません。
 ```shell
 $ python3 -m azarashi.network.receiver
 ```
-オプションは下記のとおりです。
+receiver のオプションは、次のとおりです。
 ```
 usage: receiver.py [-h] [-b BIND_ADDR] [-p BIND_PORT] [-i BIND_IFACE] [-r]
                    [-x] [-v]
@@ -53,6 +53,6 @@ options:
   -x, --ignore-dcx      ignore dcx messages (default: False)
   -v, --verbose         verbose mode (default: False)
 ```
-プログラムから `Receiver.start()` を呼ぶときは、[`decode_stream()`](api.md#decode_stream) と同じく、DCX を無視するのがデフォルトです。DCX も受け取るときは `ignore_dcx=False` を指定してください。
+プログラムから呼ぶ `Receiver.start()` は、[`decode_stream()`](api.md#decode_stream) と同じく、デフォルトで DCX を無視します。DCX も受け取るときは `ignore_dcx=False` を指定してください。
 
-受信したパケットをデコードできないとき、receiver コマンドと `Receiver.start()` は警告をログに出力し、そのパケットを読み飛ばして受信を続けます。
+受信したパケットをデコードできないとき、receiver と `Receiver.start()` は警告をログに出力し、そのパケットを読み飛ばして受信を続けます。

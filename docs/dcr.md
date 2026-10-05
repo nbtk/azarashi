@@ -1,9 +1,9 @@
 [azarashi](../README.md) / [Reports](reports.md) / DCR
 
 # DCR (MT43)
-気象庁が発表する防災気象情報のレポートです。`dcr.Base` を継承します。仕様は IS-QZSS-DCR の Message Type 43 です。
+この文書は、DCR のレポートを説明します。DCR は、気象庁が発表する防災気象情報のメッセージで、L1S の Message Type 43 です。DCR の仕様は IS-QZSS-DCR です。DCR のレポートは `dcr.Base` を継承します。
 
-クラスは災害種別ごとに分かれます。共通のフィールドは次のとおりです。
+DCR のレポートのクラスは、災害種別ごとに分かれます。どのクラスにもある共通のフィールドは、次のとおりです。
 | フィールド | 型 |
 |---|---|
 | `version` | `int` |
@@ -18,7 +18,7 @@
 | `information_type_en` | `str` |
 | `information_type_no` | `int` |
 
-災害種別ごとに、次のクラスが返ります。
+`decode()` と `decode_stream()` は、災害種別ごとに、次のクラスのレポートを返します。
 | `disaster_category_no` | 災害種別 | クラス |
 |---|---|---|
 | 1 | 緊急地震速報 | `dcr.EarthquakeEarlyWarning` |
@@ -35,7 +35,7 @@
 | 14 | 海上 | `dcr.Marine` |
 
 ## dcr.EarthquakeEarlyWarning
-緊急地震速報のレポートです。`disaster_category_no` は 1 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.EarthquakeEarlyWarning` は、緊急地震速報のレポートです。`disaster_category_no` は 1 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `long_period_ground_motion_lower_limit` | `str \| None` |
@@ -61,7 +61,7 @@
 | `eew_forecast_regions_raw` | `list[int]` |
 
 ## dcr.Hypocenter
-震源のレポートです。`disaster_category_no` は 2 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.Hypocenter` は、震源のレポートです。`disaster_category_no` は 2 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `notifications_on_disaster_prevention` | `list[str]` |
@@ -78,7 +78,7 @@
 | `coordinates_of_hypocenter_raw` | `Coordinates` |
 
 ## dcr.SeismicIntensity
-震度のレポートです。`disaster_category_no` は 3 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.SeismicIntensity` は、震度のレポートです。`disaster_category_no` は 3 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `occurrence_time_of_earthquake` | `datetime \| None` |
@@ -89,7 +89,7 @@
 | `prefectures_raw` | `list[int]` |
 
 ## dcr.NankaiTroughEarthquake
-南海トラフ地震のレポートです。`disaster_category_no` は 4 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.NankaiTroughEarthquake` は、南海トラフ地震のレポートです。`disaster_category_no` は 4 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `information_serial_code` | `str` |
@@ -98,18 +98,18 @@
 | `page_number` | `int` |
 | `total_page` | `int` |
 
-複数ページの本文は、同じプロセス内の `NankaiTroughEarthquake` クラスで組み立てます。
-受信元・ストリーム・スレッドごとには分離せず、最新の発表の状態を共有します。
-そのため、ライブ受信と古い記録の再生を同じプロセスで同時に行うと、組み立て中の発表が入れ替わり、本文を組み立てられないことがあります。
+南海トラフ地震に関連する情報の本文は、複数のページに分かれて届きます。`NankaiTroughEarthquake` クラスは、ページを集めて本文を組み立てます。
+`NankaiTroughEarthquake` は、組み立ての状態を、受信元・ストリーム・スレッドで分けずに、プロセス全体で共有します。組み立てるのは、最新の発表だけです。
+そのため、リアルタイムの受信と古い記録の再生を同じプロセスで同時に行うと、組み立て中の発表が入れ替わり、本文を組み立てられないことがあります。
 
-`text_information` は、そのレポートが受信したページのバイト列です。
+`text_information` は、そのレポートのメッセージで受信したページのバイト列です。
 `extract_text_information()` と `str(report)` が返す本文と `completed` は、プロセスで共有している組み立ての状態から作ります。
 そのため、あとのページが届くと、前に受け取ったレポートからも完成した本文を読めます。
-新しい発表に切り替わると、前の発表のレポートは本文の代わりに受信中の表示を返します。
+新しい発表に切り替わると、前の発表のレポートは、本文の代わりに `受信中 (3) [-/5]` のような文字列を返します。
 その時点の本文を残したいときは、文字列にして保存してください。
 
 ## dcr.Tsunami
-津波のレポートです。`disaster_category_no` は 5 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.Tsunami` は、津波のレポートです。`disaster_category_no` は 5 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `notifications_on_disaster_prevention` | `list[str]` |
@@ -126,7 +126,7 @@
 | `tsunami_forecast_regions_raw` | `list[int]` |
 
 ## dcr.NorthwestPacificTsunami
-北西太平洋津波のレポートです。`disaster_category_no` は 6 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.NorthwestPacificTsunami` は、北西太平洋津波のレポートです。`disaster_category_no` は 6 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `tsunamigenic_potential_en` | `str` |
@@ -140,7 +140,7 @@
 | `coastal_regions_raw` | `list[int]` |
 
 ## dcr.Volcano
-火山のレポートです。`disaster_category_no` は 8 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.Volcano` は、火山のレポートです。`disaster_category_no` は 8 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `ambiguity_of_activity_time_no` | `int` |
@@ -154,7 +154,7 @@
 | `local_governments_raw` | `list[int]` |
 
 ## dcr.AshFall
-降灰のレポートです。`disaster_category_no` は 9 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.AshFall` は、降灰のレポートです。`disaster_category_no` は 9 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `activity_time` | `datetime \| None` |
@@ -171,7 +171,7 @@
 | `local_governments_raw` | `list[int]` |
 
 ## dcr.Weather
-気象のレポートです。`disaster_category_no` は 10 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.Weather` は、気象のレポートです。`disaster_category_no` は 10 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `weather_warning_state` | `str` |
@@ -182,7 +182,7 @@
 | `weather_forecast_regions_raw` | `list[int]` |
 
 ## dcr.Flood
-洪水のレポートです。`disaster_category_no` は 11 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.Flood` は、洪水のレポートです。`disaster_category_no` は 11 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `flood_warning_levels` | `list[str]` |
@@ -191,7 +191,7 @@
 | `flood_forecast_regions_raw` | `list[int]` |
 
 ## dcr.Typhoon
-台風のレポートです。`disaster_category_no` は 12 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.Typhoon` は、台風のレポートです。`disaster_category_no` は 12 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `reference_time` | `datetime \| None` |
@@ -216,7 +216,7 @@
 | `maximum_gust_wind_speed_raw` | `int` |
 
 ## dcr.Marine
-海上のレポートです。`disaster_category_no` は 14 です。上の共通フィールドに加えて、次のフィールドがあります。
+`dcr.Marine` は、海上のレポートです。`disaster_category_no` は 14 です。上の共通フィールドに加えて、次のフィールドがあります。
 | フィールド | 型 |
 |---|---|
 | `marine_warning_codes` | `list[str]` |
@@ -225,7 +225,7 @@
 | `marine_forecast_regions_raw` | `list[int]` |
 
 ## Example
-`decode()` はレポートを返します。`print()` に渡すと、災害情報を読みやすい文章にして表示します。
+次の例は、緊急地震速報のメッセージをデコードします。`decode()` はレポートを返します。レポートを `print()` に渡すと、災害情報が読みやすい文章で表示されます。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05'
@@ -248,7 +248,7 @@
 震度(上限): 〜程度以上
 島根、岡山、広島、山口、香川、愛媛、高知、福岡、佐賀、長崎、熊本、大分、宮崎、鹿児島、中国、四国、九州
 ```
-レポートのフィールドは、`get_params()` で辞書として取り出せます。時刻のフィールドは、すべて UTC のタイムゾーンが付いた `datetime` です。`str()` が返す文章では、時刻を JST に変換して表示します。
+レポートのフィールドは、`get_params()` で辞書として取り出せます。時刻のフィールドは、すべて UTC のタイムゾーンが付いた `datetime` です。`str()` が返す文章では、時刻が JST に変換されています。
 ```python
 >>> from pprint import pprint
 >>> pprint(report.get_params())
@@ -304,9 +304,9 @@
  'timestamp': datetime.datetime(2024, 6, 21, 6, 40, 34, 960948, tzinfo=datetime.timezone.utc),
  'version': 1}
 ```
-時刻として読めない値が届いたときは、その時刻のフィールドは `None` になります。送られてきた日・時・分は、名前の末尾に `_raw` が付いたフィールドに残ります。例えば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`AzarashiInvalidMessageError` が送出されます。
+時刻として読めない値が届いたときは、その時刻のフィールドは `None` になります。受信した日・時・分は、名前の末尾に `_raw` が付いたフィールドに残ります。たとえば `occurrence_time_of_earthquake` なら `occurrence_time_of_earthquake_raw` です。ただし発表時刻の `report_time` だけは、読めない値が届くと `None` にならず、`AzarashiInvalidMessageError` が送出されます。
 
-同じ情報を重複して受信したかどうかは、`==` で比べると判別できます。
+同じメッセージを重複して受信したかどうかは、レポートを `==` で比べると判別できます。次の `msg2` は、プリアンブルと、`raw` に入らない末尾のビットだけが `msg` と違います。
 ```python
 >>> msg2 = '$QZQSM,55,9AAF89A820000324000050400548C5E2C000000003DFF8001C0000123FB3EB0*03'
 >>> report2 = azarashi.decode(msg2, 'nmea')
@@ -319,7 +319,7 @@ True
 ## Tsunami Forecast Records
 
 `Tsunami.forecasts` は `tuple[TsunamiForecast, ...]` を返します。
-地域・高さ・到達時刻を同じ添字で組み合わせる代わりに、地域ごとのレコードを参照できます。
+`forecasts` を使うと、地域・高さ・到達時刻を同じ添字で組み合わせる代わりに、地域ごとのレコードを参照できます。
 
 ```python
 if isinstance(report, azarashi.reports.dcr.Tsunami):
@@ -340,6 +340,6 @@ if isinstance(report, azarashi.reports.dcr.Tsunami):
 | `arrival_time_raw` | `DayHourMinute` | 受信した day/hour/minute の辞書 |
 | `arrival_time_type` | `str` | 到達予想・到達中・情報なし・未定義値の表現 |
 
-アクセスのたびに、レポートのリストから作り直します。レコードを編集しても、元のレポートには反映されません。
-元のリストの長さが揃っていなければ `ValueError` になります。
+`forecasts` は、アクセスのたびに、レポートのリストからレコードを作り直します。レコードを編集しても、元のレポートには反映されません。
+元のリストの長さが揃っていないと、`forecasts` は `ValueError` を送出します。
 `forecasts` は保存された属性ではないので、`get_params()` には入りません。

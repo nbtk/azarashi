@@ -1,9 +1,9 @@
 [azarashi](../README.md) / [Reports](reports.md) / DCX
 
 # DCX (MT44)
-気象庁以外の機関が発表するメッセージのレポートです。`dcx.Base` を継承します。仕様は IS-QZSS-DCX の Message Type 44 で、CAMF という共通の形式を使います。
+この文書は、DCX のレポートを説明します。DCX は、気象庁以外の機関が発表するメッセージで、L1S の Message Type 44 です。DCX の仕様は IS-QZSS-DCX で、DCX のメッセージは CAMF という共通の形式で書かれています。DCX のレポートは `dcx.Base` を継承します。
 
-クラスは発信機関ごとに分かれます。
+DCX のレポートのクラスは、発信元ごとに分かれます。
 
 | 発信元 | クラス | 説明 |
 |---|---|---|
@@ -12,11 +12,11 @@
 | 地方公共団体からの情報 | `dcx.MTInfo` | 地方公共団体が発表します。 |
 | 国外の機関からの情報 | `dcx.OutsideJapan` | 日本国外の機関が発表します。 |
 | 空メッセージ | `dcx.NullMsg` | 警報を持たず、衛星指定マスクだけを運びます。 |
-| 上記以外 | `dcx.Unknown` | 日本から発表されたもので、発信機関が上のどれでもないものです。正確にデコードできない可能性が高いので、デバッグのとき以外は無視してください。 |
+| 上記以外 | `dcx.Unknown` | 日本から発表されたもので、発信元が上のどれでもないものです。正確にデコードできない可能性が高いので、デバッグのとき以外は無視してください。 |
 
-警報のフィールドは `dcx.AlertBase` で宣言しています。上の表の `dcx.NullMsg` 以外の5クラスが、これを継承します。
+警報のフィールドは `dcx.AlertBase` で宣言しています。上の表の `dcx.NullMsg` 以外の5クラスが、`dcx.AlertBase` を継承します。
 
-メッセージの種類や内容によって設定されないフィールドは `None` になります。A1 から A10 までと `dcx_version` は必ず設定されます。このうち `None` になることがあるのは `a6a7_hazard_onset_datetime` だけです。
+メッセージの種類や内容によって設定されないフィールドは `None` になります。A1 から A10 までのフィールドと `dcx_version` は、どの `dcx.AlertBase` のレポートにも設定されます。このうち、値が `None` になることがあるのは `a6a7_hazard_onset_datetime` だけです。
 
 `dcx.NullMsg` は、これらのフィールドを一つも持ちません。
 
@@ -59,13 +59,13 @@
 | `a16_ellipse_azimuth` | `float \| None` |
 | `a17_type_of_specific_settings` | `str \| None` |
 
-国際ライブラリの A11 は、先頭5ビットの List A と後半5ビットの List B に分けて読みます。
+azarashi は、国際ライブラリの A11 を、先頭5ビットの List A と後半5ビットの List B に分けて読みます。
 `a11_international_library_a_code` と `a11_international_library_b_code` は各リストの識別子、
 `a11_international_library_a` と `a11_international_library_b` は各リストの指示です。
 `a11_international_library_code` は両識別子を `; ` でつなぎ、
-`a11_international_library` は両指示を空白でつないだ文字列です。空の指示はつなぎません。
-対応しないライブラリの版では、これらはすべて `None` です。
-日本のライブラリは10ビット全体を1つのコードとして読みます。
+`a11_international_library` は両指示を空白でつないだ文字列です。片方の指示が空の文字列のときは、もう片方の指示だけになります。
+azarashi が対応していないライブラリの版では、これらのフィールドはすべて `None` です。
+azarashi は、日本のライブラリの A11 を、10ビット全体で1つのコードとして読みます。
 
 ## C Fields
 | フィールド | 型 |
@@ -137,10 +137,10 @@
 | `ex9_target_area_list` | `list[str] \| None` |
 | `ex9_target_area_list_ja` | `list[str] \| None` |
 
-ほかに、ビットフィールドのままの値を持つ `camf` と、どの範囲を読み飛ばしたかを示す `ignore_a12_to_a16`、`ignore_a17_to_a18`、`ignore_ex1`、`ignore_ex2_to_ex7`、`ignore_ex8_to_ex9` があります。
+DCX のレポートには、ほかに、デコードする前の値を持つ `camf` と、どの範囲を読み飛ばしたかを示す `ignore_a12_to_a16`、`ignore_a17_to_a18`、`ignore_ex1`、`ignore_ex2_to_ex7`、`ignore_ex8_to_ex9` があります。
 
 ## Example
-L-Alert をデコードする例です。
+次の例は、L-Alert をデコードします。
 ```python
 >>> import azarashi
 >>> msg = '$QZQSM,55,53B0604DE19524CDA305B2C1E355B57800000CCC000000000000001022A8188*7E' # l-alert

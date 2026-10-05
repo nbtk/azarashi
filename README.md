@@ -5,18 +5,18 @@
 # Azarashi
 A QZSS DCR Decoder.
 ## Description
-azarashi は、準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox と Sony Spresense が出力するメッセージ、16進数の文字列、L1S アーカイブを読めます。災危通報は「災害・危機管理通報サービス」の略で、防災機関が発表した地震や津波などの情報を、みちびきが送信します。
+azarashi は、準天頂衛星みちびきが送信する災危通報メッセージのデコーダーです。u-blox の UBX フレーム、Sony Spresense の NMEA センテンス、16進数の文字列、L1S アーカイブを読めます。災危通報は「災害・危機管理通報サービス」の略です。このサービスでは、防災機関が発表した地震や津波などの情報を、みちびきが送信します。
 
-IS-QZSS-DCR-017 と IS-QZSS-DCX-004 に対応しています。DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。
+azarashi は、IS-QZSS-DCR-017 と IS-QZSS-DCX-004 に対応しています。DCR は、気象庁が発表する防災気象情報のメッセージです。DCX は災危通報の拡張メッセージで、L-Alert や J-Alert などを伝えます。
 ## Installation
 ```shell
 $ pip install azarashi
 ```
 シリアルデバイスからの読み込みに使う [pySerial](https://pyserial.readthedocs.io/en/latest/) も一緒にインストールされます。
 
-Python 3.11 以降で動きます。
+azarashi は Python 3.11 以降で動きます。
 ## Usage
-azarashi コマンドにメッセージを渡すと、災害情報を読みやすい文章にして表示します。
+azarashi コマンドは、渡されたメッセージを、読みやすい文章にして表示します。
 ```shell
 $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05' | azarashi nmea
 ```
@@ -41,7 +41,7 @@ $ echo '$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443F
 ```shell
 $ azarashi ublox -f /dev/ttyS0 -b 9600
 ```
-プログラムから使うときは `decode()` にメッセージを渡します。レポートが返り、`print()` に渡すと、さきほどのコマンドと同じ文章を表示します。災害の種類ごとのフィールドは、属性として読むか、`get_params()` で取り出せます。
+プログラムから使うときは `decode()` にメッセージを渡します。`decode()` はレポートを返します。レポートを `print()` に渡すと、さきほどのコマンドと同じ文章が表示されます。災害の種類ごとのフィールドは、属性として読むか、`get_params()` で取り出せます。
 ```python
 >>> import azarashi
 >>> report = azarashi.decode('$QZQSM,55,C6AF89A820000324000050400548C5E2C000000003DFF8001C00001185443FC*05')
@@ -65,17 +65,17 @@ with serial.Serial('/dev/ttyS0', 9600) as ser:
         except azarashi.AzarashiStopReading:
             break
 ```
-捕捉している3つのクラスが、次に何をすべきかを表します。
+この例が捕捉している3つの例外クラスは、次に何をすべきかを表します。
 
-- `AzarashiReadOn`: メッセージが手に入らなかったときに送出されます。たとえばメッセージが壊れていたときや、azarashi がまだ対応していない種類のメッセージだったときです。ストリームは無事なので、もう一度呼べば次のメッセージに進みます。
+- `AzarashiReadOn`: レポートが得られなかったときに送出されます。たとえば、メッセージが壊れていたときや、azarashi がデコードしない種類のメッセージだったときです。ストリームは無事なので、`decode_stream()` をもう一度呼べば次のメッセージに進みます。
 - `AzarashiReopenStream`: ストリームの読み取りそのものが失敗したときに送出されます。たとえば USB のデバイスが抜けたときです。そのストリームは二度と読めないので、閉じて開き直してください。
 - `AzarashiStopReading`: 読むものがなくなったときに送出されます。たとえば記録したファイルを最後まで読んだときです。続きは届きません。
 
-3つは互いに継承関係がないので、どの順番に書いても同じように動きます。実際に送出されるのは、この3つのいずれかを継承した、より細かいクラスです。何が起きたかを名前が表すので、ログには `AzarashiDisconnectedError` のような具体的な名前が出ます。
+この3つのクラスは互いに継承関係がないので、どの順番に書いても同じように動きます。実際に送出されるのは、この3つのいずれかを継承した、より細かいクラスです。何が起きたかを名前が表すので、ログには `AzarashiDisconnectedError` のような具体的な名前が出ます。
 
-呼び出し方を間違えたときは、この3つのどれでもない `AzarashiFixTheCall` の仲間が送出されます。たとえば対応していない形式を指定したときです。ループでは捕捉されず、理由を示して止まります。コードを直してください。
+呼び出し方を間違えたときは、この3つのどれでもない、`AzarashiFixTheCall` を継承した例外が送出されます。たとえば対応していない形式を指定したときです。この例外は上のループでは捕捉されず、理由を示してプログラムを止めます。コードを直してください。
 
-仕様にないコード値を受け取っただけでは例外になりません。そのコード値は `火山(コード番号：999)` のような名前にしてレポートに入れます。例外の一覧は [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md) を見てください。
+azarashi は、仕様にないコード値を受け取っただけでは例外を送出しません。そのコード値を `火山(コード番号：999)` のような名前にして、レポートに入れます。例外の一覧は [API](https://github.com/nbtk/azarashi/blob/main/docs/api.md) を見てください。
 ## Documentation
 - [Preparation](https://github.com/nbtk/azarashi/blob/main/docs/preparation.md): u-blox や Sony Spresense に災危通報を出力させる設定
 - [CLI](https://github.com/nbtk/azarashi/blob/main/docs/cli.md): azarashi コマンドのオプション、受信データの記録と再生
