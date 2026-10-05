@@ -8,7 +8,7 @@ import pytest
 
 from azarashi.decoders import nmea
 
-from azarashi import code_tables, json_schema
+from azarashi import json_code_tables, json_schema
 from azarashi.json.model import PROFILES, TYPE_NAMES
 from azarashi.json.tables import TABLES, code_tables as built_code_tables
 from examples.generate import code_tables_text, fixtures
@@ -25,7 +25,7 @@ FOLDER = ROOT / 'docs/json'
 PUBLISHED = json_schema()
 SCHEMA = strict(PUBLISHED)  # azarashi's own output: nothing it has not defined
 VALIDATOR = Draft202012Validator(SCHEMA, format_checker=FormatChecker())
-CODE_TABLES = code_tables()['tables']
+CODE_TABLES = json_code_tables()['tables']
 
 
 def test_schema_is_valid_and_reproducible():
@@ -372,9 +372,9 @@ def test_the_bundled_schema_is_the_one_the_conversion_tables_build():
 
 
 def test_the_code_tables_are_the_catalogue_and_the_docs_file_is_the_same():
-    assert code_tables() == built_code_tables()
-    assert (FOLDER / 'code-tables-v2.json').read_text(encoding='utf-8') == code_tables_text(code_tables())
-    assert json.loads((FOLDER / 'code-tables-v2.json').read_text(encoding='utf-8')) == code_tables()
+    assert json_code_tables() == built_code_tables()
+    assert (FOLDER / 'code-tables-v2.json').read_text(encoding='utf-8') == code_tables_text(json_code_tables())
+    assert json.loads((FOLDER / 'code-tables-v2.json').read_text(encoding='utf-8')) == json_code_tables()
 
 
 def test_every_code_a_record_carries_is_in_the_code_tables_as_the_record_gives_it():

@@ -71,9 +71,9 @@ EX1・EX2・EX9 と、DCX 自身のメッセージ種別の4つです。
 
 JSON 出力は `azarashi/json/` にまとめます。`__init__.py` が公開する入口と、レポートの `to_json_dict()`・`to_ndjson()` が使う変換、`model.py` が
 レポートから JSON への対応、`tables.py` がレコードの参照するコード表の一覧、`schemas/` が同梱する
-スキーマです。`code_tables()` は `tables.py` からその場で作るので、コード表のファイルは配布物に含めません。
+スキーマです。`json_code_tables()` は `tables.py` からその場で作るので、コード表のファイルは配布物に含めません。
 docs の `docs/json/code-tables-v2.json` も `tables.py` から作るので、コードの名前や `special` を変えたら
-`PYTHONPATH=.:tests python -m examples.generate` で作り直します。テストが、ファイルと `code_tables()` の一致を確かめます。
+`PYTHONPATH=.:tests python -m examples.generate` で作り直します。テストが、ファイルと `json_code_tables()` の一致を確かめます。
 スキーマも `tests/examples/schema.py` が変換の表（`model.py` の `PROFILES` など）から作ります。スキーマを変えるときは
 このファイルを直し、同じコマンドで作り直します。テストが、配布するスキーマとの一致を確かめます。
 スキーマは配布物に含めるので、`setup.py` の `package_data` に `azarashi.json` として登録しています。

@@ -1,6 +1,6 @@
 """The code tables a JSON record names in `table`, in one catalogue.
 
-A record takes the labels and the status of a code from here, and code_tables() writes the same
+A record takes the labels and the status of a code from here, and json_code_tables() writes the same
 catalogue out, so that the two cannot disagree. A table is named `<specification>.<table>`, and a
 table whose codes change with a country or a library version goes on with `.<qualifier>`.
 """

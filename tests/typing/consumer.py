@@ -101,7 +101,7 @@ if isinstance(report, reports.dcr.Tsunami):
 json_record: dict[str, azarashi.JsonValue] = report.to_json_dict()
 ndjson_line: str = report.to_ndjson()
 json_contract: dict[str, azarashi.JsonValue] = azarashi.json_schema()
-json_code_tables: dict[str, azarashi.JsonValue] = azarashi.code_tables()
+json_code_tables: dict[str, azarashi.JsonValue] = azarashi.json_code_tables()
 own_text: str = report.get_text()
 english_text: str | None = report.get_text('en')
 preferred_text: str | None = report.get_text('en', 'ja')

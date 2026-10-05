@@ -39,9 +39,9 @@ def test_schema_is_a_fresh_copy():
 
 
 def test_code_tables_are_a_fresh_copy():
-    first = azarashi.code_tables()
+    first = azarashi.json_code_tables()
     first['tables'].clear()
-    assert azarashi.code_tables()['tables']
+    assert azarashi.json_code_tables()['tables']
 
 
 def test_subclasses_use_the_supported_base_contract():

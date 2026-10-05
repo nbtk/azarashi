@@ -56,11 +56,11 @@ def code_tables_text(tables):
 if __name__ == '__main__':
     from jsonschema import Draft202012Validator, FormatChecker
     from strict_schema import strict
-    from azarashi import code_tables
+    from azarashi import json_code_tables
     from examples.schema import schema_text
     root = Path(__file__).resolve().parents[2]
     (root / 'azarashi/json/schemas/report-v2.schema.json').write_text(schema_text(), encoding='utf-8')
-    (root / 'docs/json/code-tables-v2.json').write_text(code_tables_text(code_tables()), encoding='utf-8')
+    (root / 'docs/json/code-tables-v2.json').write_text(code_tables_text(json_code_tables()), encoding='utf-8')
     validator = Draft202012Validator(strict(json_schema()), format_checker=FormatChecker())
     chosen = fixtures()
     for r in chosen:

@@ -19,10 +19,10 @@ report = azarashi.decode(sentence, 'nmea')
 record = report.to_json_dict()
 sys.stdout.write(report.to_ndjson())
 schema = azarashi.json_schema()
-tables = azarashi.code_tables()
+tables = azarashi.json_code_tables()
 ```
 
-レポートの `to_json_dict()` はレコードを、`json_schema()` はパッケージに同梱されたスキーマを、`code_tables()` はコード表を辞書として返します。
+レポートの `to_json_dict()` はレコードを、`json_schema()` はパッケージに同梱されたスキーマを、`json_code_tables()` はコード表を辞書として返します。
 どれも呼び出すたびに新しい辞書を返すので、書き換えても、レポートやほかの呼び出しの結果は変わりません。
 レポートの `to_ndjson()` は末尾の改行を含む1件分の文字列です。`print()` を使う場合は `end=''` を指定します。
 型ヒントでは、3つの戻り値は `dict[str, JsonValue]` です。`JsonValue` は、JSON の値を表す型の別名です。
@@ -237,7 +237,7 @@ A4 のコード0と、4か国（日本、オーストラリア、フィジー、
 ## Code Tables
 
 コード表は、レコードの `table` と `code` で引ける1つの JSON です。
-[docs/json/code-tables-v2.json](json/code-tables-v2.json) にあります。Python では `code_tables()` で同じ中身が取れます。
+[docs/json/code-tables-v2.json](json/code-tables-v2.json) にあります。Python では `json_code_tables()` で同じ中身が取れます。
 レコードの `status` と `labels` は、コード表と必ず一致します。
 
 ```json
@@ -559,7 +559,7 @@ Galileo EWS に対応するときは、v3 にします。v2 の `reception.satel
 
 `schema_version` は整数で、azarashi 自身のバージョンとは独立です。
 
-公開しているのは、レポートの `to_json_dict()`・`to_ndjson()` と、`azarashi` から取れる `json_schema()`・`code_tables()`・`JsonValue` です。
+公開しているのは、レポートの `to_json_dict()`・`to_ndjson()` と、`azarashi` から取れる `json_schema()`・`json_code_tables()`・`JsonValue` です。
 `azarashi.json` の中の内部名は互換性の対象ではありません。
 
 JSON への変換ではスキーマによる検証を行いません。必要な場合は `json_schema()` でスキーマを取得し、検証ライブラリに渡してください。

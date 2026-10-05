@@ -48,7 +48,7 @@ def json_schema() -> dict[str, JsonValue]:
     return result
 
 
-def code_tables() -> dict[str, JsonValue]:
+def json_code_tables() -> dict[str, JsonValue]:
     """Return the code tables that the JSON v2 records name, a new dict at each call."""
     result = copy_json(_code_tables())
     assert isinstance(result, dict)

@@ -91,7 +91,7 @@ L1S アーカイブから読んだ衛星の PRN と GPS 時刻も破棄します
 ## JSON Output
 
 レポートの `to_json_dict()` は JSON 用の辞書、`to_ndjson()` は改行付きの1件分の文字列を返します。
-`json_schema()` は配布スキーマの辞書を、`code_tables()` は JSON が参照するコード表の辞書を返します。
+`json_schema()` は配布スキーマの辞書を、`json_code_tables()` は JSON が参照するコード表の辞書を返します。
 詳しくは [JSON Output](json.md) を参照してください。
 
 ## AzarashiException
