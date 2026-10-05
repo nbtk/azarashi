@@ -2,7 +2,7 @@
 
 # JSON Output v2
 
-レポートの `to_json_dict()` と `to_ndjson()`、CLI の `--json` が出力する JSON の形式と、各項目の意味を説明します。
+この文書は、レポートの `to_json_dict()` と `to_ndjson()`、CLI の `--json` が出力する JSON の形式と、各項目の意味を説明します。
 
 - [JSON Schema](../azarashi/json/schemas/report-v2.schema.json)：Draft 2020-12。レポートの18種類すべてを定めます
 - [コード表](json/code-tables-v2.json)：レコードの `table` と `code` で引ける表
@@ -23,10 +23,10 @@ tables = azarashi.json_code_tables()
 ```
 
 レポートの `to_json_dict()` はレコードを、`json_schema()` はパッケージに同梱されたスキーマを、`json_code_tables()` はコード表を辞書として返します。
-どれも呼び出すたびに新しい辞書を返すので、書き換えても、レポートやほかの呼び出しの結果は変わりません。
+どれも呼び出すたびに新しい辞書を返すので、返った辞書を書き換えても、レポートやほかの呼び出しの結果は変わりません。
 レポートの `to_ndjson()` は末尾の改行を含む1件分の文字列です。`print()` を使う場合は `end=''` を指定します。
 型ヒントでは、3つの戻り値は `dict[str, JsonValue]` です。`JsonValue` は、JSON の値を表す型の別名です。
-文字列・整数・小数・真偽値・`None`、または中身が `JsonValue` のリストと辞書です。`azarashi` から import できます。
+`JsonValue` が表すのは、文字列・整数・小数・真偽値・`None`、または中身が `JsonValue` のリストと辞書です。`JsonValue` は `azarashi` から import できます。
 
 ## CLI
 
@@ -74,8 +74,8 @@ azarashi ublox --input /dev/ttyUSB0 --json --unique
 | `data` | その中身を項目ごとに | 種類ごとに定めた内容 |
 
 `is_test` は、DCR では通報区分のコードが 7（訓練/試験）のとき、DCX では A1 のコードが 0（Test）のときに `true` です。
-DCX の空メッセージ（`qzss.dcx.null`）は警報を持たないので、常に `false` です。
-元のコードは、DCR では `data.report_classification`、DCX では `data.message_type` にあります。
+DCX の空メッセージ（`qzss.dcx.null`）は警報を持たないので、`is_test` は常に `false` です。
+`is_test` の元のコードは、DCR では `data.report_classification`、DCX では `data.message_type` にあります。
 
 ### Reception
 
@@ -88,11 +88,11 @@ DCX の空メッセージ（`qzss.dcx.null`）は警報を持たないので、�
 QZQSM センテンスは `$QZQSM,<衛星 ID>,<メッセージの16進63桁>*<チェックサム>` の形です。
 衛星 ID は、L1S の PRN の下位6ビットを十進で書いたもので、PRN183 なら 55 です。
 hex のように衛星のわからない入力では、azarashi は衛星 ID を 55 にします。
-受信した衛星は `satellite` で確かめてください。衛星がわからないときは `null` です。
+受信した衛星は `satellite` で確かめてください。衛星がわからないときは、`satellite` は `null` です。
 
 ### Texts
 
-`texts` は、言語コードをキーにした文章です。`report.get_texts()` と同じ中身です。
+`texts` は、言語コードをキーにした文章です。`texts` の中身は、`report.get_texts()` と同じです。
 
 | レポート | `ja` | `en` |
 |---|---|---|
@@ -107,13 +107,13 @@ DCX の `en` には、`str(report)` にある日本語の行、「A11 - Instruct
 ## Duplicates
 
 同じメッセージは、複数の衛星から、違うプリアンブルで繰り返し届きます。
-`message_id` は、メッセージの種類とレポートの `raw` から作る文字列です。同じメッセージなら、衛星やプリアンブルが違っても同じ値です。
+`message_id` は、メッセージの種類とレポートの `raw` から作る文字列です。同じメッセージなら、衛星やプリアンブルが違っても、`message_id` は同じ値です。
 
-形は「システムとメッセージの種類」「:」「レポートの `raw` の16進」です。
+`message_id` の形は「システムとメッセージの種類」「:」「レポートの `raw` の16進」です。
 
 - システムとメッセージの種類は、`type` の先頭の2つです。例：`qzss.dcr`、`qzss.dcx`。
-- `raw` は、衛星ごと・送信ごとに変わる部分を除いたビット列で、小文字の16進にします。
-  除くのは、プリアンブル、CRC、DCX の衛星指定マスクです。DCR は27バイト（54桁）、DCX は CAMF の先頭から数えた25バイト（50桁）です。
+- `raw` は、メッセージから衛星ごと・送信ごとに変わる部分を除いたビット列です。`message_id` には、小文字の16進で書きます。
+  メッセージから除くのは、プリアンブル、CRC、DCX の衛星指定マスクです。`raw` の長さは、DCR では27バイト（54桁）、DCX では CAMF の先頭から数えた25バイト（50桁）です。
 
 ```text
 qzss.dcr:af89a820000324000050400548c5e2c000000003dff8001c000010
@@ -121,8 +121,8 @@ qzss.dcx:0de102111de000000000000000000001134000000000000000
 ```
 
 まったく同じ中身のメッセージが、ずっと後に送られることもあります。そのときも `message_id` は同じです。
-重複を除くときは、時間の範囲と組み合わせてください。DCR は月日時分を持つので1年以内、
-DCX は週の中の分を持つので1週間以内なら、同じ値は同じメッセージの繰り返しです。
+重複を除くときは、`message_id` を受信時刻の範囲と組み合わせてください。DCR のメッセージは月日時分を持つので1年以内、
+DCX のメッセージは週の中の分を持つので1週間以内に受信したものなら、`message_id` が同じレポートは、同じメッセージの繰り返しです。
 
 レポートの `==` と、CLI の `--unique`・`decode_stream()` の `unique` は、レポートのクラスと `raw` で同じかを判断します。
 デコードしたレポートでは、`raw` が同じならクラスも同じなので、`message_id` と同じ結果になります。
@@ -144,7 +144,7 @@ DCX は週の中の分を持つので1週間以内なら、同じ値は同じメ
 DCX の A1 0 Test と空メッセージは、そのどれにも当たらないので `lifecycle` を省きます。
 
 `key` は、同じ警報のレポートに共通の文字列です。
-仕様が、同じ警報なら同じ値になると定めている項目を、`.` でつないでいます。
+`key` は、仕様が、同じ警報なら同じ値になると定めている項目の値を、`.` でつないだものです。
 
 | レポート | `key` の元 | 例 |
 |---|---|---|
@@ -159,7 +159,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 
 ## Status
 
-`data` のコード・数量・時刻・位置・楕円には、どれにも `status` があります。そのまま使ってよいかは、`status` だけで判断できます。
+`data` のコード・数量・時刻・位置・楕円には、どれにも `status` があります。その値をそのまま使ってよいかは、`status` だけで判断できます。
 `hazard` や `instruction`、`forecasts` の要素のような入れ物と、南海トラフの `page` には、`status` はありません。
 
 | `status` | 意味 |
@@ -174,7 +174,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 - 値がわからない：「不明 / Unknown」
 - 値がない：「なし / None」「該当情報なし / No data」「指示なし / No instruction」
 - 仕様が値のない印として割り当てた値：「Not used」
-- 気象庁が表にない値を送るときのコード：「その他の警報」「北海道のその他の市町村」など。IS-QZSS-DCR-017 は、気象庁のシステムの改修で
+- 気象庁が表にない値を送るときのコード：「その他の警報」「北海道のその他の市町村」など。IS-QZSS-DCR-017 は、このコードを、気象庁のシステムの改修で
   表にない値を送るときに使う、と注で説明しています。地域ごとの「その他」は、`labels` でどの都道府県や地方かがわかります
 - メッセージ自身が無効と言っている値：火山の日時で Du が 6・7 のとき
 
@@ -193,7 +193,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 
 `table` と `code` を合わせて、1つのコードを表します。
 `code` は非負整数の十進文字列で、先頭にゼロを付けません。
-コード表のファイルのキーも文字列なので、そのまま引けます。
+コード表のファイルのキーも文字列なので、`code` の値でそのまま表を引けます。
 
 `table` は `<仕様の名前>.<表の名前>` です。国や版で中身が変わる表は、そのあとに `.` で国や版を続けます。
 
@@ -210,7 +210,7 @@ DCX の A1 0 Test と空メッセージは、そのどれにも当たらない�
 
 N と V は、伝送されたコード値です。
 
-`labels` は、コードの名前を言語ごとに持ちます。日本語・英語がある場合だけ `ja`・`en` を出します。
+`labels` は、コードの名前を言語ごとに持ちます。日本語の名前があるときだけ `ja` を、英語の名前があるときだけ `en` を持ちます。
 `labels` の値が空文字列になることはありません。`undefined` のコードは、`labels` が空オブジェクトです。
 
 DCR の英語は、気象庁の多言語辞書や気象庁のページ、DCR 仕様書の英語から取っています。
@@ -221,19 +221,19 @@ DCR の英語は、気象庁の多言語辞書や気象庁のページ、DCR 仕
 意味の正は、常に日本語の `ja` です。
 
 日本のライブラリのコード0は、DCX 仕様書が本文で no instruction と定めるコードです。`status` は `special`、`labels` は
-`{"ja": "指示なし", "en": "No instruction"}` です。表にはないので、この名前は日本語も英語も azarashi が付けたものです。
+`{"ja": "指示なし", "en": "No instruction"}` です。このコードは表にないので、この名前は日本語も英語も azarashi が付けたものです。
 国際ライブラリの List A と List B のコード0も、CAMF の注記が指示なしと定めているので、`status` は `special`、`labels.en` は `No instruction` です。
 List B のコード29と30は、表で reserved なので `undefined` です。
 C10 のコード0は、CAMF の注記が指示なしと定めているので、`status` は `special`、`labels.en` は `No instruction` です。
 A4 のコード0と、4か国（日本、オーストラリア、フィジー、タイ）の A3 のコード0は、仕様が not used と定めているので、
-`status` は `special`、`labels.en` は `Not used` です。ほかの国の A3 は azarashi が表を持たないので、コード0も `undefined` です。
+`status` は `special`、`labels.en` は `Not used` です。azarashi はほかの国の A3 の表を持たないので、ほかの国の A3 は、コード0も `undefined` です。
 
 ### Instruction
 
 `data.instruction` は、A9 のライブラリ（`library`）、A10 の版（`library_version`）、A11 の指示（`content`）を持ちます。
 国際ライブラリ（A9=0）では、`content.list_a` と `content.list_b` がそれぞれ5ビットのコードオブジェクトです。
-各オブジェクトに CAMF の指示の名前 `identifier`（`IC-A-04`、`IC-B-02` など）を添えます。
-対応しない A10 の版では、`status` は `undefined`、`identifier` は `null` です。
+各オブジェクトには、CAMF の指示の名前 `identifier`（`IC-A-04`、`IC-B-02` など）があります。
+azarashi が対応していない A10 の版では、両方のオブジェクトの `status` は `undefined`、`identifier` は `null` です。
 `source.a11` は、分割前の10ビット全体の整数です。
 
 国のライブラリ（A9=1）では、`content` が10ビット全体のコードオブジェクトです。
@@ -266,16 +266,16 @@ A4 のコード0と、4か国（日本、オーストラリア、フィジー、
 | `codes` | 表にあるコードごとの `status` と `labels`。`status` は `valid` か `special` です |
 
 コードの並び順に意味はありません。大小を比べたいときは、`labels` や数量の `range` を見てください。
-国や版で変わる表は、azarashi が持っている国と版の分だけ並べます。
+国や版で中身が変わる表は、azarashi が持っている国と版の分だけ、コード表に入っています。
 持っていない国や版の表（たとえば `camf.a3_provider_identifier.country_103`）は、ファイルにありません。
 そうした表を指すコードは、必ず `status` が `undefined`、`labels` が `{}` です。
 
 `labels` の決め方は、どの表も同じです。表がコードに言葉を付けていればその言葉、数だけを定めていれば、その数に仕様の単位を付けた文字です。
-単位のない数は、数だけです。DCR の深さの `10 km`、マグニチュードの `7.2`、CAMF の D3 の `22.5°`、D4 の `0.25` がその例です。
+単位のない数の `labels` は、数だけです。DCR の深さの `10 km`、マグニチュードの `7.2`、CAMF の D3 の `22.5°`、D4 の `0.25` がその例です。
 
 ## Quantities
 
-深さや高さなど、コードが数を表す値は、コードオブジェクトに数を足した形で出力します。
+深さや高さなど、コードが数を表す値は、コードオブジェクトに数を足した形です。
 
 ```json
 {
@@ -297,7 +297,7 @@ A4 のコード0と、4か国（日本、オーストラリア、フィジー、
 
 `value` と `range` は、どちらか一方だけです。
 `special` のコードで数がないものは、`value` が `null` です。「不明」や「その他の津波の高さ」がこれに当たります。
-`valid` のコードで数を表さないものは、どちらも省きます。北西太平洋津波の高さの「巨大」「高い」がこれに当たります。
+`valid` のコードで数を表さないものは、`value` と `range` のどちらも省きます。北西太平洋津波の高さの「巨大」「高い」がこれに当たります。
 範囲が端を含むかどうかは、`labels` の「未満」「超」などの言い回しで判断してください。
 
 震源のマグニチュードのコード126「不明(8.0より大きい)」は、`status` が `special` で、`range` が `{"lower": 8, "upper": null}` です。
@@ -317,11 +317,11 @@ A4 のコード0と、4か国（日本、オーストラリア、フィジー、
 | 13 / 14 | 該当情報なし / 不明 | `special`、`value` は `null` |
 | 15 | その他の津波の高さ | `special`、`value` は `null` |
 
-境界は[気象庁の高さ区分](https://www.jma.go.jp/jma/kishou/know/jishin/joho/tsunamiinfo.html)に対応します。
+この範囲の境界は[気象庁の高さ区分](https://www.jma.go.jp/jma/kishou/know/jishin/joho/tsunamiinfo.html)に対応します。
 
 北西太平洋津波の高さのコード1〜4は、仕様の表の範囲を `range` にします。例えば 0.3〜1 です。
-508「10m 超」は `{"lower": 10, "upper": null}` です。
-511「不明」は `special` です。
+508「10m 超」の `range` は `{"lower": 10, "upper": null}` です。
+511「不明」の `status` は `special` です。
 
 CAMF の災害別詳細（D1〜D36）のうち、数値や数値の範囲を表す12項目も同じ形で出力します。
 
@@ -341,10 +341,10 @@ CAMF の災害別詳細（D1〜D36）のうち、数値や数値の範囲を表�
 | D29 停電の見込み時間 | `range` | `min` |
 
 仕様の表には `1.0-1.9` と `2.0-2.9`、`1km/h < v < 5km/h` と `6km/h < v < 11km/h` のように丸めた数で
-書かれた範囲がありますが、D26 以外はすきまのない範囲の並びとして読みます。各範囲の上限は次の範囲の下限です。
-単位の異なる表は1つにそろえ、視程はメートル、停電時間は分で表します。
+書かれた範囲があります。azarashi は、D26 以外の表を、すきまのない範囲の並びとして読みます。各範囲の上限は次の範囲の下限です。
+azarashi は、表によって単位が違う項目を、1つの単位にそろえます。視程はメートル、停電時間は分です。
 
-D2 の地震係数は日本の震度の段階（5弱・5強など）なので、数値にせずコードで出力します。
+D2 の地震係数は日本の震度の段階（5弱・5強など）なので、azarashi は数値にせず、コードで出力します。
 上の表にないほかの項目も、数値ではない区分なのでコードで出力します。
 
 ## Time
@@ -377,7 +377,7 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 | 津波と北西太平洋津波の `arrival` | `valid`、`special`、`undefined` | 日・時・分 | `report_time` |
 | DCX の `onset` | `valid`、`special`、`undefined` | 週・週内分 | `reception.at` |
 
-時刻でない値のときは、`status` が `special` で、意味は `labels` にあります。
+メッセージの時刻の部分が時刻でない値を表すときは、`status` が `special` で、その意味は `labels` にあります。
 
 | フィールド | `labels` |
 |---|---|
@@ -387,18 +387,18 @@ D2 の地震係数は日本の震度の段階（5弱・5強など）なので、
 | DCX の `onset` | `Not used`（A7 が 0） |
 
 火山の日時の精度は、日時の曖昧さ（Du）で決まります。Du が 0〜3 なら `minute`、4 なら `hour`、5 なら `day` です。
-火山のレコードは、`activity_time_ambiguity` も省きません。Du のコードオブジェクトで、表は `qzss.dcr.ambiguity_of_activity_time` です。
-英語のラベルは DCR 仕様書の文言です。日本語の表はないので、`ja` はありません。
+火山のレコードは、`activity_time_ambiguity` も省きません。`activity_time_ambiguity` は Du のコードオブジェクトで、表は `qzss.dcr.ambiguity_of_activity_time` です。
+この表の英語のラベルは DCR 仕様書の文言です。日本語の表はないので、`labels` に `ja` はありません。
 
 ## Regions, Forecasts and Positions
 
 地域ごとに繰り返す項目は、1つの地域を1つのオブジェクトにした配列です。
 津波の `forecasts` の要素は、`region`・`arrival`・`height` を省きません。
-ほかの警報も、地域とその警報内容を一緒に持ちます。洪水の `warnings` の要素も `{region, warning}` です。
+ほかの警報の配列の要素も、地域とその警報内容を一緒に持ちます。洪水の `warnings` の要素も `{region, warning}` です。
 
 DCX の `target_regions` は地域のコードオブジェクトの配列です。
-EX1 が 0 のときは、対象地域の指定がないので空の配列です。
-EX9 は、EX8 によって都道府県か市町村かが変わります。
+EX1 が 0 のときは、対象地域の指定がないので、`target_regions` は空の配列です。
+EX9 のコードは、EX8 によって都道府県か市町村かが変わります。
 都道府県なら `qzss.dcx.ex9_target_area_code_list`、市町村なら EX1 と同じ `qzss.dcx.ex1_target_area_code` の表のコードになります。
 
 DCR の位置は、次の形です。
@@ -415,8 +415,8 @@ DCR の位置は、次の形です。
 }
 ```
 
-緯度経度は符号付きで、北緯と東経が正です。位置でないコードなら `status` は `undefined`、`value` は `null` です。
-DCR の緯度経度は小数点以下9桁、DCX の楕円の中心は小数点以下6桁に丸めています。
+緯度経度は符号付きで、北緯と東経が正です。メッセージの位置のコードが位置を表さないときは、`status` は `undefined`、`value` は `null` です。
+azarashi は、DCR の緯度経度を小数点以下9桁に、DCX の楕円の中心を小数点以下6桁に丸めます。
 
 DCX の楕円は、次の形です。
 
@@ -433,8 +433,8 @@ DCX の楕円は、次の形です。
 }
 ```
 
-軸長は km、座標・角度は度で、単位はキーの末尾に付けています。
-角度は東を0、東から北へ正とする仕様の規約です。
+`value` の中の軸の長さは km、座標と角度は度です。単位は、キーの名前の末尾に付いています。
+角度は、仕様の規約どおり、東を0度として、東から北へ回る向きを正とします。
 航海用の北基準の方位角と混同しないでください。
 
 緯度は ±90 度、経度は ±180 度を超えることがあります。
@@ -443,7 +443,7 @@ DCX の楕円は、次の形です。
 災害の中心は主楕円の中心から最大10度ずれるので、緯度は±100度、経度は±190度までになります。楕円の方位 `azimuth_deg` は、どの楕円も -90 度以上 90 度未満です。
 
 楕円の `source` は、その楕円を組み立てた伝送コードです。
-どのフィールドのコードかは、どの楕円かで決まります。`main_ellipse` は A12〜A16、
+`source` がどのフィールドのコードかは、どの楕円かで決まります。`main_ellipse` は A12〜A16、
 `specific_settings.refined_ellipse` は C1〜C4 と A16、`evacuation.ellipse` は EX3〜EX7 です。
 
 `specific_settings` は、A17 のコードオブジェクト `type` と、その種類のグループを1つ持ちます。
@@ -464,15 +464,15 @@ DCX の楕円は、次の形です。
 | `bearing` | C9 | 数量 | `deg` | `main_ellipse.azimuth` | 主楕円の方位からの回転角。第二楕円の方位は `main_ellipse.value.azimuth_deg` + `value`（東から北へ） |
 | `instruction` | C10 | コード | | | 第二楕円の中にいる人への指示 |
 
-第二楕円そのものの中心の緯度経度や、軸の長さは出力しません。
+JSON には、第二楕円の中心の緯度経度と、軸の長さは入りません。上の表の式で求めてください。
 
-追加楕円には、避難方向を `evacuation.direction`（EX2 のコードオブジェクト）として添えます。
+`evacuation` は、追加楕円 `ellipse` と、避難方向 `direction`（EX2 のコードオブジェクト）を持ちます。
 
 ## Report Types and Field Mapping
 
 DCR 共通：version → `version`、report_time → `report_time`、通報区分・情報形態 →
 `report_classification`・`information_type`。災害分類は `type` にまとめます。
-表のコードを持つ項目は、元の `*_raw`・`*_no` とそのコード表から作り、表示用の属性は `labels` にまとめます。
+azarashi は、コードを持つ項目を、レポートの `*_raw`・`*_no` の値とコード表から作ります。レポートの表示用のフィールドに当たるものは、`labels` です。
 
 | Python クラス / type の末尾 | data の固有項目 |
 |---|---|
@@ -489,19 +489,19 @@ DCR 共通：version → `version`、report_time → `report_time`、通報区�
 | Typhoon / typhoon | reference_time、reference_time_type、elapsed_time、number、scale_category、intensity_category、position、central_pressure、maximum_wind_speed、maximum_gust_wind_speed |
 | Marine / marine | warnings[{region,warning}] |
 
-長周期地震動の上下限は、コード0「該当情報なし」でも `special` のコードオブジェクトとして出力します。
+長周期地震動の上下限は、コード0「該当情報なし」のときも、`special` のコードオブジェクトです。
 
-DCR の `version` は `{"status": …, "value": …}` です。仕様の定める1なら `valid`、それ以外は `undefined` です。
+DCR の `version` は `{"status": …, "value": …}` です。`value` が仕様の定める1なら、`status` は `valid`、それ以外なら `undefined` です。
 
 DCX 警報共通：Vn → `version`、A1 → `message_type`、A2 → `country`、A3 → `provider`、A4 → `hazard`、
 A5 → `severity`、A6・A7 → `onset`、A8 → `duration`、A9・A10・A11 → `instruction`。
 `message_type` は CAMF の A1 です。L1S の Message Type（43・44）ではありません。
 A4 は `hazard` の `type`・`category`・`definition` の3つのコードオブジェクトにします。
-1つの A4 のコードを、種類・区分・説明の3つの表で引いたものです。`code` はどれも同じです。
+この3つは、1つの A4 のコードを、種類・区分・説明の3つの表で引いたものです。`code` はどれも同じです。
 
-DCX の `version` も同じ形です。L-Alert、J-Alert、地方公共団体からの情報は、仕様の定める1なら `valid`、それ以外は `undefined` です。
-国外の機関からの情報は、どの値でも `valid` です。
-種類のわからない DCX は、どの値でも `undefined` です。
+DCX の `version` も同じ形です。L-Alert、J-Alert、地方公共団体からの情報では、`value` が仕様の定める1なら、`status` は `valid`、それ以外なら `undefined` です。
+国外の機関からの情報では、`status` は値によらず `valid` です。
+種類のわからない DCX では、`status` は値によらず `undefined` です。
 
 | Python クラス / type の末尾 | 警報共通項目以外の項目 |
 |---|---|
@@ -546,26 +546,26 @@ DCX の L-Alert、J-Alert、地方公共団体からの情報は、`series.key` 
 
 ## Nankai Trough Pages
 
-`page` は1ページ分です。UTF-8 の文字がページ境界で切れるので、本文は `content_hex` に保持します。
+`page` は1ページ分です。ページの境界で UTF-8 の文字が切れることがあるので、`page` は本文を `content_hex` に16進で持ちます。
 同じ発表のページは、`series.key` でまとめられます。
 `texts.ja` は、変換する時点までに受信したページから組み立てた文章です。後からページが届くと、同じページを変換し直したときに文章が変わります。
 
 ## Validation and Versioning
 
 `$id` は `urn:azarashi:report:2` です。外部スキーマの参照はありません。
-スキーマは形を検証します。下限≦上限のような項目間の関係と、コードと名前の一致は検証しません。名前はコード表と照らせば確かめられます。
+スキーマは形を検証します。下限≦上限のような項目間の関係と、コードと名前の一致は検証しません。名前が正しいかは、コード表と照らして確かめられます。
 スキーマで検証するときは、format の検証を有効にしてください。
 
-同じ版の中で、キーとレポートの種類を足すことがあります。読む側は、知らないキーと知らない `type` を無視してください。
+azarashi は、同じ版の中でも、キーとレポートの種類を足すことがあります。読む側は、知らないキーと知らない `type` を無視してください。
 スキーマも、知らないキーと、`qzss.dcr.tsunami` と同じ形の知らない `type` を受け付けます。
 
 既存のキーの意味・形・単位を変えるとき、既存のキーに新しい値（`status` や `lifecycle` の種類など）を足すとき、
 キーを消すときは、別の版にします。コード表に新しいコードが加わるのと、表示の文言の修正は、このどれにも当たりません。
-Galileo EWS に対応するときは、v3 にします。v2 の `reception.satellite.system` は `qzss` だけです。
+azarashi が Galileo EWS に対応するときは、v3 にします。v2 の `reception.satellite.system` は `qzss` だけです。
 
 `schema_version` は整数で、azarashi 自身のバージョンとは独立です。
 
 公開しているのは、レポートの `to_json_dict()`・`to_ndjson()` と、`azarashi` から取れる `json_schema()`・`json_code_tables()`・`JsonValue` です。
 `azarashi.json` の中の内部名は互換性の対象ではありません。
 
-JSON への変換ではスキーマによる検証を行いません。必要な場合は `json_schema()` でスキーマを取得し、検証ライブラリに渡してください。
+`to_json_dict()` は、スキーマで検証しません。検証が必要なときは、`json_schema()` でスキーマを取得し、検証ライブラリに渡してください。
