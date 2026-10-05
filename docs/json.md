@@ -504,7 +504,7 @@ DCX の `version` も同じ形です。L-Alert、J-Alert、市町村からの情
 | LAlert / l_alert | main_ellipse または target_regions の一方、適用される specific_settings |
 | JAlert / j_alert | target_regions。楕円と specific_settings はありません |
 | MTInfo / mt_info | main_ellipse、target_regions、適用される specific_settings と evacuation |
-| Unknown / unknown | デコーダが解釈した共通項目・main_ellipse・specific_settings |
+| Unknown / unknown | デコーダーが解釈した共通項目・main_ellipse・specific_settings |
 
 | DCX の元のフィールド | 出力先 |
 |---|---|

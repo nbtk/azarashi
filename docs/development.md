@@ -16,8 +16,8 @@ GitHub Actions の typing ジョブは、ビルドした wheel をインスト�
 - `tests/typing/consumer_mistakes.py` の誤った使い方が、エラーとして検出されること
 - `tests/typing/generate_mistakes.py` が作る誤用が、すべて検出されること。誤用は、公開している関数とメソッドのすべての引数と戻り値、およびプロパティの戻り値について作ります
 
-内部のデコーダ間の受け渡しも検査します。`tests/typing/decoder_mistakes.py` は、
-QZSS L1S デコーダへの必須値の欠落・型違い・引数名の誤記と、DCR/DCX 下流への誤った context の受け渡しを含みます。
+内部のデコーダー間の受け渡しも検査します。`tests/typing/decoder_mistakes.py` は、
+QZSS L1S デコーダーへの必須値の欠落・型違い・引数名の誤記と、DCR/DCX 下流への誤った context の受け渡しを含みます。
 CI は mypy と Pyright の両方で、各行が意図した種類のエラーになることを確認します。
 `decoders.qzss.l1s.Decoder` には `sentence`・`message`・`timestamp` を明示し、受信時刻は入力段階で決めたものを渡します。
 
