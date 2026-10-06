@@ -92,7 +92,7 @@ azarashi は、この文書と [DCR](dcr.md)、[DCX](dcx.md) の文書に載っ�
 | `sentence` | `str \| bytes` | 受け取った入力。NMEA センテンス、UBX フレーム、16進数の文字列など |
 | `message` | `bytes` | 250ビットの L1S メッセージを入れた32バイト |
 | `nmea` | `str` | azarashi が `message` から作った QZQSM センテンス |
-| `raw` | `bytes` | `message` から、プリアンブルや CRC など、衛星ごと・送信ごとに変わる部分を除いたもの。`==` は、これで比べます |
+| `raw` | `bytes` | `message` から、プリアンブルや CRC など、衛星ごと・送信ごとに変わる部分を除いたもの。`==` は、これで比べます。どのビットかは [Duplicates](json.md#duplicates) にあります |
 | `timestamp` | `datetime` | 受信時刻 |
 | `message_header` | `str \| bytes \| None` | 入力のヘッダ。NMEA では `'$QZQSM'`、u-blox では UBX-RXM-SFRBX のヘッダのバイト列 |
 | `satellite_id` | `int \| None` | 衛星 ID。PRN の下位6ビット |
