@@ -66,7 +66,7 @@ azarashi ublox --input /dev/ttyUSB0 --json --unique
 |---|---|---|
 | `schema_version` | どの版の形式か | 整数 `2` |
 | `type` | 何のレポートか | `qzss.dcr.tsunami` などの固定識別子 |
-| `is_test` | 訓練・試験か | 真偽値 |
+| `is_test` | 訓練/試験か | 真偽値 |
 | `message_id` | どのメッセージか | `==` で等しいレポートなら同じ値。[Duplicates](#duplicates) を参照 |
 | `series` | ほかのメッセージとどうつながるか | [Series](#series) を参照。つながりのないレポートでは省きます |
 | `reception` | いつ、どの衛星で受けたか | 受信ごとに変わる値 |
@@ -112,10 +112,8 @@ DCX の `en` には、`str(report)` にある日本語の行、「A11 - Instruct
 `message_id` の形は「システムとメッセージの種類」「:」「レポートの `raw` の16進」です。
 
 - システムとメッセージの種類は、`type` の先頭の2つです。例：`qzss.dcr`、`qzss.dcx`。
-- `raw` は、メッセージから衛星ごと・送信ごとに変わる部分を除いたビット列です。`message_id` には、小文字の16進で書きます。
-  DCR の `raw` は、メッセージの Message Type から Vn（Version Number）までです。DCX の `raw` は、CAMF の A1 から Vn までです。
-  どちらの `raw` も、プリアンブル、Vn のあとの予約ビット、CRC を含みません。DCX の `raw` は、Message Type と衛星指定マスクも含みません。
-  `raw` の最後のバイトの下位4ビットは0です。`raw` の長さは、DCR では27バイト（54桁）、DCX では25バイト（50桁）です。
+- `raw` は、メッセージから、プリアンブルや CRC など、衛星ごと・送信ごとに変わる部分を除いたものです。DCX では、衛星指定マスクも除きます。
+  `message_id` には、`raw` を小文字の16進で書きます。
 
 ```text
 qzss.dcr:af89a820000324000050400548c5e2c000000003dff8001c000010
@@ -130,8 +128,7 @@ qzss.dcx:0de102111de000000000000000000001134000000000000000
 そのため、重複を除くときは、`message_id` が同じレコードのうち、受信時刻の差が、DCR では1年、DCX では1週間より短いものを、同じ発表の繰り返しとして捨ててください。
 A7 が 0 の DCX の警報は、始まる時刻を持たないので、受信時刻の差を使っても別の発表と見分けられません。
 
-レポートの `==` と、CLI の `--unique`・`decode_stream()` の `unique` は、レポートのクラスと `raw` で同じかを判断します。
-デコードしたレポートでは、`raw` が同じならクラスも同じなので、`message_id` と同じ結果になります。
+レポートの `==` と、CLI の `--unique`・`decode_stream()` の `unique` も、`message_id` が同じレポートを同じものとみなします。
 
 ## Series
 
@@ -478,66 +475,109 @@ JSON には、第二楕円の中心の緯度経度と、軸の長さは入りま
 
 ## Report Types and Field Mapping
 
-DCR 共通：version → `version`、report_time → `report_time`、通報区分・情報形態 →
-`report_classification`・`information_type`。災害分類は `type` にまとめます。
-azarashi は、コードを持つ項目を、レポートの `*_raw`・`*_no` の値とコード表から作ります。レポートの表示用のフィールドに当たるものは、`labels` です。
+この節は、レポートのクラスと `type` の対応と、レポートのフィールドが JSON のどのキーになるかを示します。
 
-| Python クラス / type の末尾 | data の固有項目 |
+レポートの次のフィールドとメソッドは、レコードの `data` の外のキーになります。
+
+| レポート | JSON |
 |---|---|
-| EarthquakeEarlyWarning / earthquake_early_warning | occurrence_time、depth、magnitude、epicenter、intensity_lower/upper、long_period_ground_motion_lower/upper、target_regions、notifications |
-| Hypocenter / hypocenter | occurrence_time、depth、magnitude、epicenter、position、notifications |
-| SeismicIntensity / seismic_intensity | occurrence_time、observations[{region,intensity}] |
-| NankaiTroughEarthquake / nankai_trough_earthquake | information_serial、page{number,total,content_hex} |
-| Tsunami / tsunami | warning、notifications、forecasts[{region,height,arrival}] |
-| NorthwestPacificTsunami / northwest_pacific_tsunami | tsunamigenic_potential、forecasts[{region,height,arrival}] |
-| Volcano / volcano | volcano、warning、activity_time、activity_time_ambiguity、target_regions |
-| AshFall / ash_fall | volcano、warning_type、activity_time、forecasts[{region,elapsed_time,warning}] |
-| Weather / weather | warning_state、warnings[{region,warning}] |
-| Flood / flood | warnings[{region,warning}] |
-| Typhoon / typhoon | reference_time、reference_time_type、elapsed_time、number、scale_category、intensity_category、position、central_pressure、maximum_wind_speed、maximum_gust_wind_speed |
-| Marine / marine | warnings[{region,warning}] |
+| `timestamp` | `reception.at` |
+| `satellite_prn` | `reception.satellite` |
+| `nmea` | `reception.nmea` |
+| `raw` | `message_id` |
+| `get_texts()` | `texts` |
 
-長周期地震動の上下限は、コード0「該当情報なし」のときも、`special` のコードオブジェクトです。
+### DCR
+
+どの DCR のレコードの `data` にも、次のキーがあります。
+
+| レポート | `data` のキー |
+|---|---|
+| `version` | `version` |
+| `report_time` | `report_time` |
+| `report_classification_no`（通報区分） | `report_classification` |
+| `information_type_no`（情報形態） | `information_type` |
+
+災害種別（`disaster_category_no`）は、`type` で表します。
 
 DCR の `version` は `{"status": …, "value": …}` です。`value` が仕様の定める1なら、`status` は `valid`、それ以外なら `undefined` です。
 
-DCX 警報共通：Vn → `version`、A1 → `message_type`、A2 → `country`、A3 → `provider`、A4 → `hazard`、
-A5 → `severity`、A6・A7 → `onset`、A8 → `duration`、A9・A10・A11 → `instruction`。
+DCR のコードオブジェクトの `code` は、レポートの `_raw` か `_no` のフィールドの値を、十進の文字列にしたものです。
+レポートの表示用のフィールド（たとえば `magnitude`）に当たるのは、`labels` です。
+
+災害種別ごとに、`data` には次のキーもあります。
+
+| クラス | `type` | `data` のキー |
+|---|---|---|
+| `dcr.EarthquakeEarlyWarning` | `qzss.dcr.earthquake_early_warning` | `occurrence_time`、`depth`、`magnitude`、`epicenter`、`intensity_lower`、`intensity_upper`、`long_period_ground_motion_lower`、`long_period_ground_motion_upper`、`target_regions`、`notifications` |
+| `dcr.Hypocenter` | `qzss.dcr.hypocenter` | `occurrence_time`、`depth`、`magnitude`、`epicenter`、`position`、`notifications` |
+| `dcr.SeismicIntensity` | `qzss.dcr.seismic_intensity` | `occurrence_time`、`observations`（要素のキーは `region`、`intensity`） |
+| `dcr.NankaiTroughEarthquake` | `qzss.dcr.nankai_trough_earthquake` | `information_serial`、`page`（キーは `number`、`total`、`content_hex`） |
+| `dcr.Tsunami` | `qzss.dcr.tsunami` | `warning`、`notifications`、`forecasts`（要素のキーは `region`、`height`、`arrival`） |
+| `dcr.NorthwestPacificTsunami` | `qzss.dcr.northwest_pacific_tsunami` | `tsunamigenic_potential`、`forecasts`（要素のキーは `region`、`height`、`arrival`） |
+| `dcr.Volcano` | `qzss.dcr.volcano` | `volcano`、`warning`、`activity_time`、`activity_time_ambiguity`、`target_regions` |
+| `dcr.AshFall` | `qzss.dcr.ash_fall` | `volcano`、`warning_type`、`activity_time`、`forecasts`（要素のキーは `region`、`elapsed_time`、`warning`） |
+| `dcr.Weather` | `qzss.dcr.weather` | `warning_state`、`warnings`（要素のキーは `region`、`warning`） |
+| `dcr.Flood` | `qzss.dcr.flood` | `warnings`（要素のキーは `region`、`warning`） |
+| `dcr.Typhoon` | `qzss.dcr.typhoon` | `reference_time`、`reference_time_type`、`elapsed_time`、`number`、`scale_category`、`intensity_category`、`position`、`central_pressure`、`maximum_wind_speed`、`maximum_gust_wind_speed` |
+| `dcr.Marine` | `qzss.dcr.marine` | `warnings`（要素のキーは `region`、`warning`） |
+
+長周期地震動の上下限は、コード0「該当情報なし」のときも、`special` のコードオブジェクトです。
+
+### DCX
+
+`qzss.dcx.null` 以外の DCX のレコードの `data` には、次の警報共通のキーがあります。
+
+| CAMF の項目 | `data` のキー |
+|---|---|
+| Vn | `version` |
+| A1 | `message_type` |
+| A2 | `country` |
+| A3 | `provider` |
+| A4 | `hazard` |
+| A5 | `severity` |
+| A6・A7 | `onset` |
+| A8 | `duration` |
+| A9・A10・A11 | `instruction` |
+
 `message_type` は CAMF の A1 です。L1S の Message Type（43・44）ではありません。
-A4 は `hazard` の `type`・`category`・`definition` の3つのコードオブジェクトにします。
+`hazard` は、`type`・`category`・`definition` の3つのコードオブジェクトを持ちます。
 この3つは、1つの A4 のコードを、種類・区分・説明の3つの表で引いたものです。`code` はどれも同じです。
 
 DCX の `version` も同じ形です。L-Alert、J-Alert、地方公共団体からの情報では、`value` が仕様の定める1なら、`status` は `valid`、それ以外なら `undefined` です。
 国外の機関からの情報では、`status` は値によらず `valid` です。
 種類のわからない DCX では、`status` は値によらず `undefined` です。
 
-| Python クラス / type の末尾 | 警報共通項目以外の項目 |
-|---|---|
-| NullMsg / null | data={}。警報共通項目も出しません |
-| OutsideJapan / outside_japan | main_ellipse、A17 に応じた specific_settings |
-| LAlert / l_alert | main_ellipse または target_regions の一方、A17 に応じた specific_settings |
-| JAlert / j_alert | target_regions。楕円と specific_settings はありません |
-| MTInfo / mt_info | main_ellipse、target_regions、A17 に応じた specific_settings と evacuation |
-| Unknown / unknown | デコーダーが解釈した共通項目・main_ellipse・specific_settings |
+クラスごとに、`data` には次のキーもあります。
 
-| DCX の元のフィールド | 出力先 |
+| クラス | `type` | 警報共通のキーのほかのキー |
+|---|---|---|
+| `dcx.NullMsg` | `qzss.dcx.null` | なし。`data` は `{}` で、警報共通のキーもありません |
+| `dcx.OutsideJapan` | `qzss.dcx.outside_japan` | `main_ellipse`、`specific_settings` |
+| `dcx.LAlert` | `qzss.dcx.l_alert` | `main_ellipse` か `target_regions` のどちらか一方、`specific_settings` |
+| `dcx.JAlert` | `qzss.dcx.j_alert` | `target_regions` |
+| `dcx.MTInfo` | `qzss.dcx.mt_info` | `main_ellipse`、`target_regions`、`specific_settings`、`evacuation` |
+| `dcx.Unknown` | `qzss.dcx.unknown` | `main_ellipse`、`specific_settings` |
+
+`specific_settings` があるかどうかと、その中身は、A17 に応じて決まります。
+`evacuation` は、追加楕円の EX3〜EX7 がすべて0のときは省きます。
+
+CAMF と DCX の項目は、次のキーに入ります。
+
+| CAMF と DCX の項目 | `data` のキー |
 |---|---|
-| A12〜A16 | main_ellipse |
-| A17、C1〜C4 | specific_settings.refined_ellipse |
-| A17、C5〜C6 | specific_settings.hazard_centre |
-| A17、C7〜C10 | specific_settings.second_ellipse |
-| A17、D1〜D36 | specific_settings.hazard_details。元の属性名から d番号の接頭辞を除いた項目名。数値を表す12項目は数量、ほかはコード |
-| EX1 | target_regions |
-| EX2〜EX7 | evacuation |
-| EX8〜EX9 | target_regions |
+| A12〜A16 | `main_ellipse` |
+| A17、C1〜C4 | `specific_settings.refined_ellipse` |
+| A17、C5〜C6 | `specific_settings.hazard_centre` |
+| A17、C7〜C10 | `specific_settings.second_ellipse` |
+| A17、D1〜D36 | `specific_settings.hazard_details`。キーは、レポートのフィールド名から `d1_` などを除いた名前です。たとえば `d1_magnitude_on_richter_scale` は `magnitude_on_richter_scale` です。数値を表す12項目は数量、ほかはコードです |
+| EX1 | `target_regions` |
+| EX2〜EX7 | `evacuation` |
+| EX8〜EX9 | `target_regions` |
 | SDMT・SDM（衛星指定マスク）、EX10（予備）、種類ごとに使われない拡張領域 | 出力しません。元のビット列は `reception.nmea` にあります |
-
-レポートの属性：timestamp → `reception.at`、satellite_prn → `reception.satellite`、nmea → `reception.nmea`、
-raw → `message_id`、`get_texts()` → `texts`。
 
 ## Corrections, Cancellations and All Clears
 
-訂正や取消のレポートには、どのレポートを訂正・取り消したのかを示す項目がありません。
 DCX の L-Alert、J-Alert、地方公共団体からの情報の更新と解除は、`series.key` が同じレポートの警報を指します。
 DCR の訂正と取消、国外の機関からの情報には、元のレポートと対応づける項目がありません。
 

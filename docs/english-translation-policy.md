@@ -2,9 +2,10 @@
 
 # English Translation Policy
 
-Every code table of the JMA-DC Report (DCR) but one has an English version beside its Japanese one,
-in a table named `*_en` in `azarashi/definitions/qzss/dcr/`. The JSON output gives it as
-`labels.en`. The exception is the Nankai Trough information, described below.
+Every code table of the JMA-DC Report (DCR) but one has English beside its Japanese. The JSON
+output gives it as `labels.en`. The exception is the Nankai Trough information, described below.
+This page names a table as the JSON code tables do, without `qzss.dcr.`: `local_government` is
+the table `qzss.dcr.local_government`.
 `str(report)` stays Japanese; `get_text('en')` gives the report in English, as described under
 The English Text below.
 
@@ -72,7 +73,6 @@ Showing the English is right only on these conditions, and azarashi keeps to the
    Japanese is the meaning.
 8. **azarashi's English stands in until JMA gives its own.** When JMA publishes English for an
    entry, JMA's English replaces azarashi's, the notifications first.
-9. **Each module says which of its entries are azarashi's**, in its docstring.
 
 ## The Nankai Trough Information
 
@@ -456,10 +456,3 @@ range is named as the tables name an undefined code, such as Undefined Activity 
   Information above.
 - The English text of the Nankai Trough information: `get_text('en')` gives None, `texts` has no
   `en`, and `azarashi --english` shows the Japanese text.
-
-## Changing the English
-
-Each table's English is in its module, next to the Japanese, and the module's docstring says
-where it comes from. `tests/definition_values.json` pins every table, so a change shows in the
-tests; update the pinned value with the change. After a change, regenerate the JSON examples with
-`PYTHONPATH=.:tests python -m examples.generate`.

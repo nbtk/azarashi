@@ -14,7 +14,7 @@ DCX のレポートのクラスは、発信元ごとに分かれます。
 | 空メッセージ | `dcx.NullMsg` | 警報を持たず、衛星指定マスクだけを運びます。 |
 | 上記以外 | `dcx.Unknown` | 日本から発表されたもので、発信元が上のどれでもないものです。正確にデコードできない可能性が高いので、デバッグのとき以外は無視してください。 |
 
-警報のフィールドは `dcx.AlertBase` で宣言しています。上の表の `dcx.NullMsg` 以外の5クラスが、`dcx.AlertBase` を継承します。
+上の表の `dcx.NullMsg` 以外の5クラスは、`dcx.AlertBase` のサブクラスです。この5クラスのレポートは、A Fields 以降の節にある警報のフィールドを持ちます。
 
 メッセージの種類や内容によって設定されないフィールドは `None` になります。A1 から A10 までのフィールドと `dcx_version` は、どの `dcx.AlertBase` のレポートにも設定されます。このうち、値が `None` になることがあるのは `a6a7_hazard_onset_datetime` だけです。
 
@@ -29,35 +29,35 @@ DCX のレポートのクラスは、発信元ごとに分かれます。
 | `satellite_designation_mask` | `list[str]` |
 
 ## A Fields
-| フィールド | 型 |
-|---|---|
-| `a1_message_type` | `str` |
-| `a2_country_region_name` | `str` |
-| `a3_provider_identifier` | `str` |
-| `a4_hazard_category` | `str` |
-| `a4_hazard_type` | `str` |
-| `a4_hazard_definition` | `str` |
-| `a5_severity` | `str` |
-| `a6_hazard_onset_week` | `str` |
-| `a7_hazard_onset_time_of_week` | `str` |
-| `a6a7_hazard_onset_datetime` | `datetime \| None` |
-| `a8_hazard_duration` | `str` |
-| `a9_type_of_library` | `str` |
-| `a10_library_version` | `str` |
-| `a11_international_library_code` | `str \| None` |
-| `a11_international_library` | `str \| None` |
-| `a11_international_library_a_code` | `str \| None` |
-| `a11_international_library_a` | `str \| None` |
-| `a11_international_library_b_code` | `str \| None` |
-| `a11_international_library_b` | `str \| None` |
-| `a11_japanese_library` | `str \| None` |
-| `a11_japanese_library_ja` | `str \| None` |
-| `a12_ellipse_centre_latitude` | `float \| None` |
-| `a13_ellipse_centre_longitude` | `float \| None` |
-| `a14_ellipse_semi_major_axis` | `float \| None` |
-| `a15_ellipse_semi_minor_axis` | `float \| None` |
-| `a16_ellipse_azimuth` | `float \| None` |
-| `a17_type_of_specific_settings` | `str \| None` |
+| フィールド | 型 | 単位 |
+|---|---|---|
+| `a1_message_type` | `str` | |
+| `a2_country_region_name` | `str` | |
+| `a3_provider_identifier` | `str` | |
+| `a4_hazard_category` | `str` | |
+| `a4_hazard_type` | `str` | |
+| `a4_hazard_definition` | `str` | |
+| `a5_severity` | `str` | |
+| `a6_hazard_onset_week` | `str` | |
+| `a7_hazard_onset_time_of_week` | `str` | |
+| `a6a7_hazard_onset_datetime` | `datetime \| None` | |
+| `a8_hazard_duration` | `str` | |
+| `a9_type_of_library` | `str` | |
+| `a10_library_version` | `str` | |
+| `a11_international_library_code` | `str \| None` | |
+| `a11_international_library` | `str \| None` | |
+| `a11_international_library_a_code` | `str \| None` | |
+| `a11_international_library_a` | `str \| None` | |
+| `a11_international_library_b_code` | `str \| None` | |
+| `a11_international_library_b` | `str \| None` | |
+| `a11_japanese_library` | `str \| None` | |
+| `a11_japanese_library_ja` | `str \| None` | |
+| `a12_ellipse_centre_latitude` | `float \| None` | 度 |
+| `a13_ellipse_centre_longitude` | `float \| None` | 度 |
+| `a14_ellipse_semi_major_axis` | `float \| None` | km |
+| `a15_ellipse_semi_minor_axis` | `float \| None` | km |
+| `a16_ellipse_azimuth` | `float \| None` | 度 |
+| `a17_type_of_specific_settings` | `str \| None` | |
 
 azarashi は、国際ライブラリの A11 を、先頭5ビットの List A と後半5ビットの List B に分けて読みます。
 `a11_international_library_a_code` と `a11_international_library_b_code` は各リストの識別子、
@@ -68,76 +68,84 @@ azarashi が対応していないライブラリの版では、これらのフ�
 azarashi は、日本のライブラリの A11 を、10ビット全体で1つのコードとして読みます。
 
 ## C Fields
-| フィールド | 型 |
-|---|---|
-| `c1_refined_latitude_of_centre_of_main_ellipse` | `float \| None` |
-| `c2_refined_longitude_of_centre_of_main_ellipse` | `float \| None` |
-| `c3_refined_length_of_semi_major_axis` | `float \| None` |
-| `c4_refined_length_of_semi_minor_axis` | `float \| None` |
-| `c5_latitude_of_centre_of_hazard` | `float \| None` |
-| `c6_longitude_of_centre_of_hazard` | `float \| None` |
-| `c7_shift_of_second_ellipse_centre` | `int \| None` |
-| `c8_homothetic_factor_of_second_ellipse` | `float \| None` |
-| `c9_bearing_angle_of_second_ellipse` | `float \| None` |
-| `c10_instruction_library_for_second_ellipse_code` | `str \| None` |
-| `c10_instruction_library_for_second_ellipse` | `str \| None` |
+| フィールド | 型 | 単位 |
+|---|---|---|
+| `c1_refined_latitude_of_centre_of_main_ellipse` | `float \| None` | 度 |
+| `c2_refined_longitude_of_centre_of_main_ellipse` | `float \| None` | 度 |
+| `c3_refined_length_of_semi_major_axis` | `float \| None` | km |
+| `c4_refined_length_of_semi_minor_axis` | `float \| None` | km |
+| `c5_latitude_of_centre_of_hazard` | `float \| None` | 度 |
+| `c6_longitude_of_centre_of_hazard` | `float \| None` | 度 |
+| `c7_shift_of_second_ellipse_centre` | `int \| None` | 倍 |
+| `c8_homothetic_factor_of_second_ellipse` | `float \| None` | 倍 |
+| `c9_bearing_angle_of_second_ellipse` | `float \| None` | 度 |
+| `c10_instruction_library_for_second_ellipse_code` | `str \| None` | |
+| `c10_instruction_library_for_second_ellipse` | `str \| None` | |
+
+`c7_shift_of_second_ellipse_centre` は、第二楕円の中心をずらす距離が、主楕円の半長軸の何倍かを表します。
+`c8_homothetic_factor_of_second_ellipse` は、第二楕円の軸の長さが、主楕円の軸の長さの何倍かを表します。
+`c9_bearing_angle_of_second_ellipse` は、主楕円の方位からの角度です。
 
 ## D Fields
-| フィールド | 型 |
-|---|---|
-| `d1_magnitude_on_richter_scale` | `str \| None` |
-| `d2_seismic_coefficient` | `str \| None` |
-| `d3_azimuth_from_centre_of_main_ellipse_to_epicentre` | `float \| None` |
-| `d4_vector_length_between_centre_of_main_ellipse_and_epicentre` | `float \| None` |
-| `d5_wave_height` | `str \| None` |
-| `d6_temperature_range` | `str \| None` |
-| `d7_hurricane_category` | `str \| None` |
-| `d8_wind_speed` | `str \| None` |
-| `d9_rainfall_amounts` | `str \| None` |
-| `d10_damage_category` | `str \| None` |
-| `d11_tornado_probability` | `str \| None` |
-| `d12_hail_scale` | `str \| None` |
-| `d13_visibility` | `str \| None` |
-| `d14_snow_depth` | `str \| None` |
-| `d15_flood_severity` | `str \| None` |
-| `d16_lightning_intensity` | `str \| None` |
-| `d17_fog_level` | `str \| None` |
-| `d18_drought_level` | `str \| None` |
-| `d19_avalanche_warning_level` | `str \| None` |
-| `d20_ash_fall_amount_and_impact` | `str \| None` |
-| `d21_geomagnetic_scale` | `str \| None` |
-| `d22_terrorism_threat_level` | `str \| None` |
-| `d23_fire_risk_level` | `str \| None` |
-| `d24_water_quality` | `str \| None` |
-| `d25_uv_index` | `str \| None` |
-| `d26_number_of_cases_per_100000_inhabitants` | `str \| None` |
-| `d27_noise_range` | `str \| None` |
-| `d28_air_quality_index` | `str \| None` |
-| `d29_outage_estimated_duration` | `str \| None` |
-| `d30_nuclear_event_scale` | `str \| None` |
-| `d31_chemical_hazard_type` | `str \| None` |
-| `d32_biohazard_level` | `str \| None` |
-| `d33_biohazard_type` | `str \| None` |
-| `d34_explosive_hazard_type` | `str \| None` |
-| `d35_infection_type` | `str \| None` |
-| `d36_typhoon_category` | `str \| None` |
+| フィールド | 型 | 単位 |
+|---|---|---|
+| `d1_magnitude_on_richter_scale` | `str \| None` | |
+| `d2_seismic_coefficient` | `str \| None` | |
+| `d3_azimuth_from_centre_of_main_ellipse_to_epicentre` | `float \| None` | 度 |
+| `d4_vector_length_between_centre_of_main_ellipse_and_epicentre` | `float \| None` | 倍 |
+| `d5_wave_height` | `str \| None` | |
+| `d6_temperature_range` | `str \| None` | |
+| `d7_hurricane_category` | `str \| None` | |
+| `d8_wind_speed` | `str \| None` | |
+| `d9_rainfall_amounts` | `str \| None` | |
+| `d10_damage_category` | `str \| None` | |
+| `d11_tornado_probability` | `str \| None` | |
+| `d12_hail_scale` | `str \| None` | |
+| `d13_visibility` | `str \| None` | |
+| `d14_snow_depth` | `str \| None` | |
+| `d15_flood_severity` | `str \| None` | |
+| `d16_lightning_intensity` | `str \| None` | |
+| `d17_fog_level` | `str \| None` | |
+| `d18_drought_level` | `str \| None` | |
+| `d19_avalanche_warning_level` | `str \| None` | |
+| `d20_ash_fall_amount_and_impact` | `str \| None` | |
+| `d21_geomagnetic_scale` | `str \| None` | |
+| `d22_terrorism_threat_level` | `str \| None` | |
+| `d23_fire_risk_level` | `str \| None` | |
+| `d24_water_quality` | `str \| None` | |
+| `d25_uv_index` | `str \| None` | |
+| `d26_number_of_cases_per_100000_inhabitants` | `str \| None` | |
+| `d27_noise_range` | `str \| None` | |
+| `d28_air_quality_index` | `str \| None` | |
+| `d29_outage_estimated_duration` | `str \| None` | |
+| `d30_nuclear_event_scale` | `str \| None` | |
+| `d31_chemical_hazard_type` | `str \| None` | |
+| `d32_biohazard_level` | `str \| None` | |
+| `d33_biohazard_type` | `str \| None` | |
+| `d34_explosive_hazard_type` | `str \| None` | |
+| `d35_infection_type` | `str \| None` | |
+| `d36_typhoon_category` | `str \| None` | |
+
+`d4_vector_length_between_centre_of_main_ellipse_and_epicentre` は、主楕円の中心から震央までの距離が、主楕円の半長軸の何倍かを表します。
 
 ## EX Fields
-| フィールド | 型 |
-|---|---|
-| `ex1_target_area` | `str \| None` |
-| `ex1_target_area_ja` | `str \| None` |
-| `ex2_evacuate_direction_type` | `str \| None` |
-| `ex3_additional_ellipse_centre_latitude` | `float \| None` |
-| `ex4_additional_ellipse_centre_longitude` | `float \| None` |
-| `ex5_additional_ellipse_semi_major_axis` | `float \| None` |
-| `ex6_additional_ellipse_semi_minor_axis` | `float \| None` |
-| `ex7_additional_ellipse_azimuth` | `float \| None` |
-| `ex8_target_area_list_type` | `str \| None` |
-| `ex9_target_area_list` | `list[str] \| None` |
-| `ex9_target_area_list_ja` | `list[str] \| None` |
+| フィールド | 型 | 単位 |
+|---|---|---|
+| `ex1_target_area` | `str \| None` | |
+| `ex1_target_area_ja` | `str \| None` | |
+| `ex2_evacuate_direction_type` | `str \| None` | |
+| `ex3_additional_ellipse_centre_latitude` | `float \| None` | 度 |
+| `ex4_additional_ellipse_centre_longitude` | `float \| None` | 度 |
+| `ex5_additional_ellipse_semi_major_axis` | `float \| None` | km |
+| `ex6_additional_ellipse_semi_minor_axis` | `float \| None` | km |
+| `ex7_additional_ellipse_azimuth` | `float \| None` | 度 |
+| `ex8_target_area_list_type` | `str \| None` | |
+| `ex9_target_area_list` | `list[str] \| None` | |
+| `ex9_target_area_list_ja` | `list[str] \| None` | |
 
-DCX のレポートには、ほかに、デコードする前の値を持つ `camf` と、どの範囲を読み飛ばしたかを示す `ignore_a12_to_a16`、`ignore_a17_to_a18`、`ignore_ex1`、`ignore_ex2_to_ex7`、`ignore_ex8_to_ex9` があります。
+DCX のレポートには、ほかに `camf` と、`ignore_a12_to_a16`、`ignore_a17_to_a18`、`ignore_ex1`、`ignore_ex2_to_ex7`、`ignore_ex8_to_ex9` があります。
+`camf` は、デコードする前の各項目の値です。
+`ignore_a12_to_a16` は、そのメッセージで A12〜A16 が使われていないとき `True` です。ほかの `ignore_` で始まるフィールドも同じで、名前にある範囲の項目が使われていないとき `True` です。
 
 ## Example
 次の例は、L-Alert をデコードします。

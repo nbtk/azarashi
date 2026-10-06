@@ -94,6 +94,10 @@ Galileo EWSS を追加する際も、伝送やビット位置の処理を各シ�
 `tests/test_definition_values.py` は、コード表の値と未定義値の文言を参照スナップショットと比較します。
 表を更新する際は `tests/definition_values.json` の該当する期待値も、変更内容と照合して更新してください。
 
+DCR の表の英語は、各モジュールの中で、日本語の隣にあります。モジュールの docstring には、英語の出典と、azarashi が訳した項目を書きます。
+英語を変えたら、`tests/definition_values.json` の期待値を直し、`PYTHONPATH=.:tests python -m examples.generate` で JSON の例を作り直してください。
+英語の方針は [English Translation Policy](english-translation-policy.md) にあります。
+
 ## Release
 リリースは、GitHub のリリースを公開して行います。公開すると `.github/workflows/release.yml` が wheel と sdist を作り、PyPI に公開します。
 途中で承認を求められることはありません。PyPI に一度公開した版番号は、取り消しても同じ番号で出し直せません。
