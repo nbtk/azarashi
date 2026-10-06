@@ -112,11 +112,14 @@ DCR の表の英語は、各モジュールの中で、日本語の隣にあり�
 2. リリースするコミットを push し、GitHub Actions の Test がすべて通ることを確かめます。同じ push で動く Dependency Graph は、Test ではありません。
 3. リリースするコミットからパッケージを作り、中身を確かめます。前の版の wheel と、入っているファイルを比べます。
    新しい環境に wheel を入れ、デコードと CLI が動くことも確かめます。
+   展開先には空のディレクトリを用意し、その中でビルドします。確認後は、元のリポジトリに戻ります。
    ```shell
-   $ git archive <commit> | tar -x -C <空のディレクトリ>
+   $ git archive <commit> | tar -x -C <展開先のディレクトリ>
+   $ cd <展開先のディレクトリ>
    $ python -m build
    $ python -m twine check dist/*
    $ pip download --no-deps azarashi==<前の版> -d <別のディレクトリ>
+   $ cd -
    ```
 4. リリースノートを書きます。リポジトリには置かず、ほかの場所のファイルにします。
    見出しは前の版にならい、`## Highlights`、`## Upgrade Notes`、`## Added`、`## Fixed` などにします。
