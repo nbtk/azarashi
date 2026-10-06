@@ -206,7 +206,7 @@ IS-QZSS-DCX-004 の 4.2.3.1 は、更新（Update）と解除（All Clear）が�
 | `qzss.dcr.<表の名前>` | DCR の表。例：`qzss.dcr.tsunami_height` |
 | `camf.a1_message_type` など | CAMF の A1〜A10、A17、C7〜C10、D1〜D36 |
 | `camf.a3_provider_identifier.country_N` | A2 の国 N が割り当てる提供者 |
-| `camf.a11_instruction_library.international.version_V` | CAMF の国際ライブラリ（A9=0）の版 V |
+| `camf.a11_instruction_library.international.version_V.list_a`、`camf.a11_instruction_library.international.version_V.list_b` | CAMF の国際ライブラリ（A9=0）の版 V の List A と List B |
 | `camf.a11_instruction_library.country_N.version_V` | 国 N のライブラリ（A9=1）の版 V |
 | `qzss.dcx.ex1_target_area_code` | DCX の EX1 の地域コード。EX8=1 のときの EX9 の地域コードも同じ表です |
 | `qzss.dcx.ex2_evacuate_direction_type` | DCX の EX2 |
@@ -346,7 +346,7 @@ CAMF の災害別詳細（D1〜D36）のうち、数値や数値の範囲を表�
 
 仕様の表には `1.0-1.9` と `2.0-2.9`、`1km/h < v < 5km/h` と `6km/h < v < 11km/h` のように丸めた数で
 書かれた範囲があります。azarashi は、D26 以外の表を、すきまのない範囲の並びとして読みます。各範囲の上限は次の範囲の下限です。
-たとえば、D1 のコード0「1.0-1.9」の `range` は `{"lower": 1, "upper": 2}`、D8 のコード2「6km/h < v < 11km/h」の `range` は `{"lower": 6, "upper": 12}` です。
+たとえば、D1 のコード0「1.0-1.9」の `range` は `{"lower": 1.0, "upper": 2.0}`、D8 のコード2「6km/h < v < 11km/h」の `range` は `{"lower": 6, "upper": 12}` です。
 azarashi は、表によって単位が違う項目を、1つの単位にそろえます。視程はメートル、停電時間は分です。
 
 D2 の地震係数は日本の震度の段階（5弱・5強など）なので、azarashi は数値にせず、コードで出力します。
