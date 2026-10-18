@@ -82,6 +82,12 @@ class Base(MessageBase):
             header += '\n*** CANCELLATION ***'
         return header
 
+    @staticmethod
+    def _join_paragraphs(*paragraphs: list[str]) -> str:
+        """The paragraphs with a blank line between them, leaving out empty lines and the paragraphs left empty."""
+        texts = ['\n'.join(line for line in paragraph if line) for paragraph in paragraphs]
+        return '\n\n'.join(text for text in texts if text)
+
     def _texts(self) -> dict[str, str]:
         en = self._text_en()
         return {'ja': str(self)} if en is None else {'ja': str(self), 'en': en}
@@ -231,62 +237,53 @@ class EarthquakeEarlyWarning(Base):
     def __str__(self) -> str:
         occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
                                              occurrence_time_of_earthquake_undefined)
-        report = f'{self.get_header()}\n' + \
-                 '緊急地震速報\n'
-
-        report += '\n'.join(self.notifications_on_disaster_prevention)
-
         if self.assumptive is True:
             assumptive_str = '(仮定震源要素)'
         else:
             assumptive_str = ''
 
-        report += f'\n\n発表時刻: {self.get_report_time_str()}\n\n' + \
-                  f'震央地名: {self.seismic_epicenter}\n' + \
-                  f'地震発生時刻: {occurred}\n' + \
-                  f'深さ: {self.depth_of_hypocenter}{assumptive_str}\n' + \
-                  f'マグニチュード: {self.magnitude}{assumptive_str}\n' + \
-                  f'震度(下限): {self.seismic_intensity_lower_limit}\n' + \
-                  f'震度(上限): {self.seismic_intensity_upper_limit}\n'
+        details = [f'震央地名: {self.seismic_epicenter}',
+                   f'地震発生時刻: {occurred}',
+                   f'深さ: {self.depth_of_hypocenter}{assumptive_str}',
+                   f'マグニチュード: {self.magnitude}{assumptive_str}',
+                   f'震度(下限): {self.seismic_intensity_lower_limit}',
+                   f'震度(上限): {self.seismic_intensity_upper_limit}']
         if self.long_period_ground_motion_lower_limit is not None:
-            report += f'長周期地震動階級(下限): {self.long_period_ground_motion_lower_limit}\n'
+            details.append(f'長周期地震動階級(下限): {self.long_period_ground_motion_lower_limit}')
         if self.long_period_ground_motion_upper_limit is not None:
-            report += f'長周期地震動階級(上限): {self.long_period_ground_motion_upper_limit}\n'
-        report += '、'.join(self.eew_forecast_regions)
-        return report
+            details.append(f'長周期地震動階級(上限): {self.long_period_ground_motion_upper_limit}')
+        details.append('、'.join(self.eew_forecast_regions))
+        return self._join_paragraphs([self.get_header(), '緊急地震速報', *self.notifications_on_disaster_prevention],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     details)
 
     def _text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
                                                 occurrence_time_of_earthquake_undefined_en)
-        report = f'{self.get_header_en()}\n' + \
-                 'Earthquake Early Warning (EEW)\n'
-
-        report += '\n'.join(_en('notification_on_disaster_prevention', co)
-                             for co in self.notifications_on_disaster_prevention_raw)
-
         if self.assumptive is True:
             assumptive_str = ' (assumptive hypocenter)'
         else:
             assumptive_str = ''
 
-        report += f'\n\nReport time: {self.get_report_time_str_en()}\n\n' + \
-                  f'Place name of epicenter: {_en("epicenter_and_hypocenter", self.seismic_epicenter_raw)}\n' + \
-                  f'Occurrence time of earthquake: {occurred}\n' + \
-                  f'Depth: {_en("depth_of_hypocenter", self.depth_of_hypocenter_raw)}{assumptive_str}\n' + \
-                  f'Magnitude: {_en("eew_magnitude", self.magnitude_raw)}{assumptive_str}\n' + \
-                  'Seismic intensity lower limit: ' + \
-                  f'{_en("seismic_intensity_lower_limit", self.seismic_intensity_lower_limit_raw)}\n' + \
-                  'Seismic intensity upper limit: ' + \
-                  f'{_en("seismic_intensity_upper_limit", self.seismic_intensity_upper_limit_raw)}\n'
+        heading = [self.get_header_en(), 'Earthquake Early Warning (EEW)',
+                   *(_en('notification_on_disaster_prevention', co) for co in self.notifications_on_disaster_prevention_raw)]
+        details = [f'Place name of epicenter: {_en("epicenter_and_hypocenter", self.seismic_epicenter_raw)}',
+                   f'Occurrence time of earthquake: {occurred}',
+                   f'Depth: {_en("depth_of_hypocenter", self.depth_of_hypocenter_raw)}{assumptive_str}',
+                   f'Magnitude: {_en("eew_magnitude", self.magnitude_raw)}{assumptive_str}',
+                   'Seismic intensity lower limit: ' +
+                   f'{_en("seismic_intensity_lower_limit", self.seismic_intensity_lower_limit_raw)}',
+                   'Seismic intensity upper limit: ' +
+                   f'{_en("seismic_intensity_upper_limit", self.seismic_intensity_upper_limit_raw)}']
         if self.long_period_ground_motion_lower_limit is not None:
-            report += 'Maximum expected Long-Period Ground Motion lower limit: ' + \
-                      f'{_en("long_period_ground_motion_lower_limit", self.long_period_ground_motion_lower_limit_raw)}\n'
+            details.append('Maximum expected Long-Period Ground Motion lower limit: ' +
+                           f'{_en("long_period_ground_motion_lower_limit", self.long_period_ground_motion_lower_limit_raw)}')
         if self.long_period_ground_motion_upper_limit is not None:
-            report += 'Maximum expected Long-Period Ground Motion upper limit: ' + \
-                      f'{_en("long_period_ground_motion_upper_limit", self.long_period_ground_motion_upper_limit_raw)}\n'
-        report += ', '.join(_en('eew_forecast_region', region) for region in self.eew_forecast_regions_raw)
-        return report
+            details.append('Maximum expected Long-Period Ground Motion upper limit: ' +
+                           f'{_en("long_period_ground_motion_upper_limit", self.long_period_ground_motion_upper_limit_raw)}')
+        details.append(', '.join(_en('eew_forecast_region', region) for region in self.eew_forecast_regions_raw))
+        return self._join_paragraphs(heading, [f'Report time: {self.get_report_time_str_en()}'], details)
 
 
 class Hypocenter(Base):
@@ -321,35 +318,25 @@ class Hypocenter(Base):
     def __str__(self) -> str:
         occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
                                              occurrence_time_of_earthquake_undefined)
-        report = f'{self.get_header()}\n' + \
-                 f'{occurred}' + \
-                 'ころ、地震がありました。\n'
-
-        report += '\n'.join(self.notifications_on_disaster_prevention)
-
-        report += f'\n\n発表時刻: {self.get_report_time_str()}\n\n' + \
-                  f'震央地名: {self.seismic_epicenter}\n' + \
-                  f'緯度・経度: {self.coordinates_of_hypocenter}\n' + \
-                  f'深さ: {self.depth_of_hypocenter}\n' + \
-                  f'マグニチュード: {self.magnitude}'
-        return report
+        return self._join_paragraphs([self.get_header(), f'{occurred}ころ、地震がありました。',
+                                      *self.notifications_on_disaster_prevention],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     [f'震央地名: {self.seismic_epicenter}',
+                                      f'緯度・経度: {self.coordinates_of_hypocenter}',
+                                      f'深さ: {self.depth_of_hypocenter}',
+                                      f'マグニチュード: {self.magnitude}'])
 
     def _text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
                                                 occurrence_time_of_earthquake_undefined_en)
-        report = f'{self.get_header_en()}\n' + \
-                 f'Occurred at {occurred}\n'
-
-        report += '\n'.join(_en('notification_on_disaster_prevention', co)
-                             for co in self.notifications_on_disaster_prevention_raw)
-
-        report += f'\n\nReport time: {self.get_report_time_str_en()}\n\n' + \
-                  f'Place name of epicenter: {_en("epicenter_and_hypocenter", self.seismic_epicenter_raw)}\n' + \
-                  f'Latitude and longitude: {self.convert_lat_lon_to_str_en(self.coordinates_of_hypocenter_raw)}\n' + \
-                  f'Depth: {_en("depth_of_hypocenter", self.depth_of_hypocenter_raw)}\n' + \
-                  f'Magnitude: {_en("hypocenter_magnitude", self.magnitude_raw)}'
-        return report
+        heading = [self.get_header_en(), f'Occurred at {occurred}',
+                   *(_en('notification_on_disaster_prevention', co) for co in self.notifications_on_disaster_prevention_raw)]
+        details = [f'Place name of epicenter: {_en("epicenter_and_hypocenter", self.seismic_epicenter_raw)}',
+                   f'Latitude and longitude: {self.convert_lat_lon_to_str_en(self.coordinates_of_hypocenter_raw)}',
+                   f'Depth: {_en("depth_of_hypocenter", self.depth_of_hypocenter_raw)}',
+                   f'Magnitude: {_en("hypocenter_magnitude", self.magnitude_raw)}']
+        return self._join_paragraphs(heading, [f'Report time: {self.get_report_time_str_en()}'], details)
 
 
 class SeismicIntensity(Base):
@@ -372,28 +359,22 @@ class SeismicIntensity(Base):
     def __str__(self) -> str:
         occurred = self._convert_time_to_str(self.occurrence_time_of_earthquake, self.occurrence_time_of_earthquake_raw,
                                              occurrence_time_of_earthquake_undefined)
-        report = f'{self.get_header()}\n' + \
-                 f'{occurred}' + \
-                 'ころ、地震による強い揺れを感じました。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}'
-
-        for i in range(len(self.seismic_intensities)):
-            report += f'\n\n震度: {self.seismic_intensities[i]}\n' + \
-                      f'{self.prefectures[i]}'
-        return report
+        intensities = [[f'震度: {intensity}', prefecture]
+                       for intensity, prefecture in zip(self.seismic_intensities, self.prefectures, strict=True)]
+        return self._join_paragraphs([self.get_header(), f'{occurred}ころ、地震による強い揺れを感じました。'],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     *intensities)
 
     def _text_en(self) -> str:
         occurred = self._convert_time_to_str_en(self.occurrence_time_of_earthquake,
                                                 self.occurrence_time_of_earthquake_raw,
                                                 occurrence_time_of_earthquake_undefined_en)
-        report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
-                 f'Occurrence time of earthquake: {occurred}'
-
-        for intensity, prefecture in zip(self.seismic_intensities_raw, self.prefectures_raw, strict=True):
-            report += f'\n\nSeismic intensity: {_en("seismic_intensity", intensity)}\n' + \
-                      f'{_en("prefecture", prefecture)}'
-        return report
+        intensities = [[f'Seismic intensity: {_en("seismic_intensity", intensity)}', _en('prefecture', prefecture)]
+                       for intensity, prefecture in zip(self.seismic_intensities_raw, self.prefectures_raw, strict=True)]
+        return self._join_paragraphs([self.get_header_en()],
+                                     [f'Report time: {self.get_report_time_str_en()}'],
+                                     [f'Occurrence time of earthquake: {occurred}'],
+                                     *intensities)
 
 
 #: The pages of an announcement are assembled in the class, which every stream and every thread shares,
@@ -472,12 +453,10 @@ class NankaiTroughEarthquake(Base):
         return msg_bytes.replace(b'\x00', b'').decode('utf-8', errors='ignore')  # a Te of 0 is no character
 
     def __str__(self) -> str:
-        report = f'{self.get_header()}\n' + \
-                 '南海トラフ地震に関連する情報が発表されました。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}\n' + \
-                 f'地震関連情報: {self.information_serial_code}\n' + \
-                 f'{self.extract_text_information()}'
-        return report
+        return self._join_paragraphs([self.get_header(), '南海トラフ地震に関連する情報が発表されました。'],
+                                     [f'発表時刻: {self.get_report_time_str()}',
+                                      f'地震関連情報: {self.information_serial_code}',
+                                      self.extract_text_information()])
 
 
 @dataclass
@@ -535,41 +514,34 @@ class Tsunami(Base):
         )
 
     def __str__(self) -> str:
-        report = f'{self.get_header()}\n' + \
-                 f'{self.tsunami_warning_code}を発表しました。\n'
-
-        report += '\n'.join(self.notifications_on_disaster_prevention)
-
-        report += f'\n\n発表時刻: {self.get_report_time_str()}'
-
+        forecasts: list[list[str]] = []
         for i in range(len(self.expected_tsunami_arrival_times)):
             arrival_time = self.expected_tsunami_arrival_times[i]
             if arrival_time is None:
                 ta = self.expected_tsunami_arrival_time_types[i]
             else:
                 ta = self.convert_dt_to_str(arrival_time)
-            report += f'\n\n津波到達予想時刻: {ta}\n' + \
-                      f'津波の高さ: {self.tsunami_heights[i]}\n' + \
-                      f'{self.tsunami_forecast_regions[i]}'
-        return report
+            forecasts.append([f'津波到達予想時刻: {ta}',
+                              f'津波の高さ: {self.tsunami_heights[i]}',
+                              self.tsunami_forecast_regions[i]])
+        return self._join_paragraphs([self.get_header(), f'{self.tsunami_warning_code}を発表しました。',
+                                      *self.notifications_on_disaster_prevention],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     *forecasts)
 
     def _text_en(self) -> str:
-        report = f'{self.get_header_en()}\n' + \
-                 f'Warning code: {_en("tsunami_warning_code", self.tsunami_warning_code_raw)}\n'
-
-        report += '\n'.join(_en('notification_on_disaster_prevention', co)
-                             for co in self.notifications_on_disaster_prevention_raw)
-
-        report += f'\n\nReport time: {self.get_report_time_str_en()}'
-
+        heading = [self.get_header_en(),
+                   f'Warning code: {_en("tsunami_warning_code", self.tsunami_warning_code_raw)}',
+                   *(_en('notification_on_disaster_prevention', co) for co in self.notifications_on_disaster_prevention_raw)]
+        forecasts: list[list[str]] = []
         for arrival_time, arrival_type, height, region in zip(
                 self.expected_tsunami_arrival_times, self.expected_tsunami_arrival_time_types_en,
                 self.tsunami_heights_raw, self.tsunami_forecast_regions_raw, strict=True):
             ta = arrival_type if arrival_time is None else self.convert_dt_to_str_en(arrival_time)
-            report += f'\n\nEstimated initial tsunami arrival time: {ta}\n' + \
-                      f'Estimated maximum tsunami height: {_en("tsunami_height", height)}\n' + \
-                      f'{_en("tsunami_forecast_region", region)}'
-        return report
+            forecasts.append([f'Estimated initial tsunami arrival time: {ta}',
+                              f'Estimated maximum tsunami height: {_en("tsunami_height", height)}',
+                              _en('tsunami_forecast_region', region)])
+        return self._join_paragraphs(heading, [f'Report time: {self.get_report_time_str_en()}'], *forecasts)
 
 
 class NorthwestPacificTsunami(Base):
@@ -596,20 +568,19 @@ class NorthwestPacificTsunami(Base):
         self.coastal_regions_raw = coastal_regions_raw
 
     def __str__(self) -> str:
-        report = f'{self.get_header_en()}\n' + \
-                 f'{self.tsunamigenic_potential_en}.\n\n' + \
-                 f'Time of Issue: {self.get_report_time_str_iso()}'
-
+        forecasts: list[list[str]] = []
         for i in range(len(self.expected_tsunami_arrival_times)):
             arrival_time = self.expected_tsunami_arrival_times[i]
             if arrival_time is None:
                 ta = self.expected_tsunami_arrival_time_types_en[i]
             else:
                 ta = self.convert_dt_to_str_iso(arrival_time)
-            report += f'\n\nExpected Tsunami Arrival Time: {ta}\n' + \
-                      f'Tsunami Height: {self.tsunami_heights_en[i]}\n' + \
-                      f'Coastal Region: {self.coastal_regions_en[i]}'
-        return report
+            forecasts.append([f'Expected Tsunami Arrival Time: {ta}',
+                              f'Tsunami Height: {self.tsunami_heights_en[i]}',
+                              f'Coastal Region: {self.coastal_regions_en[i]}'])
+        return self._join_paragraphs([self.get_header_en(), f'{self.tsunamigenic_potential_en}.'],
+                                     [f'Time of Issue: {self.get_report_time_str_iso()}'],
+                                     *forecasts)
 
     def _texts(self) -> dict[str, str]:
         return {'en': str(self)}  # the report is written in English
@@ -639,37 +610,34 @@ class Volcano(Base):
         self.local_governments_raw = local_governments_raw
 
     def __str__(self) -> str:
-        report = f'{self.get_header()}\n' + \
-                 '火山に関連する情報をお知らせします。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}\n\n' + \
-                 f'火山名: {self.volcano_name}\n'
+        details = [f'火山名: {self.volcano_name}']
         du = self.ambiguity_of_activity_time_no
         if du < 6:  # an approximate month or year leaves no part of the activity time to show
             if self.activity_time is not None:
                 activity_time = self.convert_dt_to_ambiguous_time_str(self.activity_time, du)
             else:
                 activity_time = activity_time_undefined % _day_hour_minute_code(self.activity_time_raw)
-            report += f'日時: {activity_time}\n'
-        report += f'現象: {self.volcanic_warning_code}\n\n'
-
-        report += '、'.join(self.local_governments)
-        return report
+            details.append(f'日時: {activity_time}')
+        details.append(f'現象: {self.volcanic_warning_code}')
+        return self._join_paragraphs([self.get_header(), '火山に関連する情報をお知らせします。'],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     details,
+                                     ['、'.join(self.local_governments)])
 
     def _text_en(self) -> str:
-        report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
-                 f'Volcano: {_en("volcano_name", self.volcano_name_raw)}\n'
+        details = [f'Volcano: {_en("volcano_name", self.volcano_name_raw)}']
         du = self.ambiguity_of_activity_time_no
         if du < 6:  # an approximate month or year leaves no part of the activity time to show
             if self.activity_time is not None:
                 activity_time = self.convert_dt_to_ambiguous_time_str_en(self.activity_time, du)
             else:
                 activity_time = activity_time_undefined_en % _day_hour_minute_code(self.activity_time_raw)
-            report += f'Activity time: {activity_time}\n'
-        report += f'Warning code: {_en("volcanic_warning_code", self.volcanic_warning_code_raw)}\n\n'
-
-        report += ', '.join(_en('local_government', region) for region in self.local_governments_raw)
-        return report
+            details.append(f'Activity time: {activity_time}')
+        details.append(f'Warning code: {_en("volcanic_warning_code", self.volcanic_warning_code_raw)}')
+        return self._join_paragraphs([self.get_header_en()],
+                                     [f'Report time: {self.get_report_time_str_en()}'],
+                                     details,
+                                     [', '.join(_en('local_government', region) for region in self.local_governments_raw)])
 
 
 class AshFall(Base):
@@ -704,36 +672,30 @@ class AshFall(Base):
     def __str__(self) -> str:
         activity_time = self._convert_time_to_str(self.activity_time, self.activity_time_raw,
                                                   activity_time_undefined)
-        report = f'{self.get_header()}\n' + \
-                 '降灰に関連する情報をお知らせします。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}\n\n' + \
-                 f'{self.ash_fall_warning_type}\n' + \
-                 f'火山名: {self.volcano_name}\n' + \
-                 f'日時: {activity_time}'
-
-        for i in range(len(self.expected_ash_fall_times)):
-            report += '\n\n' + \
-                      f'基点時刻からの時間: {self.expected_ash_fall_times[i]}\n' + \
-                      f'現象: {self.ash_fall_warning_codes[i]}\n' + \
-                      f'{self.local_governments[i]}'
-        return report
+        forecasts = [[f'基点時刻からの時間: {time}', f'現象: {code}', region]
+                     for time, code, region in zip(self.expected_ash_fall_times, self.ash_fall_warning_codes,
+                                                   self.local_governments, strict=True)]
+        return self._join_paragraphs([self.get_header(), '降灰に関連する情報をお知らせします。'],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     [self.ash_fall_warning_type,
+                                      f'火山名: {self.volcano_name}',
+                                      f'日時: {activity_time}'],
+                                     *forecasts)
 
     def _text_en(self) -> str:
         activity_time = self._convert_time_to_str_en(self.activity_time, self.activity_time_raw,
                                                      activity_time_undefined_en)
-        report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
-                 f'{_en("ash_fall_warning_type", self.ash_fall_warning_type_raw)}\n' + \
-                 f'Volcano: {_en("volcano_name", self.volcano_name_raw)}\n' + \
-                 f'Activity time: {activity_time}'
-
-        for time, code, region in zip(self.expected_ash_fall_times_raw, self.ash_fall_warning_codes_raw,
-                                      self.local_governments_raw, strict=True):
-            report += '\n\n' + \
-                      f'Expected ash fall time: {_en("expected_ash_fall_time", time)}\n' + \
-                      f'Warning code: {_en("ash_fall_warning_code", code)}\n' + \
-                      f'{_en("local_government", region)}'
-        return report
+        forecasts = [[f'Expected ash fall time: {_en("expected_ash_fall_time", time)}',
+                      f'Warning code: {_en("ash_fall_warning_code", code)}',
+                      _en('local_government', region)]
+                     for time, code, region in zip(self.expected_ash_fall_times_raw, self.ash_fall_warning_codes_raw,
+                                                   self.local_governments_raw, strict=True)]
+        return self._join_paragraphs([self.get_header_en()],
+                                     [f'Report time: {self.get_report_time_str_en()}'],
+                                     [_en('ash_fall_warning_type', self.ash_fall_warning_type_raw),
+                                      f'Volcano: {_en("volcano_name", self.volcano_name_raw)}',
+                                      f'Activity time: {activity_time}'],
+                                     *forecasts)
 
 
 class Weather(Base):
@@ -754,27 +716,23 @@ class Weather(Base):
         self.weather_forecast_regions_raw = weather_forecast_regions_raw
 
     def __str__(self) -> str:
-        report = f'{self.get_header()}\n' + \
-                 '気象に関連する情報をお知らせします。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}'
-
-        for i in range(len(self.weather_related_disaster_sub_categories)):
-            report += f'\n\n警報等情報要素: {self.weather_related_disaster_sub_categories[i]}' + \
-                      f'({self.weather_warning_state})\n' + \
-                      f'{self.weather_forecast_regions[i]}'
-        return report
+        warnings = [[f'警報等情報要素: {sub_category}({self.weather_warning_state})', region]
+                    for sub_category, region in zip(self.weather_related_disaster_sub_categories,
+                                                    self.weather_forecast_regions, strict=True)]
+        return self._join_paragraphs([self.get_header(), '気象に関連する情報をお知らせします。'],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     *warnings)
 
     def _text_en(self) -> str:
-        report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}'
-
         state = _en('weather_warning_state', self.weather_warning_state_raw)
-        for sub_category, region in zip(self.weather_related_disaster_sub_categories_raw,
-                                        self.weather_forecast_regions_raw, strict=True):
-            report += '\n\nDisaster sub-category: ' + \
-                      f'{_en("weather_related_disaster_sub_category", sub_category)} ({state})\n' + \
-                      f'{_en("weather_forecast_region", region)}'
-        return report
+        warnings = [['Disaster sub-category: ' +
+                     f'{_en("weather_related_disaster_sub_category", sub_category)} ({state})',
+                     _en('weather_forecast_region', region)]
+                    for sub_category, region in zip(self.weather_related_disaster_sub_categories_raw,
+                                                    self.weather_forecast_regions_raw, strict=True)]
+        return self._join_paragraphs([self.get_header_en()],
+                                     [f'Report time: {self.get_report_time_str_en()}'],
+                                     *warnings)
 
 
 class Flood(Base):
@@ -791,23 +749,18 @@ class Flood(Base):
         self.flood_forecast_regions_raw = flood_forecast_regions_raw
 
     def __str__(self) -> str:
-        report = f'{self.get_header()}\n' + \
-                 '河川の氾濫に関連する情報をお知らせします。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}'
-
-        for i in range(len(self.flood_warning_levels)):
-            report += f'\n\n警報レベル: {self.flood_warning_levels[i]}\n' + \
-                      f'{self.flood_forecast_regions[i]}'
-        return report
+        levels = [[f'警報レベル: {level}', region]
+                  for level, region in zip(self.flood_warning_levels, self.flood_forecast_regions, strict=True)]
+        return self._join_paragraphs([self.get_header(), '河川の氾濫に関連する情報をお知らせします。'],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     *levels)
 
     def _text_en(self) -> str:
-        report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}'
-
-        for level, region in zip(self.flood_warning_levels_raw, self.flood_forecast_regions_raw, strict=True):
-            report += f'\n\nWarning level: {_en("flood_warning_level", level)}\n' + \
-                      f'{_en("flood_forecast_region", region)}'
-        return report
+        levels = [[f'Warning level: {_en("flood_warning_level", level)}', _en('flood_forecast_region', region)]
+                  for level, region in zip(self.flood_warning_levels_raw, self.flood_forecast_regions_raw, strict=True)]
+        return self._join_paragraphs([self.get_header_en()],
+                                     [f'Report time: {self.get_report_time_str_en()}'],
+                                     *levels)
 
 
 class Marine(Base):
@@ -824,23 +777,18 @@ class Marine(Base):
         self.marine_forecast_regions_raw = marine_forecast_regions_raw
 
     def __str__(self) -> str:
-        report = f'{self.get_header()}\n' + \
-                 '海上警報が発表されました。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}'
-
-        for i in range(len(self.marine_warning_codes)):
-            report += f'\n\n警報等情報要素: {self.marine_warning_codes[i]}\n' + \
-                      f'{self.marine_forecast_regions[i]}'
-        return report
+        warnings = [[f'警報等情報要素: {code}', region]
+                    for code, region in zip(self.marine_warning_codes, self.marine_forecast_regions, strict=True)]
+        return self._join_paragraphs([self.get_header(), '海上警報が発表されました。'],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     *warnings)
 
     def _text_en(self) -> str:
-        report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}'
-
-        for code, region in zip(self.marine_warning_codes_raw, self.marine_forecast_regions_raw, strict=True):
-            report += f'\n\nWarning code: {_en("marine_warning_code", code)}\n' + \
-                      f'{_en("marine_forecast_region", region)}'
-        return report
+        warnings = [[f'Warning code: {_en("marine_warning_code", code)}', _en('marine_forecast_region', region)]
+                    for code, region in zip(self.marine_warning_codes_raw, self.marine_forecast_regions_raw, strict=True)]
+        return self._join_paragraphs([self.get_header_en()],
+                                     [f'Report time: {self.get_report_time_str_en()}'],
+                                     *warnings)
 
 
 class Typhoon(Base):
@@ -892,36 +840,34 @@ class Typhoon(Base):
     def __str__(self) -> str:
         reference_time = self._convert_time_to_str(self.reference_time, self.reference_time_raw,
                                                    typhoon_reference_time_undefined)
-        report = f'{self.get_header()}\n' + \
-                 '台風解析・予報情報が発表されました。\n\n' + \
-                 f'発表時刻: {self.get_report_time_str()}\n\n' + \
-                 f'台風番号: {self.typhoon_number}\n' + \
-                 f'基点時刻: {reference_time}\n' + \
-                 f'基点時刻分類: {self.reference_time_type}\n' + \
-                 f'情報の基点時刻(実況)からの経過時間: {self.elapsed_time_from_reference_time}\n' + \
-                 f'大きさ: {self.typhoon_scale_category}\n' + \
-                 f'強さ: {self.typhoon_intensity_category}\n' + \
-                 f'緯度・経度: {self.coordinates_of_typhoon}\n' + \
-                 f'中心気圧: {self.central_pressure}\n' + \
-                 f'最大風速: {self.maximum_wind_speed}\n' + \
-                 f'最大瞬間風速: {self.maximum_gust_wind_speed}'
-        return report
+        return self._join_paragraphs([self.get_header(), '台風解析・予報情報が発表されました。'],
+                                     [f'発表時刻: {self.get_report_time_str()}'],
+                                     [f'台風番号: {self.typhoon_number}',
+                                      f'基点時刻: {reference_time}',
+                                      f'基点時刻分類: {self.reference_time_type}',
+                                      f'情報の基点時刻(実況)からの経過時間: {self.elapsed_time_from_reference_time}',
+                                      f'大きさ: {self.typhoon_scale_category}',
+                                      f'強さ: {self.typhoon_intensity_category}',
+                                      f'緯度・経度: {self.coordinates_of_typhoon}',
+                                      f'中心気圧: {self.central_pressure}',
+                                      f'最大風速: {self.maximum_wind_speed}',
+                                      f'最大瞬間風速: {self.maximum_gust_wind_speed}'])
 
     def _text_en(self) -> str:
         reference_time = self._convert_time_to_str_en(self.reference_time, self.reference_time_raw,
                                                       typhoon_reference_time_undefined_en)
-        report = f'{self.get_header_en()}\n\n' + \
-                 f'Report time: {self.get_report_time_str_en()}\n\n' + \
-                 f'Typhoon number: {_en("typhoon_number", self.typhoon_number_raw)}\n' + \
-                 f'Reference time: {reference_time}\n' + \
-                 f'Type of reference time: {_en("typhoon_reference_time_type", self.reference_time_type_raw)}\n' + \
-                 'Elapsed time: ' + \
-                 f'{_en("typhoon_elapsed_time_from_reference_time", self.elapsed_time_from_reference_time_raw)}\n' + \
-                 f'Scale: {_en("typhoon_scale_category", self.typhoon_scale_category_raw)}\n' + \
-                 f'Intensity: {_en("typhoon_intensity_category", self.typhoon_intensity_category_raw)}\n' + \
-                 f'Latitude and longitude: {self.convert_lat_lon_to_str_en(self.coordinates_of_typhoon_raw)}\n' + \
-                 f'Central pressure: {_en("typhoon_central_pressure", self.central_pressure_raw)}\n' + \
-                 f'Maximum wind speed: {_en("typhoon_maximum_wind_speed", self.maximum_wind_speed_raw)}\n' + \
-                 'Maximum wind gust speed: ' + \
-                 f'{_en("typhoon_maximum_gust_wind_speed", self.maximum_gust_wind_speed_raw)}'
-        return report
+        return self._join_paragraphs(
+            [self.get_header_en()],
+            [f'Report time: {self.get_report_time_str_en()}'],
+            [f'Typhoon number: {_en("typhoon_number", self.typhoon_number_raw)}',
+             f'Reference time: {reference_time}',
+             f'Type of reference time: {_en("typhoon_reference_time_type", self.reference_time_type_raw)}',
+             'Elapsed time: ' +
+             f'{_en("typhoon_elapsed_time_from_reference_time", self.elapsed_time_from_reference_time_raw)}',
+             f'Scale: {_en("typhoon_scale_category", self.typhoon_scale_category_raw)}',
+             f'Intensity: {_en("typhoon_intensity_category", self.typhoon_intensity_category_raw)}',
+             f'Latitude and longitude: {self.convert_lat_lon_to_str_en(self.coordinates_of_typhoon_raw)}',
+             f'Central pressure: {_en("typhoon_central_pressure", self.central_pressure_raw)}',
+             f'Maximum wind speed: {_en("typhoon_maximum_wind_speed", self.maximum_wind_speed_raw)}',
+             'Maximum wind gust speed: ' +
+             f'{_en("typhoon_maximum_gust_wind_speed", self.maximum_gust_wind_speed_raw)}'])

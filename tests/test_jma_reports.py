@@ -291,10 +291,14 @@ RECEIVED_SENTENCES = [
     ('$QZQSM,55,53AD160D2800039400001A28FFFFEE601800C8F00000000000000011BF8D908*01',
      {'depth_of_hypocenter_raw': 511, 'depth_of_hypocenter': '不明',
       'magnitude_raw': 127, 'magnitude': '不明'}),
+    # 震源 for the Northwest Pacific Tsunami Information, with no notification on disaster prevention
+    ('$QZQSM,56,53AD154084000000000080E34FC5000C80013C3000000000000000113E01FFC*0F',
+     {'seismic_epicenter_raw': 0, 'notifications_on_disaster_prevention_raw': []}),
 ]
 
 
-@pytest.mark.parametrize('sentence, fields', RECEIVED_SENTENCES, ids=['long period', 'unknown magnitude'])
+@pytest.mark.parametrize('sentence, fields', RECEIVED_SENTENCES,
+                         ids=['long period', 'unknown magnitude', 'no notification'])
 def test_a_sentence_that_was_really_broadcast(sentence, fields):
     report = _decode(sentence)
     assert {name: getattr(report, name) for name in fields} == fields
@@ -318,6 +322,20 @@ def test_hypocenter():
 {TRAINING}
 7日14時2分ころ、地震がありました。
 強い揺れに警戒してください。
+
+発表時刻: 3月7日14時10分
+
+震央地名: 千葉県北西部
+緯度・経度: 北緯35度41分0秒 東経139度45分30秒
+深さ: 30km
+マグニチュード: 6.5'''
+
+
+def test_hypocenter_without_notification():
+    report = _decode(jma(2, HYPOCENTER + [(53, 9, 0)]))
+    assert str(report) == f'''防災気象情報(震源)(発表)(訓練/試験)
+{TRAINING}
+7日14時2分ころ、地震がありました。
 
 発表時刻: 3月7日14時10分
 
@@ -379,6 +397,12 @@ def test_nankai_trough_earthquake_text_shorter_than_a_page(fresh_nankai_assembly
     assert report.text_information == text + bytes(9)
     assert report.extract_text_information() == '訓練。'
     assert str(report).endswith('地震関連情報: 巨大地震注意\n訓練。')
+
+
+def test_nankai_trough_earthquake_without_text(fresh_nankai_assembly):
+    report = _decode(jma(4, [(53, 4, 5), (201, 6, 1), (207, 6, 1)]))
+    assert report.extract_text_information() == ''
+    assert str(report).endswith('地震関連情報: 巨大地震注意')
 
 
 def test_nankai_trough_earthquake_while_receiving(fresh_nankai_assembly):
@@ -708,3 +732,21 @@ def test_time_that_is_not_a_time(category, fields, attribute, text):
     assert getattr(report, attribute) is None
     assert getattr(report, f'{attribute}_raw') == {'day': day, 'hour': hour, 'minute': minute}
     assert text in str(report)
+
+
+# a field that carries nothing leaves no line, and the paragraphs keep one blank line between them
+
+@pytest.mark.parametrize('category, fields', [
+    (1, EEW + [(53, 9, 0)]),
+    (1, EEW + [(130, 1, 0), (134, 1, 0)]),
+    (2, HYPOCENTER + [(53, 9, 0)]),
+    (5, TSUNAMI + [(53, 9, 0)]),
+    (8, VOLCANO[:-2]),
+], ids=['eew without notification', 'eew without forecast region', 'hypocenter without notification',
+        'tsunami without notification', 'volcano without local government'])
+def test_a_field_that_carries_nothing_leaves_no_line(category, fields):
+    texts = _decode(jma(category, fields)).get_texts()
+    assert set(texts) == {'ja', 'en'}
+    for text in texts.values():
+        assert '\n\n\n' not in text
+        assert not text.endswith('\n')
